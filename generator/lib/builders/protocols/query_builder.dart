@@ -1,5 +1,6 @@
 import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client.generator/model/descriptor.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
@@ -10,12 +11,12 @@ class QueryServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = api.isGlobalService ? '' : '@_s.required';
+    final isRegionRequired = !api.isGlobalService;
     return '''
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
 
-  ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client,})
+  ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client,})
   : _protocol = _s.QueryProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials,),
   shapes = shapesJson.map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
   ''';
@@ -36,11 +37,11 @@ class QueryServiceBuilder extends ServiceBuilder {
           member.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
 
       if (member.isRequired || member.idempotencyToken) {
-        final code = _encodeQueryCode(member.shapeClass, member.fieldName,
+        final code = encodeQueryCode(member.shapeClass, member.fieldName,
             member: member, maybeNull: false);
         buf.writeln("\$request['${member.name}'] = $code$idempotency;");
       } else {
-        final code = _encodeQueryCode(member.shapeClass, 'arg',
+        final code = encodeQueryCode(member.shapeClass, 'arg',
             member: member, maybeNull: false);
         buf.writeln(
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = $code);");
@@ -70,14 +71,17 @@ class QueryServiceBuilder extends ServiceBuilder {
   }
 }
 
-String _encodeQueryCode(Shape shape, String variable,
-    {Member member, bool maybeNull}) {
+String encodeQueryCode(Shape shape, String variable,
+    {Member member, Descriptor descriptor, bool maybeNull}) {
   maybeNull ??= true;
-  if (shape.enumeration != null) {
+  if (member?.jsonvalue == true || descriptor?.jsonvalue == true) {
+    return 'jsonEncode($variable)';
+  } else if (shape.enumeration != null) {
     shape.isTopLevelInputEnum = true;
     return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
   } else if (shape.type == 'list') {
-    final code = _encodeQueryCode(shape.member.shapeClass, 'e');
+    final code = encodeQueryCode(shape.member.shapeClass, 'e',
+        maybeNull: false, descriptor: shape.member);
     if (code != 'e') {
       final nullAware = maybeNull ? '?' : '';
       return '$nullAware$variable$nullAware.map((e) => $code)$nullAware.toList()';

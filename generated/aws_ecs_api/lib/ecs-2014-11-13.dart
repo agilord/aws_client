@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'ecs-2014-11-13.g.dart';
 
 /// Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast,
 /// container management service that makes it easy to run, stop, and manage
@@ -39,10 +31,10 @@ part 'ecs-2014-11-13.g.dart';
 class ECS {
   final _s.JsonProtocol _protocol;
   ECS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -116,9 +108,9 @@ class ECS {
   /// </li>
   /// </ul>
   Future<CreateCapacityProviderResponse> createCapacityProvider({
-    @_s.required AutoScalingGroupProvider autoScalingGroupProvider,
-    @_s.required String name,
-    List<Tag> tags,
+    required AutoScalingGroupProvider autoScalingGroupProvider,
+    required String name,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         autoScalingGroupProvider, 'autoScalingGroupProvider');
@@ -260,11 +252,11 @@ class ECS {
   /// </li>
   /// </ul>
   Future<CreateClusterResponse> createCluster({
-    List<String> capacityProviders,
-    String clusterName,
-    List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy,
-    List<ClusterSetting> settings,
-    List<Tag> tags,
+    List<String>? capacityProviders,
+    String? clusterName,
+    List<CapacityProviderStrategyItem>? defaultCapacityProviderStrategy,
+    List<ClusterSetting>? settings,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -735,27 +727,27 @@ class ECS {
   /// A task definition must be specified if the service is using either the
   /// <code>ECS</code> or <code>CODE_DEPLOY</code> deployment controllers.
   Future<CreateServiceResponse> createService({
-    @_s.required String serviceName,
-    List<CapacityProviderStrategyItem> capacityProviderStrategy,
-    String clientToken,
-    String cluster,
-    DeploymentConfiguration deploymentConfiguration,
-    DeploymentController deploymentController,
-    int desiredCount,
-    bool enableECSManagedTags,
-    int healthCheckGracePeriodSeconds,
-    LaunchType launchType,
-    List<LoadBalancer> loadBalancers,
-    NetworkConfiguration networkConfiguration,
-    List<PlacementConstraint> placementConstraints,
-    List<PlacementStrategy> placementStrategy,
-    String platformVersion,
-    PropagateTags propagateTags,
-    String role,
-    SchedulingStrategy schedulingStrategy,
-    List<ServiceRegistry> serviceRegistries,
-    List<Tag> tags,
-    String taskDefinition,
+    required String serviceName,
+    List<CapacityProviderStrategyItem>? capacityProviderStrategy,
+    String? clientToken,
+    String? cluster,
+    DeploymentConfiguration? deploymentConfiguration,
+    DeploymentController? deploymentController,
+    int? desiredCount,
+    bool? enableECSManagedTags,
+    int? healthCheckGracePeriodSeconds,
+    LaunchType? launchType,
+    List<LoadBalancer>? loadBalancers,
+    NetworkConfiguration? networkConfiguration,
+    List<PlacementConstraint>? placementConstraints,
+    List<PlacementStrategy>? placementStrategy,
+    String? platformVersion,
+    PropagateTags? propagateTags,
+    String? role,
+    SchedulingStrategy? schedulingStrategy,
+    List<ServiceRegistry>? serviceRegistries,
+    List<Tag>? tags,
+    String? taskDefinition,
   }) async {
     ArgumentError.checkNotNull(serviceName, 'serviceName');
     final headers = <String, String>{
@@ -940,19 +932,19 @@ class ECS {
   /// </li>
   /// </ul>
   Future<CreateTaskSetResponse> createTaskSet({
-    @_s.required String cluster,
-    @_s.required String service,
-    @_s.required String taskDefinition,
-    List<CapacityProviderStrategyItem> capacityProviderStrategy,
-    String clientToken,
-    String externalId,
-    LaunchType launchType,
-    List<LoadBalancer> loadBalancers,
-    NetworkConfiguration networkConfiguration,
-    String platformVersion,
-    Scale scale,
-    List<ServiceRegistry> serviceRegistries,
-    List<Tag> tags,
+    required String cluster,
+    required String service,
+    required String taskDefinition,
+    List<CapacityProviderStrategyItem>? capacityProviderStrategy,
+    String? clientToken,
+    String? externalId,
+    LaunchType? launchType,
+    List<LoadBalancer>? loadBalancers,
+    NetworkConfiguration? networkConfiguration,
+    String? platformVersion,
+    Scale? scale,
+    List<ServiceRegistry>? serviceRegistries,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(service, 'service');
@@ -1013,8 +1005,8 @@ class ECS {
   /// user or role explicitly overrides these settings. If this field is
   /// omitted, the setting is changed only for the authenticated user.
   Future<DeleteAccountSettingResponse> deleteAccountSetting({
-    @_s.required SettingName name,
-    String principalArn,
+    required SettingName name,
+    String? principalArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -1028,7 +1020,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue() ?? '',
+        'name': name.toValue(),
         if (principalArn != null) 'principalArn': principalArn,
       },
     );
@@ -1053,8 +1045,8 @@ class ECS {
   /// contains the resource to delete attributes. If you do not specify a
   /// cluster, the default cluster is assumed.
   Future<DeleteAttributesResponse> deleteAttributes({
-    @_s.required List<Attribute> attributes,
-    String cluster,
+    required List<Attribute> attributes,
+    String? cluster,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     final headers = <String, String>{
@@ -1102,7 +1094,7 @@ class ECS {
   /// The short name or full Amazon Resource Name (ARN) of the capacity provider
   /// to delete.
   Future<DeleteCapacityProviderResponse> deleteCapacityProvider({
-    @_s.required String capacityProvider,
+    required String capacityProvider,
   }) async {
     ArgumentError.checkNotNull(capacityProvider, 'capacityProvider');
     final headers = <String, String>{
@@ -1148,7 +1140,7 @@ class ECS {
   /// The short name or full Amazon Resource Name (ARN) of the cluster to
   /// delete.
   Future<DeleteClusterResponse> deleteCluster({
-    @_s.required String cluster,
+    required String cluster,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     final headers = <String, String>{
@@ -1212,9 +1204,9 @@ class ECS {
   /// been scaled down to zero tasks. It is only necessary to use this if the
   /// service is using the <code>REPLICA</code> scheduling strategy.
   Future<DeleteServiceResponse> deleteService({
-    @_s.required String service,
-    String cluster,
-    bool force,
+    required String service,
+    String? cluster,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
@@ -1270,10 +1262,10 @@ class ECS {
   /// If <code>true</code>, this allows you to delete a task set even if it
   /// hasn't been scaled down to zero.
   Future<DeleteTaskSetResponse> deleteTaskSet({
-    @_s.required String cluster,
-    @_s.required String service,
-    @_s.required String taskSet,
-    bool force,
+    required String cluster,
+    required String service,
+    required String taskSet,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(service, 'service');
@@ -1351,9 +1343,9 @@ class ECS {
   /// deregistered. They begin connection draining according to the settings on
   /// the load balancer or target group.
   Future<DeregisterContainerInstanceResponse> deregisterContainerInstance({
-    @_s.required String containerInstance,
-    String cluster,
-    bool force,
+    required String containerInstance,
+    String? cluster,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(containerInstance, 'containerInstance');
     final headers = <String, String>{
@@ -1406,7 +1398,7 @@ class ECS {
   /// (<code>family:revision</code>) or full Amazon Resource Name (ARN) of the
   /// task definition to deregister. You must specify a <code>revision</code>.
   Future<DeregisterTaskDefinitionResponse> deregisterTaskDefinition({
-    @_s.required String taskDefinition,
+    required String taskDefinition,
   }) async {
     ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
@@ -1468,10 +1460,10 @@ class ECS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeCapacityProvidersResponse> describeCapacityProviders({
-    List<String> capacityProviders,
-    List<CapacityProviderField> include,
-    int maxResults,
-    String nextToken,
+    List<String>? capacityProviders,
+    List<CapacityProviderField>? include,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1487,7 +1479,7 @@ class ECS {
       payload: {
         if (capacityProviders != null) 'capacityProviders': capacityProviders,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1550,8 +1542,8 @@ class ECS {
   /// If <code>TAGS</code> is specified, the metadata tags associated with the
   /// cluster are included.
   Future<DescribeClustersResponse> describeClusters({
-    List<String> clusters,
-    List<ClusterField> include,
+    List<String>? clusters,
+    List<ClusterField>? include,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1566,7 +1558,7 @@ class ECS {
       payload: {
         if (clusters != null) 'clusters': clusters,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1598,9 +1590,9 @@ class ECS {
   /// instance. If <code>TAGS</code> is specified, the tags are included in the
   /// response. If this field is omitted, tags are not included in the response.
   Future<DescribeContainerInstancesResponse> describeContainerInstances({
-    @_s.required List<String> containerInstances,
-    String cluster,
-    List<ContainerInstanceField> include,
+    required List<String> containerInstances,
+    String? cluster,
+    List<ContainerInstanceField>? include,
   }) async {
     ArgumentError.checkNotNull(containerInstances, 'containerInstances');
     final headers = <String, String>{
@@ -1618,7 +1610,7 @@ class ECS {
         'containerInstances': containerInstances,
         if (cluster != null) 'cluster': cluster,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1648,9 +1640,9 @@ class ECS {
   /// <code>TAGS</code> is specified, the tags are included in the response. If
   /// this field is omitted, tags are not included in the response.
   Future<DescribeServicesResponse> describeServices({
-    @_s.required List<String> services,
-    String cluster,
-    List<ServiceField> include,
+    required List<String> services,
+    String? cluster,
+    List<ServiceField>? include,
   }) async {
     ArgumentError.checkNotNull(services, 'services');
     final headers = <String, String>{
@@ -1667,7 +1659,7 @@ class ECS {
         'services': services,
         if (cluster != null) 'cluster': cluster,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1698,8 +1690,8 @@ class ECS {
   /// <code>TAGS</code> is specified, the tags are included in the response. If
   /// this field is omitted, tags are not included in the response.
   Future<DescribeTaskDefinitionResponse> describeTaskDefinition({
-    @_s.required String taskDefinition,
-    List<TaskDefinitionField> include,
+    required String taskDefinition,
+    List<TaskDefinitionField>? include,
   }) async {
     ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
@@ -1716,7 +1708,7 @@ class ECS {
       payload: {
         'taskDefinition': taskDefinition,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1755,10 +1747,10 @@ class ECS {
   /// Parameter [taskSets] :
   /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
   Future<DescribeTaskSetsResponse> describeTaskSets({
-    @_s.required String cluster,
-    @_s.required String service,
-    List<TaskSetField> include,
-    List<String> taskSets,
+    required String cluster,
+    required String service,
+    List<TaskSetField>? include,
+    List<String>? taskSets,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(service, 'service');
@@ -1776,7 +1768,7 @@ class ECS {
         'cluster': cluster,
         'service': service,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
         if (taskSets != null) 'taskSets': taskSets,
       },
     );
@@ -1806,9 +1798,9 @@ class ECS {
   /// <code>TAGS</code> is specified, the tags are included in the response. If
   /// this field is omitted, tags are not included in the response.
   Future<DescribeTasksResponse> describeTasks({
-    @_s.required List<String> tasks,
-    String cluster,
-    List<TaskField> include,
+    required List<String> tasks,
+    String? cluster,
+    List<TaskField>? include,
   }) async {
     ArgumentError.checkNotNull(tasks, 'tasks');
     final headers = <String, String>{
@@ -1825,7 +1817,7 @@ class ECS {
         'tasks': tasks,
         if (cluster != null) 'cluster': cluster,
         if (include != null)
-          'include': include.map((e) => e?.toValue() ?? '').toList(),
+          'include': include.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -1853,8 +1845,8 @@ class ECS {
   /// container instance ID. For example,
   /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
   Future<DiscoverPollEndpointResponse> discoverPollEndpoint({
-    String cluster,
-    String containerInstance,
+    String? cluster,
+    String? containerInstance,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1923,12 +1915,12 @@ class ECS {
   /// The value of the account settings with which to filter results. You must
   /// also specify an account setting name to use this parameter.
   Future<ListAccountSettingsResponse> listAccountSettings({
-    bool effectiveSettings,
-    int maxResults,
-    SettingName name,
-    String nextToken,
-    String principalArn,
-    String value,
+    bool? effectiveSettings,
+    int? maxResults,
+    SettingName? name,
+    String? nextToken,
+    String? principalArn,
+    String? value,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2002,12 +1994,12 @@ class ECS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListAttributesResponse> listAttributes({
-    @_s.required TargetType targetType,
-    String attributeName,
-    String attributeValue,
-    String cluster,
-    int maxResults,
-    String nextToken,
+    required TargetType targetType,
+    String? attributeName,
+    String? attributeValue,
+    String? cluster,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(targetType, 'targetType');
     final headers = <String, String>{
@@ -2021,7 +2013,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'targetType': targetType?.toValue() ?? '',
+        'targetType': targetType.toValue(),
         if (attributeName != null) 'attributeName': attributeName,
         if (attributeValue != null) 'attributeValue': attributeValue,
         if (cluster != null) 'cluster': cluster,
@@ -2061,8 +2053,8 @@ class ECS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListClustersResponse> listClusters({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2140,11 +2132,11 @@ class ECS {
   /// parameter, the default is to include container instances set to all states
   /// other than <code>INACTIVE</code>.
   Future<ListContainerInstancesResponse> listContainerInstances({
-    String cluster,
-    String filter,
-    int maxResults,
-    String nextToken,
-    ContainerInstanceStatus status,
+    String? cluster,
+    String? filter,
+    int? maxResults,
+    String? nextToken,
+    ContainerInstanceStatus? status,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2209,11 +2201,11 @@ class ECS {
   /// Parameter [schedulingStrategy] :
   /// The scheduling strategy for services to list.
   Future<ListServicesResponse> listServices({
-    String cluster,
-    LaunchType launchType,
-    int maxResults,
-    String nextToken,
-    SchedulingStrategy schedulingStrategy,
+    String? cluster,
+    LaunchType? launchType,
+    int? maxResults,
+    String? nextToken,
+    SchedulingStrategy? schedulingStrategy,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2250,7 +2242,7 @@ class ECS {
   /// list the tags. Currently, the supported resources are Amazon ECS tasks,
   /// services, task definitions, clusters, and container instances.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -2326,10 +2318,10 @@ class ECS {
   /// output, be sure to keep the <code>status</code> value constant in each
   /// subsequent request.
   Future<ListTaskDefinitionFamiliesResponse> listTaskDefinitionFamilies({
-    String familyPrefix,
-    int maxResults,
-    String nextToken,
-    TaskDefinitionFamilyStatus status,
+    String? familyPrefix,
+    int? maxResults,
+    String? nextToken,
+    TaskDefinitionFamilyStatus? status,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2409,11 +2401,11 @@ class ECS {
   /// references them. If you paginate the resulting output, be sure to keep the
   /// <code>status</code> value constant in each subsequent request.
   Future<ListTaskDefinitionsResponse> listTaskDefinitions({
-    String familyPrefix,
-    int maxResults,
-    String nextToken,
-    SortOrder sort,
-    TaskDefinitionStatus status,
+    String? familyPrefix,
+    int? maxResults,
+    String? nextToken,
+    SortOrder? sort,
+    TaskDefinitionStatus? status,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2517,15 +2509,15 @@ class ECS {
   /// Specifying a <code>startedBy</code> value limits the results to tasks that
   /// were started with that value.
   Future<ListTasksResponse> listTasks({
-    String cluster,
-    String containerInstance,
-    DesiredStatus desiredStatus,
-    String family,
-    LaunchType launchType,
-    int maxResults,
-    String nextToken,
-    String serviceName,
-    String startedBy,
+    String? cluster,
+    String? containerInstance,
+    DesiredStatus? desiredStatus,
+    String? family,
+    LaunchType? launchType,
+    int? maxResults,
+    String? nextToken,
+    String? serviceName,
+    String? startedBy,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2618,9 +2610,9 @@ class ECS {
   /// user or role explicitly overrides these settings. If this field is
   /// omitted, the setting is changed only for the authenticated user.
   Future<PutAccountSettingResponse> putAccountSetting({
-    @_s.required SettingName name,
-    @_s.required String value,
-    String principalArn,
+    required SettingName name,
+    required String value,
+    String? principalArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(value, 'value');
@@ -2635,7 +2627,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue() ?? '',
+        'name': name.toValue(),
         'value': value,
         if (principalArn != null) 'principalArn': principalArn,
       },
@@ -2668,8 +2660,8 @@ class ECS {
   /// The account setting value for the specified principal ARN. Accepted values
   /// are <code>enabled</code> and <code>disabled</code>.
   Future<PutAccountSettingDefaultResponse> putAccountSettingDefault({
-    @_s.required SettingName name,
-    @_s.required String value,
+    required SettingName name,
+    required String value,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(value, 'value');
@@ -2685,7 +2677,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue() ?? '',
+        'name': name.toValue(),
         'value': value,
       },
     );
@@ -2715,8 +2707,8 @@ class ECS {
   /// contains the resource to apply attributes. If you do not specify a
   /// cluster, the default cluster is assumed.
   Future<PutAttributesResponse> putAttributes({
-    @_s.required List<Attribute> attributes,
-    String cluster,
+    required List<Attribute> attributes,
+    String? cluster,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     final headers = <String, String>{
@@ -2804,10 +2796,9 @@ class ECS {
   /// AWS Fargate capacity providers are available to all accounts and only need
   /// to be associated with a cluster to be used.
   Future<PutClusterCapacityProvidersResponse> putClusterCapacityProviders({
-    @_s.required List<String> capacityProviders,
-    @_s.required String cluster,
-    @_s.required
-        List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy,
+    required List<String> capacityProviders,
+    required String cluster,
+    required List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy,
   }) async {
     ArgumentError.checkNotNull(capacityProviders, 'capacityProviders');
     ArgumentError.checkNotNull(cluster, 'cluster');
@@ -2918,15 +2909,15 @@ class ECS {
   /// The version information for the Amazon ECS container agent and Docker
   /// daemon running on the container instance.
   Future<RegisterContainerInstanceResponse> registerContainerInstance({
-    List<Attribute> attributes,
-    String cluster,
-    String containerInstanceArn,
-    String instanceIdentityDocument,
-    String instanceIdentityDocumentSignature,
-    List<PlatformDevice> platformDevices,
-    List<Tag> tags,
-    List<Resource> totalResources,
-    VersionInfo versionInfo,
+    List<Attribute>? attributes,
+    String? cluster,
+    String? containerInstanceArn,
+    String? instanceIdentityDocument,
+    String? instanceIdentityDocumentSignature,
+    List<PlatformDevice>? platformDevices,
+    List<Tag>? tags,
+    List<Resource>? totalResources,
+    VersionInfo? versionInfo,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3273,21 +3264,21 @@ class ECS {
   /// A list of volume definitions in JSON format that containers in your task
   /// may use.
   Future<RegisterTaskDefinitionResponse> registerTaskDefinition({
-    @_s.required List<ContainerDefinition> containerDefinitions,
-    @_s.required String family,
-    String cpu,
-    String executionRoleArn,
-    List<InferenceAccelerator> inferenceAccelerators,
-    IpcMode ipcMode,
-    String memory,
-    NetworkMode networkMode,
-    PidMode pidMode,
-    List<TaskDefinitionPlacementConstraint> placementConstraints,
-    ProxyConfiguration proxyConfiguration,
-    List<Compatibility> requiresCompatibilities,
-    List<Tag> tags,
-    String taskRoleArn,
-    List<Volume> volumes,
+    required List<ContainerDefinition> containerDefinitions,
+    required String family,
+    String? cpu,
+    String? executionRoleArn,
+    List<InferenceAccelerator>? inferenceAccelerators,
+    IpcMode? ipcMode,
+    String? memory,
+    NetworkMode? networkMode,
+    PidMode? pidMode,
+    List<TaskDefinitionPlacementConstraint>? placementConstraints,
+    ProxyConfiguration? proxyConfiguration,
+    List<Compatibility>? requiresCompatibilities,
+    List<Tag>? tags,
+    String? taskRoleArn,
+    List<Volume>? volumes,
   }) async {
     ArgumentError.checkNotNull(containerDefinitions, 'containerDefinitions');
     ArgumentError.checkNotNull(family, 'family');
@@ -3319,7 +3310,7 @@ class ECS {
           'proxyConfiguration': proxyConfiguration,
         if (requiresCompatibilities != null)
           'requiresCompatibilities':
-              requiresCompatibilities.map((e) => e?.toValue() ?? '').toList(),
+              requiresCompatibilities.map((e) => e.toValue()).toList(),
         if (tags != null) 'tags': tags,
         if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
         if (volumes != null) 'volumes': volumes,
@@ -3548,22 +3539,22 @@ class ECS {
   /// </li>
   /// </ul>
   Future<RunTaskResponse> runTask({
-    @_s.required String taskDefinition,
-    List<CapacityProviderStrategyItem> capacityProviderStrategy,
-    String cluster,
-    int count,
-    bool enableECSManagedTags,
-    String group,
-    LaunchType launchType,
-    NetworkConfiguration networkConfiguration,
-    TaskOverride overrides,
-    List<PlacementConstraint> placementConstraints,
-    List<PlacementStrategy> placementStrategy,
-    String platformVersion,
-    PropagateTags propagateTags,
-    String referenceId,
-    String startedBy,
-    List<Tag> tags,
+    required String taskDefinition,
+    List<CapacityProviderStrategyItem>? capacityProviderStrategy,
+    String? cluster,
+    int? count,
+    bool? enableECSManagedTags,
+    String? group,
+    LaunchType? launchType,
+    NetworkConfiguration? networkConfiguration,
+    TaskOverride? overrides,
+    List<PlacementConstraint>? placementConstraints,
+    List<PlacementStrategy>? placementStrategy,
+    String? platformVersion,
+    PropagateTags? propagateTags,
+    String? referenceId,
+    String? startedBy,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
@@ -3723,17 +3714,17 @@ class ECS {
   /// </li>
   /// </ul>
   Future<StartTaskResponse> startTask({
-    @_s.required List<String> containerInstances,
-    @_s.required String taskDefinition,
-    String cluster,
-    bool enableECSManagedTags,
-    String group,
-    NetworkConfiguration networkConfiguration,
-    TaskOverride overrides,
-    PropagateTags propagateTags,
-    String referenceId,
-    String startedBy,
-    List<Tag> tags,
+    required List<String> containerInstances,
+    required String taskDefinition,
+    String? cluster,
+    bool? enableECSManagedTags,
+    String? group,
+    NetworkConfiguration? networkConfiguration,
+    TaskOverride? overrides,
+    PropagateTags? propagateTags,
+    String? referenceId,
+    String? startedBy,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(containerInstances, 'containerInstances');
     ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
@@ -3805,9 +3796,9 @@ class ECS {
   /// <a>DescribeTasks</a> API operations on this task. Up to 255 characters are
   /// allowed in this message.
   Future<StopTaskResponse> stopTask({
-    @_s.required String task,
-    String cluster,
-    String reason,
+    required String task,
+    String? cluster,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(task, 'task');
     final headers = <String, String>{
@@ -3848,8 +3839,8 @@ class ECS {
   /// The short name or full ARN of the cluster that hosts the container
   /// instance the attachment belongs to.
   Future<SubmitAttachmentStateChangesResponse> submitAttachmentStateChanges({
-    @_s.required List<AttachmentStateChange> attachments,
-    String cluster,
+    required List<AttachmentStateChange> attachments,
+    String? cluster,
   }) async {
     ArgumentError.checkNotNull(attachments, 'attachments');
     final headers = <String, String>{
@@ -3907,14 +3898,14 @@ class ECS {
   /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the
   /// container.
   Future<SubmitContainerStateChangeResponse> submitContainerStateChange({
-    String cluster,
-    String containerName,
-    int exitCode,
-    List<NetworkBinding> networkBindings,
-    String reason,
-    String runtimeId,
-    String status,
-    String task,
+    String? cluster,
+    String? containerName,
+    int? exitCode,
+    List<NetworkBinding>? networkBindings,
+    String? reason,
+    String? runtimeId,
+    String? status,
+    String? task,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3981,15 +3972,15 @@ class ECS {
   /// Parameter [task] :
   /// The task ID or full ARN of the task in the state change request.
   Future<SubmitTaskStateChangeResponse> submitTaskStateChange({
-    List<AttachmentStateChange> attachments,
-    String cluster,
-    List<ContainerStateChange> containers,
-    DateTime executionStoppedAt,
-    DateTime pullStartedAt,
-    DateTime pullStoppedAt,
-    String reason,
-    String status,
-    String task,
+    List<AttachmentStateChange>? attachments,
+    String? cluster,
+    List<ContainerStateChange>? containers,
+    DateTime? executionStoppedAt,
+    DateTime? pullStartedAt,
+    DateTime? pullStoppedAt,
+    String? reason,
+    String? status,
+    String? task,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4073,8 +4064,8 @@ class ECS {
   /// </li>
   /// </ul>
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -4082,7 +4073,7 @@ class ECS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4093,8 +4084,6 @@ class ECS {
         'tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes specified tags from a resource.
@@ -4113,8 +4102,8 @@ class ECS {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -4122,7 +4111,7 @@ class ECS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4133,8 +4122,6 @@ class ECS {
         'tagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies the parameters for a capacity provider.
@@ -4150,8 +4137,8 @@ class ECS {
   /// An object representing the parameters to update for the Auto Scaling group
   /// capacity provider.
   Future<UpdateCapacityProviderResponse> updateCapacityProvider({
-    @_s.required AutoScalingGroupProviderUpdate autoScalingGroupProvider,
-    @_s.required String name,
+    required AutoScalingGroupProviderUpdate autoScalingGroupProvider,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(
         autoScalingGroupProvider, 'autoScalingGroupProvider');
@@ -4192,8 +4179,8 @@ class ECS {
   /// specified, it will override the <code>containerInsights</code> value set
   /// with <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
   Future<UpdateClusterSettingsResponse> updateClusterSettings({
-    @_s.required String cluster,
-    @_s.required List<ClusterSetting> settings,
+    required String cluster,
+    required List<ClusterSetting> settings,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(settings, 'settings');
@@ -4247,8 +4234,8 @@ class ECS {
   /// container instance is running on. If you do not specify a cluster, the
   /// default cluster is assumed.
   Future<UpdateContainerAgentResponse> updateContainerAgent({
-    @_s.required String containerInstance,
-    String cluster,
+    required String containerInstance,
+    String? cluster,
   }) async {
     ArgumentError.checkNotNull(containerInstance, 'containerInstance');
     final headers = <String, String>{
@@ -4354,9 +4341,9 @@ class ECS {
   /// hosts the container instance to update. If you do not specify a cluster,
   /// the default cluster is assumed.
   Future<UpdateContainerInstancesStateResponse> updateContainerInstancesState({
-    @_s.required List<String> containerInstances,
-    @_s.required ContainerInstanceStatus status,
-    String cluster,
+    required List<String> containerInstances,
+    required ContainerInstanceStatus status,
+    String? cluster,
   }) async {
     ArgumentError.checkNotNull(containerInstances, 'containerInstances');
     ArgumentError.checkNotNull(status, 'status');
@@ -4373,7 +4360,7 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstances': containerInstances,
-        'status': status?.toValue() ?? '',
+        'status': status.toValue(),
         if (cluster != null) 'cluster': cluster,
       },
     );
@@ -4628,18 +4615,18 @@ class ECS {
   /// version of the task definition and then stops an old task after the new
   /// version is running.
   Future<UpdateServiceResponse> updateService({
-    @_s.required String service,
-    List<CapacityProviderStrategyItem> capacityProviderStrategy,
-    String cluster,
-    DeploymentConfiguration deploymentConfiguration,
-    int desiredCount,
-    bool forceNewDeployment,
-    int healthCheckGracePeriodSeconds,
-    NetworkConfiguration networkConfiguration,
-    List<PlacementConstraint> placementConstraints,
-    List<PlacementStrategy> placementStrategy,
-    String platformVersion,
-    String taskDefinition,
+    required String service,
+    List<CapacityProviderStrategyItem>? capacityProviderStrategy,
+    String? cluster,
+    DeploymentConfiguration? deploymentConfiguration,
+    int? desiredCount,
+    bool? forceNewDeployment,
+    int? healthCheckGracePeriodSeconds,
+    NetworkConfiguration? networkConfiguration,
+    List<PlacementConstraint>? placementConstraints,
+    List<PlacementStrategy>? placementStrategy,
+    String? platformVersion,
+    String? taskDefinition,
   }) async {
     ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
@@ -4708,9 +4695,9 @@ class ECS {
   /// The short name or full Amazon Resource Name (ARN) of the service that the
   /// task set exists in.
   Future<UpdateServicePrimaryTaskSetResponse> updateServicePrimaryTaskSet({
-    @_s.required String cluster,
-    @_s.required String primaryTaskSet,
-    @_s.required String service,
+    required String cluster,
+    required String primaryTaskSet,
+    required String service,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(primaryTaskSet, 'primaryTaskSet');
@@ -4765,10 +4752,10 @@ class ECS {
   /// The short name or full Amazon Resource Name (ARN) of the task set to
   /// update.
   Future<UpdateTaskSetResponse> updateTaskSet({
-    @_s.required String cluster,
-    @_s.required Scale scale,
-    @_s.required String service,
-    @_s.required String taskSet,
+    required String cluster,
+    required Scale scale,
+    required String service,
+    required String taskSet,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
     ArgumentError.checkNotNull(scale, 'scale');
@@ -4797,53 +4784,98 @@ class ECS {
 }
 
 enum AgentUpdateStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('STAGING')
   staging,
-  @_s.JsonValue('STAGED')
   staged,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('UPDATED')
   updated,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on AgentUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case AgentUpdateStatus.pending:
+        return 'PENDING';
+      case AgentUpdateStatus.staging:
+        return 'STAGING';
+      case AgentUpdateStatus.staged:
+        return 'STAGED';
+      case AgentUpdateStatus.updating:
+        return 'UPDATING';
+      case AgentUpdateStatus.updated:
+        return 'UPDATED';
+      case AgentUpdateStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AgentUpdateStatus toAgentUpdateStatus() {
+    switch (this) {
+      case 'PENDING':
+        return AgentUpdateStatus.pending;
+      case 'STAGING':
+        return AgentUpdateStatus.staging;
+      case 'STAGED':
+        return AgentUpdateStatus.staged;
+      case 'UPDATING':
+        return AgentUpdateStatus.updating;
+      case 'UPDATED':
+        return AgentUpdateStatus.updated;
+      case 'FAILED':
+        return AgentUpdateStatus.failed;
+    }
+    throw Exception('$this is not known in enum AgentUpdateStatus');
+  }
+}
+
 enum AssignPublicIp {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on AssignPublicIp {
+  String toValue() {
+    switch (this) {
+      case AssignPublicIp.enabled:
+        return 'ENABLED';
+      case AssignPublicIp.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  AssignPublicIp toAssignPublicIp() {
+    switch (this) {
+      case 'ENABLED':
+        return AssignPublicIp.enabled;
+      case 'DISABLED':
+        return AssignPublicIp.disabled;
+    }
+    throw Exception('$this is not known in enum AssignPublicIp');
+  }
+}
+
 /// An object representing a container instance or task attachment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attachment {
   /// Details of the attachment. For elastic network interfaces, this includes the
   /// network interface ID, the MAC address, the subnet ID, and the private IPv4
   /// address.
-  @_s.JsonKey(name: 'details')
-  final List<KeyValuePair> details;
+  final List<KeyValuePair>? details;
 
   /// The unique identifier for the attachment.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The status of the attachment. Valid values are <code>PRECREATED</code>,
   /// <code>CREATED</code>, <code>ATTACHING</code>, <code>ATTACHED</code>,
   /// <code>DETACHING</code>, <code>DETACHED</code>, and <code>DELETED</code>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The type of the attachment, such as <code>ElasticNetworkInterface</code>.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   Attachment({
     this.details,
@@ -4851,30 +4883,39 @@ class Attachment {
     this.status,
     this.type,
   });
-  factory Attachment.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentFromJson(json);
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      details: (json['details'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      status: json['status'] as String?,
+      type: json['type'] as String?,
+    );
+  }
 }
 
 /// An object representing a change in state for a task attachment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AttachmentStateChange {
   /// The Amazon Resource Name (ARN) of the attachment.
-  @_s.JsonKey(name: 'attachmentArn')
   final String attachmentArn;
 
   /// The status of the attachment.
-  @_s.JsonKey(name: 'status')
   final String status;
 
   AttachmentStateChange({
-    @_s.required this.attachmentArn,
-    @_s.required this.status,
+    required this.attachmentArn,
+    required this.status,
   });
-  Map<String, dynamic> toJson() => _$AttachmentStateChangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attachmentArn = this.attachmentArn;
+    final status = this.status;
+    return {
+      'attachmentArn': attachmentArn,
+      'status': status,
+    };
+  }
 }
 
 /// An attribute is a name-value pair associated with an Amazon ECS object.
@@ -4882,63 +4923,64 @@ class AttachmentStateChange {
 /// metadata to your resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes">Attributes</a>
 /// in the <i>Amazon Elastic Container Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Attribute {
   /// The name of the attribute. The <code>name</code> must contain between 1 and
   /// 128 characters and name may contain letters (uppercase and lowercase),
   /// numbers, hyphens, underscores, forward slashes, back slashes, or periods.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The ID of the target. You can specify the short form ID for a resource or
   /// the full Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'targetId')
-  final String targetId;
+  final String? targetId;
 
   /// The type of the target with which to attach the attribute. This parameter is
   /// required if you use the short form ID for a resource instead of the full
   /// ARN.
-  @_s.JsonKey(name: 'targetType')
-  final TargetType targetType;
+  final TargetType? targetType;
 
   /// The value of the attribute. The <code>value</code> must contain between 1
   /// and 128 characters and may contain letters (uppercase and lowercase),
   /// numbers, hyphens, underscores, periods, at signs (@), forward slashes, back
   /// slashes, colons, or spaces. The value cannot contain any leading or trailing
   /// whitespace.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Attribute({
-    @_s.required this.name,
+    required this.name,
     this.targetId,
     this.targetType,
     this.value,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      name: json['name'] as String,
+      targetId: json['targetId'] as String?,
+      targetType: (json['targetType'] as String?)?.toTargetType(),
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final targetId = this.targetId;
+    final targetType = this.targetType;
+    final value = this.value;
+    return {
+      'name': name,
+      if (targetId != null) 'targetId': targetId,
+      if (targetType != null) 'targetType': targetType.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// The details of the Auto Scaling group for the capacity provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutoScalingGroupProvider {
   /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group.
-  @_s.JsonKey(name: 'autoScalingGroupArn')
   final String autoScalingGroupArn;
 
   /// The managed scaling settings for the Auto Scaling group capacity provider.
-  @_s.JsonKey(name: 'managedScaling')
-  final ManagedScaling managedScaling;
+  final ManagedScaling? managedScaling;
 
   /// The managed termination protection setting to use for the Auto Scaling group
   /// capacity provider. This determines whether the Auto Scaling group has
@@ -4957,29 +4999,42 @@ class AutoScalingGroupProvider {
   ///
   /// When managed termination protection is disabled, your Amazon EC2 instances
   /// are not protected from termination when the Auto Scaling group scales in.
-  @_s.JsonKey(name: 'managedTerminationProtection')
-  final ManagedTerminationProtection managedTerminationProtection;
+  final ManagedTerminationProtection? managedTerminationProtection;
 
   AutoScalingGroupProvider({
-    @_s.required this.autoScalingGroupArn,
+    required this.autoScalingGroupArn,
     this.managedScaling,
     this.managedTerminationProtection,
   });
-  factory AutoScalingGroupProvider.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingGroupProviderFromJson(json);
+  factory AutoScalingGroupProvider.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroupProvider(
+      autoScalingGroupArn: json['autoScalingGroupArn'] as String,
+      managedScaling: json['managedScaling'] != null
+          ? ManagedScaling.fromJson(
+              json['managedScaling'] as Map<String, dynamic>)
+          : null,
+      managedTerminationProtection:
+          (json['managedTerminationProtection'] as String?)
+              ?.toManagedTerminationProtection(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AutoScalingGroupProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupArn = this.autoScalingGroupArn;
+    final managedScaling = this.managedScaling;
+    final managedTerminationProtection = this.managedTerminationProtection;
+    return {
+      'autoScalingGroupArn': autoScalingGroupArn,
+      if (managedScaling != null) 'managedScaling': managedScaling,
+      if (managedTerminationProtection != null)
+        'managedTerminationProtection': managedTerminationProtection.toValue(),
+    };
+  }
 }
 
 /// The details of the Auto Scaling group capacity provider to update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoScalingGroupProviderUpdate {
-  @_s.JsonKey(name: 'managedScaling')
-  final ManagedScaling managedScaling;
+  final ManagedScaling? managedScaling;
 
   /// The managed termination protection setting to use for the Auto Scaling group
   /// capacity provider. This determines whether the Auto Scaling group has
@@ -4998,35 +5053,35 @@ class AutoScalingGroupProviderUpdate {
   ///
   /// When managed termination protection is disabled, your Amazon EC2 instances
   /// are not protected from termination when the Auto Scaling group scales in.
-  @_s.JsonKey(name: 'managedTerminationProtection')
-  final ManagedTerminationProtection managedTerminationProtection;
+  final ManagedTerminationProtection? managedTerminationProtection;
 
   AutoScalingGroupProviderUpdate({
     this.managedScaling,
     this.managedTerminationProtection,
   });
-  Map<String, dynamic> toJson() => _$AutoScalingGroupProviderUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final managedScaling = this.managedScaling;
+    final managedTerminationProtection = this.managedTerminationProtection;
+    return {
+      if (managedScaling != null) 'managedScaling': managedScaling,
+      if (managedTerminationProtection != null)
+        'managedTerminationProtection': managedTerminationProtection.toValue(),
+    };
+  }
 }
 
 /// An object representing the networking details for a task or service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsVpcConfiguration {
   /// The IDs of the subnets associated with the task or service. There is a limit
   /// of 16 subnets that can be specified per <code>AwsVpcConfiguration</code>.
   /// <note>
   /// All specified subnets must be from the same VPC.
   /// </note>
-  @_s.JsonKey(name: 'subnets')
   final List<String> subnets;
 
   /// Whether the task's elastic network interface receives a public IP address.
   /// The default value is <code>DISABLED</code>.
-  @_s.JsonKey(name: 'assignPublicIp')
-  final AssignPublicIp assignPublicIp;
+  final AssignPublicIp? assignPublicIp;
 
   /// The IDs of the security groups associated with the task or service. If you
   /// do not specify a security group, the default security group for the VPC is
@@ -5035,44 +5090,54 @@ class AwsVpcConfiguration {
   /// <note>
   /// All specified security groups must be from the same VPC.
   /// </note>
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   AwsVpcConfiguration({
-    @_s.required this.subnets,
+    required this.subnets,
     this.assignPublicIp,
     this.securityGroups,
   });
-  factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AwsVpcConfigurationFromJson(json);
+  factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return AwsVpcConfiguration(
+      subnets: (json['subnets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      assignPublicIp: (json['assignPublicIp'] as String?)?.toAssignPublicIp(),
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AwsVpcConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    final assignPublicIp = this.assignPublicIp;
+    final securityGroups = this.securityGroups;
+    return {
+      'subnets': subnets,
+      if (assignPublicIp != null) 'assignPublicIp': assignPublicIp.toValue(),
+      if (securityGroups != null) 'securityGroups': securityGroups,
+    };
+  }
 }
 
 /// The details of a capacity provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CapacityProvider {
   /// The Auto Scaling group settings for the capacity provider.
-  @_s.JsonKey(name: 'autoScalingGroupProvider')
-  final AutoScalingGroupProvider autoScalingGroupProvider;
+  final AutoScalingGroupProvider? autoScalingGroupProvider;
 
   /// The Amazon Resource Name (ARN) that identifies the capacity provider.
-  @_s.JsonKey(name: 'capacityProviderArn')
-  final String capacityProviderArn;
+  final String? capacityProviderArn;
 
   /// The name of the capacity provider.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The current status of the capacity provider. Only capacity providers in an
   /// <code>ACTIVE</code> state can be used in a cluster. When a capacity provider
   /// is successfully deleted, it will have an <code>INACTIVE</code> status.
-  @_s.JsonKey(name: 'status')
-  final CapacityProviderStatus status;
+  final CapacityProviderStatus? status;
 
   /// The metadata that you apply to the capacity provider to help you categorize
   /// and organize it. Each tag consists of a key and an optional value, both of
@@ -5110,8 +5175,7 @@ class CapacityProvider {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The update status of the capacity provider. The following are the possible
   /// states that will be returned.
@@ -5124,13 +5188,11 @@ class CapacityProvider {
   /// The capacity provider was unable to be deleted. The update status reason
   /// will provide further details about why the delete failed.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'updateStatus')
-  final CapacityProviderUpdateStatus updateStatus;
+  final CapacityProviderUpdateStatus? updateStatus;
 
   /// The update status reason. This provides further details about the update
   /// status for the capacity provider.
-  @_s.JsonKey(name: 'updateStatusReason')
-  final String updateStatusReason;
+  final String? updateStatusReason;
 
   CapacityProvider({
     this.autoScalingGroupProvider,
@@ -5141,12 +5203,27 @@ class CapacityProvider {
     this.updateStatus,
     this.updateStatusReason,
   });
-  factory CapacityProvider.fromJson(Map<String, dynamic> json) =>
-      _$CapacityProviderFromJson(json);
+  factory CapacityProvider.fromJson(Map<String, dynamic> json) {
+    return CapacityProvider(
+      autoScalingGroupProvider: json['autoScalingGroupProvider'] != null
+          ? AutoScalingGroupProvider.fromJson(
+              json['autoScalingGroupProvider'] as Map<String, dynamic>)
+          : null,
+      capacityProviderArn: json['capacityProviderArn'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toCapacityProviderStatus(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updateStatus:
+          (json['updateStatus'] as String?)?.toCapacityProviderUpdateStatus(),
+      updateStatusReason: json['updateStatusReason'] as String?,
+    );
+  }
 }
 
 enum CapacityProviderField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -5156,33 +5233,56 @@ extension on CapacityProviderField {
       case CapacityProviderField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CapacityProviderField toCapacityProviderField() {
+    switch (this) {
+      case 'TAGS':
+        return CapacityProviderField.tags;
+    }
+    throw Exception('$this is not known in enum CapacityProviderField');
   }
 }
 
 enum CapacityProviderStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
+extension on CapacityProviderStatus {
+  String toValue() {
+    switch (this) {
+      case CapacityProviderStatus.active:
+        return 'ACTIVE';
+      case CapacityProviderStatus.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  CapacityProviderStatus toCapacityProviderStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return CapacityProviderStatus.active;
+      case 'INACTIVE':
+        return CapacityProviderStatus.inactive;
+    }
+    throw Exception('$this is not known in enum CapacityProviderStatus');
+  }
+}
+
 /// The details of a capacity provider strategy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CapacityProviderStrategyItem {
   /// The short name of the capacity provider.
-  @_s.JsonKey(name: 'capacityProvider')
   final String capacityProvider;
 
   /// The <i>base</i> value designates how many tasks, at a minimum, to run on the
   /// specified capacity provider. Only one capacity provider in a capacity
   /// provider strategy can have a <i>base</i> defined.
-  @_s.JsonKey(name: 'base')
-  final int base;
+  final int? base;
 
   /// The <i>weight</i> value designates the relative percentage of the total
   /// number of tasks launched that should use the specified capacity provider.
@@ -5194,56 +5294,95 @@ class CapacityProviderStrategyItem {
   /// <i>capacityProviderA</i> and a weight of <code>4</code> for
   /// <i>capacityProviderB</i>, then for every one task that is run using
   /// <i>capacityProviderA</i>, four tasks would use <i>capacityProviderB</i>.
-  @_s.JsonKey(name: 'weight')
-  final int weight;
+  final int? weight;
 
   CapacityProviderStrategyItem({
-    @_s.required this.capacityProvider,
+    required this.capacityProvider,
     this.base,
     this.weight,
   });
-  factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) =>
-      _$CapacityProviderStrategyItemFromJson(json);
+  factory CapacityProviderStrategyItem.fromJson(Map<String, dynamic> json) {
+    return CapacityProviderStrategyItem(
+      capacityProvider: json['capacityProvider'] as String,
+      base: json['base'] as int?,
+      weight: json['weight'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CapacityProviderStrategyItemToJson(this);
+  Map<String, dynamic> toJson() {
+    final capacityProvider = this.capacityProvider;
+    final base = this.base;
+    final weight = this.weight;
+    return {
+      'capacityProvider': capacityProvider,
+      if (base != null) 'base': base,
+      if (weight != null) 'weight': weight,
+    };
+  }
 }
 
 enum CapacityProviderUpdateStatus {
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
-  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
-  @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
+}
+
+extension on CapacityProviderUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case CapacityProviderUpdateStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case CapacityProviderUpdateStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case CapacityProviderUpdateStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case CapacityProviderUpdateStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case CapacityProviderUpdateStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case CapacityProviderUpdateStatus.updateFailed:
+        return 'UPDATE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  CapacityProviderUpdateStatus toCapacityProviderUpdateStatus() {
+    switch (this) {
+      case 'DELETE_IN_PROGRESS':
+        return CapacityProviderUpdateStatus.deleteInProgress;
+      case 'DELETE_COMPLETE':
+        return CapacityProviderUpdateStatus.deleteComplete;
+      case 'DELETE_FAILED':
+        return CapacityProviderUpdateStatus.deleteFailed;
+      case 'UPDATE_IN_PROGRESS':
+        return CapacityProviderUpdateStatus.updateInProgress;
+      case 'UPDATE_COMPLETE':
+        return CapacityProviderUpdateStatus.updateComplete;
+      case 'UPDATE_FAILED':
+        return CapacityProviderUpdateStatus.updateFailed;
+    }
+    throw Exception('$this is not known in enum CapacityProviderUpdateStatus');
+  }
 }
 
 /// A regional grouping of one or more container instances on which you can run
 /// task requests. Each account receives a default cluster the first time you
 /// use the Amazon ECS service, but you may also create other clusters. Clusters
 /// may contain more than one instance type simultaneously.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cluster {
   /// The number of services that are running on the cluster in an
   /// <code>ACTIVE</code> state. You can view these services with
   /// <a>ListServices</a>.
-  @_s.JsonKey(name: 'activeServicesCount')
-  final int activeServicesCount;
+  final int? activeServicesCount;
 
   /// The resources attached to a cluster. When using a capacity provider with a
   /// cluster, the Auto Scaling plan that is created will be returned as a cluster
   /// attachment.
-  @_s.JsonKey(name: 'attachments')
-  final List<Attachment> attachments;
+  final List<Attachment>? attachments;
 
   /// The status of the capacity providers associated with the cluster. The
   /// following are the states that will be returned:
@@ -5255,51 +5394,42 @@ class Cluster {
   /// </dd> <dt>UPDATE_FAILED</dt> <dd>
   /// The capacity provider updates failed.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'attachmentsStatus')
-  final String attachmentsStatus;
+  final String? attachmentsStatus;
 
   /// The capacity providers associated with the cluster.
-  @_s.JsonKey(name: 'capacityProviders')
-  final List<String> capacityProviders;
+  final List<String>? capacityProviders;
 
   /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains
   /// the <code>arn:aws:ecs</code> namespace, followed by the Region of the
   /// cluster, the AWS account ID of the cluster owner, the <code>cluster</code>
   /// namespace, and then the cluster name. For example,
   /// <code>arn:aws:ecs:region:012345678910:cluster/test</code>.
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// A user-generated string that you use to identify your cluster.
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The default capacity provider strategy for the cluster. When services or
   /// tasks are run in the cluster with no launch type or capacity provider
   /// strategy specified, the default capacity provider strategy is used.
-  @_s.JsonKey(name: 'defaultCapacityProviderStrategy')
-  final List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy;
+  final List<CapacityProviderStrategyItem>? defaultCapacityProviderStrategy;
 
   /// The number of tasks in the cluster that are in the <code>PENDING</code>
   /// state.
-  @_s.JsonKey(name: 'pendingTasksCount')
-  final int pendingTasksCount;
+  final int? pendingTasksCount;
 
   /// The number of container instances registered into the cluster. This includes
   /// container instances in both <code>ACTIVE</code> and <code>DRAINING</code>
   /// status.
-  @_s.JsonKey(name: 'registeredContainerInstancesCount')
-  final int registeredContainerInstancesCount;
+  final int? registeredContainerInstancesCount;
 
   /// The number of tasks in the cluster that are in the <code>RUNNING</code>
   /// state.
-  @_s.JsonKey(name: 'runningTasksCount')
-  final int runningTasksCount;
+  final int? runningTasksCount;
 
   /// The settings for the cluster. This parameter indicates whether CloudWatch
   /// Container Insights is enabled or disabled for a cluster.
-  @_s.JsonKey(name: 'settings')
-  final List<ClusterSetting> settings;
+  final List<ClusterSetting>? settings;
 
   /// Additional information about your clusters that are separated by launch
   /// type, including:
@@ -5330,8 +5460,7 @@ class Cluster {
   /// drainingFargateServiceCount
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'statistics')
-  final List<KeyValuePair> statistics;
+  final List<KeyValuePair>? statistics;
 
   /// The status of the cluster. The following are the possible states that will
   /// be returned.
@@ -5353,8 +5482,7 @@ class Cluster {
   /// behavior is subject to change in the future, so you should not rely on
   /// <code>INACTIVE</code> clusters persisting.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The metadata that you apply to the cluster to help you categorize and
   /// organize them. Each tag consists of a key and an optional value, both of
@@ -5392,8 +5520,7 @@ class Cluster {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Cluster({
     this.activeServicesCount,
@@ -5411,18 +5538,51 @@ class Cluster {
     this.status,
     this.tags,
   });
-  factory Cluster.fromJson(Map<String, dynamic> json) =>
-      _$ClusterFromJson(json);
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      activeServicesCount: json['activeServicesCount'] as int?,
+      attachments: (json['attachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attachmentsStatus: json['attachmentsStatus'] as String?,
+      capacityProviders: (json['capacityProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      clusterArn: json['clusterArn'] as String?,
+      clusterName: json['clusterName'] as String?,
+      defaultCapacityProviderStrategy: (json['defaultCapacityProviderStrategy']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pendingTasksCount: json['pendingTasksCount'] as int?,
+      registeredContainerInstancesCount:
+          json['registeredContainerInstancesCount'] as int?,
+      runningTasksCount: json['runningTasksCount'] as int?,
+      settings: (json['settings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statistics: (json['statistics'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['status'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum ClusterField {
-  @_s.JsonValue('ATTACHMENTS')
   attachments,
-  @_s.JsonValue('SETTINGS')
   settings,
-  @_s.JsonValue('STATISTICS')
   statistics,
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -5438,22 +5598,31 @@ extension on ClusterField {
       case ClusterField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ClusterField toClusterField() {
+    switch (this) {
+      case 'ATTACHMENTS':
+        return ClusterField.attachments;
+      case 'SETTINGS':
+        return ClusterField.settings;
+      case 'STATISTICS':
+        return ClusterField.statistics;
+      case 'TAGS':
+        return ClusterField.tags;
+    }
+    throw Exception('$this is not known in enum ClusterField');
   }
 }
 
 /// The settings to use when creating a cluster. This parameter is used to
 /// enable CloudWatch Container Insights for a cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClusterSetting {
   /// The name of the cluster setting. The only supported value is
   /// <code>containerInsights</code>.
-  @_s.JsonKey(name: 'name')
-  final ClusterSettingName name;
+  final ClusterSettingName? name;
 
   /// The value to set for the cluster setting. The supported values are
   /// <code>enabled</code> and <code>disabled</code>. If <code>enabled</code> is
@@ -5462,28 +5631,54 @@ class ClusterSetting {
   /// account setting is enabled. If a cluster value is specified, it will
   /// override the <code>containerInsights</code> value set with
   /// <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ClusterSetting({
     this.name,
     this.value,
   });
-  factory ClusterSetting.fromJson(Map<String, dynamic> json) =>
-      _$ClusterSettingFromJson(json);
+  factory ClusterSetting.fromJson(Map<String, dynamic> json) {
+    return ClusterSetting(
+      name: (json['name'] as String?)?.toClusterSettingName(),
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClusterSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum ClusterSettingName {
-  @_s.JsonValue('containerInsights')
   containerInsights,
 }
 
+extension on ClusterSettingName {
+  String toValue() {
+    switch (this) {
+      case ClusterSettingName.containerInsights:
+        return 'containerInsights';
+    }
+  }
+}
+
+extension on String {
+  ClusterSettingName toClusterSettingName() {
+    switch (this) {
+      case 'containerInsights':
+        return ClusterSettingName.containerInsights;
+    }
+    throw Exception('$this is not known in enum ClusterSettingName');
+  }
+}
+
 enum Compatibility {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('FARGATE')
   fargate,
 }
 
@@ -5495,96 +5690,107 @@ extension on Compatibility {
       case Compatibility.fargate:
         return 'FARGATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Compatibility toCompatibility() {
+    switch (this) {
+      case 'EC2':
+        return Compatibility.ec2;
+      case 'FARGATE':
+        return Compatibility.fargate;
+    }
+    throw Exception('$this is not known in enum Compatibility');
   }
 }
 
 enum Connectivity {
-  @_s.JsonValue('CONNECTED')
   connected,
-  @_s.JsonValue('DISCONNECTED')
   disconnected,
 }
 
+extension on Connectivity {
+  String toValue() {
+    switch (this) {
+      case Connectivity.connected:
+        return 'CONNECTED';
+      case Connectivity.disconnected:
+        return 'DISCONNECTED';
+    }
+  }
+}
+
+extension on String {
+  Connectivity toConnectivity() {
+    switch (this) {
+      case 'CONNECTED':
+        return Connectivity.connected;
+      case 'DISCONNECTED':
+        return Connectivity.disconnected;
+    }
+    throw Exception('$this is not known in enum Connectivity');
+  }
+}
+
 /// A Docker container that is part of a task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Container {
   /// The Amazon Resource Name (ARN) of the container.
-  @_s.JsonKey(name: 'containerArn')
-  final String containerArn;
+  final String? containerArn;
 
   /// The number of CPU units set for the container. The value will be
   /// <code>0</code> if no value was specified in the container definition when
   /// the task definition was registered.
-  @_s.JsonKey(name: 'cpu')
-  final String cpu;
+  final String? cpu;
 
   /// The exit code returned from the container.
-  @_s.JsonKey(name: 'exitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// The IDs of each GPU assigned to the container.
-  @_s.JsonKey(name: 'gpuIds')
-  final List<String> gpuIds;
+  final List<String>? gpuIds;
 
   /// The health status of the container. If health checks are not configured for
   /// this container in its task definition, then it reports the health status as
   /// <code>UNKNOWN</code>.
-  @_s.JsonKey(name: 'healthStatus')
-  final HealthStatus healthStatus;
+  final HealthStatus? healthStatus;
 
   /// The image used for the container.
-  @_s.JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   /// The container image manifest digest.
   /// <note>
   /// The <code>imageDigest</code> is only returned if the container is using an
   /// image hosted in Amazon ECR, otherwise it is omitted.
   /// </note>
-  @_s.JsonKey(name: 'imageDigest')
-  final String imageDigest;
+  final String? imageDigest;
 
   /// The last known status of the container.
-  @_s.JsonKey(name: 'lastStatus')
-  final String lastStatus;
+  final String? lastStatus;
 
   /// The hard limit (in MiB) of memory set for the container.
-  @_s.JsonKey(name: 'memory')
-  final String memory;
+  final String? memory;
 
   /// The soft limit (in MiB) of memory set for the container.
-  @_s.JsonKey(name: 'memoryReservation')
-  final String memoryReservation;
+  final String? memoryReservation;
 
   /// The name of the container.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The network bindings associated with the container.
-  @_s.JsonKey(name: 'networkBindings')
-  final List<NetworkBinding> networkBindings;
+  final List<NetworkBinding>? networkBindings;
 
   /// The network interfaces associated with the container.
-  @_s.JsonKey(name: 'networkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// A short (255 max characters) human-readable string to provide additional
   /// details about a running or stopped container.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The ID of the Docker container.
-  @_s.JsonKey(name: 'runtimeId')
-  final String runtimeId;
+  final String? runtimeId;
 
   /// The ARN of the task.
-  @_s.JsonKey(name: 'taskArn')
-  final String taskArn;
+  final String? taskArn;
 
   Container({
     this.containerArn,
@@ -5604,28 +5810,77 @@ class Container {
     this.runtimeId,
     this.taskArn,
   });
-  factory Container.fromJson(Map<String, dynamic> json) =>
-      _$ContainerFromJson(json);
+  factory Container.fromJson(Map<String, dynamic> json) {
+    return Container(
+      containerArn: json['containerArn'] as String?,
+      cpu: json['cpu'] as String?,
+      exitCode: json['exitCode'] as int?,
+      gpuIds: (json['gpuIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      healthStatus: (json['healthStatus'] as String?)?.toHealthStatus(),
+      image: json['image'] as String?,
+      imageDigest: json['imageDigest'] as String?,
+      lastStatus: json['lastStatus'] as String?,
+      memory: json['memory'] as String?,
+      memoryReservation: json['memoryReservation'] as String?,
+      name: json['name'] as String?,
+      networkBindings: (json['networkBindings'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkBinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reason: json['reason'] as String?,
+      runtimeId: json['runtimeId'] as String?,
+      taskArn: json['taskArn'] as String?,
+    );
+  }
 }
 
 enum ContainerCondition {
-  @_s.JsonValue('START')
   start,
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('HEALTHY')
   healthy,
+}
+
+extension on ContainerCondition {
+  String toValue() {
+    switch (this) {
+      case ContainerCondition.start:
+        return 'START';
+      case ContainerCondition.complete:
+        return 'COMPLETE';
+      case ContainerCondition.success:
+        return 'SUCCESS';
+      case ContainerCondition.healthy:
+        return 'HEALTHY';
+    }
+  }
+}
+
+extension on String {
+  ContainerCondition toContainerCondition() {
+    switch (this) {
+      case 'START':
+        return ContainerCondition.start;
+      case 'COMPLETE':
+        return ContainerCondition.complete;
+      case 'SUCCESS':
+        return ContainerCondition.success;
+      case 'HEALTHY':
+        return ContainerCondition.healthy;
+    }
+    throw Exception('$this is not known in enum ContainerCondition');
+  }
 }
 
 /// Container definitions are used in task definitions to describe the different
 /// containers that are launched as part of a task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerDefinition {
   /// The command that is passed to the container. This parameter maps to
   /// <code>Cmd</code> in the <a
@@ -5638,8 +5893,7 @@ class ContainerDefinition {
   /// href="https://docs.docker.com/engine/reference/builder/#cmd">https://docs.docker.com/engine/reference/builder/#cmd</a>.
   /// If there are multiple arguments, each argument should be a separated string
   /// in the array.
-  @_s.JsonKey(name: 'command')
-  final List<String> command;
+  final List<String>? command;
 
   /// The number of <code>cpu</code> units reserved for the container. This
   /// parameter maps to <code>CpuShares</code> in the <a
@@ -5697,8 +5951,7 @@ class ContainerDefinition {
   /// amount of CPU that is described in the task definition. A null or zero CPU
   /// value is passed to Docker as <code>0</code>, which Windows interprets as 1%
   /// of one CPU.
-  @_s.JsonKey(name: 'cpu')
-  final int cpu;
+  final int? cpu;
 
   /// The dependencies defined for container startup and shutdown. A container can
   /// contain multiple dependencies. When a dependency is defined for container
@@ -5723,8 +5976,7 @@ class ContainerDefinition {
   ///
   /// For tasks using the Fargate launch type, the task or service requires
   /// platform version <code>1.3.0</code> or later.
-  @_s.JsonKey(name: 'dependsOn')
-  final List<ContainerDependency> dependsOn;
+  final List<ContainerDependency>? dependsOn;
 
   /// When this parameter is true, networking is disabled within the container.
   /// This parameter maps to <code>NetworkDisabled</code> in the <a
@@ -5735,8 +5987,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'disableNetworking')
-  final bool disableNetworking;
+  final bool? disableNetworking;
 
   /// A list of DNS search domains that are presented to the container. This
   /// parameter maps to <code>DnsSearch</code> in the <a
@@ -5750,8 +6001,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'dnsSearchDomains')
-  final List<String> dnsSearchDomains;
+  final List<String>? dnsSearchDomains;
 
   /// A list of DNS servers that are presented to the container. This parameter
   /// maps to <code>Dns</code> in the <a
@@ -5765,8 +6015,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'dnsServers')
-  final List<String> dnsServers;
+  final List<String>? dnsServers;
 
   /// A key/value map of labels to add to the container. This parameter maps to
   /// <code>Labels</code> in the <a
@@ -5780,8 +6029,7 @@ class ContainerDefinition {
   /// on your container instance, log in to your container instance and run the
   /// following command: <code>sudo docker version --format
   /// '{{.Server.APIVersion}}'</code>
-  @_s.JsonKey(name: 'dockerLabels')
-  final Map<String, String> dockerLabels;
+  final Map<String, String>? dockerLabels;
 
   /// A list of strings to provide custom labels for SELinux and AppArmor
   /// multi-level security systems. This field is not valid for containers in
@@ -5817,8 +6065,7 @@ class ContainerDefinition {
   ///
   /// Valid values: "no-new-privileges" | "apparmor:PROFILE" | "label:value" |
   /// "credentialspec:CredentialSpecFilePath"
-  @_s.JsonKey(name: 'dockerSecurityOptions')
-  final List<String> dockerSecurityOptions;
+  final List<String>? dockerSecurityOptions;
 
   /// <important>
   /// Early versions of the Amazon ECS container agent do not properly handle
@@ -5835,8 +6082,7 @@ class ContainerDefinition {
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>. For more information, see <a
   /// href="https://docs.docker.com/engine/reference/builder/#entrypoint">https://docs.docker.com/engine/reference/builder/#entrypoint</a>.
-  @_s.JsonKey(name: 'entryPoint')
-  final List<String> entryPoint;
+  final List<String>? entryPoint;
 
   /// The environment variables to pass to a container. This parameter maps to
   /// <code>Env</code> in the <a
@@ -5850,8 +6096,7 @@ class ContainerDefinition {
   /// We do not recommend using plaintext environment variables for sensitive
   /// information, such as credential data.
   /// </important>
-  @_s.JsonKey(name: 'environment')
-  final List<KeyValuePair> environment;
+  final List<KeyValuePair>? environment;
 
   /// A list of files containing the environment variables to pass to a container.
   /// This parameter maps to the <code>--env-file</code> option to <a
@@ -5878,8 +6123,7 @@ class ContainerDefinition {
   ///
   /// This field is not valid for containers in tasks using the Fargate launch
   /// type.
-  @_s.JsonKey(name: 'environmentFiles')
-  final List<EnvironmentFile> environmentFiles;
+  final List<EnvironmentFile>? environmentFiles;
 
   /// If the <code>essential</code> parameter of a container is marked as
   /// <code>true</code>, and that container fails or stops for any reason, all
@@ -5897,8 +6141,7 @@ class ContainerDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html">Application
   /// Architecture</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'essential')
-  final bool essential;
+  final bool? essential;
 
   /// A list of hostnames and IP address mappings to append to the
   /// <code>/etc/hosts</code> file on the container. This parameter maps to
@@ -5913,16 +6156,14 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// <code>awsvpc</code> network mode.
   /// </note>
-  @_s.JsonKey(name: 'extraHosts')
-  final List<HostEntry> extraHosts;
+  final List<HostEntry>? extraHosts;
 
   /// The FireLens configuration for the container. This is used to specify and
   /// configure a log router for container logs. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
   /// Log Routing</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'firelensConfiguration')
-  final FirelensConfiguration firelensConfiguration;
+  final FirelensConfiguration? firelensConfiguration;
 
   /// The container health check command and associated configuration parameters
   /// for the container. This parameter maps to <code>HealthCheck</code> in the <a
@@ -5932,8 +6173,7 @@ class ContainerDefinition {
   /// the <code>HEALTHCHECK</code> parameter of <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'healthCheck')
-  final HealthCheck healthCheck;
+  final HealthCheck? healthCheck;
 
   /// The hostname to use for your container. This parameter maps to
   /// <code>Hostname</code> in the <a
@@ -5947,8 +6187,7 @@ class ContainerDefinition {
   /// The <code>hostname</code> parameter is not supported if you are using the
   /// <code>awsvpc</code> network mode.
   /// </note>
-  @_s.JsonKey(name: 'hostname')
-  final String hostname;
+  final String? hostname;
 
   /// The image used to start a container. This string is passed directly to the
   /// Docker daemon. Images in the Docker Hub registry are available by default.
@@ -5993,8 +6232,7 @@ class ContainerDefinition {
   /// (for example, <code>quay.io/assemblyline/ubuntu</code>).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   /// When this parameter is <code>true</code>, this allows you to deploy
   /// containerized applications that require <code>stdin</code> or a
@@ -6006,8 +6244,7 @@ class ContainerDefinition {
   /// the <code>--interactive</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'interactive')
-  final bool interactive;
+  final bool? interactive;
 
   /// The <code>links</code> parameter allows containers to communicate with each
   /// other without the need for port mappings. This parameter is only supported
@@ -6034,8 +6271,7 @@ class ContainerDefinition {
   /// Network isolation is achieved on the container instance using security
   /// groups and VPC settings.
   /// </important>
-  @_s.JsonKey(name: 'links')
-  final List<String> links;
+  final List<String>? links;
 
   /// Linux-specific modifications that are applied to the container, such as
   /// Linux kernel capabilities. For more information see
@@ -6043,8 +6279,7 @@ class ContainerDefinition {
   /// <note>
   /// This parameter is not supported for Windows containers.
   /// </note>
-  @_s.JsonKey(name: 'linuxParameters')
-  final LinuxParameters linuxParameters;
+  final LinuxParameters? linuxParameters;
 
   /// The log configuration specification for the container.
   ///
@@ -6083,8 +6318,7 @@ class ContainerDefinition {
   /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'logConfiguration')
-  final LogConfiguration logConfiguration;
+  final LogConfiguration? logConfiguration;
 
   /// The amount (in MiB) of memory to present to the container. If your container
   /// attempts to exceed the memory specified here, the container is killed. The
@@ -6111,8 +6345,7 @@ class ContainerDefinition {
   ///
   /// The Docker daemon reserves a minimum of 4 MiB of memory for a container, so
   /// you should not specify fewer than 4 MiB of memory for your containers.
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The soft limit (in MiB) of memory to reserve for the container. When system
   /// memory is under heavy contention, Docker attempts to keep the container
@@ -6147,8 +6380,7 @@ class ContainerDefinition {
   ///
   /// The Docker daemon reserves a minimum of 4 MiB of memory for a container, so
   /// you should not specify fewer than 4 MiB of memory for your containers.
-  @_s.JsonKey(name: 'memoryReservation')
-  final int memoryReservation;
+  final int? memoryReservation;
 
   /// The mount points for data volumes in your container.
   ///
@@ -6163,8 +6395,7 @@ class ContainerDefinition {
   /// Windows containers can mount whole directories on the same drive as
   /// <code>$env:ProgramData</code>. Windows containers cannot mount directories
   /// on a different drive, and mount point cannot be across drives.
-  @_s.JsonKey(name: 'mountPoints')
-  final List<MountPoint> mountPoints;
+  final List<MountPoint>? mountPoints;
 
   /// The name of a container. If you are linking multiple containers together in
   /// a task definition, the <code>name</code> of one container can be entered in
@@ -6177,8 +6408,7 @@ class ContainerDefinition {
   /// the <code>--name</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The list of port mappings for the container. Port mappings allow containers
   /// to access ports on the host container instance to send or receive traffic.
@@ -6211,8 +6441,7 @@ class ContainerDefinition {
   /// Amazon ECS console. The assignments are also visible in the
   /// <code>networkBindings</code> section <a>DescribeTasks</a> responses.
   /// </note>
-  @_s.JsonKey(name: 'portMappings')
-  final List<PortMapping> portMappings;
+  final List<PortMapping>? portMappings;
 
   /// When this parameter is true, the container is given elevated privileges on
   /// the host container instance (similar to the <code>root</code> user). This
@@ -6227,8 +6456,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks using the
   /// Fargate launch type.
   /// </note>
-  @_s.JsonKey(name: 'privileged')
-  final bool privileged;
+  final bool? privileged;
 
   /// When this parameter is <code>true</code>, a TTY is allocated. This parameter
   /// maps to <code>Tty</code> in the <a
@@ -6238,8 +6466,7 @@ class ContainerDefinition {
   /// the <code>--tty</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'pseudoTerminal')
-  final bool pseudoTerminal;
+  final bool? pseudoTerminal;
 
   /// When this parameter is true, the container is given read-only access to its
   /// root file system. This parameter maps to <code>ReadonlyRootfs</code> in the
@@ -6254,24 +6481,20 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'readonlyRootFilesystem')
-  final bool readonlyRootFilesystem;
+  final bool? readonlyRootFilesystem;
 
   /// The private repository authentication credentials to use.
-  @_s.JsonKey(name: 'repositoryCredentials')
-  final RepositoryCredentials repositoryCredentials;
+  final RepositoryCredentials? repositoryCredentials;
 
   /// The type and amount of a resource to assign to a container. The only
   /// supported resource is a GPU.
-  @_s.JsonKey(name: 'resourceRequirements')
-  final List<ResourceRequirement> resourceRequirements;
+  final List<ResourceRequirement>? resourceRequirements;
 
   /// The secrets to pass to the container. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
   /// Sensitive Data</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'secrets')
-  final List<Secret> secrets;
+  final List<Secret>? secrets;
 
   /// Time duration (in seconds) to wait before giving up on resolving
   /// dependencies for a container. For example, you specify two containers in a
@@ -6305,8 +6528,7 @@ class ContainerDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
   /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'startTimeout')
-  final int startTimeout;
+  final int? startTimeout;
 
   /// Time duration (in seconds) to wait before the container is forcefully killed
   /// if it doesn't exit normally on its own.
@@ -6338,8 +6560,7 @@ class ContainerDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
   /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'stopTimeout')
-  final int stopTimeout;
+  final int? stopTimeout;
 
   /// A list of namespaced kernel parameters to set in the container. This
   /// parameter maps to <code>Sysctls</code> in the <a
@@ -6359,8 +6580,7 @@ class ContainerDefinition {
   /// mode, it changes the container instance's namespaced kernel parameters as
   /// well as the containers.
   /// </note>
-  @_s.JsonKey(name: 'systemControls')
-  final List<SystemControl> systemControls;
+  final List<SystemControl>? systemControls;
 
   /// A list of <code>ulimits</code> to set in the container. If a ulimit value is
   /// specified in a task definition, it will override the default values set by
@@ -6379,8 +6599,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'ulimits')
-  final List<Ulimit> ulimits;
+  final List<Ulimit>? ulimits;
 
   /// The user to use inside the container. This parameter maps to
   /// <code>User</code> in the <a
@@ -6421,8 +6640,7 @@ class ContainerDefinition {
   /// This parameter is not supported for Windows containers or tasks that use the
   /// awsvpc network mode.
   /// </note>
-  @_s.JsonKey(name: 'user')
-  final String user;
+  final String? user;
 
   /// Data volumes to mount from another container. This parameter maps to
   /// <code>VolumesFrom</code> in the <a
@@ -6432,8 +6650,7 @@ class ContainerDefinition {
   /// the <code>--volumes-from</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'volumesFrom')
-  final List<VolumeFrom> volumesFrom;
+  final List<VolumeFrom>? volumesFrom;
 
   /// The working directory in which to run commands inside the container. This
   /// parameter maps to <code>WorkingDir</code> in the <a
@@ -6443,8 +6660,7 @@ class ContainerDefinition {
   /// the <code>--workdir</code> option to <a
   /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
   /// run</a>.
-  @_s.JsonKey(name: 'workingDirectory')
-  final String workingDirectory;
+  final String? workingDirectory;
 
   ContainerDefinition({
     this.command,
@@ -6487,10 +6703,203 @@ class ContainerDefinition {
     this.volumesFrom,
     this.workingDirectory,
   });
-  factory ContainerDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ContainerDefinitionFromJson(json);
+  factory ContainerDefinition.fromJson(Map<String, dynamic> json) {
+    return ContainerDefinition(
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cpu: json['cpu'] as int?,
+      dependsOn: (json['dependsOn'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContainerDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      disableNetworking: json['disableNetworking'] as bool?,
+      dnsSearchDomains: (json['dnsSearchDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dnsServers: (json['dnsServers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dockerLabels: (json['dockerLabels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      dockerSecurityOptions: (json['dockerSecurityOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      entryPoint: (json['entryPoint'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      environment: (json['environment'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      environmentFiles: (json['environmentFiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      essential: json['essential'] as bool?,
+      extraHosts: (json['extraHosts'] as List?)
+          ?.whereNotNull()
+          .map((e) => HostEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firelensConfiguration: json['firelensConfiguration'] != null
+          ? FirelensConfiguration.fromJson(
+              json['firelensConfiguration'] as Map<String, dynamic>)
+          : null,
+      healthCheck: json['healthCheck'] != null
+          ? HealthCheck.fromJson(json['healthCheck'] as Map<String, dynamic>)
+          : null,
+      hostname: json['hostname'] as String?,
+      image: json['image'] as String?,
+      interactive: json['interactive'] as bool?,
+      links: (json['links'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      linuxParameters: json['linuxParameters'] != null
+          ? LinuxParameters.fromJson(
+              json['linuxParameters'] as Map<String, dynamic>)
+          : null,
+      logConfiguration: json['logConfiguration'] != null
+          ? LogConfiguration.fromJson(
+              json['logConfiguration'] as Map<String, dynamic>)
+          : null,
+      memory: json['memory'] as int?,
+      memoryReservation: json['memoryReservation'] as int?,
+      mountPoints: (json['mountPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => MountPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      portMappings: (json['portMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      privileged: json['privileged'] as bool?,
+      pseudoTerminal: json['pseudoTerminal'] as bool?,
+      readonlyRootFilesystem: json['readonlyRootFilesystem'] as bool?,
+      repositoryCredentials: json['repositoryCredentials'] != null
+          ? RepositoryCredentials.fromJson(
+              json['repositoryCredentials'] as Map<String, dynamic>)
+          : null,
+      resourceRequirements: (json['resourceRequirements'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secrets: (json['secrets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Secret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startTimeout: json['startTimeout'] as int?,
+      stopTimeout: json['stopTimeout'] as int?,
+      systemControls: (json['systemControls'] as List?)
+          ?.whereNotNull()
+          .map((e) => SystemControl.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ulimits: (json['ulimits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ulimit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      user: json['user'] as String?,
+      volumesFrom: (json['volumesFrom'] as List?)
+          ?.whereNotNull()
+          .map((e) => VolumeFrom.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workingDirectory: json['workingDirectory'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContainerDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final cpu = this.cpu;
+    final dependsOn = this.dependsOn;
+    final disableNetworking = this.disableNetworking;
+    final dnsSearchDomains = this.dnsSearchDomains;
+    final dnsServers = this.dnsServers;
+    final dockerLabels = this.dockerLabels;
+    final dockerSecurityOptions = this.dockerSecurityOptions;
+    final entryPoint = this.entryPoint;
+    final environment = this.environment;
+    final environmentFiles = this.environmentFiles;
+    final essential = this.essential;
+    final extraHosts = this.extraHosts;
+    final firelensConfiguration = this.firelensConfiguration;
+    final healthCheck = this.healthCheck;
+    final hostname = this.hostname;
+    final image = this.image;
+    final interactive = this.interactive;
+    final links = this.links;
+    final linuxParameters = this.linuxParameters;
+    final logConfiguration = this.logConfiguration;
+    final memory = this.memory;
+    final memoryReservation = this.memoryReservation;
+    final mountPoints = this.mountPoints;
+    final name = this.name;
+    final portMappings = this.portMappings;
+    final privileged = this.privileged;
+    final pseudoTerminal = this.pseudoTerminal;
+    final readonlyRootFilesystem = this.readonlyRootFilesystem;
+    final repositoryCredentials = this.repositoryCredentials;
+    final resourceRequirements = this.resourceRequirements;
+    final secrets = this.secrets;
+    final startTimeout = this.startTimeout;
+    final stopTimeout = this.stopTimeout;
+    final systemControls = this.systemControls;
+    final ulimits = this.ulimits;
+    final user = this.user;
+    final volumesFrom = this.volumesFrom;
+    final workingDirectory = this.workingDirectory;
+    return {
+      if (command != null) 'command': command,
+      if (cpu != null) 'cpu': cpu,
+      if (dependsOn != null) 'dependsOn': dependsOn,
+      if (disableNetworking != null) 'disableNetworking': disableNetworking,
+      if (dnsSearchDomains != null) 'dnsSearchDomains': dnsSearchDomains,
+      if (dnsServers != null) 'dnsServers': dnsServers,
+      if (dockerLabels != null) 'dockerLabels': dockerLabels,
+      if (dockerSecurityOptions != null)
+        'dockerSecurityOptions': dockerSecurityOptions,
+      if (entryPoint != null) 'entryPoint': entryPoint,
+      if (environment != null) 'environment': environment,
+      if (environmentFiles != null) 'environmentFiles': environmentFiles,
+      if (essential != null) 'essential': essential,
+      if (extraHosts != null) 'extraHosts': extraHosts,
+      if (firelensConfiguration != null)
+        'firelensConfiguration': firelensConfiguration,
+      if (healthCheck != null) 'healthCheck': healthCheck,
+      if (hostname != null) 'hostname': hostname,
+      if (image != null) 'image': image,
+      if (interactive != null) 'interactive': interactive,
+      if (links != null) 'links': links,
+      if (linuxParameters != null) 'linuxParameters': linuxParameters,
+      if (logConfiguration != null) 'logConfiguration': logConfiguration,
+      if (memory != null) 'memory': memory,
+      if (memoryReservation != null) 'memoryReservation': memoryReservation,
+      if (mountPoints != null) 'mountPoints': mountPoints,
+      if (name != null) 'name': name,
+      if (portMappings != null) 'portMappings': portMappings,
+      if (privileged != null) 'privileged': privileged,
+      if (pseudoTerminal != null) 'pseudoTerminal': pseudoTerminal,
+      if (readonlyRootFilesystem != null)
+        'readonlyRootFilesystem': readonlyRootFilesystem,
+      if (repositoryCredentials != null)
+        'repositoryCredentials': repositoryCredentials,
+      if (resourceRequirements != null)
+        'resourceRequirements': resourceRequirements,
+      if (secrets != null) 'secrets': secrets,
+      if (startTimeout != null) 'startTimeout': startTimeout,
+      if (stopTimeout != null) 'stopTimeout': stopTimeout,
+      if (systemControls != null) 'systemControls': systemControls,
+      if (ulimits != null) 'ulimits': ulimits,
+      if (user != null) 'user': user,
+      if (volumesFrom != null) 'volumesFrom': volumesFrom,
+      if (workingDirectory != null) 'workingDirectory': workingDirectory,
+    };
+  }
 }
 
 /// The dependencies defined for container startup and shutdown. A container can
@@ -6516,11 +6925,6 @@ class ContainerDefinition {
 /// For tasks using the Fargate launch type, this parameter requires that the
 /// task or service uses platform version 1.3.0 or later.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerDependency {
   /// The dependency condition of the container. The following are the available
   /// conditions and their behavior:
@@ -6549,57 +6953,56 @@ class ContainerDependency {
   /// This condition is confirmed only at task startup.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'condition')
   final ContainerCondition condition;
 
   /// The name of a container.
-  @_s.JsonKey(name: 'containerName')
   final String containerName;
 
   ContainerDependency({
-    @_s.required this.condition,
-    @_s.required this.containerName,
+    required this.condition,
+    required this.containerName,
   });
-  factory ContainerDependency.fromJson(Map<String, dynamic> json) =>
-      _$ContainerDependencyFromJson(json);
+  factory ContainerDependency.fromJson(Map<String, dynamic> json) {
+    return ContainerDependency(
+      condition: (json['condition'] as String).toContainerCondition(),
+      containerName: json['containerName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContainerDependencyToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final containerName = this.containerName;
+    return {
+      'condition': condition.toValue(),
+      'containerName': containerName,
+    };
+  }
 }
 
 /// An EC2 instance that is running the Amazon ECS agent and has been registered
 /// with a cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContainerInstance {
   /// This parameter returns <code>true</code> if the agent is connected to Amazon
   /// ECS. Registered instances with an agent that may be unhealthy or stopped
   /// return <code>false</code>. Only instances connected to an agent can accept
   /// placement requests.
-  @_s.JsonKey(name: 'agentConnected')
-  final bool agentConnected;
+  final bool? agentConnected;
 
   /// The status of the most recent agent update. If an update has never been
   /// requested, this value is <code>NULL</code>.
-  @_s.JsonKey(name: 'agentUpdateStatus')
-  final AgentUpdateStatus agentUpdateStatus;
+  final AgentUpdateStatus? agentUpdateStatus;
 
   /// The resources attached to a container instance, such as elastic network
   /// interfaces.
-  @_s.JsonKey(name: 'attachments')
-  final List<Attachment> attachments;
+  final List<Attachment>? attachments;
 
   /// The attributes set for the container instance, either by the Amazon ECS
   /// container agent at instance registration or manually with the
   /// <a>PutAttributes</a> operation.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// The capacity provider associated with the container instance.
-  @_s.JsonKey(name: 'capacityProviderName')
-  final String capacityProviderName;
+  final String? capacityProviderName;
 
   /// The Amazon Resource Name (ARN) of the container instance. The ARN contains
   /// the <code>arn:aws:ecs</code> namespace, followed by the Region of the
@@ -6607,22 +7010,17 @@ class ContainerInstance {
   /// <code>container-instance</code> namespace, and then the container instance
   /// ID. For example,
   /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
-  @_s.JsonKey(name: 'containerInstanceArn')
-  final String containerInstanceArn;
+  final String? containerInstanceArn;
 
   /// The EC2 instance ID of the container instance.
-  @_s.JsonKey(name: 'ec2InstanceId')
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The number of tasks on the container instance that are in the
   /// <code>PENDING</code> status.
-  @_s.JsonKey(name: 'pendingTasksCount')
-  final int pendingTasksCount;
+  final int? pendingTasksCount;
 
   /// The Unix timestamp for when the container instance was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'registeredAt')
-  final DateTime registeredAt;
+  final DateTime? registeredAt;
 
   /// For CPU and memory resource types, this parameter describes the amount of
   /// each resource that was available on the container instance when the
@@ -6631,8 +7029,7 @@ class ContainerInstance {
   /// instance to tasks. For port resource types, this parameter describes the
   /// ports that were reserved by the Amazon ECS container agent when it
   /// registered the container instance with Amazon ECS.
-  @_s.JsonKey(name: 'registeredResources')
-  final List<Resource> registeredResources;
+  final List<Resource>? registeredResources;
 
   /// For CPU and memory resource types, this parameter describes the remaining
   /// CPU and memory that has not already been allocated to tasks and is therefore
@@ -6641,13 +7038,11 @@ class ContainerInstance {
   /// registration time) and any task containers that have reserved port mappings
   /// on the host (with the <code>host</code> or <code>bridge</code> network
   /// mode). Any port that is not specified here is available for new tasks.
-  @_s.JsonKey(name: 'remainingResources')
-  final List<Resource> remainingResources;
+  final List<Resource>? remainingResources;
 
   /// The number of tasks on the container instance that are in the
   /// <code>RUNNING</code> status.
-  @_s.JsonKey(name: 'runningTasksCount')
-  final int runningTasksCount;
+  final int? runningTasksCount;
 
   /// The status of the container instance. The valid values are
   /// <code>REGISTERING</code>, <code>REGISTRATION_FAILED</code>,
@@ -6672,12 +7067,10 @@ class ContainerInstance {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html">Container
   /// Instance Draining</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The reason that the container instance reached its current status.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The metadata that you apply to the container instance to help you categorize
   /// and organize them. Each tag consists of a key and an optional value, both of
@@ -6715,8 +7108,7 @@ class ContainerInstance {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The version counter for the container instance. Every time a container
   /// instance experiences a change that triggers a CloudWatch event, the version
@@ -6726,13 +7118,11 @@ class ContainerInstance {
   /// in CloudWatch Events for the container instance (inside the
   /// <code>detail</code> object) to verify that the version in your event stream
   /// is current.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   /// The version information for the Amazon ECS container agent and Docker daemon
   /// running on the container instance.
-  @_s.JsonKey(name: 'versionInfo')
-  final VersionInfo versionInfo;
+  final VersionInfo? versionInfo;
 
   ContainerInstance({
     this.agentConnected,
@@ -6753,12 +7143,48 @@ class ContainerInstance {
     this.version,
     this.versionInfo,
   });
-  factory ContainerInstance.fromJson(Map<String, dynamic> json) =>
-      _$ContainerInstanceFromJson(json);
+  factory ContainerInstance.fromJson(Map<String, dynamic> json) {
+    return ContainerInstance(
+      agentConnected: json['agentConnected'] as bool?,
+      agentUpdateStatus:
+          (json['agentUpdateStatus'] as String?)?.toAgentUpdateStatus(),
+      attachments: (json['attachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      capacityProviderName: json['capacityProviderName'] as String?,
+      containerInstanceArn: json['containerInstanceArn'] as String?,
+      ec2InstanceId: json['ec2InstanceId'] as String?,
+      pendingTasksCount: json['pendingTasksCount'] as int?,
+      registeredAt: timeStampFromJson(json['registeredAt']),
+      registeredResources: (json['registeredResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      remainingResources: (json['remainingResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      runningTasksCount: json['runningTasksCount'] as int?,
+      status: json['status'] as String?,
+      statusReason: json['statusReason'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      version: json['version'] as int?,
+      versionInfo: json['versionInfo'] != null
+          ? VersionInfo.fromJson(json['versionInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ContainerInstanceField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -6768,20 +7194,24 @@ extension on ContainerInstanceField {
       case ContainerInstanceField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContainerInstanceField toContainerInstanceField() {
+    switch (this) {
+      case 'TAGS':
+        return ContainerInstanceField.tags;
+    }
+    throw Exception('$this is not known in enum ContainerInstanceField');
   }
 }
 
 enum ContainerInstanceStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DRAINING')
   draining,
-  @_s.JsonValue('REGISTERING')
   registering,
-  @_s.JsonValue('DEREGISTERING')
   deregistering,
-  @_s.JsonValue('REGISTRATION_FAILED')
   registrationFailed,
 }
 
@@ -6799,7 +7229,24 @@ extension on ContainerInstanceStatus {
       case ContainerInstanceStatus.registrationFailed:
         return 'REGISTRATION_FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContainerInstanceStatus toContainerInstanceStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ContainerInstanceStatus.active;
+      case 'DRAINING':
+        return ContainerInstanceStatus.draining;
+      case 'REGISTERING':
+        return ContainerInstanceStatus.registering;
+      case 'DEREGISTERING':
+        return ContainerInstanceStatus.deregistering;
+      case 'REGISTRATION_FAILED':
+        return ContainerInstanceStatus.registrationFailed;
+    }
+    throw Exception('$this is not known in enum ContainerInstanceStatus');
   }
 }
 
@@ -6807,59 +7254,46 @@ extension on ContainerInstanceStatus {
 /// override can be passed in. An example of an empty container override would
 /// be <code>{"containerOverrides": [ ] }</code>. If a non-empty container
 /// override is specified, the <code>name</code> parameter must be included.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerOverride {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the task definition. You must also specify a container
   /// name.
-  @_s.JsonKey(name: 'command')
-  final List<String> command;
+  final List<String>? command;
 
   /// The number of <code>cpu</code> units reserved for the container, instead of
   /// the default value from the task definition. You must also specify a
   /// container name.
-  @_s.JsonKey(name: 'cpu')
-  final int cpu;
+  final int? cpu;
 
   /// The environment variables to send to the container. You can add new
   /// environment variables, which are added to the container at launch, or you
   /// can override the existing environment variables from the Docker image or the
   /// task definition. You must also specify a container name.
-  @_s.JsonKey(name: 'environment')
-  final List<KeyValuePair> environment;
+  final List<KeyValuePair>? environment;
 
   /// A list of files containing the environment variables to pass to a container,
   /// instead of the value from the container definition.
-  @_s.JsonKey(name: 'environmentFiles')
-  final List<EnvironmentFile> environmentFiles;
+  final List<EnvironmentFile>? environmentFiles;
 
   /// The hard limit (in MiB) of memory to present to the container, instead of
   /// the default value from the task definition. If your container attempts to
   /// exceed the memory specified here, the container is killed. You must also
   /// specify a container name.
-  @_s.JsonKey(name: 'memory')
-  final int memory;
+  final int? memory;
 
   /// The soft limit (in MiB) of memory to reserve for the container, instead of
   /// the default value from the task definition. You must also specify a
   /// container name.
-  @_s.JsonKey(name: 'memoryReservation')
-  final int memoryReservation;
+  final int? memoryReservation;
 
   /// The name of the container that receives the override. This parameter is
   /// required if any override is specified.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The type and amount of a resource to assign to a container, instead of the
   /// default value from the task definition. The only supported resource is a
   /// GPU.
-  @_s.JsonKey(name: 'resourceRequirements')
-  final List<ResourceRequirement> resourceRequirements;
+  final List<ResourceRequirement>? resourceRequirements;
 
   ContainerOverride({
     this.command,
@@ -6871,47 +7305,77 @@ class ContainerOverride {
     this.name,
     this.resourceRequirements,
   });
-  factory ContainerOverride.fromJson(Map<String, dynamic> json) =>
-      _$ContainerOverrideFromJson(json);
+  factory ContainerOverride.fromJson(Map<String, dynamic> json) {
+    return ContainerOverride(
+      command: (json['command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cpu: json['cpu'] as int?,
+      environment: (json['environment'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      environmentFiles: (json['environmentFiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      memory: json['memory'] as int?,
+      memoryReservation: json['memoryReservation'] as int?,
+      name: json['name'] as String?,
+      resourceRequirements: (json['resourceRequirements'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceRequirement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContainerOverrideToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final cpu = this.cpu;
+    final environment = this.environment;
+    final environmentFiles = this.environmentFiles;
+    final memory = this.memory;
+    final memoryReservation = this.memoryReservation;
+    final name = this.name;
+    final resourceRequirements = this.resourceRequirements;
+    return {
+      if (command != null) 'command': command,
+      if (cpu != null) 'cpu': cpu,
+      if (environment != null) 'environment': environment,
+      if (environmentFiles != null) 'environmentFiles': environmentFiles,
+      if (memory != null) 'memory': memory,
+      if (memoryReservation != null) 'memoryReservation': memoryReservation,
+      if (name != null) 'name': name,
+      if (resourceRequirements != null)
+        'resourceRequirements': resourceRequirements,
+    };
+  }
 }
 
 /// An object representing a change in state for a container.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContainerStateChange {
   /// The name of the container.
-  @_s.JsonKey(name: 'containerName')
-  final String containerName;
+  final String? containerName;
 
   /// The exit code for the container, if the state change is a result of the
   /// container exiting.
-  @_s.JsonKey(name: 'exitCode')
-  final int exitCode;
+  final int? exitCode;
 
   /// The container image SHA 256 digest.
-  @_s.JsonKey(name: 'imageDigest')
-  final String imageDigest;
+  final String? imageDigest;
 
   /// Any network bindings associated with the container.
-  @_s.JsonKey(name: 'networkBindings')
-  final List<NetworkBinding> networkBindings;
+  final List<NetworkBinding>? networkBindings;
 
   /// The reason for the state change.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The ID of the Docker container.
-  @_s.JsonKey(name: 'runtimeId')
-  final String runtimeId;
+  final String? runtimeId;
 
   /// The status of the container.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   ContainerStateChange({
     this.containerName,
@@ -6922,48 +7386,59 @@ class ContainerStateChange {
     this.runtimeId,
     this.status,
   });
-  Map<String, dynamic> toJson() => _$ContainerStateChangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final exitCode = this.exitCode;
+    final imageDigest = this.imageDigest;
+    final networkBindings = this.networkBindings;
+    final reason = this.reason;
+    final runtimeId = this.runtimeId;
+    final status = this.status;
+    return {
+      if (containerName != null) 'containerName': containerName,
+      if (exitCode != null) 'exitCode': exitCode,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (networkBindings != null) 'networkBindings': networkBindings,
+      if (reason != null) 'reason': reason,
+      if (runtimeId != null) 'runtimeId': runtimeId,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCapacityProviderResponse {
   /// The full description of the new capacity provider.
-  @_s.JsonKey(name: 'capacityProvider')
-  final CapacityProvider capacityProvider;
+  final CapacityProvider? capacityProvider;
 
   CreateCapacityProviderResponse({
     this.capacityProvider,
   });
-  factory CreateCapacityProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCapacityProviderResponseFromJson(json);
+  factory CreateCapacityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCapacityProviderResponse(
+      capacityProvider: json['capacityProvider'] != null
+          ? CapacityProvider.fromJson(
+              json['capacityProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateClusterResponse {
   /// The full description of your new cluster.
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   CreateClusterResponse({
     this.cluster,
   });
-  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResponseFromJson(json);
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateServiceResponse {
   /// The full description of your service following the create call.
   ///
@@ -6975,154 +7450,144 @@ class CreateServiceResponse {
   /// the <code>deploymentController</code>, <code>taskSets</code> and
   /// <code>deployments</code> parameters will be returned, however the
   /// <code>deployments</code> parameter will be an empty list.
-  @_s.JsonKey(name: 'service')
-  final Service service;
+  final Service? service;
 
   CreateServiceResponse({
     this.service,
   });
-  factory CreateServiceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateServiceResponseFromJson(json);
+  factory CreateServiceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateServiceResponse(
+      service: json['service'] != null
+          ? Service.fromJson(json['service'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTaskSetResponse {
-  @_s.JsonKey(name: 'taskSet')
-  final TaskSet taskSet;
+  final TaskSet? taskSet;
 
   CreateTaskSetResponse({
     this.taskSet,
   });
-  factory CreateTaskSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTaskSetResponseFromJson(json);
+  factory CreateTaskSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTaskSetResponse(
+      taskSet: json['taskSet'] != null
+          ? TaskSet.fromJson(json['taskSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAccountSettingResponse {
   /// The account setting for the specified principal ARN.
-  @_s.JsonKey(name: 'setting')
-  final Setting setting;
+  final Setting? setting;
 
   DeleteAccountSettingResponse({
     this.setting,
   });
-  factory DeleteAccountSettingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAccountSettingResponseFromJson(json);
+  factory DeleteAccountSettingResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAccountSettingResponse(
+      setting: json['setting'] != null
+          ? Setting.fromJson(json['setting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAttributesResponse {
   /// A list of attribute objects that were successfully deleted from your
   /// resource.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   DeleteAttributesResponse({
     this.attributes,
   });
-  factory DeleteAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAttributesResponseFromJson(json);
+  factory DeleteAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAttributesResponse(
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCapacityProviderResponse {
-  @_s.JsonKey(name: 'capacityProvider')
-  final CapacityProvider capacityProvider;
+  final CapacityProvider? capacityProvider;
 
   DeleteCapacityProviderResponse({
     this.capacityProvider,
   });
-  factory DeleteCapacityProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCapacityProviderResponseFromJson(json);
+  factory DeleteCapacityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCapacityProviderResponse(
+      capacityProvider: json['capacityProvider'] != null
+          ? CapacityProvider.fromJson(
+              json['capacityProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteClusterResponse {
   /// The full description of the deleted cluster.
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DeleteClusterResponse({
     this.cluster,
   });
-  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClusterResponseFromJson(json);
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteServiceResponse {
   /// The full description of the deleted service.
-  @_s.JsonKey(name: 'service')
-  final Service service;
+  final Service? service;
 
   DeleteServiceResponse({
     this.service,
   });
-  factory DeleteServiceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteServiceResponseFromJson(json);
+  factory DeleteServiceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteServiceResponse(
+      service: json['service'] != null
+          ? Service.fromJson(json['service'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTaskSetResponse {
-  @_s.JsonKey(name: 'taskSet')
-  final TaskSet taskSet;
+  final TaskSet? taskSet;
 
   DeleteTaskSetResponse({
     this.taskSet,
   });
-  factory DeleteTaskSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTaskSetResponseFromJson(json);
+  factory DeleteTaskSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteTaskSetResponse(
+      taskSet: json['taskSet'] != null
+          ? TaskSet.fromJson(json['taskSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The details of an Amazon ECS service deployment. This is used only when a
 /// service uses the <code>ECS</code> deployment controller type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployment {
   /// The capacity provider strategy that the deployment is using.
-  @_s.JsonKey(name: 'capacityProviderStrategy')
-  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+  final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
 
   /// The Unix timestamp for when the service deployment was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The most recent desired count of tasks that was specified for the service to
   /// deploy or maintain.
-  @_s.JsonKey(name: 'desiredCount')
-  final int desiredCount;
+  final int? desiredCount;
 
   /// The number of consecutively failed tasks in the deployment. A task is
   /// considered a failure if the service scheduler can't launch the task, the
@@ -7132,31 +7597,26 @@ class Deployment {
   /// Once a service deployment has one or more successfully running tasks, the
   /// failed task count resets to zero and stops being evaluated.
   /// </note>
-  @_s.JsonKey(name: 'failedTasks')
-  final int failedTasks;
+  final int? failedTasks;
 
   /// The ID of the deployment.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The launch type the tasks in the service are using. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'launchType')
-  final LaunchType launchType;
+  final LaunchType? launchType;
 
   /// The VPC subnet and security group configuration for tasks that receive their
   /// own elastic network interface by using the <code>awsvpc</code> networking
   /// mode.
-  @_s.JsonKey(name: 'networkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// The number of tasks in the deployment that are in the <code>PENDING</code>
   /// status.
-  @_s.JsonKey(name: 'pendingCount')
-  final int pendingCount;
+  final int? pendingCount;
 
   /// The platform version on which your tasks in the service are running. A
   /// platform version is only specified for tasks using the Fargate launch type.
@@ -7165,8 +7625,7 @@ class Deployment {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// <note>
   /// The <code>rolloutState</code> of a service is only returned for services
@@ -7180,17 +7639,14 @@ class Deployment {
   /// enabled, the deployment will transition to a <code>FAILED</code> state. A
   /// deployment in <code>FAILED</code> state will launch no new tasks. For more
   /// information, see <a>DeploymentCircuitBreaker</a>.
-  @_s.JsonKey(name: 'rolloutState')
-  final DeploymentRolloutState rolloutState;
+  final DeploymentRolloutState? rolloutState;
 
   /// A description of the rollout state of a deployment.
-  @_s.JsonKey(name: 'rolloutStateReason')
-  final String rolloutStateReason;
+  final String? rolloutStateReason;
 
   /// The number of tasks in the deployment that are in the <code>RUNNING</code>
   /// status.
-  @_s.JsonKey(name: 'runningCount')
-  final int runningCount;
+  final int? runningCount;
 
   /// The status of the deployment. The following describes each state:
   /// <dl> <dt>PRIMARY</dt> <dd>
@@ -7201,18 +7657,14 @@ class Deployment {
   /// </dd> <dt>INACTIVE</dt> <dd>
   /// A deployment that has been completely replaced.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The most recent task definition that was specified for the tasks in the
   /// service to use.
-  @_s.JsonKey(name: 'taskDefinition')
-  final String taskDefinition;
+  final String? taskDefinition;
 
   /// The Unix timestamp for when the service deployment was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   Deployment({
     this.capacityProviderStrategy,
@@ -7231,8 +7683,33 @@ class Deployment {
     this.taskDefinition,
     this.updatedAt,
   });
-  factory Deployment.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentFromJson(json);
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      capacityProviderStrategy: (json['capacityProviderStrategy'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: timeStampFromJson(json['createdAt']),
+      desiredCount: json['desiredCount'] as int?,
+      failedTasks: json['failedTasks'] as int?,
+      id: json['id'] as String?,
+      launchType: (json['launchType'] as String?)?.toLaunchType(),
+      networkConfiguration: json['networkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      pendingCount: json['pendingCount'] as int?,
+      platformVersion: json['platformVersion'] as String?,
+      rolloutState:
+          (json['rolloutState'] as String?)?.toDeploymentRolloutState(),
+      rolloutStateReason: json['rolloutStateReason'] as String?,
+      runningCount: json['runningCount'] as int?,
+      status: json['status'] as String?,
+      taskDefinition: json['taskDefinition'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
 }
 
 /// <note>
@@ -7247,40 +7724,39 @@ class Deployment {
 /// last completed deployment after a failure. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html">Rolling
 /// update</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentCircuitBreaker {
   /// Whether to enable the deployment circuit breaker logic for the service.
-  @_s.JsonKey(name: 'enable')
   final bool enable;
 
   /// Whether to enable Amazon ECS to roll back the service if a service
   /// deployment fails. If rollback is enabled, when a service deployment fails,
   /// the service is rolled back to the last deployment that completed
   /// successfully.
-  @_s.JsonKey(name: 'rollback')
   final bool rollback;
 
   DeploymentCircuitBreaker({
-    @_s.required this.enable,
-    @_s.required this.rollback,
+    required this.enable,
+    required this.rollback,
   });
-  factory DeploymentCircuitBreaker.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentCircuitBreakerFromJson(json);
+  factory DeploymentCircuitBreaker.fromJson(Map<String, dynamic> json) {
+    return DeploymentCircuitBreaker(
+      enable: json['enable'] as bool,
+      rollback: json['rollback'] as bool,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeploymentCircuitBreakerToJson(this);
+  Map<String, dynamic> toJson() {
+    final enable = this.enable;
+    final rollback = this.rollback;
+    return {
+      'enable': enable,
+      'rollback': rollback,
+    };
+  }
 }
 
 /// Optional deployment parameters that control how many tasks run during a
 /// deployment and the ordering of stopping and starting tasks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentConfiguration {
   /// <note>
   /// The deployment circuit breaker can only be used for services using the
@@ -7292,8 +7768,7 @@ class DeploymentConfiguration {
   /// to a failed state and stop launching new tasks. If rollback is enabled, when
   /// a service deployment fails, the service is rolled back to the last
   /// deployment that completed successfully.
-  @_s.JsonKey(name: 'deploymentCircuitBreaker')
-  final DeploymentCircuitBreaker deploymentCircuitBreaker;
+  final DeploymentCircuitBreaker? deploymentCircuitBreaker;
 
   /// If a service is using the rolling update (<code>ECS</code>) deployment type,
   /// the <b>maximum percent</b> parameter represents an upper limit on the number
@@ -7316,8 +7791,7 @@ class DeploymentConfiguration {
   /// are in the <code>DRAINING</code> state. If the tasks in the service use the
   /// Fargate launch type, the maximum percent value is not used, although it is
   /// returned when describing your service.
-  @_s.JsonKey(name: 'maximumPercent')
-  final int maximumPercent;
+  final int? maximumPercent;
 
   /// If a service is using the rolling update (<code>ECS</code>) deployment type,
   /// the <b>minimum healthy percent</b> represents a lower limit on the number of
@@ -7343,18 +7817,36 @@ class DeploymentConfiguration {
   /// instances are in the <code>DRAINING</code> state. If the tasks in the
   /// service use the Fargate launch type, the minimum healthy percent value is
   /// not used, although it is returned when describing your service.
-  @_s.JsonKey(name: 'minimumHealthyPercent')
-  final int minimumHealthyPercent;
+  final int? minimumHealthyPercent;
 
   DeploymentConfiguration({
     this.deploymentCircuitBreaker,
     this.maximumPercent,
     this.minimumHealthyPercent,
   });
-  factory DeploymentConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentConfigurationFromJson(json);
+  factory DeploymentConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeploymentConfiguration(
+      deploymentCircuitBreaker: json['deploymentCircuitBreaker'] != null
+          ? DeploymentCircuitBreaker.fromJson(
+              json['deploymentCircuitBreaker'] as Map<String, dynamic>)
+          : null,
+      maximumPercent: json['maximumPercent'] as int?,
+      minimumHealthyPercent: json['minimumHealthyPercent'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeploymentConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final deploymentCircuitBreaker = this.deploymentCircuitBreaker;
+    final maximumPercent = this.maximumPercent;
+    final minimumHealthyPercent = this.minimumHealthyPercent;
+    return {
+      if (deploymentCircuitBreaker != null)
+        'deploymentCircuitBreaker': deploymentCircuitBreaker,
+      if (maximumPercent != null) 'maximumPercent': maximumPercent,
+      if (minimumHealthyPercent != null)
+        'minimumHealthyPercent': minimumHealthyPercent,
+    };
+  }
 }
 
 /// The deployment controller to use for the service. For more information, see
@@ -7362,11 +7854,6 @@ class DeploymentConfiguration {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
 /// ECS Deployment Types</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentController {
   /// The deployment controller type to use.
   ///
@@ -7388,85 +7875,132 @@ class DeploymentController {
   /// third-party deployment controller for full control over the deployment
   /// process for an Amazon ECS service.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'type')
   final DeploymentControllerType type;
 
   DeploymentController({
-    @_s.required this.type,
+    required this.type,
   });
-  factory DeploymentController.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentControllerFromJson(json);
+  factory DeploymentController.fromJson(Map<String, dynamic> json) {
+    return DeploymentController(
+      type: (json['type'] as String).toDeploymentControllerType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeploymentControllerToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum DeploymentControllerType {
-  @_s.JsonValue('ECS')
   ecs,
-  @_s.JsonValue('CODE_DEPLOY')
   codeDeploy,
-  @_s.JsonValue('EXTERNAL')
   external,
 }
 
+extension on DeploymentControllerType {
+  String toValue() {
+    switch (this) {
+      case DeploymentControllerType.ecs:
+        return 'ECS';
+      case DeploymentControllerType.codeDeploy:
+        return 'CODE_DEPLOY';
+      case DeploymentControllerType.external:
+        return 'EXTERNAL';
+    }
+  }
+}
+
+extension on String {
+  DeploymentControllerType toDeploymentControllerType() {
+    switch (this) {
+      case 'ECS':
+        return DeploymentControllerType.ecs;
+      case 'CODE_DEPLOY':
+        return DeploymentControllerType.codeDeploy;
+      case 'EXTERNAL':
+        return DeploymentControllerType.external;
+    }
+    throw Exception('$this is not known in enum DeploymentControllerType');
+  }
+}
+
 enum DeploymentRolloutState {
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DeploymentRolloutState {
+  String toValue() {
+    switch (this) {
+      case DeploymentRolloutState.completed:
+        return 'COMPLETED';
+      case DeploymentRolloutState.failed:
+        return 'FAILED';
+      case DeploymentRolloutState.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  DeploymentRolloutState toDeploymentRolloutState() {
+    switch (this) {
+      case 'COMPLETED':
+        return DeploymentRolloutState.completed;
+      case 'FAILED':
+        return DeploymentRolloutState.failed;
+      case 'IN_PROGRESS':
+        return DeploymentRolloutState.inProgress;
+    }
+    throw Exception('$this is not known in enum DeploymentRolloutState');
+  }
+}
+
 class DeregisterContainerInstanceResponse {
   /// The container instance that was deregistered.
-  @_s.JsonKey(name: 'containerInstance')
-  final ContainerInstance containerInstance;
+  final ContainerInstance? containerInstance;
 
   DeregisterContainerInstanceResponse({
     this.containerInstance,
   });
   factory DeregisterContainerInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterContainerInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeregisterContainerInstanceResponse(
+      containerInstance: json['containerInstance'] != null
+          ? ContainerInstance.fromJson(
+              json['containerInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterTaskDefinitionResponse {
   /// The full description of the deregistered task.
-  @_s.JsonKey(name: 'taskDefinition')
-  final TaskDefinition taskDefinition;
+  final TaskDefinition? taskDefinition;
 
   DeregisterTaskDefinitionResponse({
     this.taskDefinition,
   });
-  factory DeregisterTaskDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterTaskDefinitionResponseFromJson(json);
+  factory DeregisterTaskDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return DeregisterTaskDefinitionResponse(
+      taskDefinition: json['taskDefinition'] != null
+          ? TaskDefinition.fromJson(
+              json['taskDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCapacityProvidersResponse {
   /// The list of capacity providers.
-  @_s.JsonKey(name: 'capacityProviders')
-  final List<CapacityProvider> capacityProviders;
+  final List<CapacityProvider>? capacityProviders;
 
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeCapacityProviders</code> request. When the results of a
@@ -7474,8 +8008,7 @@ class DescribeCapacityProvidersResponse {
   /// <code>maxResults</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeCapacityProvidersResponse({
     this.capacityProviders,
@@ -7483,82 +8016,97 @@ class DescribeCapacityProvidersResponse {
     this.nextToken,
   });
   factory DescribeCapacityProvidersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCapacityProvidersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCapacityProvidersResponse(
+      capacityProviders: (json['capacityProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => CapacityProvider.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClustersResponse {
   /// The list of clusters.
-  @_s.JsonKey(name: 'clusters')
-  final List<Cluster> clusters;
+  final List<Cluster>? clusters;
 
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   DescribeClustersResponse({
     this.clusters,
     this.failures,
   });
-  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClustersResponseFromJson(json);
+  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClustersResponse(
+      clusters: (json['clusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContainerInstancesResponse {
   /// The list of container instances.
-  @_s.JsonKey(name: 'containerInstances')
-  final List<ContainerInstance> containerInstances;
+  final List<ContainerInstance>? containerInstances;
 
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   DescribeContainerInstancesResponse({
     this.containerInstances,
     this.failures,
   });
   factory DescribeContainerInstancesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeContainerInstancesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeContainerInstancesResponse(
+      containerInstances: (json['containerInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContainerInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServicesResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// The list of services described.
-  @_s.JsonKey(name: 'services')
-  final List<Service> services;
+  final List<Service>? services;
 
   DescribeServicesResponse({
     this.failures,
     this.services,
   });
-  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServicesResponseFromJson(json);
+  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeServicesResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      services: (json['services'] as List?)
+          ?.whereNotNull()
+          .map((e) => Service.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTaskDefinitionResponse {
   /// The metadata that is applied to the task definition to help you categorize
   /// and organize them. Each tag consists of a key and an optional value, both of
@@ -7596,71 +8144,82 @@ class DescribeTaskDefinitionResponse {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The full task definition description.
-  @_s.JsonKey(name: 'taskDefinition')
-  final TaskDefinition taskDefinition;
+  final TaskDefinition? taskDefinition;
 
   DescribeTaskDefinitionResponse({
     this.tags,
     this.taskDefinition,
   });
-  factory DescribeTaskDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTaskDefinitionResponseFromJson(json);
+  factory DescribeTaskDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTaskDefinitionResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskDefinition: json['taskDefinition'] != null
+          ? TaskDefinition.fromJson(
+              json['taskDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTaskSetsResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// The list of task sets described.
-  @_s.JsonKey(name: 'taskSets')
-  final List<TaskSet> taskSets;
+  final List<TaskSet>? taskSets;
 
   DescribeTaskSetsResponse({
     this.failures,
     this.taskSets,
   });
-  factory DescribeTaskSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTaskSetsResponseFromJson(json);
+  factory DescribeTaskSetsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTaskSetsResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskSets: (json['taskSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => TaskSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTasksResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// The list of tasks.
-  @_s.JsonKey(name: 'tasks')
-  final List<Task> tasks;
+  final List<Task>? tasks;
 
   DescribeTasksResponse({
     this.failures,
     this.tasks,
   });
-  factory DescribeTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTasksResponseFromJson(json);
+  factory DescribeTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTasksResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum DesiredStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
@@ -7674,89 +8233,128 @@ extension on DesiredStatus {
       case DesiredStatus.stopped:
         return 'STOPPED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DesiredStatus toDesiredStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return DesiredStatus.running;
+      case 'PENDING':
+        return DesiredStatus.pending;
+      case 'STOPPED':
+        return DesiredStatus.stopped;
+    }
+    throw Exception('$this is not known in enum DesiredStatus');
   }
 }
 
 /// An object representing a container instance host device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Device {
   /// The path for the device on the host container instance.
-  @_s.JsonKey(name: 'hostPath')
   final String hostPath;
 
   /// The path inside the container at which to expose the host device.
-  @_s.JsonKey(name: 'containerPath')
-  final String containerPath;
+  final String? containerPath;
 
   /// The explicit permissions to provide to the container for the device. By
   /// default, the container has permissions for <code>read</code>,
   /// <code>write</code>, and <code>mknod</code> for the device.
-  @_s.JsonKey(name: 'permissions')
-  final List<DeviceCgroupPermission> permissions;
+  final List<DeviceCgroupPermission>? permissions;
 
   Device({
-    @_s.required this.hostPath,
+    required this.hostPath,
     this.containerPath,
     this.permissions,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      hostPath: json['hostPath'] as String,
+      containerPath: json['containerPath'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDeviceCgroupPermission())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeviceToJson(this);
+  Map<String, dynamic> toJson() {
+    final hostPath = this.hostPath;
+    final containerPath = this.containerPath;
+    final permissions = this.permissions;
+    return {
+      'hostPath': hostPath,
+      if (containerPath != null) 'containerPath': containerPath,
+      if (permissions != null)
+        'permissions': permissions.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum DeviceCgroupPermission {
-  @_s.JsonValue('read')
   read,
-  @_s.JsonValue('write')
   write,
-  @_s.JsonValue('mknod')
   mknod,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DeviceCgroupPermission {
+  String toValue() {
+    switch (this) {
+      case DeviceCgroupPermission.read:
+        return 'read';
+      case DeviceCgroupPermission.write:
+        return 'write';
+      case DeviceCgroupPermission.mknod:
+        return 'mknod';
+    }
+  }
+}
+
+extension on String {
+  DeviceCgroupPermission toDeviceCgroupPermission() {
+    switch (this) {
+      case 'read':
+        return DeviceCgroupPermission.read;
+      case 'write':
+        return DeviceCgroupPermission.write;
+      case 'mknod':
+        return DeviceCgroupPermission.mknod;
+    }
+    throw Exception('$this is not known in enum DeviceCgroupPermission');
+  }
+}
+
 class DiscoverPollEndpointResponse {
   /// The endpoint for the Amazon ECS agent to poll.
-  @_s.JsonKey(name: 'endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// The telemetry endpoint for the Amazon ECS agent.
-  @_s.JsonKey(name: 'telemetryEndpoint')
-  final String telemetryEndpoint;
+  final String? telemetryEndpoint;
 
   DiscoverPollEndpointResponse({
     this.endpoint,
     this.telemetryEndpoint,
   });
-  factory DiscoverPollEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DiscoverPollEndpointResponseFromJson(json);
+  factory DiscoverPollEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DiscoverPollEndpointResponse(
+      endpoint: json['endpoint'] as String?,
+      telemetryEndpoint: json['telemetryEndpoint'] as String?,
+    );
+  }
 }
 
 /// This parameter is specified when you are using Docker volumes. Docker
 /// volumes are only supported when you are using the EC2 launch type. Windows
 /// containers only support the use of the <code>local</code> driver. To use
 /// bind mounts, specify a <code>host</code> instead.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DockerVolumeConfiguration {
   /// If this value is <code>true</code>, the Docker volume is created if it does
   /// not already exist.
   /// <note>
   /// This field is only used if the <code>scope</code> is <code>shared</code>.
   /// </note>
-  @_s.JsonKey(name: 'autoprovision')
-  final bool autoprovision;
+  final bool? autoprovision;
 
   /// The Docker volume driver to use. The driver value must match the driver name
   /// provided by Docker because it is used for task placement. If the driver was
@@ -7772,8 +8370,7 @@ class DockerVolumeConfiguration {
   /// the <code>xxdriver</code> option to <a
   /// href="https://docs.docker.com/engine/reference/commandline/volume_create/">docker
   /// volume create</a>.
-  @_s.JsonKey(name: 'driver')
-  final String driver;
+  final String? driver;
 
   /// A map of Docker driver-specific options passed through. This parameter maps
   /// to <code>DriverOpts</code> in the <a
@@ -7783,8 +8380,7 @@ class DockerVolumeConfiguration {
   /// the <code>xxopt</code> option to <a
   /// href="https://docs.docker.com/engine/reference/commandline/volume_create/">docker
   /// volume create</a>.
-  @_s.JsonKey(name: 'driverOpts')
-  final Map<String, String> driverOpts;
+  final Map<String, String>? driverOpts;
 
   /// Custom metadata to add to your Docker volume. This parameter maps to
   /// <code>Labels</code> in the <a
@@ -7794,15 +8390,13 @@ class DockerVolumeConfiguration {
   /// the <code>xxlabel</code> option to <a
   /// href="https://docs.docker.com/engine/reference/commandline/volume_create/">docker
   /// volume create</a>.
-  @_s.JsonKey(name: 'labels')
-  final Map<String, String> labels;
+  final Map<String, String>? labels;
 
   /// The scope for the Docker volume that determines its lifecycle. Docker
   /// volumes that are scoped to a <code>task</code> are automatically provisioned
   /// when the task starts and destroyed when the task stops. Docker volumes that
   /// are scoped as <code>shared</code> persist after the task stops.
-  @_s.JsonKey(name: 'scope')
-  final Scope scope;
+  final Scope? scope;
 
   DockerVolumeConfiguration({
     this.autoprovision,
@@ -7811,18 +8405,35 @@ class DockerVolumeConfiguration {
     this.labels,
     this.scope,
   });
-  factory DockerVolumeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DockerVolumeConfigurationFromJson(json);
+  factory DockerVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return DockerVolumeConfiguration(
+      autoprovision: json['autoprovision'] as bool?,
+      driver: json['driver'] as String?,
+      driverOpts: (json['driverOpts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      labels: (json['labels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      scope: (json['scope'] as String?)?.toScope(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DockerVolumeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoprovision = this.autoprovision;
+    final driver = this.driver;
+    final driverOpts = this.driverOpts;
+    final labels = this.labels;
+    final scope = this.scope;
+    return {
+      if (autoprovision != null) 'autoprovision': autoprovision,
+      if (driver != null) 'driver': driver,
+      if (driverOpts != null) 'driverOpts': driverOpts,
+      if (labels != null) 'labels': labels,
+      if (scope != null) 'scope': scope.toValue(),
+    };
+  }
 }
 
 /// The authorization configuration details for the Amazon EFS file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EFSAuthorizationConfig {
   /// The Amazon EFS access point ID to use. If an access point is specified, the
   /// root directory value specified in the <code>EFSVolumeConfiguration</code>
@@ -7833,8 +8444,7 @@ class EFSAuthorizationConfig {
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Working
   /// with Amazon EFS Access Points</a> in the <i>Amazon Elastic File System User
   /// Guide</i>.
-  @_s.JsonKey(name: 'accessPointId')
-  final String accessPointId;
+  final String? accessPointId;
 
   /// Whether or not to use the Amazon ECS task IAM role defined in a task
   /// definition when mounting the Amazon EFS file system. If enabled, transit
@@ -7844,31 +8454,83 @@ class EFSAuthorizationConfig {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html#efs-volume-accesspoints">Using
   /// Amazon EFS Access Points</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'iam')
-  final EFSAuthorizationConfigIAM iam;
+  final EFSAuthorizationConfigIAM? iam;
 
   EFSAuthorizationConfig({
     this.accessPointId,
     this.iam,
   });
-  factory EFSAuthorizationConfig.fromJson(Map<String, dynamic> json) =>
-      _$EFSAuthorizationConfigFromJson(json);
+  factory EFSAuthorizationConfig.fromJson(Map<String, dynamic> json) {
+    return EFSAuthorizationConfig(
+      accessPointId: json['accessPointId'] as String?,
+      iam: (json['iam'] as String?)?.toEFSAuthorizationConfigIAM(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EFSAuthorizationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessPointId = this.accessPointId;
+    final iam = this.iam;
+    return {
+      if (accessPointId != null) 'accessPointId': accessPointId,
+      if (iam != null) 'iam': iam.toValue(),
+    };
+  }
 }
 
 enum EFSAuthorizationConfigIAM {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on EFSAuthorizationConfigIAM {
+  String toValue() {
+    switch (this) {
+      case EFSAuthorizationConfigIAM.enabled:
+        return 'ENABLED';
+      case EFSAuthorizationConfigIAM.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  EFSAuthorizationConfigIAM toEFSAuthorizationConfigIAM() {
+    switch (this) {
+      case 'ENABLED':
+        return EFSAuthorizationConfigIAM.enabled;
+      case 'DISABLED':
+        return EFSAuthorizationConfigIAM.disabled;
+    }
+    throw Exception('$this is not known in enum EFSAuthorizationConfigIAM');
+  }
+}
+
 enum EFSTransitEncryption {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on EFSTransitEncryption {
+  String toValue() {
+    switch (this) {
+      case EFSTransitEncryption.enabled:
+        return 'ENABLED';
+      case EFSTransitEncryption.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  EFSTransitEncryption toEFSTransitEncryption() {
+    switch (this) {
+      case 'ENABLED':
+        return EFSTransitEncryption.enabled;
+      case 'DISABLED':
+        return EFSTransitEncryption.disabled;
+    }
+    throw Exception('$this is not known in enum EFSTransitEncryption');
+  }
 }
 
 /// This parameter is specified when you are using an Amazon Elastic File System
@@ -7876,19 +8538,12 @@ enum EFSTransitEncryption {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html">Amazon
 /// EFS Volumes</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EFSVolumeConfiguration {
   /// The Amazon EFS file system ID to use.
-  @_s.JsonKey(name: 'fileSystemId')
   final String fileSystemId;
 
   /// The authorization configuration details for the Amazon EFS file system.
-  @_s.JsonKey(name: 'authorizationConfig')
-  final EFSAuthorizationConfig authorizationConfig;
+  final EFSAuthorizationConfig? authorizationConfig;
 
   /// The directory within the Amazon EFS file system to mount as the root
   /// directory inside the host. If this parameter is omitted, the root of the
@@ -7899,8 +8554,7 @@ class EFSVolumeConfiguration {
   /// the root directory parameter must either be omitted or set to <code>/</code>
   /// which will enforce the path set on the EFS access point.
   /// </important>
-  @_s.JsonKey(name: 'rootDirectory')
-  final String rootDirectory;
+  final String? rootDirectory;
 
   /// Whether or not to enable encryption for Amazon EFS data in transit between
   /// the Amazon ECS host and the Amazon EFS server. Transit encryption must be
@@ -7909,8 +8563,7 @@ class EFSVolumeConfiguration {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html">Encrypting
   /// Data in Transit</a> in the <i>Amazon Elastic File System User Guide</i>.
-  @_s.JsonKey(name: 'transitEncryption')
-  final EFSTransitEncryption transitEncryption;
+  final EFSTransitEncryption? transitEncryption;
 
   /// The port to use when sending encrypted data between the Amazon ECS host and
   /// the Amazon EFS server. If you do not specify a transit encryption port, it
@@ -7918,20 +8571,46 @@ class EFSVolumeConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html">EFS
   /// Mount Helper</a> in the <i>Amazon Elastic File System User Guide</i>.
-  @_s.JsonKey(name: 'transitEncryptionPort')
-  final int transitEncryptionPort;
+  final int? transitEncryptionPort;
 
   EFSVolumeConfiguration({
-    @_s.required this.fileSystemId,
+    required this.fileSystemId,
     this.authorizationConfig,
     this.rootDirectory,
     this.transitEncryption,
     this.transitEncryptionPort,
   });
-  factory EFSVolumeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EFSVolumeConfigurationFromJson(json);
+  factory EFSVolumeConfiguration.fromJson(Map<String, dynamic> json) {
+    return EFSVolumeConfiguration(
+      fileSystemId: json['fileSystemId'] as String,
+      authorizationConfig: json['authorizationConfig'] != null
+          ? EFSAuthorizationConfig.fromJson(
+              json['authorizationConfig'] as Map<String, dynamic>)
+          : null,
+      rootDirectory: json['rootDirectory'] as String?,
+      transitEncryption:
+          (json['transitEncryption'] as String?)?.toEFSTransitEncryption(),
+      transitEncryptionPort: json['transitEncryptionPort'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EFSVolumeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final authorizationConfig = this.authorizationConfig;
+    final rootDirectory = this.rootDirectory;
+    final transitEncryption = this.transitEncryption;
+    final transitEncryptionPort = this.transitEncryptionPort;
+    return {
+      'fileSystemId': fileSystemId,
+      if (authorizationConfig != null)
+        'authorizationConfig': authorizationConfig,
+      if (rootDirectory != null) 'rootDirectory': rootDirectory,
+      if (transitEncryption != null)
+        'transitEncryption': transitEncryption.toValue(),
+      if (transitEncryptionPort != null)
+        'transitEncryptionPort': transitEncryptionPort,
+    };
+  }
 }
 
 /// A list of files containing the environment variables to pass to a container.
@@ -7955,34 +8634,56 @@ class EFSVolumeConfiguration {
 ///
 /// This field is not valid for containers in tasks using the Fargate launch
 /// type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EnvironmentFile {
   /// The file type to use. The only supported value is <code>s3</code>.
-  @_s.JsonKey(name: 'type')
   final EnvironmentFileType type;
 
   /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the
   /// environment variable file.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   EnvironmentFile({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory EnvironmentFile.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentFileFromJson(json);
+  factory EnvironmentFile.fromJson(Map<String, dynamic> json) {
+    return EnvironmentFile(
+      type: (json['type'] as String).toEnvironmentFileType(),
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EnvironmentFileToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'type': type.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum EnvironmentFileType {
-  @_s.JsonValue('s3')
   s3,
+}
+
+extension on EnvironmentFileType {
+  String toValue() {
+    switch (this) {
+      case EnvironmentFileType.s3:
+        return 's3';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentFileType toEnvironmentFileType() {
+    switch (this) {
+      case 's3':
+        return EnvironmentFileType.s3;
+    }
+    throw Exception('$this is not known in enum EnvironmentFileType');
+  }
 }
 
 /// The authorization configuration details for Amazon FSx for Windows File
@@ -7994,36 +8695,39 @@ enum EnvironmentFileType {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
 /// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FSxWindowsFileServerAuthorizationConfig {
   /// The authorization credential option to use. The authorization credential
   /// options can be provided using either the Amazon Resource Name (ARN) of an
   /// AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter.
   /// The ARNs refer to the stored credentials.
-  @_s.JsonKey(name: 'credentialsParameter')
   final String credentialsParameter;
 
   /// A fully qualified domain name hosted by an <a
   /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">AWS
   /// Directory Service</a> Managed Microsoft AD (Active Directory) or self-hosted
   /// AD on Amazon EC2.
-  @_s.JsonKey(name: 'domain')
   final String domain;
 
   FSxWindowsFileServerAuthorizationConfig({
-    @_s.required this.credentialsParameter,
-    @_s.required this.domain,
+    required this.credentialsParameter,
+    required this.domain,
   });
   factory FSxWindowsFileServerAuthorizationConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$FSxWindowsFileServerAuthorizationConfigFromJson(json);
+      Map<String, dynamic> json) {
+    return FSxWindowsFileServerAuthorizationConfig(
+      credentialsParameter: json['credentialsParameter'] as String,
+      domain: json['domain'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$FSxWindowsFileServerAuthorizationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final credentialsParameter = this.credentialsParameter;
+    final domain = this.domain;
+    return {
+      'credentialsParameter': credentialsParameter,
+      'domain': domain,
+    };
+  }
 }
 
 /// This parameter is specified when you are using <a
@@ -8034,68 +8738,71 @@ class FSxWindowsFileServerAuthorizationConfig {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
 /// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FSxWindowsFileServerVolumeConfiguration {
   /// The authorization configuration details for the Amazon FSx for Windows File
   /// Server file system.
-  @_s.JsonKey(name: 'authorizationConfig')
   final FSxWindowsFileServerAuthorizationConfig authorizationConfig;
 
   /// The Amazon FSx for Windows File Server file system ID to use.
-  @_s.JsonKey(name: 'fileSystemId')
   final String fileSystemId;
 
   /// The directory within the Amazon FSx for Windows File Server file system to
   /// mount as the root directory inside the host.
-  @_s.JsonKey(name: 'rootDirectory')
   final String rootDirectory;
 
   FSxWindowsFileServerVolumeConfiguration({
-    @_s.required this.authorizationConfig,
-    @_s.required this.fileSystemId,
-    @_s.required this.rootDirectory,
+    required this.authorizationConfig,
+    required this.fileSystemId,
+    required this.rootDirectory,
   });
   factory FSxWindowsFileServerVolumeConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$FSxWindowsFileServerVolumeConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return FSxWindowsFileServerVolumeConfiguration(
+      authorizationConfig: FSxWindowsFileServerAuthorizationConfig.fromJson(
+          json['authorizationConfig'] as Map<String, dynamic>),
+      fileSystemId: json['fileSystemId'] as String,
+      rootDirectory: json['rootDirectory'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$FSxWindowsFileServerVolumeConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final authorizationConfig = this.authorizationConfig;
+    final fileSystemId = this.fileSystemId;
+    final rootDirectory = this.rootDirectory;
+    return {
+      'authorizationConfig': authorizationConfig,
+      'fileSystemId': fileSystemId,
+      'rootDirectory': rootDirectory,
+    };
+  }
 }
 
 /// A failed resource. For a list of common causes, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
 /// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Failure {
   /// The Amazon Resource Name (ARN) of the failed resource.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The details of the failure.
-  @_s.JsonKey(name: 'detail')
-  final String detail;
+  final String? detail;
 
   /// The reason for the failure.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   Failure({
     this.arn,
     this.detail,
     this.reason,
   });
-  factory Failure.fromJson(Map<String, dynamic> json) =>
-      _$FailureFromJson(json);
+  factory Failure.fromJson(Map<String, dynamic> json) {
+    return Failure(
+      arn: json['arn'] as String?,
+      detail: json['detail'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
 }
 
 /// The FireLens configuration for the container. This is used to specify and
@@ -8103,15 +8810,9 @@ class Failure {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
 /// Log Routing</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FirelensConfiguration {
   /// The log router to use. The valid values are <code>fluentd</code> or
   /// <code>fluentbit</code>.
-  @_s.JsonKey(name: 'type')
   final FirelensConfigurationType type;
 
   /// The options to use when configuring the log router. This field is optional
@@ -8123,24 +8824,56 @@ class FirelensConfiguration {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html#firelens-taskdef">Creating
   /// a Task Definition that Uses a FireLens Configuration</a> in the <i>Amazon
   /// Elastic Container Service Developer Guide</i>.
-  @_s.JsonKey(name: 'options')
-  final Map<String, String> options;
+  final Map<String, String>? options;
 
   FirelensConfiguration({
-    @_s.required this.type,
+    required this.type,
     this.options,
   });
-  factory FirelensConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FirelensConfigurationFromJson(json);
+  factory FirelensConfiguration.fromJson(Map<String, dynamic> json) {
+    return FirelensConfiguration(
+      type: (json['type'] as String).toFirelensConfigurationType(),
+      options: (json['options'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FirelensConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final options = this.options;
+    return {
+      'type': type.toValue(),
+      if (options != null) 'options': options,
+    };
+  }
 }
 
 enum FirelensConfigurationType {
-  @_s.JsonValue('fluentd')
   fluentd,
-  @_s.JsonValue('fluentbit')
   fluentbit,
+}
+
+extension on FirelensConfigurationType {
+  String toValue() {
+    switch (this) {
+      case FirelensConfigurationType.fluentd:
+        return 'fluentd';
+      case FirelensConfigurationType.fluentbit:
+        return 'fluentbit';
+    }
+  }
+}
+
+extension on String {
+  FirelensConfigurationType toFirelensConfigurationType() {
+    switch (this) {
+      case 'fluentd':
+        return FirelensConfigurationType.fluentd;
+      case 'fluentbit':
+        return FirelensConfigurationType.fluentbit;
+    }
+    throw Exception('$this is not known in enum FirelensConfigurationType');
+  }
 }
 
 /// An object representing a container health check. Health check parameters
@@ -8211,11 +8944,6 @@ enum FirelensConfigurationType {
 /// service that is configured to use a Classic Load Balancer.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HealthCheck {
   /// A string array representing the command that the container runs to determine
   /// if it is healthy. The string array must start with <code>CMD</code> to
@@ -8229,19 +8957,16 @@ class HealthCheck {
   /// href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a>.
-  @_s.JsonKey(name: 'command')
   final List<String> command;
 
   /// The time period in seconds between each health check execution. You may
   /// specify between 5 and 300 seconds. The default value is 30 seconds.
-  @_s.JsonKey(name: 'interval')
-  final int interval;
+  final int? interval;
 
   /// The number of times to retry a failed health check before the container is
   /// considered unhealthy. You may specify between 1 and 10 retries. The default
   /// value is 3.
-  @_s.JsonKey(name: 'retries')
-  final int retries;
+  final int? retries;
 
   /// The optional grace period within which to provide containers time to
   /// bootstrap before failed health checks count towards the maximum number of
@@ -8252,70 +8977,114 @@ class HealthCheck {
   /// container is considered healthy and any subsequent failures count toward the
   /// maximum number of retries.
   /// </note>
-  @_s.JsonKey(name: 'startPeriod')
-  final int startPeriod;
+  final int? startPeriod;
 
   /// The time period in seconds to wait for a health check to succeed before it
   /// is considered a failure. You may specify between 2 and 60 seconds. The
   /// default value is 5.
-  @_s.JsonKey(name: 'timeout')
-  final int timeout;
+  final int? timeout;
 
   HealthCheck({
-    @_s.required this.command,
+    required this.command,
     this.interval,
     this.retries,
     this.startPeriod,
     this.timeout,
   });
-  factory HealthCheck.fromJson(Map<String, dynamic> json) =>
-      _$HealthCheckFromJson(json);
+  factory HealthCheck.fromJson(Map<String, dynamic> json) {
+    return HealthCheck(
+      command: (json['command'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      interval: json['interval'] as int?,
+      retries: json['retries'] as int?,
+      startPeriod: json['startPeriod'] as int?,
+      timeout: json['timeout'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HealthCheckToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final interval = this.interval;
+    final retries = this.retries;
+    final startPeriod = this.startPeriod;
+    final timeout = this.timeout;
+    return {
+      'command': command,
+      if (interval != null) 'interval': interval,
+      if (retries != null) 'retries': retries,
+      if (startPeriod != null) 'startPeriod': startPeriod,
+      if (timeout != null) 'timeout': timeout,
+    };
+  }
 }
 
 enum HealthStatus {
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('UNKNOWN')
   unknown,
+}
+
+extension on HealthStatus {
+  String toValue() {
+    switch (this) {
+      case HealthStatus.healthy:
+        return 'HEALTHY';
+      case HealthStatus.unhealthy:
+        return 'UNHEALTHY';
+      case HealthStatus.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  HealthStatus toHealthStatus() {
+    switch (this) {
+      case 'HEALTHY':
+        return HealthStatus.healthy;
+      case 'UNHEALTHY':
+        return HealthStatus.unhealthy;
+      case 'UNKNOWN':
+        return HealthStatus.unknown;
+    }
+    throw Exception('$this is not known in enum HealthStatus');
+  }
 }
 
 /// Hostnames and IP address entries that are added to the
 /// <code>/etc/hosts</code> file of a container via the <code>extraHosts</code>
 /// parameter of its <a>ContainerDefinition</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HostEntry {
   /// The hostname to use in the <code>/etc/hosts</code> entry.
-  @_s.JsonKey(name: 'hostname')
   final String hostname;
 
   /// The IP address to use in the <code>/etc/hosts</code> entry.
-  @_s.JsonKey(name: 'ipAddress')
   final String ipAddress;
 
   HostEntry({
-    @_s.required this.hostname,
-    @_s.required this.ipAddress,
+    required this.hostname,
+    required this.ipAddress,
   });
-  factory HostEntry.fromJson(Map<String, dynamic> json) =>
-      _$HostEntryFromJson(json);
+  factory HostEntry.fromJson(Map<String, dynamic> json) {
+    return HostEntry(
+      hostname: json['hostname'] as String,
+      ipAddress: json['ipAddress'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HostEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    final ipAddress = this.ipAddress;
+    return {
+      'hostname': hostname,
+      'ipAddress': ipAddress,
+    };
+  }
 }
 
 /// Details on a container instance bind mount host volume.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HostVolumeProperties {
   /// When the <code>host</code> parameter is used, specify a
   /// <code>sourcePath</code> to declare the path on the host container instance
@@ -8329,46 +9098,57 @@ class HostVolumeProperties {
   ///
   /// If you are using the Fargate launch type, the <code>sourcePath</code>
   /// parameter is not supported.
-  @_s.JsonKey(name: 'sourcePath')
-  final String sourcePath;
+  final String? sourcePath;
 
   HostVolumeProperties({
     this.sourcePath,
   });
-  factory HostVolumeProperties.fromJson(Map<String, dynamic> json) =>
-      _$HostVolumePropertiesFromJson(json);
+  factory HostVolumeProperties.fromJson(Map<String, dynamic> json) {
+    return HostVolumeProperties(
+      sourcePath: json['sourcePath'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HostVolumePropertiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourcePath = this.sourcePath;
+    return {
+      if (sourcePath != null) 'sourcePath': sourcePath,
+    };
+  }
 }
 
 /// Details on a Elastic Inference accelerator. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-eia.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InferenceAccelerator {
   /// The Elastic Inference accelerator device name. The <code>deviceName</code>
   /// must also be referenced in a container definition as a
   /// <a>ResourceRequirement</a>.
-  @_s.JsonKey(name: 'deviceName')
   final String deviceName;
 
   /// The Elastic Inference accelerator type to use.
-  @_s.JsonKey(name: 'deviceType')
   final String deviceType;
 
   InferenceAccelerator({
-    @_s.required this.deviceName,
-    @_s.required this.deviceType,
+    required this.deviceName,
+    required this.deviceType,
   });
-  factory InferenceAccelerator.fromJson(Map<String, dynamic> json) =>
-      _$InferenceAcceleratorFromJson(json);
+  factory InferenceAccelerator.fromJson(Map<String, dynamic> json) {
+    return InferenceAccelerator(
+      deviceName: json['deviceName'] as String,
+      deviceType: json['deviceType'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InferenceAcceleratorToJson(this);
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final deviceType = this.deviceType;
+    return {
+      'deviceName': deviceName,
+      'deviceType': deviceType,
+    };
+  }
 }
 
 /// Details on an Elastic Inference accelerator task override. This parameter is
@@ -8377,38 +9157,39 @@ class InferenceAccelerator {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-eia.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InferenceAcceleratorOverride {
   /// The Elastic Inference accelerator device name to override for the task. This
   /// parameter must match a <code>deviceName</code> specified in the task
   /// definition.
-  @_s.JsonKey(name: 'deviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// The Elastic Inference accelerator type to use.
-  @_s.JsonKey(name: 'deviceType')
-  final String deviceType;
+  final String? deviceType;
 
   InferenceAcceleratorOverride({
     this.deviceName,
     this.deviceType,
   });
-  factory InferenceAcceleratorOverride.fromJson(Map<String, dynamic> json) =>
-      _$InferenceAcceleratorOverrideFromJson(json);
+  factory InferenceAcceleratorOverride.fromJson(Map<String, dynamic> json) {
+    return InferenceAcceleratorOverride(
+      deviceName: json['deviceName'] as String?,
+      deviceType: json['deviceType'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InferenceAcceleratorOverrideToJson(this);
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final deviceType = this.deviceType;
+    return {
+      if (deviceName != null) 'deviceName': deviceName,
+      if (deviceType != null) 'deviceType': deviceType,
+    };
+  }
 }
 
 enum IpcMode {
-  @_s.JsonValue('host')
   host,
-  @_s.JsonValue('task')
   task,
-  @_s.JsonValue('none')
   none,
 }
 
@@ -8422,7 +9203,20 @@ extension on IpcMode {
       case IpcMode.none:
         return 'none';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IpcMode toIpcMode() {
+    switch (this) {
+      case 'host':
+        return IpcMode.host;
+      case 'task':
+        return IpcMode.task;
+      case 'none':
+        return IpcMode.none;
+    }
+    throw Exception('$this is not known in enum IpcMode');
   }
 }
 
@@ -8434,11 +9228,6 @@ extension on IpcMode {
 /// more detailed information on these Linux capabilities, see the <a
 /// href="http://man7.org/linux/man-pages/man7/capabilities.7.html">capabilities(7)</a>
 /// Linux manual page.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KernelCapabilities {
   /// The Linux capabilities for the container that have been added to the default
   /// configuration provided by Docker. This parameter maps to <code>CapAdd</code>
@@ -8461,8 +9250,7 @@ class KernelCapabilities {
   /// "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" |
   /// "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" |
   /// "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"</code>
-  @_s.JsonKey(name: 'add')
-  final List<String> add;
+  final List<String>? add;
 
   /// The Linux capabilities for the container that have been removed from the
   /// default configuration provided by Docker. This parameter maps to
@@ -8482,50 +9270,68 @@ class KernelCapabilities {
   /// "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" |
   /// "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" |
   /// "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"</code>
-  @_s.JsonKey(name: 'drop')
-  final List<String> drop;
+  final List<String>? drop;
 
   KernelCapabilities({
     this.add,
     this.drop,
   });
-  factory KernelCapabilities.fromJson(Map<String, dynamic> json) =>
-      _$KernelCapabilitiesFromJson(json);
+  factory KernelCapabilities.fromJson(Map<String, dynamic> json) {
+    return KernelCapabilities(
+      add: (json['add'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      drop: (json['drop'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KernelCapabilitiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final add = this.add;
+    final drop = this.drop;
+    return {
+      if (add != null) 'add': add,
+      if (drop != null) 'drop': drop,
+    };
+  }
 }
 
 /// A key-value pair object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeyValuePair {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The value of the key-value pair. For environment variables, this is the
   /// value of the environment variable.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   KeyValuePair({
     this.name,
     this.value,
   });
-  factory KeyValuePair.fromJson(Map<String, dynamic> json) =>
-      _$KeyValuePairFromJson(json);
+  factory KeyValuePair.fromJson(Map<String, dynamic> json) {
+    return KeyValuePair(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KeyValuePairToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum LaunchType {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('FARGATE')
   fargate,
 }
 
@@ -8537,17 +9343,23 @@ extension on LaunchType {
       case LaunchType.fargate:
         return 'FARGATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LaunchType toLaunchType() {
+    switch (this) {
+      case 'EC2':
+        return LaunchType.ec2;
+      case 'FARGATE':
+        return LaunchType.fargate;
+    }
+    throw Exception('$this is not known in enum LaunchType');
   }
 }
 
 /// Linux-specific options that are applied to the container, such as Linux
 /// <a>KernelCapabilities</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LinuxParameters {
   /// The Linux capabilities for the container that are added to or dropped from
   /// the default configuration provided by Docker.
@@ -8556,8 +9368,7 @@ class LinuxParameters {
   /// supported for all platform versions but the <code>add</code> parameter is
   /// only supported if using platform version 1.4.0 or later.
   /// </note>
-  @_s.JsonKey(name: 'capabilities')
-  final KernelCapabilities capabilities;
+  final KernelCapabilities? capabilities;
 
   /// Any host devices to expose to the container. This parameter maps to
   /// <code>Devices</code> in the <a
@@ -8571,8 +9382,7 @@ class LinuxParameters {
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>devices</code> parameter is not supported.
   /// </note>
-  @_s.JsonKey(name: 'devices')
-  final List<Device> devices;
+  final List<Device>? devices;
 
   /// Run an <code>init</code> process inside the container that forwards signals
   /// and reaps processes. This parameter maps to the <code>--init</code> option
@@ -8583,8 +9393,7 @@ class LinuxParameters {
   /// on your container instance, log in to your container instance and run the
   /// following command: <code>sudo docker version --format
   /// '{{.Server.APIVersion}}'</code>
-  @_s.JsonKey(name: 'initProcessEnabled')
-  final bool initProcessEnabled;
+  final bool? initProcessEnabled;
 
   /// The total amount of swap memory (in MiB) a container can use. This parameter
   /// will be translated to the <code>--memory-swap</code> option to <a
@@ -8602,8 +9411,7 @@ class LinuxParameters {
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>maxSwap</code> parameter is not supported.
   /// </note>
-  @_s.JsonKey(name: 'maxSwap')
-  final int maxSwap;
+  final int? maxSwap;
 
   /// The value for the size (in MiB) of the <code>/dev/shm</code> volume. This
   /// parameter maps to the <code>--shm-size</code> option to <a
@@ -8613,8 +9421,7 @@ class LinuxParameters {
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>sharedMemorySize</code> parameter is not supported.
   /// </note>
-  @_s.JsonKey(name: 'sharedMemorySize')
-  final int sharedMemorySize;
+  final int? sharedMemorySize;
 
   /// This allows you to tune a container's memory swappiness behavior. A
   /// <code>swappiness</code> value of <code>0</code> will cause swapping to not
@@ -8631,8 +9438,7 @@ class LinuxParameters {
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>swappiness</code> parameter is not supported.
   /// </note>
-  @_s.JsonKey(name: 'swappiness')
-  final int swappiness;
+  final int? swappiness;
 
   /// The container path, mount options, and size (in MiB) of the tmpfs mount.
   /// This parameter maps to the <code>--tmpfs</code> option to <a
@@ -8642,8 +9448,7 @@ class LinuxParameters {
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>tmpfs</code> parameter is not supported.
   /// </note>
-  @_s.JsonKey(name: 'tmpfs')
-  final List<Tmpfs> tmpfs;
+  final List<Tmpfs>? tmpfs;
 
   LinuxParameters({
     this.capabilities,
@@ -8654,172 +9459,201 @@ class LinuxParameters {
     this.swappiness,
     this.tmpfs,
   });
-  factory LinuxParameters.fromJson(Map<String, dynamic> json) =>
-      _$LinuxParametersFromJson(json);
+  factory LinuxParameters.fromJson(Map<String, dynamic> json) {
+    return LinuxParameters(
+      capabilities: json['capabilities'] != null
+          ? KernelCapabilities.fromJson(
+              json['capabilities'] as Map<String, dynamic>)
+          : null,
+      devices: (json['devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      initProcessEnabled: json['initProcessEnabled'] as bool?,
+      maxSwap: json['maxSwap'] as int?,
+      sharedMemorySize: json['sharedMemorySize'] as int?,
+      swappiness: json['swappiness'] as int?,
+      tmpfs: (json['tmpfs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tmpfs.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LinuxParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final capabilities = this.capabilities;
+    final devices = this.devices;
+    final initProcessEnabled = this.initProcessEnabled;
+    final maxSwap = this.maxSwap;
+    final sharedMemorySize = this.sharedMemorySize;
+    final swappiness = this.swappiness;
+    final tmpfs = this.tmpfs;
+    return {
+      if (capabilities != null) 'capabilities': capabilities,
+      if (devices != null) 'devices': devices,
+      if (initProcessEnabled != null) 'initProcessEnabled': initProcessEnabled,
+      if (maxSwap != null) 'maxSwap': maxSwap,
+      if (sharedMemorySize != null) 'sharedMemorySize': sharedMemorySize,
+      if (swappiness != null) 'swappiness': swappiness,
+      if (tmpfs != null) 'tmpfs': tmpfs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountSettingsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListAccountSettings</code> request. When the results of a
   /// <code>ListAccountSettings</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The account settings for the resource.
-  @_s.JsonKey(name: 'settings')
-  final List<Setting> settings;
+  final List<Setting>? settings;
 
   ListAccountSettingsResponse({
     this.nextToken,
     this.settings,
   });
-  factory ListAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountSettingsResponseFromJson(json);
+  factory ListAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountSettingsResponse(
+      nextToken: json['nextToken'] as String?,
+      settings: (json['settings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Setting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttributesResponse {
   /// A list of attribute objects that meet the criteria of the request.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListAttributes</code> request. When the results of a
   /// <code>ListAttributes</code> request exceed <code>maxResults</code>, this
   /// value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAttributesResponse({
     this.attributes,
     this.nextToken,
   });
-  factory ListAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttributesResponseFromJson(json);
+  factory ListAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttributesResponse(
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClustersResponse {
   /// The list of full Amazon Resource Name (ARN) entries for each cluster
   /// associated with your account.
-  @_s.JsonKey(name: 'clusterArns')
-  final List<String> clusterArns;
+  final List<String>? clusterArns;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListClusters</code> request. When the results of a
   /// <code>ListClusters</code> request exceed <code>maxResults</code>, this value
   /// can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClustersResponse({
     this.clusterArns,
     this.nextToken,
   });
-  factory ListClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListClustersResponseFromJson(json);
+  factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListClustersResponse(
+      clusterArns: (json['clusterArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListContainerInstancesResponse {
   /// The list of container instances with full ARN entries for each container
   /// instance associated with the specified cluster.
-  @_s.JsonKey(name: 'containerInstanceArns')
-  final List<String> containerInstanceArns;
+  final List<String>? containerInstanceArns;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListContainerInstances</code> request. When the results of a
   /// <code>ListContainerInstances</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListContainerInstancesResponse({
     this.containerInstanceArns,
     this.nextToken,
   });
-  factory ListContainerInstancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListContainerInstancesResponseFromJson(json);
+  factory ListContainerInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListContainerInstancesResponse(
+      containerInstanceArns: (json['containerInstanceArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServicesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListServices</code> request. When the results of a
   /// <code>ListServices</code> request exceed <code>maxResults</code>, this value
   /// can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of full ARN entries for each service associated with the specified
   /// cluster.
-  @_s.JsonKey(name: 'serviceArns')
-  final List<String> serviceArns;
+  final List<String>? serviceArns;
 
   ListServicesResponse({
     this.nextToken,
     this.serviceArns,
   });
-  factory ListServicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListServicesResponseFromJson(json);
+  factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListServicesResponse(
+      nextToken: json['nextToken'] as String?,
+      serviceArns: (json['serviceArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTaskDefinitionFamiliesResponse {
   /// The list of task definition family names that match the
   /// <code>ListTaskDefinitionFamilies</code> request.
-  @_s.JsonKey(name: 'families')
-  final List<String> families;
+  final List<String>? families;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListTaskDefinitionFamilies</code> request. When the results of a
@@ -8827,93 +9661,92 @@ class ListTaskDefinitionFamiliesResponse {
   /// <code>maxResults</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTaskDefinitionFamiliesResponse({
     this.families,
     this.nextToken,
   });
   factory ListTaskDefinitionFamiliesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTaskDefinitionFamiliesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListTaskDefinitionFamiliesResponse(
+      families: (json['families'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTaskDefinitionsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListTaskDefinitions</code> request. When the results of a
   /// <code>ListTaskDefinitions</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of task definition Amazon Resource Name (ARN) entries for the
   /// <code>ListTaskDefinitions</code> request.
-  @_s.JsonKey(name: 'taskDefinitionArns')
-  final List<String> taskDefinitionArns;
+  final List<String>? taskDefinitionArns;
 
   ListTaskDefinitionsResponse({
     this.nextToken,
     this.taskDefinitionArns,
   });
-  factory ListTaskDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTaskDefinitionsResponseFromJson(json);
+  factory ListTaskDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTaskDefinitionsResponse(
+      nextToken: json['nextToken'] as String?,
+      taskDefinitionArns: (json['taskDefinitionArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTasksResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListTasks</code> request. When the results of a <code>ListTasks</code>
   /// request exceed <code>maxResults</code>, this value can be used to retrieve
   /// the next page of results. This value is <code>null</code> when there are no
   /// more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of task ARN entries for the <code>ListTasks</code> request.
-  @_s.JsonKey(name: 'taskArns')
-  final List<String> taskArns;
+  final List<String>? taskArns;
 
   ListTasksResponse({
     this.nextToken,
     this.taskArns,
   });
-  factory ListTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTasksResponseFromJson(json);
+  factory ListTasksResponse.fromJson(Map<String, dynamic> json) {
+    return ListTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      taskArns: (json['taskArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The load balancer configuration to use with a service or task set.
 ///
 /// For specific notes and restrictions regarding the use of load balancers with
 /// services and task sets, see the CreateService and CreateTaskSet actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoadBalancer {
   /// The name of the container (as it appears in a container definition) to
   /// associate with the load balancer.
-  @_s.JsonKey(name: 'containerName')
-  final String containerName;
+  final String? containerName;
 
   /// The port on the container to associate with the load balancer. This port
   /// must correspond to a <code>containerPort</code> in the task definition the
   /// tasks in the service are using. For tasks that use the EC2 launch type, the
   /// container instance they are launched on must allow ingress traffic on the
   /// <code>hostPort</code> of the port mapping.
-  @_s.JsonKey(name: 'containerPort')
-  final int containerPort;
+  final int? containerPort;
 
   /// The name of the load balancer to associate with the Amazon ECS service or
   /// task set.
@@ -8921,8 +9754,7 @@ class LoadBalancer {
   /// A load balancer name is only specified when using a Classic Load Balancer.
   /// If you are using an Application Load Balancer or a Network Load Balancer the
   /// load balancer name parameter should be omitted.
-  @_s.JsonKey(name: 'loadBalancerName')
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target
   /// group or groups associated with a service or task set.
@@ -8951,8 +9783,7 @@ class LoadBalancer {
   /// mode are associated with an elastic network interface, not an Amazon EC2
   /// instance.
   /// </important>
-  @_s.JsonKey(name: 'targetGroupArn')
-  final String targetGroupArn;
+  final String? targetGroupArn;
 
   LoadBalancer({
     this.containerName,
@@ -8960,10 +9791,27 @@ class LoadBalancer {
     this.loadBalancerName,
     this.targetGroupArn,
   });
-  factory LoadBalancer.fromJson(Map<String, dynamic> json) =>
-      _$LoadBalancerFromJson(json);
+  factory LoadBalancer.fromJson(Map<String, dynamic> json) {
+    return LoadBalancer(
+      containerName: json['containerName'] as String?,
+      containerPort: json['containerPort'] as int?,
+      loadBalancerName: json['loadBalancerName'] as String?,
+      targetGroupArn: json['targetGroupArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LoadBalancerToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final containerPort = this.containerPort;
+    final loadBalancerName = this.loadBalancerName;
+    final targetGroupArn = this.targetGroupArn;
+    return {
+      if (containerName != null) 'containerName': containerName,
+      if (containerPort != null) 'containerPort': containerPort,
+      if (loadBalancerName != null) 'loadBalancerName': loadBalancerName,
+      if (targetGroupArn != null) 'targetGroupArn': targetGroupArn,
+    };
+  }
 }
 
 /// The log configuration for the container. This parameter maps to
@@ -9013,11 +9861,6 @@ class LoadBalancer {
 /// aggregators or a remote host running Logstash to send Gelf logs to.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogConfiguration {
   /// The log driver to use for the container.
   ///
@@ -9048,7 +9891,6 @@ class LogConfiguration {
   /// requests for changes that you would like to have included. However, we do
   /// not currently provide support for running modified copies of this software.
   /// </note>
-  @_s.JsonKey(name: 'logDriver')
   final LogDriver logDriver;
 
   /// The configuration options to send to the log driver. This parameter requires
@@ -9056,44 +9898,99 @@ class LogConfiguration {
   /// To check the Docker Remote API version on your container instance, log in to
   /// your container instance and run the following command: <code>sudo docker
   /// version --format '{{.Server.APIVersion}}'</code>
-  @_s.JsonKey(name: 'options')
-  final Map<String, String> options;
+  final Map<String, String>? options;
 
   /// The secrets to pass to the log configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
   /// Sensitive Data</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'secretOptions')
-  final List<Secret> secretOptions;
+  final List<Secret>? secretOptions;
 
   LogConfiguration({
-    @_s.required this.logDriver,
+    required this.logDriver,
     this.options,
     this.secretOptions,
   });
-  factory LogConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigurationFromJson(json);
+  factory LogConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogConfiguration(
+      logDriver: (json['logDriver'] as String).toLogDriver(),
+      options: (json['options'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      secretOptions: (json['secretOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Secret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final logDriver = this.logDriver;
+    final options = this.options;
+    final secretOptions = this.secretOptions;
+    return {
+      'logDriver': logDriver.toValue(),
+      if (options != null) 'options': options,
+      if (secretOptions != null) 'secretOptions': secretOptions,
+    };
+  }
 }
 
 enum LogDriver {
-  @_s.JsonValue('json-file')
   jsonFile,
-  @_s.JsonValue('syslog')
   syslog,
-  @_s.JsonValue('journald')
   journald,
-  @_s.JsonValue('gelf')
   gelf,
-  @_s.JsonValue('fluentd')
   fluentd,
-  @_s.JsonValue('awslogs')
   awslogs,
-  @_s.JsonValue('splunk')
   splunk,
-  @_s.JsonValue('awsfirelens')
   awsfirelens,
+}
+
+extension on LogDriver {
+  String toValue() {
+    switch (this) {
+      case LogDriver.jsonFile:
+        return 'json-file';
+      case LogDriver.syslog:
+        return 'syslog';
+      case LogDriver.journald:
+        return 'journald';
+      case LogDriver.gelf:
+        return 'gelf';
+      case LogDriver.fluentd:
+        return 'fluentd';
+      case LogDriver.awslogs:
+        return 'awslogs';
+      case LogDriver.splunk:
+        return 'splunk';
+      case LogDriver.awsfirelens:
+        return 'awsfirelens';
+    }
+  }
+}
+
+extension on String {
+  LogDriver toLogDriver() {
+    switch (this) {
+      case 'json-file':
+        return LogDriver.jsonFile;
+      case 'syslog':
+        return LogDriver.syslog;
+      case 'journald':
+        return LogDriver.journald;
+      case 'gelf':
+        return LogDriver.gelf;
+      case 'fluentd':
+        return LogDriver.fluentd;
+      case 'awslogs':
+        return LogDriver.awslogs;
+      case 'splunk':
+        return LogDriver.splunk;
+      case 'awsfirelens':
+        return LogDriver.awsfirelens;
+    }
+    throw Exception('$this is not known in enum LogDriver');
+  }
 }
 
 /// The managed scaling settings for the Auto Scaling group capacity provider.
@@ -9109,40 +10006,30 @@ enum LogDriver {
 ///
 /// If managed scaling is disabled, the user must manage the scaling of the Auto
 /// Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ManagedScaling {
   /// The period of time, in seconds, after a newly launched Amazon EC2 instance
   /// can contribute to CloudWatch metrics for Auto Scaling group. If this
   /// parameter is omitted, the default value of <code>300</code> seconds is used.
-  @_s.JsonKey(name: 'instanceWarmupPeriod')
-  final int instanceWarmupPeriod;
+  final int? instanceWarmupPeriod;
 
   /// The maximum number of container instances that Amazon ECS will scale in or
   /// scale out at one time. If this parameter is omitted, the default value of
   /// <code>10000</code> is used.
-  @_s.JsonKey(name: 'maximumScalingStepSize')
-  final int maximumScalingStepSize;
+  final int? maximumScalingStepSize;
 
   /// The minimum number of container instances that Amazon ECS will scale in or
   /// scale out at one time. If this parameter is omitted, the default value of
   /// <code>1</code> is used.
-  @_s.JsonKey(name: 'minimumScalingStepSize')
-  final int minimumScalingStepSize;
+  final int? minimumScalingStepSize;
 
   /// Whether or not to enable managed scaling for the capacity provider.
-  @_s.JsonKey(name: 'status')
-  final ManagedScalingStatus status;
+  final ManagedScalingStatus? status;
 
   /// The target capacity value for the capacity provider. The specified value
   /// must be greater than <code>0</code> and less than or equal to
   /// <code>100</code>. A value of <code>100</code> will result in the Amazon EC2
   /// instances in your Auto Scaling group being completely utilized.
-  @_s.JsonKey(name: 'targetCapacity')
-  final int targetCapacity;
+  final int? targetCapacity;
 
   ManagedScaling({
     this.instanceWarmupPeriod,
@@ -9151,84 +10038,146 @@ class ManagedScaling {
     this.status,
     this.targetCapacity,
   });
-  factory ManagedScaling.fromJson(Map<String, dynamic> json) =>
-      _$ManagedScalingFromJson(json);
+  factory ManagedScaling.fromJson(Map<String, dynamic> json) {
+    return ManagedScaling(
+      instanceWarmupPeriod: json['instanceWarmupPeriod'] as int?,
+      maximumScalingStepSize: json['maximumScalingStepSize'] as int?,
+      minimumScalingStepSize: json['minimumScalingStepSize'] as int?,
+      status: (json['status'] as String?)?.toManagedScalingStatus(),
+      targetCapacity: json['targetCapacity'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ManagedScalingToJson(this);
+  Map<String, dynamic> toJson() {
+    final instanceWarmupPeriod = this.instanceWarmupPeriod;
+    final maximumScalingStepSize = this.maximumScalingStepSize;
+    final minimumScalingStepSize = this.minimumScalingStepSize;
+    final status = this.status;
+    final targetCapacity = this.targetCapacity;
+    return {
+      if (instanceWarmupPeriod != null)
+        'instanceWarmupPeriod': instanceWarmupPeriod,
+      if (maximumScalingStepSize != null)
+        'maximumScalingStepSize': maximumScalingStepSize,
+      if (minimumScalingStepSize != null)
+        'minimumScalingStepSize': minimumScalingStepSize,
+      if (status != null) 'status': status.toValue(),
+      if (targetCapacity != null) 'targetCapacity': targetCapacity,
+    };
+  }
 }
 
 enum ManagedScalingStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on ManagedScalingStatus {
+  String toValue() {
+    switch (this) {
+      case ManagedScalingStatus.enabled:
+        return 'ENABLED';
+      case ManagedScalingStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ManagedScalingStatus toManagedScalingStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ManagedScalingStatus.enabled;
+      case 'DISABLED':
+        return ManagedScalingStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ManagedScalingStatus');
+  }
 }
 
 enum ManagedTerminationProtection {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on ManagedTerminationProtection {
+  String toValue() {
+    switch (this) {
+      case ManagedTerminationProtection.enabled:
+        return 'ENABLED';
+      case ManagedTerminationProtection.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ManagedTerminationProtection toManagedTerminationProtection() {
+    switch (this) {
+      case 'ENABLED':
+        return ManagedTerminationProtection.enabled;
+      case 'DISABLED':
+        return ManagedTerminationProtection.disabled;
+    }
+    throw Exception('$this is not known in enum ManagedTerminationProtection');
+  }
+}
+
 /// Details on a volume mount point that is used in a container definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MountPoint {
   /// The path on the container to mount the host volume at.
-  @_s.JsonKey(name: 'containerPath')
-  final String containerPath;
+  final String? containerPath;
 
   /// If this value is <code>true</code>, the container has read-only access to
   /// the volume. If this value is <code>false</code>, then the container can
   /// write to the volume. The default value is <code>false</code>.
-  @_s.JsonKey(name: 'readOnly')
-  final bool readOnly;
+  final bool? readOnly;
 
   /// The name of the volume to mount. Must be a volume name referenced in the
   /// <code>name</code> parameter of task definition <code>volume</code>.
-  @_s.JsonKey(name: 'sourceVolume')
-  final String sourceVolume;
+  final String? sourceVolume;
 
   MountPoint({
     this.containerPath,
     this.readOnly,
     this.sourceVolume,
   });
-  factory MountPoint.fromJson(Map<String, dynamic> json) =>
-      _$MountPointFromJson(json);
+  factory MountPoint.fromJson(Map<String, dynamic> json) {
+    return MountPoint(
+      containerPath: json['containerPath'] as String?,
+      readOnly: json['readOnly'] as bool?,
+      sourceVolume: json['sourceVolume'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MountPointToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerPath = this.containerPath;
+    final readOnly = this.readOnly;
+    final sourceVolume = this.sourceVolume;
+    return {
+      if (containerPath != null) 'containerPath': containerPath,
+      if (readOnly != null) 'readOnly': readOnly,
+      if (sourceVolume != null) 'sourceVolume': sourceVolume,
+    };
+  }
 }
 
 /// Details on the network bindings between a container and its host container
 /// instance. After a task reaches the <code>RUNNING</code> status, manual and
 /// automatic host and container port assignments are visible in the
 /// <code>networkBindings</code> section of <a>DescribeTasks</a> API responses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NetworkBinding {
   /// The IP address that the container is bound to on the container instance.
-  @_s.JsonKey(name: 'bindIP')
-  final String bindIP;
+  final String? bindIP;
 
   /// The port number on the container that is used with the network binding.
-  @_s.JsonKey(name: 'containerPort')
-  final int containerPort;
+  final int? containerPort;
 
   /// The port number on the host that is used with the network binding.
-  @_s.JsonKey(name: 'hostPort')
-  final int hostPort;
+  final int? hostPort;
 
   /// The protocol used for the network binding.
-  @_s.JsonKey(name: 'protocol')
-  final TransportProtocol protocol;
+  final TransportProtocol? protocol;
 
   NetworkBinding({
     this.bindIP,
@@ -9236,72 +10185,88 @@ class NetworkBinding {
     this.hostPort,
     this.protocol,
   });
-  factory NetworkBinding.fromJson(Map<String, dynamic> json) =>
-      _$NetworkBindingFromJson(json);
+  factory NetworkBinding.fromJson(Map<String, dynamic> json) {
+    return NetworkBinding(
+      bindIP: json['bindIP'] as String?,
+      containerPort: json['containerPort'] as int?,
+      hostPort: json['hostPort'] as int?,
+      protocol: (json['protocol'] as String?)?.toTransportProtocol(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NetworkBindingToJson(this);
+  Map<String, dynamic> toJson() {
+    final bindIP = this.bindIP;
+    final containerPort = this.containerPort;
+    final hostPort = this.hostPort;
+    final protocol = this.protocol;
+    return {
+      if (bindIP != null) 'bindIP': bindIP,
+      if (containerPort != null) 'containerPort': containerPort,
+      if (hostPort != null) 'hostPort': hostPort,
+      if (protocol != null) 'protocol': protocol.toValue(),
+    };
+  }
 }
 
 /// An object representing the network configuration for a task or service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NetworkConfiguration {
   /// The VPC subnets and security groups associated with a task.
   /// <note>
   /// All specified subnets and security groups must be from the same VPC.
   /// </note>
-  @_s.JsonKey(name: 'awsvpcConfiguration')
-  final AwsVpcConfiguration awsvpcConfiguration;
+  final AwsVpcConfiguration? awsvpcConfiguration;
 
   NetworkConfiguration({
     this.awsvpcConfiguration,
   });
-  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NetworkConfigurationFromJson(json);
+  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkConfiguration(
+      awsvpcConfiguration: json['awsvpcConfiguration'] != null
+          ? AwsVpcConfiguration.fromJson(
+              json['awsvpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NetworkConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsvpcConfiguration = this.awsvpcConfiguration;
+    return {
+      if (awsvpcConfiguration != null)
+        'awsvpcConfiguration': awsvpcConfiguration,
+    };
+  }
 }
 
 /// An object representing the elastic network interface for tasks that use the
 /// <code>awsvpc</code> network mode.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The attachment ID for the network interface.
-  @_s.JsonKey(name: 'attachmentId')
-  final String attachmentId;
+  final String? attachmentId;
 
   /// The private IPv6 address for the network interface.
-  @_s.JsonKey(name: 'ipv6Address')
-  final String ipv6Address;
+  final String? ipv6Address;
 
   /// The private IPv4 address for the network interface.
-  @_s.JsonKey(name: 'privateIpv4Address')
-  final String privateIpv4Address;
+  final String? privateIpv4Address;
 
   NetworkInterface({
     this.attachmentId,
     this.ipv6Address,
     this.privateIpv4Address,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      attachmentId: json['attachmentId'] as String?,
+      ipv6Address: json['ipv6Address'] as String?,
+      privateIpv4Address: json['privateIpv4Address'] as String?,
+    );
+  }
 }
 
 enum NetworkMode {
-  @_s.JsonValue('bridge')
   bridge,
-  @_s.JsonValue('host')
   host,
-  @_s.JsonValue('awsvpc')
   awsvpc,
-  @_s.JsonValue('none')
   none,
 }
 
@@ -9317,14 +10282,27 @@ extension on NetworkMode {
       case NetworkMode.none:
         return 'none';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NetworkMode toNetworkMode() {
+    switch (this) {
+      case 'bridge':
+        return NetworkMode.bridge;
+      case 'host':
+        return NetworkMode.host;
+      case 'awsvpc':
+        return NetworkMode.awsvpc;
+      case 'none':
+        return NetworkMode.none;
+    }
+    throw Exception('$this is not known in enum NetworkMode');
   }
 }
 
 enum PidMode {
-  @_s.JsonValue('host')
   host,
-  @_s.JsonValue('task')
   task,
 }
 
@@ -9336,7 +10314,18 @@ extension on PidMode {
       case PidMode.task:
         return 'task';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PidMode toPidMode() {
+    switch (this) {
+      case 'host':
+        return PidMode.host;
+      case 'task':
+        return PidMode.task;
+    }
+    throw Exception('$this is not known in enum PidMode');
   }
 }
 
@@ -9349,11 +10338,6 @@ extension on PidMode {
 /// If you are using the Fargate launch type, task placement constraints are not
 /// supported.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlacementConstraint {
   /// A cluster query language expression to apply to the constraint. You cannot
   /// specify an expression if the constraint type is
@@ -9361,31 +10345,61 @@ class PlacementConstraint {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
   /// Query Language</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'expression')
-  final String expression;
+  final String? expression;
 
   /// The type of constraint. Use <code>distinctInstance</code> to ensure that
   /// each task in a particular group is running on a different container
   /// instance. Use <code>memberOf</code> to restrict the selection to a group of
   /// valid candidates.
-  @_s.JsonKey(name: 'type')
-  final PlacementConstraintType type;
+  final PlacementConstraintType? type;
 
   PlacementConstraint({
     this.expression,
     this.type,
   });
-  factory PlacementConstraint.fromJson(Map<String, dynamic> json) =>
-      _$PlacementConstraintFromJson(json);
+  factory PlacementConstraint.fromJson(Map<String, dynamic> json) {
+    return PlacementConstraint(
+      expression: json['expression'] as String?,
+      type: (json['type'] as String?)?.toPlacementConstraintType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PlacementConstraintToJson(this);
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final type = this.type;
+    return {
+      if (expression != null) 'expression': expression,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum PlacementConstraintType {
-  @_s.JsonValue('distinctInstance')
   distinctInstance,
-  @_s.JsonValue('memberOf')
   memberOf,
+}
+
+extension on PlacementConstraintType {
+  String toValue() {
+    switch (this) {
+      case PlacementConstraintType.distinctInstance:
+        return 'distinctInstance';
+      case PlacementConstraintType.memberOf:
+        return 'memberOf';
+    }
+  }
+}
+
+extension on String {
+  PlacementConstraintType toPlacementConstraintType() {
+    switch (this) {
+      case 'distinctInstance':
+        return PlacementConstraintType.distinctInstance;
+      case 'memberOf':
+        return PlacementConstraintType.memberOf;
+    }
+    throw Exception('$this is not known in enum PlacementConstraintType');
+  }
 }
 
 /// The task placement strategy for a task or service. For more information, see
@@ -9393,11 +10407,6 @@ enum PlacementConstraintType {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html">Task
 /// Placement Strategies</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the
   /// <code>spread</code> placement strategy, valid values are
@@ -9407,8 +10416,7 @@ class PlacementStrategy {
   /// <code>binpack</code> placement strategy, valid values are <code>cpu</code>
   /// and <code>memory</code>. For the <code>random</code> placement strategy,
   /// this field is not used.
-  @_s.JsonKey(name: 'field')
-  final String field;
+  final String? field;
 
   /// The type of placement strategy. The <code>random</code> placement strategy
   /// randomly places tasks on available candidates. The <code>spread</code>
@@ -9418,57 +10426,109 @@ class PlacementStrategy {
   /// the resource that is specified with the <code>field</code> parameter. For
   /// example, if you binpack on memory, a task is placed on the instance with the
   /// least amount of remaining memory (but still enough to run the task).
-  @_s.JsonKey(name: 'type')
-  final PlacementStrategyType type;
+  final PlacementStrategyType? type;
 
   PlacementStrategy({
     this.field,
     this.type,
   });
-  factory PlacementStrategy.fromJson(Map<String, dynamic> json) =>
-      _$PlacementStrategyFromJson(json);
+  factory PlacementStrategy.fromJson(Map<String, dynamic> json) {
+    return PlacementStrategy(
+      field: json['field'] as String?,
+      type: (json['type'] as String?)?.toPlacementStrategyType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PlacementStrategyToJson(this);
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final type = this.type;
+    return {
+      if (field != null) 'field': field,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum PlacementStrategyType {
-  @_s.JsonValue('random')
   random,
-  @_s.JsonValue('spread')
   spread,
-  @_s.JsonValue('binpack')
   binpack,
+}
+
+extension on PlacementStrategyType {
+  String toValue() {
+    switch (this) {
+      case PlacementStrategyType.random:
+        return 'random';
+      case PlacementStrategyType.spread:
+        return 'spread';
+      case PlacementStrategyType.binpack:
+        return 'binpack';
+    }
+  }
+}
+
+extension on String {
+  PlacementStrategyType toPlacementStrategyType() {
+    switch (this) {
+      case 'random':
+        return PlacementStrategyType.random;
+      case 'spread':
+        return PlacementStrategyType.spread;
+      case 'binpack':
+        return PlacementStrategyType.binpack;
+    }
+    throw Exception('$this is not known in enum PlacementStrategyType');
+  }
 }
 
 /// The devices that are available on the container instance. The only supported
 /// device type is a GPU.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PlatformDevice {
   /// The ID for the GPU(s) on the container instance. The available GPU IDs can
   /// also be obtained on the container instance in the
   /// <code>/var/lib/ecs/gpu/nvidia_gpu_info.json</code> file.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The type of device that is available on the container instance. The only
   /// supported value is <code>GPU</code>.
-  @_s.JsonKey(name: 'type')
   final PlatformDeviceType type;
 
   PlatformDevice({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$PlatformDeviceToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'id': id,
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum PlatformDeviceType {
-  @_s.JsonValue('GPU')
   gpu,
+}
+
+extension on PlatformDeviceType {
+  String toValue() {
+    switch (this) {
+      case PlatformDeviceType.gpu:
+        return 'GPU';
+    }
+  }
+}
+
+extension on String {
+  PlatformDeviceType toPlatformDeviceType() {
+    switch (this) {
+      case 'GPU':
+        return PlatformDeviceType.gpu;
+    }
+    throw Exception('$this is not known in enum PlatformDeviceType');
+  }
 }
 
 /// Port mappings allow containers to access ports on the host container
@@ -9483,11 +10543,6 @@ enum PlatformDeviceType {
 /// After a task reaches the <code>RUNNING</code> status, manual and automatic
 /// host and container port assignments are visible in the
 /// <code>networkBindings</code> section of <a>DescribeTasks</a> API responses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortMapping {
   /// The port number on the container that is bound to the user-specified or
   /// automatically assigned host port.
@@ -9502,8 +10557,7 @@ class PortMapping {
   /// information, see <code>hostPort</code>. Port mappings that are automatically
   /// assigned in this way do not count toward the 100 reserved ports limit of a
   /// container instance.
-  @_s.JsonKey(name: 'containerPort')
-  final int containerPort;
+  final int? containerPort;
 
   /// The port number on the container instance to reserve for your container.
   ///
@@ -9538,29 +10592,39 @@ class PortMapping {
   /// to 100 reserved ports at a time, including the default reserved ports.
   /// Automatically assigned ports don't count toward the 100 reserved ports
   /// limit.
-  @_s.JsonKey(name: 'hostPort')
-  final int hostPort;
+  final int? hostPort;
 
   /// The protocol used for the port mapping. Valid values are <code>tcp</code>
   /// and <code>udp</code>. The default is <code>tcp</code>.
-  @_s.JsonKey(name: 'protocol')
-  final TransportProtocol protocol;
+  final TransportProtocol? protocol;
 
   PortMapping({
     this.containerPort,
     this.hostPort,
     this.protocol,
   });
-  factory PortMapping.fromJson(Map<String, dynamic> json) =>
-      _$PortMappingFromJson(json);
+  factory PortMapping.fromJson(Map<String, dynamic> json) {
+    return PortMapping(
+      containerPort: json['containerPort'] as int?,
+      hostPort: json['hostPort'] as int?,
+      protocol: (json['protocol'] as String?)?.toTransportProtocol(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PortMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerPort = this.containerPort;
+    final hostPort = this.hostPort;
+    final protocol = this.protocol;
+    return {
+      if (containerPort != null) 'containerPort': containerPort,
+      if (hostPort != null) 'hostPort': hostPort,
+      if (protocol != null) 'protocol': protocol.toValue(),
+    };
+  }
 }
 
 enum PropagateTags {
-  @_s.JsonValue('TASK_DEFINITION')
   taskDefinition,
-  @_s.JsonValue('SERVICE')
   service,
   @_s.JsonValue('NONE')
   none,
@@ -9576,7 +10640,18 @@ extension on PropagateTags {
       case PropagateTags.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PropagateTags toPropagateTags() {
+    switch (this) {
+      case 'TASK_DEFINITION':
+        return PropagateTags.taskDefinition;
+      case 'SERVICE':
+        return PropagateTags.service;
+    }
+    throw Exception('$this is not known in enum PropagateTags');
   }
 }
 
@@ -9590,14 +10665,8 @@ extension on PropagateTags {
 /// the container agent and <code>ecs-init</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
 /// ECS-optimized Linux AMI</a>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProxyConfiguration {
   /// The name of the container that will serve as the App Mesh proxy.
-  @_s.JsonKey(name: 'containerName')
   final String containerName;
 
   /// The set of network configuration parameters to provide the Container Network
@@ -9640,143 +10709,170 @@ class ProxyConfiguration {
   /// <code>ProxyEgressPort</code>. It can be an empty list.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'properties')
-  final List<KeyValuePair> properties;
+  final List<KeyValuePair>? properties;
 
   /// The proxy type. The only supported value is <code>APPMESH</code>.
-  @_s.JsonKey(name: 'type')
-  final ProxyConfigurationType type;
+  final ProxyConfigurationType? type;
 
   ProxyConfiguration({
-    @_s.required this.containerName,
+    required this.containerName,
     this.properties,
     this.type,
   });
-  factory ProxyConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ProxyConfigurationFromJson(json);
+  factory ProxyConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProxyConfiguration(
+      containerName: json['containerName'] as String,
+      properties: (json['properties'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValuePair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.toProxyConfigurationType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProxyConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final properties = this.properties;
+    final type = this.type;
+    return {
+      'containerName': containerName,
+      if (properties != null) 'properties': properties,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum ProxyConfigurationType {
-  @_s.JsonValue('APPMESH')
   appmesh,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ProxyConfigurationType {
+  String toValue() {
+    switch (this) {
+      case ProxyConfigurationType.appmesh:
+        return 'APPMESH';
+    }
+  }
+}
+
+extension on String {
+  ProxyConfigurationType toProxyConfigurationType() {
+    switch (this) {
+      case 'APPMESH':
+        return ProxyConfigurationType.appmesh;
+    }
+    throw Exception('$this is not known in enum ProxyConfigurationType');
+  }
+}
+
 class PutAccountSettingDefaultResponse {
-  @_s.JsonKey(name: 'setting')
-  final Setting setting;
+  final Setting? setting;
 
   PutAccountSettingDefaultResponse({
     this.setting,
   });
-  factory PutAccountSettingDefaultResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAccountSettingDefaultResponseFromJson(json);
+  factory PutAccountSettingDefaultResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountSettingDefaultResponse(
+      setting: json['setting'] != null
+          ? Setting.fromJson(json['setting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAccountSettingResponse {
   /// The current account setting for a resource.
-  @_s.JsonKey(name: 'setting')
-  final Setting setting;
+  final Setting? setting;
 
   PutAccountSettingResponse({
     this.setting,
   });
-  factory PutAccountSettingResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutAccountSettingResponseFromJson(json);
+  factory PutAccountSettingResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountSettingResponse(
+      setting: json['setting'] != null
+          ? Setting.fromJson(json['setting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAttributesResponse {
   /// The attributes applied to your resource.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   PutAttributesResponse({
     this.attributes,
   });
-  factory PutAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutAttributesResponseFromJson(json);
+  factory PutAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return PutAttributesResponse(
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutClusterCapacityProvidersResponse {
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   PutClusterCapacityProvidersResponse({
     this.cluster,
   });
   factory PutClusterCapacityProvidersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutClusterCapacityProvidersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutClusterCapacityProvidersResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterContainerInstanceResponse {
   /// The container instance that was registered.
-  @_s.JsonKey(name: 'containerInstance')
-  final ContainerInstance containerInstance;
+  final ContainerInstance? containerInstance;
 
   RegisterContainerInstanceResponse({
     this.containerInstance,
   });
   factory RegisterContainerInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterContainerInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterContainerInstanceResponse(
+      containerInstance: json['containerInstance'] != null
+          ? ContainerInstance.fromJson(
+              json['containerInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterTaskDefinitionResponse {
   /// The list of tags associated with the task definition.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The full description of the registered task definition.
-  @_s.JsonKey(name: 'taskDefinition')
-  final TaskDefinition taskDefinition;
+  final TaskDefinition? taskDefinition;
 
   RegisterTaskDefinitionResponse({
     this.tags,
     this.taskDefinition,
   });
-  factory RegisterTaskDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterTaskDefinitionResponseFromJson(json);
+  factory RegisterTaskDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterTaskDefinitionResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskDefinition: json['taskDefinition'] != null
+          ? TaskDefinition.fromJson(
+              json['taskDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The repository credentials for private registry authentication.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RepositoryCredentials {
   /// The Amazon Resource Name (ARN) of the secret containing the private
   /// repository credentials.
@@ -9786,54 +10882,50 @@ class RepositoryCredentials {
   /// use either the full ARN or the name of the secret. When you are using the
   /// AWS Management Console, you must specify the full ARN of the secret.
   /// </note>
-  @_s.JsonKey(name: 'credentialsParameter')
   final String credentialsParameter;
 
   RepositoryCredentials({
-    @_s.required this.credentialsParameter,
+    required this.credentialsParameter,
   });
-  factory RepositoryCredentials.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryCredentialsFromJson(json);
+  factory RepositoryCredentials.fromJson(Map<String, dynamic> json) {
+    return RepositoryCredentials(
+      credentialsParameter: json['credentialsParameter'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RepositoryCredentialsToJson(this);
+  Map<String, dynamic> toJson() {
+    final credentialsParameter = this.credentialsParameter;
+    return {
+      'credentialsParameter': credentialsParameter,
+    };
+  }
 }
 
 /// Describes the resources available for a container instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Resource {
   /// When the <code>doubleValue</code> type is set, the value of the resource
   /// must be a double precision floating-point type.
-  @_s.JsonKey(name: 'doubleValue')
-  final double doubleValue;
+  final double? doubleValue;
 
   /// When the <code>integerValue</code> type is set, the value of the resource
   /// must be an integer.
-  @_s.JsonKey(name: 'integerValue')
-  final int integerValue;
+  final int? integerValue;
 
   /// When the <code>longValue</code> type is set, the value of the resource must
   /// be an extended precision floating-point type.
-  @_s.JsonKey(name: 'longValue')
-  final int longValue;
+  final int? longValue;
 
   /// The name of the resource, such as <code>CPU</code>, <code>MEMORY</code>,
   /// <code>PORTS</code>, <code>PORTS_UDP</code>, or a user-defined resource.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// When the <code>stringSetValue</code> type is set, the value of the resource
   /// must be a string type.
-  @_s.JsonKey(name: 'stringSetValue')
-  final List<String> stringSetValue;
+  final List<String>? stringSetValue;
 
   /// The type of the resource, such as <code>INTEGER</code>, <code>DOUBLE</code>,
   /// <code>LONG</code>, or <code>STRINGSET</code>.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   Resource({
     this.doubleValue,
@@ -9843,10 +10935,36 @@ class Resource {
     this.stringSetValue,
     this.type,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      doubleValue: json['doubleValue'] as double?,
+      integerValue: json['integerValue'] as int?,
+      longValue: json['longValue'] as int?,
+      name: json['name'] as String?,
+      stringSetValue: (json['stringSetValue'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: json['type'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final doubleValue = this.doubleValue;
+    final integerValue = this.integerValue;
+    final longValue = this.longValue;
+    final name = this.name;
+    final stringSetValue = this.stringSetValue;
+    final type = this.type;
+    return {
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (integerValue != null) 'integerValue': integerValue,
+      if (longValue != null) 'longValue': longValue,
+      if (name != null) 'name': name,
+      if (stringSetValue != null) 'stringSetValue': stringSetValue,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
 /// The type and amount of a resource to assign to a container. The supported
@@ -9857,15 +10975,9 @@ class Resource {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-eia.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceRequirement {
   /// The type of resource to assign to a container. The supported values are
   /// <code>GPU</code> or <code>InferenceAccelerator</code>.
-  @_s.JsonKey(name: 'type')
   final ResourceType type;
 
   /// The value for the specified resource type.
@@ -9879,85 +10991,140 @@ class ResourceRequirement {
   /// If the <code>InferenceAccelerator</code> type is used, the
   /// <code>value</code> should match the <code>deviceName</code> for an
   /// <a>InferenceAccelerator</a> specified in a task definition.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   ResourceRequirement({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory ResourceRequirement.fromJson(Map<String, dynamic> json) =>
-      _$ResourceRequirementFromJson(json);
+  factory ResourceRequirement.fromJson(Map<String, dynamic> json) {
+    return ResourceRequirement(
+      type: (json['type'] as String).toResourceType(),
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceRequirementToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'type': type.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('GPU')
   gpu,
-  @_s.JsonValue('InferenceAccelerator')
   inferenceAccelerator,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.gpu:
+        return 'GPU';
+      case ResourceType.inferenceAccelerator:
+        return 'InferenceAccelerator';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'GPU':
+        return ResourceType.gpu;
+      case 'InferenceAccelerator':
+        return ResourceType.inferenceAccelerator;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 class RunTaskResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// A full description of the tasks that were run. The tasks that were
   /// successfully placed on your cluster are described here.
-  @_s.JsonKey(name: 'tasks')
-  final List<Task> tasks;
+  final List<Task>? tasks;
 
   RunTaskResponse({
     this.failures,
     this.tasks,
   });
-  factory RunTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$RunTaskResponseFromJson(json);
+  factory RunTaskResponse.fromJson(Map<String, dynamic> json) {
+    return RunTaskResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A floating-point percentage of the desired number of tasks to place and keep
 /// running in the task set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Scale {
   /// The unit of measure for the scale value.
-  @_s.JsonKey(name: 'unit')
-  final ScaleUnit unit;
+  final ScaleUnit? unit;
 
   /// The value, specified as a percent total of a service's
   /// <code>desiredCount</code>, to scale the task set. Accepted values are
   /// numbers between 0 and 100.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   Scale({
     this.unit,
     this.value,
   });
-  factory Scale.fromJson(Map<String, dynamic> json) => _$ScaleFromJson(json);
+  factory Scale.fromJson(Map<String, dynamic> json) {
+    return Scale(
+      unit: (json['unit'] as String?)?.toScaleUnit(),
+      value: json['value'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ScaleToJson(this);
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      if (unit != null) 'unit': unit.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum ScaleUnit {
-  @_s.JsonValue('PERCENT')
   percent,
 }
 
+extension on ScaleUnit {
+  String toValue() {
+    switch (this) {
+      case ScaleUnit.percent:
+        return 'PERCENT';
+    }
+  }
+}
+
+extension on String {
+  ScaleUnit toScaleUnit() {
+    switch (this) {
+      case 'PERCENT':
+        return ScaleUnit.percent;
+    }
+    throw Exception('$this is not known in enum ScaleUnit');
+  }
+}
+
 enum SchedulingStrategy {
-  @_s.JsonValue('REPLICA')
   replica,
-  @_s.JsonValue('DAEMON')
   daemon,
 }
 
@@ -9969,15 +11136,47 @@ extension on SchedulingStrategy {
       case SchedulingStrategy.daemon:
         return 'DAEMON';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SchedulingStrategy toSchedulingStrategy() {
+    switch (this) {
+      case 'REPLICA':
+        return SchedulingStrategy.replica;
+      case 'DAEMON':
+        return SchedulingStrategy.daemon;
+    }
+    throw Exception('$this is not known in enum SchedulingStrategy');
   }
 }
 
 enum Scope {
-  @_s.JsonValue('task')
   task,
-  @_s.JsonValue('shared')
   shared,
+}
+
+extension on Scope {
+  String toValue() {
+    switch (this) {
+      case Scope.task:
+        return 'task';
+      case Scope.shared:
+        return 'shared';
+    }
+  }
+}
+
+extension on String {
+  Scope toScope() {
+    switch (this) {
+      case 'task':
+        return Scope.task;
+      case 'shared':
+        return Scope.shared;
+    }
+    throw Exception('$this is not known in enum Scope');
+  }
 }
 
 /// An object representing the secret to expose to your container. Secrets can
@@ -9997,14 +11196,8 @@ enum Scope {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
 /// Sensitive Data</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Secret {
   /// The name of the secret.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The secret to expose to the container. The supported values are either the
@@ -10016,81 +11209,75 @@ class Secret {
   /// or name of the parameter. If the parameter exists in a different Region,
   /// then the full ARN must be specified.
   /// </note>
-  @_s.JsonKey(name: 'valueFrom')
   final String valueFrom;
 
   Secret({
-    @_s.required this.name,
-    @_s.required this.valueFrom,
+    required this.name,
+    required this.valueFrom,
   });
-  factory Secret.fromJson(Map<String, dynamic> json) => _$SecretFromJson(json);
+  factory Secret.fromJson(Map<String, dynamic> json) {
+    return Secret(
+      name: json['name'] as String,
+      valueFrom: json['valueFrom'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SecretToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final valueFrom = this.valueFrom;
+    return {
+      'name': name,
+      'valueFrom': valueFrom,
+    };
+  }
 }
 
 /// Details on a service within a cluster
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Service {
   /// The capacity provider strategy associated with the service.
-  @_s.JsonKey(name: 'capacityProviderStrategy')
-  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+  final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
 
   /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// The Unix timestamp for when the service was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The principal that created the service.
-  @_s.JsonKey(name: 'createdBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// Optional deployment parameters that control how many tasks run during the
   /// deployment and the ordering of stopping and starting tasks.
-  @_s.JsonKey(name: 'deploymentConfiguration')
-  final DeploymentConfiguration deploymentConfiguration;
+  final DeploymentConfiguration? deploymentConfiguration;
 
   /// The deployment controller type the service is using. When using the
   /// DescribeServices API, this field is omitted if the service is using the
   /// <code>ECS</code> deployment controller type.
-  @_s.JsonKey(name: 'deploymentController')
-  final DeploymentController deploymentController;
+  final DeploymentController? deploymentController;
 
   /// The current state of deployments for the service.
-  @_s.JsonKey(name: 'deployments')
-  final List<Deployment> deployments;
+  final List<Deployment>? deployments;
 
   /// The desired number of instantiations of the task definition to keep running
   /// on the service. This value is specified when the service is created with
   /// <a>CreateService</a>, and it can be modified with <a>UpdateService</a>.
-  @_s.JsonKey(name: 'desiredCount')
-  final int desiredCount;
+  final int? desiredCount;
 
   /// Specifies whether to enable Amazon ECS managed tags for the tasks in the
   /// service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
   /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'enableECSManagedTags')
-  final bool enableECSManagedTags;
+  final bool? enableECSManagedTags;
 
   /// The event stream for your service. A maximum of 100 of the latest events are
   /// displayed.
-  @_s.JsonKey(name: 'events')
-  final List<ServiceEvent> events;
+  final List<ServiceEvent>? events;
 
   /// The period of time, in seconds, that the Amazon ECS service scheduler
   /// ignores unhealthy Elastic Load Balancing target health checks after a task
   /// has first started.
-  @_s.JsonKey(name: 'healthCheckGracePeriodSeconds')
-  final int healthCheckGracePeriodSeconds;
+  final int? healthCheckGracePeriodSeconds;
 
   /// The launch type on which your service is running. If no value is specified,
   /// it will default to <code>EC2</code>. Valid values include <code>EC2</code>
@@ -10098,33 +11285,27 @@ class Service {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'launchType')
-  final LaunchType launchType;
+  final LaunchType? launchType;
 
   /// A list of Elastic Load Balancing load balancer objects, containing the load
   /// balancer name, the container name (as it appears in a container definition),
   /// and the container port to access from the load balancer.
-  @_s.JsonKey(name: 'loadBalancers')
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   /// The VPC subnet and security group configuration for tasks that receive their
   /// own elastic network interface by using the <code>awsvpc</code> networking
   /// mode.
-  @_s.JsonKey(name: 'networkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// The number of tasks in the cluster that are in the <code>PENDING</code>
   /// state.
-  @_s.JsonKey(name: 'pendingCount')
-  final int pendingCount;
+  final int? pendingCount;
 
   /// The placement constraints for the tasks in the service.
-  @_s.JsonKey(name: 'placementConstraints')
-  final List<PlacementConstraint> placementConstraints;
+  final List<PlacementConstraint>? placementConstraints;
 
   /// The placement strategy that determines how tasks for the service are placed.
-  @_s.JsonKey(name: 'placementStrategy')
-  final List<PlacementStrategy> placementStrategy;
+  final List<PlacementStrategy>? placementStrategy;
 
   /// The platform version on which to run your service. A platform version is
   /// only specified for tasks using the Fargate launch type. If one is not
@@ -10133,24 +11314,20 @@ class Service {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// Specifies whether to propagate the tags from the task definition or the
   /// service to the task. If no value is specified, the tags are not propagated.
-  @_s.JsonKey(name: 'propagateTags')
-  final PropagateTags propagateTags;
+  final PropagateTags? propagateTags;
 
   /// The ARN of the IAM role associated with the service that allows the Amazon
   /// ECS container agent to register container instances with an Elastic Load
   /// Balancing load balancer.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The number of tasks in the cluster that are in the <code>RUNNING</code>
   /// state.
-  @_s.JsonKey(name: 'runningCount')
-  final int runningCount;
+  final int? runningCount;
 
   /// The scheduling strategy to use for the service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a>.
@@ -10174,35 +11351,30 @@ class Service {
   /// Fargate tasks do not support the <code>DAEMON</code> scheduling strategy.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'schedulingStrategy')
-  final SchedulingStrategy schedulingStrategy;
+  final SchedulingStrategy? schedulingStrategy;
 
   /// The ARN that identifies the service. The ARN contains the
   /// <code>arn:aws:ecs</code> namespace, followed by the Region of the service,
   /// the AWS account ID of the service owner, the <code>service</code> namespace,
   /// and then the service name. For example,
   /// <code>arn:aws:ecs:region:012345678910:service/my-service</code>.
-  @_s.JsonKey(name: 'serviceArn')
-  final String serviceArn;
+  final String? serviceArn;
 
   /// The name of your service. Up to 255 letters (uppercase and lowercase),
   /// numbers, and hyphens are allowed. Service names must be unique within a
   /// cluster, but you can have similarly named services in multiple clusters
   /// within a Region or across multiple Regions.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   /// The details of the service discovery registries to assign to this service.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
   /// Discovery</a>.
-  @_s.JsonKey(name: 'serviceRegistries')
-  final List<ServiceRegistry> serviceRegistries;
+  final List<ServiceRegistry>? serviceRegistries;
 
   /// The status of the service. The valid values are <code>ACTIVE</code>,
   /// <code>DRAINING</code>, or <code>INACTIVE</code>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The metadata that you apply to the service to help you categorize and
   /// organize them. Each tag consists of a key and an optional value, both of
@@ -10240,21 +11412,18 @@ class Service {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The task definition to use for tasks in the service. This value is specified
   /// when the service is created with <a>CreateService</a>, and it can be
   /// modified with <a>UpdateService</a>.
-  @_s.JsonKey(name: 'taskDefinition')
-  final String taskDefinition;
+  final String? taskDefinition;
 
   /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or
   /// an <code>EXTERNAL</code> deployment. An Amazon ECS task set includes details
   /// such as the desired number of tasks, how many tasks are running, and whether
   /// the task set serves production traffic.
-  @_s.JsonKey(name: 'taskSets')
-  final List<TaskSet> taskSets;
+  final List<TaskSet>? taskSets;
 
   Service({
     this.capacityProviderStrategy,
@@ -10287,41 +11456,106 @@ class Service {
     this.taskDefinition,
     this.taskSets,
   });
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      capacityProviderStrategy: (json['capacityProviderStrategy'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterArn: json['clusterArn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      deploymentConfiguration: json['deploymentConfiguration'] != null
+          ? DeploymentConfiguration.fromJson(
+              json['deploymentConfiguration'] as Map<String, dynamic>)
+          : null,
+      deploymentController: json['deploymentController'] != null
+          ? DeploymentController.fromJson(
+              json['deploymentController'] as Map<String, dynamic>)
+          : null,
+      deployments: (json['deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      desiredCount: json['desiredCount'] as int?,
+      enableECSManagedTags: json['enableECSManagedTags'] as bool?,
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      healthCheckGracePeriodSeconds:
+          json['healthCheckGracePeriodSeconds'] as int?,
+      launchType: (json['launchType'] as String?)?.toLaunchType(),
+      loadBalancers: (json['loadBalancers'] as List?)
+          ?.whereNotNull()
+          .map((e) => LoadBalancer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkConfiguration: json['networkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      pendingCount: json['pendingCount'] as int?,
+      placementConstraints: (json['placementConstraints'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlacementConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      placementStrategy: (json['placementStrategy'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlacementStrategy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      platformVersion: json['platformVersion'] as String?,
+      propagateTags: (json['propagateTags'] as String?)?.toPropagateTags(),
+      roleArn: json['roleArn'] as String?,
+      runningCount: json['runningCount'] as int?,
+      schedulingStrategy:
+          (json['schedulingStrategy'] as String?)?.toSchedulingStrategy(),
+      serviceArn: json['serviceArn'] as String?,
+      serviceName: json['serviceName'] as String?,
+      serviceRegistries: (json['serviceRegistries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceRegistry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['status'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskDefinition: json['taskDefinition'] as String?,
+      taskSets: (json['taskSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => TaskSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Details on an event associated with a service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceEvent {
   /// The Unix timestamp for when the event was triggered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID string of the event.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The event message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   ServiceEvent({
     this.createdAt,
     this.id,
     this.message,
   });
-  factory ServiceEvent.fromJson(Map<String, dynamic> json) =>
-      _$ServiceEventFromJson(json);
+  factory ServiceEvent.fromJson(Map<String, dynamic> json) {
+    return ServiceEvent(
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      message: json['message'] as String?,
+    );
+  }
 }
 
 enum ServiceField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -10331,16 +11565,20 @@ extension on ServiceField {
       case ServiceField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServiceField toServiceField() {
+    switch (this) {
+      case 'TAGS':
+        return ServiceField.tags;
+    }
+    throw Exception('$this is not known in enum ServiceField');
   }
 }
 
 /// Details of the service registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceRegistry {
   /// The container name value, already specified in the task definition, to be
   /// used for your service discovery service. If the task definition that your
@@ -10351,8 +11589,7 @@ class ServiceRegistry {
   /// network mode and a type SRV DNS record is used, you must specify either a
   /// <code>containerName</code> and <code>containerPort</code> combination or a
   /// <code>port</code> value, but not both.
-  @_s.JsonKey(name: 'containerName')
-  final String containerName;
+  final String? containerName;
 
   /// The port value, already specified in the task definition, to be used for
   /// your service discovery service. If the task definition your service task
@@ -10363,20 +11600,17 @@ class ServiceRegistry {
   /// record is used, you must specify either a <code>containerName</code> and
   /// <code>containerPort</code> combination or a <code>port</code> value, but not
   /// both.
-  @_s.JsonKey(name: 'containerPort')
-  final int containerPort;
+  final int? containerPort;
 
   /// The port value used if your service discovery service specified an SRV
   /// record. This field may be used if both the <code>awsvpc</code> network mode
   /// and SRV records are used.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// The Amazon Resource Name (ARN) of the service registry. The currently
   /// supported service registry is AWS Cloud Map. For more information, see <a
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html">CreateService</a>.
-  @_s.JsonKey(name: 'registryArn')
-  final String registryArn;
+  final String? registryArn;
 
   ServiceRegistry({
     this.containerName,
@@ -10384,52 +11618,61 @@ class ServiceRegistry {
     this.port,
     this.registryArn,
   });
-  factory ServiceRegistry.fromJson(Map<String, dynamic> json) =>
-      _$ServiceRegistryFromJson(json);
+  factory ServiceRegistry.fromJson(Map<String, dynamic> json) {
+    return ServiceRegistry(
+      containerName: json['containerName'] as String?,
+      containerPort: json['containerPort'] as int?,
+      port: json['port'] as int?,
+      registryArn: json['registryArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServiceRegistryToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerName = this.containerName;
+    final containerPort = this.containerPort;
+    final port = this.port;
+    final registryArn = this.registryArn;
+    return {
+      if (containerName != null) 'containerName': containerName,
+      if (containerPort != null) 'containerPort': containerPort,
+      if (port != null) 'port': port,
+      if (registryArn != null) 'registryArn': registryArn,
+    };
+  }
 }
 
 /// The current account setting for a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Setting {
   /// The Amazon ECS resource name.
-  @_s.JsonKey(name: 'name')
-  final SettingName name;
+  final SettingName? name;
 
   /// The ARN of the principal, which can be an IAM user, IAM role, or the root
   /// user. If this field is omitted, the authenticated user is assumed.
-  @_s.JsonKey(name: 'principalArn')
-  final String principalArn;
+  final String? principalArn;
 
   /// Whether the account setting is enabled or disabled for the specified
   /// resource.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Setting({
     this.name,
     this.principalArn,
     this.value,
   });
-  factory Setting.fromJson(Map<String, dynamic> json) =>
-      _$SettingFromJson(json);
+  factory Setting.fromJson(Map<String, dynamic> json) {
+    return Setting(
+      name: (json['name'] as String?)?.toSettingName(),
+      principalArn: json['principalArn'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 }
 
 enum SettingName {
-  @_s.JsonValue('serviceLongArnFormat')
   serviceLongArnFormat,
-  @_s.JsonValue('taskLongArnFormat')
   taskLongArnFormat,
-  @_s.JsonValue('containerInstanceLongArnFormat')
   containerInstanceLongArnFormat,
-  @_s.JsonValue('awsvpcTrunking')
   awsvpcTrunking,
-  @_s.JsonValue('containerInsights')
   containerInsights,
 }
 
@@ -10447,14 +11690,29 @@ extension on SettingName {
       case SettingName.containerInsights:
         return 'containerInsights';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SettingName toSettingName() {
+    switch (this) {
+      case 'serviceLongArnFormat':
+        return SettingName.serviceLongArnFormat;
+      case 'taskLongArnFormat':
+        return SettingName.taskLongArnFormat;
+      case 'containerInstanceLongArnFormat':
+        return SettingName.containerInstanceLongArnFormat;
+      case 'awsvpcTrunking':
+        return SettingName.awsvpcTrunking;
+      case 'containerInsights':
+        return SettingName.containerInsights;
+    }
+    throw Exception('$this is not known in enum SettingName');
   }
 }
 
 enum SortOrder {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
 }
 
@@ -10466,108 +11724,133 @@ extension on SortOrder {
       case SortOrder.desc:
         return 'DESC';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASC':
+        return SortOrder.asc;
+      case 'DESC':
+        return SortOrder.desc;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
 enum StabilityStatus {
-  @_s.JsonValue('STEADY_STATE')
   steadyState,
-  @_s.JsonValue('STABILIZING')
   stabilizing,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StabilityStatus {
+  String toValue() {
+    switch (this) {
+      case StabilityStatus.steadyState:
+        return 'STEADY_STATE';
+      case StabilityStatus.stabilizing:
+        return 'STABILIZING';
+    }
+  }
+}
+
+extension on String {
+  StabilityStatus toStabilityStatus() {
+    switch (this) {
+      case 'STEADY_STATE':
+        return StabilityStatus.steadyState;
+      case 'STABILIZING':
+        return StabilityStatus.stabilizing;
+    }
+    throw Exception('$this is not known in enum StabilityStatus');
+  }
+}
+
 class StartTaskResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   /// A full description of the tasks that were started. Each task that was
   /// successfully placed on your container instances is described.
-  @_s.JsonKey(name: 'tasks')
-  final List<Task> tasks;
+  final List<Task>? tasks;
 
   StartTaskResponse({
     this.failures,
     this.tasks,
   });
-  factory StartTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTaskResponseFromJson(json);
+  factory StartTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartTaskResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Task.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopTaskResponse {
   /// The task that was stopped.
-  @_s.JsonKey(name: 'task')
-  final Task task;
+  final Task? task;
 
   StopTaskResponse({
     this.task,
   });
-  factory StopTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopTaskResponseFromJson(json);
+  factory StopTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StopTaskResponse(
+      task: json['task'] != null
+          ? Task.fromJson(json['task'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubmitAttachmentStateChangesResponse {
   /// Acknowledgement of the state change.
-  @_s.JsonKey(name: 'acknowledgment')
-  final String acknowledgment;
+  final String? acknowledgment;
 
   SubmitAttachmentStateChangesResponse({
     this.acknowledgment,
   });
   factory SubmitAttachmentStateChangesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SubmitAttachmentStateChangesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return SubmitAttachmentStateChangesResponse(
+      acknowledgment: json['acknowledgment'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubmitContainerStateChangeResponse {
   /// Acknowledgement of the state change.
-  @_s.JsonKey(name: 'acknowledgment')
-  final String acknowledgment;
+  final String? acknowledgment;
 
   SubmitContainerStateChangeResponse({
     this.acknowledgment,
   });
   factory SubmitContainerStateChangeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SubmitContainerStateChangeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return SubmitContainerStateChangeResponse(
+      acknowledgment: json['acknowledgment'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubmitTaskStateChangeResponse {
   /// Acknowledgement of the state change.
-  @_s.JsonKey(name: 'acknowledgment')
-  final String acknowledgment;
+  final String? acknowledgment;
 
   SubmitTaskStateChangeResponse({
     this.acknowledgment,
   });
-  factory SubmitTaskStateChangeResponse.fromJson(Map<String, dynamic> json) =>
-      _$SubmitTaskStateChangeResponseFromJson(json);
+  factory SubmitTaskStateChangeResponse.fromJson(Map<String, dynamic> json) {
+    return SubmitTaskStateChangeResponse(
+      acknowledgment: json['acknowledgment'] as String?,
+    );
+  }
 }
 
 /// A list of namespaced kernel parameters to set in the container. This
@@ -10599,29 +11882,33 @@ class SubmitTaskStateChangeResponse {
 /// that container instance.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SystemControl {
   /// The namespaced kernel parameter for which to set a <code>value</code>.
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The value for the namespaced kernel parameter specified in
   /// <code>namespace</code>.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   SystemControl({
     this.namespace,
     this.value,
   });
-  factory SystemControl.fromJson(Map<String, dynamic> json) =>
-      _$SystemControlFromJson(json);
+  factory SystemControl.fromJson(Map<String, dynamic> json) {
+    return SystemControl(
+      namespace: json['namespace'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SystemControlToJson(this);
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final value = this.value;
+    return {
+      if (namespace != null) 'namespace': namespace,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// The metadata that you apply to a resource to help you categorize and
@@ -10660,44 +11947,44 @@ class SystemControl {
 /// Tags with this prefix do not count against your tags per resource limit.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The optional part of a key-value pair that make up a tag. A
   /// <code>value</code> acts as a descriptor within a tag category (key).
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 enum TargetType {
-  @_s.JsonValue('container-instance')
   containerInstance,
 }
 
@@ -10707,55 +11994,49 @@ extension on TargetType {
       case TargetType.containerInstance:
         return 'container-instance';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'container-instance':
+        return TargetType.containerInstance;
+    }
+    throw Exception('$this is not known in enum TargetType');
   }
 }
 
 /// Details on a task in a cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Task {
   /// The Elastic Network Adapter associated with the task if the task uses the
   /// <code>awsvpc</code> network mode.
-  @_s.JsonKey(name: 'attachments')
-  final List<Attachment> attachments;
+  final List<Attachment>? attachments;
 
   /// The attributes of the task
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// The availability zone of the task.
-  @_s.JsonKey(name: 'availabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The capacity provider associated with the task.
-  @_s.JsonKey(name: 'capacityProviderName')
-  final String capacityProviderName;
+  final String? capacityProviderName;
 
   /// The ARN of the cluster that hosts the task.
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// The connectivity status of a task.
-  @_s.JsonKey(name: 'connectivity')
-  final Connectivity connectivity;
+  final Connectivity? connectivity;
 
   /// The Unix timestamp for when the task last went into <code>CONNECTED</code>
   /// status.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'connectivityAt')
-  final DateTime connectivityAt;
+  final DateTime? connectivityAt;
 
   /// The ARN of the container instances that host the task.
-  @_s.JsonKey(name: 'containerInstanceArn')
-  final String containerInstanceArn;
+  final String? containerInstanceArn;
 
   /// The containers associated with the task.
-  @_s.JsonKey(name: 'containers')
-  final List<Container> containers;
+  final List<Container>? containers;
 
   /// The number of CPU units used by the task as expressed in a task definition.
   /// It can be expressed as an integer using CPU units, for example
@@ -10794,29 +12075,22 @@ class Task {
   /// and 30720 (30 GB) in increments of 1024 (1 GB)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'cpu')
-  final String cpu;
+  final String? cpu;
 
   /// The Unix timestamp for when the task was created (the task entered the
   /// <code>PENDING</code> state).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The desired status of the task. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle.html">Task
   /// Lifecycle</a>.
-  @_s.JsonKey(name: 'desiredStatus')
-  final String desiredStatus;
+  final String? desiredStatus;
 
   /// The Unix timestamp for when the task execution stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'executionStoppedAt')
-  final DateTime executionStoppedAt;
+  final DateTime? executionStoppedAt;
 
   /// The name of the task group associated with the task.
-  @_s.JsonKey(name: 'group')
-  final String group;
+  final String? group;
 
   /// The health status for the task, which is determined by the health of the
   /// essential containers in the task. If all essential containers in the task
@@ -10832,25 +12106,21 @@ class Task {
   /// container definition override any Docker health checks that exist in the
   /// container image.
   /// </note>
-  @_s.JsonKey(name: 'healthStatus')
-  final HealthStatus healthStatus;
+  final HealthStatus? healthStatus;
 
   /// The Elastic Inference accelerator associated with the task.
-  @_s.JsonKey(name: 'inferenceAccelerators')
-  final List<InferenceAccelerator> inferenceAccelerators;
+  final List<InferenceAccelerator>? inferenceAccelerators;
 
   /// The last known status of the task. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle.html">Task
   /// Lifecycle</a>.
-  @_s.JsonKey(name: 'lastStatus')
-  final String lastStatus;
+  final String? lastStatus;
 
   /// The launch type on which your task is running. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'launchType')
-  final LaunchType launchType;
+  final LaunchType? launchType;
 
   /// The amount of memory (in MiB) used by the task as expressed in a task
   /// definition. It can be expressed as an integer using MiB, for example
@@ -10886,12 +12156,10 @@ class Task {
   /// Available <code>cpu</code> values: 4096 (4 vCPU)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'memory')
-  final String memory;
+  final String? memory;
 
   /// One or more container overrides.
-  @_s.JsonKey(name: 'overrides')
-  final TaskOverride overrides;
+  final TaskOverride? overrides;
 
   /// The platform version on which your task is running. A platform version is
   /// only specified for tasks using the Fargate launch type. If one is not
@@ -10900,51 +12168,37 @@ class Task {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The Unix timestamp for when the container image pull began.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'pullStartedAt')
-  final DateTime pullStartedAt;
+  final DateTime? pullStartedAt;
 
   /// The Unix timestamp for when the container image pull completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'pullStoppedAt')
-  final DateTime pullStoppedAt;
+  final DateTime? pullStoppedAt;
 
   /// The Unix timestamp for when the task started (the task transitioned from the
   /// <code>PENDING</code> state to the <code>RUNNING</code> state).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The tag specified when a task is started. If the task is started by an
   /// Amazon ECS service, then the <code>startedBy</code> parameter contains the
   /// deployment ID of the service that starts it.
-  @_s.JsonKey(name: 'startedBy')
-  final String startedBy;
+  final String? startedBy;
 
   /// The stop code indicating why a task was stopped. The
   /// <code>stoppedReason</code> may contain additional details.
-  @_s.JsonKey(name: 'stopCode')
-  final TaskStopCode stopCode;
+  final TaskStopCode? stopCode;
 
   /// The Unix timestamp for when the task was stopped (the task transitioned from
   /// the <code>RUNNING</code> state to the <code>STOPPED</code> state).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stoppedAt')
-  final DateTime stoppedAt;
+  final DateTime? stoppedAt;
 
   /// The reason that the task was stopped.
-  @_s.JsonKey(name: 'stoppedReason')
-  final String stoppedReason;
+  final String? stoppedReason;
 
   /// The Unix timestamp for when the task stops (transitions from the
   /// <code>RUNNING</code> state to <code>STOPPED</code>).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stoppingAt')
-  final DateTime stoppingAt;
+  final DateTime? stoppingAt;
 
   /// The metadata that you apply to the task to help you categorize and organize
   /// them. Each tag consists of a key and an optional value, both of which you
@@ -10982,16 +12236,13 @@ class Task {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The Amazon Resource Name (ARN) of the task.
-  @_s.JsonKey(name: 'taskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The ARN of the task definition that creates the task.
-  @_s.JsonKey(name: 'taskDefinitionArn')
-  final String taskDefinitionArn;
+  final String? taskDefinitionArn;
 
   /// The version counter for the task. Every time a task experiences a change
   /// that triggers a CloudWatch event, the version counter is incremented. If you
@@ -11000,8 +12251,7 @@ class Task {
   /// the version reported in CloudWatch Events for the task (inside the
   /// <code>detail</code> object) to verify that the version in your event stream
   /// is current.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   Task({
     this.attachments,
@@ -11038,7 +12288,60 @@ class Task {
     this.taskDefinitionArn,
     this.version,
   });
-  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      attachments: (json['attachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      availabilityZone: json['availabilityZone'] as String?,
+      capacityProviderName: json['capacityProviderName'] as String?,
+      clusterArn: json['clusterArn'] as String?,
+      connectivity: (json['connectivity'] as String?)?.toConnectivity(),
+      connectivityAt: timeStampFromJson(json['connectivityAt']),
+      containerInstanceArn: json['containerInstanceArn'] as String?,
+      containers: (json['containers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Container.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cpu: json['cpu'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      desiredStatus: json['desiredStatus'] as String?,
+      executionStoppedAt: timeStampFromJson(json['executionStoppedAt']),
+      group: json['group'] as String?,
+      healthStatus: (json['healthStatus'] as String?)?.toHealthStatus(),
+      inferenceAccelerators: (json['inferenceAccelerators'] as List?)
+          ?.whereNotNull()
+          .map((e) => InferenceAccelerator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastStatus: json['lastStatus'] as String?,
+      launchType: (json['launchType'] as String?)?.toLaunchType(),
+      memory: json['memory'] as String?,
+      overrides: json['overrides'] != null
+          ? TaskOverride.fromJson(json['overrides'] as Map<String, dynamic>)
+          : null,
+      platformVersion: json['platformVersion'] as String?,
+      pullStartedAt: timeStampFromJson(json['pullStartedAt']),
+      pullStoppedAt: timeStampFromJson(json['pullStoppedAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
+      startedBy: json['startedBy'] as String?,
+      stopCode: (json['stopCode'] as String?)?.toTaskStopCode(),
+      stoppedAt: timeStampFromJson(json['stoppedAt']),
+      stoppedReason: json['stoppedReason'] as String?,
+      stoppingAt: timeStampFromJson(json['stoppingAt']),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskArn: json['taskArn'] as String?,
+      taskDefinitionArn: json['taskDefinitionArn'] as String?,
+      version: json['version'] as int?,
+    );
+  }
 }
 
 /// The details of a task definition which describes the container and volume
@@ -11046,18 +12349,12 @@ class Task {
 /// which Docker images to use, the required resources, and other configurations
 /// related to launching the task definition through an Amazon ECS service or
 /// task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskDefinition {
   /// The launch type to use with your task. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'compatibilities')
-  final List<Compatibility> compatibilities;
+  final List<Compatibility>? compatibilities;
 
   /// A list of container definitions in JSON format that describe the different
   /// containers that make up your task. For more information about container
@@ -11065,8 +12362,7 @@ class TaskDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html">Amazon
   /// ECS Task Definitions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'containerDefinitions')
-  final List<ContainerDefinition> containerDefinitions;
+  final List<ContainerDefinition>? containerDefinitions;
 
   /// The number of <code>cpu</code> units used by the task. If you are using the
   /// EC2 launch type, this field is optional and any value can be used. If you
@@ -11096,8 +12392,7 @@ class TaskDefinition {
   /// and 30720 (30 GB) in increments of 1024 (1 GB)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'cpu')
-  final String cpu;
+  final String? cpu;
 
   /// The Amazon Resource Name (ARN) of the task execution role that grants the
   /// Amazon ECS container agent permission to make AWS API calls on your behalf.
@@ -11106,8 +12401,7 @@ class TaskDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html">Amazon
   /// ECS task execution IAM role</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The name of a family that this task definition is registered to. Up to 255
   /// letters (uppercase and lowercase), numbers, hyphens, and underscores are
@@ -11117,12 +12411,10 @@ class TaskDefinition {
   /// first task definition that you registered to a family a revision number of
   /// 1. Amazon ECS gives sequential revision numbers to each task definition that
   /// you add.
-  @_s.JsonKey(name: 'family')
-  final String family;
+  final String? family;
 
   /// The Elastic Inference accelerator associated with the task.
-  @_s.JsonKey(name: 'inferenceAccelerators')
-  final List<InferenceAccelerator> inferenceAccelerators;
+  final List<InferenceAccelerator>? inferenceAccelerators;
 
   /// The IPC resource namespace to use for the containers in the task. The valid
   /// values are <code>host</code>, <code>task</code>, or <code>none</code>. If
@@ -11162,8 +12454,7 @@ class TaskDefinition {
   /// This parameter is not supported for Windows containers or tasks using the
   /// Fargate launch type.
   /// </note>
-  @_s.JsonKey(name: 'ipcMode')
-  final IpcMode ipcMode;
+  final IpcMode? ipcMode;
 
   /// The amount (in MiB) of memory used by the task.
   ///
@@ -11200,8 +12491,7 @@ class TaskDefinition {
   /// Available <code>cpu</code> values: 4096 (4 vCPU)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'memory')
-  final String memory;
+  final String? memory;
 
   /// The Docker networking mode to use for the containers in the task. The valid
   /// values are <code>none</code>, <code>bridge</code>, <code>awsvpc</code>, and
@@ -11252,8 +12542,7 @@ class TaskDefinition {
   /// For more information, see <a
   /// href="https://docs.docker.com/engine/reference/run/#network-settings">Network
   /// settings</a> in the <i>Docker run reference</i>.
-  @_s.JsonKey(name: 'networkMode')
-  final NetworkMode networkMode;
+  final NetworkMode? networkMode;
 
   /// The process namespace to use for the containers in the task. The valid
   /// values are <code>host</code> or <code>task</code>. If <code>host</code> is
@@ -11274,13 +12563,11 @@ class TaskDefinition {
   /// This parameter is not supported for Windows containers or tasks using the
   /// Fargate launch type.
   /// </note>
-  @_s.JsonKey(name: 'pidMode')
-  final PidMode pidMode;
+  final PidMode? pidMode;
 
   /// An array of placement constraint objects to use for tasks. This field is not
   /// valid if you are using the Fargate launch type for your task.
-  @_s.JsonKey(name: 'placementConstraints')
-  final List<TaskDefinitionPlacementConstraint> placementConstraints;
+  final List<TaskDefinitionPlacementConstraint>? placementConstraints;
 
   /// The configuration details for the App Mesh proxy.
   ///
@@ -11293,19 +12580,16 @@ class TaskDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
   /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'proxyConfiguration')
-  final ProxyConfiguration proxyConfiguration;
+  final ProxyConfiguration? proxyConfiguration;
 
   /// The container instance attributes required by your task. This field is not
   /// valid if you are using the Fargate launch type for your task.
-  @_s.JsonKey(name: 'requiresAttributes')
-  final List<Attribute> requiresAttributes;
+  final List<Attribute>? requiresAttributes;
 
   /// The launch type the task requires. If no value is specified, it will default
   /// to <code>EC2</code>. Valid values include <code>EC2</code> and
   /// <code>FARGATE</code>.
-  @_s.JsonKey(name: 'requiresCompatibilities')
-  final List<Compatibility> requiresCompatibilities;
+  final List<Compatibility>? requiresCompatibilities;
 
   /// The revision of the task in a particular family. The revision is a version
   /// number of a task definition in a family. When you register a task definition
@@ -11313,16 +12597,13 @@ class TaskDefinition {
   /// register a new revision of a task definition in the same family, the
   /// revision value always increases by one, even if you have deregistered
   /// previous revisions in this family.
-  @_s.JsonKey(name: 'revision')
-  final int revision;
+  final int? revision;
 
   /// The status of the task definition.
-  @_s.JsonKey(name: 'status')
-  final TaskDefinitionStatus status;
+  final TaskDefinitionStatus? status;
 
   /// The full Amazon Resource Name (ARN) of the task definition.
-  @_s.JsonKey(name: 'taskDefinitionArn')
-  final String taskDefinitionArn;
+  final String? taskDefinitionArn;
 
   /// The short name or full Amazon Resource Name (ARN) of the AWS Identity and
   /// Access Management (IAM) role that grants containers in the task permission
@@ -11338,8 +12619,7 @@ class TaskDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows_task_IAM_roles.html">Windows
   /// IAM Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'taskRoleArn')
-  final String taskRoleArn;
+  final String? taskRoleArn;
 
   /// The list of volume definitions for the task.
   ///
@@ -11350,8 +12630,7 @@ class TaskDefinition {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Amazon
   /// ECS Task Definitions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'volumes')
-  final List<Volume> volumes;
+  final List<Volume>? volumes;
 
   TaskDefinition({
     this.compatibilities,
@@ -11374,16 +12653,59 @@ class TaskDefinition {
     this.taskRoleArn,
     this.volumes,
   });
-  factory TaskDefinition.fromJson(Map<String, dynamic> json) =>
-      _$TaskDefinitionFromJson(json);
+  factory TaskDefinition.fromJson(Map<String, dynamic> json) {
+    return TaskDefinition(
+      compatibilities: (json['compatibilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCompatibility())
+          .toList(),
+      containerDefinitions: (json['containerDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContainerDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cpu: json['cpu'] as String?,
+      executionRoleArn: json['executionRoleArn'] as String?,
+      family: json['family'] as String?,
+      inferenceAccelerators: (json['inferenceAccelerators'] as List?)
+          ?.whereNotNull()
+          .map((e) => InferenceAccelerator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipcMode: (json['ipcMode'] as String?)?.toIpcMode(),
+      memory: json['memory'] as String?,
+      networkMode: (json['networkMode'] as String?)?.toNetworkMode(),
+      pidMode: (json['pidMode'] as String?)?.toPidMode(),
+      placementConstraints: (json['placementConstraints'] as List?)
+          ?.whereNotNull()
+          .map((e) => TaskDefinitionPlacementConstraint.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      proxyConfiguration: json['proxyConfiguration'] != null
+          ? ProxyConfiguration.fromJson(
+              json['proxyConfiguration'] as Map<String, dynamic>)
+          : null,
+      requiresAttributes: (json['requiresAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requiresCompatibilities: (json['requiresCompatibilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCompatibility())
+          .toList(),
+      revision: json['revision'] as int?,
+      status: (json['status'] as String?)?.toTaskDefinitionStatus(),
+      taskDefinitionArn: json['taskDefinitionArn'] as String?,
+      taskRoleArn: json['taskRoleArn'] as String?,
+      volumes: (json['volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Volume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum TaskDefinitionFamilyStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -11397,12 +12719,24 @@ extension on TaskDefinitionFamilyStatus {
       case TaskDefinitionFamilyStatus.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskDefinitionFamilyStatus toTaskDefinitionFamilyStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TaskDefinitionFamilyStatus.active;
+      case 'INACTIVE':
+        return TaskDefinitionFamilyStatus.inactive;
+      case 'ALL':
+        return TaskDefinitionFamilyStatus.all;
+    }
+    throw Exception('$this is not known in enum TaskDefinitionFamilyStatus');
   }
 }
 
 enum TaskDefinitionField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -11412,7 +12746,16 @@ extension on TaskDefinitionField {
       case TaskDefinitionField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskDefinitionField toTaskDefinitionField() {
+    switch (this) {
+      case 'TAGS':
+        return TaskDefinitionField.tags;
+    }
+    throw Exception('$this is not known in enum TaskDefinitionField');
   }
 }
 
@@ -11425,46 +12768,68 @@ extension on TaskDefinitionField {
 /// If you are using the Fargate launch type, task placement constraints are not
 /// supported.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TaskDefinitionPlacementConstraint {
   /// A cluster query language expression to apply to the constraint. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
   /// Query Language</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'expression')
-  final String expression;
+  final String? expression;
 
   /// The type of constraint. The <code>MemberOf</code> constraint restricts
   /// selection to be from a group of valid candidates.
-  @_s.JsonKey(name: 'type')
-  final TaskDefinitionPlacementConstraintType type;
+  final TaskDefinitionPlacementConstraintType? type;
 
   TaskDefinitionPlacementConstraint({
     this.expression,
     this.type,
   });
   factory TaskDefinitionPlacementConstraint.fromJson(
-          Map<String, dynamic> json) =>
-      _$TaskDefinitionPlacementConstraintFromJson(json);
+      Map<String, dynamic> json) {
+    return TaskDefinitionPlacementConstraint(
+      expression: json['expression'] as String?,
+      type:
+          (json['type'] as String?)?.toTaskDefinitionPlacementConstraintType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$TaskDefinitionPlacementConstraintToJson(this);
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final type = this.type;
+    return {
+      if (expression != null) 'expression': expression,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum TaskDefinitionPlacementConstraintType {
-  @_s.JsonValue('memberOf')
   memberOf,
 }
 
+extension on TaskDefinitionPlacementConstraintType {
+  String toValue() {
+    switch (this) {
+      case TaskDefinitionPlacementConstraintType.memberOf:
+        return 'memberOf';
+    }
+  }
+}
+
+extension on String {
+  TaskDefinitionPlacementConstraintType
+      toTaskDefinitionPlacementConstraintType() {
+    switch (this) {
+      case 'memberOf':
+        return TaskDefinitionPlacementConstraintType.memberOf;
+    }
+    throw Exception(
+        '$this is not known in enum TaskDefinitionPlacementConstraintType');
+  }
+}
+
 enum TaskDefinitionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
@@ -11476,12 +12841,22 @@ extension on TaskDefinitionStatus {
       case TaskDefinitionStatus.inactive:
         return 'INACTIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskDefinitionStatus toTaskDefinitionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TaskDefinitionStatus.active;
+      case 'INACTIVE':
+        return TaskDefinitionStatus.inactive;
+    }
+    throw Exception('$this is not known in enum TaskDefinitionStatus');
   }
 }
 
 enum TaskField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -11491,43 +12866,41 @@ extension on TaskField {
       case TaskField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskField toTaskField() {
+    switch (this) {
+      case 'TAGS':
+        return TaskField.tags;
+    }
+    throw Exception('$this is not known in enum TaskField');
   }
 }
 
 /// The overrides associated with a task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TaskOverride {
   /// One or more container overrides sent to a task.
-  @_s.JsonKey(name: 'containerOverrides')
-  final List<ContainerOverride> containerOverrides;
+  final List<ContainerOverride>? containerOverrides;
 
   /// The cpu override for the task.
-  @_s.JsonKey(name: 'cpu')
-  final String cpu;
+  final String? cpu;
 
   /// The Amazon Resource Name (ARN) of the task execution IAM role override for
   /// the task.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The Elastic Inference accelerator override for the task.
-  @_s.JsonKey(name: 'inferenceAcceleratorOverrides')
-  final List<InferenceAcceleratorOverride> inferenceAcceleratorOverrides;
+  final List<InferenceAcceleratorOverride>? inferenceAcceleratorOverrides;
 
   /// The memory override for the task.
-  @_s.JsonKey(name: 'memory')
-  final String memory;
+  final String? memory;
 
   /// The Amazon Resource Name (ARN) of the IAM role that containers in this task
   /// can assume. All containers in this task are granted the permissions that are
   /// specified in this role.
-  @_s.JsonKey(name: 'taskRoleArn')
-  final String taskRoleArn;
+  final String? taskRoleArn;
 
   TaskOverride({
     this.containerOverrides,
@@ -11537,42 +12910,64 @@ class TaskOverride {
     this.memory,
     this.taskRoleArn,
   });
-  factory TaskOverride.fromJson(Map<String, dynamic> json) =>
-      _$TaskOverrideFromJson(json);
+  factory TaskOverride.fromJson(Map<String, dynamic> json) {
+    return TaskOverride(
+      containerOverrides: (json['containerOverrides'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContainerOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cpu: json['cpu'] as String?,
+      executionRoleArn: json['executionRoleArn'] as String?,
+      inferenceAcceleratorOverrides: (json['inferenceAcceleratorOverrides']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InferenceAcceleratorOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      memory: json['memory'] as String?,
+      taskRoleArn: json['taskRoleArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TaskOverrideToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerOverrides = this.containerOverrides;
+    final cpu = this.cpu;
+    final executionRoleArn = this.executionRoleArn;
+    final inferenceAcceleratorOverrides = this.inferenceAcceleratorOverrides;
+    final memory = this.memory;
+    final taskRoleArn = this.taskRoleArn;
+    return {
+      if (containerOverrides != null) 'containerOverrides': containerOverrides,
+      if (cpu != null) 'cpu': cpu,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (inferenceAcceleratorOverrides != null)
+        'inferenceAcceleratorOverrides': inferenceAcceleratorOverrides,
+      if (memory != null) 'memory': memory,
+      if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
+    };
+  }
 }
 
 /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or
 /// an <code>EXTERNAL</code> deployment. An Amazon ECS task set includes details
 /// such as the desired number of tasks, how many tasks are running, and whether
 /// the task set serves production traffic.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskSet {
   /// The capacity provider strategy associated with the task set.
-  @_s.JsonKey(name: 'capacityProviderStrategy')
-  final List<CapacityProviderStrategyItem> capacityProviderStrategy;
+  final List<CapacityProviderStrategyItem>? capacityProviderStrategy;
 
   /// The Amazon Resource Name (ARN) of the cluster that the service that hosts
   /// the task set exists in.
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// The computed desired count for the task set. This is calculated by
   /// multiplying the service's <code>desiredCount</code> by the task set's
   /// <code>scale</code> percentage. The result is always rounded up. For example,
   /// if the computed desired count is 1.2, it rounds up to 2 tasks.
-  @_s.JsonKey(name: 'computedDesiredCount')
-  final int computedDesiredCount;
+  final int? computedDesiredCount;
 
   /// The Unix timestamp for when the task set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The external ID associated with the task set.
   ///
@@ -11582,36 +12977,30 @@ class TaskSet {
   /// If a task set is created for an external deployment and is associated with a
   /// service discovery registry, the <code>externalId</code> parameter contains
   /// the <code>ECS_TASK_SET_EXTERNAL_ID</code> AWS Cloud Map attribute.
-  @_s.JsonKey(name: 'externalId')
-  final String externalId;
+  final String? externalId;
 
   /// The ID of the task set.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The launch type the tasks in the task set are using. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'launchType')
-  final LaunchType launchType;
+  final LaunchType? launchType;
 
   /// Details on a load balancer that is used with a task set.
-  @_s.JsonKey(name: 'loadBalancers')
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   /// The network configuration for the task set.
-  @_s.JsonKey(name: 'networkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// The number of tasks in the task set that are in the <code>PENDING</code>
   /// status during a deployment. A task in the <code>PENDING</code> state is
   /// preparing to enter the <code>RUNNING</code> state. A task set enters the
   /// <code>PENDING</code> status when it launches for the first time or when it
   /// is restarted after being in the <code>STOPPED</code> state.
-  @_s.JsonKey(name: 'pendingCount')
-  final int pendingCount;
+  final int? pendingCount;
 
   /// The platform version on which the tasks in the task set are running. A
   /// platform version is only specified for tasks using the Fargate launch type.
@@ -11620,30 +13009,25 @@ class TaskSet {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The number of tasks in the task set that are in the <code>RUNNING</code>
   /// status during a deployment. A task in the <code>RUNNING</code> state is
   /// running and ready for use.
-  @_s.JsonKey(name: 'runningCount')
-  final int runningCount;
+  final int? runningCount;
 
   /// A floating-point percentage of the desired number of tasks to place and keep
   /// running in the task set.
-  @_s.JsonKey(name: 'scale')
-  final Scale scale;
+  final Scale? scale;
 
   /// The Amazon Resource Name (ARN) of the service the task set exists in.
-  @_s.JsonKey(name: 'serviceArn')
-  final String serviceArn;
+  final String? serviceArn;
 
   /// The details of the service discovery registries to assign to this task set.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
   /// Discovery</a>.
-  @_s.JsonKey(name: 'serviceRegistries')
-  final List<ServiceRegistry> serviceRegistries;
+  final List<ServiceRegistry>? serviceRegistries;
 
   /// The stability status, which indicates whether the task set has reached a
   /// steady state. If the following conditions are met, the task set will be in
@@ -11668,20 +13052,16 @@ class TaskSet {
   /// </ul>
   /// If any of those conditions are not met, the stability status returns
   /// <code>STABILIZING</code>.
-  @_s.JsonKey(name: 'stabilityStatus')
-  final StabilityStatus stabilityStatus;
+  final StabilityStatus? stabilityStatus;
 
   /// The Unix timestamp for when the task set stability status was retrieved.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stabilityStatusAt')
-  final DateTime stabilityStatusAt;
+  final DateTime? stabilityStatusAt;
 
   /// The tag specified when a task set is started. If the task set is created by
   /// an AWS CodeDeploy deployment, the <code>startedBy</code> parameter is
   /// <code>CODE_DEPLOY</code>. For a task set created for an external deployment,
   /// the startedBy field isn't used.
-  @_s.JsonKey(name: 'startedBy')
-  final String startedBy;
+  final String? startedBy;
 
   /// The status of the task set. The following describes each state:
   /// <dl> <dt>PRIMARY</dt> <dd>
@@ -11692,8 +13072,7 @@ class TaskSet {
   /// The tasks in the task set are being stopped and their corresponding targets
   /// are being deregistered from their target group.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The metadata that you apply to the task set to help you categorize and
   /// organize them. Each tag consists of a key and an optional value, both of
@@ -11731,21 +13110,16 @@ class TaskSet {
   /// Tags with this prefix do not count against your tags per resource limit.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The task definition the task set is using.
-  @_s.JsonKey(name: 'taskDefinition')
-  final String taskDefinition;
+  final String? taskDefinition;
 
   /// The Amazon Resource Name (ARN) of the task set.
-  @_s.JsonKey(name: 'taskSetArn')
-  final String taskSetArn;
+  final String? taskSetArn;
 
   /// The Unix timestamp for when the task set was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   TaskSet({
     this.capacityProviderStrategy,
@@ -11772,12 +13146,55 @@ class TaskSet {
     this.taskSetArn,
     this.updatedAt,
   });
-  factory TaskSet.fromJson(Map<String, dynamic> json) =>
-      _$TaskSetFromJson(json);
+  factory TaskSet.fromJson(Map<String, dynamic> json) {
+    return TaskSet(
+      capacityProviderStrategy: (json['capacityProviderStrategy'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CapacityProviderStrategyItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      clusterArn: json['clusterArn'] as String?,
+      computedDesiredCount: json['computedDesiredCount'] as int?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+      launchType: (json['launchType'] as String?)?.toLaunchType(),
+      loadBalancers: (json['loadBalancers'] as List?)
+          ?.whereNotNull()
+          .map((e) => LoadBalancer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkConfiguration: json['networkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['networkConfiguration'] as Map<String, dynamic>)
+          : null,
+      pendingCount: json['pendingCount'] as int?,
+      platformVersion: json['platformVersion'] as String?,
+      runningCount: json['runningCount'] as int?,
+      scale: json['scale'] != null
+          ? Scale.fromJson(json['scale'] as Map<String, dynamic>)
+          : null,
+      serviceArn: json['serviceArn'] as String?,
+      serviceRegistries: (json['serviceRegistries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceRegistry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stabilityStatus:
+          (json['stabilityStatus'] as String?)?.toStabilityStatus(),
+      stabilityStatusAt: timeStampFromJson(json['stabilityStatusAt']),
+      startedBy: json['startedBy'] as String?,
+      status: json['status'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskDefinition: json['taskDefinition'] as String?,
+      taskSetArn: json['taskSetArn'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
 }
 
 enum TaskSetField {
-  @_s.JsonValue('TAGS')
   tags,
 }
 
@@ -11787,32 +13204,58 @@ extension on TaskSetField {
       case TaskSetField.tags:
         return 'TAGS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskSetField toTaskSetField() {
+    switch (this) {
+      case 'TAGS':
+        return TaskSetField.tags;
+    }
+    throw Exception('$this is not known in enum TaskSetField');
   }
 }
 
 enum TaskStopCode {
-  @_s.JsonValue('TaskFailedToStart')
   taskFailedToStart,
-  @_s.JsonValue('EssentialContainerExited')
   essentialContainerExited,
-  @_s.JsonValue('UserInitiated')
   userInitiated,
 }
 
+extension on TaskStopCode {
+  String toValue() {
+    switch (this) {
+      case TaskStopCode.taskFailedToStart:
+        return 'TaskFailedToStart';
+      case TaskStopCode.essentialContainerExited:
+        return 'EssentialContainerExited';
+      case TaskStopCode.userInitiated:
+        return 'UserInitiated';
+    }
+  }
+}
+
+extension on String {
+  TaskStopCode toTaskStopCode() {
+    switch (this) {
+      case 'TaskFailedToStart':
+        return TaskStopCode.taskFailedToStart;
+      case 'EssentialContainerExited':
+        return TaskStopCode.essentialContainerExited;
+      case 'UserInitiated':
+        return TaskStopCode.userInitiated;
+    }
+    throw Exception('$this is not known in enum TaskStopCode');
+  }
+}
+
 /// The container path, mount options, and size of the tmpfs mount.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tmpfs {
   /// The absolute file path where the tmpfs volume is to be mounted.
-  @_s.JsonKey(name: 'containerPath')
   final String containerPath;
 
   /// The maximum size (in MiB) of the tmpfs volume.
-  @_s.JsonKey(name: 'size')
   final int size;
 
   /// The list of tmpfs volume mount options.
@@ -11824,252 +13267,358 @@ class Tmpfs {
   /// | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime"
   /// | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" |
   /// "mpol"</code>
-  @_s.JsonKey(name: 'mountOptions')
-  final List<String> mountOptions;
+  final List<String>? mountOptions;
 
   Tmpfs({
-    @_s.required this.containerPath,
-    @_s.required this.size,
+    required this.containerPath,
+    required this.size,
     this.mountOptions,
   });
-  factory Tmpfs.fromJson(Map<String, dynamic> json) => _$TmpfsFromJson(json);
+  factory Tmpfs.fromJson(Map<String, dynamic> json) {
+    return Tmpfs(
+      containerPath: json['containerPath'] as String,
+      size: json['size'] as int,
+      mountOptions: (json['mountOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TmpfsToJson(this);
+  Map<String, dynamic> toJson() {
+    final containerPath = this.containerPath;
+    final size = this.size;
+    final mountOptions = this.mountOptions;
+    return {
+      'containerPath': containerPath,
+      'size': size,
+      if (mountOptions != null) 'mountOptions': mountOptions,
+    };
+  }
 }
 
 enum TransportProtocol {
-  @_s.JsonValue('tcp')
   tcp,
-  @_s.JsonValue('udp')
   udp,
 }
 
+extension on TransportProtocol {
+  String toValue() {
+    switch (this) {
+      case TransportProtocol.tcp:
+        return 'tcp';
+      case TransportProtocol.udp:
+        return 'udp';
+    }
+  }
+}
+
+extension on String {
+  TransportProtocol toTransportProtocol() {
+    switch (this) {
+      case 'tcp':
+        return TransportProtocol.tcp;
+      case 'udp':
+        return TransportProtocol.udp;
+    }
+    throw Exception('$this is not known in enum TransportProtocol');
+  }
+}
+
 /// The <code>ulimit</code> settings to pass to the container.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Ulimit {
   /// The hard limit for the ulimit type.
-  @_s.JsonKey(name: 'hardLimit')
   final int hardLimit;
 
   /// The <code>type</code> of the <code>ulimit</code>.
-  @_s.JsonKey(name: 'name')
   final UlimitName name;
 
   /// The soft limit for the ulimit type.
-  @_s.JsonKey(name: 'softLimit')
   final int softLimit;
 
   Ulimit({
-    @_s.required this.hardLimit,
-    @_s.required this.name,
-    @_s.required this.softLimit,
+    required this.hardLimit,
+    required this.name,
+    required this.softLimit,
   });
-  factory Ulimit.fromJson(Map<String, dynamic> json) => _$UlimitFromJson(json);
+  factory Ulimit.fromJson(Map<String, dynamic> json) {
+    return Ulimit(
+      hardLimit: json['hardLimit'] as int,
+      name: (json['name'] as String).toUlimitName(),
+      softLimit: json['softLimit'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UlimitToJson(this);
+  Map<String, dynamic> toJson() {
+    final hardLimit = this.hardLimit;
+    final name = this.name;
+    final softLimit = this.softLimit;
+    return {
+      'hardLimit': hardLimit,
+      'name': name.toValue(),
+      'softLimit': softLimit,
+    };
+  }
 }
 
 enum UlimitName {
-  @_s.JsonValue('core')
   core,
-  @_s.JsonValue('cpu')
   cpu,
-  @_s.JsonValue('data')
   data,
-  @_s.JsonValue('fsize')
   fsize,
-  @_s.JsonValue('locks')
   locks,
-  @_s.JsonValue('memlock')
   memlock,
-  @_s.JsonValue('msgqueue')
   msgqueue,
-  @_s.JsonValue('nice')
   nice,
-  @_s.JsonValue('nofile')
   nofile,
-  @_s.JsonValue('nproc')
   nproc,
-  @_s.JsonValue('rss')
   rss,
-  @_s.JsonValue('rtprio')
   rtprio,
-  @_s.JsonValue('rttime')
   rttime,
-  @_s.JsonValue('sigpending')
   sigpending,
-  @_s.JsonValue('stack')
   stack,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on UlimitName {
+  String toValue() {
+    switch (this) {
+      case UlimitName.core:
+        return 'core';
+      case UlimitName.cpu:
+        return 'cpu';
+      case UlimitName.data:
+        return 'data';
+      case UlimitName.fsize:
+        return 'fsize';
+      case UlimitName.locks:
+        return 'locks';
+      case UlimitName.memlock:
+        return 'memlock';
+      case UlimitName.msgqueue:
+        return 'msgqueue';
+      case UlimitName.nice:
+        return 'nice';
+      case UlimitName.nofile:
+        return 'nofile';
+      case UlimitName.nproc:
+        return 'nproc';
+      case UlimitName.rss:
+        return 'rss';
+      case UlimitName.rtprio:
+        return 'rtprio';
+      case UlimitName.rttime:
+        return 'rttime';
+      case UlimitName.sigpending:
+        return 'sigpending';
+      case UlimitName.stack:
+        return 'stack';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  UlimitName toUlimitName() {
+    switch (this) {
+      case 'core':
+        return UlimitName.core;
+      case 'cpu':
+        return UlimitName.cpu;
+      case 'data':
+        return UlimitName.data;
+      case 'fsize':
+        return UlimitName.fsize;
+      case 'locks':
+        return UlimitName.locks;
+      case 'memlock':
+        return UlimitName.memlock;
+      case 'msgqueue':
+        return UlimitName.msgqueue;
+      case 'nice':
+        return UlimitName.nice;
+      case 'nofile':
+        return UlimitName.nofile;
+      case 'nproc':
+        return UlimitName.nproc;
+      case 'rss':
+        return UlimitName.rss;
+      case 'rtprio':
+        return UlimitName.rtprio;
+      case 'rttime':
+        return UlimitName.rttime;
+      case 'sigpending':
+        return UlimitName.sigpending;
+      case 'stack':
+        return UlimitName.stack;
+    }
+    throw Exception('$this is not known in enum UlimitName');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+}
+
 class UpdateCapacityProviderResponse {
-  @_s.JsonKey(name: 'capacityProvider')
-  final CapacityProvider capacityProvider;
+  final CapacityProvider? capacityProvider;
 
   UpdateCapacityProviderResponse({
     this.capacityProvider,
   });
-  factory UpdateCapacityProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCapacityProviderResponseFromJson(json);
+  factory UpdateCapacityProviderResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCapacityProviderResponse(
+      capacityProvider: json['capacityProvider'] != null
+          ? CapacityProvider.fromJson(
+              json['capacityProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterSettingsResponse {
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   UpdateClusterSettingsResponse({
     this.cluster,
   });
-  factory UpdateClusterSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClusterSettingsResponseFromJson(json);
+  factory UpdateClusterSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterSettingsResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateContainerAgentResponse {
   /// The container instance for which the container agent was updated.
-  @_s.JsonKey(name: 'containerInstance')
-  final ContainerInstance containerInstance;
+  final ContainerInstance? containerInstance;
 
   UpdateContainerAgentResponse({
     this.containerInstance,
   });
-  factory UpdateContainerAgentResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContainerAgentResponseFromJson(json);
+  factory UpdateContainerAgentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateContainerAgentResponse(
+      containerInstance: json['containerInstance'] != null
+          ? ContainerInstance.fromJson(
+              json['containerInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateContainerInstancesStateResponse {
   /// The list of container instances.
-  @_s.JsonKey(name: 'containerInstances')
-  final List<ContainerInstance> containerInstances;
+  final List<ContainerInstance>? containerInstances;
 
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<Failure> failures;
+  final List<Failure>? failures;
 
   UpdateContainerInstancesStateResponse({
     this.containerInstances,
     this.failures,
   });
   factory UpdateContainerInstancesStateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateContainerInstancesStateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateContainerInstancesStateResponse(
+      containerInstances: (json['containerInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContainerInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => Failure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServicePrimaryTaskSetResponse {
-  @_s.JsonKey(name: 'taskSet')
-  final TaskSet taskSet;
+  final TaskSet? taskSet;
 
   UpdateServicePrimaryTaskSetResponse({
     this.taskSet,
   });
   factory UpdateServicePrimaryTaskSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateServicePrimaryTaskSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateServicePrimaryTaskSetResponse(
+      taskSet: json['taskSet'] != null
+          ? TaskSet.fromJson(json['taskSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServiceResponse {
   /// The full description of your service following the update call.
-  @_s.JsonKey(name: 'service')
-  final Service service;
+  final Service? service;
 
   UpdateServiceResponse({
     this.service,
   });
-  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateServiceResponseFromJson(json);
+  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceResponse(
+      service: json['service'] != null
+          ? Service.fromJson(json['service'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTaskSetResponse {
-  @_s.JsonKey(name: 'taskSet')
-  final TaskSet taskSet;
+  final TaskSet? taskSet;
 
   UpdateTaskSetResponse({
     this.taskSet,
   });
-  factory UpdateTaskSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTaskSetResponseFromJson(json);
+  factory UpdateTaskSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTaskSetResponse(
+      taskSet: json['taskSet'] != null
+          ? TaskSet.fromJson(json['taskSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The Docker and Amazon ECS container agent version information about a
 /// container instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VersionInfo {
   /// The Git commit hash for the Amazon ECS container agent build on the <a
   /// href="https://github.com/aws/amazon-ecs-agent/commits/master">amazon-ecs-agent
   /// </a> GitHub repository.
-  @_s.JsonKey(name: 'agentHash')
-  final String agentHash;
+  final String? agentHash;
 
   /// The version number of the Amazon ECS container agent.
-  @_s.JsonKey(name: 'agentVersion')
-  final String agentVersion;
+  final String? agentVersion;
 
   /// The Docker version running on the container instance.
-  @_s.JsonKey(name: 'dockerVersion')
-  final String dockerVersion;
+  final String? dockerVersion;
 
   VersionInfo({
     this.agentHash,
     this.agentVersion,
     this.dockerVersion,
   });
-  factory VersionInfo.fromJson(Map<String, dynamic> json) =>
-      _$VersionInfoFromJson(json);
+  factory VersionInfo.fromJson(Map<String, dynamic> json) {
+    return VersionInfo(
+      agentHash: json['agentHash'] as String?,
+      agentVersion: json['agentVersion'] as String?,
+      dockerVersion: json['dockerVersion'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VersionInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final agentHash = this.agentHash;
+    final agentVersion = this.agentVersion;
+    final dockerVersion = this.dockerVersion;
+    return {
+      if (agentHash != null) 'agentHash': agentHash,
+      if (agentVersion != null) 'agentVersion': agentVersion,
+      if (dockerVersion != null) 'dockerVersion': dockerVersion,
+    };
+  }
 }
 
 /// A data volume used in a task definition. For tasks that use the Amazon
@@ -12082,28 +13631,20 @@ class VersionInfo {
 /// <code>sourcePath</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
 /// Data Volumes in Tasks</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Volume {
   /// This parameter is specified when you are using Docker volumes. Docker
   /// volumes are only supported when you are using the EC2 launch type. Windows
   /// containers only support the use of the <code>local</code> driver. To use
   /// bind mounts, specify the <code>host</code> parameter instead.
-  @_s.JsonKey(name: 'dockerVolumeConfiguration')
-  final DockerVolumeConfiguration dockerVolumeConfiguration;
+  final DockerVolumeConfiguration? dockerVolumeConfiguration;
 
   /// This parameter is specified when you are using an Amazon Elastic File System
   /// file system for task storage.
-  @_s.JsonKey(name: 'efsVolumeConfiguration')
-  final EFSVolumeConfiguration efsVolumeConfiguration;
+  final EFSVolumeConfiguration? efsVolumeConfiguration;
 
   /// This parameter is specified when you are using Amazon FSx for Windows File
   /// Server file system for task storage.
-  @_s.JsonKey(name: 'fsxWindowsFileServerVolumeConfiguration')
-  final FSxWindowsFileServerVolumeConfiguration
+  final FSxWindowsFileServerVolumeConfiguration?
       fsxWindowsFileServerVolumeConfiguration;
 
   /// This parameter is specified when you are using bind mount host volumes. The
@@ -12118,15 +13659,13 @@ class Volume {
   /// on a different drive, and mount point cannot be across drives. For example,
   /// you can mount <code>C:\my\path:C:\my\path</code> and <code>D:\:D:\</code>,
   /// but not <code>D:\my\path:C:\my\path</code> or <code>D:\:C:\my\path</code>.
-  @_s.JsonKey(name: 'host')
-  final HostVolumeProperties host;
+  final HostVolumeProperties? host;
 
   /// The name of the volume. Up to 255 letters (uppercase and lowercase),
   /// numbers, and hyphens are allowed. This name is referenced in the
   /// <code>sourceVolume</code> parameter of container definition
   /// <code>mountPoints</code>.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Volume({
     this.dockerVolumeConfiguration,
@@ -12135,46 +13674,89 @@ class Volume {
     this.host,
     this.name,
   });
-  factory Volume.fromJson(Map<String, dynamic> json) => _$VolumeFromJson(json);
+  factory Volume.fromJson(Map<String, dynamic> json) {
+    return Volume(
+      dockerVolumeConfiguration: json['dockerVolumeConfiguration'] != null
+          ? DockerVolumeConfiguration.fromJson(
+              json['dockerVolumeConfiguration'] as Map<String, dynamic>)
+          : null,
+      efsVolumeConfiguration: json['efsVolumeConfiguration'] != null
+          ? EFSVolumeConfiguration.fromJson(
+              json['efsVolumeConfiguration'] as Map<String, dynamic>)
+          : null,
+      fsxWindowsFileServerVolumeConfiguration:
+          json['fsxWindowsFileServerVolumeConfiguration'] != null
+              ? FSxWindowsFileServerVolumeConfiguration.fromJson(
+                  json['fsxWindowsFileServerVolumeConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      host: json['host'] != null
+          ? HostVolumeProperties.fromJson(json['host'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VolumeToJson(this);
+  Map<String, dynamic> toJson() {
+    final dockerVolumeConfiguration = this.dockerVolumeConfiguration;
+    final efsVolumeConfiguration = this.efsVolumeConfiguration;
+    final fsxWindowsFileServerVolumeConfiguration =
+        this.fsxWindowsFileServerVolumeConfiguration;
+    final host = this.host;
+    final name = this.name;
+    return {
+      if (dockerVolumeConfiguration != null)
+        'dockerVolumeConfiguration': dockerVolumeConfiguration,
+      if (efsVolumeConfiguration != null)
+        'efsVolumeConfiguration': efsVolumeConfiguration,
+      if (fsxWindowsFileServerVolumeConfiguration != null)
+        'fsxWindowsFileServerVolumeConfiguration':
+            fsxWindowsFileServerVolumeConfiguration,
+      if (host != null) 'host': host,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Details on a data volume from another container in the same task definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VolumeFrom {
   /// If this value is <code>true</code>, the container has read-only access to
   /// the volume. If this value is <code>false</code>, then the container can
   /// write to the volume. The default value is <code>false</code>.
-  @_s.JsonKey(name: 'readOnly')
-  final bool readOnly;
+  final bool? readOnly;
 
   /// The name of another container within the same task definition from which to
   /// mount volumes.
-  @_s.JsonKey(name: 'sourceContainer')
-  final String sourceContainer;
+  final String? sourceContainer;
 
   VolumeFrom({
     this.readOnly,
     this.sourceContainer,
   });
-  factory VolumeFrom.fromJson(Map<String, dynamic> json) =>
-      _$VolumeFromFromJson(json);
+  factory VolumeFrom.fromJson(Map<String, dynamic> json) {
+    return VolumeFrom(
+      readOnly: json['readOnly'] as bool?,
+      sourceContainer: json['sourceContainer'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VolumeFromToJson(this);
+  Map<String, dynamic> toJson() {
+    final readOnly = this.readOnly;
+    final sourceContainer = this.sourceContainer;
+    return {
+      if (readOnly != null) 'readOnly': readOnly,
+      if (sourceContainer != null) 'sourceContainer': sourceContainer,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AttributeLimitExceededException extends _s.GenericAwsException {
-  AttributeLimitExceededException({String type, String message})
+  AttributeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'AttributeLimitExceededException',
@@ -12182,18 +13764,18 @@ class AttributeLimitExceededException extends _s.GenericAwsException {
 }
 
 class BlockedException extends _s.GenericAwsException {
-  BlockedException({String type, String message})
+  BlockedException({String? type, String? message})
       : super(type: type, code: 'BlockedException', message: message);
 }
 
 class ClientException extends _s.GenericAwsException {
-  ClientException({String type, String message})
+  ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
 class ClusterContainsContainerInstancesException
     extends _s.GenericAwsException {
-  ClusterContainsContainerInstancesException({String type, String message})
+  ClusterContainsContainerInstancesException({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterContainsContainerInstancesException',
@@ -12201,7 +13783,7 @@ class ClusterContainsContainerInstancesException
 }
 
 class ClusterContainsServicesException extends _s.GenericAwsException {
-  ClusterContainsServicesException({String type, String message})
+  ClusterContainsServicesException({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterContainsServicesException',
@@ -12209,7 +13791,7 @@ class ClusterContainsServicesException extends _s.GenericAwsException {
 }
 
 class ClusterContainsTasksException extends _s.GenericAwsException {
-  ClusterContainsTasksException({String type, String message})
+  ClusterContainsTasksException({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterContainsTasksException',
@@ -12217,33 +13799,34 @@ class ClusterContainsTasksException extends _s.GenericAwsException {
 }
 
 class ClusterNotFoundException extends _s.GenericAwsException {
-  ClusterNotFoundException({String type, String message})
+  ClusterNotFoundException({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MissingVersionException extends _s.GenericAwsException {
-  MissingVersionException({String type, String message})
+  MissingVersionException({String? type, String? message})
       : super(type: type, code: 'MissingVersionException', message: message);
 }
 
 class NoUpdateAvailableException extends _s.GenericAwsException {
-  NoUpdateAvailableException({String type, String message})
+  NoUpdateAvailableException({String? type, String? message})
       : super(type: type, code: 'NoUpdateAvailableException', message: message);
 }
 
 class PlatformTaskDefinitionIncompatibilityException
     extends _s.GenericAwsException {
-  PlatformTaskDefinitionIncompatibilityException({String type, String message})
+  PlatformTaskDefinitionIncompatibilityException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'PlatformTaskDefinitionIncompatibilityException',
@@ -12251,53 +13834,53 @@ class PlatformTaskDefinitionIncompatibilityException
 }
 
 class PlatformUnknownException extends _s.GenericAwsException {
-  PlatformUnknownException({String type, String message})
+  PlatformUnknownException({String? type, String? message})
       : super(type: type, code: 'PlatformUnknownException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServerException extends _s.GenericAwsException {
-  ServerException({String type, String message})
+  ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
 class ServiceNotActiveException extends _s.GenericAwsException {
-  ServiceNotActiveException({String type, String message})
+  ServiceNotActiveException({String? type, String? message})
       : super(type: type, code: 'ServiceNotActiveException', message: message);
 }
 
 class ServiceNotFoundException extends _s.GenericAwsException {
-  ServiceNotFoundException({String type, String message})
+  ServiceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ServiceNotFoundException', message: message);
 }
 
 class TargetNotFoundException extends _s.GenericAwsException {
-  TargetNotFoundException({String type, String message})
+  TargetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TargetNotFoundException', message: message);
 }
 
 class TaskSetNotFoundException extends _s.GenericAwsException {
-  TaskSetNotFoundException({String type, String message})
+  TaskSetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TaskSetNotFoundException', message: message);
 }
 
 class UnsupportedFeatureException extends _s.GenericAwsException {
-  UnsupportedFeatureException({String type, String message})
+  UnsupportedFeatureException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedFeatureException', message: message);
 }
 
 class UpdateInProgressException extends _s.GenericAwsException {
-  UpdateInProgressException({String type, String message})
+  UpdateInProgressException({String? type, String? message})
       : super(type: type, code: 'UpdateInProgressException', message: message);
 }
 

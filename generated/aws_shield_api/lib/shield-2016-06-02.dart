@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'shield-2016-06-02.g.dart';
 
 /// This is the <i>AWS Shield Advanced API Reference</i>. This guide is for
 /// developers who need detailed information about the AWS Shield Advanced API
@@ -36,10 +28,10 @@ part 'shield-2016-06-02.g.dart';
 class Shield {
   final _s.JsonProtocol _protocol;
   Shield({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -73,7 +65,7 @@ class Shield {
   /// Parameter [logBucket] :
   /// The Amazon S3 bucket that contains your AWS WAF logs.
   Future<void> associateDRTLogBucket({
-    @_s.required String logBucket,
+    required String logBucket,
   }) async {
     ArgumentError.checkNotNull(logBucket, 'logBucket');
     _s.validateStringLength(
@@ -93,7 +85,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateDRTLogBucket'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -103,8 +95,6 @@ class Shield {
         'LogBucket': logBucket,
       },
     );
-
-    return AssociateDRTLogBucketResponse.fromJson(jsonResponse.body);
   }
 
   /// Authorizes the DDoS Response Team (DRT), using the specified role, to
@@ -165,7 +155,7 @@ class Shield {
   /// https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html">Attaching
   /// and Detaching IAM Policies</a>.
   Future<void> associateDRTRole({
-    @_s.required String roleArn,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     _s.validateStringLength(
@@ -185,7 +175,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateDRTRole'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -195,8 +185,6 @@ class Shield {
         'RoleArn': roleArn,
       },
     );
-
-    return AssociateDRTRoleResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds health-based detection to the Shield Advanced protection for a
@@ -225,8 +213,8 @@ class Shield {
   /// The unique identifier (ID) for the <a>Protection</a> object to add the
   /// health check association to.
   Future<void> associateHealthCheck({
-    @_s.required String healthCheckArn,
-    @_s.required String protectionId,
+    required String healthCheckArn,
+    required String protectionId,
   }) async {
     ArgumentError.checkNotNull(healthCheckArn, 'healthCheckArn');
     _s.validateStringLength(
@@ -260,7 +248,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateHealthCheck'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -271,8 +259,6 @@ class Shield {
         'ProtectionId': protectionId,
       },
     );
-
-    return AssociateHealthCheckResponse.fromJson(jsonResponse.body);
   }
 
   /// Initializes proactive engagement and sets the list of contacts for the
@@ -315,14 +301,14 @@ class Shield {
   /// then provide it here.
   /// </note>
   Future<void> associateProactiveEngagementDetails({
-    @_s.required List<EmergencyContact> emergencyContactList,
+    required List<EmergencyContact> emergencyContactList,
   }) async {
     ArgumentError.checkNotNull(emergencyContactList, 'emergencyContactList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateProactiveEngagementDetails'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -332,9 +318,6 @@ class Shield {
         'EmergencyContactList': emergencyContactList,
       },
     );
-
-    return AssociateProactiveEngagementDetailsResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Enables AWS Shield Advanced for a specific AWS resource. The resource can
@@ -400,8 +383,8 @@ class Shield {
   /// </li>
   /// </ul>
   Future<CreateProtectionResponse> createProtection({
-    @_s.required String name,
-    @_s.required String resourceArn,
+    required String name,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -509,11 +492,11 @@ class Shield {
   /// <code>BY_RESOURCE_TYPE</code> and you must not set it for any other
   /// <code>Pattern</code> setting.
   Future<void> createProtectionGroup({
-    @_s.required ProtectionGroupAggregation aggregation,
-    @_s.required ProtectionGroupPattern pattern,
-    @_s.required String protectionGroupId,
-    List<String> members,
-    ProtectedResourceType resourceType,
+    required ProtectionGroupAggregation aggregation,
+    required ProtectionGroupPattern pattern,
+    required String protectionGroupId,
+    List<String>? members,
+    ProtectedResourceType? resourceType,
   }) async {
     ArgumentError.checkNotNull(aggregation, 'aggregation');
     ArgumentError.checkNotNull(pattern, 'pattern');
@@ -535,22 +518,20 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.CreateProtectionGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregation': aggregation?.toValue() ?? '',
-        'Pattern': pattern?.toValue() ?? '',
+        'Aggregation': aggregation.toValue(),
+        'Pattern': pattern.toValue(),
         'ProtectionGroupId': protectionGroupId,
         if (members != null) 'Members': members,
         if (resourceType != null) 'ResourceType': resourceType.toValue(),
       },
     );
-
-    return CreateProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Activates AWS Shield Advanced for an account.
@@ -566,15 +547,13 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.CreateSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return CreateSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes an AWS Shield Advanced <a>Protection</a>.
@@ -586,7 +565,7 @@ class Shield {
   /// Parameter [protectionId] :
   /// The unique identifier (ID) for the <a>Protection</a> object to be deleted.
   Future<void> deleteProtection({
-    @_s.required String protectionId,
+    required String protectionId,
   }) async {
     ArgumentError.checkNotNull(protectionId, 'protectionId');
     _s.validateStringLength(
@@ -606,7 +585,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DeleteProtection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -616,8 +595,6 @@ class Shield {
         'ProtectionId': protectionId,
       },
     );
-
-    return DeleteProtectionResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified protection group.
@@ -631,7 +608,7 @@ class Shield {
   /// group in lists and to manage the protection group, for example to update,
   /// delete, or describe it.
   Future<void> deleteProtectionGroup({
-    @_s.required String protectionGroupId,
+    required String protectionGroupId,
   }) async {
     ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
     _s.validateStringLength(
@@ -651,7 +628,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DeleteProtectionGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -661,8 +638,6 @@ class Shield {
         'ProtectionGroupId': protectionGroupId,
       },
     );
-
-    return DeleteProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes AWS Shield Advanced from an account. AWS Shield Advanced requires
@@ -678,15 +653,13 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DeleteSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DeleteSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the details of a DDoS attack.
@@ -697,7 +670,7 @@ class Shield {
   /// Parameter [attackId] :
   /// The unique identifier (ID) for the attack that to be described.
   Future<DescribeAttackResponse> describeAttack({
-    @_s.required String attackId,
+    required String attackId,
   }) async {
     ArgumentError.checkNotNull(attackId, 'attackId');
     _s.validateStringLength(
@@ -827,8 +800,8 @@ class Shield {
   /// <code>DescribeProtection</code> request you must provide either the
   /// <code>ResourceArn</code> or the <code>ProtectionID</code>, but not both.
   Future<DescribeProtectionResponse> describeProtection({
-    String protectionId,
-    String resourceArn,
+    String? protectionId,
+    String? resourceArn,
   }) async {
     _s.validateStringLength(
       'protectionId',
@@ -881,7 +854,7 @@ class Shield {
   /// group in lists and to manage the protection group, for example to update,
   /// delete, or describe it.
   Future<DescribeProtectionGroupResponse> describeProtectionGroup({
-    @_s.required String protectionGroupId,
+    required String protectionGroupId,
   }) async {
     ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
     _s.validateStringLength(
@@ -949,15 +922,13 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisableProactiveEngagement'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DisableProactiveEngagementResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the DDoS Response Team's (DRT) access to the specified Amazon S3
@@ -983,7 +954,7 @@ class Shield {
   /// Parameter [logBucket] :
   /// The Amazon S3 bucket that contains your AWS WAF logs.
   Future<void> disassociateDRTLogBucket({
-    @_s.required String logBucket,
+    required String logBucket,
   }) async {
     ArgumentError.checkNotNull(logBucket, 'logBucket');
     _s.validateStringLength(
@@ -1003,7 +974,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisassociateDRTLogBucket'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1013,8 +984,6 @@ class Shield {
         'LogBucket': logBucket,
       },
     );
-
-    return DisassociateDRTLogBucketResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the DDoS Response Team's (DRT) access to your AWS account.
@@ -1038,15 +1007,13 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisassociateDRTRole'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DisassociateDRTRoleResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes health-based detection from the Shield Advanced protection for a
@@ -1074,8 +1041,8 @@ class Shield {
   /// The unique identifier (ID) for the <a>Protection</a> object to remove the
   /// health check association from.
   Future<void> disassociateHealthCheck({
-    @_s.required String healthCheckArn,
-    @_s.required String protectionId,
+    required String healthCheckArn,
+    required String protectionId,
   }) async {
     ArgumentError.checkNotNull(healthCheckArn, 'healthCheckArn');
     _s.validateStringLength(
@@ -1109,7 +1076,7 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisassociateHealthCheck'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1120,8 +1087,6 @@ class Shield {
         'ProtectionId': protectionId,
       },
     );
-
-    return DisassociateHealthCheckResponse.fromJson(jsonResponse.body);
   }
 
   /// Authorizes the DDoS Response Team (DRT) to use email and phone to notify
@@ -1138,15 +1103,13 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.EnableProactiveEngagement'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return EnableProactiveEngagementResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the <code>SubscriptionState</code>, either <code>Active</code> or
@@ -1211,11 +1174,11 @@ class Shield {
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp
   /// format</a> is allowed.
   Future<ListAttacksResponse> listAttacks({
-    TimeRange endTime,
-    int maxResults,
-    String nextToken,
-    List<String> resourceArns,
-    TimeRange startTime,
+    TimeRange? endTime,
+    int? maxResults,
+    String? nextToken,
+    List<String>? resourceArns,
+    TimeRange? startTime,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1277,8 +1240,8 @@ class Shield {
   /// The next token value from a previous call to
   /// <code>ListProtectionGroups</code>. Pass null if this is the first call.
   Future<ListProtectionGroupsResponse> listProtectionGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1337,8 +1300,8 @@ class Shield {
   /// The <code>ListProtectionsRequest.NextToken</code> value from a previous
   /// call to <code>ListProtections</code>. Pass null if this is the first call.
   Future<ListProtectionsResponse> listProtections({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1404,9 +1367,9 @@ class Shield {
   /// first call.
   Future<ListResourcesInProtectionGroupResponse>
       listResourcesInProtectionGroup({
-    @_s.required String protectionGroupId,
-    int maxResults,
-    String nextToken,
+    required String protectionGroupId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
     _s.validateStringLength(
@@ -1477,13 +1440,13 @@ class Shield {
   /// If you have proactive engagement enabled, the contact list must include at
   /// least one phone number.
   Future<void> updateEmergencyContactSettings({
-    List<EmergencyContact> emergencyContactList,
+    List<EmergencyContact>? emergencyContactList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateEmergencyContactSettings'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1494,8 +1457,6 @@ class Shield {
           'EmergencyContactList': emergencyContactList,
       },
     );
-
-    return UpdateEmergencyContactSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing protection group. A protection group is a grouping of
@@ -1553,11 +1514,11 @@ class Shield {
   /// this when you set <code>Pattern</code> to <code>BY_RESOURCE_TYPE</code>
   /// and you must not set it for any other <code>Pattern</code> setting.
   Future<void> updateProtectionGroup({
-    @_s.required ProtectionGroupAggregation aggregation,
-    @_s.required ProtectionGroupPattern pattern,
-    @_s.required String protectionGroupId,
-    List<String> members,
-    ProtectedResourceType resourceType,
+    required ProtectionGroupAggregation aggregation,
+    required ProtectionGroupPattern pattern,
+    required String protectionGroupId,
+    List<String>? members,
+    ProtectedResourceType? resourceType,
   }) async {
     ArgumentError.checkNotNull(aggregation, 'aggregation');
     ArgumentError.checkNotNull(pattern, 'pattern');
@@ -1579,22 +1540,20 @@ class Shield {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateProtectionGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'Aggregation': aggregation?.toValue() ?? '',
-        'Pattern': pattern?.toValue() ?? '',
+        'Aggregation': aggregation.toValue(),
+        'Pattern': pattern.toValue(),
         'ProtectionGroupId': protectionGroupId,
         if (members != null) 'Members': members,
         if (resourceType != null) 'ResourceType': resourceType.toValue(),
       },
     );
-
-    return UpdateProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the details of an existing subscription. Only enter values for
@@ -1615,13 +1574,13 @@ class Shield {
   /// for <code>AutoRenew</code>, the existing value for <code>AutoRenew</code>
   /// remains unchanged.
   Future<void> updateSubscription({
-    AutoRenew autoRenew,
+    AutoRenew? autoRenew,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1631,101 +1590,68 @@ class Shield {
         if (autoRenew != null) 'AutoRenew': autoRenew.toValue(),
       },
     );
-
-    return UpdateSubscriptionResponse.fromJson(jsonResponse.body);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDRTLogBucketResponse {
   AssociateDRTLogBucketResponse();
-  factory AssociateDRTLogBucketResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateDRTLogBucketResponseFromJson(json);
+  factory AssociateDRTLogBucketResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateDRTLogBucketResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDRTRoleResponse {
   AssociateDRTRoleResponse();
-  factory AssociateDRTRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateDRTRoleResponseFromJson(json);
+  factory AssociateDRTRoleResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateDRTRoleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateHealthCheckResponse {
   AssociateHealthCheckResponse();
-  factory AssociateHealthCheckResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateHealthCheckResponseFromJson(json);
+  factory AssociateHealthCheckResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateHealthCheckResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateProactiveEngagementDetailsResponse {
   AssociateProactiveEngagementDetailsResponse();
   factory AssociateProactiveEngagementDetailsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateProactiveEngagementDetailsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateProactiveEngagementDetailsResponse();
+  }
 }
 
 /// The details of a DDoS attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackDetail {
   /// List of counters that describe the attack for the specified time period.
-  @_s.JsonKey(name: 'AttackCounters')
-  final List<SummarizedCounter> attackCounters;
+  final List<SummarizedCounter>? attackCounters;
 
   /// The unique identifier (ID) of the attack.
-  @_s.JsonKey(name: 'AttackId')
-  final String attackId;
+  final String? attackId;
 
   /// The array of <a>AttackProperty</a> objects.
-  @_s.JsonKey(name: 'AttackProperties')
-  final List<AttackProperty> attackProperties;
+  final List<AttackProperty>? attackProperties;
 
   /// The time the attack ended, in Unix time in seconds. For more information see
   /// <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// List of mitigation actions taken for the attack.
-  @_s.JsonKey(name: 'Mitigations')
-  final List<Mitigation> mitigations;
+  final List<Mitigation>? mitigations;
 
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The time the attack started, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// If applicable, additional detail about the resource being attacked, for
   /// example, IP address or URL.
-  @_s.JsonKey(name: 'SubResources')
-  final List<SubResourceSummary> subResources;
+  final List<SubResourceSummary>? subResources;
 
   AttackDetail({
     this.attackCounters,
@@ -1737,50 +1663,83 @@ class AttackDetail {
     this.startTime,
     this.subResources,
   });
-  factory AttackDetail.fromJson(Map<String, dynamic> json) =>
-      _$AttackDetailFromJson(json);
+  factory AttackDetail.fromJson(Map<String, dynamic> json) {
+    return AttackDetail(
+      attackCounters: (json['AttackCounters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attackId: json['AttackId'] as String?,
+      attackProperties: (json['AttackProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttackProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['EndTime']),
+      mitigations: (json['Mitigations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Mitigation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceArn: json['ResourceArn'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      subResources: (json['SubResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubResourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum AttackLayer {
-  @_s.JsonValue('NETWORK')
   network,
-  @_s.JsonValue('APPLICATION')
   application,
 }
 
+extension on AttackLayer {
+  String toValue() {
+    switch (this) {
+      case AttackLayer.network:
+        return 'NETWORK';
+      case AttackLayer.application:
+        return 'APPLICATION';
+    }
+  }
+}
+
+extension on String {
+  AttackLayer toAttackLayer() {
+    switch (this) {
+      case 'NETWORK':
+        return AttackLayer.network;
+      case 'APPLICATION':
+        return AttackLayer.application;
+    }
+    throw Exception('$this is not known in enum AttackLayer');
+  }
+}
+
 /// Details of the described attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackProperty {
   /// The type of distributed denial of service (DDoS) event that was observed.
   /// <code>NETWORK</code> indicates layer 3 and layer 4 events and
   /// <code>APPLICATION</code> indicates layer 7 events.
-  @_s.JsonKey(name: 'AttackLayer')
-  final AttackLayer attackLayer;
+  final AttackLayer? attackLayer;
 
   /// Defines the DDoS attack property information that is provided. The
   /// <code>WORDPRESS_PINGBACK_REFLECTOR</code> and
   /// <code>WORDPRESS_PINGBACK_SOURCE</code> values are valid only for WordPress
   /// reflective pingback DDoS attacks.
-  @_s.JsonKey(name: 'AttackPropertyIdentifier')
-  final AttackPropertyIdentifier attackPropertyIdentifier;
+  final AttackPropertyIdentifier? attackPropertyIdentifier;
 
   /// The array of contributor objects that includes the top five contributors to
   /// an attack.
-  @_s.JsonKey(name: 'TopContributors')
-  final List<Contributor> topContributors;
+  final List<Contributor>? topContributors;
 
   /// The total contributions made to this attack by all contributors, not just
   /// the five listed in the <code>TopContributors</code> list.
-  @_s.JsonKey(name: 'Total')
-  final int total;
+  final int? total;
 
   /// The unit of the <code>Value</code> of the contributions.
-  @_s.JsonKey(name: 'Unit')
-  final Unit unit;
+  final Unit? unit;
 
   AttackProperty({
     this.attackLayer,
@@ -1789,88 +1748,125 @@ class AttackProperty {
     this.total,
     this.unit,
   });
-  factory AttackProperty.fromJson(Map<String, dynamic> json) =>
-      _$AttackPropertyFromJson(json);
+  factory AttackProperty.fromJson(Map<String, dynamic> json) {
+    return AttackProperty(
+      attackLayer: (json['AttackLayer'] as String?)?.toAttackLayer(),
+      attackPropertyIdentifier: (json['AttackPropertyIdentifier'] as String?)
+          ?.toAttackPropertyIdentifier(),
+      topContributors: (json['TopContributors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Contributor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      total: json['Total'] as int?,
+      unit: (json['Unit'] as String?)?.toUnit(),
+    );
+  }
 }
 
 enum AttackPropertyIdentifier {
-  @_s.JsonValue('DESTINATION_URL')
   destinationUrl,
-  @_s.JsonValue('REFERRER')
   referrer,
-  @_s.JsonValue('SOURCE_ASN')
   sourceAsn,
-  @_s.JsonValue('SOURCE_COUNTRY')
   sourceCountry,
-  @_s.JsonValue('SOURCE_IP_ADDRESS')
   sourceIpAddress,
-  @_s.JsonValue('SOURCE_USER_AGENT')
   sourceUserAgent,
-  @_s.JsonValue('WORDPRESS_PINGBACK_REFLECTOR')
   wordpressPingbackReflector,
-  @_s.JsonValue('WORDPRESS_PINGBACK_SOURCE')
   wordpressPingbackSource,
+}
+
+extension on AttackPropertyIdentifier {
+  String toValue() {
+    switch (this) {
+      case AttackPropertyIdentifier.destinationUrl:
+        return 'DESTINATION_URL';
+      case AttackPropertyIdentifier.referrer:
+        return 'REFERRER';
+      case AttackPropertyIdentifier.sourceAsn:
+        return 'SOURCE_ASN';
+      case AttackPropertyIdentifier.sourceCountry:
+        return 'SOURCE_COUNTRY';
+      case AttackPropertyIdentifier.sourceIpAddress:
+        return 'SOURCE_IP_ADDRESS';
+      case AttackPropertyIdentifier.sourceUserAgent:
+        return 'SOURCE_USER_AGENT';
+      case AttackPropertyIdentifier.wordpressPingbackReflector:
+        return 'WORDPRESS_PINGBACK_REFLECTOR';
+      case AttackPropertyIdentifier.wordpressPingbackSource:
+        return 'WORDPRESS_PINGBACK_SOURCE';
+    }
+  }
+}
+
+extension on String {
+  AttackPropertyIdentifier toAttackPropertyIdentifier() {
+    switch (this) {
+      case 'DESTINATION_URL':
+        return AttackPropertyIdentifier.destinationUrl;
+      case 'REFERRER':
+        return AttackPropertyIdentifier.referrer;
+      case 'SOURCE_ASN':
+        return AttackPropertyIdentifier.sourceAsn;
+      case 'SOURCE_COUNTRY':
+        return AttackPropertyIdentifier.sourceCountry;
+      case 'SOURCE_IP_ADDRESS':
+        return AttackPropertyIdentifier.sourceIpAddress;
+      case 'SOURCE_USER_AGENT':
+        return AttackPropertyIdentifier.sourceUserAgent;
+      case 'WORDPRESS_PINGBACK_REFLECTOR':
+        return AttackPropertyIdentifier.wordpressPingbackReflector;
+      case 'WORDPRESS_PINGBACK_SOURCE':
+        return AttackPropertyIdentifier.wordpressPingbackSource;
+    }
+    throw Exception('$this is not known in enum AttackPropertyIdentifier');
+  }
 }
 
 /// A single attack statistics data record. This is returned by
 /// <a>DescribeAttackStatistics</a> along with a time range indicating the time
 /// period that the attack statistics apply to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackStatisticsDataItem {
   /// The number of attacks detected during the time period. This is always
   /// present, but might be zero.
-  @_s.JsonKey(name: 'AttackCount')
   final int attackCount;
 
   /// Information about the volume of attacks during the time period. If the
   /// accompanying <code>AttackCount</code> is zero, this setting might be empty.
-  @_s.JsonKey(name: 'AttackVolume')
-  final AttackVolume attackVolume;
+  final AttackVolume? attackVolume;
 
   AttackStatisticsDataItem({
-    @_s.required this.attackCount,
+    required this.attackCount,
     this.attackVolume,
   });
-  factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) =>
-      _$AttackStatisticsDataItemFromJson(json);
+  factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) {
+    return AttackStatisticsDataItem(
+      attackCount: json['AttackCount'] as int,
+      attackVolume: json['AttackVolume'] != null
+          ? AttackVolume.fromJson(json['AttackVolume'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Summarizes all DDoS attacks for a specified time period.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackSummary {
   /// The unique identifier (ID) of the attack.
-  @_s.JsonKey(name: 'AttackId')
-  final String attackId;
+  final String? attackId;
 
   /// The list of attacks for a specified time period.
-  @_s.JsonKey(name: 'AttackVectors')
-  final List<AttackVectorDescription> attackVectors;
+  final List<AttackVectorDescription>? attackVectors;
 
   /// The end time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The start time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   AttackSummary({
     this.attackId,
@@ -1879,16 +1875,22 @@ class AttackSummary {
     this.resourceArn,
     this.startTime,
   });
-  factory AttackSummary.fromJson(Map<String, dynamic> json) =>
-      _$AttackSummaryFromJson(json);
+  factory AttackSummary.fromJson(Map<String, dynamic> json) {
+    return AttackSummary(
+      attackId: json['AttackId'] as String?,
+      attackVectors: (json['AttackVectors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AttackVectorDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['EndTime']),
+      resourceArn: json['ResourceArn'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
 }
 
 /// Describes the attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackVectorDescription {
   /// The attack type. Valid values:
   ///
@@ -1948,73 +1950,76 @@ class AttackVectorDescription {
   /// MEMCACHED_REFLECTION
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VectorType')
   final String vectorType;
 
   AttackVectorDescription({
-    @_s.required this.vectorType,
+    required this.vectorType,
   });
-  factory AttackVectorDescription.fromJson(Map<String, dynamic> json) =>
-      _$AttackVectorDescriptionFromJson(json);
+  factory AttackVectorDescription.fromJson(Map<String, dynamic> json) {
+    return AttackVectorDescription(
+      vectorType: json['VectorType'] as String,
+    );
+  }
 }
 
 /// Information about the volume of attacks during the time period, included in
 /// an <a>AttackStatisticsDataItem</a>. If the accompanying
 /// <code>AttackCount</code> in the statistics object is zero, this setting
 /// might be empty.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackVolume {
   /// A statistics object that uses bits per second as the unit. This is included
   /// for network level attacks.
-  @_s.JsonKey(name: 'BitsPerSecond')
-  final AttackVolumeStatistics bitsPerSecond;
+  final AttackVolumeStatistics? bitsPerSecond;
 
   /// A statistics object that uses packets per second as the unit. This is
   /// included for network level attacks.
-  @_s.JsonKey(name: 'PacketsPerSecond')
-  final AttackVolumeStatistics packetsPerSecond;
+  final AttackVolumeStatistics? packetsPerSecond;
 
   /// A statistics object that uses requests per second as the unit. This is
   /// included for application level attacks, and is only available for accounts
   /// that are subscribed to Shield Advanced.
-  @_s.JsonKey(name: 'RequestsPerSecond')
-  final AttackVolumeStatistics requestsPerSecond;
+  final AttackVolumeStatistics? requestsPerSecond;
 
   AttackVolume({
     this.bitsPerSecond,
     this.packetsPerSecond,
     this.requestsPerSecond,
   });
-  factory AttackVolume.fromJson(Map<String, dynamic> json) =>
-      _$AttackVolumeFromJson(json);
+  factory AttackVolume.fromJson(Map<String, dynamic> json) {
+    return AttackVolume(
+      bitsPerSecond: json['BitsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['BitsPerSecond'] as Map<String, dynamic>)
+          : null,
+      packetsPerSecond: json['PacketsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['PacketsPerSecond'] as Map<String, dynamic>)
+          : null,
+      requestsPerSecond: json['RequestsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['RequestsPerSecond'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Statistics objects for the various data types in <a>AttackVolume</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttackVolumeStatistics {
   /// The maximum attack volume observed for the given unit.
-  @_s.JsonKey(name: 'Max')
   final double max;
 
   AttackVolumeStatistics({
-    @_s.required this.max,
+    required this.max,
   });
-  factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) =>
-      _$AttackVolumeStatisticsFromJson(json);
+  factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
+    return AttackVolumeStatistics(
+      max: json['Max'] as double,
+    );
+  }
 }
 
 enum AutoRenew {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -2026,383 +2031,336 @@ extension on AutoRenew {
       case AutoRenew.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AutoRenew toAutoRenew() {
+    switch (this) {
+      case 'ENABLED':
+        return AutoRenew.enabled;
+      case 'DISABLED':
+        return AutoRenew.disabled;
+    }
+    throw Exception('$this is not known in enum AutoRenew');
   }
 }
 
 /// A contributor to the attack and their contribution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Contributor {
   /// The name of the contributor. This is dependent on the
   /// <code>AttackPropertyIdentifier</code>. For example, if the
   /// <code>AttackPropertyIdentifier</code> is <code>SOURCE_COUNTRY</code>, the
   /// <code>Name</code> could be <code>United States</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The contribution of this contributor expressed in <a>Protection</a> units.
   /// For example <code>10,000</code>.
-  @_s.JsonKey(name: 'Value')
-  final int value;
+  final int? value;
 
   Contributor({
     this.name,
     this.value,
   });
-  factory Contributor.fromJson(Map<String, dynamic> json) =>
-      _$ContributorFromJson(json);
+  factory Contributor.fromJson(Map<String, dynamic> json) {
+    return Contributor(
+      name: json['Name'] as String?,
+      value: json['Value'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProtectionGroupResponse {
   CreateProtectionGroupResponse();
-  factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProtectionGroupResponseFromJson(json);
+  factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return CreateProtectionGroupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProtectionResponse {
   /// The unique identifier (ID) for the <a>Protection</a> object that is created.
-  @_s.JsonKey(name: 'ProtectionId')
-  final String protectionId;
+  final String? protectionId;
 
   CreateProtectionResponse({
     this.protectionId,
   });
-  factory CreateProtectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProtectionResponseFromJson(json);
+  factory CreateProtectionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProtectionResponse(
+      protectionId: json['ProtectionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSubscriptionResponse {
   CreateSubscriptionResponse();
-  factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSubscriptionResponseFromJson(json);
+  factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return CreateSubscriptionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProtectionGroupResponse {
   DeleteProtectionGroupResponse();
-  factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProtectionGroupResponseFromJson(json);
+  factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProtectionGroupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProtectionResponse {
   DeleteProtectionResponse();
-  factory DeleteProtectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProtectionResponseFromJson(json);
+  factory DeleteProtectionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProtectionResponse();
+  }
 }
 
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
-  factory DeleteSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSubscriptionResponseFromJson(json);
+  factory DeleteSubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSubscriptionResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAttackResponse {
   /// The attack that is described.
-  @_s.JsonKey(name: 'Attack')
-  final AttackDetail attack;
+  final AttackDetail? attack;
 
   DescribeAttackResponse({
     this.attack,
   });
-  factory DescribeAttackResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAttackResponseFromJson(json);
+  factory DescribeAttackResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAttackResponse(
+      attack: json['Attack'] != null
+          ? AttackDetail.fromJson(json['Attack'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAttackStatisticsResponse {
   /// The data that describes the attacks detected during the time period.
-  @_s.JsonKey(name: 'DataItems')
   final List<AttackStatisticsDataItem> dataItems;
-  @_s.JsonKey(name: 'TimeRange')
   final TimeRange timeRange;
 
   DescribeAttackStatisticsResponse({
-    @_s.required this.dataItems,
-    @_s.required this.timeRange,
+    required this.dataItems,
+    required this.timeRange,
   });
-  factory DescribeAttackStatisticsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAttackStatisticsResponseFromJson(json);
+  factory DescribeAttackStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAttackStatisticsResponse(
+      dataItems: (json['DataItems'] as List)
+          .whereNotNull()
+          .map((e) =>
+              AttackStatisticsDataItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeRange: TimeRange.fromJson(json['TimeRange'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDRTAccessResponse {
   /// The list of Amazon S3 buckets accessed by the DRT.
-  @_s.JsonKey(name: 'LogBucketList')
-  final List<String> logBucketList;
+  final List<String>? logBucketList;
 
   /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS
   /// account.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   DescribeDRTAccessResponse({
     this.logBucketList,
     this.roleArn,
   });
-  factory DescribeDRTAccessResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDRTAccessResponseFromJson(json);
+  factory DescribeDRTAccessResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDRTAccessResponse(
+      logBucketList: (json['LogBucketList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEmergencyContactSettingsResponse {
   /// A list of email addresses and phone numbers that the DDoS Response Team
   /// (DRT) can use to contact you if you have proactive engagement enabled, for
   /// escalations to the DRT and to initiate proactive customer support.
-  @_s.JsonKey(name: 'EmergencyContactList')
-  final List<EmergencyContact> emergencyContactList;
+  final List<EmergencyContact>? emergencyContactList;
 
   DescribeEmergencyContactSettingsResponse({
     this.emergencyContactList,
   });
   factory DescribeEmergencyContactSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEmergencyContactSettingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEmergencyContactSettingsResponse(
+      emergencyContactList: (json['EmergencyContactList'] as List?)
+          ?.whereNotNull()
+          .map((e) => EmergencyContact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProtectionGroupResponse {
   /// A grouping of protected resources that you and AWS Shield Advanced can
   /// monitor as a collective. This resource grouping improves the accuracy of
   /// detection and reduces false positives.
-  @_s.JsonKey(name: 'ProtectionGroup')
   final ProtectionGroup protectionGroup;
 
   DescribeProtectionGroupResponse({
-    @_s.required this.protectionGroup,
+    required this.protectionGroup,
   });
-  factory DescribeProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProtectionGroupResponseFromJson(json);
+  factory DescribeProtectionGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProtectionGroupResponse(
+      protectionGroup: ProtectionGroup.fromJson(
+          json['ProtectionGroup'] as Map<String, dynamic>),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProtectionResponse {
   /// The <a>Protection</a> object that is described.
-  @_s.JsonKey(name: 'Protection')
-  final Protection protection;
+  final Protection? protection;
 
   DescribeProtectionResponse({
     this.protection,
   });
-  factory DescribeProtectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProtectionResponseFromJson(json);
+  factory DescribeProtectionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProtectionResponse(
+      protection: json['Protection'] != null
+          ? Protection.fromJson(json['Protection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSubscriptionResponse {
   /// The AWS Shield Advanced subscription details for an account.
-  @_s.JsonKey(name: 'Subscription')
-  final Subscription subscription;
+  final Subscription? subscription;
 
   DescribeSubscriptionResponse({
     this.subscription,
   });
-  factory DescribeSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSubscriptionResponseFromJson(json);
+  factory DescribeSubscriptionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSubscriptionResponse(
+      subscription: json['Subscription'] != null
+          ? Subscription.fromJson(json['Subscription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableProactiveEngagementResponse {
   DisableProactiveEngagementResponse();
-  factory DisableProactiveEngagementResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisableProactiveEngagementResponseFromJson(json);
+  factory DisableProactiveEngagementResponse.fromJson(Map<String, dynamic> _) {
+    return DisableProactiveEngagementResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDRTLogBucketResponse {
   DisassociateDRTLogBucketResponse();
-  factory DisassociateDRTLogBucketResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateDRTLogBucketResponseFromJson(json);
+  factory DisassociateDRTLogBucketResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateDRTLogBucketResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDRTRoleResponse {
   DisassociateDRTRoleResponse();
-  factory DisassociateDRTRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateDRTRoleResponseFromJson(json);
+  factory DisassociateDRTRoleResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateDRTRoleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateHealthCheckResponse {
   DisassociateHealthCheckResponse();
-  factory DisassociateHealthCheckResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateHealthCheckResponseFromJson(json);
+  factory DisassociateHealthCheckResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateHealthCheckResponse();
+  }
 }
 
 /// Contact information that the DRT can use to contact you if you have
 /// proactive engagement enabled, for escalations to the DRT and to initiate
 /// proactive customer support.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EmergencyContact {
   /// The email address for the contact.
-  @_s.JsonKey(name: 'EmailAddress')
   final String emailAddress;
 
   /// Additional notes regarding the contact.
-  @_s.JsonKey(name: 'ContactNotes')
-  final String contactNotes;
+  final String? contactNotes;
 
   /// The phone number for the contact.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   EmergencyContact({
-    @_s.required this.emailAddress,
+    required this.emailAddress,
     this.contactNotes,
     this.phoneNumber,
   });
-  factory EmergencyContact.fromJson(Map<String, dynamic> json) =>
-      _$EmergencyContactFromJson(json);
+  factory EmergencyContact.fromJson(Map<String, dynamic> json) {
+    return EmergencyContact(
+      emailAddress: json['EmailAddress'] as String,
+      contactNotes: json['ContactNotes'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final contactNotes = this.contactNotes;
+    final phoneNumber = this.phoneNumber;
+    return {
+      'EmailAddress': emailAddress,
+      if (contactNotes != null) 'ContactNotes': contactNotes,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableProactiveEngagementResponse {
   EnableProactiveEngagementResponse();
-  factory EnableProactiveEngagementResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableProactiveEngagementResponseFromJson(json);
+  factory EnableProactiveEngagementResponse.fromJson(Map<String, dynamic> _) {
+    return EnableProactiveEngagementResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSubscriptionStateResponse {
   /// The status of the subscription.
-  @_s.JsonKey(name: 'SubscriptionState')
   final SubscriptionState subscriptionState;
 
   GetSubscriptionStateResponse({
-    @_s.required this.subscriptionState,
+    required this.subscriptionState,
   });
-  factory GetSubscriptionStateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSubscriptionStateResponseFromJson(json);
+  factory GetSubscriptionStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetSubscriptionStateResponse(
+      subscriptionState:
+          (json['SubscriptionState'] as String).toSubscriptionState(),
+    );
+  }
 }
 
 /// Specifies how many protections of a given type you can create.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Limit {
   /// The maximum number of protections that can be created for the specified
   /// <code>Type</code>.
-  @_s.JsonKey(name: 'Max')
-  final int max;
+  final int? max;
 
   /// The type of protection.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Limit({
     this.max,
     this.type,
   });
-  factory Limit.fromJson(Map<String, dynamic> json) => _$LimitFromJson(json);
+  factory Limit.fromJson(Map<String, dynamic> json) {
+    return Limit(
+      max: json['Max'] as int?,
+      type: json['Type'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttacksResponse {
   /// The attack information for the specified time range.
-  @_s.JsonKey(name: 'AttackSummaries')
-  final List<AttackSummary> attackSummaries;
+  final List<AttackSummary>? attackSummaries;
 
   /// The token returned by a previous call to indicate that there is more data
   /// available. If not null, more results are available. Pass this value for the
@@ -2413,47 +2371,48 @@ class ListAttacksResponse {
   /// batches smaller than the number specified by MaxResults. If there are more
   /// attack summary objects to return, Shield Advanced will always also return a
   /// <code>NextToken</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAttacksResponse({
     this.attackSummaries,
     this.nextToken,
   });
-  factory ListAttacksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttacksResponseFromJson(json);
+  factory ListAttacksResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttacksResponse(
+      attackSummaries: (json['AttackSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttackSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProtectionGroupsResponse {
   /// <p/>
-  @_s.JsonKey(name: 'ProtectionGroups')
   final List<ProtectionGroup> protectionGroups;
 
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// protection groups than the value of MaxResults, AWS Shield Advanced returns
   /// this token that you can use in your next request, to get the next batch of
   /// objects.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListProtectionGroupsResponse({
-    @_s.required this.protectionGroups,
+    required this.protectionGroups,
     this.nextToken,
   });
-  factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProtectionGroupsResponseFromJson(json);
+  factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProtectionGroupsResponse(
+      protectionGroups: (json['ProtectionGroups'] as List)
+          .whereNotNull()
+          .map((e) => ProtectionGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProtectionsResponse {
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// Protections than the value of MaxResults, AWS Shield Advanced returns a
@@ -2466,87 +2425,107 @@ class ListProtectionsResponse {
   /// batches smaller than the number specified by MaxResults. If there are more
   /// <a>Protection</a> objects to return, Shield Advanced will always also return
   /// a <code>NextToken</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The array of enabled <a>Protection</a> objects.
-  @_s.JsonKey(name: 'Protections')
-  final List<Protection> protections;
+  final List<Protection>? protections;
 
   ListProtectionsResponse({
     this.nextToken,
     this.protections,
   });
-  factory ListProtectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProtectionsResponseFromJson(json);
+  factory ListProtectionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProtectionsResponse(
+      nextToken: json['NextToken'] as String?,
+      protections: (json['Protections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Protection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourcesInProtectionGroupResponse {
   /// The Amazon Resource Names (ARNs) of the resources that are included in the
   /// protection group.
-  @_s.JsonKey(name: 'ResourceArns')
   final List<String> resourceArns;
 
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// resources in the protection group than the value of MaxResults, AWS Shield
   /// Advanced returns this token that you can use in your next request, to get
   /// the next batch of objects.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListResourcesInProtectionGroupResponse({
-    @_s.required this.resourceArns,
+    required this.resourceArns,
     this.nextToken,
   });
   factory ListResourcesInProtectionGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResourcesInProtectionGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResourcesInProtectionGroupResponse(
+      resourceArns: (json['ResourceArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The mitigation applied to a DDoS attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Mitigation {
   /// The name of the mitigation taken for this attack.
-  @_s.JsonKey(name: 'MitigationName')
-  final String mitigationName;
+  final String? mitigationName;
 
   Mitigation({
     this.mitigationName,
   });
-  factory Mitigation.fromJson(Map<String, dynamic> json) =>
-      _$MitigationFromJson(json);
+  factory Mitigation.fromJson(Map<String, dynamic> json) {
+    return Mitigation(
+      mitigationName: json['MitigationName'] as String?,
+    );
+  }
 }
 
 enum ProactiveEngagementStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('PENDING')
   pending,
 }
 
+extension on ProactiveEngagementStatus {
+  String toValue() {
+    switch (this) {
+      case ProactiveEngagementStatus.enabled:
+        return 'ENABLED';
+      case ProactiveEngagementStatus.disabled:
+        return 'DISABLED';
+      case ProactiveEngagementStatus.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  ProactiveEngagementStatus toProactiveEngagementStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ProactiveEngagementStatus.enabled;
+      case 'DISABLED':
+        return ProactiveEngagementStatus.disabled;
+      case 'PENDING':
+        return ProactiveEngagementStatus.pending;
+    }
+    throw Exception('$this is not known in enum ProactiveEngagementStatus');
+  }
+}
+
 enum ProtectedResourceType {
-  @_s.JsonValue('CLOUDFRONT_DISTRIBUTION')
   cloudfrontDistribution,
-  @_s.JsonValue('ROUTE_53_HOSTED_ZONE')
   route_53HostedZone,
-  @_s.JsonValue('ELASTIC_IP_ALLOCATION')
   elasticIpAllocation,
-  @_s.JsonValue('CLASSIC_LOAD_BALANCER')
   classicLoadBalancer,
-  @_s.JsonValue('APPLICATION_LOAD_BALANCER')
   applicationLoadBalancer,
-  @_s.JsonValue('GLOBAL_ACCELERATOR')
   globalAccelerator,
 }
 
@@ -2566,34 +2545,44 @@ extension on ProtectedResourceType {
       case ProtectedResourceType.globalAccelerator:
         return 'GLOBAL_ACCELERATOR';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProtectedResourceType toProtectedResourceType() {
+    switch (this) {
+      case 'CLOUDFRONT_DISTRIBUTION':
+        return ProtectedResourceType.cloudfrontDistribution;
+      case 'ROUTE_53_HOSTED_ZONE':
+        return ProtectedResourceType.route_53HostedZone;
+      case 'ELASTIC_IP_ALLOCATION':
+        return ProtectedResourceType.elasticIpAllocation;
+      case 'CLASSIC_LOAD_BALANCER':
+        return ProtectedResourceType.classicLoadBalancer;
+      case 'APPLICATION_LOAD_BALANCER':
+        return ProtectedResourceType.applicationLoadBalancer;
+      case 'GLOBAL_ACCELERATOR':
+        return ProtectedResourceType.globalAccelerator;
+    }
+    throw Exception('$this is not known in enum ProtectedResourceType');
   }
 }
 
 /// An object that represents a resource that is under DDoS protection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Protection {
   /// The unique identifier (ID) for the Route 53 health check that's associated
   /// with the protection.
-  @_s.JsonKey(name: 'HealthCheckIds')
-  final List<String> healthCheckIds;
+  final List<String>? healthCheckIds;
 
   /// The unique identifier (ID) of the protection.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the protection. For example, <code>My CloudFront
   /// distributions</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   Protection({
     this.healthCheckIds,
@@ -2601,18 +2590,22 @@ class Protection {
     this.name,
     this.resourceArn,
   });
-  factory Protection.fromJson(Map<String, dynamic> json) =>
-      _$ProtectionFromJson(json);
+  factory Protection.fromJson(Map<String, dynamic> json) {
+    return Protection(
+      healthCheckIds: (json['HealthCheckIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
 }
 
 /// A grouping of protected resources that you and AWS Shield Advanced can
 /// monitor as a collective. This resource grouping improves the accuracy of
 /// detection and reduces false positives.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectionGroup {
   /// Defines how AWS Shield combines resource data for the group in order to
   /// detect, mitigate, and report events.
@@ -2635,53 +2628,57 @@ class ProtectionGroup {
   /// resources for CloudFront distributions.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Aggregation')
   final ProtectionGroupAggregation aggregation;
 
   /// The Amazon Resource Names (ARNs) of the resources to include in the
   /// protection group. You must set this when you set <code>Pattern</code> to
   /// <code>ARBITRARY</code> and you must not set it for any other
   /// <code>Pattern</code> setting.
-  @_s.JsonKey(name: 'Members')
   final List<String> members;
 
   /// The criteria to use to choose the protected resources for inclusion in the
   /// group. You can include all resources that have protections, provide a list
   /// of resource Amazon Resource Names (ARNs), or include all resources of a
   /// specified resource type.
-  @_s.JsonKey(name: 'Pattern')
   final ProtectionGroupPattern pattern;
 
   /// The name of the protection group. You use this to identify the protection
   /// group in lists and to manage the protection group, for example to update,
   /// delete, or describe it.
-  @_s.JsonKey(name: 'ProtectionGroupId')
   final String protectionGroupId;
 
   /// The resource type to include in the protection group. All protected
   /// resources of this type are included in the protection group. You must set
   /// this when you set <code>Pattern</code> to <code>BY_RESOURCE_TYPE</code> and
   /// you must not set it for any other <code>Pattern</code> setting.
-  @_s.JsonKey(name: 'ResourceType')
-  final ProtectedResourceType resourceType;
+  final ProtectedResourceType? resourceType;
 
   ProtectionGroup({
-    @_s.required this.aggregation,
-    @_s.required this.members,
-    @_s.required this.pattern,
-    @_s.required this.protectionGroupId,
+    required this.aggregation,
+    required this.members,
+    required this.pattern,
+    required this.protectionGroupId,
     this.resourceType,
   });
-  factory ProtectionGroup.fromJson(Map<String, dynamic> json) =>
-      _$ProtectionGroupFromJson(json);
+  factory ProtectionGroup.fromJson(Map<String, dynamic> json) {
+    return ProtectionGroup(
+      aggregation:
+          (json['Aggregation'] as String).toProtectionGroupAggregation(),
+      members: (json['Members'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pattern: (json['Pattern'] as String).toProtectionGroupPattern(),
+      protectionGroupId: json['ProtectionGroupId'] as String,
+      resourceType:
+          (json['ResourceType'] as String?)?.toProtectedResourceType(),
+    );
+  }
 }
 
 enum ProtectionGroupAggregation {
-  @_s.JsonValue('SUM')
   sum,
-  @_s.JsonValue('MEAN')
   mean,
-  @_s.JsonValue('MAX')
   max,
 }
 
@@ -2695,60 +2692,65 @@ extension on ProtectionGroupAggregation {
       case ProtectionGroupAggregation.max:
         return 'MAX';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProtectionGroupAggregation toProtectionGroupAggregation() {
+    switch (this) {
+      case 'SUM':
+        return ProtectionGroupAggregation.sum;
+      case 'MEAN':
+        return ProtectionGroupAggregation.mean;
+      case 'MAX':
+        return ProtectionGroupAggregation.max;
+    }
+    throw Exception('$this is not known in enum ProtectionGroupAggregation');
   }
 }
 
 /// Limits settings on protection groups with arbitrary pattern type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectionGroupArbitraryPatternLimits {
   /// The maximum number of resources you can specify for a single arbitrary
   /// pattern in a protection group.
-  @_s.JsonKey(name: 'MaxMembers')
   final int maxMembers;
 
   ProtectionGroupArbitraryPatternLimits({
-    @_s.required this.maxMembers,
+    required this.maxMembers,
   });
   factory ProtectionGroupArbitraryPatternLimits.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProtectionGroupArbitraryPatternLimitsFromJson(json);
+      Map<String, dynamic> json) {
+    return ProtectionGroupArbitraryPatternLimits(
+      maxMembers: json['MaxMembers'] as int,
+    );
+  }
 }
 
 /// Limits settings on protection groups for your subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectionGroupLimits {
   /// The maximum number of protection groups that you can have at one time.
-  @_s.JsonKey(name: 'MaxProtectionGroups')
   final int maxProtectionGroups;
 
   /// Limits settings by pattern type in the protection groups for your
   /// subscription.
-  @_s.JsonKey(name: 'PatternTypeLimits')
   final ProtectionGroupPatternTypeLimits patternTypeLimits;
 
   ProtectionGroupLimits({
-    @_s.required this.maxProtectionGroups,
-    @_s.required this.patternTypeLimits,
+    required this.maxProtectionGroups,
+    required this.patternTypeLimits,
   });
-  factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) =>
-      _$ProtectionGroupLimitsFromJson(json);
+  factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionGroupLimits(
+      maxProtectionGroups: json['MaxProtectionGroups'] as int,
+      patternTypeLimits: ProtectionGroupPatternTypeLimits.fromJson(
+          json['PatternTypeLimits'] as Map<String, dynamic>),
+    );
+  }
 }
 
 enum ProtectionGroupPattern {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('ARBITRARY')
   arbitrary,
-  @_s.JsonValue('BY_RESOURCE_TYPE')
   byResourceType,
 }
 
@@ -2762,70 +2764,71 @@ extension on ProtectionGroupPattern {
       case ProtectionGroupPattern.byResourceType:
         return 'BY_RESOURCE_TYPE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProtectionGroupPattern toProtectionGroupPattern() {
+    switch (this) {
+      case 'ALL':
+        return ProtectionGroupPattern.all;
+      case 'ARBITRARY':
+        return ProtectionGroupPattern.arbitrary;
+      case 'BY_RESOURCE_TYPE':
+        return ProtectionGroupPattern.byResourceType;
+    }
+    throw Exception('$this is not known in enum ProtectionGroupPattern');
   }
 }
 
 /// Limits settings by pattern type in the protection groups for your
 /// subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectionGroupPatternTypeLimits {
   /// Limits settings on protection groups with arbitrary pattern type.
-  @_s.JsonKey(name: 'ArbitraryPatternLimits')
   final ProtectionGroupArbitraryPatternLimits arbitraryPatternLimits;
 
   ProtectionGroupPatternTypeLimits({
-    @_s.required this.arbitraryPatternLimits,
+    required this.arbitraryPatternLimits,
   });
-  factory ProtectionGroupPatternTypeLimits.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProtectionGroupPatternTypeLimitsFromJson(json);
+  factory ProtectionGroupPatternTypeLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionGroupPatternTypeLimits(
+      arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits.fromJson(
+          json['ArbitraryPatternLimits'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Limits settings on protections for your subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtectionLimits {
   /// The maximum number of resource types that you can specify in a protection.
-  @_s.JsonKey(name: 'ProtectedResourceTypeLimits')
   final List<Limit> protectedResourceTypeLimits;
 
   ProtectionLimits({
-    @_s.required this.protectedResourceTypeLimits,
+    required this.protectedResourceTypeLimits,
   });
-  factory ProtectionLimits.fromJson(Map<String, dynamic> json) =>
-      _$ProtectionLimitsFromJson(json);
+  factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionLimits(
+      protectedResourceTypeLimits: (json['ProtectedResourceTypeLimits'] as List)
+          .whereNotNull()
+          .map((e) => Limit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The attack information for the specified SubResource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubResourceSummary {
   /// The list of attack types and associated counters.
-  @_s.JsonKey(name: 'AttackVectors')
-  final List<SummarizedAttackVector> attackVectors;
+  final List<SummarizedAttackVector>? attackVectors;
 
   /// The counters that describe the details of the attack.
-  @_s.JsonKey(name: 'Counters')
-  final List<SummarizedCounter> counters;
+  final List<SummarizedCounter>? counters;
 
   /// The unique identifier (ID) of the <code>SubResource</code>.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The <code>SubResource</code> type.
-  @_s.JsonKey(name: 'Type')
-  final SubResourceType type;
+  final SubResourceType? type;
 
   SubResourceSummary({
     this.attackVectors,
@@ -2833,26 +2836,54 @@ class SubResourceSummary {
     this.id,
     this.type,
   });
-  factory SubResourceSummary.fromJson(Map<String, dynamic> json) =>
-      _$SubResourceSummaryFromJson(json);
+  factory SubResourceSummary.fromJson(Map<String, dynamic> json) {
+    return SubResourceSummary(
+      attackVectors: (json['AttackVectors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SummarizedAttackVector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      counters: (json['Counters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.toSubResourceType(),
+    );
+  }
 }
 
 enum SubResourceType {
-  @_s.JsonValue('IP')
   ip,
-  @_s.JsonValue('URL')
   url,
 }
 
+extension on SubResourceType {
+  String toValue() {
+    switch (this) {
+      case SubResourceType.ip:
+        return 'IP';
+      case SubResourceType.url:
+        return 'URL';
+    }
+  }
+}
+
+extension on String {
+  SubResourceType toSubResourceType() {
+    switch (this) {
+      case 'IP':
+        return SubResourceType.ip;
+      case 'URL':
+        return SubResourceType.url;
+    }
+    throw Exception('$this is not known in enum SubResourceType');
+  }
+}
+
 /// Information about the AWS Shield Advanced subscription for an account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Subscription {
   /// Limits settings for your subscription.
-  @_s.JsonKey(name: 'SubscriptionLimits')
   final SubscriptionLimits subscriptionLimits;
 
   /// If <code>ENABLED</code>, the subscription will be automatically renewed at
@@ -2864,17 +2895,13 @@ class Subscription {
   /// <code>UpdateSubscription</code> request does not included a value for
   /// <code>AutoRenew</code>, the existing value for <code>AutoRenew</code>
   /// remains unchanged.
-  @_s.JsonKey(name: 'AutoRenew')
-  final AutoRenew autoRenew;
+  final AutoRenew? autoRenew;
 
   /// The date and time your subscription will end.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// Specifies how many protections of a given type you can create.
-  @_s.JsonKey(name: 'Limits')
-  final List<Limit> limits;
+  final List<Limit>? limits;
 
   /// If <code>ENABLED</code>, the DDoS Response Team (DRT) will use email and
   /// phone to notify contacts about escalations to the DRT and to initiate
@@ -2886,23 +2913,19 @@ class Subscription {
   ///
   /// If <code>DISABLED</code>, the DRT will not proactively notify contacts about
   /// escalations or to initiate proactive customer support.
-  @_s.JsonKey(name: 'ProactiveEngagementStatus')
-  final ProactiveEngagementStatus proactiveEngagementStatus;
+  final ProactiveEngagementStatus? proactiveEngagementStatus;
 
   /// The start time of the subscription, in Unix time in seconds. For more
   /// information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The length, in seconds, of the AWS Shield Advanced subscription for the
   /// account.
-  @_s.JsonKey(name: 'TimeCommitmentInSeconds')
-  final int timeCommitmentInSeconds;
+  final int? timeCommitmentInSeconds;
 
   Subscription({
-    @_s.required this.subscriptionLimits,
+    required this.subscriptionLimits,
     this.autoRenew,
     this.endTime,
     this.limits,
@@ -2910,93 +2933,116 @@ class Subscription {
     this.startTime,
     this.timeCommitmentInSeconds,
   });
-  factory Subscription.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionFromJson(json);
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      subscriptionLimits: SubscriptionLimits.fromJson(
+          json['SubscriptionLimits'] as Map<String, dynamic>),
+      autoRenew: (json['AutoRenew'] as String?)?.toAutoRenew(),
+      endTime: timeStampFromJson(json['EndTime']),
+      limits: (json['Limits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Limit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      proactiveEngagementStatus: (json['ProactiveEngagementStatus'] as String?)
+          ?.toProactiveEngagementStatus(),
+      startTime: timeStampFromJson(json['StartTime']),
+      timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int?,
+    );
+  }
 }
 
 /// Limits settings for your subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubscriptionLimits {
   /// Limits settings on protection groups for your subscription.
-  @_s.JsonKey(name: 'ProtectionGroupLimits')
   final ProtectionGroupLimits protectionGroupLimits;
 
   /// Limits settings on protections for your subscription.
-  @_s.JsonKey(name: 'ProtectionLimits')
   final ProtectionLimits protectionLimits;
 
   SubscriptionLimits({
-    @_s.required this.protectionGroupLimits,
-    @_s.required this.protectionLimits,
+    required this.protectionGroupLimits,
+    required this.protectionLimits,
   });
-  factory SubscriptionLimits.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionLimitsFromJson(json);
+  factory SubscriptionLimits.fromJson(Map<String, dynamic> json) {
+    return SubscriptionLimits(
+      protectionGroupLimits: ProtectionGroupLimits.fromJson(
+          json['ProtectionGroupLimits'] as Map<String, dynamic>),
+      protectionLimits: ProtectionLimits.fromJson(
+          json['ProtectionLimits'] as Map<String, dynamic>),
+    );
+  }
 }
 
 enum SubscriptionState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
+extension on SubscriptionState {
+  String toValue() {
+    switch (this) {
+      case SubscriptionState.active:
+        return 'ACTIVE';
+      case SubscriptionState.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  SubscriptionState toSubscriptionState() {
+    switch (this) {
+      case 'ACTIVE':
+        return SubscriptionState.active;
+      case 'INACTIVE':
+        return SubscriptionState.inactive;
+    }
+    throw Exception('$this is not known in enum SubscriptionState');
+  }
+}
+
 /// A summary of information about the attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SummarizedAttackVector {
   /// The attack type, for example, SNMP reflection or SYN flood.
-  @_s.JsonKey(name: 'VectorType')
   final String vectorType;
 
   /// The list of counters that describe the details of the attack.
-  @_s.JsonKey(name: 'VectorCounters')
-  final List<SummarizedCounter> vectorCounters;
+  final List<SummarizedCounter>? vectorCounters;
 
   SummarizedAttackVector({
-    @_s.required this.vectorType,
+    required this.vectorType,
     this.vectorCounters,
   });
-  factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) =>
-      _$SummarizedAttackVectorFromJson(json);
+  factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) {
+    return SummarizedAttackVector(
+      vectorType: json['VectorType'] as String,
+      vectorCounters: (json['VectorCounters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The counter that describes a DDoS attack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SummarizedCounter {
   /// The average value of the counter for a specified time period.
-  @_s.JsonKey(name: 'Average')
-  final double average;
+  final double? average;
 
   /// The maximum value of the counter for a specified time period.
-  @_s.JsonKey(name: 'Max')
-  final double max;
+  final double? max;
 
   /// The number of counters for a specified time period.
-  @_s.JsonKey(name: 'N')
-  final int n;
+  final int? n;
 
   /// The counter name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The total of counter values for a specified time period.
-  @_s.JsonKey(name: 'Sum')
-  final double sum;
+  final double? sum;
 
   /// The unit of the counters.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   SummarizedCounter({
     this.average,
@@ -3006,91 +3052,117 @@ class SummarizedCounter {
     this.sum,
     this.unit,
   });
-  factory SummarizedCounter.fromJson(Map<String, dynamic> json) =>
-      _$SummarizedCounterFromJson(json);
+  factory SummarizedCounter.fromJson(Map<String, dynamic> json) {
+    return SummarizedCounter(
+      average: json['Average'] as double?,
+      max: json['Max'] as double?,
+      n: json['N'] as int?,
+      name: json['Name'] as String?,
+      sum: json['Sum'] as double?,
+      unit: json['Unit'] as String?,
+    );
+  }
 }
 
 /// The time range.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeRange {
   /// The start time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FromInclusive')
-  final DateTime fromInclusive;
+  final DateTime? fromInclusive;
 
   /// The end time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ToExclusive')
-  final DateTime toExclusive;
+  final DateTime? toExclusive;
 
   TimeRange({
     this.fromInclusive,
     this.toExclusive,
   });
-  factory TimeRange.fromJson(Map<String, dynamic> json) =>
-      _$TimeRangeFromJson(json);
+  factory TimeRange.fromJson(Map<String, dynamic> json) {
+    return TimeRange(
+      fromInclusive: timeStampFromJson(json['FromInclusive']),
+      toExclusive: timeStampFromJson(json['ToExclusive']),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TimeRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final fromInclusive = this.fromInclusive;
+    final toExclusive = this.toExclusive;
+    return {
+      if (fromInclusive != null)
+        'FromInclusive': unixTimestampToJson(fromInclusive),
+      if (toExclusive != null) 'ToExclusive': unixTimestampToJson(toExclusive),
+    };
+  }
 }
 
 enum Unit {
-  @_s.JsonValue('BITS')
   bits,
-  @_s.JsonValue('BYTES')
   bytes,
-  @_s.JsonValue('PACKETS')
   packets,
-  @_s.JsonValue('REQUESTS')
   requests,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Unit {
+  String toValue() {
+    switch (this) {
+      case Unit.bits:
+        return 'BITS';
+      case Unit.bytes:
+        return 'BYTES';
+      case Unit.packets:
+        return 'PACKETS';
+      case Unit.requests:
+        return 'REQUESTS';
+    }
+  }
+}
+
+extension on String {
+  Unit toUnit() {
+    switch (this) {
+      case 'BITS':
+        return Unit.bits;
+      case 'BYTES':
+        return Unit.bytes;
+      case 'PACKETS':
+        return Unit.packets;
+      case 'REQUESTS':
+        return Unit.requests;
+    }
+    throw Exception('$this is not known in enum Unit');
+  }
+}
+
 class UpdateEmergencyContactSettingsResponse {
   UpdateEmergencyContactSettingsResponse();
   factory UpdateEmergencyContactSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateEmergencyContactSettingsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateEmergencyContactSettingsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProtectionGroupResponse {
   UpdateProtectionGroupResponse();
-  factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProtectionGroupResponseFromJson(json);
+  factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProtectionGroupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSubscriptionResponse {
   UpdateSubscriptionResponse();
-  factory UpdateSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSubscriptionResponseFromJson(json);
+  factory UpdateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateSubscriptionResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AccessDeniedForDependencyException extends _s.GenericAwsException {
-  AccessDeniedForDependencyException({String type, String message})
+  AccessDeniedForDependencyException({String? type, String? message})
       : super(
             type: type,
             code: 'AccessDeniedForDependencyException',
@@ -3098,17 +3170,17 @@ class AccessDeniedForDependencyException extends _s.GenericAwsException {
 }
 
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidPaginationTokenException extends _s.GenericAwsException {
-  InvalidPaginationTokenException({String type, String message})
+  InvalidPaginationTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPaginationTokenException',
@@ -3116,38 +3188,38 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidResourceException extends _s.GenericAwsException {
-  InvalidResourceException({String type, String message})
+  InvalidResourceException({String? type, String? message})
       : super(type: type, code: 'InvalidResourceException', message: message);
 }
 
 class LimitsExceededException extends _s.GenericAwsException {
-  LimitsExceededException({String type, String message})
+  LimitsExceededException({String? type, String? message})
       : super(type: type, code: 'LimitsExceededException', message: message);
 }
 
 class LockedSubscriptionException extends _s.GenericAwsException {
-  LockedSubscriptionException({String type, String message})
+  LockedSubscriptionException({String? type, String? message})
       : super(
             type: type, code: 'LockedSubscriptionException', message: message);
 }
 
 class NoAssociatedRoleException extends _s.GenericAwsException {
-  NoAssociatedRoleException({String type, String message})
+  NoAssociatedRoleException({String? type, String? message})
       : super(type: type, code: 'NoAssociatedRoleException', message: message);
 }
 
 class OptimisticLockException extends _s.GenericAwsException {
-  OptimisticLockException({String type, String message})
+  OptimisticLockException({String? type, String? message})
       : super(type: type, code: 'OptimisticLockException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -3155,7 +3227,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

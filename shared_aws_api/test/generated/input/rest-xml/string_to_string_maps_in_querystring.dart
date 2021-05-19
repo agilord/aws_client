@@ -9,7 +9,12 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +22,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 class StringToStringMapsInQuerystring {
   final _s.RestXmlProtocol _protocol;
   StringToStringMapsInQuerystring({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,9 +37,10 @@ class StringToStringMapsInQuerystring {
         );
 
   Future<void> operationName0({
-    String pipelineId,
-    Map<String, String> queryDoc,
+    required String pipelineId,
+    Map<String, String>? queryDoc,
   }) async {
+    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     final $query = <String, List<String>>{
       if (queryDoc != null)
         for (var e in queryDoc.entries) e.key: [e.value],

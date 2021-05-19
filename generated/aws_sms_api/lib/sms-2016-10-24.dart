@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sms-2016-10-24.g.dart';
 
 /// AWS Server Migration Service (AWS SMS) makes it easier and faster for you to
 /// migrate your on-premises workloads to AWS. To learn more about AWS SMS, see
@@ -32,10 +24,10 @@ part 'sms-2016-10-24.g.dart';
 class SMS {
   final _s.JsonProtocol _protocol;
   SMS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,12 +67,12 @@ class SMS {
   /// Parameter [tags] :
   /// The tags to be associated with the application.
   Future<CreateAppResponse> createApp({
-    String clientToken,
-    String description,
-    String name,
-    String roleName,
-    List<ServerGroup> serverGroups,
-    List<Tag> tags,
+    String? clientToken,
+    String? description,
+    String? name,
+    String? roleName,
+    List<ServerGroup>? serverGroups,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -169,16 +161,16 @@ class SMS {
   /// Parameter [runOnce] :
   /// Indicates whether to run the replication job one time.
   Future<CreateReplicationJobResponse> createReplicationJob({
-    @_s.required DateTime seedReplicationTime,
-    @_s.required String serverId,
-    String description,
-    bool encrypted,
-    int frequency,
-    String kmsKeyId,
-    LicenseType licenseType,
-    int numberOfRecentAmisToKeep,
-    String roleName,
-    bool runOnce,
+    required DateTime seedReplicationTime,
+    required String serverId,
+    String? description,
+    bool? encrypted,
+    int? frequency,
+    String? kmsKeyId,
+    LicenseType? licenseType,
+    int? numberOfRecentAmisToKeep,
+    String? roleName,
+    bool? runOnce,
   }) async {
     ArgumentError.checkNotNull(seedReplicationTime, 'seedReplicationTime');
     ArgumentError.checkNotNull(serverId, 'serverId');
@@ -232,15 +224,15 @@ class SMS {
   /// Indicates whether to terminate the stack corresponding to the application
   /// while deleting the application.
   Future<void> deleteApp({
-    String appId,
-    bool forceStopAppReplication,
-    bool forceTerminateApp,
+    String? appId,
+    bool? forceStopAppReplication,
+    bool? forceTerminateApp,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.DeleteApp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -253,8 +245,6 @@ class SMS {
         if (forceTerminateApp != null) 'forceTerminateApp': forceTerminateApp,
       },
     );
-
-    return DeleteAppResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the launch configuration for the specified application.
@@ -268,14 +258,14 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> deleteAppLaunchConfiguration({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DeleteAppLaunchConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -285,8 +275,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return DeleteAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the replication configuration for the specified application.
@@ -300,14 +288,14 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> deleteAppReplicationConfiguration({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DeleteAppReplicationConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -317,9 +305,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return DeleteAppReplicationConfigurationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Deletes the validation configuration for the specified application.
@@ -333,7 +318,7 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> deleteAppValidationConfiguration({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringPattern(
@@ -347,7 +332,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DeleteAppValidationConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -357,8 +342,6 @@ class SMS {
         'appId': appId,
       },
     );
-
-    return DeleteAppValidationConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified replication job.
@@ -376,7 +359,7 @@ class SMS {
   /// Parameter [replicationJobId] :
   /// The ID of the replication job.
   Future<void> deleteReplicationJob({
-    @_s.required String replicationJobId,
+    required String replicationJobId,
   }) async {
     ArgumentError.checkNotNull(replicationJobId, 'replicationJobId');
     final headers = <String, String>{
@@ -384,7 +367,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DeleteReplicationJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -394,8 +377,6 @@ class SMS {
         'replicationJobId': replicationJobId,
       },
     );
-
-    return DeleteReplicationJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes all servers from your server catalog.
@@ -410,15 +391,13 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DeleteServerCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DeleteServerCatalogResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified connector from AWS SMS.
@@ -434,7 +413,7 @@ class SMS {
   /// Parameter [connectorId] :
   /// The ID of the connector.
   Future<void> disassociateConnector({
-    @_s.required String connectorId,
+    required String connectorId,
   }) async {
     ArgumentError.checkNotNull(connectorId, 'connectorId');
     final headers = <String, String>{
@@ -442,7 +421,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.DisassociateConnector'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -452,8 +431,6 @@ class SMS {
         'connectorId': connectorId,
       },
     );
-
-    return DisassociateConnectorResponse.fromJson(jsonResponse.body);
   }
 
   /// Generates a target change set for a currently launched stack and writes it
@@ -471,8 +448,8 @@ class SMS {
   /// Parameter [changesetFormat] :
   /// The format for the change set.
   Future<GenerateChangeSetResponse> generateChangeSet({
-    String appId,
-    OutputFormat changesetFormat,
+    String? appId,
+    OutputFormat? changesetFormat,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -510,8 +487,8 @@ class SMS {
   /// Parameter [templateFormat] :
   /// The format for generating the AWS CloudFormation template.
   Future<GenerateTemplateResponse> generateTemplate({
-    String appId,
-    OutputFormat templateFormat,
+    String? appId,
+    OutputFormat? templateFormat,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -543,7 +520,7 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<GetAppResponse> getApp({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -575,7 +552,7 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<GetAppLaunchConfigurationResponse> getAppLaunchConfiguration({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -609,7 +586,7 @@ class SMS {
   /// The ID of the application.
   Future<GetAppReplicationConfigurationResponse>
       getAppReplicationConfiguration({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -641,7 +618,7 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<GetAppValidationConfigurationResponse> getAppValidationConfiguration({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringPattern(
@@ -680,7 +657,7 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<GetAppValidationOutputResponse> getAppValidationOutput({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringPattern(
@@ -720,8 +697,8 @@ class SMS {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<GetConnectorsResponse> getConnectors({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -759,9 +736,9 @@ class SMS {
   /// Parameter [replicationJobId] :
   /// The ID of the replication job.
   Future<GetReplicationJobsResponse> getReplicationJobs({
-    int maxResults,
-    String nextToken,
-    String replicationJobId,
+    int? maxResults,
+    String? nextToken,
+    String? replicationJobId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -800,9 +777,9 @@ class SMS {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<GetReplicationRunsResponse> getReplicationRuns({
-    @_s.required String replicationJobId,
-    int maxResults,
-    String nextToken,
+    required String replicationJobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(replicationJobId, 'replicationJobId');
     final headers = <String, String>{
@@ -846,9 +823,9 @@ class SMS {
   /// Parameter [vmServerAddressList] :
   /// The server addresses.
   Future<GetServersResponse> getServers({
-    int maxResults,
-    String nextToken,
-    List<VmServerAddress> vmServerAddressList,
+    int? maxResults,
+    String? nextToken,
+    List<VmServerAddress>? vmServerAddressList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -886,13 +863,13 @@ class SMS {
   /// href="https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed">policy
   /// and trust policy</a> described in the <i>AWS Migration Hub User Guide</i>.
   Future<void> importAppCatalog({
-    String roleName,
+    String? roleName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.ImportAppCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -902,8 +879,6 @@ class SMS {
         if (roleName != null) 'roleName': roleName,
       },
     );
-
-    return ImportAppCatalogResponse.fromJson(jsonResponse.body);
   }
 
   /// Gathers a complete list of on-premises servers. Connectors must be
@@ -923,15 +898,13 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.ImportServerCatalog'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return ImportServerCatalogResponse.fromJson(jsonResponse.body);
   }
 
   /// Launches the specified application as a stack in AWS CloudFormation.
@@ -945,13 +918,13 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> launchApp({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.LaunchApp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -961,8 +934,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return LaunchAppResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves summaries for all applications.
@@ -984,9 +955,9 @@ class SMS {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListAppsResponse> listApps({
-    List<String> appIds,
-    int maxResults,
-    String nextToken,
+    List<String>? appIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1023,8 +994,8 @@ class SMS {
   /// Parameter [notificationContext] :
   /// The notification information.
   Future<void> notifyAppValidationOutput({
-    @_s.required String appId,
-    NotificationContext notificationContext,
+    required String appId,
+    NotificationContext? notificationContext,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringPattern(
@@ -1038,7 +1009,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.NotifyAppValidationOutput'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1050,8 +1021,6 @@ class SMS {
           'notificationContext': notificationContext,
       },
     );
-
-    return NotifyAppValidationOutputResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates the launch configuration for the specified application.
@@ -1077,17 +1046,17 @@ class SMS {
   /// Information about the launch configurations for server groups in the
   /// application.
   Future<void> putAppLaunchConfiguration({
-    String appId,
-    bool autoLaunch,
-    String roleName,
-    List<ServerGroupLaunchConfiguration> serverGroupLaunchConfigurations,
+    String? appId,
+    bool? autoLaunch,
+    String? roleName,
+    List<ServerGroupLaunchConfiguration>? serverGroupLaunchConfigurations,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.PutAppLaunchConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1101,8 +1070,6 @@ class SMS {
           'serverGroupLaunchConfigurations': serverGroupLaunchConfigurations,
       },
     );
-
-    return PutAppLaunchConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates the replication configuration for the specified
@@ -1121,8 +1088,8 @@ class SMS {
   /// Information about the replication configurations for server groups in the
   /// application.
   Future<void> putAppReplicationConfiguration({
-    String appId,
-    List<ServerGroupReplicationConfiguration>
+    String? appId,
+    List<ServerGroupReplicationConfiguration>?
         serverGroupReplicationConfigurations,
   }) async {
     final headers = <String, String>{
@@ -1130,7 +1097,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.PutAppReplicationConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1143,8 +1110,6 @@ class SMS {
               serverGroupReplicationConfigurations,
       },
     );
-
-    return PutAppReplicationConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates a validation configuration for the specified
@@ -1165,9 +1130,9 @@ class SMS {
   /// Parameter [serverGroupValidationConfigurations] :
   /// The configuration for instance validation.
   Future<void> putAppValidationConfiguration({
-    @_s.required String appId,
-    List<AppValidationConfiguration> appValidationConfigurations,
-    List<ServerGroupValidationConfiguration>
+    required String appId,
+    List<AppValidationConfiguration>? appValidationConfigurations,
+    List<ServerGroupValidationConfiguration>?
         serverGroupValidationConfigurations,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
@@ -1182,7 +1147,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.PutAppValidationConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1197,8 +1162,6 @@ class SMS {
               serverGroupValidationConfigurations,
       },
     );
-
-    return PutAppValidationConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts replicating the specified application by creating replication jobs
@@ -1213,14 +1176,14 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> startAppReplication({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.StartAppReplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1230,8 +1193,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return StartAppReplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts an on-demand replication run for the specified application.
@@ -1248,8 +1209,8 @@ class SMS {
   /// Parameter [description] :
   /// The description of the replication run.
   Future<void> startOnDemandAppReplication({
-    @_s.required String appId,
-    String description,
+    required String appId,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final headers = <String, String>{
@@ -1257,7 +1218,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.StartOnDemandAppReplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1268,8 +1229,6 @@ class SMS {
         if (description != null) 'description': description,
       },
     );
-
-    return StartOnDemandAppReplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts an on-demand replication run for the specified replication job.
@@ -1292,8 +1251,8 @@ class SMS {
   /// Parameter [description] :
   /// The description of the replication run.
   Future<StartOnDemandReplicationRunResponse> startOnDemandReplicationRun({
-    @_s.required String replicationJobId,
-    String description,
+    required String replicationJobId,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(replicationJobId, 'replicationJobId');
     final headers = <String, String>{
@@ -1328,13 +1287,13 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> stopAppReplication({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.StopAppReplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1344,8 +1303,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return StopAppReplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Terminates the stack for the specified application.
@@ -1359,13 +1316,13 @@ class SMS {
   /// Parameter [appId] :
   /// The ID of the application.
   Future<void> terminateApp({
-    String appId,
+    String? appId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSServerMigrationService_V2016_10_24.TerminateApp'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1375,8 +1332,6 @@ class SMS {
         if (appId != null) 'appId': appId,
       },
     );
-
-    return TerminateAppResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified application.
@@ -1405,12 +1360,12 @@ class SMS {
   /// Parameter [tags] :
   /// The tags to associate with the application.
   Future<UpdateAppResponse> updateApp({
-    String appId,
-    String description,
-    String name,
-    String roleName,
-    List<ServerGroup> serverGroups,
-    List<Tag> tags,
+    String? appId,
+    String? description,
+    String? name,
+    String? roleName,
+    List<ServerGroup>? serverGroups,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1494,15 +1449,15 @@ class SMS {
   /// Parameter [roleName] :
   /// The name of the IAM role to be used by AWS SMS.
   Future<void> updateReplicationJob({
-    @_s.required String replicationJobId,
-    String description,
-    bool encrypted,
-    int frequency,
-    String kmsKeyId,
-    LicenseType licenseType,
-    DateTime nextReplicationRunStartTime,
-    int numberOfRecentAmisToKeep,
-    String roleName,
+    required String replicationJobId,
+    String? description,
+    bool? encrypted,
+    int? frequency,
+    String? kmsKeyId,
+    LicenseType? licenseType,
+    DateTime? nextReplicationRunStartTime,
+    int? numberOfRecentAmisToKeep,
+    String? roleName,
   }) async {
     ArgumentError.checkNotNull(replicationJobId, 'replicationJobId');
     final headers = <String, String>{
@@ -1510,7 +1465,7 @@ class SMS {
       'X-Amz-Target':
           'AWSServerMigrationService_V2016_10_24.UpdateReplicationJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1531,193 +1486,363 @@ class SMS {
         if (roleName != null) 'roleName': roleName,
       },
     );
-
-    return UpdateReplicationJobResponse.fromJson(jsonResponse.body);
   }
 }
 
 enum AppLaunchConfigurationStatus {
-  @_s.JsonValue('NOT_CONFIGURED')
   notConfigured,
-  @_s.JsonValue('CONFIGURED')
   configured,
+}
+
+extension on AppLaunchConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case AppLaunchConfigurationStatus.notConfigured:
+        return 'NOT_CONFIGURED';
+      case AppLaunchConfigurationStatus.configured:
+        return 'CONFIGURED';
+    }
+  }
+}
+
+extension on String {
+  AppLaunchConfigurationStatus toAppLaunchConfigurationStatus() {
+    switch (this) {
+      case 'NOT_CONFIGURED':
+        return AppLaunchConfigurationStatus.notConfigured;
+      case 'CONFIGURED':
+        return AppLaunchConfigurationStatus.configured;
+    }
+    throw Exception('$this is not known in enum AppLaunchConfigurationStatus');
+  }
 }
 
 enum AppLaunchStatus {
-  @_s.JsonValue('READY_FOR_CONFIGURATION')
   readyForConfiguration,
-  @_s.JsonValue('CONFIGURATION_IN_PROGRESS')
   configurationInProgress,
-  @_s.JsonValue('CONFIGURATION_INVALID')
   configurationInvalid,
-  @_s.JsonValue('READY_FOR_LAUNCH')
   readyForLaunch,
-  @_s.JsonValue('VALIDATION_IN_PROGRESS')
   validationInProgress,
-  @_s.JsonValue('LAUNCH_PENDING')
   launchPending,
-  @_s.JsonValue('LAUNCH_IN_PROGRESS')
   launchInProgress,
-  @_s.JsonValue('LAUNCHED')
   launched,
-  @_s.JsonValue('PARTIALLY_LAUNCHED')
   partiallyLaunched,
-  @_s.JsonValue('DELTA_LAUNCH_IN_PROGRESS')
   deltaLaunchInProgress,
-  @_s.JsonValue('DELTA_LAUNCH_FAILED')
   deltaLaunchFailed,
-  @_s.JsonValue('LAUNCH_FAILED')
   launchFailed,
-  @_s.JsonValue('TERMINATE_IN_PROGRESS')
   terminateInProgress,
-  @_s.JsonValue('TERMINATE_FAILED')
   terminateFailed,
-  @_s.JsonValue('TERMINATED')
   terminated,
 }
 
+extension on AppLaunchStatus {
+  String toValue() {
+    switch (this) {
+      case AppLaunchStatus.readyForConfiguration:
+        return 'READY_FOR_CONFIGURATION';
+      case AppLaunchStatus.configurationInProgress:
+        return 'CONFIGURATION_IN_PROGRESS';
+      case AppLaunchStatus.configurationInvalid:
+        return 'CONFIGURATION_INVALID';
+      case AppLaunchStatus.readyForLaunch:
+        return 'READY_FOR_LAUNCH';
+      case AppLaunchStatus.validationInProgress:
+        return 'VALIDATION_IN_PROGRESS';
+      case AppLaunchStatus.launchPending:
+        return 'LAUNCH_PENDING';
+      case AppLaunchStatus.launchInProgress:
+        return 'LAUNCH_IN_PROGRESS';
+      case AppLaunchStatus.launched:
+        return 'LAUNCHED';
+      case AppLaunchStatus.partiallyLaunched:
+        return 'PARTIALLY_LAUNCHED';
+      case AppLaunchStatus.deltaLaunchInProgress:
+        return 'DELTA_LAUNCH_IN_PROGRESS';
+      case AppLaunchStatus.deltaLaunchFailed:
+        return 'DELTA_LAUNCH_FAILED';
+      case AppLaunchStatus.launchFailed:
+        return 'LAUNCH_FAILED';
+      case AppLaunchStatus.terminateInProgress:
+        return 'TERMINATE_IN_PROGRESS';
+      case AppLaunchStatus.terminateFailed:
+        return 'TERMINATE_FAILED';
+      case AppLaunchStatus.terminated:
+        return 'TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  AppLaunchStatus toAppLaunchStatus() {
+    switch (this) {
+      case 'READY_FOR_CONFIGURATION':
+        return AppLaunchStatus.readyForConfiguration;
+      case 'CONFIGURATION_IN_PROGRESS':
+        return AppLaunchStatus.configurationInProgress;
+      case 'CONFIGURATION_INVALID':
+        return AppLaunchStatus.configurationInvalid;
+      case 'READY_FOR_LAUNCH':
+        return AppLaunchStatus.readyForLaunch;
+      case 'VALIDATION_IN_PROGRESS':
+        return AppLaunchStatus.validationInProgress;
+      case 'LAUNCH_PENDING':
+        return AppLaunchStatus.launchPending;
+      case 'LAUNCH_IN_PROGRESS':
+        return AppLaunchStatus.launchInProgress;
+      case 'LAUNCHED':
+        return AppLaunchStatus.launched;
+      case 'PARTIALLY_LAUNCHED':
+        return AppLaunchStatus.partiallyLaunched;
+      case 'DELTA_LAUNCH_IN_PROGRESS':
+        return AppLaunchStatus.deltaLaunchInProgress;
+      case 'DELTA_LAUNCH_FAILED':
+        return AppLaunchStatus.deltaLaunchFailed;
+      case 'LAUNCH_FAILED':
+        return AppLaunchStatus.launchFailed;
+      case 'TERMINATE_IN_PROGRESS':
+        return AppLaunchStatus.terminateInProgress;
+      case 'TERMINATE_FAILED':
+        return AppLaunchStatus.terminateFailed;
+      case 'TERMINATED':
+        return AppLaunchStatus.terminated;
+    }
+    throw Exception('$this is not known in enum AppLaunchStatus');
+  }
+}
+
 enum AppReplicationConfigurationStatus {
-  @_s.JsonValue('NOT_CONFIGURED')
   notConfigured,
-  @_s.JsonValue('CONFIGURED')
   configured,
 }
 
+extension on AppReplicationConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case AppReplicationConfigurationStatus.notConfigured:
+        return 'NOT_CONFIGURED';
+      case AppReplicationConfigurationStatus.configured:
+        return 'CONFIGURED';
+    }
+  }
+}
+
+extension on String {
+  AppReplicationConfigurationStatus toAppReplicationConfigurationStatus() {
+    switch (this) {
+      case 'NOT_CONFIGURED':
+        return AppReplicationConfigurationStatus.notConfigured;
+      case 'CONFIGURED':
+        return AppReplicationConfigurationStatus.configured;
+    }
+    throw Exception(
+        '$this is not known in enum AppReplicationConfigurationStatus');
+  }
+}
+
 enum AppReplicationStatus {
-  @_s.JsonValue('READY_FOR_CONFIGURATION')
   readyForConfiguration,
-  @_s.JsonValue('CONFIGURATION_IN_PROGRESS')
   configurationInProgress,
-  @_s.JsonValue('CONFIGURATION_INVALID')
   configurationInvalid,
-  @_s.JsonValue('READY_FOR_REPLICATION')
   readyForReplication,
-  @_s.JsonValue('VALIDATION_IN_PROGRESS')
   validationInProgress,
-  @_s.JsonValue('REPLICATION_PENDING')
   replicationPending,
-  @_s.JsonValue('REPLICATION_IN_PROGRESS')
   replicationInProgress,
-  @_s.JsonValue('REPLICATED')
   replicated,
-  @_s.JsonValue('PARTIALLY_REPLICATED')
   partiallyReplicated,
-  @_s.JsonValue('DELTA_REPLICATION_IN_PROGRESS')
   deltaReplicationInProgress,
-  @_s.JsonValue('DELTA_REPLICATED')
   deltaReplicated,
-  @_s.JsonValue('DELTA_REPLICATION_FAILED')
   deltaReplicationFailed,
-  @_s.JsonValue('REPLICATION_FAILED')
   replicationFailed,
-  @_s.JsonValue('REPLICATION_STOPPING')
   replicationStopping,
-  @_s.JsonValue('REPLICATION_STOP_FAILED')
   replicationStopFailed,
-  @_s.JsonValue('REPLICATION_STOPPED')
   replicationStopped,
 }
 
+extension on AppReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case AppReplicationStatus.readyForConfiguration:
+        return 'READY_FOR_CONFIGURATION';
+      case AppReplicationStatus.configurationInProgress:
+        return 'CONFIGURATION_IN_PROGRESS';
+      case AppReplicationStatus.configurationInvalid:
+        return 'CONFIGURATION_INVALID';
+      case AppReplicationStatus.readyForReplication:
+        return 'READY_FOR_REPLICATION';
+      case AppReplicationStatus.validationInProgress:
+        return 'VALIDATION_IN_PROGRESS';
+      case AppReplicationStatus.replicationPending:
+        return 'REPLICATION_PENDING';
+      case AppReplicationStatus.replicationInProgress:
+        return 'REPLICATION_IN_PROGRESS';
+      case AppReplicationStatus.replicated:
+        return 'REPLICATED';
+      case AppReplicationStatus.partiallyReplicated:
+        return 'PARTIALLY_REPLICATED';
+      case AppReplicationStatus.deltaReplicationInProgress:
+        return 'DELTA_REPLICATION_IN_PROGRESS';
+      case AppReplicationStatus.deltaReplicated:
+        return 'DELTA_REPLICATED';
+      case AppReplicationStatus.deltaReplicationFailed:
+        return 'DELTA_REPLICATION_FAILED';
+      case AppReplicationStatus.replicationFailed:
+        return 'REPLICATION_FAILED';
+      case AppReplicationStatus.replicationStopping:
+        return 'REPLICATION_STOPPING';
+      case AppReplicationStatus.replicationStopFailed:
+        return 'REPLICATION_STOP_FAILED';
+      case AppReplicationStatus.replicationStopped:
+        return 'REPLICATION_STOPPED';
+    }
+  }
+}
+
+extension on String {
+  AppReplicationStatus toAppReplicationStatus() {
+    switch (this) {
+      case 'READY_FOR_CONFIGURATION':
+        return AppReplicationStatus.readyForConfiguration;
+      case 'CONFIGURATION_IN_PROGRESS':
+        return AppReplicationStatus.configurationInProgress;
+      case 'CONFIGURATION_INVALID':
+        return AppReplicationStatus.configurationInvalid;
+      case 'READY_FOR_REPLICATION':
+        return AppReplicationStatus.readyForReplication;
+      case 'VALIDATION_IN_PROGRESS':
+        return AppReplicationStatus.validationInProgress;
+      case 'REPLICATION_PENDING':
+        return AppReplicationStatus.replicationPending;
+      case 'REPLICATION_IN_PROGRESS':
+        return AppReplicationStatus.replicationInProgress;
+      case 'REPLICATED':
+        return AppReplicationStatus.replicated;
+      case 'PARTIALLY_REPLICATED':
+        return AppReplicationStatus.partiallyReplicated;
+      case 'DELTA_REPLICATION_IN_PROGRESS':
+        return AppReplicationStatus.deltaReplicationInProgress;
+      case 'DELTA_REPLICATED':
+        return AppReplicationStatus.deltaReplicated;
+      case 'DELTA_REPLICATION_FAILED':
+        return AppReplicationStatus.deltaReplicationFailed;
+      case 'REPLICATION_FAILED':
+        return AppReplicationStatus.replicationFailed;
+      case 'REPLICATION_STOPPING':
+        return AppReplicationStatus.replicationStopping;
+      case 'REPLICATION_STOP_FAILED':
+        return AppReplicationStatus.replicationStopFailed;
+      case 'REPLICATION_STOPPED':
+        return AppReplicationStatus.replicationStopped;
+    }
+    throw Exception('$this is not known in enum AppReplicationStatus');
+  }
+}
+
 enum AppStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
 }
 
+extension on AppStatus {
+  String toValue() {
+    switch (this) {
+      case AppStatus.creating:
+        return 'CREATING';
+      case AppStatus.active:
+        return 'ACTIVE';
+      case AppStatus.updating:
+        return 'UPDATING';
+      case AppStatus.deleting:
+        return 'DELETING';
+      case AppStatus.deleted:
+        return 'DELETED';
+      case AppStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  AppStatus toAppStatus() {
+    switch (this) {
+      case 'CREATING':
+        return AppStatus.creating;
+      case 'ACTIVE':
+        return AppStatus.active;
+      case 'UPDATING':
+        return AppStatus.updating;
+      case 'DELETING':
+        return AppStatus.deleting;
+      case 'DELETED':
+        return AppStatus.deleted;
+      case 'DELETE_FAILED':
+        return AppStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum AppStatus');
+  }
+}
+
 /// Information about the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AppSummary {
   /// The unique ID of the application.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The creation time of the application.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The description of the application.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ID of the application.
-  @_s.JsonKey(name: 'importedAppId')
-  final String importedAppId;
+  final String? importedAppId;
 
   /// The last modified time of the application.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The timestamp of the application's most recent successful replication.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'latestReplicationTime')
-  final DateTime latestReplicationTime;
+  final DateTime? latestReplicationTime;
 
   /// Status of the launch configuration.
-  @_s.JsonKey(name: 'launchConfigurationStatus')
-  final AppLaunchConfigurationStatus launchConfigurationStatus;
+  final AppLaunchConfigurationStatus? launchConfigurationStatus;
 
   /// Details about the latest launch of the application.
-  @_s.JsonKey(name: 'launchDetails')
-  final LaunchDetails launchDetails;
+  final LaunchDetails? launchDetails;
 
   /// The launch status of the application.
-  @_s.JsonKey(name: 'launchStatus')
-  final AppLaunchStatus launchStatus;
+  final AppLaunchStatus? launchStatus;
 
   /// A message related to the launch status of the application.
-  @_s.JsonKey(name: 'launchStatusMessage')
-  final String launchStatusMessage;
+  final String? launchStatusMessage;
 
   /// The name of the application.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Status of the replication configuration.
-  @_s.JsonKey(name: 'replicationConfigurationStatus')
-  final AppReplicationConfigurationStatus replicationConfigurationStatus;
+  final AppReplicationConfigurationStatus? replicationConfigurationStatus;
 
   /// The replication status of the application.
-  @_s.JsonKey(name: 'replicationStatus')
-  final AppReplicationStatus replicationStatus;
+  final AppReplicationStatus? replicationStatus;
 
   /// A message related to the replication status of the application.
-  @_s.JsonKey(name: 'replicationStatusMessage')
-  final String replicationStatusMessage;
+  final String? replicationStatusMessage;
 
   /// The name of the service role in the customer's account used by AWS SMS.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
+  final String? roleName;
 
   /// Status of the application.
-  @_s.JsonKey(name: 'status')
-  final AppStatus status;
+  final AppStatus? status;
 
   /// A message related to the status of the application
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The number of server groups present in the application.
-  @_s.JsonKey(name: 'totalServerGroups')
-  final int totalServerGroups;
+  final int? totalServerGroups;
 
   /// The number of servers present in the application.
-  @_s.JsonKey(name: 'totalServers')
-  final int totalServers;
+  final int? totalServers;
 
   AppSummary({
     this.appId,
@@ -1740,32 +1865,51 @@ class AppSummary {
     this.totalServerGroups,
     this.totalServers,
   });
-  factory AppSummary.fromJson(Map<String, dynamic> json) =>
-      _$AppSummaryFromJson(json);
+  factory AppSummary.fromJson(Map<String, dynamic> json) {
+    return AppSummary(
+      appId: json['appId'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      importedAppId: json['importedAppId'] as String?,
+      lastModified: timeStampFromJson(json['lastModified']),
+      latestReplicationTime: timeStampFromJson(json['latestReplicationTime']),
+      launchConfigurationStatus: (json['launchConfigurationStatus'] as String?)
+          ?.toAppLaunchConfigurationStatus(),
+      launchDetails: json['launchDetails'] != null
+          ? LaunchDetails.fromJson(
+              json['launchDetails'] as Map<String, dynamic>)
+          : null,
+      launchStatus: (json['launchStatus'] as String?)?.toAppLaunchStatus(),
+      launchStatusMessage: json['launchStatusMessage'] as String?,
+      name: json['name'] as String?,
+      replicationConfigurationStatus:
+          (json['replicationConfigurationStatus'] as String?)
+              ?.toAppReplicationConfigurationStatus(),
+      replicationStatus:
+          (json['replicationStatus'] as String?)?.toAppReplicationStatus(),
+      replicationStatusMessage: json['replicationStatusMessage'] as String?,
+      roleName: json['roleName'] as String?,
+      status: (json['status'] as String?)?.toAppStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      totalServerGroups: json['totalServerGroups'] as int?,
+      totalServers: json['totalServers'] as int?,
+    );
+  }
 }
 
 /// Configuration for validating an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AppValidationConfiguration {
   /// The validation strategy.
-  @_s.JsonKey(name: 'appValidationStrategy')
-  final AppValidationStrategy appValidationStrategy;
+  final AppValidationStrategy? appValidationStrategy;
 
   /// The name of the configuration.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The validation parameters.
-  @_s.JsonKey(name: 'ssmValidationParameters')
-  final SSMValidationParameters ssmValidationParameters;
+  final SSMValidationParameters? ssmValidationParameters;
 
   /// The ID of the validation.
-  @_s.JsonKey(name: 'validationId')
-  final String validationId;
+  final String? validationId;
 
   AppValidationConfiguration({
     this.appValidationStrategy,
@@ -1773,82 +1917,106 @@ class AppValidationConfiguration {
     this.ssmValidationParameters,
     this.validationId,
   });
-  factory AppValidationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AppValidationConfigurationFromJson(json);
+  factory AppValidationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AppValidationConfiguration(
+      appValidationStrategy:
+          (json['appValidationStrategy'] as String?)?.toAppValidationStrategy(),
+      name: json['name'] as String?,
+      ssmValidationParameters: json['ssmValidationParameters'] != null
+          ? SSMValidationParameters.fromJson(
+              json['ssmValidationParameters'] as Map<String, dynamic>)
+          : null,
+      validationId: json['validationId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AppValidationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final appValidationStrategy = this.appValidationStrategy;
+    final name = this.name;
+    final ssmValidationParameters = this.ssmValidationParameters;
+    final validationId = this.validationId;
+    return {
+      if (appValidationStrategy != null)
+        'appValidationStrategy': appValidationStrategy.toValue(),
+      if (name != null) 'name': name,
+      if (ssmValidationParameters != null)
+        'ssmValidationParameters': ssmValidationParameters,
+      if (validationId != null) 'validationId': validationId,
+    };
+  }
 }
 
 /// Output from validating an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AppValidationOutput {
   /// Output from using SSM to validate the application.
-  @_s.JsonKey(name: 'ssmOutput')
-  final SSMOutput ssmOutput;
+  final SSMOutput? ssmOutput;
 
   AppValidationOutput({
     this.ssmOutput,
   });
-  factory AppValidationOutput.fromJson(Map<String, dynamic> json) =>
-      _$AppValidationOutputFromJson(json);
+  factory AppValidationOutput.fromJson(Map<String, dynamic> json) {
+    return AppValidationOutput(
+      ssmOutput: json['ssmOutput'] != null
+          ? SSMOutput.fromJson(json['ssmOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum AppValidationStrategy {
-  @_s.JsonValue('SSM')
   ssm,
 }
 
+extension on AppValidationStrategy {
+  String toValue() {
+    switch (this) {
+      case AppValidationStrategy.ssm:
+        return 'SSM';
+    }
+  }
+}
+
+extension on String {
+  AppValidationStrategy toAppValidationStrategy() {
+    switch (this) {
+      case 'SSM':
+        return AppValidationStrategy.ssm;
+    }
+    throw Exception('$this is not known in enum AppValidationStrategy');
+  }
+}
+
 /// Represents a connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connector {
   /// The time the connector was associated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'associatedOn')
-  final DateTime associatedOn;
+  final DateTime? associatedOn;
 
   /// The capabilities of the connector.
-  @_s.JsonKey(name: 'capabilityList')
-  final List<ConnectorCapability> capabilityList;
+  final List<ConnectorCapability>? capabilityList;
 
   /// The ID of the connector.
-  @_s.JsonKey(name: 'connectorId')
-  final String connectorId;
+  final String? connectorId;
 
   /// The IP address of the connector.
-  @_s.JsonKey(name: 'ipAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The MAC address of the connector.
-  @_s.JsonKey(name: 'macAddress')
-  final String macAddress;
+  final String? macAddress;
 
   /// The status of the connector.
-  @_s.JsonKey(name: 'status')
-  final ConnectorStatus status;
+  final ConnectorStatus? status;
 
   /// The connector version.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The ID of the VM manager.
-  @_s.JsonKey(name: 'vmManagerId')
-  final String vmManagerId;
+  final String? vmManagerId;
 
   /// The name of the VM manager.
-  @_s.JsonKey(name: 'vmManagerName')
-  final String vmManagerName;
+  final String? vmManagerName;
 
   /// The VM management product.
-  @_s.JsonKey(name: 'vmManagerType')
-  final VmManagerType vmManagerType;
+  final VmManagerType? vmManagerType;
 
   Connector({
     this.associatedOn,
@@ -1862,211 +2030,240 @@ class Connector {
     this.vmManagerName,
     this.vmManagerType,
   });
-  factory Connector.fromJson(Map<String, dynamic> json) =>
-      _$ConnectorFromJson(json);
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      associatedOn: timeStampFromJson(json['associatedOn']),
+      capabilityList: (json['capabilityList'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toConnectorCapability())
+          .toList(),
+      connectorId: json['connectorId'] as String?,
+      ipAddress: json['ipAddress'] as String?,
+      macAddress: json['macAddress'] as String?,
+      status: (json['status'] as String?)?.toConnectorStatus(),
+      version: json['version'] as String?,
+      vmManagerId: json['vmManagerId'] as String?,
+      vmManagerName: json['vmManagerName'] as String?,
+      vmManagerType: (json['vmManagerType'] as String?)?.toVmManagerType(),
+    );
+  }
 }
 
 enum ConnectorCapability {
-  @_s.JsonValue('VSPHERE')
   vsphere,
-  @_s.JsonValue('SCVMM')
   scvmm,
-  @_s.JsonValue('HYPERV-MANAGER')
   hypervManager,
-  @_s.JsonValue('SNAPSHOT_BATCHING')
   snapshotBatching,
-  @_s.JsonValue('SMS_OPTIMIZED')
   smsOptimized,
 }
 
+extension on ConnectorCapability {
+  String toValue() {
+    switch (this) {
+      case ConnectorCapability.vsphere:
+        return 'VSPHERE';
+      case ConnectorCapability.scvmm:
+        return 'SCVMM';
+      case ConnectorCapability.hypervManager:
+        return 'HYPERV-MANAGER';
+      case ConnectorCapability.snapshotBatching:
+        return 'SNAPSHOT_BATCHING';
+      case ConnectorCapability.smsOptimized:
+        return 'SMS_OPTIMIZED';
+    }
+  }
+}
+
+extension on String {
+  ConnectorCapability toConnectorCapability() {
+    switch (this) {
+      case 'VSPHERE':
+        return ConnectorCapability.vsphere;
+      case 'SCVMM':
+        return ConnectorCapability.scvmm;
+      case 'HYPERV-MANAGER':
+        return ConnectorCapability.hypervManager;
+      case 'SNAPSHOT_BATCHING':
+        return ConnectorCapability.snapshotBatching;
+      case 'SMS_OPTIMIZED':
+        return ConnectorCapability.smsOptimized;
+    }
+    throw Exception('$this is not known in enum ConnectorCapability');
+  }
+}
+
 enum ConnectorStatus {
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectorStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectorStatus.healthy:
+        return 'HEALTHY';
+      case ConnectorStatus.unhealthy:
+        return 'UNHEALTHY';
+    }
+  }
+}
+
+extension on String {
+  ConnectorStatus toConnectorStatus() {
+    switch (this) {
+      case 'HEALTHY':
+        return ConnectorStatus.healthy;
+      case 'UNHEALTHY':
+        return ConnectorStatus.unhealthy;
+    }
+    throw Exception('$this is not known in enum ConnectorStatus');
+  }
+}
+
 class CreateAppResponse {
   /// A summary description of the application.
-  @_s.JsonKey(name: 'appSummary')
-  final AppSummary appSummary;
+  final AppSummary? appSummary;
 
   /// The server groups included in the application.
-  @_s.JsonKey(name: 'serverGroups')
-  final List<ServerGroup> serverGroups;
+  final List<ServerGroup>? serverGroups;
 
   /// The tags associated with the application.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreateAppResponse({
     this.appSummary,
     this.serverGroups,
     this.tags,
   });
-  factory CreateAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppResponseFromJson(json);
+  factory CreateAppResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAppResponse(
+      appSummary: json['appSummary'] != null
+          ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
+          : null,
+      serverGroups: (json['serverGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateReplicationJobResponse {
   /// The unique identifier of the replication job.
-  @_s.JsonKey(name: 'replicationJobId')
-  final String replicationJobId;
+  final String? replicationJobId;
 
   CreateReplicationJobResponse({
     this.replicationJobId,
   });
-  factory CreateReplicationJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateReplicationJobResponseFromJson(json);
+  factory CreateReplicationJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateReplicationJobResponse(
+      replicationJobId: json['replicationJobId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAppLaunchConfigurationResponse {
   DeleteAppLaunchConfigurationResponse();
   factory DeleteAppLaunchConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAppLaunchConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteAppLaunchConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAppReplicationConfigurationResponse {
   DeleteAppReplicationConfigurationResponse();
   factory DeleteAppReplicationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAppReplicationConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteAppReplicationConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAppResponse {
   DeleteAppResponse();
-  factory DeleteAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAppResponseFromJson(json);
+  factory DeleteAppResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAppResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAppValidationConfigurationResponse {
   DeleteAppValidationConfigurationResponse();
   factory DeleteAppValidationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAppValidationConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteAppValidationConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReplicationJobResponse {
   DeleteReplicationJobResponse();
-  factory DeleteReplicationJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteReplicationJobResponseFromJson(json);
+  factory DeleteReplicationJobResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteReplicationJobResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteServerCatalogResponse {
   DeleteServerCatalogResponse();
-  factory DeleteServerCatalogResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteServerCatalogResponseFromJson(json);
+  factory DeleteServerCatalogResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteServerCatalogResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateConnectorResponse {
   DisassociateConnectorResponse();
-  factory DisassociateConnectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateConnectorResponseFromJson(json);
+  factory DisassociateConnectorResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateConnectorResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateChangeSetResponse {
   /// The location of the Amazon S3 object.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   GenerateChangeSetResponse({
     this.s3Location,
   });
-  factory GenerateChangeSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateChangeSetResponseFromJson(json);
+  factory GenerateChangeSetResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateChangeSetResponse(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateTemplateResponse {
   /// The location of the Amazon S3 object.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   GenerateTemplateResponse({
     this.s3Location,
   });
-  factory GenerateTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateTemplateResponseFromJson(json);
+  factory GenerateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateTemplateResponse(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppLaunchConfigurationResponse {
   /// The ID of the application.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// Indicates whether the application is configured to launch automatically
   /// after replication is complete.
-  @_s.JsonKey(name: 'autoLaunch')
-  final bool autoLaunch;
+  final bool? autoLaunch;
 
   /// The name of the service role in the customer's account that AWS
   /// CloudFormation uses to launch the application.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
+  final String? roleName;
 
   /// The launch configurations for server groups in this application.
-  @_s.JsonKey(name: 'serverGroupLaunchConfigurations')
-  final List<ServerGroupLaunchConfiguration> serverGroupLaunchConfigurations;
+  final List<ServerGroupLaunchConfiguration>? serverGroupLaunchConfigurations;
 
   GetAppLaunchConfigurationResponse({
     this.appId,
@@ -2075,70 +2272,81 @@ class GetAppLaunchConfigurationResponse {
     this.serverGroupLaunchConfigurations,
   });
   factory GetAppLaunchConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAppLaunchConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAppLaunchConfigurationResponse(
+      appId: json['appId'] as String?,
+      autoLaunch: json['autoLaunch'] as bool?,
+      roleName: json['roleName'] as String?,
+      serverGroupLaunchConfigurations:
+          (json['serverGroupLaunchConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => ServerGroupLaunchConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppReplicationConfigurationResponse {
   /// The replication configurations associated with server groups in this
   /// application.
-  @_s.JsonKey(name: 'serverGroupReplicationConfigurations')
-  final List<ServerGroupReplicationConfiguration>
+  final List<ServerGroupReplicationConfiguration>?
       serverGroupReplicationConfigurations;
 
   GetAppReplicationConfigurationResponse({
     this.serverGroupReplicationConfigurations,
   });
   factory GetAppReplicationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAppReplicationConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAppReplicationConfigurationResponse(
+      serverGroupReplicationConfigurations:
+          (json['serverGroupReplicationConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => ServerGroupReplicationConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppResponse {
   /// Information about the application.
-  @_s.JsonKey(name: 'appSummary')
-  final AppSummary appSummary;
+  final AppSummary? appSummary;
 
   /// The server groups that belong to the application.
-  @_s.JsonKey(name: 'serverGroups')
-  final List<ServerGroup> serverGroups;
+  final List<ServerGroup>? serverGroups;
 
   /// The tags associated with the application.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   GetAppResponse({
     this.appSummary,
     this.serverGroups,
     this.tags,
   });
-  factory GetAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAppResponseFromJson(json);
+  factory GetAppResponse.fromJson(Map<String, dynamic> json) {
+    return GetAppResponse(
+      appSummary: json['appSummary'] != null
+          ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
+          : null,
+      serverGroups: (json['serverGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppValidationConfigurationResponse {
   /// The configuration for application validation.
-  @_s.JsonKey(name: 'appValidationConfigurations')
-  final List<AppValidationConfiguration> appValidationConfigurations;
+  final List<AppValidationConfiguration>? appValidationConfigurations;
 
   /// The configuration for instance validation.
-  @_s.JsonKey(name: 'serverGroupValidationConfigurations')
-  final List<ServerGroupValidationConfiguration>
+  final List<ServerGroupValidationConfiguration>?
       serverGroupValidationConfigurations;
 
   GetAppValidationConfigurationResponse({
@@ -2146,124 +2354,131 @@ class GetAppValidationConfigurationResponse {
     this.serverGroupValidationConfigurations,
   });
   factory GetAppValidationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAppValidationConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAppValidationConfigurationResponse(
+      appValidationConfigurations: (json['appValidationConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AppValidationConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serverGroupValidationConfigurations:
+          (json['serverGroupValidationConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => ServerGroupValidationConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppValidationOutputResponse {
   /// The validation output.
-  @_s.JsonKey(name: 'validationOutputList')
-  final List<ValidationOutput> validationOutputList;
+  final List<ValidationOutput>? validationOutputList;
 
   GetAppValidationOutputResponse({
     this.validationOutputList,
   });
-  factory GetAppValidationOutputResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAppValidationOutputResponseFromJson(json);
+  factory GetAppValidationOutputResponse.fromJson(Map<String, dynamic> json) {
+    return GetAppValidationOutputResponse(
+      validationOutputList: (json['validationOutputList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectorsResponse {
   /// Information about the registered connectors.
-  @_s.JsonKey(name: 'connectorList')
-  final List<Connector> connectorList;
+  final List<Connector>? connectorList;
 
   /// The token required to retrieve the next set of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetConnectorsResponse({
     this.connectorList,
     this.nextToken,
   });
-  factory GetConnectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectorsResponseFromJson(json);
+  factory GetConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectorsResponse(
+      connectorList: (json['connectorList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetReplicationJobsResponse {
   /// The token required to retrieve the next set of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the replication jobs.
-  @_s.JsonKey(name: 'replicationJobList')
-  final List<ReplicationJob> replicationJobList;
+  final List<ReplicationJob>? replicationJobList;
 
   GetReplicationJobsResponse({
     this.nextToken,
     this.replicationJobList,
   });
-  factory GetReplicationJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetReplicationJobsResponseFromJson(json);
+  factory GetReplicationJobsResponse.fromJson(Map<String, dynamic> json) {
+    return GetReplicationJobsResponse(
+      nextToken: json['nextToken'] as String?,
+      replicationJobList: (json['replicationJobList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetReplicationRunsResponse {
   /// The token required to retrieve the next set of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the replication job.
-  @_s.JsonKey(name: 'replicationJob')
-  final ReplicationJob replicationJob;
+  final ReplicationJob? replicationJob;
 
   /// Information about the replication runs.
-  @_s.JsonKey(name: 'replicationRunList')
-  final List<ReplicationRun> replicationRunList;
+  final List<ReplicationRun>? replicationRunList;
 
   GetReplicationRunsResponse({
     this.nextToken,
     this.replicationJob,
     this.replicationRunList,
   });
-  factory GetReplicationRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetReplicationRunsResponseFromJson(json);
+  factory GetReplicationRunsResponse.fromJson(Map<String, dynamic> json) {
+    return GetReplicationRunsResponse(
+      nextToken: json['nextToken'] as String?,
+      replicationJob: json['replicationJob'] != null
+          ? ReplicationJob.fromJson(
+              json['replicationJob'] as Map<String, dynamic>)
+          : null,
+      replicationRunList: (json['replicationRunList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServersResponse {
   /// The time when the server was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedOn')
-  final DateTime lastModifiedOn;
+  final DateTime? lastModifiedOn;
 
   /// The token required to retrieve the next set of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The status of the server catalog.
-  @_s.JsonKey(name: 'serverCatalogStatus')
-  final ServerCatalogStatus serverCatalogStatus;
+  final ServerCatalogStatus? serverCatalogStatus;
 
   /// Information about the servers.
-  @_s.JsonKey(name: 'serverList')
-  final List<Server> serverList;
+  final List<Server>? serverList;
 
   GetServersResponse({
     this.lastModifiedOn,
@@ -2271,76 +2486,68 @@ class GetServersResponse {
     this.serverCatalogStatus,
     this.serverList,
   });
-  factory GetServersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetServersResponseFromJson(json);
+  factory GetServersResponse.fromJson(Map<String, dynamic> json) {
+    return GetServersResponse(
+      lastModifiedOn: timeStampFromJson(json['lastModifiedOn']),
+      nextToken: json['nextToken'] as String?,
+      serverCatalogStatus:
+          (json['serverCatalogStatus'] as String?)?.toServerCatalogStatus(),
+      serverList: (json['serverList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Server.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportAppCatalogResponse {
   ImportAppCatalogResponse();
-  factory ImportAppCatalogResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportAppCatalogResponseFromJson(json);
+  factory ImportAppCatalogResponse.fromJson(Map<String, dynamic> _) {
+    return ImportAppCatalogResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportServerCatalogResponse {
   ImportServerCatalogResponse();
-  factory ImportServerCatalogResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportServerCatalogResponseFromJson(json);
+  factory ImportServerCatalogResponse.fromJson(Map<String, dynamic> _) {
+    return ImportServerCatalogResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LaunchAppResponse {
   LaunchAppResponse();
-  factory LaunchAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$LaunchAppResponseFromJson(json);
+  factory LaunchAppResponse.fromJson(Map<String, dynamic> _) {
+    return LaunchAppResponse();
+  }
 }
 
 /// Details about the latest launch of an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LaunchDetails {
   /// The latest time that this application was launched successfully.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'latestLaunchTime')
-  final DateTime latestLaunchTime;
+  final DateTime? latestLaunchTime;
 
   /// The ID of the latest stack launched for this application.
-  @_s.JsonKey(name: 'stackId')
-  final String stackId;
+  final String? stackId;
 
   /// The name of the latest stack launched for this application.
-  @_s.JsonKey(name: 'stackName')
-  final String stackName;
+  final String? stackName;
 
   LaunchDetails({
     this.latestLaunchTime,
     this.stackId,
     this.stackName,
   });
-  factory LaunchDetails.fromJson(Map<String, dynamic> json) =>
-      _$LaunchDetailsFromJson(json);
+  factory LaunchDetails.fromJson(Map<String, dynamic> json) {
+    return LaunchDetails(
+      latestLaunchTime: timeStampFromJson(json['latestLaunchTime']),
+      stackId: json['stackId'] as String?,
+      stackName: json['stackName'] as String?,
+    );
+  }
 }
 
 enum LicenseType {
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('BYOL')
   byol,
 }
 
@@ -2352,76 +2559,81 @@ extension on LicenseType {
       case LicenseType.byol:
         return 'BYOL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  LicenseType toLicenseType() {
+    switch (this) {
+      case 'AWS':
+        return LicenseType.aws;
+      case 'BYOL':
+        return LicenseType.byol;
+    }
+    throw Exception('$this is not known in enum LicenseType');
+  }
+}
+
 class ListAppsResponse {
   /// The application summaries.
-  @_s.JsonKey(name: 'apps')
-  final List<AppSummary> apps;
+  final List<AppSummary>? apps;
 
   /// The token required to retrieve the next set of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAppsResponse({
     this.apps,
     this.nextToken,
   });
-  factory ListAppsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppsResponseFromJson(json);
+  factory ListAppsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppsResponse(
+      apps: (json['apps'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Contains the status of validating an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationContext {
   /// The status of the validation.
-  @_s.JsonKey(name: 'status')
-  final ValidationStatus status;
+  final ValidationStatus? status;
 
   /// The status message.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The ID of the validation.
-  @_s.JsonKey(name: 'validationId')
-  final String validationId;
+  final String? validationId;
 
   NotificationContext({
     this.status,
     this.statusMessage,
     this.validationId,
   });
-  Map<String, dynamic> toJson() => _$NotificationContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final validationId = this.validationId;
+    return {
+      if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (validationId != null) 'validationId': validationId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyAppValidationOutputResponse {
   NotifyAppValidationOutputResponse();
-  factory NotifyAppValidationOutputResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$NotifyAppValidationOutputResponseFromJson(json);
+  factory NotifyAppValidationOutputResponse.fromJson(Map<String, dynamic> _) {
+    return NotifyAppValidationOutputResponse();
+  }
 }
 
 enum OutputFormat {
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('YAML')
   yaml,
 }
 
@@ -2433,64 +2645,54 @@ extension on OutputFormat {
       case OutputFormat.yaml:
         return 'YAML';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class PutAppLaunchConfigurationResponse {
-  PutAppLaunchConfigurationResponse();
-  factory PutAppLaunchConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAppLaunchConfigurationResponseFromJson(json);
+extension on String {
+  OutputFormat toOutputFormat() {
+    switch (this) {
+      case 'JSON':
+        return OutputFormat.json;
+      case 'YAML':
+        return OutputFormat.yaml;
+    }
+    throw Exception('$this is not known in enum OutputFormat');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class PutAppLaunchConfigurationResponse {
+  PutAppLaunchConfigurationResponse();
+  factory PutAppLaunchConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return PutAppLaunchConfigurationResponse();
+  }
+}
+
 class PutAppReplicationConfigurationResponse {
   PutAppReplicationConfigurationResponse();
   factory PutAppReplicationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAppReplicationConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutAppReplicationConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAppValidationConfigurationResponse {
   PutAppValidationConfigurationResponse();
   factory PutAppValidationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAppValidationConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutAppValidationConfigurationResponse();
+  }
 }
 
 /// Represents a replication job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationJob {
   /// The description of the replication job.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Indicates whether the replication job should produce encrypted AMIs.
-  @_s.JsonKey(name: 'encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The time between consecutive replication runs, in hours.
-  @_s.JsonKey(name: 'frequency')
-  final int frequency;
+  final int? frequency;
 
   /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
   /// value can be any of the following:
@@ -2511,69 +2713,52 @@ class ReplicationJob {
   /// </ul>
   /// If encrypted is enabled but a KMS key ID is not specified, the customer's
   /// default KMS key for Amazon EBS is used.
-  @_s.JsonKey(name: 'kmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The ID of the latest Amazon Machine Image (AMI).
-  @_s.JsonKey(name: 'latestAmiId')
-  final String latestAmiId;
+  final String? latestAmiId;
 
   /// The license type to be used for the AMI created by a successful replication
   /// run.
-  @_s.JsonKey(name: 'licenseType')
-  final LicenseType licenseType;
+  final LicenseType? licenseType;
 
   /// The start time of the next replication run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'nextReplicationRunStartTime')
-  final DateTime nextReplicationRunStartTime;
+  final DateTime? nextReplicationRunStartTime;
 
   /// The number of recent AMIs to keep in the customer's account for a
   /// replication job. By default, the value is set to zero, meaning that all AMIs
   /// are kept.
-  @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
-  final int numberOfRecentAmisToKeep;
+  final int? numberOfRecentAmisToKeep;
 
   /// The ID of the replication job.
-  @_s.JsonKey(name: 'replicationJobId')
-  final String replicationJobId;
+  final String? replicationJobId;
 
   /// Information about the replication runs.
-  @_s.JsonKey(name: 'replicationRunList')
-  final List<ReplicationRun> replicationRunList;
+  final List<ReplicationRun>? replicationRunList;
 
   /// The name of the IAM role to be used by AWS SMS.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
+  final String? roleName;
 
   /// Indicates whether to run the replication job one time.
-  @_s.JsonKey(name: 'runOnce')
-  final bool runOnce;
+  final bool? runOnce;
 
   /// The seed replication time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'seedReplicationTime')
-  final DateTime seedReplicationTime;
+  final DateTime? seedReplicationTime;
 
   /// The ID of the server.
-  @_s.JsonKey(name: 'serverId')
-  final String serverId;
+  final String? serverId;
 
   /// The type of server.
-  @_s.JsonKey(name: 'serverType')
-  final ServerType serverType;
+  final ServerType? serverType;
 
   /// The state of the replication job.
-  @_s.JsonKey(name: 'state')
-  final ReplicationJobState state;
+  final ReplicationJobState? state;
 
   /// The description of the current status of the replication job.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// Information about the VM server.
-  @_s.JsonKey(name: 'vmServer')
-  final VmServer vmServer;
+  final VmServer? vmServer;
 
   ReplicationJob({
     this.description,
@@ -2595,52 +2780,107 @@ class ReplicationJob {
     this.statusMessage,
     this.vmServer,
   });
-  factory ReplicationJob.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationJobFromJson(json);
+  factory ReplicationJob.fromJson(Map<String, dynamic> json) {
+    return ReplicationJob(
+      description: json['description'] as String?,
+      encrypted: json['encrypted'] as bool?,
+      frequency: json['frequency'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      latestAmiId: json['latestAmiId'] as String?,
+      licenseType: (json['licenseType'] as String?)?.toLicenseType(),
+      nextReplicationRunStartTime:
+          timeStampFromJson(json['nextReplicationRunStartTime']),
+      numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int?,
+      replicationJobId: json['replicationJobId'] as String?,
+      replicationRunList: (json['replicationRunList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      roleName: json['roleName'] as String?,
+      runOnce: json['runOnce'] as bool?,
+      seedReplicationTime: timeStampFromJson(json['seedReplicationTime']),
+      serverId: json['serverId'] as String?,
+      serverType: (json['serverType'] as String?)?.toServerType(),
+      state: (json['state'] as String?)?.toReplicationJobState(),
+      statusMessage: json['statusMessage'] as String?,
+      vmServer: json['vmServer'] != null
+          ? VmServer.fromJson(json['vmServer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ReplicationJobState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('PAUSED_ON_FAILURE')
   pausedOnFailure,
-  @_s.JsonValue('FAILING')
   failing,
 }
 
+extension on ReplicationJobState {
+  String toValue() {
+    switch (this) {
+      case ReplicationJobState.pending:
+        return 'PENDING';
+      case ReplicationJobState.active:
+        return 'ACTIVE';
+      case ReplicationJobState.failed:
+        return 'FAILED';
+      case ReplicationJobState.deleting:
+        return 'DELETING';
+      case ReplicationJobState.deleted:
+        return 'DELETED';
+      case ReplicationJobState.completed:
+        return 'COMPLETED';
+      case ReplicationJobState.pausedOnFailure:
+        return 'PAUSED_ON_FAILURE';
+      case ReplicationJobState.failing:
+        return 'FAILING';
+    }
+  }
+}
+
+extension on String {
+  ReplicationJobState toReplicationJobState() {
+    switch (this) {
+      case 'PENDING':
+        return ReplicationJobState.pending;
+      case 'ACTIVE':
+        return ReplicationJobState.active;
+      case 'FAILED':
+        return ReplicationJobState.failed;
+      case 'DELETING':
+        return ReplicationJobState.deleting;
+      case 'DELETED':
+        return ReplicationJobState.deleted;
+      case 'COMPLETED':
+        return ReplicationJobState.completed;
+      case 'PAUSED_ON_FAILURE':
+        return ReplicationJobState.pausedOnFailure;
+      case 'FAILING':
+        return ReplicationJobState.failing;
+    }
+    throw Exception('$this is not known in enum ReplicationJobState');
+  }
+}
+
 /// Represents a replication run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationRun {
   /// The ID of the Amazon Machine Image (AMI) from the replication run.
-  @_s.JsonKey(name: 'amiId')
-  final String amiId;
+  final String? amiId;
 
   /// The completion time of the last replication run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completedTime')
-  final DateTime completedTime;
+  final DateTime? completedTime;
 
   /// The description of the replication run.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Indicates whether the replication run should produce an encrypted AMI.
-  @_s.JsonKey(name: 'encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
   /// value can be any of the following:
@@ -2661,33 +2901,25 @@ class ReplicationRun {
   /// </ul>
   /// If encrypted is <i>true</i> but a KMS key ID is not specified, the
   /// customer's default KMS key for Amazon EBS is used.
-  @_s.JsonKey(name: 'kmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The ID of the replication run.
-  @_s.JsonKey(name: 'replicationRunId')
-  final String replicationRunId;
+  final String? replicationRunId;
 
   /// The start time of the next replication run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'scheduledStartTime')
-  final DateTime scheduledStartTime;
+  final DateTime? scheduledStartTime;
 
   /// Details about the current stage of the replication run.
-  @_s.JsonKey(name: 'stageDetails')
-  final ReplicationRunStageDetails stageDetails;
+  final ReplicationRunStageDetails? stageDetails;
 
   /// The state of the replication run.
-  @_s.JsonKey(name: 'state')
-  final ReplicationRunState state;
+  final ReplicationRunState? state;
 
   /// The description of the current status of the replication job.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The type of replication run.
-  @_s.JsonKey(name: 'type')
-  final ReplicationRunType type;
+  final ReplicationRunType? type;
 
   ReplicationRun({
     this.amiId,
@@ -2702,130 +2934,192 @@ class ReplicationRun {
     this.statusMessage,
     this.type,
   });
-  factory ReplicationRun.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationRunFromJson(json);
+  factory ReplicationRun.fromJson(Map<String, dynamic> json) {
+    return ReplicationRun(
+      amiId: json['amiId'] as String?,
+      completedTime: timeStampFromJson(json['completedTime']),
+      description: json['description'] as String?,
+      encrypted: json['encrypted'] as bool?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      replicationRunId: json['replicationRunId'] as String?,
+      scheduledStartTime: timeStampFromJson(json['scheduledStartTime']),
+      stageDetails: json['stageDetails'] != null
+          ? ReplicationRunStageDetails.fromJson(
+              json['stageDetails'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.toReplicationRunState(),
+      statusMessage: json['statusMessage'] as String?,
+      type: (json['type'] as String?)?.toReplicationRunType(),
+    );
+  }
 }
 
 /// Details of the current stage of a replication run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationRunStageDetails {
   /// The current stage of a replication run.
-  @_s.JsonKey(name: 'stage')
-  final String stage;
+  final String? stage;
 
   /// The progress of the current stage of a replication run.
-  @_s.JsonKey(name: 'stageProgress')
-  final String stageProgress;
+  final String? stageProgress;
 
   ReplicationRunStageDetails({
     this.stage,
     this.stageProgress,
   });
-  factory ReplicationRunStageDetails.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationRunStageDetailsFromJson(json);
+  factory ReplicationRunStageDetails.fromJson(Map<String, dynamic> json) {
+    return ReplicationRunStageDetails(
+      stage: json['stage'] as String?,
+      stageProgress: json['stageProgress'] as String?,
+    );
+  }
 }
 
 enum ReplicationRunState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('MISSED')
   missed,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on ReplicationRunState {
+  String toValue() {
+    switch (this) {
+      case ReplicationRunState.pending:
+        return 'PENDING';
+      case ReplicationRunState.missed:
+        return 'MISSED';
+      case ReplicationRunState.active:
+        return 'ACTIVE';
+      case ReplicationRunState.failed:
+        return 'FAILED';
+      case ReplicationRunState.completed:
+        return 'COMPLETED';
+      case ReplicationRunState.deleting:
+        return 'DELETING';
+      case ReplicationRunState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  ReplicationRunState toReplicationRunState() {
+    switch (this) {
+      case 'PENDING':
+        return ReplicationRunState.pending;
+      case 'MISSED':
+        return ReplicationRunState.missed;
+      case 'ACTIVE':
+        return ReplicationRunState.active;
+      case 'FAILED':
+        return ReplicationRunState.failed;
+      case 'COMPLETED':
+        return ReplicationRunState.completed;
+      case 'DELETING':
+        return ReplicationRunState.deleting;
+      case 'DELETED':
+        return ReplicationRunState.deleted;
+    }
+    throw Exception('$this is not known in enum ReplicationRunState');
+  }
+}
+
 enum ReplicationRunType {
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
-  @_s.JsonValue('AUTOMATIC')
   automatic,
 }
 
+extension on ReplicationRunType {
+  String toValue() {
+    switch (this) {
+      case ReplicationRunType.onDemand:
+        return 'ON_DEMAND';
+      case ReplicationRunType.automatic:
+        return 'AUTOMATIC';
+    }
+  }
+}
+
+extension on String {
+  ReplicationRunType toReplicationRunType() {
+    switch (this) {
+      case 'ON_DEMAND':
+        return ReplicationRunType.onDemand;
+      case 'AUTOMATIC':
+        return ReplicationRunType.automatic;
+    }
+    throw Exception('$this is not known in enum ReplicationRunType');
+  }
+}
+
 /// Location of an Amazon S3 object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Location {
   /// The Amazon S3 bucket name.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The Amazon S3 bucket key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   S3Location({
     this.bucket,
     this.key,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (key != null) 'key': key,
+    };
+  }
 }
 
 /// Contains the location of validation output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SSMOutput {
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   SSMOutput({
     this.s3Location,
   });
-  factory SSMOutput.fromJson(Map<String, dynamic> json) =>
-      _$SSMOutputFromJson(json);
+  factory SSMOutput.fromJson(Map<String, dynamic> json) {
+    return SSMOutput(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains validation parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SSMValidationParameters {
   /// The command to run the validation script
-  @_s.JsonKey(name: 'command')
-  final String command;
+  final String? command;
 
   /// The timeout interval, in seconds.
-  @_s.JsonKey(name: 'executionTimeoutSeconds')
-  final int executionTimeoutSeconds;
+  final int? executionTimeoutSeconds;
 
   /// The ID of the instance. The instance must have the following tag:
   /// UserForSMSApplicationValidation=true.
-  @_s.JsonKey(name: 'instanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The name of the S3 bucket for output.
-  @_s.JsonKey(name: 'outputS3BucketName')
-  final String outputS3BucketName;
+  final String? outputS3BucketName;
 
   /// The type of validation script.
-  @_s.JsonKey(name: 'scriptType')
-  final ScriptType scriptType;
+  final ScriptType? scriptType;
 
   /// The location of the validation script.
-  @_s.JsonKey(name: 'source')
-  final Source source;
+  final Source? source;
 
   SSMValidationParameters({
     this.command,
@@ -2835,45 +3129,82 @@ class SSMValidationParameters {
     this.scriptType,
     this.source,
   });
-  factory SSMValidationParameters.fromJson(Map<String, dynamic> json) =>
-      _$SSMValidationParametersFromJson(json);
+  factory SSMValidationParameters.fromJson(Map<String, dynamic> json) {
+    return SSMValidationParameters(
+      command: json['command'] as String?,
+      executionTimeoutSeconds: json['executionTimeoutSeconds'] as int?,
+      instanceId: json['instanceId'] as String?,
+      outputS3BucketName: json['outputS3BucketName'] as String?,
+      scriptType: (json['scriptType'] as String?)?.toScriptType(),
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SSMValidationParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final executionTimeoutSeconds = this.executionTimeoutSeconds;
+    final instanceId = this.instanceId;
+    final outputS3BucketName = this.outputS3BucketName;
+    final scriptType = this.scriptType;
+    final source = this.source;
+    return {
+      if (command != null) 'command': command,
+      if (executionTimeoutSeconds != null)
+        'executionTimeoutSeconds': executionTimeoutSeconds,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (outputS3BucketName != null) 'outputS3BucketName': outputS3BucketName,
+      if (scriptType != null) 'scriptType': scriptType.toValue(),
+      if (source != null) 'source': source,
+    };
+  }
 }
 
 enum ScriptType {
-  @_s.JsonValue('SHELL_SCRIPT')
   shellScript,
-  @_s.JsonValue('POWERSHELL_SCRIPT')
   powershellScript,
 }
 
+extension on ScriptType {
+  String toValue() {
+    switch (this) {
+      case ScriptType.shellScript:
+        return 'SHELL_SCRIPT';
+      case ScriptType.powershellScript:
+        return 'POWERSHELL_SCRIPT';
+    }
+  }
+}
+
+extension on String {
+  ScriptType toScriptType() {
+    switch (this) {
+      case 'SHELL_SCRIPT':
+        return ScriptType.shellScript;
+      case 'POWERSHELL_SCRIPT':
+        return ScriptType.powershellScript;
+    }
+    throw Exception('$this is not known in enum ScriptType');
+  }
+}
+
 /// Represents a server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Server {
   /// The ID of the replication job.
-  @_s.JsonKey(name: 'replicationJobId')
-  final String replicationJobId;
+  final String? replicationJobId;
 
   /// Indicates whether the replication job is deleted or failed.
-  @_s.JsonKey(name: 'replicationJobTerminated')
-  final bool replicationJobTerminated;
+  final bool? replicationJobTerminated;
 
   /// The ID of the server.
-  @_s.JsonKey(name: 'serverId')
-  final String serverId;
+  final String? serverId;
 
   /// The type of server.
-  @_s.JsonKey(name: 'serverType')
-  final ServerType serverType;
+  final ServerType? serverType;
 
   /// Information about the VM server.
-  @_s.JsonKey(name: 'vmServer')
-  final VmServer vmServer;
+  final VmServer? vmServer;
 
   Server({
     this.replicationJobId,
@@ -2882,194 +3213,270 @@ class Server {
     this.serverType,
     this.vmServer,
   });
-  factory Server.fromJson(Map<String, dynamic> json) => _$ServerFromJson(json);
+  factory Server.fromJson(Map<String, dynamic> json) {
+    return Server(
+      replicationJobId: json['replicationJobId'] as String?,
+      replicationJobTerminated: json['replicationJobTerminated'] as bool?,
+      serverId: json['serverId'] as String?,
+      serverType: (json['serverType'] as String?)?.toServerType(),
+      vmServer: json['vmServer'] != null
+          ? VmServer.fromJson(json['vmServer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerToJson(this);
+  Map<String, dynamic> toJson() {
+    final replicationJobId = this.replicationJobId;
+    final replicationJobTerminated = this.replicationJobTerminated;
+    final serverId = this.serverId;
+    final serverType = this.serverType;
+    final vmServer = this.vmServer;
+    return {
+      if (replicationJobId != null) 'replicationJobId': replicationJobId,
+      if (replicationJobTerminated != null)
+        'replicationJobTerminated': replicationJobTerminated,
+      if (serverId != null) 'serverId': serverId,
+      if (serverType != null) 'serverType': serverType.toValue(),
+      if (vmServer != null) 'vmServer': vmServer,
+    };
+  }
 }
 
 enum ServerCatalogStatus {
-  @_s.JsonValue('NOT_IMPORTED')
   notImported,
-  @_s.JsonValue('IMPORTING')
   importing,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on ServerCatalogStatus {
+  String toValue() {
+    switch (this) {
+      case ServerCatalogStatus.notImported:
+        return 'NOT_IMPORTED';
+      case ServerCatalogStatus.importing:
+        return 'IMPORTING';
+      case ServerCatalogStatus.available:
+        return 'AVAILABLE';
+      case ServerCatalogStatus.deleted:
+        return 'DELETED';
+      case ServerCatalogStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  ServerCatalogStatus toServerCatalogStatus() {
+    switch (this) {
+      case 'NOT_IMPORTED':
+        return ServerCatalogStatus.notImported;
+      case 'IMPORTING':
+        return ServerCatalogStatus.importing;
+      case 'AVAILABLE':
+        return ServerCatalogStatus.available;
+      case 'DELETED':
+        return ServerCatalogStatus.deleted;
+      case 'EXPIRED':
+        return ServerCatalogStatus.expired;
+    }
+    throw Exception('$this is not known in enum ServerCatalogStatus');
+  }
+}
+
 /// Logical grouping of servers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerGroup {
   /// The name of a server group.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The ID of a server group.
-  @_s.JsonKey(name: 'serverGroupId')
-  final String serverGroupId;
+  final String? serverGroupId;
 
   /// The servers that belong to a server group.
-  @_s.JsonKey(name: 'serverList')
-  final List<Server> serverList;
+  final List<Server>? serverList;
 
   ServerGroup({
     this.name,
     this.serverGroupId,
     this.serverList,
   });
-  factory ServerGroup.fromJson(Map<String, dynamic> json) =>
-      _$ServerGroupFromJson(json);
+  factory ServerGroup.fromJson(Map<String, dynamic> json) {
+    return ServerGroup(
+      name: json['name'] as String?,
+      serverGroupId: json['serverGroupId'] as String?,
+      serverList: (json['serverList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Server.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerGroupToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final serverGroupId = this.serverGroupId;
+    final serverList = this.serverList;
+    return {
+      if (name != null) 'name': name,
+      if (serverGroupId != null) 'serverGroupId': serverGroupId,
+      if (serverList != null) 'serverList': serverList,
+    };
+  }
 }
 
 /// Launch configuration for a server group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerGroupLaunchConfiguration {
   /// The launch order of servers in the server group.
-  @_s.JsonKey(name: 'launchOrder')
-  final int launchOrder;
+  final int? launchOrder;
 
   /// The ID of the server group with which the launch configuration is
   /// associated.
-  @_s.JsonKey(name: 'serverGroupId')
-  final String serverGroupId;
+  final String? serverGroupId;
 
   /// The launch configuration for servers in the server group.
-  @_s.JsonKey(name: 'serverLaunchConfigurations')
-  final List<ServerLaunchConfiguration> serverLaunchConfigurations;
+  final List<ServerLaunchConfiguration>? serverLaunchConfigurations;
 
   ServerGroupLaunchConfiguration({
     this.launchOrder,
     this.serverGroupId,
     this.serverLaunchConfigurations,
   });
-  factory ServerGroupLaunchConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ServerGroupLaunchConfigurationFromJson(json);
+  factory ServerGroupLaunchConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServerGroupLaunchConfiguration(
+      launchOrder: json['launchOrder'] as int?,
+      serverGroupId: json['serverGroupId'] as String?,
+      serverLaunchConfigurations: (json['serverLaunchConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ServerLaunchConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerGroupLaunchConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final launchOrder = this.launchOrder;
+    final serverGroupId = this.serverGroupId;
+    final serverLaunchConfigurations = this.serverLaunchConfigurations;
+    return {
+      if (launchOrder != null) 'launchOrder': launchOrder,
+      if (serverGroupId != null) 'serverGroupId': serverGroupId,
+      if (serverLaunchConfigurations != null)
+        'serverLaunchConfigurations': serverLaunchConfigurations,
+    };
+  }
 }
 
 /// Replication configuration for a server group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerGroupReplicationConfiguration {
   /// The ID of the server group with which this replication configuration is
   /// associated.
-  @_s.JsonKey(name: 'serverGroupId')
-  final String serverGroupId;
+  final String? serverGroupId;
 
   /// The replication configuration for servers in the server group.
-  @_s.JsonKey(name: 'serverReplicationConfigurations')
-  final List<ServerReplicationConfiguration> serverReplicationConfigurations;
+  final List<ServerReplicationConfiguration>? serverReplicationConfigurations;
 
   ServerGroupReplicationConfiguration({
     this.serverGroupId,
     this.serverReplicationConfigurations,
   });
   factory ServerGroupReplicationConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServerGroupReplicationConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ServerGroupReplicationConfiguration(
+      serverGroupId: json['serverGroupId'] as String?,
+      serverReplicationConfigurations:
+          (json['serverReplicationConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => ServerReplicationConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ServerGroupReplicationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final serverGroupId = this.serverGroupId;
+    final serverReplicationConfigurations =
+        this.serverReplicationConfigurations;
+    return {
+      if (serverGroupId != null) 'serverGroupId': serverGroupId,
+      if (serverReplicationConfigurations != null)
+        'serverReplicationConfigurations': serverReplicationConfigurations,
+    };
+  }
 }
 
 /// Configuration for validating an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerGroupValidationConfiguration {
   /// The ID of the server group.
-  @_s.JsonKey(name: 'serverGroupId')
-  final String serverGroupId;
+  final String? serverGroupId;
 
   /// The validation configuration.
-  @_s.JsonKey(name: 'serverValidationConfigurations')
-  final List<ServerValidationConfiguration> serverValidationConfigurations;
+  final List<ServerValidationConfiguration>? serverValidationConfigurations;
 
   ServerGroupValidationConfiguration({
     this.serverGroupId,
     this.serverValidationConfigurations,
   });
   factory ServerGroupValidationConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServerGroupValidationConfigurationFromJson(json);
+      Map<String, dynamic> json) {
+    return ServerGroupValidationConfiguration(
+      serverGroupId: json['serverGroupId'] as String?,
+      serverValidationConfigurations: (json['serverValidationConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ServerValidationConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$ServerGroupValidationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final serverGroupId = this.serverGroupId;
+    final serverValidationConfigurations = this.serverValidationConfigurations;
+    return {
+      if (serverGroupId != null) 'serverGroupId': serverGroupId,
+      if (serverValidationConfigurations != null)
+        'serverValidationConfigurations': serverValidationConfigurations,
+    };
+  }
 }
 
 /// Launch configuration for a server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerLaunchConfiguration {
   /// Indicates whether a publicly accessible IP address is created when launching
   /// the server.
-  @_s.JsonKey(name: 'associatePublicIpAddress')
-  final bool associatePublicIpAddress;
-  @_s.JsonKey(name: 'configureScript')
-  final S3Location configureScript;
+  final bool? associatePublicIpAddress;
+  final S3Location? configureScript;
 
   /// The type of configuration script.
-  @_s.JsonKey(name: 'configureScriptType')
-  final ScriptType configureScriptType;
+  final ScriptType? configureScriptType;
 
   /// The name of the Amazon EC2 SSH key to be used for connecting to the launched
   /// server.
-  @_s.JsonKey(name: 'ec2KeyName')
-  final String ec2KeyName;
+  final String? ec2KeyName;
 
   /// The name of the IAM instance profile.
-  @_s.JsonKey(name: 'iamInstanceProfileName')
-  final String iamInstanceProfileName;
+  final String? iamInstanceProfileName;
 
   /// The instance type to use when launching the server.
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The logical ID of the server in the AWS CloudFormation template.
-  @_s.JsonKey(name: 'logicalId')
-  final String logicalId;
+  final String? logicalId;
 
   /// The ID of the security group that applies to the launched server.
-  @_s.JsonKey(name: 'securityGroup')
-  final String securityGroup;
+  final String? securityGroup;
 
   /// The ID of the server with which the launch configuration is associated.
-  @_s.JsonKey(name: 'server')
-  final Server server;
+  final Server? server;
 
   /// The ID of the subnet the server should be launched into.
-  @_s.JsonKey(name: 'subnet')
-  final String subnet;
+  final String? subnet;
 
   /// Location of the user-data script to be executed when launching the server.
-  @_s.JsonKey(name: 'userData')
-  final UserData userData;
+  final UserData? userData;
 
   /// The ID of the VPC into which the server should be launched.
-  @_s.JsonKey(name: 'vpc')
-  final String vpc;
+  final String? vpc;
 
   ServerLaunchConfiguration({
     this.associatePublicIpAddress,
@@ -3085,52 +3492,106 @@ class ServerLaunchConfiguration {
     this.userData,
     this.vpc,
   });
-  factory ServerLaunchConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ServerLaunchConfigurationFromJson(json);
+  factory ServerLaunchConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServerLaunchConfiguration(
+      associatePublicIpAddress: json['associatePublicIpAddress'] as bool?,
+      configureScript: json['configureScript'] != null
+          ? S3Location.fromJson(json['configureScript'] as Map<String, dynamic>)
+          : null,
+      configureScriptType:
+          (json['configureScriptType'] as String?)?.toScriptType(),
+      ec2KeyName: json['ec2KeyName'] as String?,
+      iamInstanceProfileName: json['iamInstanceProfileName'] as String?,
+      instanceType: json['instanceType'] as String?,
+      logicalId: json['logicalId'] as String?,
+      securityGroup: json['securityGroup'] as String?,
+      server: json['server'] != null
+          ? Server.fromJson(json['server'] as Map<String, dynamic>)
+          : null,
+      subnet: json['subnet'] as String?,
+      userData: json['userData'] != null
+          ? UserData.fromJson(json['userData'] as Map<String, dynamic>)
+          : null,
+      vpc: json['vpc'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerLaunchConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final associatePublicIpAddress = this.associatePublicIpAddress;
+    final configureScript = this.configureScript;
+    final configureScriptType = this.configureScriptType;
+    final ec2KeyName = this.ec2KeyName;
+    final iamInstanceProfileName = this.iamInstanceProfileName;
+    final instanceType = this.instanceType;
+    final logicalId = this.logicalId;
+    final securityGroup = this.securityGroup;
+    final server = this.server;
+    final subnet = this.subnet;
+    final userData = this.userData;
+    final vpc = this.vpc;
+    return {
+      if (associatePublicIpAddress != null)
+        'associatePublicIpAddress': associatePublicIpAddress,
+      if (configureScript != null) 'configureScript': configureScript,
+      if (configureScriptType != null)
+        'configureScriptType': configureScriptType.toValue(),
+      if (ec2KeyName != null) 'ec2KeyName': ec2KeyName,
+      if (iamInstanceProfileName != null)
+        'iamInstanceProfileName': iamInstanceProfileName,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (logicalId != null) 'logicalId': logicalId,
+      if (securityGroup != null) 'securityGroup': securityGroup,
+      if (server != null) 'server': server,
+      if (subnet != null) 'subnet': subnet,
+      if (userData != null) 'userData': userData,
+      if (vpc != null) 'vpc': vpc,
+    };
+  }
 }
 
 /// Replication configuration of a server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerReplicationConfiguration {
   /// The ID of the server with which this replication configuration is
   /// associated.
-  @_s.JsonKey(name: 'server')
-  final Server server;
+  final Server? server;
 
   /// The parameters for replicating the server.
-  @_s.JsonKey(name: 'serverReplicationParameters')
-  final ServerReplicationParameters serverReplicationParameters;
+  final ServerReplicationParameters? serverReplicationParameters;
 
   ServerReplicationConfiguration({
     this.server,
     this.serverReplicationParameters,
   });
-  factory ServerReplicationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ServerReplicationConfigurationFromJson(json);
+  factory ServerReplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServerReplicationConfiguration(
+      server: json['server'] != null
+          ? Server.fromJson(json['server'] as Map<String, dynamic>)
+          : null,
+      serverReplicationParameters: json['serverReplicationParameters'] != null
+          ? ServerReplicationParameters.fromJson(
+              json['serverReplicationParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerReplicationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final server = this.server;
+    final serverReplicationParameters = this.serverReplicationParameters;
+    return {
+      if (server != null) 'server': server,
+      if (serverReplicationParameters != null)
+        'serverReplicationParameters': serverReplicationParameters,
+    };
+  }
 }
 
 /// The replication parameters for replicating a server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerReplicationParameters {
   /// Indicates whether the replication job produces encrypted AMIs.
-  @_s.JsonKey(name: 'encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The frequency of creating replication jobs for the server.
-  @_s.JsonKey(name: 'frequency')
-  final int frequency;
+  final int? frequency;
 
   /// The ID of the KMS key for replication jobs that produce encrypted AMIs. This
   /// value can be any of the following:
@@ -3151,26 +3612,20 @@ class ServerReplicationParameters {
   /// </ul>
   /// If encrypted is enabled but a KMS key ID is not specified, the customer's
   /// default KMS key for Amazon EBS is used.
-  @_s.JsonKey(name: 'kmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The license type for creating a replication job for the server.
-  @_s.JsonKey(name: 'licenseType')
-  final LicenseType licenseType;
+  final LicenseType? licenseType;
 
   /// The number of recent AMIs to keep when creating a replication job for this
   /// server.
-  @_s.JsonKey(name: 'numberOfRecentAmisToKeep')
-  final int numberOfRecentAmisToKeep;
+  final int? numberOfRecentAmisToKeep;
 
   /// Indicates whether to run the replication job one time.
-  @_s.JsonKey(name: 'runOnce')
-  final bool runOnce;
+  final bool? runOnce;
 
   /// The seed time for creating a replication job for the server.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'seedTime')
-  final DateTime seedTime;
+  final DateTime? seedTime;
 
   ServerReplicationParameters({
     this.encrypted,
@@ -3181,41 +3636,76 @@ class ServerReplicationParameters {
     this.runOnce,
     this.seedTime,
   });
-  factory ServerReplicationParameters.fromJson(Map<String, dynamic> json) =>
-      _$ServerReplicationParametersFromJson(json);
+  factory ServerReplicationParameters.fromJson(Map<String, dynamic> json) {
+    return ServerReplicationParameters(
+      encrypted: json['encrypted'] as bool?,
+      frequency: json['frequency'] as int?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      licenseType: (json['licenseType'] as String?)?.toLicenseType(),
+      numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int?,
+      runOnce: json['runOnce'] as bool?,
+      seedTime: timeStampFromJson(json['seedTime']),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerReplicationParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final encrypted = this.encrypted;
+    final frequency = this.frequency;
+    final kmsKeyId = this.kmsKeyId;
+    final licenseType = this.licenseType;
+    final numberOfRecentAmisToKeep = this.numberOfRecentAmisToKeep;
+    final runOnce = this.runOnce;
+    final seedTime = this.seedTime;
+    return {
+      if (encrypted != null) 'encrypted': encrypted,
+      if (frequency != null) 'frequency': frequency,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (licenseType != null) 'licenseType': licenseType.toValue(),
+      if (numberOfRecentAmisToKeep != null)
+        'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
+      if (runOnce != null) 'runOnce': runOnce,
+      if (seedTime != null) 'seedTime': unixTimestampToJson(seedTime),
+    };
+  }
 }
 
 enum ServerType {
-  @_s.JsonValue('VIRTUAL_MACHINE')
   virtualMachine,
 }
 
+extension on ServerType {
+  String toValue() {
+    switch (this) {
+      case ServerType.virtualMachine:
+        return 'VIRTUAL_MACHINE';
+    }
+  }
+}
+
+extension on String {
+  ServerType toServerType() {
+    switch (this) {
+      case 'VIRTUAL_MACHINE':
+        return ServerType.virtualMachine;
+    }
+    throw Exception('$this is not known in enum ServerType');
+  }
+}
+
 /// Configuration for validating an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServerValidationConfiguration {
   /// The name of the configuration.
-  @_s.JsonKey(name: 'name')
-  final String name;
-  @_s.JsonKey(name: 'server')
-  final Server server;
+  final String? name;
+  final Server? server;
 
   /// The validation strategy.
-  @_s.JsonKey(name: 'serverValidationStrategy')
-  final ServerValidationStrategy serverValidationStrategy;
+  final ServerValidationStrategy? serverValidationStrategy;
 
   /// The validation parameters.
-  @_s.JsonKey(name: 'userDataValidationParameters')
-  final UserDataValidationParameters userDataValidationParameters;
+  final UserDataValidationParameters? userDataValidationParameters;
 
   /// The ID of the validation.
-  @_s.JsonKey(name: 'validationId')
-  final String validationId;
+  final String? validationId;
 
   ServerValidationConfiguration({
     this.name,
@@ -3224,258 +3714,291 @@ class ServerValidationConfiguration {
     this.userDataValidationParameters,
     this.validationId,
   });
-  factory ServerValidationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ServerValidationConfigurationFromJson(json);
+  factory ServerValidationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServerValidationConfiguration(
+      name: json['name'] as String?,
+      server: json['server'] != null
+          ? Server.fromJson(json['server'] as Map<String, dynamic>)
+          : null,
+      serverValidationStrategy: (json['serverValidationStrategy'] as String?)
+          ?.toServerValidationStrategy(),
+      userDataValidationParameters: json['userDataValidationParameters'] != null
+          ? UserDataValidationParameters.fromJson(
+              json['userDataValidationParameters'] as Map<String, dynamic>)
+          : null,
+      validationId: json['validationId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServerValidationConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final server = this.server;
+    final serverValidationStrategy = this.serverValidationStrategy;
+    final userDataValidationParameters = this.userDataValidationParameters;
+    final validationId = this.validationId;
+    return {
+      if (name != null) 'name': name,
+      if (server != null) 'server': server,
+      if (serverValidationStrategy != null)
+        'serverValidationStrategy': serverValidationStrategy.toValue(),
+      if (userDataValidationParameters != null)
+        'userDataValidationParameters': userDataValidationParameters,
+      if (validationId != null) 'validationId': validationId,
+    };
+  }
 }
 
 /// Contains output from validating an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServerValidationOutput {
-  @_s.JsonKey(name: 'server')
-  final Server server;
+  final Server? server;
 
   ServerValidationOutput({
     this.server,
   });
-  factory ServerValidationOutput.fromJson(Map<String, dynamic> json) =>
-      _$ServerValidationOutputFromJson(json);
+  factory ServerValidationOutput.fromJson(Map<String, dynamic> json) {
+    return ServerValidationOutput(
+      server: json['server'] != null
+          ? Server.fromJson(json['server'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ServerValidationStrategy {
-  @_s.JsonValue('USERDATA')
   userdata,
 }
 
+extension on ServerValidationStrategy {
+  String toValue() {
+    switch (this) {
+      case ServerValidationStrategy.userdata:
+        return 'USERDATA';
+    }
+  }
+}
+
+extension on String {
+  ServerValidationStrategy toServerValidationStrategy() {
+    switch (this) {
+      case 'USERDATA':
+        return ServerValidationStrategy.userdata;
+    }
+    throw Exception('$this is not known in enum ServerValidationStrategy');
+  }
+}
+
 /// Contains the location of a validation script.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Source {
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   Source({
     this.s3Location,
   });
-  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartAppReplicationResponse {
   StartAppReplicationResponse();
-  factory StartAppReplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartAppReplicationResponseFromJson(json);
+  factory StartAppReplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StartAppReplicationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartOnDemandAppReplicationResponse {
   StartOnDemandAppReplicationResponse();
-  factory StartOnDemandAppReplicationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartOnDemandAppReplicationResponseFromJson(json);
+  factory StartOnDemandAppReplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StartOnDemandAppReplicationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartOnDemandReplicationRunResponse {
   /// The ID of the replication run.
-  @_s.JsonKey(name: 'replicationRunId')
-  final String replicationRunId;
+  final String? replicationRunId;
 
   StartOnDemandReplicationRunResponse({
     this.replicationRunId,
   });
   factory StartOnDemandReplicationRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartOnDemandReplicationRunResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartOnDemandReplicationRunResponse(
+      replicationRunId: json['replicationRunId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopAppReplicationResponse {
   StopAppReplicationResponse();
-  factory StopAppReplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopAppReplicationResponseFromJson(json);
+  factory StopAppReplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StopAppReplicationResponse();
+  }
 }
 
 /// Key/value pair that can be assigned to an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The tag value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateAppResponse {
   TerminateAppResponse();
-  factory TerminateAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$TerminateAppResponseFromJson(json);
+  factory TerminateAppResponse.fromJson(Map<String, dynamic> _) {
+    return TerminateAppResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAppResponse {
   /// A summary description of the application.
-  @_s.JsonKey(name: 'appSummary')
-  final AppSummary appSummary;
+  final AppSummary? appSummary;
 
   /// The updated server groups in the application.
-  @_s.JsonKey(name: 'serverGroups')
-  final List<ServerGroup> serverGroups;
+  final List<ServerGroup>? serverGroups;
 
   /// The tags associated with the application.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   UpdateAppResponse({
     this.appSummary,
     this.serverGroups,
     this.tags,
   });
-  factory UpdateAppResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAppResponseFromJson(json);
+  factory UpdateAppResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppResponse(
+      appSummary: json['appSummary'] != null
+          ? AppSummary.fromJson(json['appSummary'] as Map<String, dynamic>)
+          : null,
+      serverGroups: (json['serverGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServerGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateReplicationJobResponse {
   UpdateReplicationJobResponse();
-  factory UpdateReplicationJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateReplicationJobResponseFromJson(json);
+  factory UpdateReplicationJobResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateReplicationJobResponse();
+  }
 }
 
 /// A script that runs on first launch of an Amazon EC2 instance. Used for
 /// configuring the server during launch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserData {
   /// Amazon S3 location of the user-data script.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   UserData({
     this.s3Location,
   });
-  factory UserData.fromJson(Map<String, dynamic> json) =>
-      _$UserDataFromJson(json);
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
 }
 
 /// Contains validation parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserDataValidationParameters {
   /// The type of validation script.
-  @_s.JsonKey(name: 'scriptType')
-  final ScriptType scriptType;
+  final ScriptType? scriptType;
 
   /// The location of the validation script.
-  @_s.JsonKey(name: 'source')
-  final Source source;
+  final Source? source;
 
   UserDataValidationParameters({
     this.scriptType,
     this.source,
   });
-  factory UserDataValidationParameters.fromJson(Map<String, dynamic> json) =>
-      _$UserDataValidationParametersFromJson(json);
+  factory UserDataValidationParameters.fromJson(Map<String, dynamic> json) {
+    return UserDataValidationParameters(
+      scriptType: (json['scriptType'] as String?)?.toScriptType(),
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserDataValidationParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final scriptType = this.scriptType;
+    final source = this.source;
+    return {
+      if (scriptType != null) 'scriptType': scriptType.toValue(),
+      if (source != null) 'source': source,
+    };
+  }
 }
 
 /// Contains validation output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationOutput {
   /// The output from validating an application.
-  @_s.JsonKey(name: 'appValidationOutput')
-  final AppValidationOutput appValidationOutput;
+  final AppValidationOutput? appValidationOutput;
 
   /// The latest time that the validation was performed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'latestValidationTime')
-  final DateTime latestValidationTime;
+  final DateTime? latestValidationTime;
 
   /// The name of the validation.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The output from validation an instance.
-  @_s.JsonKey(name: 'serverValidationOutput')
-  final ServerValidationOutput serverValidationOutput;
+  final ServerValidationOutput? serverValidationOutput;
 
   /// The status of the validation.
-  @_s.JsonKey(name: 'status')
-  final ValidationStatus status;
+  final ValidationStatus? status;
 
   /// The status message.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The ID of the validation.
-  @_s.JsonKey(name: 'validationId')
-  final String validationId;
+  final String? validationId;
 
   ValidationOutput({
     this.appValidationOutput,
@@ -3486,58 +4009,117 @@ class ValidationOutput {
     this.statusMessage,
     this.validationId,
   });
-  factory ValidationOutput.fromJson(Map<String, dynamic> json) =>
-      _$ValidationOutputFromJson(json);
+  factory ValidationOutput.fromJson(Map<String, dynamic> json) {
+    return ValidationOutput(
+      appValidationOutput: json['appValidationOutput'] != null
+          ? AppValidationOutput.fromJson(
+              json['appValidationOutput'] as Map<String, dynamic>)
+          : null,
+      latestValidationTime: timeStampFromJson(json['latestValidationTime']),
+      name: json['name'] as String?,
+      serverValidationOutput: json['serverValidationOutput'] != null
+          ? ServerValidationOutput.fromJson(
+              json['serverValidationOutput'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toValidationStatus(),
+      statusMessage: json['statusMessage'] as String?,
+      validationId: json['validationId'] as String?,
+    );
+  }
 }
 
 enum ValidationStatus {
-  @_s.JsonValue('READY_FOR_VALIDATION')
   readyForValidation,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ValidationStatus {
+  String toValue() {
+    switch (this) {
+      case ValidationStatus.readyForValidation:
+        return 'READY_FOR_VALIDATION';
+      case ValidationStatus.pending:
+        return 'PENDING';
+      case ValidationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ValidationStatus.succeeded:
+        return 'SUCCEEDED';
+      case ValidationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ValidationStatus toValidationStatus() {
+    switch (this) {
+      case 'READY_FOR_VALIDATION':
+        return ValidationStatus.readyForValidation;
+      case 'PENDING':
+        return ValidationStatus.pending;
+      case 'IN_PROGRESS':
+        return ValidationStatus.inProgress;
+      case 'SUCCEEDED':
+        return ValidationStatus.succeeded;
+      case 'FAILED':
+        return ValidationStatus.failed;
+    }
+    throw Exception('$this is not known in enum ValidationStatus');
+  }
+}
+
 enum VmManagerType {
-  @_s.JsonValue('VSPHERE')
   vsphere,
-  @_s.JsonValue('SCVMM')
   scvmm,
-  @_s.JsonValue('HYPERV-MANAGER')
   hypervManager,
 }
 
+extension on VmManagerType {
+  String toValue() {
+    switch (this) {
+      case VmManagerType.vsphere:
+        return 'VSPHERE';
+      case VmManagerType.scvmm:
+        return 'SCVMM';
+      case VmManagerType.hypervManager:
+        return 'HYPERV-MANAGER';
+    }
+  }
+}
+
+extension on String {
+  VmManagerType toVmManagerType() {
+    switch (this) {
+      case 'VSPHERE':
+        return VmManagerType.vsphere;
+      case 'SCVMM':
+        return VmManagerType.scvmm;
+      case 'HYPERV-MANAGER':
+        return VmManagerType.hypervManager;
+    }
+    throw Exception('$this is not known in enum VmManagerType');
+  }
+}
+
 /// Represents a VM server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VmServer {
   /// The name of the VM manager.
-  @_s.JsonKey(name: 'vmManagerName')
-  final String vmManagerName;
+  final String? vmManagerName;
 
   /// The type of VM management product.
-  @_s.JsonKey(name: 'vmManagerType')
-  final VmManagerType vmManagerType;
+  final VmManagerType? vmManagerType;
 
   /// The name of the VM.
-  @_s.JsonKey(name: 'vmName')
-  final String vmName;
+  final String? vmName;
 
   /// The VM folder path in the vCenter Server virtual machine inventory tree.
-  @_s.JsonKey(name: 'vmPath')
-  final String vmPath;
+  final String? vmPath;
 
   /// The VM server location.
-  @_s.JsonKey(name: 'vmServerAddress')
-  final VmServerAddress vmServerAddress;
+  final VmServerAddress? vmServerAddress;
 
   VmServer({
     this.vmManagerName,
@@ -3546,54 +4128,81 @@ class VmServer {
     this.vmPath,
     this.vmServerAddress,
   });
-  factory VmServer.fromJson(Map<String, dynamic> json) =>
-      _$VmServerFromJson(json);
+  factory VmServer.fromJson(Map<String, dynamic> json) {
+    return VmServer(
+      vmManagerName: json['vmManagerName'] as String?,
+      vmManagerType: (json['vmManagerType'] as String?)?.toVmManagerType(),
+      vmName: json['vmName'] as String?,
+      vmPath: json['vmPath'] as String?,
+      vmServerAddress: json['vmServerAddress'] != null
+          ? VmServerAddress.fromJson(
+              json['vmServerAddress'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VmServerToJson(this);
+  Map<String, dynamic> toJson() {
+    final vmManagerName = this.vmManagerName;
+    final vmManagerType = this.vmManagerType;
+    final vmName = this.vmName;
+    final vmPath = this.vmPath;
+    final vmServerAddress = this.vmServerAddress;
+    return {
+      if (vmManagerName != null) 'vmManagerName': vmManagerName,
+      if (vmManagerType != null) 'vmManagerType': vmManagerType.toValue(),
+      if (vmName != null) 'vmName': vmName,
+      if (vmPath != null) 'vmPath': vmPath,
+      if (vmServerAddress != null) 'vmServerAddress': vmServerAddress,
+    };
+  }
 }
 
 /// Represents a VM server location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VmServerAddress {
   /// The ID of the VM.
-  @_s.JsonKey(name: 'vmId')
-  final String vmId;
+  final String? vmId;
 
   /// The ID of the VM manager.
-  @_s.JsonKey(name: 'vmManagerId')
-  final String vmManagerId;
+  final String? vmManagerId;
 
   VmServerAddress({
     this.vmId,
     this.vmManagerId,
   });
-  factory VmServerAddress.fromJson(Map<String, dynamic> json) =>
-      _$VmServerAddressFromJson(json);
+  factory VmServerAddress.fromJson(Map<String, dynamic> json) {
+    return VmServerAddress(
+      vmId: json['vmId'] as String?,
+      vmManagerId: json['vmManagerId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VmServerAddressToJson(this);
+  Map<String, dynamic> toJson() {
+    final vmId = this.vmId;
+    final vmManagerId = this.vmManagerId;
+    return {
+      if (vmId != null) 'vmId': vmId,
+      if (vmManagerId != null) 'vmManagerId': vmManagerId,
+    };
+  }
 }
 
 class DryRunOperationException extends _s.GenericAwsException {
-  DryRunOperationException({String type, String message})
+  DryRunOperationException({String? type, String? message})
       : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
 class InternalError extends _s.GenericAwsException {
-  InternalError({String type, String message})
+  InternalError({String? type, String? message})
       : super(type: type, code: 'InternalError', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class MissingRequiredParameterException extends _s.GenericAwsException {
-  MissingRequiredParameterException({String type, String message})
+  MissingRequiredParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingRequiredParameterException',
@@ -3601,7 +4210,7 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
 }
 
 class NoConnectorsAvailableException extends _s.GenericAwsException {
-  NoConnectorsAvailableException({String type, String message})
+  NoConnectorsAvailableException({String? type, String? message})
       : super(
             type: type,
             code: 'NoConnectorsAvailableException',
@@ -3609,7 +4218,7 @@ class NoConnectorsAvailableException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -3617,7 +4226,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class ReplicationJobAlreadyExistsException extends _s.GenericAwsException {
-  ReplicationJobAlreadyExistsException({String type, String message})
+  ReplicationJobAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplicationJobAlreadyExistsException',
@@ -3625,7 +4234,7 @@ class ReplicationJobAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ReplicationJobNotFoundException extends _s.GenericAwsException {
-  ReplicationJobNotFoundException({String type, String message})
+  ReplicationJobNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplicationJobNotFoundException',
@@ -3633,7 +4242,7 @@ class ReplicationJobNotFoundException extends _s.GenericAwsException {
 }
 
 class ReplicationRunLimitExceededException extends _s.GenericAwsException {
-  ReplicationRunLimitExceededException({String type, String message})
+  ReplicationRunLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplicationRunLimitExceededException',
@@ -3641,7 +4250,7 @@ class ReplicationRunLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServerCannotBeReplicatedException extends _s.GenericAwsException {
-  ServerCannotBeReplicatedException({String type, String message})
+  ServerCannotBeReplicatedException({String? type, String? message})
       : super(
             type: type,
             code: 'ServerCannotBeReplicatedException',
@@ -3649,7 +4258,7 @@ class ServerCannotBeReplicatedException extends _s.GenericAwsException {
 }
 
 class TemporarilyUnavailableException extends _s.GenericAwsException {
-  TemporarilyUnavailableException({String type, String message})
+  TemporarilyUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'TemporarilyUnavailableException',
@@ -3657,7 +4266,7 @@ class TemporarilyUnavailableException extends _s.GenericAwsException {
 }
 
 class UnauthorizedOperationException extends _s.GenericAwsException {
-  UnauthorizedOperationException({String type, String message})
+  UnauthorizedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnauthorizedOperationException',

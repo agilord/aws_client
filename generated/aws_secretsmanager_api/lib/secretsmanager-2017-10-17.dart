@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'secretsmanager-2017-10-17.g.dart';
 
 /// AWS Secrets Manager provides a service to enable you to store, manage, and
 /// retrieve, secrets.
 class SecretsManager {
   final _s.JsonProtocol _protocol;
   SecretsManager({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -135,7 +127,7 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<CancelRotateSecretResponse> cancelRotateSecret({
-    @_s.required String secretId,
+    required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -450,13 +442,13 @@ class SecretsManager {
   /// </li>
   /// </ul>
   Future<CreateSecretResponse> createSecret({
-    @_s.required String name,
-    String clientRequestToken,
-    String description,
-    String kmsKeyId,
-    Uint8List secretBinary,
-    String secretString,
-    List<Tag> tags,
+    required String name,
+    String? clientRequestToken,
+    String? description,
+    String? kmsKeyId,
+    Uint8List? secretBinary,
+    String? secretString,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -569,7 +561,7 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
-    @_s.required String secretId,
+    required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -703,9 +695,9 @@ class SecretsManager {
   ///
   /// This value can range from 7 to 30 days. The default value is 30.
   Future<DeleteSecretResponse> deleteSecret({
-    @_s.required String secretId,
-    bool forceDeleteWithoutRecovery,
-    int recoveryWindowInDays,
+    required String secretId,
+    bool? forceDeleteWithoutRecovery,
+    int? recoveryWindowInDays,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -795,7 +787,7 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<DescribeSecretResponse> describeSecret({
-    @_s.required String secretId,
+    required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -889,14 +881,14 @@ class SecretsManager {
   /// <code>True</code> and the operation requires at least one of every
   /// character type.
   Future<GetRandomPasswordResponse> getRandomPassword({
-    String excludeCharacters,
-    bool excludeLowercase,
-    bool excludeNumbers,
-    bool excludePunctuation,
-    bool excludeUppercase,
-    bool includeSpace,
-    int passwordLength,
-    bool requireEachIncludedType,
+    String? excludeCharacters,
+    bool? excludeLowercase,
+    bool? excludeNumbers,
+    bool? excludePunctuation,
+    bool? excludeUppercase,
+    bool? includeSpace,
+    int? passwordLength,
+    bool? requireEachIncludedType,
   }) async {
     _s.validateStringLength(
       'excludeCharacters',
@@ -994,7 +986,7 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<GetResourcePolicyResponse> getResourcePolicy({
-    @_s.required String secretId,
+    required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1106,9 +1098,9 @@ class SecretsManager {
   /// to perform the operation on the version with the <code>VersionStage</code>
   /// value of <code>AWSCURRENT</code>.
   Future<GetSecretValueResponse> getSecretValue({
-    @_s.required String secretId,
-    String versionId,
-    String versionStage,
+    required String secretId,
+    String? versionId,
+    String? versionStage,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1232,10 +1224,10 @@ class SecretsManager {
   /// previous call <code>NextToken</code> response to indicate where the output
   /// should continue from.
   Future<ListSecretVersionIdsResponse> listSecretVersionIds({
-    @_s.required String secretId,
-    bool includeDeprecated,
-    int maxResults,
-    String nextToken,
+    required String secretId,
+    bool? includeDeprecated,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1339,10 +1331,10 @@ class SecretsManager {
   /// Parameter [sortOrder] :
   /// Lists secrets in the requested order.
   Future<ListSecretsResponse> listSecrets({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    SortOrderType sortOrder,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1458,9 +1450,9 @@ class SecretsManager {
   /// Makes an optional API call to Zelkova to validate the Resource Policy to
   /// prevent broad access to your secret.
   Future<PutResourcePolicyResponse> putResourcePolicy({
-    @_s.required String resourcePolicy,
-    @_s.required String secretId,
-    bool blockPublicPolicy,
+    required String resourcePolicy,
+    required String secretId,
+    bool? blockPublicPolicy,
   }) async {
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
     _s.validateStringLength(
@@ -1720,11 +1712,11 @@ class SecretsManager {
   /// Manager automatically moves the staging label <code>AWSCURRENT</code> to
   /// this new version.
   Future<PutSecretValueResponse> putSecretValue({
-    @_s.required String secretId,
-    String clientRequestToken,
-    Uint8List secretBinary,
-    String secretString,
-    List<String> versionStages,
+    required String secretId,
+    String? clientRequestToken,
+    Uint8List? secretBinary,
+    String? secretString,
+    List<String>? versionStages,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1819,7 +1811,7 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<RestoreSecretResponse> restoreSecret({
-    @_s.required String secretId,
+    required String secretId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -1979,10 +1971,10 @@ class SecretsManager {
   /// Parameter [rotationRules] :
   /// A structure that defines the rotation configuration for this secret.
   Future<RotateSecretResponse> rotateSecret({
-    @_s.required String secretId,
-    String clientRequestToken,
-    String rotationLambdaARN,
-    RotationRulesType rotationRules,
+    required String secretId,
+    String? clientRequestToken,
+    String? rotationLambdaARN,
+    RotationRulesType? rotationRules,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -2127,8 +2119,8 @@ class SecretsManager {
   /// you can also use the syntax: <code>--Tags
   /// Key="Key1",Value="Value1",Key="Key2",Value="Value2"[,…]</code>
   Future<void> tagResource({
-    @_s.required String secretId,
-    @_s.required List<Tag> tags,
+    required String secretId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -2143,7 +2135,7 @@ class SecretsManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2226,8 +2218,8 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
   Future<void> untagResource({
-    @_s.required String secretId,
-    @_s.required List<String> tagKeys,
+    required String secretId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -2242,7 +2234,7 @@ class SecretsManager {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'secretsmanager.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2479,12 +2471,12 @@ class SecretsManager {
   ///
   /// <code>"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]"</code>
   Future<UpdateSecretResponse> updateSecret({
-    @_s.required String secretId,
-    String clientRequestToken,
-    String description,
-    String kmsKeyId,
-    Uint8List secretBinary,
-    String secretString,
+    required String secretId,
+    String? clientRequestToken,
+    String? description,
+    String? kmsKeyId,
+    Uint8List? secretBinary,
+    String? secretString,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -2636,10 +2628,10 @@ class SecretsManager {
   /// from. If the label is attached and you either do not specify this
   /// parameter, or the version ID does not match, then the operation fails.
   Future<UpdateSecretVersionStageResponse> updateSecretVersionStage({
-    @_s.required String secretId,
-    @_s.required String versionStage,
-    String moveToVersionId,
-    String removeFromVersionId,
+    required String secretId,
+    required String versionStage,
+    String? moveToVersionId,
+    String? removeFromVersionId,
   }) async {
     ArgumentError.checkNotNull(secretId, 'secretId');
     _s.validateStringLength(
@@ -2730,8 +2722,8 @@ class SecretsManager {
   /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<ValidateResourcePolicyResponse> validateResourcePolicy({
-    @_s.required String resourcePolicy,
-    String secretId,
+    required String resourcePolicy,
+    String? secretId,
   }) async {
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
     _s.validateStringLength(
@@ -2767,19 +2759,12 @@ class SecretsManager {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelRotateSecretResponse {
   /// The ARN of the secret for which rotation was canceled.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret for which rotation was canceled.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier of the version of the secret created during the
   /// rotation. This version might not be complete, and should be evaluated for
@@ -2787,23 +2772,22 @@ class CancelRotateSecretResponse {
   /// <code>VersionStage</code> value <code>AWSPENDING</code> to enable this
   /// version to be deleted. Failing to clean up a cancelled rotation can block
   /// you from successfully starting future rotations.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   CancelRotateSecretResponse({
     this.arn,
     this.name,
     this.versionId,
   });
-  factory CancelRotateSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelRotateSecretResponseFromJson(json);
+  factory CancelRotateSecretResponse.fromJson(Map<String, dynamic> json) {
+    return CancelRotateSecretResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSecretResponse {
   /// The Amazon Resource Name (ARN) of the secret that you just created.
   /// <note>
@@ -2814,95 +2798,82 @@ class CreateSecretResponse {
   /// users with access to the old secret <i>don't</i> automatically get access to
   /// the new secret because the ARNs are different.
   /// </note>
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that you just created.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier associated with the version of the secret you just
   /// created.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   CreateSecretResponse({
     this.arn,
     this.name,
     this.versionId,
   });
-  factory CreateSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSecretResponseFromJson(json);
+  factory CreateSecretResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSecretResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was deleted for.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that the resource-based policy was deleted
   /// for.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DeleteResourcePolicyResponse({
     this.arn,
     this.name,
   });
-  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourcePolicyResponseFromJson(json);
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResourcePolicyResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSecretResponse {
   /// The ARN of the secret that is now scheduled for deletion.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The date and time after which this secret can be deleted by Secrets Manager
   /// and can no longer be restored. This value is the date and time of the delete
   /// request plus the number of days specified in
   /// <code>RecoveryWindowInDays</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// The friendly name of the secret that is now scheduled for deletion.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DeleteSecretResponse({
     this.arn,
     this.deletionDate,
     this.name,
   });
-  factory DeleteSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSecretResponseFromJson(json);
+  factory DeleteSecretResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSecretResponse(
+      arn: json['ARN'] as String?,
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSecretResponse {
   /// The ARN of the secret.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The date that the secret was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// This value exists if the secret is scheduled for deletion. Some time after
   /// the specified date and time, Secrets Manager deletes the secret and all of
@@ -2911,70 +2882,54 @@ class DescribeSecretResponse {
   /// If a secret is scheduled for deletion, then its details, including the
   /// encrypted secret information, is not accessible. To cancel a scheduled
   /// deletion and restore access, use <a>RestoreSecret</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletedDate')
-  final DateTime deletedDate;
+  final DateTime? deletedDate;
 
   /// The user-provided description of the secret.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to
   /// encrypt the <code>SecretString</code> or <code>SecretBinary</code> fields in
   /// each version of the secret. If you don't provide a key, then Secrets Manager
   /// defaults to encrypting the secret fields with the default AWS KMS CMK (the
   /// one named <code>awssecretsmanager</code>) for this account.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The last date that this secret was accessed. This value is truncated to
   /// midnight of the date and therefore shows only the date, not the time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessedDate')
-  final DateTime lastAccessedDate;
+  final DateTime? lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastChangedDate')
-  final DateTime lastChangedDate;
+  final DateTime? lastChangedDate;
 
   /// The most recent date and time that the Secrets Manager rotation process was
   /// successfully completed. This value is null if the secret has never rotated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRotatedDate')
-  final DateTime lastRotatedDate;
+  final DateTime? lastRotatedDate;
 
   /// The user-provided friendly name of the secret.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Returns the name of the service that created this secret.
-  @_s.JsonKey(name: 'OwningService')
-  final String owningService;
+  final String? owningService;
 
   /// Specifies whether automatic rotation is enabled for this secret.
   ///
   /// To enable rotation, use <a>RotateSecret</a> with
   /// <code>AutomaticallyRotateAfterDays</code> set to a value greater than 0. To
   /// disable rotation, use <a>CancelRotateSecret</a>.
-  @_s.JsonKey(name: 'RotationEnabled')
-  final bool rotationEnabled;
+  final bool? rotationEnabled;
 
   /// The ARN of a Lambda function that's invoked by Secrets Manager to rotate the
   /// secret either automatically per the schedule or manually by a call to
   /// <code>RotateSecret</code>.
-  @_s.JsonKey(name: 'RotationLambdaARN')
-  final String rotationLambdaARN;
+  final String? rotationLambdaARN;
 
   /// A structure that contains the rotation configuration for this secret.
-  @_s.JsonKey(name: 'RotationRules')
-  final RotationRulesType rotationRules;
+  final RotationRulesType? rotationRules;
 
   /// The list of user-defined tags that are associated with the secret. To add
   /// tags to a secret, use <a>TagResource</a>. To remove tags, use
   /// <a>UntagResource</a>.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// A list of all of the currently assigned <code>VersionStage</code> staging
   /// labels and the <code>VersionId</code> that each is attached to. Staging
@@ -2985,8 +2940,7 @@ class DescribeSecretResponse {
   /// deprecated and subject to deletion. Such versions are not included in this
   /// list.
   /// </note>
-  @_s.JsonKey(name: 'VersionIdsToStages')
-  final Map<String, List<String>> versionIdsToStages;
+  final Map<String, List<String>>? versionIdsToStages;
 
   DescribeSecretResponse({
     this.arn,
@@ -3005,76 +2959,121 @@ class DescribeSecretResponse {
     this.tags,
     this.versionIdsToStages,
   });
-  factory DescribeSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSecretResponseFromJson(json);
+  factory DescribeSecretResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSecretResponse(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      deletedDate: timeStampFromJson(json['DeletedDate']),
+      description: json['Description'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      lastChangedDate: timeStampFromJson(json['LastChangedDate']),
+      lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
+      name: json['Name'] as String?,
+      owningService: json['OwningService'] as String?,
+      rotationEnabled: json['RotationEnabled'] as bool?,
+      rotationLambdaARN: json['RotationLambdaARN'] as String?,
+      rotationRules: json['RotationRules'] != null
+          ? RotationRulesType.fromJson(
+              json['RotationRules'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      versionIdsToStages: (json['VersionIdsToStages'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
 }
 
 /// Allows you to filter your list of secrets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// Filters your list of secrets by a specific key.
-  @_s.JsonKey(name: 'Key')
-  final FilterNameStringType key;
+  final FilterNameStringType? key;
 
   /// Filters your list of secrets by a specific value.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.key,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum FilterNameStringType {
-  @_s.JsonValue('description')
   description,
-  @_s.JsonValue('name')
   name,
-  @_s.JsonValue('tag-key')
   tagKey,
-  @_s.JsonValue('tag-value')
   tagValue,
-  @_s.JsonValue('all')
   all,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FilterNameStringType {
+  String toValue() {
+    switch (this) {
+      case FilterNameStringType.description:
+        return 'description';
+      case FilterNameStringType.name:
+        return 'name';
+      case FilterNameStringType.tagKey:
+        return 'tag-key';
+      case FilterNameStringType.tagValue:
+        return 'tag-value';
+      case FilterNameStringType.all:
+        return 'all';
+    }
+  }
+}
+
+extension on String {
+  FilterNameStringType toFilterNameStringType() {
+    switch (this) {
+      case 'description':
+        return FilterNameStringType.description;
+      case 'name':
+        return FilterNameStringType.name;
+      case 'tag-key':
+        return FilterNameStringType.tagKey;
+      case 'tag-value':
+        return FilterNameStringType.tagValue;
+      case 'all':
+        return FilterNameStringType.all;
+    }
+    throw Exception('$this is not known in enum FilterNameStringType');
+  }
+}
+
 class GetRandomPasswordResponse {
   /// A string with the generated password.
-  @_s.JsonKey(name: 'RandomPassword')
-  final String randomPassword;
+  final String? randomPassword;
 
   GetRandomPasswordResponse({
     this.randomPassword,
   });
-  factory GetRandomPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRandomPasswordResponseFromJson(json);
+  factory GetRandomPasswordResponse.fromJson(Map<String, dynamic> json) {
+    return GetRandomPasswordResponse(
+      randomPassword: json['RandomPassword'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePolicyResponse {
   /// The ARN of the secret that the resource-based policy was retrieved for.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that the resource-based policy was retrieved
   /// for.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A JSON-formatted string that describes the permissions that are associated
   /// with the attached secret. These permissions are combined with any
@@ -3084,36 +3083,31 @@ class GetResourcePolicyResponse {
   /// href="http://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
   /// and Access Control for AWS Secrets Manager</a> in the <i>AWS Secrets Manager
   /// User Guide</i>.
-  @_s.JsonKey(name: 'ResourcePolicy')
-  final String resourcePolicy;
+  final String? resourcePolicy;
 
   GetResourcePolicyResponse({
     this.arn,
     this.name,
     this.resourcePolicy,
   });
-  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePolicyResponseFromJson(json);
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      resourcePolicy: json['ResourcePolicy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSecretValueResponse {
   /// The ARN of the secret.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The date and time that this version of the secret was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The friendly name of the secret.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The decrypted part of the protected secret information that was originally
   /// provided as binary data in the form of a byte array. The response parameter
@@ -3127,9 +3121,7 @@ class GetSecretValueResponse {
   /// If you store custom information in this field of the secret, then you must
   /// code your Lambda rotation function to parse and interpret whatever you store
   /// in the <code>SecretString</code> or <code>SecretBinary</code> fields.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'SecretBinary')
-  final Uint8List secretBinary;
+  final Uint8List? secretBinary;
 
   /// The decrypted part of the protected secret information that was originally
   /// provided as a string.
@@ -3144,17 +3136,14 @@ class GetSecretValueResponse {
   /// operations instead of the Secrets Manager console, or by using the <b>Other
   /// secret type</b> in the console, then you must code your Lambda rotation
   /// function to parse and interpret those values.
-  @_s.JsonKey(name: 'SecretString')
-  final String secretString;
+  final String? secretString;
 
   /// The unique identifier of this version of the secret.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   /// A list of all of the staging labels currently attached to this version of
   /// the secret.
-  @_s.JsonKey(name: 'VersionStages')
-  final List<String> versionStages;
+  final List<String>? versionStages;
 
   GetSecretValueResponse({
     this.arn,
@@ -3165,15 +3154,22 @@ class GetSecretValueResponse {
     this.versionId,
     this.versionStages,
   });
-  factory GetSecretValueResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSecretValueResponseFromJson(json);
+  factory GetSecretValueResponse.fromJson(Map<String, dynamic> json) {
+    return GetSecretValueResponse(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      name: json['Name'] as String?,
+      secretBinary: _s.decodeNullableUint8List(json['SecretBinary'] as String?),
+      secretString: json['SecretString'] as String?,
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecretVersionIdsResponse {
   /// The Amazon Resource Name (ARN) for the secret.
   /// <note>
@@ -3184,12 +3180,10 @@ class ListSecretVersionIdsResponse {
   /// users with access to the old secret <i>don't</i> automatically get access to
   /// the new secret because the ARNs are different.
   /// </note>
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// If present in the response, this value indicates that there's more output
   /// available than included in the current response. This can occur even when
@@ -3199,12 +3193,10 @@ class ListSecretVersionIdsResponse {
   /// processing and get the next part of the output. You should repeat this until
   /// the <code>NextToken</code> response element comes back empty (as
   /// <code>null</code>).
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of the currently available versions of the specified secret.
-  @_s.JsonKey(name: 'Versions')
-  final List<SecretVersionsListEntry> versions;
+  final List<SecretVersionsListEntry>? versions;
 
   ListSecretVersionIdsResponse({
     this.arn,
@@ -3212,15 +3204,20 @@ class ListSecretVersionIdsResponse {
     this.nextToken,
     this.versions,
   });
-  factory ListSecretVersionIdsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSecretVersionIdsResponseFromJson(json);
+  factory ListSecretVersionIdsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecretVersionIdsResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SecretVersionsListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecretsResponse {
   /// If present in the response, this value indicates that there's more output
   /// available than included in the current response. This can occur even when
@@ -3230,70 +3227,63 @@ class ListSecretsResponse {
   /// processing and get the next part of the output. You should repeat this until
   /// the <code>NextToken</code> response element comes back empty (as
   /// <code>null</code>).
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the secrets in the account.
-  @_s.JsonKey(name: 'SecretList')
-  final List<SecretListEntry> secretList;
+  final List<SecretListEntry>? secretList;
 
   ListSecretsResponse({
     this.nextToken,
     this.secretList,
   });
-  factory ListSecretsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSecretsResponseFromJson(json);
+  factory ListSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecretsResponse(
+      nextToken: json['NextToken'] as String?,
+      secretList: (json['SecretList'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecretListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyResponse {
   /// The ARN of the secret retrieved by the resource-based policy.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that the retrieved by the resource-based
   /// policy.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   PutResourcePolicyResponse({
     this.arn,
     this.name,
   });
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyResponseFromJson(json);
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSecretValueResponse {
   /// The Amazon Resource Name (ARN) for the secret for which you just created a
   /// version.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret for which you just created or updated a
   /// version.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier of the version of the secret you just created or
   /// updated.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   /// The list of staging labels that are currently attached to this version of
   /// the secret. Staging labels are used to track a version as it progresses
   /// through the secret rotation process.
-  @_s.JsonKey(name: 'VersionStages')
-  final List<String> versionStages;
+  final List<String>? versionStages;
 
   PutSecretValueResponse({
     this.arn,
@@ -3301,66 +3291,64 @@ class PutSecretValueResponse {
     this.versionId,
     this.versionStages,
   });
-  factory PutSecretValueResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSecretValueResponseFromJson(json);
+  factory PutSecretValueResponse.fromJson(Map<String, dynamic> json) {
+    return PutSecretValueResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreSecretResponse {
   /// The ARN of the secret that was restored.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that was restored.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RestoreSecretResponse({
     this.arn,
     this.name,
   });
-  factory RestoreSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$RestoreSecretResponseFromJson(json);
+  factory RestoreSecretResponse.fromJson(Map<String, dynamic> json) {
+    return RestoreSecretResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RotateSecretResponse {
   /// The ARN of the secret.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the new version of the secret created by the rotation started by
   /// this request.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   RotateSecretResponse({
     this.arn,
     this.name,
     this.versionId,
   });
-  factory RotateSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$RotateSecretResponseFromJson(json);
+  factory RotateSecretResponse.fromJson(Map<String, dynamic> json) {
+    return RotateSecretResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
 /// A structure that defines the rotation configuration for the secret.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RotationRulesType {
   /// Specifies the number of days between automatic scheduled rotations of the
   /// secret.
@@ -3371,103 +3359,88 @@ class RotationRulesType {
   /// chooses the hour within that 24-hour date window randomly. The minute is
   /// also chosen somewhat randomly, but weighted towards the top of the hour and
   /// influenced by a variety of factors that help distribute load.
-  @_s.JsonKey(name: 'AutomaticallyAfterDays')
-  final int automaticallyAfterDays;
+  final int? automaticallyAfterDays;
 
   RotationRulesType({
     this.automaticallyAfterDays,
   });
-  factory RotationRulesType.fromJson(Map<String, dynamic> json) =>
-      _$RotationRulesTypeFromJson(json);
+  factory RotationRulesType.fromJson(Map<String, dynamic> json) {
+    return RotationRulesType(
+      automaticallyAfterDays: json['AutomaticallyAfterDays'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RotationRulesTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final automaticallyAfterDays = this.automaticallyAfterDays;
+    return {
+      if (automaticallyAfterDays != null)
+        'AutomaticallyAfterDays': automaticallyAfterDays,
+    };
+  }
 }
 
 /// A structure that contains the details about a secret. It does not include
 /// the encrypted <code>SecretString</code> and <code>SecretBinary</code>
 /// values. To get those values, use the <a>GetSecretValue</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecretListEntry {
   /// The Amazon Resource Name (ARN) of the secret.
   ///
   /// For more information about ARNs in Secrets Manager, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources">Policy
   /// Resources</a> in the <i>AWS Secrets Manager User Guide</i>.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The date and time when a secret was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The date and time the deletion of the secret occurred. Not present on active
   /// secrets. The secret can be recovered until the number of days in the
   /// recovery window has passed, as specified in the
   /// <code>RecoveryWindowInDays</code> parameter of the <a>DeleteSecret</a>
   /// operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletedDate')
-  final DateTime deletedDate;
+  final DateTime? deletedDate;
 
   /// The user-provided description of the secret.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN or alias of the AWS KMS customer master key (CMK) used to encrypt
   /// the <code>SecretString</code> and <code>SecretBinary</code> fields in each
   /// version of the secret. If you don't provide a key, then Secrets Manager
   /// defaults to encrypting the secret fields with the default KMS CMK, the key
   /// named <code>awssecretsmanager</code>, for this account.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The last date that this secret was accessed. This value is truncated to
   /// midnight of the date and therefore shows only the date, not the time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessedDate')
-  final DateTime lastAccessedDate;
+  final DateTime? lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastChangedDate')
-  final DateTime lastChangedDate;
+  final DateTime? lastChangedDate;
 
   /// The last date and time that the rotation process for this secret was
   /// invoked.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRotatedDate')
-  final DateTime lastRotatedDate;
+  final DateTime? lastRotatedDate;
 
   /// The friendly name of the secret. You can use forward slashes in the name to
   /// represent a path hierarchy. For example,
   /// <code>/prod/databases/dbserver1</code> could represent the secret for a
   /// server named <code>dbserver1</code> in the folder <code>databases</code> in
   /// the folder <code>prod</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Returns the name of the service that created the secret.
-  @_s.JsonKey(name: 'OwningService')
-  final String owningService;
+  final String? owningService;
 
   /// Indicates whether automatic, scheduled rotation is enabled for this secret.
-  @_s.JsonKey(name: 'RotationEnabled')
-  final bool rotationEnabled;
+  final bool? rotationEnabled;
 
   /// The ARN of an AWS Lambda function invoked by Secrets Manager to rotate and
   /// expire the secret either automatically per the schedule or manually by a
   /// call to <a>RotateSecret</a>.
-  @_s.JsonKey(name: 'RotationLambdaARN')
-  final String rotationLambdaARN;
+  final String? rotationLambdaARN;
 
   /// A structure that defines the rotation configuration for the secret.
-  @_s.JsonKey(name: 'RotationRules')
-  final RotationRulesType rotationRules;
+  final RotationRulesType? rotationRules;
 
   /// A list of all of the currently assigned <code>SecretVersionStage</code>
   /// staging labels and the <code>SecretVersionId</code> attached to each one.
@@ -3478,13 +3451,11 @@ class SecretListEntry {
   /// considered deprecated and subject to deletion. Such versions are not
   /// included in this list.
   /// </note>
-  @_s.JsonKey(name: 'SecretVersionsToStages')
-  final Map<String, List<String>> secretVersionsToStages;
+  final Map<String, List<String>>? secretVersionsToStages;
 
   /// The list of user-defined tags associated with the secret. To add tags to a
   /// secret, use <a>TagResource</a>. To remove tags, use <a>UntagResource</a>.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   SecretListEntry({
     this.arn,
@@ -3503,36 +3474,51 @@ class SecretListEntry {
     this.secretVersionsToStages,
     this.tags,
   });
-  factory SecretListEntry.fromJson(Map<String, dynamic> json) =>
-      _$SecretListEntryFromJson(json);
+  factory SecretListEntry.fromJson(Map<String, dynamic> json) {
+    return SecretListEntry(
+      arn: json['ARN'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      deletedDate: timeStampFromJson(json['DeletedDate']),
+      description: json['Description'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      lastChangedDate: timeStampFromJson(json['LastChangedDate']),
+      lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
+      name: json['Name'] as String?,
+      owningService: json['OwningService'] as String?,
+      rotationEnabled: json['RotationEnabled'] as bool?,
+      rotationLambdaARN: json['RotationLambdaARN'] as String?,
+      rotationRules: json['RotationRules'] != null
+          ? RotationRulesType.fromJson(
+              json['RotationRules'] as Map<String, dynamic>)
+          : null,
+      secretVersionsToStages: (json['SecretVersionsToStages']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A structure that contains information about one version of a secret.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecretVersionsListEntry {
   /// The date and time this version of the secret was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The date that this version of the secret was last accessed. Note that the
   /// resolution of this field is at the date level and does not include the time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAccessedDate')
-  final DateTime lastAccessedDate;
+  final DateTime? lastAccessedDate;
 
   /// The unique version identifier of this version of the secret.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   /// An array of staging labels that are currently associated with this version
   /// of the secret.
-  @_s.JsonKey(name: 'VersionStages')
-  final List<String> versionStages;
+  final List<String>? versionStages;
 
   SecretVersionsListEntry({
     this.createdDate,
@@ -3540,14 +3526,21 @@ class SecretVersionsListEntry {
     this.versionId,
     this.versionStages,
   });
-  factory SecretVersionsListEntry.fromJson(Map<String, dynamic> json) =>
-      _$SecretVersionsListEntryFromJson(json);
+  factory SecretVersionsListEntry.fromJson(Map<String, dynamic> json) {
+    return SecretVersionsListEntry(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+      versionId: json['VersionId'] as String?,
+      versionStages: (json['VersionStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum SortOrderType {
-  @_s.JsonValue('asc')
   asc,
-  @_s.JsonValue('desc')
   desc,
 }
 
@@ -3559,39 +3552,50 @@ extension on SortOrderType {
       case SortOrderType.desc:
         return 'desc';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrderType toSortOrderType() {
+    switch (this) {
+      case 'asc':
+        return SortOrderType.asc;
+      case 'desc':
+        return SortOrderType.desc;
+    }
+    throw Exception('$this is not known in enum SortOrderType');
   }
 }
 
 /// A structure that contains information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key identifier, or name, of the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The string value associated with the key of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSecretResponse {
   /// The ARN of the secret that was updated.
   /// <note>
@@ -3602,133 +3606,128 @@ class UpdateSecretResponse {
   /// users with access to the old secret <i>don't</i> automatically get access to
   /// the new secret because the ARNs are different.
   /// </note>
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret that was updated.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// If a new version of the secret was created by this operation, then
   /// <code>VersionId</code> contains the unique identifier of the new version.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   UpdateSecretResponse({
     this.arn,
     this.name,
     this.versionId,
   });
-  factory UpdateSecretResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSecretResponseFromJson(json);
+  factory UpdateSecretResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSecretResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSecretVersionStageResponse {
   /// The ARN of the secret with the modified staging label.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The friendly name of the secret with the modified staging label.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   UpdateSecretVersionStageResponse({
     this.arn,
     this.name,
   });
-  factory UpdateSecretVersionStageResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSecretVersionStageResponseFromJson(json);
+  factory UpdateSecretVersionStageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSecretVersionStageResponse(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidateResourcePolicyResponse {
   /// Returns a message stating that your Reource Policy passed validation.
-  @_s.JsonKey(name: 'PolicyValidationPassed')
-  final bool policyValidationPassed;
+  final bool? policyValidationPassed;
 
   /// Returns an error message if your policy doesn't pass validatation.
-  @_s.JsonKey(name: 'ValidationErrors')
-  final List<ValidationErrorsEntry> validationErrors;
+  final List<ValidationErrorsEntry>? validationErrors;
 
   ValidateResourcePolicyResponse({
     this.policyValidationPassed,
     this.validationErrors,
   });
-  factory ValidateResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$ValidateResourcePolicyResponseFromJson(json);
+  factory ValidateResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return ValidateResourcePolicyResponse(
+      policyValidationPassed: json['PolicyValidationPassed'] as bool?,
+      validationErrors: (json['ValidationErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationErrorsEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Displays errors that occurred during validation of the resource policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationErrorsEntry {
   /// Checks the name of the policy.
-  @_s.JsonKey(name: 'CheckName')
-  final String checkName;
+  final String? checkName;
 
   /// Displays error messages if validation encounters problems during validation
   /// of the resource policy.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ValidationErrorsEntry({
     this.checkName,
     this.errorMessage,
   });
-  factory ValidationErrorsEntry.fromJson(Map<String, dynamic> json) =>
-      _$ValidationErrorsEntryFromJson(json);
+  factory ValidationErrorsEntry.fromJson(Map<String, dynamic> json) {
+    return ValidationErrorsEntry(
+      checkName: json['CheckName'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
 class DecryptionFailure extends _s.GenericAwsException {
-  DecryptionFailure({String type, String message})
+  DecryptionFailure({String? type, String? message})
       : super(type: type, code: 'DecryptionFailure', message: message);
 }
 
 class EncryptionFailure extends _s.GenericAwsException {
-  EncryptionFailure({String type, String message})
+  EncryptionFailure({String? type, String? message})
       : super(type: type, code: 'EncryptionFailure', message: message);
 }
 
 class InternalServiceError extends _s.GenericAwsException {
-  InternalServiceError({String type, String message})
+  InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -3736,23 +3735,23 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class PreconditionNotMetException extends _s.GenericAwsException {
-  PreconditionNotMetException({String type, String message})
+  PreconditionNotMetException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
 class PublicPolicyException extends _s.GenericAwsException {
-  PublicPolicyException({String type, String message})
+  PublicPolicyException({String? type, String? message})
       : super(type: type, code: 'PublicPolicyException', message: message);
 }
 
 class ResourceExistsException extends _s.GenericAwsException {
-  ResourceExistsException({String type, String message})
+  ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

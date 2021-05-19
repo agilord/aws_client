@@ -25,30 +25,30 @@ class QueryProtocol {
   );
 
   factory QueryProtocol({
-    Client client,
-    ServiceMetadata service,
-    String region,
-    String endpointUrl,
-    AwsClientCredentials credentials,
+    Client? client,
+    ServiceMetadata? service,
+    String? region,
+    String? endpointUrl,
+    AwsClientCredentials? credentials,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return QueryProtocol._(client, endpoint, credentials);
+    return QueryProtocol._(client, endpoint, credentials!);
   }
 
   Future<XmlElement> send(
     Map<String, dynamic> data, {
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Shape shape,
-    @required Map<String, Shape> shapes,
-    @required String version,
-    @required String action,
-    String resultWrapper,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Shape? shape,
+    required Map<String, Shape> shapes,
+    required String version,
+    required String action,
+    String? resultWrapper,
   }) async {
     final rq =
         _buildRequest(data, method, requestUri, shape, shapes, version, action);
@@ -77,7 +77,7 @@ class QueryProtocol {
     Map<String, dynamic> data,
     String method,
     String requestUri,
-    Shape shape,
+    Shape? shape,
     Map<String, Shape> shapes,
     String version,
     String action,
@@ -100,7 +100,7 @@ class QueryProtocol {
 @visibleForTesting
 Map<String, String> flatQueryParams(
   dynamic data,
-  Shape shape,
+  Shape? shape,
   Map<String, Shape> shapes,
   String version,
   String action,
@@ -112,7 +112,7 @@ Map<String, String> flatQueryParams(
 Iterable<MapEntry<String, String>> _flatten(
   List<String> prefixes,
   dynamic data,
-  Shape shape,
+  Shape? shape,
   Map<String, Shape> shapes,
 ) sync* {
   if (data == null) {
@@ -127,7 +127,7 @@ Iterable<MapEntry<String, String>> _flatten(
 
   if (data is String) {
     final key = prefixes.join('.');
-    if (shape.type == 'blob') {
+    if (shape!.type == 'blob') {
       yield MapEntry(key, base64.encode(utf8.encode(data)));
     } else {
       yield MapEntry(key, data);
@@ -142,12 +142,12 @@ Iterable<MapEntry<String, String>> _flatten(
 
   if (data is DateTime) {
     final key = prefixes.join('.');
-    var timeStampFormat = 'iso8601';
-    if (shape.timestampFormat != null) {
+    String? timeStampFormat = 'iso8601';
+    if (shape!.timestampFormat != null) {
       timeStampFormat = shape.timestampFormat;
     }
 
-    String formattedDate;
+    String? formattedDate;
     switch (timeStampFormat) {
       case 'iso8601':
         formattedDate = iso8601ToJson(data);
@@ -159,7 +159,7 @@ Iterable<MapEntry<String, String>> _flatten(
         formattedDate = rfc822ToJson(data);
         break;
     }
-    yield MapEntry(key, formattedDate);
+    yield MapEntry(key, formattedDate!);
     return;
   }
 
@@ -173,7 +173,7 @@ Iterable<MapEntry<String, String>> _flatten(
       final key = prefixes.join('.');
       yield MapEntry(key, '');
     } else {
-      final member = shapes[shape.member?.shape];
+      final member = shapes[shape!.member?.shape!];
       final name = shape.member?.locationName ?? member?.locationName;
 
       if (shape.flattened && name != null) {
@@ -199,7 +199,7 @@ Iterable<MapEntry<String, String>> _flatten(
   }
 
   if (data is Map && shape?.type == 'structure') {
-    for (final entry in shape.members.entries) {
+    for (final entry in shape!.members!.entries) {
       final member = entry.value;
       final value = data[entry.key];
       final name = shapes[entry.key]?.member?.locationName ?? entry.key;
@@ -211,7 +211,7 @@ Iterable<MapEntry<String, String>> _flatten(
             name,
           ],
           value,
-          shapes[member.shape],
+          shapes[member.shape!],
           shapes,
         );
       }
@@ -232,12 +232,12 @@ Iterable<MapEntry<String, String>> _flatten(
         yield* _flatten(
           [
             ...prefixes,
-            if (!shape.flattened) 'entry',
+            if (!shape!.flattened) 'entry',
             '${i + 1}',
-            shape.key.locationName ?? 'key',
+            shape.key!.locationName ?? 'key',
           ],
           key,
-          shapes[shape.key.shape],
+          shapes[shape.key!.shape!],
           shapes,
         );
         yield* _flatten(
@@ -245,10 +245,10 @@ Iterable<MapEntry<String, String>> _flatten(
             ...prefixes,
             if (!shape.flattened) 'entry',
             '${i + 1}',
-            shape.value.locationName ?? 'value',
+            shape.value!.locationName ?? 'value',
           ],
           e.value,
-          shapes[shape.value.shape],
+          shapes[shape.value!.shape!],
           shapes,
         );
       }

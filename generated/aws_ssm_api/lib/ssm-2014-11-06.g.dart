@@ -8,26 +8,26 @@ part of 'ssm-2014-11-06.dart';
 
 AccountSharingInfo _$AccountSharingInfoFromJson(Map<String, dynamic> json) {
   return AccountSharingInfo(
-    accountId: json['AccountId'] as String,
-    sharedDocumentVersion: json['SharedDocumentVersion'] as String,
+    accountId: json['AccountId'] as String?,
+    sharedDocumentVersion: json['SharedDocumentVersion'] as String?,
   );
 }
 
 Activation _$ActivationFromJson(Map<String, dynamic> json) {
   return Activation(
-    activationId: json['ActivationId'] as String,
+    activationId: json['ActivationId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    defaultInstanceName: json['DefaultInstanceName'] as String,
-    description: json['Description'] as String,
+    defaultInstanceName: json['DefaultInstanceName'] as String?,
+    description: json['Description'] as String?,
     expirationDate:
         const UnixDateTimeConverter().fromJson(json['ExpirationDate']),
-    expired: json['Expired'] as bool,
-    iamRole: json['IamRole'] as String,
-    registrationLimit: json['RegistrationLimit'] as int,
-    registrationsCount: json['RegistrationsCount'] as int,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    expired: json['Expired'] as bool?,
+    iamRole: json['IamRole'] as String?,
+    registrationLimit: json['RegistrationLimit'] as int?,
+    registrationsCount: json['RegistrationsCount'] as int?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -38,49 +38,48 @@ AddTagsToResourceResult _$AddTagsToResourceResultFromJson(
 
 Association _$AssociationFromJson(Map<String, dynamic> json) {
   return Association(
-    associationId: json['AssociationId'] as String,
-    associationName: json['AssociationName'] as String,
-    associationVersion: json['AssociationVersion'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    instanceId: json['InstanceId'] as String,
+    associationId: json['AssociationId'] as String?,
+    associationName: json['AssociationName'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    instanceId: json['InstanceId'] as String?,
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     overview: json['Overview'] == null
         ? null
         : AssociationOverview.fromJson(
             json['Overview'] as Map<String, dynamic>),
-    scheduleExpression: json['ScheduleExpression'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    scheduleExpression: json['ScheduleExpression'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 AssociationDescription _$AssociationDescriptionFromJson(
     Map<String, dynamic> json) {
   return AssociationDescription(
-    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
-    associationId: json['AssociationId'] as String,
-    associationName: json['AssociationName'] as String,
-    associationVersion: json['AssociationVersion'] as String,
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+    associationId: json['AssociationId'] as String?,
+    associationName: json['AssociationName'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
     automationTargetParameterName:
-        json['AutomationTargetParameterName'] as String,
+        json['AutomationTargetParameterName'] as String?,
     complianceSeverity: _$enumDecodeNullable(
         _$AssociationComplianceSeverityEnumMap, json['ComplianceSeverity']),
     date: const UnixDateTimeConverter().fromJson(json['Date']),
-    documentVersion: json['DocumentVersion'] as String,
-    instanceId: json['InstanceId'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
+    instanceId: json['InstanceId'] as String?,
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
     lastSuccessfulExecutionDate: const UnixDateTimeConverter()
         .fromJson(json['LastSuccessfulExecutionDate']),
     lastUpdateAssociationDate: const UnixDateTimeConverter()
         .fromJson(json['LastUpdateAssociationDate']),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    name: json['Name'] as String,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    name: json['Name'] as String?,
     outputLocation: json['OutputLocation'] == null
         ? null
         : InstanceAssociationOutputLocation.fromJson(
@@ -89,57 +88,60 @@ AssociationDescription _$AssociationDescriptionFromJson(
         ? null
         : AssociationOverview.fromJson(
             json['Overview'] as Map<String, dynamic>),
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    scheduleExpression: json['ScheduleExpression'] as String,
+    scheduleExpression: json['ScheduleExpression'] as String?,
     status: json['Status'] == null
         ? null
         : AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>),
     syncCompliance: _$enumDecodeNullable(
         _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
-    targetLocations: (json['TargetLocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetLocations: (json['TargetLocations'] as List<dynamic>?)
+        ?.map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AssociationComplianceSeverityEnumMap = {
@@ -157,33 +159,25 @@ const _$AssociationSyncComplianceEnumMap = {
 
 AssociationExecution _$AssociationExecutionFromJson(Map<String, dynamic> json) {
   return AssociationExecution(
-    associationId: json['AssociationId'] as String,
-    associationVersion: json['AssociationVersion'] as String,
+    associationId: json['AssociationId'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    detailedStatus: json['DetailedStatus'] as String,
-    executionId: json['ExecutionId'] as String,
+    detailedStatus: json['DetailedStatus'] as String?,
+    executionId: json['ExecutionId'] as String?,
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
-    resourceCountByStatus: json['ResourceCountByStatus'] as String,
-    status: json['Status'] as String,
+    resourceCountByStatus: json['ResourceCountByStatus'] as String?,
+    status: json['Status'] as String?,
   );
 }
 
 Map<String, dynamic> _$AssociationExecutionFilterToJson(
-    AssociationExecutionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$AssociationExecutionFilterKeyEnumMap[instance.key]);
-  writeNotNull('Type', _$AssociationFilterOperatorTypeEnumMap[instance.type]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+        AssociationExecutionFilter instance) =>
+    <String, dynamic>{
+      'Key': _$AssociationExecutionFilterKeyEnumMap[instance.key],
+      'Type': _$AssociationFilterOperatorTypeEnumMap[instance.type],
+      'Value': instance.value,
+    };
 
 const _$AssociationExecutionFilterKeyEnumMap = {
   AssociationExecutionFilterKey.executionId: 'ExecutionId',
@@ -200,36 +194,27 @@ const _$AssociationFilterOperatorTypeEnumMap = {
 AssociationExecutionTarget _$AssociationExecutionTargetFromJson(
     Map<String, dynamic> json) {
   return AssociationExecutionTarget(
-    associationId: json['AssociationId'] as String,
-    associationVersion: json['AssociationVersion'] as String,
-    detailedStatus: json['DetailedStatus'] as String,
-    executionId: json['ExecutionId'] as String,
+    associationId: json['AssociationId'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
+    detailedStatus: json['DetailedStatus'] as String?,
+    executionId: json['ExecutionId'] as String?,
     lastExecutionDate:
         const UnixDateTimeConverter().fromJson(json['LastExecutionDate']),
     outputSource: json['OutputSource'] == null
         ? null
         : OutputSource.fromJson(json['OutputSource'] as Map<String, dynamic>),
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
-    status: json['Status'] as String,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
+    status: json['Status'] as String?,
   );
 }
 
 Map<String, dynamic> _$AssociationExecutionTargetsFilterToJson(
-    AssociationExecutionTargetsFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'Key', _$AssociationExecutionTargetsFilterKeyEnumMap[instance.key]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+        AssociationExecutionTargetsFilter instance) =>
+    <String, dynamic>{
+      'Key': _$AssociationExecutionTargetsFilterKeyEnumMap[instance.key],
+      'Value': instance.value,
+    };
 
 const _$AssociationExecutionTargetsFilterKeyEnumMap = {
   AssociationExecutionTargetsFilterKey.status: 'Status',
@@ -237,19 +222,11 @@ const _$AssociationExecutionTargetsFilterKeyEnumMap = {
   AssociationExecutionTargetsFilterKey.resourceType: 'ResourceType',
 };
 
-Map<String, dynamic> _$AssociationFilterToJson(AssociationFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', _$AssociationFilterKeyEnumMap[instance.key]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$AssociationFilterToJson(AssociationFilter instance) =>
+    <String, dynamic>{
+      'key': _$AssociationFilterKeyEnumMap[instance.key],
+      'value': instance.value,
+    };
 
 const _$AssociationFilterKeyEnumMap = {
   AssociationFilterKey.instanceId: 'InstanceId',
@@ -265,25 +242,30 @@ const _$AssociationFilterKeyEnumMap = {
 AssociationOverview _$AssociationOverviewFromJson(Map<String, dynamic> json) {
   return AssociationOverview(
     associationStatusAggregatedCount:
-        (json['AssociationStatusAggregatedCount'] as Map<String, dynamic>)?.map(
+        (json['AssociationStatusAggregatedCount'] as Map<String, dynamic>?)
+            ?.map(
       (k, e) => MapEntry(k, e as int),
     ),
-    detailedStatus: json['DetailedStatus'] as String,
-    status: json['Status'] as String,
+    detailedStatus: json['DetailedStatus'] as String?,
+    status: json['Status'] as String?,
   );
 }
 
 AssociationStatus _$AssociationStatusFromJson(Map<String, dynamic> json) {
   return AssociationStatus(
-    date: const UnixDateTimeConverter().fromJson(json['Date']),
+    date: DateTime.parse(json['Date'] as String),
     message: json['Message'] as String,
-    name: _$enumDecodeNullable(_$AssociationStatusNameEnumMap, json['Name']),
-    additionalInfo: json['AdditionalInfo'] as String,
+    name: _$enumDecode(_$AssociationStatusNameEnumMap, json['Name']),
+    additionalInfo: json['AdditionalInfo'] as String?,
   );
 }
 
 Map<String, dynamic> _$AssociationStatusToJson(AssociationStatus instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Date': instance.date.toIso8601String(),
+    'Message': instance.message,
+    'Name': _$AssociationStatusNameEnumMap[instance.name],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -291,9 +273,6 @@ Map<String, dynamic> _$AssociationStatusToJson(AssociationStatus instance) {
     }
   }
 
-  writeNotNull('Date', const UnixDateTimeConverter().toJson(instance.date));
-  writeNotNull('Message', instance.message);
-  writeNotNull('Name', _$AssociationStatusNameEnumMap[instance.name]);
   writeNotNull('AdditionalInfo', instance.additionalInfo);
   return val;
 }
@@ -307,47 +286,45 @@ const _$AssociationStatusNameEnumMap = {
 AssociationVersionInfo _$AssociationVersionInfoFromJson(
     Map<String, dynamic> json) {
   return AssociationVersionInfo(
-    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
-    associationId: json['AssociationId'] as String,
-    associationName: json['AssociationName'] as String,
-    associationVersion: json['AssociationVersion'] as String,
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+    associationId: json['AssociationId'] as String?,
+    associationName: json['AssociationName'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
     complianceSeverity: _$enumDecodeNullable(
         _$AssociationComplianceSeverityEnumMap, json['ComplianceSeverity']),
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    documentVersion: json['DocumentVersion'] as String,
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    name: json['Name'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    name: json['Name'] as String?,
     outputLocation: json['OutputLocation'] == null
         ? null
         : InstanceAssociationOutputLocation.fromJson(
             json['OutputLocation'] as Map<String, dynamic>),
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    scheduleExpression: json['ScheduleExpression'] as String,
+    scheduleExpression: json['ScheduleExpression'] as String?,
     syncCompliance: _$enumDecodeNullable(
         _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
-    targetLocations: (json['TargetLocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetLocations: (json['TargetLocations'] as List<dynamic>?)
+        ?.map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 AttachmentContent _$AttachmentContentFromJson(Map<String, dynamic> json) {
   return AttachmentContent(
-    hash: json['Hash'] as String,
+    hash: json['Hash'] as String?,
     hashType:
         _$enumDecodeNullable(_$AttachmentHashTypeEnumMap, json['HashType']),
-    name: json['Name'] as String,
-    size: json['Size'] as int,
-    url: json['Url'] as String,
+    name: json['Name'] as String?,
+    size: json['Size'] as int?,
+    url: json['Url'] as String?,
   );
 }
 
@@ -358,7 +335,7 @@ const _$AttachmentHashTypeEnumMap = {
 AttachmentInformation _$AttachmentInformationFromJson(
     Map<String, dynamic> json) {
   return AttachmentInformation(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
@@ -385,34 +362,36 @@ const _$AttachmentsSourceKeyEnumMap = {
 
 AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
   return AutomationExecution(
-    associationId: json['AssociationId'] as String,
-    automationExecutionId: json['AutomationExecutionId'] as String,
+    associationId: json['AssociationId'] as String?,
+    automationExecutionId: json['AutomationExecutionId'] as String?,
     automationExecutionStatus: _$enumDecodeNullable(
         _$AutomationExecutionStatusEnumMap, json['AutomationExecutionStatus']),
     automationSubtype: _$enumDecodeNullable(
         _$AutomationSubtypeEnumMap, json['AutomationSubtype']),
-    changeRequestName: json['ChangeRequestName'] as String,
-    currentAction: json['CurrentAction'] as String,
-    currentStepName: json['CurrentStepName'] as String,
-    documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    executedBy: json['ExecutedBy'] as String,
+    changeRequestName: json['ChangeRequestName'] as String?,
+    currentAction: json['CurrentAction'] as String?,
+    currentStepName: json['CurrentStepName'] as String?,
+    documentName: json['DocumentName'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    executedBy: json['ExecutedBy'] as String?,
     executionEndTime:
         const UnixDateTimeConverter().fromJson(json['ExecutionEndTime']),
     executionStartTime:
         const UnixDateTimeConverter().fromJson(json['ExecutionStartTime']),
-    failureMessage: json['FailureMessage'] as String,
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
+    failureMessage: json['FailureMessage'] as String?,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
     mode: _$enumDecodeNullable(_$ExecutionModeEnumMap, json['Mode']),
-    opsItemId: json['OpsItemId'] as String,
-    outputs: (json['Outputs'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    opsItemId: json['OpsItemId'] as String?,
+    outputs: (json['Outputs'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    parentAutomationExecutionId: json['ParentAutomationExecutionId'] as String,
+    parentAutomationExecutionId: json['ParentAutomationExecutionId'] as String?,
     progressCounters: json['ProgressCounters'] == null
         ? null
         : ProgressCounters.fromJson(
@@ -421,35 +400,29 @@ AutomationExecution _$AutomationExecutionFromJson(Map<String, dynamic> json) {
         ? null
         : ResolvedTargets.fromJson(
             json['ResolvedTargets'] as Map<String, dynamic>),
-    runbooks: (json['Runbooks'] as List)
-        ?.map((e) =>
-            e == null ? null : Runbook.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    runbooks: (json['Runbooks'] as List<dynamic>?)
+        ?.map((e) => Runbook.fromJson(e as Map<String, dynamic>))
+        .toList(),
     scheduledTime:
         const UnixDateTimeConverter().fromJson(json['ScheduledTime']),
-    stepExecutions: (json['StepExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StepExecution.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    stepExecutionsTruncated: json['StepExecutionsTruncated'] as bool,
-    target: json['Target'] as String,
-    targetLocations: (json['TargetLocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetMaps: (json['TargetMaps'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) =>
-                  MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    stepExecutions: (json['StepExecutions'] as List<dynamic>?)
+        ?.map((e) => StepExecution.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    stepExecutionsTruncated: json['StepExecutionsTruncated'] as bool?,
+    target: json['Target'] as String?,
+    targetLocations: (json['TargetLocations'] as List<dynamic>?)
+        ?.map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetMaps: (json['TargetMaps'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
+              (k, e) => MapEntry(
+                  k, (e as List<dynamic>).map((e) => e as String).toList()),
             ))
-        ?.toList(),
-    targetParameterName: json['TargetParameterName'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        .toList(),
+    targetParameterName: json['TargetParameterName'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -487,19 +460,11 @@ const _$ExecutionModeEnumMap = {
 };
 
 Map<String, dynamic> _$AutomationExecutionFilterToJson(
-    AutomationExecutionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$AutomationExecutionFilterKeyEnumMap[instance.key]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+        AutomationExecutionFilter instance) =>
+    <String, dynamic>{
+      'Key': _$AutomationExecutionFilterKeyEnumMap[instance.key],
+      'Values': instance.values,
+    };
 
 const _$AutomationExecutionFilterKeyEnumMap = {
   AutomationExecutionFilterKey.documentNamePrefix: 'DocumentNamePrefix',
@@ -519,56 +484,55 @@ const _$AutomationExecutionFilterKeyEnumMap = {
 AutomationExecutionMetadata _$AutomationExecutionMetadataFromJson(
     Map<String, dynamic> json) {
   return AutomationExecutionMetadata(
-    associationId: json['AssociationId'] as String,
-    automationExecutionId: json['AutomationExecutionId'] as String,
+    associationId: json['AssociationId'] as String?,
+    automationExecutionId: json['AutomationExecutionId'] as String?,
     automationExecutionStatus: _$enumDecodeNullable(
         _$AutomationExecutionStatusEnumMap, json['AutomationExecutionStatus']),
     automationSubtype: _$enumDecodeNullable(
         _$AutomationSubtypeEnumMap, json['AutomationSubtype']),
     automationType:
         _$enumDecodeNullable(_$AutomationTypeEnumMap, json['AutomationType']),
-    changeRequestName: json['ChangeRequestName'] as String,
-    currentAction: json['CurrentAction'] as String,
-    currentStepName: json['CurrentStepName'] as String,
-    documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    executedBy: json['ExecutedBy'] as String,
+    changeRequestName: json['ChangeRequestName'] as String?,
+    currentAction: json['CurrentAction'] as String?,
+    currentStepName: json['CurrentStepName'] as String?,
+    documentName: json['DocumentName'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    executedBy: json['ExecutedBy'] as String?,
     executionEndTime:
         const UnixDateTimeConverter().fromJson(json['ExecutionEndTime']),
     executionStartTime:
         const UnixDateTimeConverter().fromJson(json['ExecutionStartTime']),
-    failureMessage: json['FailureMessage'] as String,
-    logFile: json['LogFile'] as String,
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
+    failureMessage: json['FailureMessage'] as String?,
+    logFile: json['LogFile'] as String?,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
     mode: _$enumDecodeNullable(_$ExecutionModeEnumMap, json['Mode']),
-    opsItemId: json['OpsItemId'] as String,
-    outputs: (json['Outputs'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    opsItemId: json['OpsItemId'] as String?,
+    outputs: (json['Outputs'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    parentAutomationExecutionId: json['ParentAutomationExecutionId'] as String,
+    parentAutomationExecutionId: json['ParentAutomationExecutionId'] as String?,
     resolvedTargets: json['ResolvedTargets'] == null
         ? null
         : ResolvedTargets.fromJson(
             json['ResolvedTargets'] as Map<String, dynamic>),
-    runbooks: (json['Runbooks'] as List)
-        ?.map((e) =>
-            e == null ? null : Runbook.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    runbooks: (json['Runbooks'] as List<dynamic>?)
+        ?.map((e) => Runbook.fromJson(e as Map<String, dynamic>))
+        .toList(),
     scheduledTime:
         const UnixDateTimeConverter().fromJson(json['ScheduledTime']),
-    target: json['Target'] as String,
-    targetMaps: (json['TargetMaps'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) =>
-                  MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    target: json['Target'] as String?,
+    targetMaps: (json['TargetMaps'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
+              (k, e) => MapEntry(
+                  k, (e as List<dynamic>).map((e) => e as String).toList()),
             ))
-        ?.toList(),
-    targetParameterName: json['TargetParameterName'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+        .toList(),
+    targetParameterName: json['TargetParameterName'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -585,15 +549,15 @@ CancelMaintenanceWindowExecutionResult
     _$CancelMaintenanceWindowExecutionResultFromJson(
         Map<String, dynamic> json) {
   return CancelMaintenanceWindowExecutionResult(
-    windowExecutionId: json['WindowExecutionId'] as String,
+    windowExecutionId: json['WindowExecutionId'] as String?,
   );
 }
 
 CloudWatchOutputConfig _$CloudWatchOutputConfigFromJson(
     Map<String, dynamic> json) {
   return CloudWatchOutputConfig(
-    cloudWatchLogGroupName: json['CloudWatchLogGroupName'] as String,
-    cloudWatchOutputEnabled: json['CloudWatchOutputEnabled'] as bool,
+    cloudWatchLogGroupName: json['CloudWatchLogGroupName'] as String?,
+    cloudWatchOutputEnabled: json['CloudWatchOutputEnabled'] as bool?,
   );
 }
 
@@ -618,39 +582,40 @@ Command _$CommandFromJson(Map<String, dynamic> json) {
         ? null
         : CloudWatchOutputConfig.fromJson(
             json['CloudWatchOutputConfig'] as Map<String, dynamic>),
-    commandId: json['CommandId'] as String,
-    comment: json['Comment'] as String,
-    completedCount: json['CompletedCount'] as int,
-    deliveryTimedOutCount: json['DeliveryTimedOutCount'] as int,
-    documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    errorCount: json['ErrorCount'] as int,
+    commandId: json['CommandId'] as String?,
+    comment: json['Comment'] as String?,
+    completedCount: json['CompletedCount'] as int?,
+    deliveryTimedOutCount: json['DeliveryTimedOutCount'] as int?,
+    documentName: json['DocumentName'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    errorCount: json['ErrorCount'] as int?,
     expiresAfter: const UnixDateTimeConverter().fromJson(json['ExpiresAfter']),
-    instanceIds:
-        (json['InstanceIds'] as List)?.map((e) => e as String)?.toList(),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
+    instanceIds: (json['InstanceIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
     notificationConfig: json['NotificationConfig'] == null
         ? null
         : NotificationConfig.fromJson(
             json['NotificationConfig'] as Map<String, dynamic>),
-    outputS3BucketName: json['OutputS3BucketName'] as String,
-    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String,
-    outputS3Region: json['OutputS3Region'] as String,
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    outputS3BucketName: json['OutputS3BucketName'] as String?,
+    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+    outputS3Region: json['OutputS3Region'] as String?,
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
     requestedDateTime:
         const UnixDateTimeConverter().fromJson(json['RequestedDateTime']),
-    serviceRole: json['ServiceRole'] as String,
+    serviceRole: json['ServiceRole'] as String?,
     status: _$enumDecodeNullable(_$CommandStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    targetCount: json['TargetCount'] as int,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    timeoutSeconds: json['TimeoutSeconds'] as int,
+    statusDetails: json['StatusDetails'] as String?,
+    targetCount: json['TargetCount'] as int?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    timeoutSeconds: json['TimeoutSeconds'] as int?,
   );
 }
 
@@ -664,19 +629,11 @@ const _$CommandStatusEnumMap = {
   CommandStatus.cancelling: 'Cancelling',
 };
 
-Map<String, dynamic> _$CommandFilterToJson(CommandFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', _$CommandFilterKeyEnumMap[instance.key]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$CommandFilterToJson(CommandFilter instance) =>
+    <String, dynamic>{
+      'key': _$CommandFilterKeyEnumMap[instance.key],
+      'value': instance.value,
+    };
 
 const _$CommandFilterKeyEnumMap = {
   CommandFilterKey.invokedAfter: 'InvokedAfter',
@@ -692,30 +649,28 @@ CommandInvocation _$CommandInvocationFromJson(Map<String, dynamic> json) {
         ? null
         : CloudWatchOutputConfig.fromJson(
             json['CloudWatchOutputConfig'] as Map<String, dynamic>),
-    commandId: json['CommandId'] as String,
-    commandPlugins: (json['CommandPlugins'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CommandPlugin.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    comment: json['Comment'] as String,
-    documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    instanceId: json['InstanceId'] as String,
-    instanceName: json['InstanceName'] as String,
+    commandId: json['CommandId'] as String?,
+    commandPlugins: (json['CommandPlugins'] as List<dynamic>?)
+        ?.map((e) => CommandPlugin.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    comment: json['Comment'] as String?,
+    documentName: json['DocumentName'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    instanceName: json['InstanceName'] as String?,
     notificationConfig: json['NotificationConfig'] == null
         ? null
         : NotificationConfig.fromJson(
             json['NotificationConfig'] as Map<String, dynamic>),
     requestedDateTime:
         const UnixDateTimeConverter().fromJson(json['RequestedDateTime']),
-    serviceRole: json['ServiceRole'] as String,
-    standardErrorUrl: json['StandardErrorUrl'] as String,
-    standardOutputUrl: json['StandardOutputUrl'] as String,
+    serviceRole: json['ServiceRole'] as String?,
+    standardErrorUrl: json['StandardErrorUrl'] as String?,
+    standardOutputUrl: json['StandardOutputUrl'] as String?,
     status:
         _$enumDecodeNullable(_$CommandInvocationStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    traceOutput: json['TraceOutput'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    traceOutput: json['TraceOutput'] as String?,
   );
 }
 
@@ -732,20 +687,20 @@ const _$CommandInvocationStatusEnumMap = {
 
 CommandPlugin _$CommandPluginFromJson(Map<String, dynamic> json) {
   return CommandPlugin(
-    name: json['Name'] as String,
-    output: json['Output'] as String,
-    outputS3BucketName: json['OutputS3BucketName'] as String,
-    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String,
-    outputS3Region: json['OutputS3Region'] as String,
-    responseCode: json['ResponseCode'] as int,
+    name: json['Name'] as String?,
+    output: json['Output'] as String?,
+    outputS3BucketName: json['OutputS3BucketName'] as String?,
+    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+    outputS3Region: json['OutputS3Region'] as String?,
+    responseCode: json['ResponseCode'] as int?,
     responseFinishDateTime:
         const UnixDateTimeConverter().fromJson(json['ResponseFinishDateTime']),
     responseStartDateTime:
         const UnixDateTimeConverter().fromJson(json['ResponseStartDateTime']),
-    standardErrorUrl: json['StandardErrorUrl'] as String,
-    standardOutputUrl: json['StandardOutputUrl'] as String,
+    standardErrorUrl: json['StandardErrorUrl'] as String?,
+    standardOutputUrl: json['StandardOutputUrl'] as String?,
     status: _$enumDecodeNullable(_$CommandPluginStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
+    statusDetails: json['StatusDetails'] as String?,
   );
 }
 
@@ -761,16 +716,17 @@ const _$CommandPluginStatusEnumMap = {
 ComplianceExecutionSummary _$ComplianceExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return ComplianceExecutionSummary(
-    executionTime:
-        const UnixDateTimeConverter().fromJson(json['ExecutionTime']),
-    executionId: json['ExecutionId'] as String,
-    executionType: json['ExecutionType'] as String,
+    executionTime: DateTime.parse(json['ExecutionTime'] as String),
+    executionId: json['ExecutionId'] as String?,
+    executionType: json['ExecutionType'] as String?,
   );
 }
 
 Map<String, dynamic> _$ComplianceExecutionSummaryToJson(
     ComplianceExecutionSummary instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ExecutionTime': instance.executionTime.toIso8601String(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -778,8 +734,6 @@ Map<String, dynamic> _$ComplianceExecutionSummaryToJson(
     }
   }
 
-  writeNotNull('ExecutionTime',
-      const UnixDateTimeConverter().toJson(instance.executionTime));
   writeNotNull('ExecutionId', instance.executionId);
   writeNotNull('ExecutionType', instance.executionType);
   return val;
@@ -787,21 +741,21 @@ Map<String, dynamic> _$ComplianceExecutionSummaryToJson(
 
 ComplianceItem _$ComplianceItemFromJson(Map<String, dynamic> json) {
   return ComplianceItem(
-    complianceType: json['ComplianceType'] as String,
-    details: (json['Details'] as Map<String, dynamic>)?.map(
+    complianceType: json['ComplianceType'] as String?,
+    details: (json['Details'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     executionSummary: json['ExecutionSummary'] == null
         ? null
         : ComplianceExecutionSummary.fromJson(
             json['ExecutionSummary'] as Map<String, dynamic>),
-    id: json['Id'] as String,
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
+    id: json['Id'] as String?,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
     severity:
         _$enumDecodeNullable(_$ComplianceSeverityEnumMap, json['Severity']),
     status: _$enumDecodeNullable(_$ComplianceStatusEnumMap, json['Status']),
-    title: json['Title'] as String,
+    title: json['Title'] as String?,
   );
 }
 
@@ -820,7 +774,10 @@ const _$ComplianceStatusEnumMap = {
 };
 
 Map<String, dynamic> _$ComplianceItemEntryToJson(ComplianceItemEntry instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Severity': _$ComplianceSeverityEnumMap[instance.severity],
+    'Status': _$ComplianceStatusEnumMap[instance.status],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -828,8 +785,6 @@ Map<String, dynamic> _$ComplianceItemEntryToJson(ComplianceItemEntry instance) {
     }
   }
 
-  writeNotNull('Severity', _$ComplianceSeverityEnumMap[instance.severity]);
-  writeNotNull('Status', _$ComplianceStatusEnumMap[instance.status]);
   writeNotNull('Details', instance.details);
   writeNotNull('Id', instance.id);
   writeNotNull('Title', instance.title);
@@ -863,7 +818,7 @@ const _$ComplianceQueryOperatorTypeEnumMap = {
 ComplianceSummaryItem _$ComplianceSummaryItemFromJson(
     Map<String, dynamic> json) {
   return ComplianceSummaryItem(
-    complianceType: json['ComplianceType'] as String,
+    complianceType: json['ComplianceType'] as String?,
     compliantSummary: json['CompliantSummary'] == null
         ? null
         : CompliantSummary.fromJson(
@@ -877,7 +832,7 @@ ComplianceSummaryItem _$ComplianceSummaryItemFromJson(
 
 CompliantSummary _$CompliantSummaryFromJson(Map<String, dynamic> json) {
   return CompliantSummary(
-    compliantCount: json['CompliantCount'] as int,
+    compliantCount: json['CompliantCount'] as int?,
     severitySummary: json['SeveritySummary'] == null
         ? null
         : SeveritySummary.fromJson(
@@ -888,8 +843,8 @@ CompliantSummary _$CompliantSummaryFromJson(Map<String, dynamic> json) {
 CreateActivationResult _$CreateActivationResultFromJson(
     Map<String, dynamic> json) {
   return CreateActivationResult(
-    activationCode: json['ActivationCode'] as String,
-    activationId: json['ActivationId'] as String,
+    activationCode: json['ActivationCode'] as String?,
+    activationId: json['ActivationId'] as String?,
   );
 }
 
@@ -897,41 +852,41 @@ CreateAssociationBatchRequestEntry _$CreateAssociationBatchRequestEntryFromJson(
     Map<String, dynamic> json) {
   return CreateAssociationBatchRequestEntry(
     name: json['Name'] as String,
-    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool,
-    associationName: json['AssociationName'] as String,
+    applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+    associationName: json['AssociationName'] as String?,
     automationTargetParameterName:
-        json['AutomationTargetParameterName'] as String,
+        json['AutomationTargetParameterName'] as String?,
     complianceSeverity: _$enumDecodeNullable(
         _$AssociationComplianceSeverityEnumMap, json['ComplianceSeverity']),
-    documentVersion: json['DocumentVersion'] as String,
-    instanceId: json['InstanceId'] as String,
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
     outputLocation: json['OutputLocation'] == null
         ? null
         : InstanceAssociationOutputLocation.fromJson(
             json['OutputLocation'] as Map<String, dynamic>),
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    scheduleExpression: json['ScheduleExpression'] as String,
+    scheduleExpression: json['ScheduleExpression'] as String?,
     syncCompliance: _$enumDecodeNullable(
         _$AssociationSyncComplianceEnumMap, json['SyncCompliance']),
-    targetLocations: (json['TargetLocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetLocations: (json['TargetLocations'] as List<dynamic>?)
+        ?.map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
     CreateAssociationBatchRequestEntry instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -939,7 +894,6 @@ Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('ApplyOnlyAtCronInterval', instance.applyOnlyAtCronInterval);
   writeNotNull('AssociationName', instance.associationName);
   writeNotNull(
@@ -956,24 +910,21 @@ Map<String, dynamic> _$CreateAssociationBatchRequestEntryToJson(
   writeNotNull('SyncCompliance',
       _$AssociationSyncComplianceEnumMap[instance.syncCompliance]);
   writeNotNull('TargetLocations',
-      instance.targetLocations?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+      instance.targetLocations?.map((e) => e.toJson()).toList());
+  writeNotNull('Targets', instance.targets?.map((e) => e.toJson()).toList());
   return val;
 }
 
 CreateAssociationBatchResult _$CreateAssociationBatchResultFromJson(
     Map<String, dynamic> json) {
   return CreateAssociationBatchResult(
-    failed: (json['Failed'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedCreateAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    successful: (json['Successful'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssociationDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failed: (json['Failed'] as List<dynamic>?)
+        ?.map(
+            (e) => FailedCreateAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    successful: (json['Successful'] as List<dynamic>?)
+        ?.map((e) => AssociationDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -999,28 +950,28 @@ CreateDocumentResult _$CreateDocumentResultFromJson(Map<String, dynamic> json) {
 CreateMaintenanceWindowResult _$CreateMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return CreateMaintenanceWindowResult(
-    windowId: json['WindowId'] as String,
+    windowId: json['WindowId'] as String?,
   );
 }
 
 CreateOpsItemResponse _$CreateOpsItemResponseFromJson(
     Map<String, dynamic> json) {
   return CreateOpsItemResponse(
-    opsItemId: json['OpsItemId'] as String,
+    opsItemId: json['OpsItemId'] as String?,
   );
 }
 
 CreateOpsMetadataResult _$CreateOpsMetadataResultFromJson(
     Map<String, dynamic> json) {
   return CreateOpsMetadataResult(
-    opsMetadataArn: json['OpsMetadataArn'] as String,
+    opsMetadataArn: json['OpsMetadataArn'] as String?,
   );
 }
 
 CreatePatchBaselineResult _$CreatePatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return CreatePatchBaselineResult(
-    baselineId: json['BaselineId'] as String,
+    baselineId: json['BaselineId'] as String?,
   );
 }
 
@@ -1046,19 +997,19 @@ DeleteDocumentResult _$DeleteDocumentResultFromJson(Map<String, dynamic> json) {
 DeleteInventoryResult _$DeleteInventoryResultFromJson(
     Map<String, dynamic> json) {
   return DeleteInventoryResult(
-    deletionId: json['DeletionId'] as String,
+    deletionId: json['DeletionId'] as String?,
     deletionSummary: json['DeletionSummary'] == null
         ? null
         : InventoryDeletionSummary.fromJson(
             json['DeletionSummary'] as Map<String, dynamic>),
-    typeName: json['TypeName'] as String,
+    typeName: json['TypeName'] as String?,
   );
 }
 
 DeleteMaintenanceWindowResult _$DeleteMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return DeleteMaintenanceWindowResult(
-    windowId: json['WindowId'] as String,
+    windowId: json['WindowId'] as String?,
   );
 }
 
@@ -1075,17 +1026,19 @@ DeleteParameterResult _$DeleteParameterResultFromJson(
 DeleteParametersResult _$DeleteParametersResultFromJson(
     Map<String, dynamic> json) {
   return DeleteParametersResult(
-    deletedParameters:
-        (json['DeletedParameters'] as List)?.map((e) => e as String)?.toList(),
-    invalidParameters:
-        (json['InvalidParameters'] as List)?.map((e) => e as String)?.toList(),
+    deletedParameters: (json['DeletedParameters'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    invalidParameters: (json['InvalidParameters'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 DeletePatchBaselineResult _$DeletePatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return DeletePatchBaselineResult(
-    baselineId: json['BaselineId'] as String,
+    baselineId: json['BaselineId'] as String?,
   );
 }
 
@@ -1103,8 +1056,8 @@ DeregisterPatchBaselineForPatchGroupResult
     _$DeregisterPatchBaselineForPatchGroupResultFromJson(
         Map<String, dynamic> json) {
   return DeregisterPatchBaselineForPatchGroupResult(
-    baselineId: json['BaselineId'] as String,
-    patchGroup: json['PatchGroup'] as String,
+    baselineId: json['BaselineId'] as String?,
+    patchGroup: json['PatchGroup'] as String?,
   );
 }
 
@@ -1112,8 +1065,8 @@ DeregisterTargetFromMaintenanceWindowResult
     _$DeregisterTargetFromMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
   return DeregisterTargetFromMaintenanceWindowResult(
-    windowId: json['WindowId'] as String,
-    windowTargetId: json['WindowTargetId'] as String,
+    windowId: json['WindowId'] as String?,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
@@ -1121,8 +1074,8 @@ DeregisterTaskFromMaintenanceWindowResult
     _$DeregisterTaskFromMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
   return DeregisterTaskFromMaintenanceWindowResult(
-    windowId: json['WindowId'] as String,
-    windowTaskId: json['WindowTaskId'] as String,
+    windowId: json['WindowId'] as String?,
+    windowTaskId: json['WindowTaskId'] as String?,
   );
 }
 
@@ -1151,11 +1104,10 @@ const _$DescribeActivationsFilterKeysEnumMap = {
 DescribeActivationsResult _$DescribeActivationsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeActivationsResult(
-    activationList: (json['ActivationList'] as List)
-        ?.map((e) =>
-            e == null ? null : Activation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    activationList: (json['ActivationList'] as List<dynamic>?)
+        ?.map((e) => Activation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1163,24 +1115,22 @@ DescribeAssociationExecutionTargetsResult
     _$DescribeAssociationExecutionTargetsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeAssociationExecutionTargetsResult(
-    associationExecutionTargets: (json['AssociationExecutionTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssociationExecutionTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    associationExecutionTargets:
+        (json['AssociationExecutionTargets'] as List<dynamic>?)
+            ?.map((e) =>
+                AssociationExecutionTarget.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeAssociationExecutionsResult
     _$DescribeAssociationExecutionsResultFromJson(Map<String, dynamic> json) {
   return DescribeAssociationExecutionsResult(
-    associationExecutions: (json['AssociationExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssociationExecution.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    associationExecutions: (json['AssociationExecutions'] as List<dynamic>?)
+        ?.map((e) => AssociationExecution.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1197,13 +1147,12 @@ DescribeAssociationResult _$DescribeAssociationResultFromJson(
 DescribeAutomationExecutionsResult _$DescribeAutomationExecutionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAutomationExecutionsResult(
-    automationExecutionMetadataList: (json['AutomationExecutionMetadataList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : AutomationExecutionMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    automationExecutionMetadataList:
+        (json['AutomationExecutionMetadataList'] as List<dynamic>?)
+            ?.map((e) =>
+                AutomationExecutionMetadata.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1211,35 +1160,32 @@ DescribeAutomationStepExecutionsResult
     _$DescribeAutomationStepExecutionsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeAutomationStepExecutionsResult(
-    nextToken: json['NextToken'] as String,
-    stepExecutions: (json['StepExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StepExecution.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    stepExecutions: (json['StepExecutions'] as List<dynamic>?)
+        ?.map((e) => StepExecution.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeAvailablePatchesResult _$DescribeAvailablePatchesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeAvailablePatchesResult(
-    nextToken: json['NextToken'] as String,
-    patches: (json['Patches'] as List)
-        ?.map(
-            (e) => e == null ? null : Patch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    patches: (json['Patches'] as List<dynamic>?)
+        ?.map((e) => Patch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeDocumentPermissionResponse _$DescribeDocumentPermissionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDocumentPermissionResponse(
-    accountIds: (json['AccountIds'] as List)?.map((e) => e as String)?.toList(),
-    accountSharingInfoList: (json['AccountSharingInfoList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccountSharingInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    accountIds: (json['AccountIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    accountSharingInfoList: (json['AccountSharingInfoList'] as List<dynamic>?)
+        ?.map((e) => AccountSharingInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1257,12 +1203,10 @@ DescribeEffectiveInstanceAssociationsResult
     _$DescribeEffectiveInstanceAssociationsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeEffectiveInstanceAssociationsResult(
-    associations: (json['Associations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    associations: (json['Associations'] as List<dynamic>?)
+        ?.map((e) => InstanceAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1270,12 +1214,10 @@ DescribeEffectivePatchesForPatchBaselineResult
     _$DescribeEffectivePatchesForPatchBaselineResultFromJson(
         Map<String, dynamic> json) {
   return DescribeEffectivePatchesForPatchBaselineResult(
-    effectivePatches: (json['EffectivePatches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EffectivePatch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    effectivePatches: (json['EffectivePatches'] as List<dynamic>?)
+        ?.map((e) => EffectivePatch.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1284,24 +1226,21 @@ DescribeInstanceAssociationsStatusResult
         Map<String, dynamic> json) {
   return DescribeInstanceAssociationsStatusResult(
     instanceAssociationStatusInfos: (json['InstanceAssociationStatusInfos']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceAssociationStatusInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            InstanceAssociationStatusInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeInstanceInformationResult _$DescribeInstanceInformationResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstanceInformationResult(
-    instanceInformationList: (json['InstanceInformationList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceInformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instanceInformationList: (json['InstanceInformationList'] as List<dynamic>?)
+        ?.map((e) => InstanceInformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1309,48 +1248,41 @@ DescribeInstancePatchStatesForPatchGroupResult
     _$DescribeInstancePatchStatesForPatchGroupResultFromJson(
         Map<String, dynamic> json) {
   return DescribeInstancePatchStatesForPatchGroupResult(
-    instancePatchStates: (json['InstancePatchStates'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstancePatchState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instancePatchStates: (json['InstancePatchStates'] as List<dynamic>?)
+        ?.map((e) => InstancePatchState.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeInstancePatchStatesResult _$DescribeInstancePatchStatesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstancePatchStatesResult(
-    instancePatchStates: (json['InstancePatchStates'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstancePatchState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instancePatchStates: (json['InstancePatchStates'] as List<dynamic>?)
+        ?.map((e) => InstancePatchState.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeInstancePatchesResult _$DescribeInstancePatchesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInstancePatchesResult(
-    nextToken: json['NextToken'] as String,
-    patches: (json['Patches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PatchComplianceData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    patches: (json['Patches'] as List<dynamic>?)
+        ?.map((e) => PatchComplianceData.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeInventoryDeletionsResult _$DescribeInventoryDeletionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeInventoryDeletionsResult(
-    inventoryDeletions: (json['InventoryDeletions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InventoryDeletionStatusItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    inventoryDeletions: (json['InventoryDeletions'] as List<dynamic>?)
+        ?.map((e) =>
+            InventoryDeletionStatusItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1358,14 +1290,13 @@ DescribeMaintenanceWindowExecutionTaskInvocationsResult
     _$DescribeMaintenanceWindowExecutionTaskInvocationsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowExecutionTaskInvocationsResult(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     windowExecutionTaskInvocationIdentities:
-        (json['WindowExecutionTaskInvocationIdentities'] as List)
-            ?.map((e) => e == null
-                ? null
-                : MaintenanceWindowExecutionTaskInvocationIdentity.fromJson(
+        (json['WindowExecutionTaskInvocationIdentities'] as List<dynamic>?)
+            ?.map((e) =>
+                MaintenanceWindowExecutionTaskInvocationIdentity.fromJson(
                     e as Map<String, dynamic>))
-            ?.toList(),
+            .toList(),
   );
 }
 
@@ -1373,14 +1304,12 @@ DescribeMaintenanceWindowExecutionTasksResult
     _$DescribeMaintenanceWindowExecutionTasksResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowExecutionTasksResult(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     windowExecutionTaskIdentities:
-        (json['WindowExecutionTaskIdentities'] as List)
-            ?.map((e) => e == null
-                ? null
-                : MaintenanceWindowExecutionTaskIdentity.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['WindowExecutionTaskIdentities'] as List<dynamic>?)
+            ?.map((e) => MaintenanceWindowExecutionTaskIdentity.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1388,12 +1317,11 @@ DescribeMaintenanceWindowExecutionsResult
     _$DescribeMaintenanceWindowExecutionsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowExecutionsResult(
-    nextToken: json['NextToken'] as String,
-    windowExecutions: (json['WindowExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MaintenanceWindowExecution.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    windowExecutions: (json['WindowExecutions'] as List<dynamic>?)
+        ?.map((e) =>
+            MaintenanceWindowExecution.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1401,12 +1329,12 @@ DescribeMaintenanceWindowScheduleResult
     _$DescribeMaintenanceWindowScheduleResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowScheduleResult(
-    nextToken: json['NextToken'] as String,
-    scheduledWindowExecutions: (json['ScheduledWindowExecutions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScheduledWindowExecution.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    scheduledWindowExecutions: (json['ScheduledWindowExecutions']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ScheduledWindowExecution.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1414,24 +1342,21 @@ DescribeMaintenanceWindowTargetsResult
     _$DescribeMaintenanceWindowTargetsResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowTargetsResult(
-    nextToken: json['NextToken'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MaintenanceWindowTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map(
+            (e) => MaintenanceWindowTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeMaintenanceWindowTasksResult
     _$DescribeMaintenanceWindowTasksResultFromJson(Map<String, dynamic> json) {
   return DescribeMaintenanceWindowTasksResult(
-    nextToken: json['NextToken'] as String,
-    tasks: (json['Tasks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MaintenanceWindowTask.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tasks: (json['Tasks'] as List<dynamic>?)
+        ?.map((e) => MaintenanceWindowTask.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1439,181 +1364,160 @@ DescribeMaintenanceWindowsForTargetResult
     _$DescribeMaintenanceWindowsForTargetResultFromJson(
         Map<String, dynamic> json) {
   return DescribeMaintenanceWindowsForTargetResult(
-    nextToken: json['NextToken'] as String,
-    windowIdentities: (json['WindowIdentities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MaintenanceWindowIdentityForTarget.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    windowIdentities: (json['WindowIdentities'] as List<dynamic>?)
+        ?.map((e) => MaintenanceWindowIdentityForTarget.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeMaintenanceWindowsResult _$DescribeMaintenanceWindowsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeMaintenanceWindowsResult(
-    nextToken: json['NextToken'] as String,
-    windowIdentities: (json['WindowIdentities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MaintenanceWindowIdentity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    windowIdentities: (json['WindowIdentities'] as List<dynamic>?)
+        ?.map((e) =>
+            MaintenanceWindowIdentity.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeOpsItemsResponse _$DescribeOpsItemsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeOpsItemsResponse(
-    nextToken: json['NextToken'] as String,
-    opsItemSummaries: (json['OpsItemSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OpsItemSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    opsItemSummaries: (json['OpsItemSummaries'] as List<dynamic>?)
+        ?.map((e) => OpsItemSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeParametersResult _$DescribeParametersResultFromJson(
     Map<String, dynamic> json) {
   return DescribeParametersResult(
-    nextToken: json['NextToken'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParameterMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => ParameterMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribePatchBaselinesResult _$DescribePatchBaselinesResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchBaselinesResult(
-    baselineIdentities: (json['BaselineIdentities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PatchBaselineIdentity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    baselineIdentities: (json['BaselineIdentities'] as List<dynamic>?)
+        ?.map((e) => PatchBaselineIdentity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribePatchGroupStateResult _$DescribePatchGroupStateResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchGroupStateResult(
-    instances: json['Instances'] as int,
-    instancesWithFailedPatches: json['InstancesWithFailedPatches'] as int,
+    instances: json['Instances'] as int?,
+    instancesWithFailedPatches: json['InstancesWithFailedPatches'] as int?,
     instancesWithInstalledOtherPatches:
-        json['InstancesWithInstalledOtherPatches'] as int,
-    instancesWithInstalledPatches: json['InstancesWithInstalledPatches'] as int,
+        json['InstancesWithInstalledOtherPatches'] as int?,
+    instancesWithInstalledPatches:
+        json['InstancesWithInstalledPatches'] as int?,
     instancesWithInstalledPendingRebootPatches:
-        json['InstancesWithInstalledPendingRebootPatches'] as int,
+        json['InstancesWithInstalledPendingRebootPatches'] as int?,
     instancesWithInstalledRejectedPatches:
-        json['InstancesWithInstalledRejectedPatches'] as int,
-    instancesWithMissingPatches: json['InstancesWithMissingPatches'] as int,
+        json['InstancesWithInstalledRejectedPatches'] as int?,
+    instancesWithMissingPatches: json['InstancesWithMissingPatches'] as int?,
     instancesWithNotApplicablePatches:
-        json['InstancesWithNotApplicablePatches'] as int,
+        json['InstancesWithNotApplicablePatches'] as int?,
     instancesWithUnreportedNotApplicablePatches:
-        json['InstancesWithUnreportedNotApplicablePatches'] as int,
+        json['InstancesWithUnreportedNotApplicablePatches'] as int?,
   );
 }
 
 DescribePatchGroupsResult _$DescribePatchGroupsResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchGroupsResult(
-    mappings: (json['Mappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PatchGroupPatchBaselineMapping.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    mappings: (json['Mappings'] as List<dynamic>?)
+        ?.map((e) =>
+            PatchGroupPatchBaselineMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribePatchPropertiesResult _$DescribePatchPropertiesResultFromJson(
     Map<String, dynamic> json) {
   return DescribePatchPropertiesResult(
-    nextToken: json['NextToken'] as String,
-    properties: (json['Properties'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) => MapEntry(k, e as String),
-            ))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    properties: (json['Properties'] as List<dynamic>?)
+        ?.map((e) => Map<String, String>.from(e as Map))
+        .toList(),
   );
 }
 
 DescribeSessionsResponse _$DescribeSessionsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSessionsResponse(
-    nextToken: json['NextToken'] as String,
-    sessions: (json['Sessions'] as List)
-        ?.map((e) =>
-            e == null ? null : Session.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sessions: (json['Sessions'] as List<dynamic>?)
+        ?.map((e) => Session.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DocumentDefaultVersionDescription _$DocumentDefaultVersionDescriptionFromJson(
     Map<String, dynamic> json) {
   return DocumentDefaultVersionDescription(
-    defaultVersion: json['DefaultVersion'] as String,
-    defaultVersionName: json['DefaultVersionName'] as String,
-    name: json['Name'] as String,
+    defaultVersion: json['DefaultVersion'] as String?,
+    defaultVersionName: json['DefaultVersionName'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
   return DocumentDescription(
-    approvedVersion: json['ApprovedVersion'] as String,
-    attachmentsInformation: (json['AttachmentsInformation'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttachmentInformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    author: json['Author'] as String,
+    approvedVersion: json['ApprovedVersion'] as String?,
+    attachmentsInformation: (json['AttachmentsInformation'] as List<dynamic>?)
+        ?.map((e) => AttachmentInformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    author: json['Author'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    defaultVersion: json['DefaultVersion'] as String,
-    description: json['Description'] as String,
+    defaultVersion: json['DefaultVersion'] as String?,
+    description: json['Description'] as String?,
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
     documentType:
         _$enumDecodeNullable(_$DocumentTypeEnumMap, json['DocumentType']),
-    documentVersion: json['DocumentVersion'] as String,
-    hash: json['Hash'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
+    hash: json['Hash'] as String?,
     hashType: _$enumDecodeNullable(_$DocumentHashTypeEnumMap, json['HashType']),
-    latestVersion: json['LatestVersion'] as String,
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pendingReviewVersion: json['PendingReviewVersion'] as String,
-    platformTypes: (json['PlatformTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PlatformTypeEnumMap, e))
-        ?.toList(),
-    requires: (json['Requires'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentRequires.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    reviewInformation: (json['ReviewInformation'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ReviewInformation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    latestVersion: json['LatestVersion'] as String?,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => DocumentParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pendingReviewVersion: json['PendingReviewVersion'] as String?,
+    platformTypes: (json['PlatformTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PlatformTypeEnumMap, e))
+        .toList(),
+    requires: (json['Requires'] as List<dynamic>?)
+        ?.map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    reviewInformation: (json['ReviewInformation'] as List<dynamic>?)
+        ?.map((e) => ReviewInformation.fromJson(e as Map<String, dynamic>))
+        .toList(),
     reviewStatus:
         _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
-    schemaVersion: json['SchemaVersion'] as String,
-    sha1: json['Sha1'] as String,
+    schemaVersion: json['SchemaVersion'] as String?,
+    sha1: json['Sha1'] as String?,
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
-    statusInformation: json['StatusInformation'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetType: json['TargetType'] as String,
-    versionName: json['VersionName'] as String,
+    statusInformation: json['StatusInformation'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetType: json['TargetType'] as String?,
+    versionName: json['VersionName'] as String?,
   );
 }
 
@@ -1661,19 +1565,11 @@ const _$DocumentStatusEnumMap = {
   DocumentStatus.failed: 'Failed',
 };
 
-Map<String, dynamic> _$DocumentFilterToJson(DocumentFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', _$DocumentFilterKeyEnumMap[instance.key]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$DocumentFilterToJson(DocumentFilter instance) =>
+    <String, dynamic>{
+      'key': _$DocumentFilterKeyEnumMap[instance.key],
+      'value': instance.value,
+    };
 
 const _$DocumentFilterKeyEnumMap = {
   DocumentFilterKey.name: 'Name',
@@ -1684,30 +1580,28 @@ const _$DocumentFilterKeyEnumMap = {
 
 DocumentIdentifier _$DocumentIdentifierFromJson(Map<String, dynamic> json) {
   return DocumentIdentifier(
-    author: json['Author'] as String,
+    author: json['Author'] as String?,
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
     documentType:
         _$enumDecodeNullable(_$DocumentTypeEnumMap, json['DocumentType']),
-    documentVersion: json['DocumentVersion'] as String,
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
-    platformTypes: (json['PlatformTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PlatformTypeEnumMap, e))
-        ?.toList(),
-    requires: (json['Requires'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentRequires.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentVersion: json['DocumentVersion'] as String?,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
+    platformTypes: (json['PlatformTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PlatformTypeEnumMap, e))
+        .toList(),
+    requires: (json['Requires'] as List<dynamic>?)
+        ?.map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+        .toList(),
     reviewStatus:
         _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
-    schemaVersion: json['SchemaVersion'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetType: json['TargetType'] as String,
-    versionName: json['VersionName'] as String,
+    schemaVersion: json['SchemaVersion'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetType: json['TargetType'] as String?,
+    versionName: json['VersionName'] as String?,
   );
 }
 
@@ -1729,20 +1623,18 @@ Map<String, dynamic> _$DocumentKeyValuesFilterToJson(
 DocumentMetadataResponseInfo _$DocumentMetadataResponseInfoFromJson(
     Map<String, dynamic> json) {
   return DocumentMetadataResponseInfo(
-    reviewerResponse: (json['ReviewerResponse'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentReviewerResponseSource.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    reviewerResponse: (json['ReviewerResponse'] as List<dynamic>?)
+        ?.map((e) =>
+            DocumentReviewerResponseSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DocumentParameter _$DocumentParameterFromJson(Map<String, dynamic> json) {
   return DocumentParameter(
-    defaultValue: json['DefaultValue'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
+    defaultValue: json['DefaultValue'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
     type: _$enumDecodeNullable(_$DocumentParameterTypeEnumMap, json['Type']),
   );
 }
@@ -1755,12 +1647,14 @@ const _$DocumentParameterTypeEnumMap = {
 DocumentRequires _$DocumentRequiresFromJson(Map<String, dynamic> json) {
   return DocumentRequires(
     name: json['Name'] as String,
-    version: json['Version'] as String,
+    version: json['Version'] as String?,
   );
 }
 
 Map<String, dynamic> _$DocumentRequiresToJson(DocumentRequires instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1768,7 +1662,6 @@ Map<String, dynamic> _$DocumentRequiresToJson(DocumentRequires instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('Version', instance.version);
   return val;
 }
@@ -1776,7 +1669,7 @@ Map<String, dynamic> _$DocumentRequiresToJson(DocumentRequires instance) {
 DocumentReviewCommentSource _$DocumentReviewCommentSourceFromJson(
     Map<String, dynamic> json) {
   return DocumentReviewCommentSource(
-    content: json['Content'] as String,
+    content: json['Content'] as String?,
     type:
         _$enumDecodeNullable(_$DocumentReviewCommentTypeEnumMap, json['Type']),
   );
@@ -1804,21 +1697,22 @@ const _$DocumentReviewCommentTypeEnumMap = {
 DocumentReviewerResponseSource _$DocumentReviewerResponseSourceFromJson(
     Map<String, dynamic> json) {
   return DocumentReviewerResponseSource(
-    comment: (json['Comment'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    comment: (json['Comment'] as List<dynamic>?)
+        ?.map((e) =>
+            DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
     createTime: const UnixDateTimeConverter().fromJson(json['CreateTime']),
     reviewStatus:
         _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
-    reviewer: json['Reviewer'] as String,
+    reviewer: json['Reviewer'] as String?,
     updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
 }
 
 Map<String, dynamic> _$DocumentReviewsToJson(DocumentReviews instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Action': _$DocumentReviewActionEnumMap[instance.action],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1826,8 +1720,7 @@ Map<String, dynamic> _$DocumentReviewsToJson(DocumentReviews instance) {
     }
   }
 
-  writeNotNull('Action', _$DocumentReviewActionEnumMap[instance.action]);
-  writeNotNull('Comment', instance.comment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Comment', instance.comment?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1843,14 +1736,14 @@ DocumentVersionInfo _$DocumentVersionInfoFromJson(Map<String, dynamic> json) {
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
-    documentVersion: json['DocumentVersion'] as String,
-    isDefaultVersion: json['IsDefaultVersion'] as bool,
-    name: json['Name'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
+    isDefaultVersion: json['IsDefaultVersion'] as bool?,
+    name: json['Name'] as String?,
     reviewStatus:
         _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
-    statusInformation: json['StatusInformation'] as String,
-    versionName: json['VersionName'] as String,
+    statusInformation: json['StatusInformation'] as String?,
+    versionName: json['VersionName'] as String?,
   );
 }
 
@@ -1873,7 +1766,7 @@ FailedCreateAssociation _$FailedCreateAssociationFromJson(
         : CreateAssociationBatchRequestEntry.fromJson(
             json['Entry'] as Map<String, dynamic>),
     fault: _$enumDecodeNullable(_$FaultEnumMap, json['Fault']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
@@ -1885,11 +1778,12 @@ const _$FaultEnumMap = {
 
 FailureDetails _$FailureDetailsFromJson(Map<String, dynamic> json) {
   return FailureDetails(
-    details: (json['Details'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    details: (json['Details'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    failureStage: json['FailureStage'] as String,
-    failureType: json['FailureType'] as String,
+    failureStage: json['FailureStage'] as String?,
+    failureType: json['FailureType'] as String?,
   );
 }
 
@@ -1906,8 +1800,8 @@ GetAutomationExecutionResult _$GetAutomationExecutionResultFromJson(
 GetCalendarStateResponse _$GetCalendarStateResponseFromJson(
     Map<String, dynamic> json) {
   return GetCalendarStateResponse(
-    atTime: json['AtTime'] as String,
-    nextTransitionTime: json['NextTransitionTime'] as String,
+    atTime: json['AtTime'] as String?,
+    nextTransitionTime: json['NextTransitionTime'] as String?,
     state: _$enumDecodeNullable(_$CalendarStateEnumMap, json['State']),
   );
 }
@@ -1924,23 +1818,23 @@ GetCommandInvocationResult _$GetCommandInvocationResultFromJson(
         ? null
         : CloudWatchOutputConfig.fromJson(
             json['CloudWatchOutputConfig'] as Map<String, dynamic>),
-    commandId: json['CommandId'] as String,
-    comment: json['Comment'] as String,
-    documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    executionElapsedTime: json['ExecutionElapsedTime'] as String,
-    executionEndDateTime: json['ExecutionEndDateTime'] as String,
-    executionStartDateTime: json['ExecutionStartDateTime'] as String,
-    instanceId: json['InstanceId'] as String,
-    pluginName: json['PluginName'] as String,
-    responseCode: json['ResponseCode'] as int,
-    standardErrorContent: json['StandardErrorContent'] as String,
-    standardErrorUrl: json['StandardErrorUrl'] as String,
-    standardOutputContent: json['StandardOutputContent'] as String,
-    standardOutputUrl: json['StandardOutputUrl'] as String,
+    commandId: json['CommandId'] as String?,
+    comment: json['Comment'] as String?,
+    documentName: json['DocumentName'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    executionElapsedTime: json['ExecutionElapsedTime'] as String?,
+    executionEndDateTime: json['ExecutionEndDateTime'] as String?,
+    executionStartDateTime: json['ExecutionStartDateTime'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    pluginName: json['PluginName'] as String?,
+    responseCode: json['ResponseCode'] as int?,
+    standardErrorContent: json['StandardErrorContent'] as String?,
+    standardErrorUrl: json['StandardErrorUrl'] as String?,
+    standardOutputContent: json['StandardOutputContent'] as String?,
+    standardOutputUrl: json['StandardOutputUrl'] as String?,
     status:
         _$enumDecodeNullable(_$CommandInvocationStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
+    statusDetails: json['StatusDetails'] as String?,
   );
 }
 
@@ -1948,7 +1842,7 @@ GetConnectionStatusResponse _$GetConnectionStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectionStatusResponse(
     status: _$enumDecodeNullable(_$ConnectionStatusEnumMap, json['Status']),
-    target: json['Target'] as String,
+    target: json['Target'] as String?,
   );
 }
 
@@ -1960,7 +1854,7 @@ const _$ConnectionStatusEnumMap = {
 GetDefaultPatchBaselineResult _$GetDefaultPatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return GetDefaultPatchBaselineResult(
-    baselineId: json['BaselineId'] as String,
+    baselineId: json['BaselineId'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
   );
@@ -1983,60 +1877,52 @@ GetDeployablePatchSnapshotForInstanceResult
     _$GetDeployablePatchSnapshotForInstanceResultFromJson(
         Map<String, dynamic> json) {
   return GetDeployablePatchSnapshotForInstanceResult(
-    instanceId: json['InstanceId'] as String,
-    product: json['Product'] as String,
-    snapshotDownloadUrl: json['SnapshotDownloadUrl'] as String,
-    snapshotId: json['SnapshotId'] as String,
+    instanceId: json['InstanceId'] as String?,
+    product: json['Product'] as String?,
+    snapshotDownloadUrl: json['SnapshotDownloadUrl'] as String?,
+    snapshotId: json['SnapshotId'] as String?,
   );
 }
 
 GetDocumentResult _$GetDocumentResultFromJson(Map<String, dynamic> json) {
   return GetDocumentResult(
-    attachmentsContent: (json['AttachmentsContent'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttachmentContent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    content: json['Content'] as String,
+    attachmentsContent: (json['AttachmentsContent'] as List<dynamic>?)
+        ?.map((e) => AttachmentContent.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    content: json['Content'] as String?,
     documentFormat:
         _$enumDecodeNullable(_$DocumentFormatEnumMap, json['DocumentFormat']),
     documentType:
         _$enumDecodeNullable(_$DocumentTypeEnumMap, json['DocumentType']),
-    documentVersion: json['DocumentVersion'] as String,
-    name: json['Name'] as String,
-    requires: (json['Requires'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentRequires.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentVersion: json['DocumentVersion'] as String?,
+    name: json['Name'] as String?,
+    requires: (json['Requires'] as List<dynamic>?)
+        ?.map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+        .toList(),
     reviewStatus:
         _$enumDecodeNullable(_$ReviewStatusEnumMap, json['ReviewStatus']),
     status: _$enumDecodeNullable(_$DocumentStatusEnumMap, json['Status']),
-    statusInformation: json['StatusInformation'] as String,
-    versionName: json['VersionName'] as String,
+    statusInformation: json['StatusInformation'] as String?,
+    versionName: json['VersionName'] as String?,
   );
 }
 
 GetInventoryResult _$GetInventoryResultFromJson(Map<String, dynamic> json) {
   return GetInventoryResult(
-    entities: (json['Entities'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InventoryResultEntity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    entities: (json['Entities'] as List<dynamic>?)
+        ?.map((e) => InventoryResultEntity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetInventorySchemaResult _$GetInventorySchemaResultFromJson(
     Map<String, dynamic> json) {
   return GetInventorySchemaResult(
-    nextToken: json['NextToken'] as String,
-    schemas: (json['Schemas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InventoryItemSchema.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    schemas: (json['Schemas'] as List<dynamic>?)
+        ?.map((e) => InventoryItemSchema.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2047,9 +1933,10 @@ GetMaintenanceWindowExecutionResult
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    taskIds: (json['TaskIds'] as List)?.map((e) => e as String)?.toList(),
-    windowExecutionId: json['WindowExecutionId'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    taskIds:
+        (json['TaskIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    windowExecutionId: json['WindowExecutionId'] as String?,
   );
 }
 
@@ -2069,19 +1956,19 @@ GetMaintenanceWindowExecutionTaskInvocationResult
         Map<String, dynamic> json) {
   return GetMaintenanceWindowExecutionTaskInvocationResult(
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    executionId: json['ExecutionId'] as String,
-    invocationId: json['InvocationId'] as String,
-    ownerInformation: json['OwnerInformation'] as String,
-    parameters: json['Parameters'] as String,
+    executionId: json['ExecutionId'] as String?,
+    invocationId: json['InvocationId'] as String?,
+    ownerInformation: json['OwnerInformation'] as String?,
+    parameters: json['Parameters'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    taskExecutionId: json['TaskExecutionId'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    taskExecutionId: json['TaskExecutionId'] as String?,
     taskType: _$enumDecodeNullable(
         _$MaintenanceWindowTaskTypeEnumMap, json['TaskType']),
-    windowExecutionId: json['WindowExecutionId'] as String,
-    windowTargetId: json['WindowTargetId'] as String,
+    windowExecutionId: json['WindowExecutionId'] as String?,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
@@ -2097,86 +1984,81 @@ GetMaintenanceWindowExecutionTaskResult
         Map<String, dynamic> json) {
   return GetMaintenanceWindowExecutionTaskResult(
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    priority: json['Priority'] as int,
-    serviceRole: json['ServiceRole'] as String,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    priority: json['Priority'] as int?,
+    serviceRole: json['ServiceRole'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    taskArn: json['TaskArn'] as String,
-    taskExecutionId: json['TaskExecutionId'] as String,
-    taskParameters: (json['TaskParameters'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
+    statusDetails: json['StatusDetails'] as String?,
+    taskArn: json['TaskArn'] as String?,
+    taskExecutionId: json['TaskExecutionId'] as String?,
+    taskParameters: (json['TaskParameters'] as List<dynamic>?)
+        ?.map((e) => (e as Map<String, dynamic>).map(
               (k, e) => MapEntry(
                   k,
-                  e == null
-                      ? null
-                      : MaintenanceWindowTaskParameterValueExpression.fromJson(
-                          e as Map<String, dynamic>)),
+                  MaintenanceWindowTaskParameterValueExpression.fromJson(
+                      e as Map<String, dynamic>)),
             ))
-        ?.toList(),
+        .toList(),
     type:
         _$enumDecodeNullable(_$MaintenanceWindowTaskTypeEnumMap, json['Type']),
-    windowExecutionId: json['WindowExecutionId'] as String,
+    windowExecutionId: json['WindowExecutionId'] as String?,
   );
 }
 
 GetMaintenanceWindowResult _$GetMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return GetMaintenanceWindowResult(
-    allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool,
+    allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    cutoff: json['Cutoff'] as int,
-    description: json['Description'] as String,
-    duration: json['Duration'] as int,
-    enabled: json['Enabled'] as bool,
-    endDate: json['EndDate'] as String,
+    cutoff: json['Cutoff'] as int?,
+    description: json['Description'] as String?,
+    duration: json['Duration'] as int?,
+    enabled: json['Enabled'] as bool?,
+    endDate: json['EndDate'] as String?,
     modifiedDate: const UnixDateTimeConverter().fromJson(json['ModifiedDate']),
-    name: json['Name'] as String,
-    nextExecutionTime: json['NextExecutionTime'] as String,
-    schedule: json['Schedule'] as String,
-    scheduleOffset: json['ScheduleOffset'] as int,
-    scheduleTimezone: json['ScheduleTimezone'] as String,
-    startDate: json['StartDate'] as String,
-    windowId: json['WindowId'] as String,
+    name: json['Name'] as String?,
+    nextExecutionTime: json['NextExecutionTime'] as String?,
+    schedule: json['Schedule'] as String?,
+    scheduleOffset: json['ScheduleOffset'] as int?,
+    scheduleTimezone: json['ScheduleTimezone'] as String?,
+    startDate: json['StartDate'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
 GetMaintenanceWindowTaskResult _$GetMaintenanceWindowTaskResultFromJson(
     Map<String, dynamic> json) {
   return GetMaintenanceWindowTaskResult(
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     loggingInfo: json['LoggingInfo'] == null
         ? null
         : LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    name: json['Name'] as String,
-    priority: json['Priority'] as int,
-    serviceRoleArn: json['ServiceRoleArn'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    taskArn: json['TaskArn'] as String,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    name: json['Name'] as String?,
+    priority: json['Priority'] as int?,
+    serviceRoleArn: json['ServiceRoleArn'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    taskArn: json['TaskArn'] as String?,
     taskInvocationParameters: json['TaskInvocationParameters'] == null
         ? null
         : MaintenanceWindowTaskInvocationParameters.fromJson(
             json['TaskInvocationParameters'] as Map<String, dynamic>),
-    taskParameters: (json['TaskParameters'] as Map<String, dynamic>)?.map(
+    taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          e == null
-              ? null
-              : MaintenanceWindowTaskParameterValueExpression.fromJson(
-                  e as Map<String, dynamic>)),
+          MaintenanceWindowTaskParameterValueExpression.fromJson(
+              e as Map<String, dynamic>)),
     ),
     taskType: _$enumDecodeNullable(
         _$MaintenanceWindowTaskTypeEnumMap, json['TaskType']),
-    windowId: json['WindowId'] as String,
-    windowTaskId: json['WindowTaskId'] as String,
+    windowId: json['WindowId'] as String?,
+    windowTaskId: json['WindowTaskId'] as String?,
   );
 }
 
@@ -2190,34 +2072,30 @@ GetOpsItemResponse _$GetOpsItemResponseFromJson(Map<String, dynamic> json) {
 
 GetOpsMetadataResult _$GetOpsMetadataResultFromJson(Map<String, dynamic> json) {
   return GetOpsMetadataResult(
-    metadata: (json['Metadata'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : MetadataValue.fromJson(e as Map<String, dynamic>)),
+    metadata: (json['Metadata'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, MetadataValue.fromJson(e as Map<String, dynamic>)),
     ),
-    nextToken: json['NextToken'] as String,
-    resourceId: json['ResourceId'] as String,
+    nextToken: json['NextToken'] as String?,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
 GetOpsSummaryResult _$GetOpsSummaryResultFromJson(Map<String, dynamic> json) {
   return GetOpsSummaryResult(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : OpsEntity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    entities: (json['Entities'] as List<dynamic>?)
+        ?.map((e) => OpsEntity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetParameterHistoryResult _$GetParameterHistoryResultFromJson(
     Map<String, dynamic> json) {
   return GetParameterHistoryResult(
-    nextToken: json['NextToken'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParameterHistory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => ParameterHistory.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2232,32 +2110,31 @@ GetParameterResult _$GetParameterResultFromJson(Map<String, dynamic> json) {
 GetParametersByPathResult _$GetParametersByPathResultFromJson(
     Map<String, dynamic> json) {
   return GetParametersByPathResult(
-    nextToken: json['NextToken'] as String,
-    parameters: (json['Parameters'] as List)
-        ?.map((e) =>
-            e == null ? null : Parameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetParametersResult _$GetParametersResultFromJson(Map<String, dynamic> json) {
   return GetParametersResult(
-    invalidParameters:
-        (json['InvalidParameters'] as List)?.map((e) => e as String)?.toList(),
-    parameters: (json['Parameters'] as List)
-        ?.map((e) =>
-            e == null ? null : Parameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    invalidParameters: (json['InvalidParameters'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetPatchBaselineForPatchGroupResult
     _$GetPatchBaselineForPatchGroupResultFromJson(Map<String, dynamic> json) {
   return GetPatchBaselineForPatchGroupResult(
-    baselineId: json['BaselineId'] as String,
+    baselineId: json['BaselineId'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
-    patchGroup: json['PatchGroup'] as String,
+    patchGroup: json['PatchGroup'] as String?,
   );
 }
 
@@ -2268,33 +2145,35 @@ GetPatchBaselineResult _$GetPatchBaselineResultFromJson(
         ? null
         : PatchRuleGroup.fromJson(
             json['ApprovalRules'] as Map<String, dynamic>),
-    approvedPatches:
-        (json['ApprovedPatches'] as List)?.map((e) => e as String)?.toList(),
+    approvedPatches: (json['ApprovedPatches'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     approvedPatchesComplianceLevel: _$enumDecodeNullable(
         _$PatchComplianceLevelEnumMap, json['ApprovedPatchesComplianceLevel']),
     approvedPatchesEnableNonSecurity:
-        json['ApprovedPatchesEnableNonSecurity'] as bool,
-    baselineId: json['BaselineId'] as String,
+        json['ApprovedPatchesEnableNonSecurity'] as bool?,
+    baselineId: json['BaselineId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     globalFilters: json['GlobalFilters'] == null
         ? null
         : PatchFilterGroup.fromJson(
             json['GlobalFilters'] as Map<String, dynamic>),
     modifiedDate: const UnixDateTimeConverter().fromJson(json['ModifiedDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
-    patchGroups:
-        (json['PatchGroups'] as List)?.map((e) => e as String)?.toList(),
-    rejectedPatches:
-        (json['RejectedPatches'] as List)?.map((e) => e as String)?.toList(),
+    patchGroups: (json['PatchGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    rejectedPatches: (json['RejectedPatches'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     rejectedPatchesAction: _$enumDecodeNullable(
         _$PatchActionEnumMap, json['RejectedPatchesAction']),
-    sources: (json['Sources'] as List)
-        ?.map((e) =>
-            e == null ? null : PatchSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    sources: (json['Sources'] as List<dynamic>?)
+        ?.map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2325,10 +2204,10 @@ GetServiceSettingResult _$GetServiceSettingResultFromJson(
 InstanceAggregatedAssociationOverview
     _$InstanceAggregatedAssociationOverviewFromJson(Map<String, dynamic> json) {
   return InstanceAggregatedAssociationOverview(
-    detailedStatus: json['DetailedStatus'] as String,
+    detailedStatus: json['DetailedStatus'] as String?,
     instanceAssociationStatusAggregatedCount:
         (json['InstanceAssociationStatusAggregatedCount']
-                as Map<String, dynamic>)
+                as Map<String, dynamic>?)
             ?.map(
       (k, e) => MapEntry(k, e as int),
     ),
@@ -2337,10 +2216,10 @@ InstanceAggregatedAssociationOverview
 
 InstanceAssociation _$InstanceAssociationFromJson(Map<String, dynamic> json) {
   return InstanceAssociation(
-    associationId: json['AssociationId'] as String,
-    associationVersion: json['AssociationVersion'] as String,
-    content: json['Content'] as String,
-    instanceId: json['InstanceId'] as String,
+    associationId: json['AssociationId'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
+    content: json['Content'] as String?,
+    instanceId: json['InstanceId'] as String?,
   );
 }
 
@@ -2379,51 +2258,51 @@ InstanceAssociationOutputUrl _$InstanceAssociationOutputUrlFromJson(
 InstanceAssociationStatusInfo _$InstanceAssociationStatusInfoFromJson(
     Map<String, dynamic> json) {
   return InstanceAssociationStatusInfo(
-    associationId: json['AssociationId'] as String,
-    associationName: json['AssociationName'] as String,
-    associationVersion: json['AssociationVersion'] as String,
-    detailedStatus: json['DetailedStatus'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    errorCode: json['ErrorCode'] as String,
+    associationId: json['AssociationId'] as String?,
+    associationName: json['AssociationName'] as String?,
+    associationVersion: json['AssociationVersion'] as String?,
+    detailedStatus: json['DetailedStatus'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
+    errorCode: json['ErrorCode'] as String?,
     executionDate:
         const UnixDateTimeConverter().fromJson(json['ExecutionDate']),
-    executionSummary: json['ExecutionSummary'] as String,
-    instanceId: json['InstanceId'] as String,
-    name: json['Name'] as String,
+    executionSummary: json['ExecutionSummary'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    name: json['Name'] as String?,
     outputUrl: json['OutputUrl'] == null
         ? null
         : InstanceAssociationOutputUrl.fromJson(
             json['OutputUrl'] as Map<String, dynamic>),
-    status: json['Status'] as String,
+    status: json['Status'] as String?,
   );
 }
 
 InstanceInformation _$InstanceInformationFromJson(Map<String, dynamic> json) {
   return InstanceInformation(
-    activationId: json['ActivationId'] as String,
-    agentVersion: json['AgentVersion'] as String,
+    activationId: json['ActivationId'] as String?,
+    agentVersion: json['AgentVersion'] as String?,
     associationOverview: json['AssociationOverview'] == null
         ? null
         : InstanceAggregatedAssociationOverview.fromJson(
             json['AssociationOverview'] as Map<String, dynamic>),
-    associationStatus: json['AssociationStatus'] as String,
-    computerName: json['ComputerName'] as String,
-    iPAddress: json['IPAddress'] as String,
-    iamRole: json['IamRole'] as String,
-    instanceId: json['InstanceId'] as String,
-    isLatestVersion: json['IsLatestVersion'] as bool,
+    associationStatus: json['AssociationStatus'] as String?,
+    computerName: json['ComputerName'] as String?,
+    iPAddress: json['IPAddress'] as String?,
+    iamRole: json['IamRole'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    isLatestVersion: json['IsLatestVersion'] as bool?,
     lastAssociationExecutionDate: const UnixDateTimeConverter()
         .fromJson(json['LastAssociationExecutionDate']),
     lastPingDateTime:
         const UnixDateTimeConverter().fromJson(json['LastPingDateTime']),
     lastSuccessfulAssociationExecutionDate: const UnixDateTimeConverter()
         .fromJson(json['LastSuccessfulAssociationExecutionDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     pingStatus: _$enumDecodeNullable(_$PingStatusEnumMap, json['PingStatus']),
-    platformName: json['PlatformName'] as String,
+    platformName: json['PlatformName'] as String?,
     platformType:
         _$enumDecodeNullable(_$PlatformTypeEnumMap, json['PlatformType']),
-    platformVersion: json['PlatformVersion'] as String,
+    platformVersion: json['PlatformVersion'] as String?,
     registrationDate:
         const UnixDateTimeConverter().fromJson(json['RegistrationDate']),
     resourceType:
@@ -2444,19 +2323,11 @@ const _$ResourceTypeEnumMap = {
 };
 
 Map<String, dynamic> _$InstanceInformationFilterToJson(
-    InstanceInformationFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', _$InstanceInformationFilterKeyEnumMap[instance.key]);
-  writeNotNull('valueSet', instance.valueSet);
-  return val;
-}
+        InstanceInformationFilter instance) =>
+    <String, dynamic>{
+      'key': _$InstanceInformationFilterKeyEnumMap[instance.key],
+      'valueSet': instance.valueSet,
+    };
 
 const _$InstanceInformationFilterKeyEnumMap = {
   InstanceInformationFilterKey.instanceIds: 'InstanceIds',
@@ -2470,46 +2341,35 @@ const _$InstanceInformationFilterKeyEnumMap = {
 };
 
 Map<String, dynamic> _$InstanceInformationStringFilterToJson(
-    InstanceInformationStringFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+        InstanceInformationStringFilter instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Values': instance.values,
+    };
 
 InstancePatchState _$InstancePatchStateFromJson(Map<String, dynamic> json) {
   return InstancePatchState(
     baselineId: json['BaselineId'] as String,
     instanceId: json['InstanceId'] as String,
-    operation:
-        _$enumDecodeNullable(_$PatchOperationTypeEnumMap, json['Operation']),
-    operationEndTime:
-        const UnixDateTimeConverter().fromJson(json['OperationEndTime']),
-    operationStartTime:
-        const UnixDateTimeConverter().fromJson(json['OperationStartTime']),
+    operation: _$enumDecode(_$PatchOperationTypeEnumMap, json['Operation']),
+    operationEndTime: DateTime.parse(json['OperationEndTime'] as String),
+    operationStartTime: DateTime.parse(json['OperationStartTime'] as String),
     patchGroup: json['PatchGroup'] as String,
-    failedCount: json['FailedCount'] as int,
-    installOverrideList: json['InstallOverrideList'] as String,
-    installedCount: json['InstalledCount'] as int,
-    installedOtherCount: json['InstalledOtherCount'] as int,
-    installedPendingRebootCount: json['InstalledPendingRebootCount'] as int,
-    installedRejectedCount: json['InstalledRejectedCount'] as int,
+    failedCount: json['FailedCount'] as int?,
+    installOverrideList: json['InstallOverrideList'] as String?,
+    installedCount: json['InstalledCount'] as int?,
+    installedOtherCount: json['InstalledOtherCount'] as int?,
+    installedPendingRebootCount: json['InstalledPendingRebootCount'] as int?,
+    installedRejectedCount: json['InstalledRejectedCount'] as int?,
     lastNoRebootInstallOperationTime: const UnixDateTimeConverter()
         .fromJson(json['LastNoRebootInstallOperationTime']),
-    missingCount: json['MissingCount'] as int,
-    notApplicableCount: json['NotApplicableCount'] as int,
-    ownerInformation: json['OwnerInformation'] as String,
+    missingCount: json['MissingCount'] as int?,
+    notApplicableCount: json['NotApplicableCount'] as int?,
+    ownerInformation: json['OwnerInformation'] as String?,
     rebootOption:
         _$enumDecodeNullable(_$RebootOptionEnumMap, json['RebootOption']),
-    snapshotId: json['SnapshotId'] as String,
-    unreportedNotApplicableCount: json['UnreportedNotApplicableCount'] as int,
+    snapshotId: json['SnapshotId'] as String?,
+    unreportedNotApplicableCount: json['UnreportedNotApplicableCount'] as int?,
   );
 }
 
@@ -2524,20 +2384,12 @@ const _$RebootOptionEnumMap = {
 };
 
 Map<String, dynamic> _$InstancePatchStateFilterToJson(
-    InstancePatchStateFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Type', _$InstancePatchStateOperatorTypeEnumMap[instance.type]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+        InstancePatchStateFilter instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Type': _$InstancePatchStateOperatorTypeEnumMap[instance.type],
+      'Values': instance.values,
+    };
 
 const _$InstancePatchStateOperatorTypeEnumMap = {
   InstancePatchStateOperatorType.equal: 'Equal',
@@ -2556,16 +2408,16 @@ Map<String, dynamic> _$InventoryAggregatorToJson(InventoryAggregator instance) {
   }
 
   writeNotNull(
-      'Aggregators', instance.aggregators?.map((e) => e?.toJson())?.toList());
+      'Aggregators', instance.aggregators?.map((e) => e.toJson()).toList());
   writeNotNull('Expression', instance.expression);
-  writeNotNull('Groups', instance.groups?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Groups', instance.groups?.map((e) => e.toJson()).toList());
   return val;
 }
 
 InventoryDeletionStatusItem _$InventoryDeletionStatusItemFromJson(
     Map<String, dynamic> json) {
   return InventoryDeletionStatusItem(
-    deletionId: json['DeletionId'] as String,
+    deletionId: json['DeletionId'] as String?,
     deletionStartTime:
         const UnixDateTimeConverter().fromJson(json['DeletionStartTime']),
     deletionSummary: json['DeletionSummary'] == null
@@ -2574,10 +2426,10 @@ InventoryDeletionStatusItem _$InventoryDeletionStatusItemFromJson(
             json['DeletionSummary'] as Map<String, dynamic>),
     lastStatus: _$enumDecodeNullable(
         _$InventoryDeletionStatusEnumMap, json['LastStatus']),
-    lastStatusMessage: json['LastStatusMessage'] as String,
+    lastStatusMessage: json['LastStatusMessage'] as String?,
     lastStatusUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastStatusUpdateTime']),
-    typeName: json['TypeName'] as String,
+    typeName: json['TypeName'] as String?,
   );
 }
 
@@ -2589,27 +2441,29 @@ const _$InventoryDeletionStatusEnumMap = {
 InventoryDeletionSummary _$InventoryDeletionSummaryFromJson(
     Map<String, dynamic> json) {
   return InventoryDeletionSummary(
-    remainingCount: json['RemainingCount'] as int,
-    summaryItems: (json['SummaryItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InventoryDeletionSummaryItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalCount: json['TotalCount'] as int,
+    remainingCount: json['RemainingCount'] as int?,
+    summaryItems: (json['SummaryItems'] as List<dynamic>?)
+        ?.map((e) =>
+            InventoryDeletionSummaryItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['TotalCount'] as int?,
   );
 }
 
 InventoryDeletionSummaryItem _$InventoryDeletionSummaryItemFromJson(
     Map<String, dynamic> json) {
   return InventoryDeletionSummaryItem(
-    count: json['Count'] as int,
-    remainingCount: json['RemainingCount'] as int,
-    version: json['Version'] as String,
+    count: json['Count'] as int?,
+    remainingCount: json['RemainingCount'] as int?,
+    version: json['Version'] as String?,
   );
 }
 
 Map<String, dynamic> _$InventoryFilterToJson(InventoryFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+    'Values': instance.values,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2617,8 +2471,6 @@ Map<String, dynamic> _$InventoryFilterToJson(InventoryFilter instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
-  writeNotNull('Values', instance.values);
   writeNotNull('Type', _$InventoryQueryOperatorTypeEnumMap[instance.type]);
   return val;
 }
@@ -2632,22 +2484,18 @@ const _$InventoryQueryOperatorTypeEnumMap = {
   InventoryQueryOperatorType.exists: 'Exists',
 };
 
-Map<String, dynamic> _$InventoryGroupToJson(InventoryGroup instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Name', instance.name);
-  return val;
-}
+Map<String, dynamic> _$InventoryGroupToJson(InventoryGroup instance) =>
+    <String, dynamic>{
+      'Filters': instance.filters.map((e) => e.toJson()).toList(),
+      'Name': instance.name,
+    };
 
 Map<String, dynamic> _$InventoryItemToJson(InventoryItem instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'CaptureTime': instance.captureTime,
+    'SchemaVersion': instance.schemaVersion,
+    'TypeName': instance.typeName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2655,9 +2503,6 @@ Map<String, dynamic> _$InventoryItemToJson(InventoryItem instance) {
     }
   }
 
-  writeNotNull('CaptureTime', instance.captureTime);
-  writeNotNull('SchemaVersion', instance.schemaVersion);
-  writeNotNull('TypeName', instance.typeName);
   writeNotNull('Content', instance.content);
   writeNotNull('ContentHash', instance.contentHash);
   writeNotNull('Context', instance.context);
@@ -2667,8 +2512,8 @@ Map<String, dynamic> _$InventoryItemToJson(InventoryItem instance) {
 InventoryItemAttribute _$InventoryItemAttributeFromJson(
     Map<String, dynamic> json) {
   return InventoryItemAttribute(
-    dataType: _$enumDecodeNullable(
-        _$InventoryAttributeDataTypeEnumMap, json['DataType']),
+    dataType:
+        _$enumDecode(_$InventoryAttributeDataTypeEnumMap, json['DataType']),
     name: json['Name'] as String,
   );
 }
@@ -2680,230 +2525,202 @@ const _$InventoryAttributeDataTypeEnumMap = {
 
 InventoryItemSchema _$InventoryItemSchemaFromJson(Map<String, dynamic> json) {
   return InventoryItemSchema(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InventoryItemAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>)
+        .map((e) => InventoryItemAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
     typeName: json['TypeName'] as String,
-    displayName: json['DisplayName'] as String,
-    version: json['Version'] as String,
+    displayName: json['DisplayName'] as String?,
+    version: json['Version'] as String?,
   );
 }
 
 InventoryResultEntity _$InventoryResultEntityFromJson(
     Map<String, dynamic> json) {
   return InventoryResultEntity(
-    data: (json['Data'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : InventoryResultItem.fromJson(e as Map<String, dynamic>)),
+    data: (json['Data'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, InventoryResultItem.fromJson(e as Map<String, dynamic>)),
     ),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
   );
 }
 
 InventoryResultItem _$InventoryResultItemFromJson(Map<String, dynamic> json) {
   return InventoryResultItem(
-    content: (json['Content'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) => MapEntry(k, e as String),
-            ))
-        ?.toList(),
+    content: (json['Content'] as List<dynamic>)
+        .map((e) => Map<String, String>.from(e as Map))
+        .toList(),
     schemaVersion: json['SchemaVersion'] as String,
     typeName: json['TypeName'] as String,
-    captureTime: json['CaptureTime'] as String,
-    contentHash: json['ContentHash'] as String,
+    captureTime: json['CaptureTime'] as String?,
+    contentHash: json['ContentHash'] as String?,
   );
 }
 
 LabelParameterVersionResult _$LabelParameterVersionResultFromJson(
     Map<String, dynamic> json) {
   return LabelParameterVersionResult(
-    invalidLabels:
-        (json['InvalidLabels'] as List)?.map((e) => e as String)?.toList(),
-    parameterVersion: json['ParameterVersion'] as int,
+    invalidLabels: (json['InvalidLabels'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    parameterVersion: json['ParameterVersion'] as int?,
   );
 }
 
 ListAssociationVersionsResult _$ListAssociationVersionsResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociationVersionsResult(
-    associationVersions: (json['AssociationVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AssociationVersionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    associationVersions: (json['AssociationVersions'] as List<dynamic>?)
+        ?.map((e) => AssociationVersionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAssociationsResult _$ListAssociationsResultFromJson(
     Map<String, dynamic> json) {
   return ListAssociationsResult(
-    associations: (json['Associations'] as List)
-        ?.map((e) =>
-            e == null ? null : Association.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    associations: (json['Associations'] as List<dynamic>?)
+        ?.map((e) => Association.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCommandInvocationsResult _$ListCommandInvocationsResultFromJson(
     Map<String, dynamic> json) {
   return ListCommandInvocationsResult(
-    commandInvocations: (json['CommandInvocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CommandInvocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    commandInvocations: (json['CommandInvocations'] as List<dynamic>?)
+        ?.map((e) => CommandInvocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCommandsResult _$ListCommandsResultFromJson(Map<String, dynamic> json) {
   return ListCommandsResult(
-    commands: (json['Commands'] as List)
-        ?.map((e) =>
-            e == null ? null : Command.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    commands: (json['Commands'] as List<dynamic>?)
+        ?.map((e) => Command.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListComplianceItemsResult _$ListComplianceItemsResultFromJson(
     Map<String, dynamic> json) {
   return ListComplianceItemsResult(
-    complianceItems: (json['ComplianceItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ComplianceItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    complianceItems: (json['ComplianceItems'] as List<dynamic>?)
+        ?.map((e) => ComplianceItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListComplianceSummariesResult _$ListComplianceSummariesResultFromJson(
     Map<String, dynamic> json) {
   return ListComplianceSummariesResult(
-    complianceSummaryItems: (json['ComplianceSummaryItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    complianceSummaryItems: (json['ComplianceSummaryItems'] as List<dynamic>?)
+        ?.map((e) => ComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDocumentMetadataHistoryResponse
     _$ListDocumentMetadataHistoryResponseFromJson(Map<String, dynamic> json) {
   return ListDocumentMetadataHistoryResponse(
-    author: json['Author'] as String,
-    documentVersion: json['DocumentVersion'] as String,
+    author: json['Author'] as String?,
+    documentVersion: json['DocumentVersion'] as String?,
     metadata: json['Metadata'] == null
         ? null
         : DocumentMetadataResponseInfo.fromJson(
             json['Metadata'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    nextToken: json['NextToken'] as String,
+    name: json['Name'] as String?,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDocumentVersionsResult _$ListDocumentVersionsResultFromJson(
     Map<String, dynamic> json) {
   return ListDocumentVersionsResult(
-    documentVersions: (json['DocumentVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentVersionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    documentVersions: (json['DocumentVersions'] as List<dynamic>?)
+        ?.map((e) => DocumentVersionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDocumentsResult _$ListDocumentsResultFromJson(Map<String, dynamic> json) {
   return ListDocumentsResult(
-    documentIdentifiers: (json['DocumentIdentifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    documentIdentifiers: (json['DocumentIdentifiers'] as List<dynamic>?)
+        ?.map((e) => DocumentIdentifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListInventoryEntriesResult _$ListInventoryEntriesResultFromJson(
     Map<String, dynamic> json) {
   return ListInventoryEntriesResult(
-    captureTime: json['CaptureTime'] as String,
-    entries: (json['Entries'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) => MapEntry(k, e as String),
-            ))
-        ?.toList(),
-    instanceId: json['InstanceId'] as String,
-    nextToken: json['NextToken'] as String,
-    schemaVersion: json['SchemaVersion'] as String,
-    typeName: json['TypeName'] as String,
+    captureTime: json['CaptureTime'] as String?,
+    entries: (json['Entries'] as List<dynamic>?)
+        ?.map((e) => Map<String, String>.from(e as Map))
+        .toList(),
+    instanceId: json['InstanceId'] as String?,
+    nextToken: json['NextToken'] as String?,
+    schemaVersion: json['SchemaVersion'] as String?,
+    typeName: json['TypeName'] as String?,
   );
 }
 
 ListOpsItemEventsResponse _$ListOpsItemEventsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOpsItemEventsResponse(
-    nextToken: json['NextToken'] as String,
-    summaries: (json['Summaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OpsItemEventSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    summaries: (json['Summaries'] as List<dynamic>?)
+        ?.map((e) => OpsItemEventSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListOpsMetadataResult _$ListOpsMetadataResultFromJson(
     Map<String, dynamic> json) {
   return ListOpsMetadataResult(
-    nextToken: json['NextToken'] as String,
-    opsMetadataList: (json['OpsMetadataList'] as List)
-        ?.map((e) =>
-            e == null ? null : OpsMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    opsMetadataList: (json['OpsMetadataList'] as List<dynamic>?)
+        ?.map((e) => OpsMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourceComplianceSummariesResult
     _$ListResourceComplianceSummariesResultFromJson(Map<String, dynamic> json) {
   return ListResourceComplianceSummariesResult(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     resourceComplianceSummaryItems: (json['ResourceComplianceSummaryItems']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ResourceComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourceDataSyncResult _$ListResourceDataSyncResultFromJson(
     Map<String, dynamic> json) {
   return ListResourceDataSyncResult(
-    nextToken: json['NextToken'] as String,
-    resourceDataSyncItems: (json['ResourceDataSyncItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceDataSyncItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    resourceDataSyncItems: (json['ResourceDataSyncItems'] as List<dynamic>?)
+        ?.map((e) => ResourceDataSyncItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResult(
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2911,12 +2728,15 @@ LoggingInfo _$LoggingInfoFromJson(Map<String, dynamic> json) {
   return LoggingInfo(
     s3BucketName: json['S3BucketName'] as String,
     s3Region: json['S3Region'] as String,
-    s3KeyPrefix: json['S3KeyPrefix'] as String,
+    s3KeyPrefix: json['S3KeyPrefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$LoggingInfoToJson(LoggingInfo instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'S3BucketName': instance.s3BucketName,
+    'S3Region': instance.s3Region,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2924,8 +2744,6 @@ Map<String, dynamic> _$LoggingInfoToJson(LoggingInfo instance) {
     }
   }
 
-  writeNotNull('S3BucketName', instance.s3BucketName);
-  writeNotNull('S3Region', instance.s3Region);
   writeNotNull('S3KeyPrefix', instance.s3KeyPrefix);
   return val;
 }
@@ -2933,9 +2751,10 @@ Map<String, dynamic> _$LoggingInfoToJson(LoggingInfo instance) {
 MaintenanceWindowAutomationParameters
     _$MaintenanceWindowAutomationParametersFromJson(Map<String, dynamic> json) {
   return MaintenanceWindowAutomationParameters(
-    documentVersion: json['DocumentVersion'] as String,
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    documentVersion: json['DocumentVersion'] as String?,
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
   );
 }
@@ -2962,9 +2781,9 @@ MaintenanceWindowExecution _$MaintenanceWindowExecutionFromJson(
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    windowExecutionId: json['WindowExecutionId'] as String,
-    windowId: json['WindowId'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    windowExecutionId: json['WindowExecutionId'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
@@ -2976,12 +2795,12 @@ MaintenanceWindowExecutionTaskIdentity
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    taskArn: json['TaskArn'] as String,
-    taskExecutionId: json['TaskExecutionId'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    taskArn: json['TaskArn'] as String?,
+    taskExecutionId: json['TaskExecutionId'] as String?,
     taskType: _$enumDecodeNullable(
         _$MaintenanceWindowTaskTypeEnumMap, json['TaskType']),
-    windowExecutionId: json['WindowExecutionId'] as String,
+    windowExecutionId: json['WindowExecutionId'] as String?,
   );
 }
 
@@ -2990,19 +2809,19 @@ MaintenanceWindowExecutionTaskInvocationIdentity
         Map<String, dynamic> json) {
   return MaintenanceWindowExecutionTaskInvocationIdentity(
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    executionId: json['ExecutionId'] as String,
-    invocationId: json['InvocationId'] as String,
-    ownerInformation: json['OwnerInformation'] as String,
-    parameters: json['Parameters'] as String,
+    executionId: json['ExecutionId'] as String?,
+    invocationId: json['InvocationId'] as String?,
+    ownerInformation: json['OwnerInformation'] as String?,
+    parameters: json['Parameters'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MaintenanceWindowExecutionStatusEnumMap, json['Status']),
-    statusDetails: json['StatusDetails'] as String,
-    taskExecutionId: json['TaskExecutionId'] as String,
+    statusDetails: json['StatusDetails'] as String?,
+    taskExecutionId: json['TaskExecutionId'] as String?,
     taskType: _$enumDecodeNullable(
         _$MaintenanceWindowTaskTypeEnumMap, json['TaskType']),
-    windowExecutionId: json['WindowExecutionId'] as String,
-    windowTargetId: json['WindowTargetId'] as String,
+    windowExecutionId: json['WindowExecutionId'] as String?,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
@@ -3024,35 +2843,36 @@ Map<String, dynamic> _$MaintenanceWindowFilterToJson(
 MaintenanceWindowIdentity _$MaintenanceWindowIdentityFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowIdentity(
-    cutoff: json['Cutoff'] as int,
-    description: json['Description'] as String,
-    duration: json['Duration'] as int,
-    enabled: json['Enabled'] as bool,
-    endDate: json['EndDate'] as String,
-    name: json['Name'] as String,
-    nextExecutionTime: json['NextExecutionTime'] as String,
-    schedule: json['Schedule'] as String,
-    scheduleOffset: json['ScheduleOffset'] as int,
-    scheduleTimezone: json['ScheduleTimezone'] as String,
-    startDate: json['StartDate'] as String,
-    windowId: json['WindowId'] as String,
+    cutoff: json['Cutoff'] as int?,
+    description: json['Description'] as String?,
+    duration: json['Duration'] as int?,
+    enabled: json['Enabled'] as bool?,
+    endDate: json['EndDate'] as String?,
+    name: json['Name'] as String?,
+    nextExecutionTime: json['NextExecutionTime'] as String?,
+    schedule: json['Schedule'] as String?,
+    scheduleOffset: json['ScheduleOffset'] as int?,
+    scheduleTimezone: json['ScheduleTimezone'] as String?,
+    startDate: json['StartDate'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
 MaintenanceWindowIdentityForTarget _$MaintenanceWindowIdentityForTargetFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowIdentityForTarget(
-    name: json['Name'] as String,
-    windowId: json['WindowId'] as String,
+    name: json['Name'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
 MaintenanceWindowLambdaParameters _$MaintenanceWindowLambdaParametersFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowLambdaParameters(
-    clientContext: json['ClientContext'] as String,
-    payload: const Uint8ListConverter().fromJson(json['Payload'] as String),
-    qualifier: json['Qualifier'] as String,
+    clientContext: json['ClientContext'] as String?,
+    payload:
+        const Uint8ListNullableConverter().fromJson(json['Payload'] as String?),
+    qualifier: json['Qualifier'] as String?,
   );
 }
 
@@ -3067,7 +2887,8 @@ Map<String, dynamic> _$MaintenanceWindowLambdaParametersToJson(
   }
 
   writeNotNull('ClientContext', instance.clientContext);
-  writeNotNull('Payload', const Uint8ListConverter().toJson(instance.payload));
+  writeNotNull(
+      'Payload', const Uint8ListNullableConverter().toJson(instance.payload));
   writeNotNull('Qualifier', instance.qualifier);
   return val;
 }
@@ -3079,22 +2900,23 @@ MaintenanceWindowRunCommandParameters
         ? null
         : CloudWatchOutputConfig.fromJson(
             json['CloudWatchOutputConfig'] as Map<String, dynamic>),
-    comment: json['Comment'] as String,
-    documentHash: json['DocumentHash'] as String,
+    comment: json['Comment'] as String?,
+    documentHash: json['DocumentHash'] as String?,
     documentHashType: _$enumDecodeNullable(
         _$DocumentHashTypeEnumMap, json['DocumentHashType']),
-    documentVersion: json['DocumentVersion'] as String,
+    documentVersion: json['DocumentVersion'] as String?,
     notificationConfig: json['NotificationConfig'] == null
         ? null
         : NotificationConfig.fromJson(
             json['NotificationConfig'] as Map<String, dynamic>),
-    outputS3BucketName: json['OutputS3BucketName'] as String,
-    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String,
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    outputS3BucketName: json['OutputS3BucketName'] as String?,
+    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    serviceRoleArn: json['ServiceRoleArn'] as String,
-    timeoutSeconds: json['TimeoutSeconds'] as int,
+    serviceRoleArn: json['ServiceRoleArn'] as String?,
+    timeoutSeconds: json['TimeoutSeconds'] as int?,
   );
 }
 
@@ -3128,8 +2950,8 @@ MaintenanceWindowStepFunctionsParameters
     _$MaintenanceWindowStepFunctionsParametersFromJson(
         Map<String, dynamic> json) {
   return MaintenanceWindowStepFunctionsParameters(
-    input: json['Input'] as String,
-    name: json['Name'] as String,
+    input: json['Input'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -3151,17 +2973,16 @@ Map<String, dynamic> _$MaintenanceWindowStepFunctionsParametersToJson(
 MaintenanceWindowTarget _$MaintenanceWindowTargetFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowTarget(
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    ownerInformation: json['OwnerInformation'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    ownerInformation: json['OwnerInformation'] as String?,
     resourceType: _$enumDecodeNullable(
         _$MaintenanceWindowResourceTypeEnumMap, json['ResourceType']),
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    windowId: json['WindowId'] as String,
-    windowTargetId: json['WindowTargetId'] as String,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    windowId: json['WindowId'] as String?,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
@@ -3173,32 +2994,29 @@ const _$MaintenanceWindowResourceTypeEnumMap = {
 MaintenanceWindowTask _$MaintenanceWindowTaskFromJson(
     Map<String, dynamic> json) {
   return MaintenanceWindowTask(
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     loggingInfo: json['LoggingInfo'] == null
         ? null
         : LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    name: json['Name'] as String,
-    priority: json['Priority'] as int,
-    serviceRoleArn: json['ServiceRoleArn'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    taskArn: json['TaskArn'] as String,
-    taskParameters: (json['TaskParameters'] as Map<String, dynamic>)?.map(
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    name: json['Name'] as String?,
+    priority: json['Priority'] as int?,
+    serviceRoleArn: json['ServiceRoleArn'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    taskArn: json['TaskArn'] as String?,
+    taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          e == null
-              ? null
-              : MaintenanceWindowTaskParameterValueExpression.fromJson(
-                  e as Map<String, dynamic>)),
+          MaintenanceWindowTaskParameterValueExpression.fromJson(
+              e as Map<String, dynamic>)),
     ),
     type:
         _$enumDecodeNullable(_$MaintenanceWindowTaskTypeEnumMap, json['Type']),
-    windowId: json['WindowId'] as String,
-    windowTaskId: json['WindowTaskId'] as String,
+    windowId: json['WindowId'] as String?,
+    windowTaskId: json['WindowTaskId'] as String?,
   );
 }
 
@@ -3246,7 +3064,8 @@ MaintenanceWindowTaskParameterValueExpression
     _$MaintenanceWindowTaskParameterValueExpressionFromJson(
         Map<String, dynamic> json) {
   return MaintenanceWindowTaskParameterValueExpression(
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -3266,7 +3085,7 @@ Map<String, dynamic> _$MaintenanceWindowTaskParameterValueExpressionToJson(
 
 MetadataValue _$MetadataValueFromJson(Map<String, dynamic> json) {
   return MetadataValue(
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -3290,7 +3109,7 @@ ModifyDocumentPermissionResponse _$ModifyDocumentPermissionResponseFromJson(
 
 NonCompliantSummary _$NonCompliantSummaryFromJson(Map<String, dynamic> json) {
   return NonCompliantSummary(
-    nonCompliantCount: json['NonCompliantCount'] as int,
+    nonCompliantCount: json['NonCompliantCount'] as int?,
     severitySummary: json['SeveritySummary'] == null
         ? null
         : SeveritySummary.fromJson(
@@ -3300,10 +3119,10 @@ NonCompliantSummary _$NonCompliantSummaryFromJson(Map<String, dynamic> json) {
 
 NotificationConfig _$NotificationConfigFromJson(Map<String, dynamic> json) {
   return NotificationConfig(
-    notificationArn: json['NotificationArn'] as String,
-    notificationEvents: (json['NotificationEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$NotificationEventEnumMap, e))
-        ?.toList(),
+    notificationArn: json['NotificationArn'] as String?,
+    notificationEvents: (json['NotificationEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$NotificationEventEnumMap, e))
+        .toList(),
     notificationType: _$enumDecodeNullable(
         _$NotificationTypeEnumMap, json['NotificationType']),
   );
@@ -3323,7 +3142,7 @@ Map<String, dynamic> _$NotificationConfigToJson(NotificationConfig instance) {
       'NotificationEvents',
       instance.notificationEvents
           ?.map((e) => _$NotificationEventEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull(
       'NotificationType', _$NotificationTypeEnumMap[instance.notificationType]);
   return val;
@@ -3354,9 +3173,9 @@ Map<String, dynamic> _$OpsAggregatorToJson(OpsAggregator instance) {
 
   writeNotNull('AggregatorType', instance.aggregatorType);
   writeNotNull(
-      'Aggregators', instance.aggregators?.map((e) => e?.toJson())?.toList());
+      'Aggregators', instance.aggregators?.map((e) => e.toJson()).toList());
   writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull('Filters', instance.filters?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Filters', instance.filters?.map((e) => e.toJson()).toList());
   writeNotNull('TypeName', instance.typeName);
   writeNotNull('Values', instance.values);
   return val;
@@ -3364,27 +3183,27 @@ Map<String, dynamic> _$OpsAggregatorToJson(OpsAggregator instance) {
 
 OpsEntity _$OpsEntityFromJson(Map<String, dynamic> json) {
   return OpsEntity(
-    data: (json['Data'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
-          e == null ? null : OpsEntityItem.fromJson(e as Map<String, dynamic>)),
+    data: (json['Data'] as Map<String, dynamic>?)?.map(
+      (k, e) => MapEntry(k, OpsEntityItem.fromJson(e as Map<String, dynamic>)),
     ),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
   );
 }
 
 OpsEntityItem _$OpsEntityItemFromJson(Map<String, dynamic> json) {
   return OpsEntityItem(
-    captureTime: json['CaptureTime'] as String,
-    content: (json['Content'] as List)
-        ?.map((e) => (e as Map<String, dynamic>)?.map(
-              (k, e) => MapEntry(k, e as String),
-            ))
-        ?.toList(),
+    captureTime: json['CaptureTime'] as String?,
+    content: (json['Content'] as List<dynamic>?)
+        ?.map((e) => Map<String, String>.from(e as Map))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$OpsFilterToJson(OpsFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+    'Values': instance.values,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3392,8 +3211,6 @@ Map<String, dynamic> _$OpsFilterToJson(OpsFilter instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
-  writeNotNull('Values', instance.values);
   writeNotNull('Type', _$OpsFilterOperatorTypeEnumMap[instance.type]);
   return val;
 }
@@ -3413,42 +3230,35 @@ OpsItem _$OpsItemFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['ActualEndTime']),
     actualStartTime:
         const UnixDateTimeConverter().fromJson(json['ActualStartTime']),
-    category: json['Category'] as String,
-    createdBy: json['CreatedBy'] as String,
+    category: json['Category'] as String?,
+    createdBy: json['CreatedBy'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    description: json['Description'] as String,
-    lastModifiedBy: json['LastModifiedBy'] as String,
+    description: json['Description'] as String?,
+    lastModifiedBy: json['LastModifiedBy'] as String?,
     lastModifiedTime:
         const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
-    notifications: (json['Notifications'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OpsItemNotification.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    operationalData: (json['OperationalData'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
+    notifications: (json['Notifications'] as List<dynamic>?)
+        ?.map((e) => OpsItemNotification.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    operationalData: (json['OperationalData'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
     ),
-    opsItemId: json['OpsItemId'] as String,
-    opsItemType: json['OpsItemType'] as String,
+    opsItemId: json['OpsItemId'] as String?,
+    opsItemType: json['OpsItemType'] as String?,
     plannedEndTime:
         const UnixDateTimeConverter().fromJson(json['PlannedEndTime']),
     plannedStartTime:
         const UnixDateTimeConverter().fromJson(json['PlannedStartTime']),
-    priority: json['Priority'] as int,
-    relatedOpsItems: (json['RelatedOpsItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RelatedOpsItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    severity: json['Severity'] as String,
-    source: json['Source'] as String,
+    priority: json['Priority'] as int?,
+    relatedOpsItems: (json['RelatedOpsItems'] as List<dynamic>?)
+        ?.map((e) => RelatedOpsItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    severity: json['Severity'] as String?,
+    source: json['Source'] as String?,
     status: _$enumDecodeNullable(_$OpsItemStatusEnumMap, json['Status']),
-    title: json['Title'] as String,
-    version: json['Version'] as String,
+    title: json['Title'] as String?,
+    version: json['Version'] as String?,
   );
 }
 
@@ -3478,7 +3288,7 @@ const _$OpsItemStatusEnumMap = {
 OpsItemDataValue _$OpsItemDataValueFromJson(Map<String, dynamic> json) {
   return OpsItemDataValue(
     type: _$enumDecodeNullable(_$OpsItemDataTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -3501,21 +3311,12 @@ const _$OpsItemDataTypeEnumMap = {
   OpsItemDataType.string: 'String',
 };
 
-Map<String, dynamic> _$OpsItemEventFilterToJson(OpsItemEventFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$OpsItemEventFilterKeyEnumMap[instance.key]);
-  writeNotNull(
-      'Operator', _$OpsItemEventFilterOperatorEnumMap[instance.operator]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$OpsItemEventFilterToJson(OpsItemEventFilter instance) =>
+    <String, dynamic>{
+      'Key': _$OpsItemEventFilterKeyEnumMap[instance.key],
+      'Operator': _$OpsItemEventFilterOperatorEnumMap[instance.operator],
+      'Values': instance.values,
+    };
 
 const _$OpsItemEventFilterKeyEnumMap = {
   OpsItemEventFilterKey.opsItemId: 'OpsItemId',
@@ -3531,28 +3332,20 @@ OpsItemEventSummary _$OpsItemEventSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : OpsItemIdentity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    detail: json['Detail'] as String,
-    detailType: json['DetailType'] as String,
-    eventId: json['EventId'] as String,
-    opsItemId: json['OpsItemId'] as String,
-    source: json['Source'] as String,
+    detail: json['Detail'] as String?,
+    detailType: json['DetailType'] as String?,
+    eventId: json['EventId'] as String?,
+    opsItemId: json['OpsItemId'] as String?,
+    source: json['Source'] as String?,
   );
 }
 
-Map<String, dynamic> _$OpsItemFilterToJson(OpsItemFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$OpsItemFilterKeyEnumMap[instance.key]);
-  writeNotNull('Operator', _$OpsItemFilterOperatorEnumMap[instance.operator]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$OpsItemFilterToJson(OpsItemFilter instance) =>
+    <String, dynamic>{
+      'Key': _$OpsItemFilterKeyEnumMap[instance.key],
+      'Operator': _$OpsItemFilterOperatorEnumMap[instance.operator],
+      'Values': instance.values,
+    };
 
 const _$OpsItemFilterKeyEnumMap = {
   OpsItemFilterKey.status: 'Status',
@@ -3593,13 +3386,13 @@ const _$OpsItemFilterOperatorEnumMap = {
 
 OpsItemIdentity _$OpsItemIdentityFromJson(Map<String, dynamic> json) {
   return OpsItemIdentity(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
 OpsItemNotification _$OpsItemNotificationFromJson(Map<String, dynamic> json) {
   return OpsItemNotification(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
   );
 }
 
@@ -3622,30 +3415,27 @@ OpsItemSummary _$OpsItemSummaryFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['ActualEndTime']),
     actualStartTime:
         const UnixDateTimeConverter().fromJson(json['ActualStartTime']),
-    category: json['Category'] as String,
-    createdBy: json['CreatedBy'] as String,
+    category: json['Category'] as String?,
+    createdBy: json['CreatedBy'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    lastModifiedBy: json['LastModifiedBy'] as String,
+    lastModifiedBy: json['LastModifiedBy'] as String?,
     lastModifiedTime:
         const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
-    operationalData: (json['OperationalData'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
+    operationalData: (json['OperationalData'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, OpsItemDataValue.fromJson(e as Map<String, dynamic>)),
     ),
-    opsItemId: json['OpsItemId'] as String,
-    opsItemType: json['OpsItemType'] as String,
+    opsItemId: json['OpsItemId'] as String?,
+    opsItemType: json['OpsItemType'] as String?,
     plannedEndTime:
         const UnixDateTimeConverter().fromJson(json['PlannedEndTime']),
     plannedStartTime:
         const UnixDateTimeConverter().fromJson(json['PlannedStartTime']),
-    priority: json['Priority'] as int,
-    severity: json['Severity'] as String,
-    source: json['Source'] as String,
+    priority: json['Priority'] as int?,
+    severity: json['Severity'] as String?,
+    source: json['Source'] as String?,
     status: _$enumDecodeNullable(_$OpsItemStatusEnumMap, json['Status']),
-    title: json['Title'] as String,
+    title: json['Title'] as String?,
   );
 }
 
@@ -3654,58 +3444,42 @@ OpsMetadata _$OpsMetadataFromJson(Map<String, dynamic> json) {
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    lastModifiedUser: json['LastModifiedUser'] as String,
-    opsMetadataArn: json['OpsMetadataArn'] as String,
-    resourceId: json['ResourceId'] as String,
+    lastModifiedUser: json['LastModifiedUser'] as String?,
+    opsMetadataArn: json['OpsMetadataArn'] as String?,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
-Map<String, dynamic> _$OpsMetadataFilterToJson(OpsMetadataFilter instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$OpsMetadataFilterToJson(OpsMetadataFilter instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Values': instance.values,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Values', instance.values);
-  return val;
-}
-
-Map<String, dynamic> _$OpsResultAttributeToJson(OpsResultAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TypeName', instance.typeName);
-  return val;
-}
+Map<String, dynamic> _$OpsResultAttributeToJson(OpsResultAttribute instance) =>
+    <String, dynamic>{
+      'TypeName': instance.typeName,
+    };
 
 OutputSource _$OutputSourceFromJson(Map<String, dynamic> json) {
   return OutputSource(
-    outputSourceId: json['OutputSourceId'] as String,
-    outputSourceType: json['OutputSourceType'] as String,
+    outputSourceId: json['OutputSourceId'] as String?,
+    outputSourceType: json['OutputSourceType'] as String?,
   );
 }
 
 Parameter _$ParameterFromJson(Map<String, dynamic> json) {
   return Parameter(
-    arn: json['ARN'] as String,
-    dataType: json['DataType'] as String,
+    arn: json['ARN'] as String?,
+    dataType: json['DataType'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    name: json['Name'] as String,
-    selector: json['Selector'] as String,
-    sourceResult: json['SourceResult'] as String,
+    name: json['Name'] as String?,
+    selector: json['Selector'] as String?,
+    sourceResult: json['SourceResult'] as String?,
     type: _$enumDecodeNullable(_$ParameterTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
-    version: json['Version'] as int,
+    value: json['Value'] as String?,
+    version: json['Version'] as int?,
   );
 }
 
@@ -3717,24 +3491,23 @@ const _$ParameterTypeEnumMap = {
 
 ParameterHistory _$ParameterHistoryFromJson(Map<String, dynamic> json) {
   return ParameterHistory(
-    allowedPattern: json['AllowedPattern'] as String,
-    dataType: json['DataType'] as String,
-    description: json['Description'] as String,
-    keyId: json['KeyId'] as String,
-    labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
+    allowedPattern: json['AllowedPattern'] as String?,
+    dataType: json['DataType'] as String?,
+    description: json['Description'] as String?,
+    keyId: json['KeyId'] as String?,
+    labels:
+        (json['Labels'] as List<dynamic>?)?.map((e) => e as String).toList(),
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    lastModifiedUser: json['LastModifiedUser'] as String,
-    name: json['Name'] as String,
-    policies: (json['Policies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lastModifiedUser: json['LastModifiedUser'] as String?,
+    name: json['Name'] as String?,
+    policies: (json['Policies'] as List<dynamic>?)
+        ?.map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
+        .toList(),
     tier: _$enumDecodeNullable(_$ParameterTierEnumMap, json['Tier']),
     type: _$enumDecodeNullable(_$ParameterTypeEnumMap, json['Type']),
-    value: json['Value'] as String,
-    version: json['Version'] as int,
+    value: json['Value'] as String?,
+    version: json['Version'] as int?,
   );
 }
 
@@ -3747,36 +3520,36 @@ const _$ParameterTierEnumMap = {
 ParameterInlinePolicy _$ParameterInlinePolicyFromJson(
     Map<String, dynamic> json) {
   return ParameterInlinePolicy(
-    policyStatus: json['PolicyStatus'] as String,
-    policyText: json['PolicyText'] as String,
-    policyType: json['PolicyType'] as String,
+    policyStatus: json['PolicyStatus'] as String?,
+    policyText: json['PolicyText'] as String?,
+    policyType: json['PolicyType'] as String?,
   );
 }
 
 ParameterMetadata _$ParameterMetadataFromJson(Map<String, dynamic> json) {
   return ParameterMetadata(
-    allowedPattern: json['AllowedPattern'] as String,
-    dataType: json['DataType'] as String,
-    description: json['Description'] as String,
-    keyId: json['KeyId'] as String,
+    allowedPattern: json['AllowedPattern'] as String?,
+    dataType: json['DataType'] as String?,
+    description: json['Description'] as String?,
+    keyId: json['KeyId'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    lastModifiedUser: json['LastModifiedUser'] as String,
-    name: json['Name'] as String,
-    policies: (json['Policies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    lastModifiedUser: json['LastModifiedUser'] as String?,
+    name: json['Name'] as String?,
+    policies: (json['Policies'] as List<dynamic>?)
+        ?.map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
+        .toList(),
     tier: _$enumDecodeNullable(_$ParameterTierEnumMap, json['Tier']),
     type: _$enumDecodeNullable(_$ParameterTypeEnumMap, json['Type']),
-    version: json['Version'] as int,
+    version: json['Version'] as int?,
   );
 }
 
 Map<String, dynamic> _$ParameterStringFilterToJson(
     ParameterStringFilter instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3784,25 +3557,16 @@ Map<String, dynamic> _$ParameterStringFilterToJson(
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Option', instance.option);
   writeNotNull('Values', instance.values);
   return val;
 }
 
-Map<String, dynamic> _$ParametersFilterToJson(ParametersFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$ParametersFilterKeyEnumMap[instance.key]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$ParametersFilterToJson(ParametersFilter instance) =>
+    <String, dynamic>{
+      'Key': _$ParametersFilterKeyEnumMap[instance.key],
+      'Values': instance.values,
+    };
 
 const _$ParametersFilterKeyEnumMap = {
   ParametersFilterKey.name: 'Name',
@@ -3812,41 +3576,44 @@ const _$ParametersFilterKeyEnumMap = {
 
 Patch _$PatchFromJson(Map<String, dynamic> json) {
   return Patch(
-    advisoryIds:
-        (json['AdvisoryIds'] as List)?.map((e) => e as String)?.toList(),
-    arch: json['Arch'] as String,
-    bugzillaIds:
-        (json['BugzillaIds'] as List)?.map((e) => e as String)?.toList(),
-    cVEIds: (json['CVEIds'] as List)?.map((e) => e as String)?.toList(),
-    classification: json['Classification'] as String,
-    contentUrl: json['ContentUrl'] as String,
-    description: json['Description'] as String,
-    epoch: json['Epoch'] as int,
-    id: json['Id'] as String,
-    kbNumber: json['KbNumber'] as String,
-    language: json['Language'] as String,
-    msrcNumber: json['MsrcNumber'] as String,
-    msrcSeverity: json['MsrcSeverity'] as String,
-    name: json['Name'] as String,
-    product: json['Product'] as String,
-    productFamily: json['ProductFamily'] as String,
-    release: json['Release'] as String,
+    advisoryIds: (json['AdvisoryIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    arch: json['Arch'] as String?,
+    bugzillaIds: (json['BugzillaIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    cVEIds:
+        (json['CVEIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    classification: json['Classification'] as String?,
+    contentUrl: json['ContentUrl'] as String?,
+    description: json['Description'] as String?,
+    epoch: json['Epoch'] as int?,
+    id: json['Id'] as String?,
+    kbNumber: json['KbNumber'] as String?,
+    language: json['Language'] as String?,
+    msrcNumber: json['MsrcNumber'] as String?,
+    msrcSeverity: json['MsrcSeverity'] as String?,
+    name: json['Name'] as String?,
+    product: json['Product'] as String?,
+    productFamily: json['ProductFamily'] as String?,
+    release: json['Release'] as String?,
     releaseDate: const UnixDateTimeConverter().fromJson(json['ReleaseDate']),
-    repository: json['Repository'] as String,
-    severity: json['Severity'] as String,
-    title: json['Title'] as String,
-    vendor: json['Vendor'] as String,
-    version: json['Version'] as String,
+    repository: json['Repository'] as String?,
+    severity: json['Severity'] as String?,
+    title: json['Title'] as String?,
+    vendor: json['Vendor'] as String?,
+    version: json['Version'] as String?,
   );
 }
 
 PatchBaselineIdentity _$PatchBaselineIdentityFromJson(
     Map<String, dynamic> json) {
   return PatchBaselineIdentity(
-    baselineDescription: json['BaselineDescription'] as String,
-    baselineId: json['BaselineId'] as String,
-    baselineName: json['BaselineName'] as String,
-    defaultBaseline: json['DefaultBaseline'] as bool,
+    baselineDescription: json['BaselineDescription'] as String?,
+    baselineId: json['BaselineId'] as String?,
+    baselineName: json['BaselineName'] as String?,
+    defaultBaseline: json['DefaultBaseline'] as bool?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
   );
@@ -3855,14 +3622,12 @@ PatchBaselineIdentity _$PatchBaselineIdentityFromJson(
 PatchComplianceData _$PatchComplianceDataFromJson(Map<String, dynamic> json) {
   return PatchComplianceData(
     classification: json['Classification'] as String,
-    installedTime:
-        const UnixDateTimeConverter().fromJson(json['InstalledTime']),
+    installedTime: DateTime.parse(json['InstalledTime'] as String),
     kBId: json['KBId'] as String,
     severity: json['Severity'] as String,
-    state:
-        _$enumDecodeNullable(_$PatchComplianceDataStateEnumMap, json['State']),
+    state: _$enumDecode(_$PatchComplianceDataStateEnumMap, json['State']),
     title: json['Title'] as String,
-    cVEIds: json['CVEIds'] as String,
+    cVEIds: json['CVEIds'] as String?,
   );
 }
 
@@ -3878,24 +3643,16 @@ const _$PatchComplianceDataStateEnumMap = {
 
 PatchFilter _$PatchFilterFromJson(Map<String, dynamic> json) {
   return PatchFilter(
-    key: _$enumDecodeNullable(_$PatchFilterKeyEnumMap, json['Key']),
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    key: _$enumDecode(_$PatchFilterKeyEnumMap, json['Key']),
+    values: (json['Values'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$PatchFilterToJson(PatchFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$PatchFilterKeyEnumMap[instance.key]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$PatchFilterToJson(PatchFilter instance) =>
+    <String, dynamic>{
+      'Key': _$PatchFilterKeyEnumMap[instance.key],
+      'Values': instance.values,
+    };
 
 const _$PatchFilterKeyEnumMap = {
   PatchFilterKey.arch: 'ARCH',
@@ -3921,26 +3678,16 @@ const _$PatchFilterKeyEnumMap = {
 
 PatchFilterGroup _$PatchFilterGroupFromJson(Map<String, dynamic> json) {
   return PatchFilterGroup(
-    patchFilters: (json['PatchFilters'] as List)
-        ?.map((e) =>
-            e == null ? null : PatchFilter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    patchFilters: (json['PatchFilters'] as List<dynamic>)
+        .map((e) => PatchFilter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$PatchFilterGroupToJson(PatchFilterGroup instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'PatchFilters', instance.patchFilters?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$PatchFilterGroupToJson(PatchFilterGroup instance) =>
+    <String, dynamic>{
+      'PatchFilters': instance.patchFilters.map((e) => e.toJson()).toList(),
+    };
 
 PatchGroupPatchBaselineMapping _$PatchGroupPatchBaselineMappingFromJson(
     Map<String, dynamic> json) {
@@ -3949,7 +3696,7 @@ PatchGroupPatchBaselineMapping _$PatchGroupPatchBaselineMappingFromJson(
         ? null
         : PatchBaselineIdentity.fromJson(
             json['BaselineIdentity'] as Map<String, dynamic>),
-    patchGroup: json['PatchGroup'] as String,
+    patchGroup: json['PatchGroup'] as String?,
   );
 }
 
@@ -3970,20 +3717,20 @@ Map<String, dynamic> _$PatchOrchestratorFilterToJson(
 
 PatchRule _$PatchRuleFromJson(Map<String, dynamic> json) {
   return PatchRule(
-    patchFilterGroup: json['PatchFilterGroup'] == null
-        ? null
-        : PatchFilterGroup.fromJson(
-            json['PatchFilterGroup'] as Map<String, dynamic>),
-    approveAfterDays: json['ApproveAfterDays'] as int,
-    approveUntilDate: json['ApproveUntilDate'] as String,
+    patchFilterGroup: PatchFilterGroup.fromJson(
+        json['PatchFilterGroup'] as Map<String, dynamic>),
+    approveAfterDays: json['ApproveAfterDays'] as int?,
+    approveUntilDate: json['ApproveUntilDate'] as String?,
     complianceLevel: _$enumDecodeNullable(
         _$PatchComplianceLevelEnumMap, json['ComplianceLevel']),
-    enableNonSecurity: json['EnableNonSecurity'] as bool,
+    enableNonSecurity: json['EnableNonSecurity'] as bool?,
   );
 }
 
 Map<String, dynamic> _$PatchRuleToJson(PatchRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PatchFilterGroup': instance.patchFilterGroup.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3991,7 +3738,6 @@ Map<String, dynamic> _$PatchRuleToJson(PatchRule instance) {
     }
   }
 
-  writeNotNull('PatchFilterGroup', instance.patchFilterGroup?.toJson());
   writeNotNull('ApproveAfterDays', instance.approveAfterDays);
   writeNotNull('ApproveUntilDate', instance.approveUntilDate);
   writeNotNull('ComplianceLevel',
@@ -4002,49 +3748,32 @@ Map<String, dynamic> _$PatchRuleToJson(PatchRule instance) {
 
 PatchRuleGroup _$PatchRuleGroupFromJson(Map<String, dynamic> json) {
   return PatchRuleGroup(
-    patchRules: (json['PatchRules'] as List)
-        ?.map((e) =>
-            e == null ? null : PatchRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    patchRules: (json['PatchRules'] as List<dynamic>)
+        .map((e) => PatchRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$PatchRuleGroupToJson(PatchRuleGroup instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'PatchRules', instance.patchRules?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$PatchRuleGroupToJson(PatchRuleGroup instance) =>
+    <String, dynamic>{
+      'PatchRules': instance.patchRules.map((e) => e.toJson()).toList(),
+    };
 
 PatchSource _$PatchSourceFromJson(Map<String, dynamic> json) {
   return PatchSource(
     configuration: json['Configuration'] as String,
     name: json['Name'] as String,
-    products: (json['Products'] as List)?.map((e) => e as String)?.toList(),
+    products:
+        (json['Products'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$PatchSourceToJson(PatchSource instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Configuration', instance.configuration);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Products', instance.products);
-  return val;
-}
+Map<String, dynamic> _$PatchSourceToJson(PatchSource instance) =>
+    <String, dynamic>{
+      'Configuration': instance.configuration,
+      'Name': instance.name,
+      'Products': instance.products,
+    };
 
 PatchStatus _$PatchStatusFromJson(Map<String, dynamic> json) {
   return PatchStatus(
@@ -4065,11 +3794,11 @@ const _$PatchDeploymentStatusEnumMap = {
 
 ProgressCounters _$ProgressCountersFromJson(Map<String, dynamic> json) {
   return ProgressCounters(
-    cancelledSteps: json['CancelledSteps'] as int,
-    failedSteps: json['FailedSteps'] as int,
-    successSteps: json['SuccessSteps'] as int,
-    timedOutSteps: json['TimedOutSteps'] as int,
-    totalSteps: json['TotalSteps'] as int,
+    cancelledSteps: json['CancelledSteps'] as int?,
+    failedSteps: json['FailedSteps'] as int?,
+    successSteps: json['SuccessSteps'] as int?,
+    timedOutSteps: json['TimedOutSteps'] as int?,
+    totalSteps: json['TotalSteps'] as int?,
   );
 }
 
@@ -4080,21 +3809,21 @@ PutComplianceItemsResult _$PutComplianceItemsResultFromJson(
 
 PutInventoryResult _$PutInventoryResultFromJson(Map<String, dynamic> json) {
   return PutInventoryResult(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 PutParameterResult _$PutParameterResultFromJson(Map<String, dynamic> json) {
   return PutParameterResult(
     tier: _$enumDecodeNullable(_$ParameterTierEnumMap, json['Tier']),
-    version: json['Version'] as int,
+    version: json['Version'] as int?,
   );
 }
 
 RegisterDefaultPatchBaselineResult _$RegisterDefaultPatchBaselineResultFromJson(
     Map<String, dynamic> json) {
   return RegisterDefaultPatchBaselineResult(
-    baselineId: json['BaselineId'] as String,
+    baselineId: json['BaselineId'] as String?,
   );
 }
 
@@ -4102,8 +3831,8 @@ RegisterPatchBaselineForPatchGroupResult
     _$RegisterPatchBaselineForPatchGroupResultFromJson(
         Map<String, dynamic> json) {
   return RegisterPatchBaselineForPatchGroupResult(
-    baselineId: json['BaselineId'] as String,
-    patchGroup: json['PatchGroup'] as String,
+    baselineId: json['BaselineId'] as String?,
+    patchGroup: json['PatchGroup'] as String?,
   );
 }
 
@@ -4111,7 +3840,7 @@ RegisterTargetWithMaintenanceWindowResult
     _$RegisterTargetWithMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
   return RegisterTargetWithMaintenanceWindowResult(
-    windowTargetId: json['WindowTargetId'] as String,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
@@ -4119,7 +3848,7 @@ RegisterTaskWithMaintenanceWindowResult
     _$RegisterTaskWithMaintenanceWindowResultFromJson(
         Map<String, dynamic> json) {
   return RegisterTaskWithMaintenanceWindowResult(
-    windowTaskId: json['WindowTaskId'] as String,
+    windowTaskId: json['WindowTaskId'] as String?,
   );
 }
 
@@ -4129,18 +3858,10 @@ RelatedOpsItem _$RelatedOpsItemFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RelatedOpsItemToJson(RelatedOpsItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('OpsItemId', instance.opsItemId);
-  return val;
-}
+Map<String, dynamic> _$RelatedOpsItemToJson(RelatedOpsItem instance) =>
+    <String, dynamic>{
+      'OpsItemId': instance.opsItemId,
+    };
 
 RemoveTagsFromResourceResult _$RemoveTagsFromResourceResultFromJson(
     Map<String, dynamic> json) {
@@ -4159,16 +3880,17 @@ ResetServiceSettingResult _$ResetServiceSettingResultFromJson(
 
 ResolvedTargets _$ResolvedTargetsFromJson(Map<String, dynamic> json) {
   return ResolvedTargets(
-    parameterValues:
-        (json['ParameterValues'] as List)?.map((e) => e as String)?.toList(),
-    truncated: json['Truncated'] as bool,
+    parameterValues: (json['ParameterValues'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    truncated: json['Truncated'] as bool?,
   );
 }
 
 ResourceComplianceSummaryItem _$ResourceComplianceSummaryItemFromJson(
     Map<String, dynamic> json) {
   return ResourceComplianceSummaryItem(
-    complianceType: json['ComplianceType'] as String,
+    complianceType: json['ComplianceType'] as String?,
     compliantSummary: json['CompliantSummary'] == null
         ? null
         : CompliantSummary.fromJson(
@@ -4183,8 +3905,8 @@ ResourceComplianceSummaryItem _$ResourceComplianceSummaryItemFromJson(
             json['NonCompliantSummary'] as Map<String, dynamic>),
     overallSeverity: _$enumDecodeNullable(
         _$ComplianceSeverityEnumMap, json['OverallSeverity']),
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
     status: _$enumDecodeNullable(_$ComplianceStatusEnumMap, json['Status']),
   );
 }
@@ -4194,18 +3916,18 @@ ResourceDataSyncAwsOrganizationsSource
         Map<String, dynamic> json) {
   return ResourceDataSyncAwsOrganizationsSource(
     organizationSourceType: json['OrganizationSourceType'] as String,
-    organizationalUnits: (json['OrganizationalUnits'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceDataSyncOrganizationalUnit.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    organizationalUnits: (json['OrganizationalUnits'] as List<dynamic>?)
+        ?.map((e) => ResourceDataSyncOrganizationalUnit.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ResourceDataSyncAwsOrganizationsSourceToJson(
     ResourceDataSyncAwsOrganizationsSource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OrganizationSourceType': instance.organizationSourceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4213,9 +3935,8 @@ Map<String, dynamic> _$ResourceDataSyncAwsOrganizationsSourceToJson(
     }
   }
 
-  writeNotNull('OrganizationSourceType', instance.organizationSourceType);
   writeNotNull('OrganizationalUnits',
-      instance.organizationalUnits?.map((e) => e?.toJson())?.toList());
+      instance.organizationalUnits?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -4223,7 +3944,7 @@ ResourceDataSyncDestinationDataSharing
     _$ResourceDataSyncDestinationDataSharingFromJson(
         Map<String, dynamic> json) {
   return ResourceDataSyncDestinationDataSharing(
-    destinationDataSharingType: json['DestinationDataSharingType'] as String,
+    destinationDataSharingType: json['DestinationDataSharingType'] as String?,
   );
 }
 
@@ -4248,7 +3969,7 @@ ResourceDataSyncItem _$ResourceDataSyncItemFromJson(Map<String, dynamic> json) {
         _$LastResourceDataSyncStatusEnumMap, json['LastStatus']),
     lastSuccessfulSyncTime:
         const UnixDateTimeConverter().fromJson(json['LastSuccessfulSyncTime']),
-    lastSyncStatusMessage: json['LastSyncStatusMessage'] as String,
+    lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
     lastSyncTime: const UnixDateTimeConverter().fromJson(json['LastSyncTime']),
     s3Destination: json['S3Destination'] == null
         ? null
@@ -4258,12 +3979,12 @@ ResourceDataSyncItem _$ResourceDataSyncItemFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['SyncCreatedTime']),
     syncLastModifiedTime:
         const UnixDateTimeConverter().fromJson(json['SyncLastModifiedTime']),
-    syncName: json['SyncName'] as String,
+    syncName: json['SyncName'] as String?,
     syncSource: json['SyncSource'] == null
         ? null
         : ResourceDataSyncSourceWithState.fromJson(
             json['SyncSource'] as Map<String, dynamic>),
-    syncType: json['SyncType'] as String,
+    syncType: json['SyncType'] as String?,
   );
 }
 
@@ -4276,7 +3997,7 @@ const _$LastResourceDataSyncStatusEnumMap = {
 ResourceDataSyncOrganizationalUnit _$ResourceDataSyncOrganizationalUnitFromJson(
     Map<String, dynamic> json) {
   return ResourceDataSyncOrganizationalUnit(
-    organizationalUnitId: json['OrganizationalUnitId'] as String,
+    organizationalUnitId: json['OrganizationalUnitId'] as String?,
   );
 }
 
@@ -4299,20 +4020,24 @@ ResourceDataSyncS3Destination _$ResourceDataSyncS3DestinationFromJson(
   return ResourceDataSyncS3Destination(
     bucketName: json['BucketName'] as String,
     region: json['Region'] as String,
-    syncFormat: _$enumDecodeNullable(
-        _$ResourceDataSyncS3FormatEnumMap, json['SyncFormat']),
-    awsKMSKeyARN: json['AWSKMSKeyARN'] as String,
+    syncFormat:
+        _$enumDecode(_$ResourceDataSyncS3FormatEnumMap, json['SyncFormat']),
+    awsKMSKeyARN: json['AWSKMSKeyARN'] as String?,
     destinationDataSharing: json['DestinationDataSharing'] == null
         ? null
         : ResourceDataSyncDestinationDataSharing.fromJson(
             json['DestinationDataSharing'] as Map<String, dynamic>),
-    prefix: json['Prefix'] as String,
+    prefix: json['Prefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$ResourceDataSyncS3DestinationToJson(
     ResourceDataSyncS3Destination instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketName': instance.bucketName,
+    'Region': instance.region,
+    'SyncFormat': _$ResourceDataSyncS3FormatEnumMap[instance.syncFormat],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4320,10 +4045,6 @@ Map<String, dynamic> _$ResourceDataSyncS3DestinationToJson(
     }
   }
 
-  writeNotNull('BucketName', instance.bucketName);
-  writeNotNull('Region', instance.region);
-  writeNotNull(
-      'SyncFormat', _$ResourceDataSyncS3FormatEnumMap[instance.syncFormat]);
   writeNotNull('AWSKMSKeyARN', instance.awsKMSKeyARN);
   writeNotNull(
       'DestinationDataSharing', instance.destinationDataSharing?.toJson());
@@ -4337,7 +4058,10 @@ const _$ResourceDataSyncS3FormatEnumMap = {
 
 Map<String, dynamic> _$ResourceDataSyncSourceToJson(
     ResourceDataSyncSource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SourceRegions': instance.sourceRegions,
+    'SourceType': instance.sourceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4345,8 +4069,6 @@ Map<String, dynamic> _$ResourceDataSyncSourceToJson(
     }
   }
 
-  writeNotNull('SourceRegions', instance.sourceRegions);
-  writeNotNull('SourceType', instance.sourceType);
   writeNotNull(
       'AwsOrganizationsSource', instance.awsOrganizationsSource?.toJson());
   writeNotNull('IncludeFutureRegions', instance.includeFutureRegions);
@@ -4360,40 +4082,33 @@ ResourceDataSyncSourceWithState _$ResourceDataSyncSourceWithStateFromJson(
         ? null
         : ResourceDataSyncAwsOrganizationsSource.fromJson(
             json['AwsOrganizationsSource'] as Map<String, dynamic>),
-    includeFutureRegions: json['IncludeFutureRegions'] as bool,
-    sourceRegions:
-        (json['SourceRegions'] as List)?.map((e) => e as String)?.toList(),
-    sourceType: json['SourceType'] as String,
-    state: json['State'] as String,
+    includeFutureRegions: json['IncludeFutureRegions'] as bool?,
+    sourceRegions: (json['SourceRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    sourceType: json['SourceType'] as String?,
+    state: json['State'] as String?,
   );
 }
 
-Map<String, dynamic> _$ResultAttributeToJson(ResultAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TypeName', instance.typeName);
-  return val;
-}
+Map<String, dynamic> _$ResultAttributeToJson(ResultAttribute instance) =>
+    <String, dynamic>{
+      'TypeName': instance.typeName,
+    };
 
 ResumeSessionResponse _$ResumeSessionResponseFromJson(
     Map<String, dynamic> json) {
   return ResumeSessionResponse(
-    sessionId: json['SessionId'] as String,
-    streamUrl: json['StreamUrl'] as String,
-    tokenValue: json['TokenValue'] as String,
+    sessionId: json['SessionId'] as String?,
+    streamUrl: json['StreamUrl'] as String?,
+    tokenValue: json['TokenValue'] as String?,
   );
 }
 
 ReviewInformation _$ReviewInformationFromJson(Map<String, dynamic> json) {
   return ReviewInformation(
     reviewedTime: const UnixDateTimeConverter().fromJson(json['ReviewedTime']),
-    reviewer: json['Reviewer'] as String,
+    reviewer: json['Reviewer'] as String?,
     status: _$enumDecodeNullable(_$ReviewStatusEnumMap, json['Status']),
   );
 }
@@ -4401,27 +4116,27 @@ ReviewInformation _$ReviewInformationFromJson(Map<String, dynamic> json) {
 Runbook _$RunbookFromJson(Map<String, dynamic> json) {
   return Runbook(
     documentName: json['DocumentName'] as String,
-    documentVersion: json['DocumentVersion'] as String,
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    documentVersion: json['DocumentVersion'] as String?,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    targetLocations: (json['TargetLocations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetLocation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    targetParameterName: json['TargetParameterName'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    targetLocations: (json['TargetLocations'] as List<dynamic>?)
+        ?.map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    targetParameterName: json['TargetParameterName'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$RunbookToJson(Runbook instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentName': instance.documentName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4429,23 +4144,22 @@ Map<String, dynamic> _$RunbookToJson(Runbook instance) {
     }
   }
 
-  writeNotNull('DocumentName', instance.documentName);
   writeNotNull('DocumentVersion', instance.documentVersion);
   writeNotNull('MaxConcurrency', instance.maxConcurrency);
   writeNotNull('MaxErrors', instance.maxErrors);
   writeNotNull('Parameters', instance.parameters);
   writeNotNull('TargetLocations',
-      instance.targetLocations?.map((e) => e?.toJson())?.toList());
+      instance.targetLocations?.map((e) => e.toJson()).toList());
   writeNotNull('TargetParameterName', instance.targetParameterName);
-  writeNotNull('Targets', instance.targets?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Targets', instance.targets?.map((e) => e.toJson()).toList());
   return val;
 }
 
 S3OutputLocation _$S3OutputLocationFromJson(Map<String, dynamic> json) {
   return S3OutputLocation(
-    outputS3BucketName: json['OutputS3BucketName'] as String,
-    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String,
-    outputS3Region: json['OutputS3Region'] as String,
+    outputS3BucketName: json['OutputS3BucketName'] as String?,
+    outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+    outputS3Region: json['OutputS3Region'] as String?,
   );
 }
 
@@ -4466,16 +4180,16 @@ Map<String, dynamic> _$S3OutputLocationToJson(S3OutputLocation instance) {
 
 S3OutputUrl _$S3OutputUrlFromJson(Map<String, dynamic> json) {
   return S3OutputUrl(
-    outputUrl: json['OutputUrl'] as String,
+    outputUrl: json['OutputUrl'] as String?,
   );
 }
 
 ScheduledWindowExecution _$ScheduledWindowExecutionFromJson(
     Map<String, dynamic> json) {
   return ScheduledWindowExecution(
-    executionTime: json['ExecutionTime'] as String,
-    name: json['Name'] as String,
-    windowId: json['WindowId'] as String,
+    executionTime: json['ExecutionTime'] as String?,
+    name: json['Name'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
@@ -4494,30 +4208,30 @@ SendCommandResult _$SendCommandResultFromJson(Map<String, dynamic> json) {
 
 ServiceSetting _$ServiceSettingFromJson(Map<String, dynamic> json) {
   return ServiceSetting(
-    arn: json['ARN'] as String,
+    arn: json['ARN'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    lastModifiedUser: json['LastModifiedUser'] as String,
-    settingId: json['SettingId'] as String,
-    settingValue: json['SettingValue'] as String,
-    status: json['Status'] as String,
+    lastModifiedUser: json['LastModifiedUser'] as String?,
+    settingId: json['SettingId'] as String?,
+    settingValue: json['SettingValue'] as String?,
+    status: json['Status'] as String?,
   );
 }
 
 Session _$SessionFromJson(Map<String, dynamic> json) {
   return Session(
-    details: json['Details'] as String,
-    documentName: json['DocumentName'] as String,
+    details: json['Details'] as String?,
+    documentName: json['DocumentName'] as String?,
     endDate: const UnixDateTimeConverter().fromJson(json['EndDate']),
     outputUrl: json['OutputUrl'] == null
         ? null
         : SessionManagerOutputUrl.fromJson(
             json['OutputUrl'] as Map<String, dynamic>),
-    owner: json['Owner'] as String,
-    sessionId: json['SessionId'] as String,
+    owner: json['Owner'] as String?,
+    sessionId: json['SessionId'] as String?,
     startDate: const UnixDateTimeConverter().fromJson(json['StartDate']),
     status: _$enumDecodeNullable(_$SessionStatusEnumMap, json['Status']),
-    target: json['Target'] as String,
+    target: json['Target'] as String?,
   );
 }
 
@@ -4530,19 +4244,11 @@ const _$SessionStatusEnumMap = {
   SessionStatus.failed: 'Failed',
 };
 
-Map<String, dynamic> _$SessionFilterToJson(SessionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', _$SessionFilterKeyEnumMap[instance.key]);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$SessionFilterToJson(SessionFilter instance) =>
+    <String, dynamic>{
+      'key': _$SessionFilterKeyEnumMap[instance.key],
+      'value': instance.value,
+    };
 
 const _$SessionFilterKeyEnumMap = {
   SessionFilterKey.invokedAfter: 'InvokedAfter',
@@ -4556,19 +4262,19 @@ const _$SessionFilterKeyEnumMap = {
 SessionManagerOutputUrl _$SessionManagerOutputUrlFromJson(
     Map<String, dynamic> json) {
   return SessionManagerOutputUrl(
-    cloudWatchOutputUrl: json['CloudWatchOutputUrl'] as String,
-    s3OutputUrl: json['S3OutputUrl'] as String,
+    cloudWatchOutputUrl: json['CloudWatchOutputUrl'] as String?,
+    s3OutputUrl: json['S3OutputUrl'] as String?,
   );
 }
 
 SeveritySummary _$SeveritySummaryFromJson(Map<String, dynamic> json) {
   return SeveritySummary(
-    criticalCount: json['CriticalCount'] as int,
-    highCount: json['HighCount'] as int,
-    informationalCount: json['InformationalCount'] as int,
-    lowCount: json['LowCount'] as int,
-    mediumCount: json['MediumCount'] as int,
-    unspecifiedCount: json['UnspecifiedCount'] as int,
+    criticalCount: json['CriticalCount'] as int?,
+    highCount: json['HighCount'] as int?,
+    informationalCount: json['InformationalCount'] as int?,
+    lowCount: json['LowCount'] as int?,
+    mediumCount: json['MediumCount'] as int?,
+    unspecifiedCount: json['UnspecifiedCount'] as int?,
   );
 }
 
@@ -4580,28 +4286,28 @@ StartAssociationsOnceResult _$StartAssociationsOnceResultFromJson(
 StartAutomationExecutionResult _$StartAutomationExecutionResultFromJson(
     Map<String, dynamic> json) {
   return StartAutomationExecutionResult(
-    automationExecutionId: json['AutomationExecutionId'] as String,
+    automationExecutionId: json['AutomationExecutionId'] as String?,
   );
 }
 
 StartChangeRequestExecutionResult _$StartChangeRequestExecutionResultFromJson(
     Map<String, dynamic> json) {
   return StartChangeRequestExecutionResult(
-    automationExecutionId: json['AutomationExecutionId'] as String,
+    automationExecutionId: json['AutomationExecutionId'] as String?,
   );
 }
 
 StartSessionResponse _$StartSessionResponseFromJson(Map<String, dynamic> json) {
   return StartSessionResponse(
-    sessionId: json['SessionId'] as String,
-    streamUrl: json['StreamUrl'] as String,
-    tokenValue: json['TokenValue'] as String,
+    sessionId: json['SessionId'] as String?,
+    streamUrl: json['StreamUrl'] as String?,
+    tokenValue: json['TokenValue'] as String?,
   );
 }
 
 StepExecution _$StepExecutionFromJson(Map<String, dynamic> json) {
   return StepExecution(
-    action: json['Action'] as String,
+    action: json['Action'] as String?,
     executionEndTime:
         const UnixDateTimeConverter().fromJson(json['ExecutionEndTime']),
     executionStartTime:
@@ -4610,55 +4316,50 @@ StepExecution _$StepExecutionFromJson(Map<String, dynamic> json) {
         ? null
         : FailureDetails.fromJson(
             json['FailureDetails'] as Map<String, dynamic>),
-    failureMessage: json['FailureMessage'] as String,
-    inputs: (json['Inputs'] as Map<String, dynamic>)?.map(
+    failureMessage: json['FailureMessage'] as String?,
+    inputs: (json['Inputs'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    isCritical: json['IsCritical'] as bool,
-    isEnd: json['IsEnd'] as bool,
-    maxAttempts: json['MaxAttempts'] as int,
-    nextStep: json['NextStep'] as String,
-    onFailure: json['OnFailure'] as String,
-    outputs: (json['Outputs'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+    isCritical: json['IsCritical'] as bool?,
+    isEnd: json['IsEnd'] as bool?,
+    maxAttempts: json['MaxAttempts'] as int?,
+    nextStep: json['NextStep'] as String?,
+    onFailure: json['OnFailure'] as String?,
+    outputs: (json['Outputs'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
     overriddenParameters:
-        (json['OverriddenParameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+        (json['OverriddenParameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
     ),
-    response: json['Response'] as String,
-    responseCode: json['ResponseCode'] as String,
-    stepExecutionId: json['StepExecutionId'] as String,
-    stepName: json['StepName'] as String,
+    response: json['Response'] as String?,
+    responseCode: json['ResponseCode'] as String?,
+    stepExecutionId: json['StepExecutionId'] as String?,
+    stepName: json['StepName'] as String?,
     stepStatus: _$enumDecodeNullable(
         _$AutomationExecutionStatusEnumMap, json['StepStatus']),
     targetLocation: json['TargetLocation'] == null
         ? null
         : TargetLocation.fromJson(
             json['TargetLocation'] as Map<String, dynamic>),
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    timeoutSeconds: json['TimeoutSeconds'] as int,
-    validNextSteps:
-        (json['ValidNextSteps'] as List)?.map((e) => e as String)?.toList(),
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    timeoutSeconds: json['TimeoutSeconds'] as int?,
+    validNextSteps: (json['ValidNextSteps'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$StepExecutionFilterToJson(StepExecutionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', _$StepExecutionFilterKeyEnumMap[instance.key]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$StepExecutionFilterToJson(
+        StepExecutionFilter instance) =>
+    <String, dynamic>{
+      'Key': _$StepExecutionFilterKeyEnumMap[instance.key],
+      'Values': instance.values,
+    };
 
 const _$StepExecutionFilterKeyEnumMap = {
   StepExecutionFilterKey.startTimeBefore: 'StartTimeBefore',
@@ -4681,24 +4382,16 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 Target _$TargetFromJson(Map<String, dynamic> json) {
   return Target(
-    key: json['Key'] as String,
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    key: json['Key'] as String?,
+    values:
+        (json['Values'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -4718,12 +4411,14 @@ Map<String, dynamic> _$TargetToJson(Target instance) {
 
 TargetLocation _$TargetLocationFromJson(Map<String, dynamic> json) {
   return TargetLocation(
-    accounts: (json['Accounts'] as List)?.map((e) => e as String)?.toList(),
-    executionRoleName: json['ExecutionRoleName'] as String,
-    regions: (json['Regions'] as List)?.map((e) => e as String)?.toList(),
+    accounts:
+        (json['Accounts'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    executionRoleName: json['ExecutionRoleName'] as String?,
+    regions:
+        (json['Regions'] as List<dynamic>?)?.map((e) => e as String).toList(),
     targetLocationMaxConcurrency:
-        json['TargetLocationMaxConcurrency'] as String,
-    targetLocationMaxErrors: json['TargetLocationMaxErrors'] as String,
+        json['TargetLocationMaxConcurrency'] as String?,
+    targetLocationMaxErrors: json['TargetLocationMaxErrors'] as String?,
   );
 }
 
@@ -4748,7 +4443,7 @@ Map<String, dynamic> _$TargetLocationToJson(TargetLocation instance) {
 TerminateSessionResponse _$TerminateSessionResponseFromJson(
     Map<String, dynamic> json) {
   return TerminateSessionResponse(
-    sessionId: json['SessionId'] as String,
+    sessionId: json['SessionId'] as String?,
   );
 }
 
@@ -4799,67 +4494,63 @@ UpdateDocumentResult _$UpdateDocumentResultFromJson(Map<String, dynamic> json) {
 UpdateMaintenanceWindowResult _$UpdateMaintenanceWindowResultFromJson(
     Map<String, dynamic> json) {
   return UpdateMaintenanceWindowResult(
-    allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool,
-    cutoff: json['Cutoff'] as int,
-    description: json['Description'] as String,
-    duration: json['Duration'] as int,
-    enabled: json['Enabled'] as bool,
-    endDate: json['EndDate'] as String,
-    name: json['Name'] as String,
-    schedule: json['Schedule'] as String,
-    scheduleOffset: json['ScheduleOffset'] as int,
-    scheduleTimezone: json['ScheduleTimezone'] as String,
-    startDate: json['StartDate'] as String,
-    windowId: json['WindowId'] as String,
+    allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool?,
+    cutoff: json['Cutoff'] as int?,
+    description: json['Description'] as String?,
+    duration: json['Duration'] as int?,
+    enabled: json['Enabled'] as bool?,
+    endDate: json['EndDate'] as String?,
+    name: json['Name'] as String?,
+    schedule: json['Schedule'] as String?,
+    scheduleOffset: json['ScheduleOffset'] as int?,
+    scheduleTimezone: json['ScheduleTimezone'] as String?,
+    startDate: json['StartDate'] as String?,
+    windowId: json['WindowId'] as String?,
   );
 }
 
 UpdateMaintenanceWindowTargetResult
     _$UpdateMaintenanceWindowTargetResultFromJson(Map<String, dynamic> json) {
   return UpdateMaintenanceWindowTargetResult(
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    ownerInformation: json['OwnerInformation'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    windowId: json['WindowId'] as String,
-    windowTargetId: json['WindowTargetId'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    ownerInformation: json['OwnerInformation'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    windowId: json['WindowId'] as String?,
+    windowTargetId: json['WindowTargetId'] as String?,
   );
 }
 
 UpdateMaintenanceWindowTaskResult _$UpdateMaintenanceWindowTaskResultFromJson(
     Map<String, dynamic> json) {
   return UpdateMaintenanceWindowTaskResult(
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     loggingInfo: json['LoggingInfo'] == null
         ? null
         : LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>),
-    maxConcurrency: json['MaxConcurrency'] as String,
-    maxErrors: json['MaxErrors'] as String,
-    name: json['Name'] as String,
-    priority: json['Priority'] as int,
-    serviceRoleArn: json['ServiceRoleArn'] as String,
-    targets: (json['Targets'] as List)
-        ?.map((e) =>
-            e == null ? null : Target.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    taskArn: json['TaskArn'] as String,
+    maxConcurrency: json['MaxConcurrency'] as String?,
+    maxErrors: json['MaxErrors'] as String?,
+    name: json['Name'] as String?,
+    priority: json['Priority'] as int?,
+    serviceRoleArn: json['ServiceRoleArn'] as String?,
+    targets: (json['Targets'] as List<dynamic>?)
+        ?.map((e) => Target.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    taskArn: json['TaskArn'] as String?,
     taskInvocationParameters: json['TaskInvocationParameters'] == null
         ? null
         : MaintenanceWindowTaskInvocationParameters.fromJson(
             json['TaskInvocationParameters'] as Map<String, dynamic>),
-    taskParameters: (json['TaskParameters'] as Map<String, dynamic>)?.map(
+    taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
           k,
-          e == null
-              ? null
-              : MaintenanceWindowTaskParameterValueExpression.fromJson(
-                  e as Map<String, dynamic>)),
+          MaintenanceWindowTaskParameterValueExpression.fromJson(
+              e as Map<String, dynamic>)),
     ),
-    windowId: json['WindowId'] as String,
-    windowTaskId: json['WindowTaskId'] as String,
+    windowId: json['WindowId'] as String?,
+    windowTaskId: json['WindowTaskId'] as String?,
   );
 }
 
@@ -4876,7 +4567,7 @@ UpdateOpsItemResponse _$UpdateOpsItemResponseFromJson(
 UpdateOpsMetadataResult _$UpdateOpsMetadataResultFromJson(
     Map<String, dynamic> json) {
   return UpdateOpsMetadataResult(
-    opsMetadataArn: json['OpsMetadataArn'] as String,
+    opsMetadataArn: json['OpsMetadataArn'] as String?,
   );
 }
 
@@ -4887,31 +4578,32 @@ UpdatePatchBaselineResult _$UpdatePatchBaselineResultFromJson(
         ? null
         : PatchRuleGroup.fromJson(
             json['ApprovalRules'] as Map<String, dynamic>),
-    approvedPatches:
-        (json['ApprovedPatches'] as List)?.map((e) => e as String)?.toList(),
+    approvedPatches: (json['ApprovedPatches'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     approvedPatchesComplianceLevel: _$enumDecodeNullable(
         _$PatchComplianceLevelEnumMap, json['ApprovedPatchesComplianceLevel']),
     approvedPatchesEnableNonSecurity:
-        json['ApprovedPatchesEnableNonSecurity'] as bool,
-    baselineId: json['BaselineId'] as String,
+        json['ApprovedPatchesEnableNonSecurity'] as bool?,
+    baselineId: json['BaselineId'] as String?,
     createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     globalFilters: json['GlobalFilters'] == null
         ? null
         : PatchFilterGroup.fromJson(
             json['GlobalFilters'] as Map<String, dynamic>),
     modifiedDate: const UnixDateTimeConverter().fromJson(json['ModifiedDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
-    rejectedPatches:
-        (json['RejectedPatches'] as List)?.map((e) => e as String)?.toList(),
+    rejectedPatches: (json['RejectedPatches'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     rejectedPatchesAction: _$enumDecodeNullable(
         _$PatchActionEnumMap, json['RejectedPatchesAction']),
-    sources: (json['Sources'] as List)
-        ?.map((e) =>
-            e == null ? null : PatchSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    sources: (json['Sources'] as List<dynamic>?)
+        ?.map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

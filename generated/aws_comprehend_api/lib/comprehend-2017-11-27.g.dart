@@ -9,115 +9,93 @@ part of 'comprehend-2017-11-27.dart';
 AugmentedManifestsListItem _$AugmentedManifestsListItemFromJson(
     Map<String, dynamic> json) {
   return AugmentedManifestsListItem(
-    attributeNames:
-        (json['AttributeNames'] as List)?.map((e) => e as String)?.toList(),
+    attributeNames: (json['AttributeNames'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     s3Uri: json['S3Uri'] as String,
   );
 }
 
 Map<String, dynamic> _$AugmentedManifestsListItemToJson(
-    AugmentedManifestsListItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeNames', instance.attributeNames);
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+        AugmentedManifestsListItem instance) =>
+    <String, dynamic>{
+      'AttributeNames': instance.attributeNames,
+      'S3Uri': instance.s3Uri,
+    };
 
 BatchDetectDominantLanguageItemResult
     _$BatchDetectDominantLanguageItemResultFromJson(Map<String, dynamic> json) {
   return BatchDetectDominantLanguageItemResult(
-    index: json['Index'] as int,
-    languages: (json['Languages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DominantLanguage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    index: json['Index'] as int?,
+    languages: (json['Languages'] as List<dynamic>?)
+        ?.map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectDominantLanguageResponse
     _$BatchDetectDominantLanguageResponseFromJson(Map<String, dynamic> json) {
   return BatchDetectDominantLanguageResponse(
-    errorList: (json['ErrorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchItemError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resultList: (json['ResultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDetectDominantLanguageItemResult.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    errorList: (json['ErrorList'] as List<dynamic>)
+        .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resultList: (json['ResultList'] as List<dynamic>)
+        .map((e) => BatchDetectDominantLanguageItemResult.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectEntitiesItemResult _$BatchDetectEntitiesItemResultFromJson(
     Map<String, dynamic> json) {
   return BatchDetectEntitiesItemResult(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    index: json['Index'] as int,
+    entities: (json['Entities'] as List<dynamic>?)
+        ?.map((e) => Entity.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    index: json['Index'] as int?,
   );
 }
 
 BatchDetectEntitiesResponse _$BatchDetectEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectEntitiesResponse(
-    errorList: (json['ErrorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchItemError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resultList: (json['ResultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDetectEntitiesItemResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errorList: (json['ErrorList'] as List<dynamic>)
+        .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resultList: (json['ResultList'] as List<dynamic>)
+        .map((e) =>
+            BatchDetectEntitiesItemResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectKeyPhrasesItemResult _$BatchDetectKeyPhrasesItemResultFromJson(
     Map<String, dynamic> json) {
   return BatchDetectKeyPhrasesItemResult(
-    index: json['Index'] as int,
-    keyPhrases: (json['KeyPhrases'] as List)
-        ?.map((e) =>
-            e == null ? null : KeyPhrase.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    index: json['Index'] as int?,
+    keyPhrases: (json['KeyPhrases'] as List<dynamic>?)
+        ?.map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectKeyPhrasesResponse _$BatchDetectKeyPhrasesResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectKeyPhrasesResponse(
-    errorList: (json['ErrorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchItemError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resultList: (json['ResultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDetectKeyPhrasesItemResult.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    errorList: (json['ErrorList'] as List<dynamic>)
+        .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resultList: (json['ResultList'] as List<dynamic>)
+        .map((e) =>
+            BatchDetectKeyPhrasesItemResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectSentimentItemResult _$BatchDetectSentimentItemResultFromJson(
     Map<String, dynamic> json) {
   return BatchDetectSentimentItemResult(
-    index: json['Index'] as int,
+    index: json['Index'] as int?,
     sentiment: _$enumDecodeNullable(_$SentimentTypeEnumMap, json['Sentiment']),
     sentimentScore: json['SentimentScore'] == null
         ? null
@@ -126,36 +104,41 @@ BatchDetectSentimentItemResult _$BatchDetectSentimentItemResultFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SentimentTypeEnumMap = {
@@ -168,66 +151,58 @@ const _$SentimentTypeEnumMap = {
 BatchDetectSentimentResponse _$BatchDetectSentimentResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectSentimentResponse(
-    errorList: (json['ErrorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchItemError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resultList: (json['ResultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDetectSentimentItemResult.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    errorList: (json['ErrorList'] as List<dynamic>)
+        .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resultList: (json['ResultList'] as List<dynamic>)
+        .map((e) =>
+            BatchDetectSentimentItemResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectSyntaxItemResult _$BatchDetectSyntaxItemResultFromJson(
     Map<String, dynamic> json) {
   return BatchDetectSyntaxItemResult(
-    index: json['Index'] as int,
-    syntaxTokens: (json['SyntaxTokens'] as List)
-        ?.map((e) =>
-            e == null ? null : SyntaxToken.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    index: json['Index'] as int?,
+    syntaxTokens: (json['SyntaxTokens'] as List<dynamic>?)
+        ?.map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDetectSyntaxResponse _$BatchDetectSyntaxResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDetectSyntaxResponse(
-    errorList: (json['ErrorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchItemError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resultList: (json['ResultList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDetectSyntaxItemResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errorList: (json['ErrorList'] as List<dynamic>)
+        .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resultList: (json['ResultList'] as List<dynamic>)
+        .map((e) =>
+            BatchDetectSyntaxItemResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchItemError _$BatchItemErrorFromJson(Map<String, dynamic> json) {
   return BatchItemError(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    index: json['Index'] as int,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    index: json['Index'] as int?,
   );
 }
 
 ClassifierEvaluationMetrics _$ClassifierEvaluationMetricsFromJson(
     Map<String, dynamic> json) {
   return ClassifierEvaluationMetrics(
-    accuracy: (json['Accuracy'] as num)?.toDouble(),
-    f1Score: (json['F1Score'] as num)?.toDouble(),
-    hammingLoss: (json['HammingLoss'] as num)?.toDouble(),
-    microF1Score: (json['MicroF1Score'] as num)?.toDouble(),
-    microPrecision: (json['MicroPrecision'] as num)?.toDouble(),
-    microRecall: (json['MicroRecall'] as num)?.toDouble(),
-    precision: (json['Precision'] as num)?.toDouble(),
-    recall: (json['Recall'] as num)?.toDouble(),
+    accuracy: (json['Accuracy'] as num?)?.toDouble(),
+    f1Score: (json['F1Score'] as num?)?.toDouble(),
+    hammingLoss: (json['HammingLoss'] as num?)?.toDouble(),
+    microF1Score: (json['MicroF1Score'] as num?)?.toDouble(),
+    microPrecision: (json['MicroPrecision'] as num?)?.toDouble(),
+    microRecall: (json['MicroRecall'] as num?)?.toDouble(),
+    precision: (json['Precision'] as num?)?.toDouble(),
+    recall: (json['Recall'] as num?)?.toDouble(),
   );
 }
 
@@ -237,46 +212,42 @@ ClassifierMetadata _$ClassifierMetadataFromJson(Map<String, dynamic> json) {
         ? null
         : ClassifierEvaluationMetrics.fromJson(
             json['EvaluationMetrics'] as Map<String, dynamic>),
-    numberOfLabels: json['NumberOfLabels'] as int,
-    numberOfTestDocuments: json['NumberOfTestDocuments'] as int,
-    numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int,
+    numberOfLabels: json['NumberOfLabels'] as int?,
+    numberOfTestDocuments: json['NumberOfTestDocuments'] as int?,
+    numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int?,
   );
 }
 
 ClassifyDocumentResponse _$ClassifyDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return ClassifyDocumentResponse(
-    classes: (json['Classes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentClass.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    labels: (json['Labels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentLabel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    classes: (json['Classes'] as List<dynamic>?)
+        ?.map((e) => DocumentClass.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    labels: (json['Labels'] as List<dynamic>?)
+        ?.map((e) => DocumentLabel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateDocumentClassifierResponse _$CreateDocumentClassifierResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDocumentClassifierResponse(
-    documentClassifierArn: json['DocumentClassifierArn'] as String,
+    documentClassifierArn: json['DocumentClassifierArn'] as String?,
   );
 }
 
 CreateEndpointResponse _$CreateEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEndpointResponse(
-    endpointArn: json['EndpointArn'] as String,
+    endpointArn: json['EndpointArn'] as String?,
   );
 }
 
 CreateEntityRecognizerResponse _$CreateEntityRecognizerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateEntityRecognizerResponse(
-    entityRecognizerArn: json['EntityRecognizerArn'] as String,
+    entityRecognizerArn: json['EntityRecognizerArn'] as String?,
   );
 }
 
@@ -422,41 +393,36 @@ DescribeTopicsDetectionJobResponse _$DescribeTopicsDetectionJobResponseFromJson(
 DetectDominantLanguageResponse _$DetectDominantLanguageResponseFromJson(
     Map<String, dynamic> json) {
   return DetectDominantLanguageResponse(
-    languages: (json['Languages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DominantLanguage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    languages: (json['Languages'] as List<dynamic>?)
+        ?.map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DetectEntitiesResponse _$DetectEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DetectEntitiesResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : Entity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entities: (json['Entities'] as List<dynamic>?)
+        ?.map((e) => Entity.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DetectKeyPhrasesResponse _$DetectKeyPhrasesResponseFromJson(
     Map<String, dynamic> json) {
   return DetectKeyPhrasesResponse(
-    keyPhrases: (json['KeyPhrases'] as List)
-        ?.map((e) =>
-            e == null ? null : KeyPhrase.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    keyPhrases: (json['KeyPhrases'] as List<dynamic>?)
+        ?.map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DetectPiiEntitiesResponse _$DetectPiiEntitiesResponseFromJson(
     Map<String, dynamic> json) {
   return DetectPiiEntitiesResponse(
-    entities: (json['Entities'] as List)
-        ?.map((e) =>
-            e == null ? null : PiiEntity.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entities: (json['Entities'] as List<dynamic>?)
+        ?.map((e) => PiiEntity.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -473,17 +439,16 @@ DetectSentimentResponse _$DetectSentimentResponseFromJson(
 
 DetectSyntaxResponse _$DetectSyntaxResponseFromJson(Map<String, dynamic> json) {
   return DetectSyntaxResponse(
-    syntaxTokens: (json['SyntaxTokens'] as List)
-        ?.map((e) =>
-            e == null ? null : SyntaxToken.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    syntaxTokens: (json['SyntaxTokens'] as List<dynamic>?)
+        ?.map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DocumentClass _$DocumentClassFromJson(Map<String, dynamic> json) {
   return DocumentClass(
-    name: json['Name'] as String,
-    score: (json['Score'] as num)?.toDouble(),
+    name: json['Name'] as String?,
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
@@ -518,23 +483,23 @@ const _$JobStatusEnumMap = {
 DocumentClassificationJobProperties
     _$DocumentClassificationJobPropertiesFromJson(Map<String, dynamic> json) {
   return DocumentClassificationJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    documentClassifierArn: json['DocumentClassifierArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+    documentClassifierArn: json['DocumentClassifierArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -572,15 +537,14 @@ const _$ModelStatusEnumMap = {
 DocumentClassifierInputDataConfig _$DocumentClassifierInputDataConfigFromJson(
     Map<String, dynamic> json) {
   return DocumentClassifierInputDataConfig(
-    augmentedManifests: (json['AugmentedManifests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    augmentedManifests: (json['AugmentedManifests'] as List<dynamic>?)
+        ?.map((e) =>
+            AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dataFormat: _$enumDecodeNullable(
         _$DocumentClassifierDataFormatEnumMap, json['DataFormat']),
-    labelDelimiter: json['LabelDelimiter'] as String,
-    s3Uri: json['S3Uri'] as String,
+    labelDelimiter: json['LabelDelimiter'] as String?,
+    s3Uri: json['S3Uri'] as String?,
   );
 }
 
@@ -595,7 +559,7 @@ Map<String, dynamic> _$DocumentClassifierInputDataConfigToJson(
   }
 
   writeNotNull('AugmentedManifests',
-      instance.augmentedManifests?.map((e) => e?.toJson())?.toList());
+      instance.augmentedManifests?.map((e) => e.toJson()).toList());
   writeNotNull(
       'DataFormat', _$DocumentClassifierDataFormatEnumMap[instance.dataFormat]);
   writeNotNull('LabelDelimiter', instance.labelDelimiter);
@@ -611,8 +575,8 @@ const _$DocumentClassifierDataFormatEnumMap = {
 DocumentClassifierOutputDataConfig _$DocumentClassifierOutputDataConfigFromJson(
     Map<String, dynamic> json) {
   return DocumentClassifierOutputDataConfig(
-    kmsKeyId: json['KmsKeyId'] as String,
-    s3Uri: json['S3Uri'] as String,
+    kmsKeyId: json['KmsKeyId'] as String?,
+    s3Uri: json['S3Uri'] as String?,
   );
 }
 
@@ -638,8 +602,8 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
         ? null
         : ClassifierMetadata.fromJson(
             json['ClassifierMetadata'] as Map<String, dynamic>),
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    documentClassifierArn: json['DocumentClassifierArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+    documentClassifierArn: json['DocumentClassifierArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -647,7 +611,7 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     mode: _$enumDecodeNullable(_$DocumentClassifierModeEnumMap, json['Mode']),
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
@@ -659,7 +623,7 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
         const UnixDateTimeConverter().fromJson(json['TrainingEndTime']),
     trainingStartTime:
         const UnixDateTimeConverter().fromJson(json['TrainingStartTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -688,15 +652,15 @@ const _$DocumentClassifierModeEnumMap = {
 
 DocumentLabel _$DocumentLabelFromJson(Map<String, dynamic> json) {
   return DocumentLabel(
-    name: json['Name'] as String,
-    score: (json['Score'] as num)?.toDouble(),
+    name: json['Name'] as String?,
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
 DominantLanguage _$DominantLanguageFromJson(Map<String, dynamic> json) {
   return DominantLanguage(
-    languageCode: json['LanguageCode'] as String,
-    score: (json['Score'] as num)?.toDouble(),
+    languageCode: json['LanguageCode'] as String?,
+    score: (json['Score'] as num?)?.toDouble(),
   );
 }
 
@@ -723,22 +687,22 @@ DominantLanguageDetectionJobProperties
     _$DominantLanguageDetectionJobPropertiesFromJson(
         Map<String, dynamic> json) {
   return DominantLanguageDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -774,13 +738,13 @@ const _$EndpointStatusEnumMap = {
 EndpointProperties _$EndpointPropertiesFromJson(Map<String, dynamic> json) {
   return EndpointProperties(
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    currentInferenceUnits: json['CurrentInferenceUnits'] as int,
-    desiredInferenceUnits: json['DesiredInferenceUnits'] as int,
-    endpointArn: json['EndpointArn'] as String,
+    currentInferenceUnits: json['CurrentInferenceUnits'] as int?,
+    desiredInferenceUnits: json['DesiredInferenceUnits'] as int?,
+    endpointArn: json['EndpointArn'] as String?,
     lastModifiedTime:
         const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
-    message: json['Message'] as String,
-    modelArn: json['ModelArn'] as String,
+    message: json['Message'] as String?,
+    modelArn: json['ModelArn'] as String?,
     status: _$enumDecodeNullable(_$EndpointStatusEnumMap, json['Status']),
   );
 }
@@ -807,25 +771,25 @@ Map<String, dynamic> _$EntitiesDetectionJobFilterToJson(
 EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntitiesDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    entityRecognizerArn: json['EntityRecognizerArn'] as String,
+    entityRecognizerArn: json['EntityRecognizerArn'] as String?,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -834,10 +798,10 @@ EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
 
 Entity _$EntityFromJson(Map<String, dynamic> json) {
   return Entity(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
     type: _$enumDecodeNullable(_$EntityTypeEnumMap, json['Type']),
   );
 }
@@ -862,18 +826,10 @@ EntityRecognizerAnnotations _$EntityRecognizerAnnotationsFromJson(
 }
 
 Map<String, dynamic> _$EntityRecognizerAnnotationsToJson(
-    EntityRecognizerAnnotations instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+        EntityRecognizerAnnotations instance) =>
+    <String, dynamic>{
+      'S3Uri': instance.s3Uri,
+    };
 
 EntityRecognizerDocuments _$EntityRecognizerDocumentsFromJson(
     Map<String, dynamic> json) {
@@ -883,18 +839,10 @@ EntityRecognizerDocuments _$EntityRecognizerDocumentsFromJson(
 }
 
 Map<String, dynamic> _$EntityRecognizerDocumentsToJson(
-    EntityRecognizerDocuments instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+        EntityRecognizerDocuments instance) =>
+    <String, dynamic>{
+      'S3Uri': instance.s3Uri,
+    };
 
 EntityRecognizerEntityList _$EntityRecognizerEntityListFromJson(
     Map<String, dynamic> json) {
@@ -904,25 +852,17 @@ EntityRecognizerEntityList _$EntityRecognizerEntityListFromJson(
 }
 
 Map<String, dynamic> _$EntityRecognizerEntityListToJson(
-    EntityRecognizerEntityList instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('S3Uri', instance.s3Uri);
-  return val;
-}
+        EntityRecognizerEntityList instance) =>
+    <String, dynamic>{
+      'S3Uri': instance.s3Uri,
+    };
 
 EntityRecognizerEvaluationMetrics _$EntityRecognizerEvaluationMetricsFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerEvaluationMetrics(
-    f1Score: (json['F1Score'] as num)?.toDouble(),
-    precision: (json['Precision'] as num)?.toDouble(),
-    recall: (json['Recall'] as num)?.toDouble(),
+    f1Score: (json['F1Score'] as num?)?.toDouble(),
+    precision: (json['Precision'] as num?)?.toDouble(),
+    recall: (json['Recall'] as num?)?.toDouble(),
   );
 }
 
@@ -947,20 +887,17 @@ Map<String, dynamic> _$EntityRecognizerFilterToJson(
 EntityRecognizerInputDataConfig _$EntityRecognizerInputDataConfigFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerInputDataConfig(
-    entityTypes: (json['EntityTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EntityTypesListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entityTypes: (json['EntityTypes'] as List<dynamic>)
+        .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
     annotations: json['Annotations'] == null
         ? null
         : EntityRecognizerAnnotations.fromJson(
             json['Annotations'] as Map<String, dynamic>),
-    augmentedManifests: (json['AugmentedManifests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    augmentedManifests: (json['AugmentedManifests'] as List<dynamic>?)
+        ?.map((e) =>
+            AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dataFormat: _$enumDecodeNullable(
         _$EntityRecognizerDataFormatEnumMap, json['DataFormat']),
     documents: json['Documents'] == null
@@ -976,7 +913,9 @@ EntityRecognizerInputDataConfig _$EntityRecognizerInputDataConfigFromJson(
 
 Map<String, dynamic> _$EntityRecognizerInputDataConfigToJson(
     EntityRecognizerInputDataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'EntityTypes': instance.entityTypes.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -984,11 +923,9 @@ Map<String, dynamic> _$EntityRecognizerInputDataConfigToJson(
     }
   }
 
-  writeNotNull(
-      'EntityTypes', instance.entityTypes?.map((e) => e?.toJson())?.toList());
   writeNotNull('Annotations', instance.annotations?.toJson());
   writeNotNull('AugmentedManifests',
-      instance.augmentedManifests?.map((e) => e?.toJson())?.toList());
+      instance.augmentedManifests?.map((e) => e.toJson()).toList());
   writeNotNull(
       'DataFormat', _$EntityRecognizerDataFormatEnumMap[instance.dataFormat]);
   writeNotNull('Documents', instance.documents?.toJson());
@@ -1004,18 +941,16 @@ const _$EntityRecognizerDataFormatEnumMap = {
 EntityRecognizerMetadata _$EntityRecognizerMetadataFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerMetadata(
-    entityTypes: (json['EntityTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EntityRecognizerMetadataEntityTypesListItem.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    entityTypes: (json['EntityTypes'] as List<dynamic>?)
+        ?.map((e) => EntityRecognizerMetadataEntityTypesListItem.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
     evaluationMetrics: json['EvaluationMetrics'] == null
         ? null
         : EntityRecognizerEvaluationMetrics.fromJson(
             json['EvaluationMetrics'] as Map<String, dynamic>),
-    numberOfTestDocuments: json['NumberOfTestDocuments'] as int,
-    numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int,
+    numberOfTestDocuments: json['NumberOfTestDocuments'] as int?,
+    numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int?,
   );
 }
 
@@ -1027,24 +962,24 @@ EntityRecognizerMetadataEntityTypesListItem
         ? null
         : EntityTypesEvaluationMetrics.fromJson(
             json['EvaluationMetrics'] as Map<String, dynamic>),
-    numberOfTrainMentions: json['NumberOfTrainMentions'] as int,
-    type: json['Type'] as String,
+    numberOfTrainMentions: json['NumberOfTrainMentions'] as int?,
+    type: json['Type'] as String?,
   );
 }
 
 EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    entityRecognizerArn: json['EntityRecognizerArn'] as String,
+    entityRecognizerArn: json['EntityRecognizerArn'] as String?,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : EntityRecognizerInputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     recognizerMetadata: json['RecognizerMetadata'] == null
         ? null
         : EntityRecognizerMetadata.fromJson(
@@ -1055,7 +990,7 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
         const UnixDateTimeConverter().fromJson(json['TrainingEndTime']),
     trainingStartTime:
         const UnixDateTimeConverter().fromJson(json['TrainingStartTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -1065,9 +1000,9 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
 EntityTypesEvaluationMetrics _$EntityTypesEvaluationMetricsFromJson(
     Map<String, dynamic> json) {
   return EntityTypesEvaluationMetrics(
-    f1Score: (json['F1Score'] as num)?.toDouble(),
-    precision: (json['Precision'] as num)?.toDouble(),
-    recall: (json['Recall'] as num)?.toDouble(),
+    f1Score: (json['F1Score'] as num?)?.toDouble(),
+    precision: (json['Precision'] as num?)?.toDouble(),
+    recall: (json['Recall'] as num?)?.toDouble(),
   );
 }
 
@@ -1077,18 +1012,11 @@ EntityTypesListItem _$EntityTypesListItemFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$EntityTypesListItemToJson(EntityTypesListItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', instance.type);
-  return val;
-}
+Map<String, dynamic> _$EntityTypesListItemToJson(
+        EntityTypesListItem instance) =>
+    <String, dynamic>{
+      'Type': instance.type,
+    };
 
 Map<String, dynamic> _$EventsDetectionJobFilterToJson(
     EventsDetectionJobFilter instance) {
@@ -1112,25 +1040,26 @@ Map<String, dynamic> _$EventsDetectionJobFilterToJson(
 EventsDetectionJobProperties _$EventsDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return EventsDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    targetEventTypes:
-        (json['TargetEventTypes'] as List)?.map((e) => e as String)?.toList(),
+    targetEventTypes: (json['TargetEventTypes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1143,7 +1072,9 @@ InputDataConfig _$InputDataConfigFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'S3Uri': instance.s3Uri,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1151,7 +1082,6 @@ Map<String, dynamic> _$InputDataConfigToJson(InputDataConfig instance) {
     }
   }
 
-  writeNotNull('S3Uri', instance.s3Uri);
   writeNotNull('InputFormat', _$InputFormatEnumMap[instance.inputFormat]);
   return val;
 }
@@ -1163,10 +1093,10 @@ const _$InputFormatEnumMap = {
 
 KeyPhrase _$KeyPhraseFromJson(Map<String, dynamic> json) {
   return KeyPhrase(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
-    score: (json['Score'] as num)?.toDouble(),
-    text: json['Text'] as String,
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
+    score: (json['Score'] as num?)?.toDouble(),
+    text: json['Text'] as String?,
   );
 }
 
@@ -1192,24 +1122,24 @@ Map<String, dynamic> _$KeyPhrasesDetectionJobFilterToJson(
 KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return KeyPhrasesDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -1221,13 +1151,11 @@ ListDocumentClassificationJobsResponse
         Map<String, dynamic> json) {
   return ListDocumentClassificationJobsResponse(
     documentClassificationJobPropertiesList:
-        (json['DocumentClassificationJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DocumentClassificationJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['DocumentClassificationJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => DocumentClassificationJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1235,12 +1163,11 @@ ListDocumentClassifiersResponse _$ListDocumentClassifiersResponseFromJson(
     Map<String, dynamic> json) {
   return ListDocumentClassifiersResponse(
     documentClassifierPropertiesList: (json['DocumentClassifierPropertiesList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentClassifierProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            DocumentClassifierProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1249,25 +1176,21 @@ ListDominantLanguageDetectionJobsResponse
         Map<String, dynamic> json) {
   return ListDominantLanguageDetectionJobsResponse(
     dominantLanguageDetectionJobPropertiesList:
-        (json['DominantLanguageDetectionJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DominantLanguageDetectionJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['DominantLanguageDetectionJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => DominantLanguageDetectionJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListEndpointsResponse _$ListEndpointsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEndpointsResponse(
-    endpointPropertiesList: (json['EndpointPropertiesList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EndpointProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    endpointPropertiesList: (json['EndpointPropertiesList'] as List<dynamic>?)
+        ?.map((e) => EndpointProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1275,26 +1198,23 @@ ListEntitiesDetectionJobsResponse _$ListEntitiesDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEntitiesDetectionJobsResponse(
     entitiesDetectionJobPropertiesList:
-        (json['EntitiesDetectionJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : EntitiesDetectionJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['EntitiesDetectionJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => EntitiesDetectionJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListEntityRecognizersResponse _$ListEntityRecognizersResponseFromJson(
     Map<String, dynamic> json) {
   return ListEntityRecognizersResponse(
-    entityRecognizerPropertiesList: (json['EntityRecognizerPropertiesList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : EntityRecognizerProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    entityRecognizerPropertiesList:
+        (json['EntityRecognizerPropertiesList'] as List<dynamic>?)
+            ?.map((e) =>
+                EntityRecognizerProperties.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1302,12 +1222,11 @@ ListEventsDetectionJobsResponse _$ListEventsDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEventsDetectionJobsResponse(
     eventsDetectionJobPropertiesList: (json['EventsDetectionJobPropertiesList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : EventsDetectionJobProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            EventsDetectionJobProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1315,76 +1234,71 @@ ListKeyPhrasesDetectionJobsResponse
     _$ListKeyPhrasesDetectionJobsResponseFromJson(Map<String, dynamic> json) {
   return ListKeyPhrasesDetectionJobsResponse(
     keyPhrasesDetectionJobPropertiesList:
-        (json['KeyPhrasesDetectionJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : KeyPhrasesDetectionJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['KeyPhrasesDetectionJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => KeyPhrasesDetectionJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListPiiEntitiesDetectionJobsResponse
     _$ListPiiEntitiesDetectionJobsResponseFromJson(Map<String, dynamic> json) {
   return ListPiiEntitiesDetectionJobsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     piiEntitiesDetectionJobPropertiesList:
-        (json['PiiEntitiesDetectionJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : PiiEntitiesDetectionJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['PiiEntitiesDetectionJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => PiiEntitiesDetectionJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListSentimentDetectionJobsResponse _$ListSentimentDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSentimentDetectionJobsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     sentimentDetectionJobPropertiesList:
-        (json['SentimentDetectionJobPropertiesList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : SentimentDetectionJobProperties.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['SentimentDetectionJobPropertiesList'] as List<dynamic>?)
+            ?.map((e) => SentimentDetectionJobProperties.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    resourceArn: json['ResourceArn'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resourceArn: json['ResourceArn'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTopicsDetectionJobsResponse _$ListTopicsDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListTopicsDetectionJobsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     topicsDetectionJobPropertiesList: (json['TopicsDetectionJobPropertiesList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : TopicsDetectionJobProperties.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            TopicsDetectionJobProperties.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OutputDataConfig _$OutputDataConfigFromJson(Map<String, dynamic> json) {
   return OutputDataConfig(
     s3Uri: json['S3Uri'] as String,
-    kmsKeyId: json['KmsKeyId'] as String,
+    kmsKeyId: json['KmsKeyId'] as String?,
   );
 }
 
 Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'S3Uri': instance.s3Uri,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1392,14 +1306,13 @@ Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
     }
   }
 
-  writeNotNull('S3Uri', instance.s3Uri);
   writeNotNull('KmsKeyId', instance.kmsKeyId);
   return val;
 }
 
 PartOfSpeechTag _$PartOfSpeechTagFromJson(Map<String, dynamic> json) {
   return PartOfSpeechTag(
-    score: (json['Score'] as num)?.toDouble(),
+    score: (json['Score'] as num?)?.toDouble(),
     tag: _$enumDecodeNullable(_$PartOfSpeechTagTypeEnumMap, json['Tag']),
   );
 }
@@ -1447,18 +1360,18 @@ Map<String, dynamic> _$PiiEntitiesDetectionJobFilterToJson(
 PiiEntitiesDetectionJobProperties _$PiiEntitiesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return PiiEntitiesDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     mode: _$enumDecodeNullable(_$PiiEntitiesDetectionModeEnumMap, json['Mode']),
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
@@ -1479,9 +1392,9 @@ const _$PiiEntitiesDetectionModeEnumMap = {
 
 PiiEntity _$PiiEntityFromJson(Map<String, dynamic> json) {
   return PiiEntity(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
-    score: (json['Score'] as num)?.toDouble(),
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
+    score: (json['Score'] as num?)?.toDouble(),
     type: _$enumDecodeNullable(_$PiiEntityTypeEnumMap, json['Type']),
   );
 }
@@ -1515,18 +1428,18 @@ const _$PiiEntityTypeEnumMap = {
 PiiOutputDataConfig _$PiiOutputDataConfigFromJson(Map<String, dynamic> json) {
   return PiiOutputDataConfig(
     s3Uri: json['S3Uri'] as String,
-    kmsKeyId: json['KmsKeyId'] as String,
+    kmsKeyId: json['KmsKeyId'] as String?,
   );
 }
 
 RedactionConfig _$RedactionConfigFromJson(Map<String, dynamic> json) {
   return RedactionConfig(
-    maskCharacter: json['MaskCharacter'] as String,
+    maskCharacter: json['MaskCharacter'] as String?,
     maskMode: _$enumDecodeNullable(
         _$PiiEntitiesDetectionMaskModeEnumMap, json['MaskMode']),
-    piiEntityTypes: (json['PiiEntityTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PiiEntityTypeEnumMap, e))
-        ?.toList(),
+    piiEntityTypes: (json['PiiEntityTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$PiiEntityTypeEnumMap, e))
+        .toList(),
   );
 }
 
@@ -1543,7 +1456,7 @@ Map<String, dynamic> _$RedactionConfigToJson(RedactionConfig instance) {
   writeNotNull(
       'MaskMode', _$PiiEntitiesDetectionMaskModeEnumMap[instance.maskMode]);
   writeNotNull('PiiEntityTypes',
-      instance.piiEntityTypes?.map((e) => _$PiiEntityTypeEnumMap[e])?.toList());
+      instance.piiEntityTypes?.map((e) => _$PiiEntityTypeEnumMap[e]).toList());
   return val;
 }
 
@@ -1575,24 +1488,24 @@ Map<String, dynamic> _$SentimentDetectionJobFilterToJson(
 SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return SentimentDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -1601,10 +1514,10 @@ SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
 
 SentimentScore _$SentimentScoreFromJson(Map<String, dynamic> json) {
   return SentimentScore(
-    mixed: (json['Mixed'] as num)?.toDouble(),
-    negative: (json['Negative'] as num)?.toDouble(),
-    neutral: (json['Neutral'] as num)?.toDouble(),
-    positive: (json['Positive'] as num)?.toDouble(),
+    mixed: (json['Mixed'] as num?)?.toDouble(),
+    negative: (json['Negative'] as num?)?.toDouble(),
+    neutral: (json['Neutral'] as num?)?.toDouble(),
+    positive: (json['Positive'] as num?)?.toDouble(),
   );
 }
 
@@ -1612,7 +1525,7 @@ StartDocumentClassificationJobResponse
     _$StartDocumentClassificationJobResponseFromJson(
         Map<String, dynamic> json) {
   return StartDocumentClassificationJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1621,7 +1534,7 @@ StartDominantLanguageDetectionJobResponse
     _$StartDominantLanguageDetectionJobResponseFromJson(
         Map<String, dynamic> json) {
   return StartDominantLanguageDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1629,7 +1542,7 @@ StartDominantLanguageDetectionJobResponse
 StartEntitiesDetectionJobResponse _$StartEntitiesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartEntitiesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1637,7 +1550,7 @@ StartEntitiesDetectionJobResponse _$StartEntitiesDetectionJobResponseFromJson(
 StartEventsDetectionJobResponse _$StartEventsDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartEventsDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1645,7 +1558,7 @@ StartEventsDetectionJobResponse _$StartEventsDetectionJobResponseFromJson(
 StartKeyPhrasesDetectionJobResponse
     _$StartKeyPhrasesDetectionJobResponseFromJson(Map<String, dynamic> json) {
   return StartKeyPhrasesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1653,7 +1566,7 @@ StartKeyPhrasesDetectionJobResponse
 StartPiiEntitiesDetectionJobResponse
     _$StartPiiEntitiesDetectionJobResponseFromJson(Map<String, dynamic> json) {
   return StartPiiEntitiesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1661,7 +1574,7 @@ StartPiiEntitiesDetectionJobResponse
 StartSentimentDetectionJobResponse _$StartSentimentDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartSentimentDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1669,7 +1582,7 @@ StartSentimentDetectionJobResponse _$StartSentimentDetectionJobResponseFromJson(
 StartTopicsDetectionJobResponse _$StartTopicsDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartTopicsDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1678,7 +1591,7 @@ StopDominantLanguageDetectionJobResponse
     _$StopDominantLanguageDetectionJobResponseFromJson(
         Map<String, dynamic> json) {
   return StopDominantLanguageDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1686,7 +1599,7 @@ StopDominantLanguageDetectionJobResponse
 StopEntitiesDetectionJobResponse _$StopEntitiesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopEntitiesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1694,7 +1607,7 @@ StopEntitiesDetectionJobResponse _$StopEntitiesDetectionJobResponseFromJson(
 StopEventsDetectionJobResponse _$StopEventsDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopEventsDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1702,7 +1615,7 @@ StopEventsDetectionJobResponse _$StopEventsDetectionJobResponseFromJson(
 StopKeyPhrasesDetectionJobResponse _$StopKeyPhrasesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopKeyPhrasesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1710,7 +1623,7 @@ StopKeyPhrasesDetectionJobResponse _$StopKeyPhrasesDetectionJobResponseFromJson(
 StopPiiEntitiesDetectionJobResponse
     _$StopPiiEntitiesDetectionJobResponseFromJson(Map<String, dynamic> json) {
   return StopPiiEntitiesDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1718,7 +1631,7 @@ StopPiiEntitiesDetectionJobResponse
 StopSentimentDetectionJobResponse _$StopSentimentDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopSentimentDetectionJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
 }
@@ -1736,26 +1649,28 @@ StopTrainingEntityRecognizerResponse
 
 SyntaxToken _$SyntaxTokenFromJson(Map<String, dynamic> json) {
   return SyntaxToken(
-    beginOffset: json['BeginOffset'] as int,
-    endOffset: json['EndOffset'] as int,
+    beginOffset: json['BeginOffset'] as int?,
+    endOffset: json['EndOffset'] as int?,
     partOfSpeech: json['PartOfSpeech'] == null
         ? null
         : PartOfSpeechTag.fromJson(
             json['PartOfSpeech'] as Map<String, dynamic>),
-    text: json['Text'] as String,
-    tokenId: json['TokenId'] as int,
+    text: json['Text'] as String?,
+    tokenId: json['TokenId'] as int?,
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1763,7 +1678,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }
@@ -1794,23 +1708,23 @@ Map<String, dynamic> _$TopicsDetectionJobFilterToJson(
 TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TopicsDetectionJobProperties(
-    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
-    message: json['Message'] as String,
-    numberOfTopics: json['NumberOfTopics'] as int,
+    message: json['Message'] as String?,
+    numberOfTopics: json['NumberOfTopics'] as int?,
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
-    volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
+    volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -1829,22 +1743,15 @@ UpdateEndpointResponse _$UpdateEndpointResponseFromJson(
 
 VpcConfig _$VpcConfigFromJson(Map<String, dynamic> json) {
   return VpcConfig(
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnets: (json['Subnets'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subnets:
+        (json['Subnets'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$VpcConfigToJson(VpcConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
-  writeNotNull('Subnets', instance.subnets);
-  return val;
-}
+Map<String, dynamic> _$VpcConfigToJson(VpcConfig instance) => <String, dynamic>{
+      'SecurityGroupIds': instance.securityGroupIds,
+      'Subnets': instance.subnets,
+    };

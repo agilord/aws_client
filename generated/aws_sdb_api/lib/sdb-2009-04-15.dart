@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'sdb-2009-04-15.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sdb-2009-04-15.g.dart';
 
 /// Amazon SimpleDB is a web service providing the core database functions of
 /// data indexing and querying in the cloud. By offloading the time and effort
@@ -49,9 +41,9 @@ class SimpleDB {
   final Map<String, _s.Shape> shapes;
 
   SimpleDB({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -97,8 +89,8 @@ class SimpleDB {
   /// Parameter [items] :
   /// A list of items on which to perform the operation.
   Future<void> batchDeleteAttributes({
-    @_s.required String domainName,
-    @_s.required List<DeletableItem> items,
+    required String domainName,
+    required List<DeletableItem> items,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(items, 'items');
@@ -187,8 +179,8 @@ class SimpleDB {
   /// Parameter [items] :
   /// A list of items on which to perform the operation.
   Future<void> batchPutAttributes({
-    @_s.required String domainName,
-    @_s.required List<ReplaceableItem> items,
+    required String domainName,
+    required List<ReplaceableItem> items,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(items, 'items');
@@ -228,7 +220,7 @@ class SimpleDB {
   /// characters and can contain the following characters: a-z, A-Z, 0-9, '_',
   /// '-', and '.'.
   Future<void> createDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
@@ -282,10 +274,10 @@ class SimpleDB {
   /// in order for this request to be processed and the attributes to be
   /// deleted.
   Future<void> deleteAttributes({
-    @_s.required String domainName,
-    @_s.required String itemName,
-    List<DeletableAttribute> attributes,
-    UpdateCondition expected,
+    required String domainName,
+    required String itemName,
+    List<DeletableAttribute>? attributes,
+    UpdateCondition? expected,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(itemName, 'itemName');
@@ -319,7 +311,7 @@ class SimpleDB {
   /// Parameter [domainName] :
   /// The name of the domain to delete.
   Future<void> deleteDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
@@ -346,7 +338,7 @@ class SimpleDB {
   /// Parameter [domainName] :
   /// The name of the domain for which to display the metadata of.
   Future<DomainMetadataResult> domainMetadata({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
@@ -395,10 +387,10 @@ class SimpleDB {
   /// eventually, and the client may not see data that was written immediately
   /// before your read.
   Future<GetAttributesResult> getAttributes({
-    @_s.required String domainName,
-    @_s.required String itemName,
-    List<String> attributeNames,
-    bool consistentRead,
+    required String domainName,
+    required String itemName,
+    List<String>? attributeNames,
+    bool? consistentRead,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     ArgumentError.checkNotNull(itemName, 'itemName');
@@ -441,8 +433,8 @@ class SimpleDB {
   /// A string informing Amazon SimpleDB where to start the next list of domain
   /// names.
   Future<ListDomainsResult> listDomains({
-    int maxNumberOfDomains,
-    String nextToken,
+    int? maxNumberOfDomains,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     maxNumberOfDomains?.also((arg) => $request['MaxNumberOfDomains'] = arg);
@@ -526,10 +518,10 @@ class SimpleDB {
   /// in order for this request to be processed and the attributes to be
   /// updated.
   Future<void> putAttributes({
-    @_s.required List<ReplaceableAttribute> attributes,
-    @_s.required String domainName,
-    @_s.required String itemName,
-    UpdateCondition expected,
+    required List<ReplaceableAttribute> attributes,
+    required String domainName,
+    required String itemName,
+    UpdateCondition? expected,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -589,9 +581,9 @@ class SimpleDB {
   /// A string informing Amazon SimpleDB where to start the next list of
   /// <code>ItemNames</code>.
   Future<SelectResult> select({
-    @_s.required String selectExpression,
-    bool consistentRead,
-    String nextToken,
+    required String selectExpression,
+    bool? consistentRead,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(selectExpression, 'selectExpression');
     final $request = <String, dynamic>{};
@@ -622,21 +614,21 @@ class Attribute {
   final String value;
 
   ///
-  final String alternateNameEncoding;
+  final String? alternateNameEncoding;
 
   ///
-  final String alternateValueEncoding;
+  final String? alternateValueEncoding;
 
   Attribute({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
     this.alternateNameEncoding,
     this.alternateValueEncoding,
   });
   factory Attribute.fromXml(_s.XmlElement elem) {
     return Attribute(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
       alternateNameEncoding:
           _s.extractXmlStringValue(elem, 'AlternateNameEncoding'),
       alternateValueEncoding:
@@ -647,7 +639,7 @@ class Attribute {
 
 /// The specified attribute does not exist.
 class AttributeDoesNotExist implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   AttributeDoesNotExist({
     this.boxUsage,
@@ -660,66 +652,66 @@ class AttributeDoesNotExist implements _s.AwsException {
 }
 
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeletableAttribute {
   /// The name of the attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   DeletableAttribute({
-    @_s.required this.name,
+    required this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$DeletableAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeletableItem {
-  @_s.JsonKey(name: 'ItemName')
   final String name;
-  @_s.JsonKey(name: 'Attributes')
-  final List<DeletableAttribute> attributes;
+  final List<DeletableAttribute>? attributes;
 
   DeletableItem({
-    @_s.required this.name,
+    required this.name,
     this.attributes,
   });
-  Map<String, dynamic> toJson() => _$DeletableItemToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final attributes = this.attributes;
+    return {
+      'ItemName': name,
+      if (attributes != null) 'Attributes': attributes,
+    };
+  }
 }
 
 class DomainMetadataResult {
   /// The number of unique attribute names in the domain.
-  final int attributeNameCount;
+  final int? attributeNameCount;
 
   /// The total size of all unique attribute names in the domain, in bytes.
-  final int attributeNamesSizeBytes;
+  final int? attributeNamesSizeBytes;
 
   /// The number of all attribute name/value pairs in the domain.
-  final int attributeValueCount;
+  final int? attributeValueCount;
 
   /// The total size of all attribute values in the domain, in bytes.
-  final int attributeValuesSizeBytes;
+  final int? attributeValuesSizeBytes;
 
   /// The number of all items in the domain.
-  final int itemCount;
+  final int? itemCount;
 
   /// The total size of all item names in the domain, in bytes.
-  final int itemNamesSizeBytes;
+  final int? itemNamesSizeBytes;
 
   /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
-  final int timestamp;
+  final int? timestamp;
 
   DomainMetadataResult({
     this.attributeNameCount,
@@ -747,7 +739,7 @@ class DomainMetadataResult {
 
 /// The item name was specified more than once.
 class DuplicateItemName implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   DuplicateItemName({
     this.boxUsage,
@@ -761,7 +753,7 @@ class DuplicateItemName implements _s.AwsException {
 
 class GetAttributesResult {
   /// The list of attributes returned by the operation.
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   GetAttributesResult({
     this.attributes,
@@ -778,7 +770,7 @@ class GetAttributesResult {
 
 /// The specified NextToken is not valid.
 class InvalidNextToken implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   InvalidNextToken({
     this.boxUsage,
@@ -792,7 +784,7 @@ class InvalidNextToken implements _s.AwsException {
 
 /// Too many predicates exist in the query expression.
 class InvalidNumberPredicates implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   InvalidNumberPredicates({
     this.boxUsage,
@@ -806,7 +798,7 @@ class InvalidNumberPredicates implements _s.AwsException {
 
 /// Too many predicates exist in the query expression.
 class InvalidNumberValueTests implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   InvalidNumberValueTests({
     this.boxUsage,
@@ -820,7 +812,7 @@ class InvalidNumberValueTests implements _s.AwsException {
 
 /// The value for a parameter is invalid.
 class InvalidParameterValue implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   InvalidParameterValue({
     this.boxUsage,
@@ -834,7 +826,7 @@ class InvalidParameterValue implements _s.AwsException {
 
 /// The specified query expression syntax is not valid.
 class InvalidQueryExpression implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   InvalidQueryExpression({
     this.boxUsage,
@@ -855,11 +847,11 @@ class Item {
   final String name;
 
   ///
-  final String alternateNameEncoding;
+  final String? alternateNameEncoding;
 
   Item({
-    @_s.required this.attributes,
-    @_s.required this.name,
+    required this.attributes,
+    required this.name,
     this.alternateNameEncoding,
   });
   factory Item.fromXml(_s.XmlElement elem) {
@@ -868,7 +860,7 @@ class Item {
           .findElements('Attribute')
           .map((c) => Attribute.fromXml(c))
           .toList(),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       alternateNameEncoding:
           _s.extractXmlStringValue(elem, 'AlternateNameEncoding'),
     );
@@ -877,11 +869,11 @@ class Item {
 
 class ListDomainsResult {
   /// A list of domain names that match the expression.
-  final List<String> domainNames;
+  final List<String>? domainNames;
 
   /// An opaque token indicating that there are more domains than the specified
   /// <code>MaxNumberOfDomains</code> still available.
-  final String nextToken;
+  final String? nextToken;
 
   ListDomainsResult({
     this.domainNames,
@@ -897,7 +889,7 @@ class ListDomainsResult {
 
 /// The request must contain the specified missing parameter.
 class MissingParameter implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   MissingParameter({
     this.boxUsage,
@@ -911,7 +903,7 @@ class MissingParameter implements _s.AwsException {
 
 /// The specified domain does not exist.
 class NoSuchDomain implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NoSuchDomain({
     this.boxUsage,
@@ -925,7 +917,7 @@ class NoSuchDomain implements _s.AwsException {
 
 /// Too many attributes in this domain.
 class NumberDomainAttributesExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberDomainAttributesExceeded({
     this.boxUsage,
@@ -939,7 +931,7 @@ class NumberDomainAttributesExceeded implements _s.AwsException {
 
 /// Too many bytes in this domain.
 class NumberDomainBytesExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberDomainBytesExceeded({
     this.boxUsage,
@@ -953,7 +945,7 @@ class NumberDomainBytesExceeded implements _s.AwsException {
 
 /// Too many domains exist per this account.
 class NumberDomainsExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberDomainsExceeded({
     this.boxUsage,
@@ -967,7 +959,7 @@ class NumberDomainsExceeded implements _s.AwsException {
 
 /// Too many attributes in this item.
 class NumberItemAttributesExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberItemAttributesExceeded({
     this.boxUsage,
@@ -981,7 +973,7 @@ class NumberItemAttributesExceeded implements _s.AwsException {
 
 /// Too many attributes exist in a single call.
 class NumberSubmittedAttributesExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberSubmittedAttributesExceeded({
     this.boxUsage,
@@ -995,7 +987,7 @@ class NumberSubmittedAttributesExceeded implements _s.AwsException {
 
 /// Too many items exist in a single call.
 class NumberSubmittedItemsExceeded implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   NumberSubmittedItemsExceeded({
     this.boxUsage,
@@ -1008,59 +1000,60 @@ class NumberSubmittedItemsExceeded implements _s.AwsException {
 }
 
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplaceableAttribute {
   /// The name of the replaceable attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the replaceable attribute.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   /// A flag specifying whether or not to replace the attribute/value pair or to
   /// add a new attribute/value pair. The default setting is <code>false</code>.
-  @_s.JsonKey(name: 'Replace')
-  final bool replace;
+  final bool? replace;
 
   ReplaceableAttribute({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
     this.replace,
   });
-  Map<String, dynamic> toJson() => _$ReplaceableAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    final replace = this.replace;
+    return {
+      'Name': name,
+      'Value': value,
+      if (replace != null) 'Replace': replace,
+    };
+  }
 }
 
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplaceableItem {
   /// The list of attributes for a replaceable item.
-  @_s.JsonKey(name: 'Attributes')
   final List<ReplaceableAttribute> attributes;
 
   /// The name of the replaceable item.
-  @_s.JsonKey(name: 'ItemName')
   final String name;
 
   ReplaceableItem({
-    @_s.required this.attributes,
-    @_s.required this.name,
+    required this.attributes,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$ReplaceableItemToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    return {
+      'Attributes': attributes,
+      'ItemName': name,
+    };
+  }
 }
 
 /// A timeout occurred when attempting to query the specified domain with
 /// specified query expression.
 class RequestTimeout implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   RequestTimeout({
     this.boxUsage,
@@ -1074,12 +1067,12 @@ class RequestTimeout implements _s.AwsException {
 
 class SelectResult {
   /// A list of items that match the select expression.
-  final List<Item> items;
+  final List<Item>? items;
 
   /// An opaque token indicating that more items than
   /// <code>MaxNumberOfItems</code> were matched, the response size exceeded 1
   /// megabyte, or the execution time exceeded 5 seconds.
-  final String nextToken;
+  final String? nextToken;
 
   SelectResult({
     this.items,
@@ -1095,7 +1088,7 @@ class SelectResult {
 
 /// Too many attributes requested.
 class TooManyRequestedAttributes implements _s.AwsException {
-  final double boxUsage;
+  final double? boxUsage;
 
   TooManyRequestedAttributes({
     this.boxUsage,
@@ -1111,35 +1104,36 @@ class TooManyRequestedAttributes implements _s.AwsException {
 /// condition is specified for a request, the data will only be updated if the
 /// condition is satisfied. For example, if an attribute with a specific name
 /// and value exists, or if a specific attribute doesn't exist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateCondition {
   /// A value specifying whether or not the specified attribute must exist with
   /// the specified value in order for the update condition to be satisfied.
   /// Specify <code>true</code> if the attribute must exist for the update
   /// condition to be satisfied. Specify <code>false</code> if the attribute
   /// should not exist in order for the update condition to be satisfied.
-  @_s.JsonKey(name: 'Exists')
-  final bool exists;
+  final bool? exists;
 
   /// The name of the attribute involved in the condition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of an attribute. This value can only be specified when the
   /// <code>Exists</code> parameter is equal to <code>true</code>.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   UpdateCondition({
     this.exists,
     this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$UpdateConditionToJson(this);
+  Map<String, dynamic> toJson() {
+    final exists = this.exists;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (exists != null) 'Exists': exists,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

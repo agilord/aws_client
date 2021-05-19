@@ -11,10 +11,10 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String constructor() {
-    final regionRequired = api.isGlobalService ? '' : '@_s.required';
+    final isRegionRequired = !api.isGlobalService;
     return '''
   final _s.JsonProtocol _protocol;
-  ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
+  ${api.metadata.className}({${isRegionRequired ? 'required' : ''} String${isRegionRequired ? '' : '?'} region, _s.AwsClientCredentials? credentials, _s.Client? client, String? endpointUrl,})
   : _protocol = _s.JsonProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
   }
@@ -33,7 +33,7 @@ class JsonServiceBuilder extends ServiceBuilder {
         buffer.writeln('if (${member.fieldName} != null)');
       }
       final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
-          member: member, maybeNull: member.isRequired);
+          member: member, nullability: Nullability.none);
       final location =
           member.locationName ?? member.shapeClass.locationName ?? member.name;
       final idempotency =
@@ -54,8 +54,11 @@ class JsonServiceBuilder extends ServiceBuilder {
         'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'
       };''');
 
+    if (operation.hasReturnType) {
+      buf.write('final jsonResponse = ');
+    }
     buf.writeln('''
-     final jsonResponse = await _protocol.send(
+     await _protocol.send(
         method: '${operation.http.method}',
         requestUri: '${operation.http.requestUri}',
         exceptionFnMap: _exceptionFns,
@@ -65,7 +68,7 @@ class JsonServiceBuilder extends ServiceBuilder {
 ''');
     buf.writeln(');\n');
 
-    if (outputClass != null) {
+    if (operation.hasReturnType) {
       buf.writeln('return $outputClass.fromJson(jsonResponse.body);');
     }
     return '$buf';

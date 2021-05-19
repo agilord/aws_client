@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'waf-2015-08-24.g.dart';
 
 /// <note>
 /// This is <b>AWS WAF Classic</b> documentation. For more information, see <a
@@ -50,10 +42,10 @@ part 'waf-2015-08-24.g.dart';
 class WAF {
   final _s.JsonProtocol _protocol;
   WAF({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -124,8 +116,8 @@ class WAF {
   /// A friendly name or description of the <a>ByteMatchSet</a>. You can't
   /// change <code>Name</code> after you create a <code>ByteMatchSet</code>.
   Future<CreateByteMatchSetResponse> createByteMatchSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -231,8 +223,8 @@ class WAF {
   /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
   /// <code>Name</code> after you create the <code>GeoMatchSet</code>.
   Future<CreateGeoMatchSetResponse> createGeoMatchSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -338,8 +330,8 @@ class WAF {
   /// A friendly name or description of the <a>IPSet</a>. You can't change
   /// <code>Name</code> after you create the <code>IPSet</code>.
   Future<CreateIPSetResponse> createIPSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -533,12 +525,12 @@ class WAF {
   /// Parameter [tags] :
   /// <p/>
   Future<CreateRateBasedRuleResponse> createRateBasedRule({
-    @_s.required String changeToken,
-    @_s.required String metricName,
-    @_s.required String name,
-    @_s.required RateKey rateKey,
-    @_s.required int rateLimit,
-    List<Tag> tags,
+    required String changeToken,
+    required String metricName,
+    required String name,
+    required RateKey rateKey,
+    required int rateLimit,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -605,7 +597,7 @@ class WAF {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey?.toValue() ?? '',
+        'RateKey': rateKey.toValue(),
         'RateLimit': rateLimit,
         if (tags != null) 'Tags': tags,
       },
@@ -673,8 +665,8 @@ class WAF {
   /// A friendly name or description of the <a>RegexMatchSet</a>. You can't
   /// change <code>Name</code> after you create a <code>RegexMatchSet</code>.
   Future<CreateRegexMatchSetResponse> createRegexMatchSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -777,8 +769,8 @@ class WAF {
   /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
   /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
   Future<CreateRegexPatternSetResponse> createRegexPatternSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -919,10 +911,10 @@ class WAF {
   /// Parameter [tags] :
   /// <p/>
   Future<CreateRuleResponse> createRule({
-    @_s.required String changeToken,
-    @_s.required String metricName,
-    @_s.required String name,
-    List<Tag> tags,
+    required String changeToken,
+    required String metricName,
+    required String name,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1047,10 +1039,10 @@ class WAF {
   /// Parameter [tags] :
   /// <p/>
   Future<CreateRuleGroupResponse> createRuleGroup({
-    @_s.required String changeToken,
-    @_s.required String metricName,
-    @_s.required String name,
-    List<Tag> tags,
+    required String changeToken,
+    required String metricName,
+    required String name,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1175,8 +1167,8 @@ class WAF {
   /// change <code>Name</code> after you create a
   /// <code>SizeConstraintSet</code>.
   Future<CreateSizeConstraintSetResponse> createSizeConstraintSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1282,8 +1274,8 @@ class WAF {
   /// you're creating. You can't change <code>Name</code> after you create the
   /// <code>SqlInjectionMatchSet</code>.
   Future<CreateSqlInjectionMatchSetResponse> createSqlInjectionMatchSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1423,11 +1415,11 @@ class WAF {
   /// Parameter [tags] :
   /// <p/>
   Future<CreateWebACLResponse> createWebACL({
-    @_s.required String changeToken,
-    @_s.required WafAction defaultAction,
-    @_s.required String metricName,
-    @_s.required String name,
-    List<Tag> tags,
+    required String changeToken,
+    required WafAction defaultAction,
+    required String metricName,
+    required String name,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1544,9 +1536,9 @@ class WAF {
   /// Parameter [webACLId] :
   /// The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
   Future<CreateWebACLMigrationStackResponse> createWebACLMigrationStack({
-    @_s.required bool ignoreUnsupportedType,
-    @_s.required String s3BucketName,
-    @_s.required String webACLId,
+    required bool ignoreUnsupportedType,
+    required String s3BucketName,
+    required String webACLId,
   }) async {
     ArgumentError.checkNotNull(ignoreUnsupportedType, 'ignoreUnsupportedType');
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
@@ -1654,8 +1646,8 @@ class WAF {
   /// creating. You can't change <code>Name</code> after you create the
   /// <code>XssMatchSet</code>.
   Future<CreateXssMatchSetResponse> createXssMatchSet({
-    @_s.required String changeToken,
-    @_s.required String name,
+    required String changeToken,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1753,8 +1745,8 @@ class WAF {
   /// Parameter [changeToken] :
   /// The value returned by the most recent call to <a>GetChangeToken</a>.
   Future<DeleteByteMatchSetResponse> deleteByteMatchSet({
-    @_s.required String byteMatchSetId,
-    @_s.required String changeToken,
+    required String byteMatchSetId,
+    required String changeToken,
   }) async {
     ArgumentError.checkNotNull(byteMatchSetId, 'byteMatchSetId');
     _s.validateStringLength(
@@ -1852,8 +1844,8 @@ class WAF {
   /// delete. <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a>
   /// and by <a>ListGeoMatchSets</a>.
   Future<DeleteGeoMatchSetResponse> deleteGeoMatchSet({
-    @_s.required String changeToken,
-    @_s.required String geoMatchSetId,
+    required String changeToken,
+    required String geoMatchSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -1950,8 +1942,8 @@ class WAF {
   /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
   /// <a>ListIPSets</a>.
   Future<DeleteIPSetResponse> deleteIPSet({
-    @_s.required String changeToken,
-    @_s.required String iPSetId,
+    required String changeToken,
+    required String iPSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2022,7 +2014,7 @@ class WAF {
   /// The Amazon Resource Name (ARN) of the web ACL from which you want to
   /// delete the <a>LoggingConfiguration</a>.
   Future<void> deleteLoggingConfiguration({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2042,7 +2034,7 @@ class WAF {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.DeleteLoggingConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2052,8 +2044,6 @@ class WAF {
         'ResourceArn': resourceArn,
       },
     );
-
-    return DeleteLoggingConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -2081,7 +2071,7 @@ class WAF {
   ///
   /// The user making the request must be the owner of the RuleGroup.
   Future<void> deletePermissionPolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2101,7 +2091,7 @@ class WAF {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.DeletePermissionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2111,8 +2101,6 @@ class WAF {
         'ResourceArn': resourceArn,
       },
     );
-
-    return DeletePermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -2166,8 +2154,8 @@ class WAF {
   /// delete. <code>RuleId</code> is returned by <a>CreateRateBasedRule</a> and
   /// by <a>ListRateBasedRules</a>.
   Future<DeleteRateBasedRuleResponse> deleteRateBasedRule({
-    @_s.required String changeToken,
-    @_s.required String ruleId,
+    required String changeToken,
+    required String ruleId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2266,8 +2254,8 @@ class WAF {
   /// to delete. <code>RegexMatchSetId</code> is returned by
   /// <a>CreateRegexMatchSet</a> and by <a>ListRegexMatchSets</a>.
   Future<DeleteRegexMatchSetResponse> deleteRegexMatchSet({
-    @_s.required String changeToken,
-    @_s.required String regexMatchSetId,
+    required String changeToken,
+    required String regexMatchSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2347,8 +2335,8 @@ class WAF {
   /// want to delete. <code>RegexPatternSetId</code> is returned by
   /// <a>CreateRegexPatternSet</a> and by <a>ListRegexPatternSets</a>.
   Future<DeleteRegexPatternSetResponse> deleteRegexPatternSet({
-    @_s.required String changeToken,
-    @_s.required String regexPatternSetId,
+    required String changeToken,
+    required String regexPatternSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2447,8 +2435,8 @@ class WAF {
   /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
   /// <a>ListRules</a>.
   Future<DeleteRuleResponse> deleteRule({
-    @_s.required String changeToken,
-    @_s.required String ruleId,
+    required String changeToken,
+    required String ruleId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2548,8 +2536,8 @@ class WAF {
   /// delete. <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and
   /// by <a>ListRuleGroups</a>.
   Future<DeleteRuleGroupResponse> deleteRuleGroup({
-    @_s.required String changeToken,
-    @_s.required String ruleGroupId,
+    required String changeToken,
+    required String ruleGroupId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2648,8 +2636,8 @@ class WAF {
   /// you want to delete. <code>SizeConstraintSetId</code> is returned by
   /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
   Future<DeleteSizeConstraintSetResponse> deleteSizeConstraintSet({
-    @_s.required String changeToken,
-    @_s.required String sizeConstraintSetId,
+    required String changeToken,
+    required String sizeConstraintSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2749,8 +2737,8 @@ class WAF {
   /// by <a>CreateSqlInjectionMatchSet</a> and by
   /// <a>ListSqlInjectionMatchSets</a>.
   Future<DeleteSqlInjectionMatchSetResponse> deleteSqlInjectionMatchSet({
-    @_s.required String changeToken,
-    @_s.required String sqlInjectionMatchSetId,
+    required String changeToken,
+    required String sqlInjectionMatchSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2845,8 +2833,8 @@ class WAF {
   /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
   /// <a>ListWebACLs</a>.
   Future<DeleteWebACLResponse> deleteWebACL({
-    @_s.required String changeToken,
-    @_s.required String webACLId,
+    required String changeToken,
+    required String webACLId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -2944,8 +2932,8 @@ class WAF {
   /// delete. <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a>
   /// and by <a>ListXssMatchSets</a>.
   Future<DeleteXssMatchSetResponse> deleteXssMatchSet({
-    @_s.required String changeToken,
-    @_s.required String xssMatchSetId,
+    required String changeToken,
+    required String xssMatchSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -3016,7 +3004,7 @@ class WAF {
   /// to get. <code>ByteMatchSetId</code> is returned by
   /// <a>CreateByteMatchSet</a> and by <a>ListByteMatchSets</a>.
   Future<GetByteMatchSetResponse> getByteMatchSet({
-    @_s.required String byteMatchSetId,
+    required String byteMatchSetId,
   }) async {
     ArgumentError.checkNotNull(byteMatchSetId, 'byteMatchSetId');
     _s.validateStringLength(
@@ -3133,7 +3121,7 @@ class WAF {
   /// The change token for which you want to get the status. This change token
   /// was previously returned in the <code>GetChangeToken</code> response.
   Future<GetChangeTokenStatusResponse> getChangeTokenStatus({
-    @_s.required String changeToken,
+    required String changeToken,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -3190,7 +3178,7 @@ class WAF {
   /// get. <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a>
   /// and by <a>ListGeoMatchSets</a>.
   Future<GetGeoMatchSetResponse> getGeoMatchSet({
-    @_s.required String geoMatchSetId,
+    required String geoMatchSetId,
   }) async {
     ArgumentError.checkNotNull(geoMatchSetId, 'geoMatchSetId');
     _s.validateStringLength(
@@ -3246,7 +3234,7 @@ class WAF {
   /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
   /// <a>ListIPSets</a>.
   Future<GetIPSetResponse> getIPSet({
-    @_s.required String iPSetId,
+    required String iPSetId,
   }) async {
     ArgumentError.checkNotNull(iPSetId, 'iPSetId');
     _s.validateStringLength(
@@ -3300,7 +3288,7 @@ class WAF {
   /// The Amazon Resource Name (ARN) of the web ACL for which you want to get
   /// the <a>LoggingConfiguration</a>.
   Future<GetLoggingConfigurationResponse> getLoggingConfiguration({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3354,7 +3342,7 @@ class WAF {
   /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get
   /// the policy.
   Future<GetPermissionPolicyResponse> getPermissionPolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3412,7 +3400,7 @@ class WAF {
   /// <code>RuleId</code> is returned by <a>CreateRateBasedRule</a> and by
   /// <a>ListRateBasedRules</a>.
   Future<GetRateBasedRuleResponse> getRateBasedRule({
-    @_s.required String ruleId,
+    required String ruleId,
   }) async {
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -3476,8 +3464,8 @@ class WAF {
   /// Parameter [nextMarker] :
   /// A null value and not currently used. Do not include this in your request.
   Future<GetRateBasedRuleManagedKeysResponse> getRateBasedRuleManagedKeys({
-    @_s.required String ruleId,
-    String nextMarker,
+    required String ruleId,
+    String? nextMarker,
   }) async {
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -3546,7 +3534,7 @@ class WAF {
   /// to get. <code>RegexMatchSetId</code> is returned by
   /// <a>CreateRegexMatchSet</a> and by <a>ListRegexMatchSets</a>.
   Future<GetRegexMatchSetResponse> getRegexMatchSet({
-    @_s.required String regexMatchSetId,
+    required String regexMatchSetId,
   }) async {
     ArgumentError.checkNotNull(regexMatchSetId, 'regexMatchSetId');
     _s.validateStringLength(
@@ -3603,7 +3591,7 @@ class WAF {
   /// want to get. <code>RegexPatternSetId</code> is returned by
   /// <a>CreateRegexPatternSet</a> and by <a>ListRegexPatternSets</a>.
   Future<GetRegexPatternSetResponse> getRegexPatternSet({
-    @_s.required String regexPatternSetId,
+    required String regexPatternSetId,
   }) async {
     ArgumentError.checkNotNull(regexPatternSetId, 'regexPatternSetId');
     _s.validateStringLength(
@@ -3660,7 +3648,7 @@ class WAF {
   /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
   /// <a>ListRules</a>.
   Future<GetRuleResponse> getRule({
-    @_s.required String ruleId,
+    required String ruleId,
   }) async {
     ArgumentError.checkNotNull(ruleId, 'ruleId');
     _s.validateStringLength(
@@ -3720,7 +3708,7 @@ class WAF {
   /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
   /// <a>ListRuleGroups</a>.
   Future<GetRuleGroupResponse> getRuleGroup({
-    @_s.required String ruleGroupId,
+    required String ruleGroupId,
   }) async {
     ArgumentError.checkNotNull(ruleGroupId, 'ruleGroupId');
     _s.validateStringLength(
@@ -3816,10 +3804,10 @@ class WAF {
   /// The <code>WebACLId</code> of the <code>WebACL</code> for which you want
   /// <code>GetSampledRequests</code> to return a sample of requests.
   Future<GetSampledRequestsResponse> getSampledRequests({
-    @_s.required int maxItems,
-    @_s.required String ruleId,
-    @_s.required TimeWindow timeWindow,
-    @_s.required String webAclId,
+    required int maxItems,
+    required String ruleId,
+    required TimeWindow timeWindow,
+    required String webAclId,
   }) async {
     ArgumentError.checkNotNull(maxItems, 'maxItems');
     _s.validateNumRange(
@@ -3902,7 +3890,7 @@ class WAF {
   /// you want to get. <code>SizeConstraintSetId</code> is returned by
   /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
   Future<GetSizeConstraintSetResponse> getSizeConstraintSet({
-    @_s.required String sizeConstraintSetId,
+    required String sizeConstraintSetId,
   }) async {
     ArgumentError.checkNotNull(sizeConstraintSetId, 'sizeConstraintSetId');
     _s.validateStringLength(
@@ -3959,7 +3947,7 @@ class WAF {
   /// that you want to get. <code>SqlInjectionMatchSetId</code> is returned by
   /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
   Future<GetSqlInjectionMatchSetResponse> getSqlInjectionMatchSet({
-    @_s.required String sqlInjectionMatchSetId,
+    required String sqlInjectionMatchSetId,
   }) async {
     ArgumentError.checkNotNull(
         sqlInjectionMatchSetId, 'sqlInjectionMatchSetId');
@@ -4016,7 +4004,7 @@ class WAF {
   /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
   /// <a>ListWebACLs</a>.
   Future<GetWebACLResponse> getWebACL({
-    @_s.required String webACLId,
+    required String webACLId,
   }) async {
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     _s.validateStringLength(
@@ -4073,7 +4061,7 @@ class WAF {
   /// get. <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a>
   /// and by <a>ListXssMatchSets</a>.
   Future<GetXssMatchSetResponse> getXssMatchSet({
-    @_s.required String xssMatchSetId,
+    required String xssMatchSetId,
   }) async {
     ArgumentError.checkNotNull(xssMatchSetId, 'xssMatchSetId');
     _s.validateStringLength(
@@ -4144,9 +4132,9 @@ class WAF {
   /// The <code>RuleGroupId</code> of the <a>RuleGroup</a> for which you want to
   /// get a list of <a>ActivatedRule</a> objects.
   Future<ListActivatedRulesInRuleGroupResponse> listActivatedRulesInRuleGroup({
-    int limit,
-    String nextMarker,
-    String ruleGroupId,
+    int? limit,
+    String? nextMarker,
+    String? ruleGroupId,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4229,8 +4217,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>ByteMatchSets</code>.
   Future<ListByteMatchSetsResponse> listByteMatchSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4300,8 +4288,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>GeoMatchSet</code> objects.
   Future<ListGeoMatchSetsResponse> listGeoMatchSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4369,8 +4357,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>IPSets</code>.
   Future<ListIPSetsResponse> listIPSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4443,8 +4431,8 @@ class WAF {
   /// response to get information about another batch of
   /// <code>ListLoggingConfigurations</code>.
   Future<ListLoggingConfigurationsResponse> listLoggingConfigurations({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4514,8 +4502,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>Rules</code>.
   Future<ListRateBasedRulesResponse> listRateBasedRules({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4586,8 +4574,8 @@ class WAF {
   /// the value of <code>NextMarker</code> from the previous response to get
   /// information about another batch of <code>RegexMatchSet</code> objects.
   Future<ListRegexMatchSetsResponse> listRegexMatchSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4659,8 +4647,8 @@ class WAF {
   /// get information about another batch of <code>RegexPatternSet</code>
   /// objects.
   Future<ListRegexPatternSetsResponse> listRegexPatternSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4729,8 +4717,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>RuleGroups</code>.
   Future<ListRuleGroupsResponse> listRuleGroups({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4800,8 +4788,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>Rules</code>.
   Future<ListRulesResponse> listRules({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4872,8 +4860,8 @@ class WAF {
   /// specify the value of <code>NextMarker</code> from the previous response to
   /// get information about another batch of <code>SizeConstraintSets</code>.
   Future<ListSizeConstraintSetsResponse> listSizeConstraintSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4944,8 +4932,8 @@ class WAF {
   /// response to get information about another batch of
   /// <code>SqlInjectionMatchSets</code>.
   Future<ListSqlInjectionMatchSetsResponse> listSqlInjectionMatchSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -5015,8 +5003,8 @@ class WAF {
   /// requests, specify the value of <code>NextMarker</code> from the previous
   /// response to get information about another batch of subscribed rule groups.
   Future<ListSubscribedRuleGroupsResponse> listSubscribedRuleGroups({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -5092,9 +5080,9 @@ class WAF {
   /// Parameter [nextMarker] :
   /// <p/>
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
-    int limit,
-    String nextMarker,
+    required String resourceARN,
+    int? limit,
+    String? nextMarker,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -5179,8 +5167,8 @@ class WAF {
   /// specify the value of <code>NextMarker</code> from the previous response to
   /// get information about another batch of <code>WebACL</code> objects.
   Future<ListWebACLsResponse> listWebACLs({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -5250,8 +5238,8 @@ class WAF {
   /// <code>NextMarker</code> from the previous response to get information
   /// about another batch of <code>XssMatchSets</code>.
   Future<ListXssMatchSetsResponse> listXssMatchSets({
-    int limit,
-    String nextMarker,
+    int? limit,
+    String? nextMarker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -5341,7 +5329,7 @@ class WAF {
   /// <code>QUERY_STRING</code>, <code>HEADER</code>, or <code>METHOD</code>.
   /// </note>
   Future<PutLoggingConfigurationResponse> putLoggingConfiguration({
-    @_s.required LoggingConfiguration loggingConfiguration,
+    required LoggingConfiguration loggingConfiguration,
   }) async {
     ArgumentError.checkNotNull(loggingConfiguration, 'loggingConfiguration');
     final headers = <String, String>{
@@ -5430,8 +5418,8 @@ class WAF {
   /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to
   /// attach the policy.
   Future<void> putPermissionPolicy({
-    @_s.required String policy,
-    @_s.required String resourceArn,
+    required String policy,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
@@ -5465,7 +5453,7 @@ class WAF {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.PutPermissionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5476,8 +5464,6 @@ class WAF {
         'ResourceArn': resourceArn,
       },
     );
-
-    return PutPermissionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -5516,8 +5502,8 @@ class WAF {
   /// Parameter [tags] :
   /// <p/>
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -5538,7 +5524,7 @@ class WAF {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5549,8 +5535,6 @@ class WAF {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -5578,8 +5562,8 @@ class WAF {
   /// Parameter [tagKeys] :
   /// <p/>
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -5600,7 +5584,7 @@ class WAF {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSWAF_20150824.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5611,8 +5595,6 @@ class WAF {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -5718,9 +5700,9 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateByteMatchSetResponse> updateByteMatchSet({
-    @_s.required String byteMatchSetId,
-    @_s.required String changeToken,
-    @_s.required List<ByteMatchSetUpdate> updates,
+    required String byteMatchSetId,
+    required String changeToken,
+    required List<ByteMatchSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(byteMatchSetId, 'byteMatchSetId');
     _s.validateStringLength(
@@ -5863,9 +5845,9 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateGeoMatchSetResponse> updateGeoMatchSet({
-    @_s.required String changeToken,
-    @_s.required String geoMatchSetId,
-    @_s.required List<GeoMatchSetUpdate> updates,
+    required String changeToken,
+    required String geoMatchSetId,
+    required List<GeoMatchSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6036,9 +6018,9 @@ class WAF {
   /// </ul>
   /// You can insert a maximum of 1000 addresses in a single request.
   Future<UpdateIPSetResponse> updateIPSet({
-    @_s.required String changeToken,
-    @_s.required String iPSetId,
-    @_s.required List<IPSetUpdate> updates,
+    required String changeToken,
+    required String iPSetId,
+    required List<IPSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6185,10 +6167,10 @@ class WAF {
   /// An array of <code>RuleUpdate</code> objects that you want to insert into
   /// or delete from a <a>RateBasedRule</a>.
   Future<UpdateRateBasedRuleResponse> updateRateBasedRule({
-    @_s.required String changeToken,
-    @_s.required int rateLimit,
-    @_s.required String ruleId,
-    @_s.required List<RuleUpdate> updates,
+    required String changeToken,
+    required int rateLimit,
+    required String ruleId,
+    required List<RuleUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6332,9 +6314,9 @@ class WAF {
   /// insert into or delete from a <a>RegexMatchSet</a>. For more information,
   /// see <a>RegexMatchTuple</a>.
   Future<UpdateRegexMatchSetResponse> updateRegexMatchSet({
-    @_s.required String changeToken,
-    @_s.required String regexMatchSetId,
-    @_s.required List<RegexMatchSetUpdate> updates,
+    required String changeToken,
+    required String regexMatchSetId,
+    required List<RegexMatchSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6469,9 +6451,9 @@ class WAF {
   /// An array of <code>RegexPatternSetUpdate</code> objects that you want to
   /// insert into or delete from a <a>RegexPatternSet</a>.
   Future<UpdateRegexPatternSetResponse> updateRegexPatternSet({
-    @_s.required String changeToken,
-    @_s.required String regexPatternSetId,
-    @_s.required List<RegexPatternSetUpdate> updates,
+    required String changeToken,
+    required String regexPatternSetId,
+    required List<RegexPatternSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6621,9 +6603,9 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateRuleResponse> updateRule({
-    @_s.required String changeToken,
-    @_s.required String ruleId,
-    @_s.required List<RuleUpdate> updates,
+    required String changeToken,
+    required String ruleId,
+    required List<RuleUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6748,9 +6730,9 @@ class WAF {
   /// requests, <code>ActivatedRule|Action</code> is used instead of
   /// <code>ActivatedRule|OverrideAction</code>.
   Future<UpdateRuleGroupResponse> updateRuleGroup({
-    @_s.required String changeToken,
-    @_s.required String ruleGroupId,
-    @_s.required List<RuleGroupUpdate> updates,
+    required String changeToken,
+    required String ruleGroupId,
+    required List<RuleGroupUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -6910,9 +6892,9 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateSizeConstraintSetResponse> updateSizeConstraintSet({
-    @_s.required String changeToken,
-    @_s.required String sizeConstraintSetId,
-    @_s.required List<SizeConstraintSetUpdate> updates,
+    required String changeToken,
+    required String sizeConstraintSetId,
+    required List<SizeConstraintSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -7061,9 +7043,9 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateSqlInjectionMatchSetResponse> updateSqlInjectionMatchSet({
-    @_s.required String changeToken,
-    @_s.required String sqlInjectionMatchSetId,
-    @_s.required List<SqlInjectionMatchSetUpdate> updates,
+    required String changeToken,
+    required String sqlInjectionMatchSetId,
+    required List<SqlInjectionMatchSetUpdate> updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -7261,10 +7243,10 @@ class WAF {
   /// </li>
   /// </ul>
   Future<UpdateWebACLResponse> updateWebACL({
-    @_s.required String changeToken,
-    @_s.required String webACLId,
-    WafAction defaultAction,
-    List<WebACLUpdate> updates,
+    required String changeToken,
+    required String webACLId,
+    WafAction? defaultAction,
+    List<WebACLUpdate>? updates,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -7412,9 +7394,9 @@ class WAF {
   /// want to update. <code>XssMatchSetId</code> is returned by
   /// <a>CreateXssMatchSet</a> and by <a>ListXssMatchSets</a>.
   Future<UpdateXssMatchSetResponse> updateXssMatchSet({
-    @_s.required String changeToken,
-    @_s.required List<XssMatchSetUpdate> updates,
-    @_s.required String xssMatchSetId,
+    required String changeToken,
+    required List<XssMatchSetUpdate> updates,
+    required String xssMatchSetId,
   }) async {
     ArgumentError.checkNotNull(changeToken, 'changeToken');
     _s.validateStringLength(
@@ -7486,18 +7468,12 @@ class WAF {
 ///
 /// To specify whether to insert or delete a <code>Rule</code>, use the
 /// <code>Action</code> parameter in the <a>WebACLUpdate</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActivatedRule {
   /// Specifies the order in which the <code>Rules</code> in a <code>WebACL</code>
   /// are evaluated. Rules with a lower value for <code>Priority</code> are
   /// evaluated before <code>Rules</code> with a higher value. The value must be a
   /// unique integer. If you add multiple <code>Rules</code> to a
   /// <code>WebACL</code>, the values don't need to be consecutive.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// The <code>RuleId</code> for a <code>Rule</code>. You use <code>RuleId</code>
@@ -7509,7 +7485,6 @@ class ActivatedRule {
   ///
   /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
   /// <a>ListRules</a>.
-  @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
   /// Specifies the action that CloudFront or AWS WAF takes when a web request
@@ -7535,8 +7510,7 @@ class ActivatedRule {
   /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
   /// <code>ActivatedRule|Action</code> is used instead of
   /// <code>ActivatedRule|OverrideAction</code>.
-  @_s.JsonKey(name: 'Action')
-  final WafAction action;
+  final WafAction? action;
 
   /// An array of rules to exclude from a rule group. This is applicable only when
   /// the <code>ActivatedRule</code> refers to a <code>RuleGroup</code>.
@@ -7582,8 +7556,7 @@ class ActivatedRule {
   /// contain the rules that you want to exclude.
   /// </li>
   /// </ul> </li> </ol>
-  @_s.JsonKey(name: 'ExcludedRules')
-  final List<ExcludedRule> excludedRules;
+  final List<ExcludedRule>? excludedRules;
 
   /// Use the <code>OverrideAction</code> to test your <code>RuleGroup</code>.
   ///
@@ -7603,8 +7576,7 @@ class ActivatedRule {
   /// do not use <code>ActivatedRule|Action</code>. For all other update requests,
   /// <code>ActivatedRule|Action</code> is used instead of
   /// <code>ActivatedRule|OverrideAction</code>.
-  @_s.JsonKey(name: 'OverrideAction')
-  final WafOverrideAction overrideAction;
+  final WafOverrideAction? overrideAction;
 
   /// The rule type, either <code>REGULAR</code>, as defined by <a>Rule</a>,
   /// <code>RATE_BASED</code>, as defined by <a>RateBasedRule</a>, or
@@ -7613,21 +7585,51 @@ class ActivatedRule {
   /// RATE_BASED rule to a web ACL without setting the type, the
   /// <a>UpdateWebACL</a> request will fail because the request tries to add a
   /// REGULAR rule with the specified ID, which does not exist.
-  @_s.JsonKey(name: 'Type')
-  final WafRuleType type;
+  final WafRuleType? type;
 
   ActivatedRule({
-    @_s.required this.priority,
-    @_s.required this.ruleId,
+    required this.priority,
+    required this.ruleId,
     this.action,
     this.excludedRules,
     this.overrideAction,
     this.type,
   });
-  factory ActivatedRule.fromJson(Map<String, dynamic> json) =>
-      _$ActivatedRuleFromJson(json);
+  factory ActivatedRule.fromJson(Map<String, dynamic> json) {
+    return ActivatedRule(
+      priority: json['Priority'] as int,
+      ruleId: json['RuleId'] as String,
+      action: json['Action'] != null
+          ? WafAction.fromJson(json['Action'] as Map<String, dynamic>)
+          : null,
+      excludedRules: (json['ExcludedRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      overrideAction: json['OverrideAction'] != null
+          ? WafOverrideAction.fromJson(
+              json['OverrideAction'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toWafRuleType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActivatedRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleId = this.ruleId;
+    final action = this.action;
+    final excludedRules = this.excludedRules;
+    final overrideAction = this.overrideAction;
+    final type = this.type;
+    return {
+      'Priority': priority,
+      'RuleId': ruleId,
+      if (action != null) 'Action': action,
+      if (excludedRules != null) 'ExcludedRules': excludedRules,
+      if (overrideAction != null) 'OverrideAction': overrideAction,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// <note>
@@ -7652,11 +7654,6 @@ class ActivatedRule {
 /// contains more than one <code>ByteMatchTuple</code> object, a request needs
 /// to match the settings in only one <code>ByteMatchTuple</code> to be
 /// considered a match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ByteMatchSet {
   /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
   /// <code>ByteMatchSetId</code> to get information about a
@@ -7668,27 +7665,32 @@ class ByteMatchSet {
   ///
   /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
   /// <a>ListByteMatchSets</a>.
-  @_s.JsonKey(name: 'ByteMatchSetId')
   final String byteMatchSetId;
 
   /// Specifies the bytes (typically a string that corresponds with ASCII
   /// characters) that you want AWS WAF to search for in web requests, the
   /// location in requests that you want AWS WAF to search, and other settings.
-  @_s.JsonKey(name: 'ByteMatchTuples')
   final List<ByteMatchTuple> byteMatchTuples;
 
   /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ByteMatchSet({
-    @_s.required this.byteMatchSetId,
-    @_s.required this.byteMatchTuples,
+    required this.byteMatchSetId,
+    required this.byteMatchTuples,
     this.name,
   });
-  factory ByteMatchSet.fromJson(Map<String, dynamic> json) =>
-      _$ByteMatchSetFromJson(json);
+  factory ByteMatchSet.fromJson(Map<String, dynamic> json) {
+    return ByteMatchSet(
+      byteMatchSetId: json['ByteMatchSetId'] as String,
+      byteMatchTuples: (json['ByteMatchTuples'] as List)
+          .whereNotNull()
+          .map((e) => ByteMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -7705,11 +7707,6 @@ class ByteMatchSet {
 /// Returned by <a>ListByteMatchSets</a>. Each <code>ByteMatchSetSummary</code>
 /// object includes the <code>Name</code> and <code>ByteMatchSetId</code> for
 /// one <a>ByteMatchSet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ByteMatchSetSummary {
   /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
   /// <code>ByteMatchSetId</code> to get information about a
@@ -7719,20 +7716,22 @@ class ByteMatchSetSummary {
   ///
   /// <code>ByteMatchSetId</code> is returned by <a>CreateByteMatchSet</a> and by
   /// <a>ListByteMatchSets</a>.
-  @_s.JsonKey(name: 'ByteMatchSetId')
   final String byteMatchSetId;
 
   /// A friendly name or description of the <a>ByteMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>ByteMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   ByteMatchSetSummary({
-    @_s.required this.byteMatchSetId,
-    @_s.required this.name,
+    required this.byteMatchSetId,
+    required this.name,
   });
-  factory ByteMatchSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$ByteMatchSetSummaryFromJson(json);
+  factory ByteMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return ByteMatchSetSummary(
+      byteMatchSetId: json['ByteMatchSetId'] as String,
+      name: json['Name'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -7749,14 +7748,8 @@ class ByteMatchSetSummary {
 /// In an <a>UpdateByteMatchSet</a> request, <code>ByteMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>ByteMatchTuple</a> and includes
 /// the settings for the <code>ByteMatchTuple</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ByteMatchSetUpdate {
   /// Specifies whether to insert or delete a <a>ByteMatchTuple</a>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Information about the part of a web request that you want AWS WAF to inspect
@@ -7765,14 +7758,20 @@ class ByteMatchSetUpdate {
   /// <code>ByteMatchTuple</code> values must exactly match the values in the
   /// <code>ByteMatchTuple</code> that you want to delete from the
   /// <code>ByteMatchSet</code>.
-  @_s.JsonKey(name: 'ByteMatchTuple')
   final ByteMatchTuple byteMatchTuple;
 
   ByteMatchSetUpdate({
-    @_s.required this.action,
-    @_s.required this.byteMatchTuple,
+    required this.action,
+    required this.byteMatchTuple,
   });
-  Map<String, dynamic> toJson() => _$ByteMatchSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final byteMatchTuple = this.byteMatchTuple;
+    return {
+      'Action': action.toValue(),
+      'ByteMatchTuple': byteMatchTuple,
+    };
+  }
 }
 
 /// <note>
@@ -7789,16 +7788,10 @@ class ByteMatchSetUpdate {
 /// The bytes (typically a string that corresponds with ASCII characters) that
 /// you want AWS WAF to search for in web requests, the location in requests
 /// that you want AWS WAF to search, and other settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ByteMatchTuple {
   /// The part of a web request that you want AWS WAF to search, such as a
   /// specified header or a query string. For more information, see
   /// <a>FieldToMatch</a>.
-  @_s.JsonKey(name: 'FieldToMatch')
   final FieldToMatch fieldToMatch;
 
   /// Within the portion of a web request that you want to search (for example, in
@@ -7852,7 +7845,6 @@ class ByteMatchTuple {
   ///
   /// The value of <code>TargetString</code> must appear at the end of the
   /// specified part of the web request.
-  @_s.JsonKey(name: 'PositionalConstraint')
   final PositionalConstraint positionalConstraint;
 
   /// The value that you want AWS WAF to search for. AWS WAF searches for the
@@ -7925,8 +7917,6 @@ class ByteMatchTuple {
   ///
   /// The value that you want AWS WAF to search for. The SDK automatically base64
   /// encodes the value.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'TargetString')
   final Uint8List targetString;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -8028,643 +8018,684 @@ class ByteMatchTuple {
   ///
   /// Specify <code>NONE</code> if you don't want to perform any text
   /// transformations.
-  @_s.JsonKey(name: 'TextTransformation')
   final TextTransformation textTransformation;
 
   ByteMatchTuple({
-    @_s.required this.fieldToMatch,
-    @_s.required this.positionalConstraint,
-    @_s.required this.targetString,
-    @_s.required this.textTransformation,
+    required this.fieldToMatch,
+    required this.positionalConstraint,
+    required this.targetString,
+    required this.textTransformation,
   });
-  factory ByteMatchTuple.fromJson(Map<String, dynamic> json) =>
-      _$ByteMatchTupleFromJson(json);
+  factory ByteMatchTuple.fromJson(Map<String, dynamic> json) {
+    return ByteMatchTuple(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      positionalConstraint:
+          (json['PositionalConstraint'] as String).toPositionalConstraint(),
+      targetString: _s.decodeUint8List(json['TargetString']! as String),
+      textTransformation:
+          (json['TextTransformation'] as String).toTextTransformation(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ByteMatchTupleToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final positionalConstraint = this.positionalConstraint;
+    final targetString = this.targetString;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'PositionalConstraint': positionalConstraint.toValue(),
+      'TargetString': base64Encode(targetString),
+      'TextTransformation': textTransformation.toValue(),
+    };
+  }
 }
 
 enum ChangeAction {
-  @_s.JsonValue('INSERT')
   insert,
-  @_s.JsonValue('DELETE')
   delete,
 }
 
+extension on ChangeAction {
+  String toValue() {
+    switch (this) {
+      case ChangeAction.insert:
+        return 'INSERT';
+      case ChangeAction.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  ChangeAction toChangeAction() {
+    switch (this) {
+      case 'INSERT':
+        return ChangeAction.insert;
+      case 'DELETE':
+        return ChangeAction.delete;
+    }
+    throw Exception('$this is not known in enum ChangeAction');
+  }
+}
+
 enum ChangeTokenStatus {
-  @_s.JsonValue('PROVISIONED')
   provisioned,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('INSYNC')
   insync,
 }
 
+extension on ChangeTokenStatus {
+  String toValue() {
+    switch (this) {
+      case ChangeTokenStatus.provisioned:
+        return 'PROVISIONED';
+      case ChangeTokenStatus.pending:
+        return 'PENDING';
+      case ChangeTokenStatus.insync:
+        return 'INSYNC';
+    }
+  }
+}
+
+extension on String {
+  ChangeTokenStatus toChangeTokenStatus() {
+    switch (this) {
+      case 'PROVISIONED':
+        return ChangeTokenStatus.provisioned;
+      case 'PENDING':
+        return ChangeTokenStatus.pending;
+      case 'INSYNC':
+        return ChangeTokenStatus.insync;
+    }
+    throw Exception('$this is not known in enum ChangeTokenStatus');
+  }
+}
+
 enum ComparisonOperator {
-  @_s.JsonValue('EQ')
   eq,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('LE')
   le,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('GT')
   gt,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.eq:
+        return 'EQ';
+      case ComparisonOperator.ne:
+        return 'NE';
+      case ComparisonOperator.le:
+        return 'LE';
+      case ComparisonOperator.lt:
+        return 'LT';
+      case ComparisonOperator.ge:
+        return 'GE';
+      case ComparisonOperator.gt:
+        return 'GT';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'EQ':
+        return ComparisonOperator.eq;
+      case 'NE':
+        return ComparisonOperator.ne;
+      case 'LE':
+        return ComparisonOperator.le;
+      case 'LT':
+        return ComparisonOperator.lt;
+      case 'GE':
+        return ComparisonOperator.ge;
+      case 'GT':
+        return ComparisonOperator.gt;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
 class CreateByteMatchSetResponse {
   /// A <a>ByteMatchSet</a> that contains no <code>ByteMatchTuple</code> objects.
-  @_s.JsonKey(name: 'ByteMatchSet')
-  final ByteMatchSet byteMatchSet;
+  final ByteMatchSet? byteMatchSet;
 
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateByteMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   CreateByteMatchSetResponse({
     this.byteMatchSet,
     this.changeToken,
   });
-  factory CreateByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateByteMatchSetResponseFromJson(json);
+  factory CreateByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateByteMatchSetResponse(
+      byteMatchSet: json['ByteMatchSet'] != null
+          ? ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>)
+          : null,
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateGeoMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// The <a>GeoMatchSet</a> returned in the <code>CreateGeoMatchSet</code>
   /// response. The <code>GeoMatchSet</code> contains no
   /// <code>GeoMatchConstraints</code>.
-  @_s.JsonKey(name: 'GeoMatchSet')
-  final GeoMatchSet geoMatchSet;
+  final GeoMatchSet? geoMatchSet;
 
   CreateGeoMatchSetResponse({
     this.changeToken,
     this.geoMatchSet,
   });
-  factory CreateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGeoMatchSetResponseFromJson(json);
+  factory CreateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGeoMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      geoMatchSet: json['GeoMatchSet'] != null
+          ? GeoMatchSet.fromJson(json['GeoMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateIPSet</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// The <a>IPSet</a> returned in the <code>CreateIPSet</code> response.
-  @_s.JsonKey(name: 'IPSet')
-  final IPSet iPSet;
+  final IPSet? iPSet;
 
   CreateIPSetResponse({
     this.changeToken,
     this.iPSet,
   });
-  factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateIPSetResponseFromJson(json);
+  factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateIPSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      iPSet: json['IPSet'] != null
+          ? IPSet.fromJson(json['IPSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRateBasedRule</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// The <a>RateBasedRule</a> that is returned in the
   /// <code>CreateRateBasedRule</code> response.
-  @_s.JsonKey(name: 'Rule')
-  final RateBasedRule rule;
+  final RateBasedRule? rule;
 
   CreateRateBasedRuleResponse({
     this.changeToken,
     this.rule,
   });
-  factory CreateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRateBasedRuleResponseFromJson(json);
+  factory CreateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRateBasedRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+      rule: json['Rule'] != null
+          ? RateBasedRule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRegexMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// A <a>RegexMatchSet</a> that contains no <code>RegexMatchTuple</code>
   /// objects.
-  @_s.JsonKey(name: 'RegexMatchSet')
-  final RegexMatchSet regexMatchSet;
+  final RegexMatchSet? regexMatchSet;
 
   CreateRegexMatchSetResponse({
     this.changeToken,
     this.regexMatchSet,
   });
-  factory CreateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRegexMatchSetResponseFromJson(json);
+  factory CreateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRegexMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      regexMatchSet: json['RegexMatchSet'] != null
+          ? RegexMatchSet.fromJson(
+              json['RegexMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRegexPatternSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// A <a>RegexPatternSet</a> that contains no objects.
-  @_s.JsonKey(name: 'RegexPatternSet')
-  final RegexPatternSet regexPatternSet;
+  final RegexPatternSet? regexPatternSet;
 
   CreateRegexPatternSetResponse({
     this.changeToken,
     this.regexPatternSet,
   });
-  factory CreateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRegexPatternSetResponseFromJson(json);
+  factory CreateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRegexPatternSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      regexPatternSet: json['RegexPatternSet'] != null
+          ? RegexPatternSet.fromJson(
+              json['RegexPatternSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRuleGroup</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// An empty <a>RuleGroup</a>.
-  @_s.JsonKey(name: 'RuleGroup')
-  final RuleGroup ruleGroup;
+  final RuleGroup? ruleGroup;
 
   CreateRuleGroupResponse({
     this.changeToken,
     this.ruleGroup,
   });
-  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRuleGroupResponseFromJson(json);
+  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRuleGroupResponse(
+      changeToken: json['ChangeToken'] as String?,
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRule</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// The <a>Rule</a> returned in the <code>CreateRule</code> response.
-  @_s.JsonKey(name: 'Rule')
-  final Rule rule;
+  final Rule? rule;
 
   CreateRuleResponse({
     this.changeToken,
     this.rule,
   });
-  factory CreateRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRuleResponseFromJson(json);
+  factory CreateRuleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+      rule: json['Rule'] != null
+          ? Rule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateSizeConstraintSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// A <a>SizeConstraintSet</a> that contains no <code>SizeConstraint</code>
   /// objects.
-  @_s.JsonKey(name: 'SizeConstraintSet')
-  final SizeConstraintSet sizeConstraintSet;
+  final SizeConstraintSet? sizeConstraintSet;
 
   CreateSizeConstraintSetResponse({
     this.changeToken,
     this.sizeConstraintSet,
   });
-  factory CreateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSizeConstraintSetResponseFromJson(json);
+  factory CreateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSizeConstraintSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      sizeConstraintSet: json['SizeConstraintSet'] != null
+          ? SizeConstraintSet.fromJson(
+              json['SizeConstraintSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to a <code>CreateSqlInjectionMatchSet</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateSqlInjectionMatchSet</code> request. You can also use this value
   /// to query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// A <a>SqlInjectionMatchSet</a>.
-  @_s.JsonKey(name: 'SqlInjectionMatchSet')
-  final SqlInjectionMatchSet sqlInjectionMatchSet;
+  final SqlInjectionMatchSet? sqlInjectionMatchSet;
 
   CreateSqlInjectionMatchSetResponse({
     this.changeToken,
     this.sqlInjectionMatchSet,
   });
   factory CreateSqlInjectionMatchSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSqlInjectionMatchSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSqlInjectionMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      sqlInjectionMatchSet: json['SqlInjectionMatchSet'] != null
+          ? SqlInjectionMatchSet.fromJson(
+              json['SqlInjectionMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWebACLMigrationStackResponse {
   /// The URL of the template created in Amazon S3.
-  @_s.JsonKey(name: 'S3ObjectUrl')
   final String s3ObjectUrl;
 
   CreateWebACLMigrationStackResponse({
-    @_s.required this.s3ObjectUrl,
+    required this.s3ObjectUrl,
   });
   factory CreateWebACLMigrationStackResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateWebACLMigrationStackResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateWebACLMigrationStackResponse(
+      s3ObjectUrl: json['S3ObjectUrl'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateWebACL</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// The <a>WebACL</a> returned in the <code>CreateWebACL</code> response.
-  @_s.JsonKey(name: 'WebACL')
-  final WebACL webACL;
+  final WebACL? webACL;
 
   CreateWebACLResponse({
     this.changeToken,
     this.webACL,
   });
-  factory CreateWebACLResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateWebACLResponseFromJson(json);
+  factory CreateWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return CreateWebACLResponse(
+      changeToken: json['ChangeToken'] as String?,
+      webACL: json['WebACL'] != null
+          ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to a <code>CreateXssMatchSet</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateXssMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   /// An <a>XssMatchSet</a>.
-  @_s.JsonKey(name: 'XssMatchSet')
-  final XssMatchSet xssMatchSet;
+  final XssMatchSet? xssMatchSet;
 
   CreateXssMatchSetResponse({
     this.changeToken,
     this.xssMatchSet,
   });
-  factory CreateXssMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateXssMatchSetResponseFromJson(json);
+  factory CreateXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateXssMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+      xssMatchSet: json['XssMatchSet'] != null
+          ? XssMatchSet.fromJson(json['XssMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteByteMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteByteMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteByteMatchSetResponse({
     this.changeToken,
   });
-  factory DeleteByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteByteMatchSetResponseFromJson(json);
+  factory DeleteByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteByteMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteGeoMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteGeoMatchSetResponse({
     this.changeToken,
   });
-  factory DeleteGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGeoMatchSetResponseFromJson(json);
+  factory DeleteGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteGeoMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteIPSet</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteIPSetResponse({
     this.changeToken,
   });
-  factory DeleteIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteIPSetResponseFromJson(json);
+  factory DeleteIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteIPSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLoggingConfigurationResponse {
   DeleteLoggingConfigurationResponse();
-  factory DeleteLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteLoggingConfigurationResponseFromJson(json);
+  factory DeleteLoggingConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLoggingConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
-  factory DeletePermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePermissionPolicyResponseFromJson(json);
+  factory DeletePermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePermissionPolicyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRateBasedRule</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteRateBasedRuleResponse({
     this.changeToken,
   });
-  factory DeleteRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRateBasedRuleResponseFromJson(json);
+  factory DeleteRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRateBasedRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRegexMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteRegexMatchSetResponse({
     this.changeToken,
   });
-  factory DeleteRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRegexMatchSetResponseFromJson(json);
+  factory DeleteRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRegexMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRegexPatternSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteRegexPatternSetResponse({
     this.changeToken,
   });
-  factory DeleteRegexPatternSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRegexPatternSetResponseFromJson(json);
+  factory DeleteRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRegexPatternSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRuleGroup</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteRuleGroupResponse({
     this.changeToken,
   });
-  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRuleGroupResponseFromJson(json);
+  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRuleGroupResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRule</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteRuleResponse({
     this.changeToken,
   });
-  factory DeleteRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRuleResponseFromJson(json);
+  factory DeleteRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteSizeConstraintSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteSizeConstraintSetResponse({
     this.changeToken,
   });
-  factory DeleteSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSizeConstraintSetResponseFromJson(json);
+  factory DeleteSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSizeConstraintSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// The response to a request to delete a <a>SqlInjectionMatchSet</a> from AWS
 /// WAF.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteSqlInjectionMatchSet</code> request. You can also use this value
   /// to query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteSqlInjectionMatchSetResponse({
     this.changeToken,
   });
   factory DeleteSqlInjectionMatchSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteSqlInjectionMatchSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteSqlInjectionMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteWebACL</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteWebACLResponse({
     this.changeToken,
   });
-  factory DeleteWebACLResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWebACLResponseFromJson(json);
+  factory DeleteWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteWebACLResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// The response to a request to delete an <a>XssMatchSet</a> from AWS WAF.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteXssMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   DeleteXssMatchSetResponse({
     this.changeToken,
   });
-  factory DeleteXssMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteXssMatchSetResponseFromJson(json);
+  factory DeleteXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteXssMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -8682,23 +8713,25 @@ class DeleteXssMatchSetResponse {
 /// <code>ActivatedRule</code> refers to a <code>RuleGroup</code>. The rule must
 /// belong to the <code>RuleGroup</code> that is specified by the
 /// <code>ActivatedRule</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExcludedRule {
   /// The unique identifier for the rule to exclude from the rule group.
-  @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
   ExcludedRule({
-    @_s.required this.ruleId,
+    required this.ruleId,
   });
-  factory ExcludedRule.fromJson(Map<String, dynamic> json) =>
-      _$ExcludedRuleFromJson(json);
+  factory ExcludedRule.fromJson(Map<String, dynamic> json) {
+    return ExcludedRule(
+      ruleId: json['RuleId'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ExcludedRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final ruleId = this.ruleId;
+    return {
+      'RuleId': ruleId,
+    };
+  }
 }
 
 /// <note>
@@ -8713,11 +8746,6 @@ class ExcludedRule {
 /// of endpoints for regional and global use.
 /// </note>
 /// Specifies where in a web request to look for <code>TargetString</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FieldToMatch {
   /// The part of the web request that you want AWS WAF to search for a specified
   /// string. Parts of a request that you can search include the following:
@@ -8765,7 +8793,6 @@ class FieldToMatch {
   /// in <code>TargetString</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
   final MatchFieldType type;
 
   /// When the value of <code>Type</code> is <code>HEADER</code>, enter the name
@@ -8780,17 +8807,27 @@ class FieldToMatch {
   ///
   /// If the value of <code>Type</code> is any other value, omit
   /// <code>Data</code>.
-  @_s.JsonKey(name: 'Data')
-  final String data;
+  final String? data;
 
   FieldToMatch({
-    @_s.required this.type,
+    required this.type,
     this.data,
   });
-  factory FieldToMatch.fromJson(Map<String, dynamic> json) =>
-      _$FieldToMatchFromJson(json);
+  factory FieldToMatch.fromJson(Map<String, dynamic> json) {
+    return FieldToMatch(
+      type: (json['Type'] as String).toMatchFieldType(),
+      data: json['Data'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FieldToMatchToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final data = this.data;
+    return {
+      'Type': type.toValue(),
+      if (data != null) 'Data': data,
+    };
+  }
 }
 
 /// <note>
@@ -8806,535 +8843,1319 @@ class FieldToMatch {
 /// </note>
 /// The country from which web requests originate that you want AWS WAF to
 /// search for.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GeoMatchConstraint {
   /// The type of geographical area you want AWS WAF to search for. Currently
   /// <code>Country</code> is the only valid value.
-  @_s.JsonKey(name: 'Type')
   final GeoMatchConstraintType type;
 
   /// The country that you want AWS WAF to search for.
-  @_s.JsonKey(name: 'Value')
   final GeoMatchConstraintValue value;
 
   GeoMatchConstraint({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory GeoMatchConstraint.fromJson(Map<String, dynamic> json) =>
-      _$GeoMatchConstraintFromJson(json);
+  factory GeoMatchConstraint.fromJson(Map<String, dynamic> json) {
+    return GeoMatchConstraint(
+      type: (json['Type'] as String).toGeoMatchConstraintType(),
+      value: (json['Value'] as String).toGeoMatchConstraintValue(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GeoMatchConstraintToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value.toValue(),
+    };
+  }
 }
 
 enum GeoMatchConstraintType {
-  @_s.JsonValue('Country')
   country,
 }
 
+extension on GeoMatchConstraintType {
+  String toValue() {
+    switch (this) {
+      case GeoMatchConstraintType.country:
+        return 'Country';
+    }
+  }
+}
+
+extension on String {
+  GeoMatchConstraintType toGeoMatchConstraintType() {
+    switch (this) {
+      case 'Country':
+        return GeoMatchConstraintType.country;
+    }
+    throw Exception('$this is not known in enum GeoMatchConstraintType');
+  }
+}
+
 enum GeoMatchConstraintValue {
-  @_s.JsonValue('AF')
   af,
-  @_s.JsonValue('AX')
   ax,
-  @_s.JsonValue('AL')
   al,
-  @_s.JsonValue('DZ')
   dz,
-  @_s.JsonValue('AS')
   as,
-  @_s.JsonValue('AD')
   ad,
-  @_s.JsonValue('AO')
   ao,
-  @_s.JsonValue('AI')
   ai,
-  @_s.JsonValue('AQ')
   aq,
-  @_s.JsonValue('AG')
   ag,
-  @_s.JsonValue('AR')
   ar,
-  @_s.JsonValue('AM')
   am,
-  @_s.JsonValue('AW')
   aw,
-  @_s.JsonValue('AU')
   au,
-  @_s.JsonValue('AT')
   at,
-  @_s.JsonValue('AZ')
   az,
-  @_s.JsonValue('BS')
   bs,
-  @_s.JsonValue('BH')
   bh,
-  @_s.JsonValue('BD')
   bd,
-  @_s.JsonValue('BB')
   bb,
-  @_s.JsonValue('BY')
   by,
-  @_s.JsonValue('BE')
   be,
-  @_s.JsonValue('BZ')
   bz,
-  @_s.JsonValue('BJ')
   bj,
-  @_s.JsonValue('BM')
   bm,
-  @_s.JsonValue('BT')
   bt,
-  @_s.JsonValue('BO')
   bo,
-  @_s.JsonValue('BQ')
   bq,
-  @_s.JsonValue('BA')
   ba,
-  @_s.JsonValue('BW')
   bw,
-  @_s.JsonValue('BV')
   bv,
-  @_s.JsonValue('BR')
   br,
-  @_s.JsonValue('IO')
   io,
-  @_s.JsonValue('BN')
   bn,
-  @_s.JsonValue('BG')
   bg,
-  @_s.JsonValue('BF')
   bf,
-  @_s.JsonValue('BI')
   bi,
-  @_s.JsonValue('KH')
   kh,
-  @_s.JsonValue('CM')
   cm,
-  @_s.JsonValue('CA')
   ca,
-  @_s.JsonValue('CV')
   cv,
-  @_s.JsonValue('KY')
   ky,
-  @_s.JsonValue('CF')
   cf,
-  @_s.JsonValue('TD')
   td,
-  @_s.JsonValue('CL')
   cl,
-  @_s.JsonValue('CN')
   cn,
-  @_s.JsonValue('CX')
   cx,
-  @_s.JsonValue('CC')
   cc,
-  @_s.JsonValue('CO')
   co,
-  @_s.JsonValue('KM')
   km,
-  @_s.JsonValue('CG')
   cg,
-  @_s.JsonValue('CD')
   cd,
-  @_s.JsonValue('CK')
   ck,
-  @_s.JsonValue('CR')
   cr,
-  @_s.JsonValue('CI')
   ci,
-  @_s.JsonValue('HR')
   hr,
-  @_s.JsonValue('CU')
   cu,
-  @_s.JsonValue('CW')
   cw,
-  @_s.JsonValue('CY')
   cy,
-  @_s.JsonValue('CZ')
   cz,
-  @_s.JsonValue('DK')
   dk,
-  @_s.JsonValue('DJ')
   dj,
-  @_s.JsonValue('DM')
   dm,
-  @_s.JsonValue('DO')
   $do,
-  @_s.JsonValue('EC')
   ec,
-  @_s.JsonValue('EG')
   eg,
-  @_s.JsonValue('SV')
   sv,
-  @_s.JsonValue('GQ')
   gq,
-  @_s.JsonValue('ER')
   er,
-  @_s.JsonValue('EE')
   ee,
-  @_s.JsonValue('ET')
   et,
-  @_s.JsonValue('FK')
   fk,
-  @_s.JsonValue('FO')
   fo,
-  @_s.JsonValue('FJ')
   fj,
-  @_s.JsonValue('FI')
   fi,
-  @_s.JsonValue('FR')
   fr,
-  @_s.JsonValue('GF')
   gf,
-  @_s.JsonValue('PF')
   pf,
-  @_s.JsonValue('TF')
   tf,
-  @_s.JsonValue('GA')
   ga,
-  @_s.JsonValue('GM')
   gm,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('DE')
   de,
-  @_s.JsonValue('GH')
   gh,
-  @_s.JsonValue('GI')
   gi,
-  @_s.JsonValue('GR')
   gr,
-  @_s.JsonValue('GL')
   gl,
-  @_s.JsonValue('GD')
   gd,
-  @_s.JsonValue('GP')
   gp,
-  @_s.JsonValue('GU')
   gu,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('GG')
   gg,
-  @_s.JsonValue('GN')
   gn,
-  @_s.JsonValue('GW')
   gw,
-  @_s.JsonValue('GY')
   gy,
-  @_s.JsonValue('HT')
   ht,
-  @_s.JsonValue('HM')
   hm,
-  @_s.JsonValue('VA')
   va,
-  @_s.JsonValue('HN')
   hn,
-  @_s.JsonValue('HK')
   hk,
-  @_s.JsonValue('HU')
   hu,
-  @_s.JsonValue('IS')
   $is,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('ID')
   id,
-  @_s.JsonValue('IR')
   ir,
-  @_s.JsonValue('IQ')
   iq,
-  @_s.JsonValue('IE')
   ie,
-  @_s.JsonValue('IM')
   im,
-  @_s.JsonValue('IL')
   il,
-  @_s.JsonValue('IT')
   it,
-  @_s.JsonValue('JM')
   jm,
-  @_s.JsonValue('JP')
   jp,
-  @_s.JsonValue('JE')
   je,
-  @_s.JsonValue('JO')
   jo,
-  @_s.JsonValue('KZ')
   kz,
-  @_s.JsonValue('KE')
   ke,
-  @_s.JsonValue('KI')
   ki,
-  @_s.JsonValue('KP')
   kp,
-  @_s.JsonValue('KR')
   kr,
-  @_s.JsonValue('KW')
   kw,
-  @_s.JsonValue('KG')
   kg,
-  @_s.JsonValue('LA')
   la,
-  @_s.JsonValue('LV')
   lv,
-  @_s.JsonValue('LB')
   lb,
-  @_s.JsonValue('LS')
   ls,
-  @_s.JsonValue('LR')
   lr,
-  @_s.JsonValue('LY')
   ly,
-  @_s.JsonValue('LI')
   li,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('LU')
   lu,
-  @_s.JsonValue('MO')
   mo,
-  @_s.JsonValue('MK')
   mk,
-  @_s.JsonValue('MG')
   mg,
-  @_s.JsonValue('MW')
   mw,
-  @_s.JsonValue('MY')
   my,
-  @_s.JsonValue('MV')
   mv,
-  @_s.JsonValue('ML')
   ml,
-  @_s.JsonValue('MT')
   mt,
-  @_s.JsonValue('MH')
   mh,
-  @_s.JsonValue('MQ')
   mq,
-  @_s.JsonValue('MR')
   mr,
-  @_s.JsonValue('MU')
   mu,
-  @_s.JsonValue('YT')
   yt,
-  @_s.JsonValue('MX')
   mx,
-  @_s.JsonValue('FM')
   fm,
-  @_s.JsonValue('MD')
   md,
-  @_s.JsonValue('MC')
   mc,
-  @_s.JsonValue('MN')
   mn,
-  @_s.JsonValue('ME')
   me,
-  @_s.JsonValue('MS')
   ms,
-  @_s.JsonValue('MA')
   ma,
-  @_s.JsonValue('MZ')
   mz,
-  @_s.JsonValue('MM')
   mm,
-  @_s.JsonValue('NA')
   na,
-  @_s.JsonValue('NR')
   nr,
-  @_s.JsonValue('NP')
   np,
-  @_s.JsonValue('NL')
   nl,
-  @_s.JsonValue('NC')
   nc,
-  @_s.JsonValue('NZ')
   nz,
-  @_s.JsonValue('NI')
   ni,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('NG')
   ng,
-  @_s.JsonValue('NU')
   nu,
-  @_s.JsonValue('NF')
   nf,
-  @_s.JsonValue('MP')
   mp,
-  @_s.JsonValue('NO')
   no,
-  @_s.JsonValue('OM')
   om,
-  @_s.JsonValue('PK')
   pk,
-  @_s.JsonValue('PW')
   pw,
-  @_s.JsonValue('PS')
   ps,
-  @_s.JsonValue('PA')
   pa,
-  @_s.JsonValue('PG')
   pg,
-  @_s.JsonValue('PY')
   py,
-  @_s.JsonValue('PE')
   pe,
-  @_s.JsonValue('PH')
   ph,
-  @_s.JsonValue('PN')
   pn,
-  @_s.JsonValue('PL')
   pl,
-  @_s.JsonValue('PT')
   pt,
-  @_s.JsonValue('PR')
   pr,
-  @_s.JsonValue('QA')
   qa,
-  @_s.JsonValue('RE')
   re,
-  @_s.JsonValue('RO')
   ro,
-  @_s.JsonValue('RU')
   ru,
-  @_s.JsonValue('RW')
   rw,
-  @_s.JsonValue('BL')
   bl,
-  @_s.JsonValue('SH')
   sh,
-  @_s.JsonValue('KN')
   kn,
-  @_s.JsonValue('LC')
   lc,
-  @_s.JsonValue('MF')
   mf,
-  @_s.JsonValue('PM')
   pm,
-  @_s.JsonValue('VC')
   vc,
-  @_s.JsonValue('WS')
   ws,
-  @_s.JsonValue('SM')
   sm,
-  @_s.JsonValue('ST')
   st,
-  @_s.JsonValue('SA')
   sa,
-  @_s.JsonValue('SN')
   sn,
-  @_s.JsonValue('RS')
   rs,
-  @_s.JsonValue('SC')
   sc,
-  @_s.JsonValue('SL')
   sl,
-  @_s.JsonValue('SG')
   sg,
-  @_s.JsonValue('SX')
   sx,
-  @_s.JsonValue('SK')
   sk,
-  @_s.JsonValue('SI')
   si,
-  @_s.JsonValue('SB')
   sb,
-  @_s.JsonValue('SO')
   so,
-  @_s.JsonValue('ZA')
   za,
-  @_s.JsonValue('GS')
   gs,
-  @_s.JsonValue('SS')
   ss,
-  @_s.JsonValue('ES')
   es,
-  @_s.JsonValue('LK')
   lk,
-  @_s.JsonValue('SD')
   sd,
-  @_s.JsonValue('SR')
   sr,
-  @_s.JsonValue('SJ')
   sj,
-  @_s.JsonValue('SZ')
   sz,
-  @_s.JsonValue('SE')
   se,
-  @_s.JsonValue('CH')
   ch,
-  @_s.JsonValue('SY')
   sy,
-  @_s.JsonValue('TW')
   tw,
-  @_s.JsonValue('TJ')
   tj,
-  @_s.JsonValue('TZ')
   tz,
-  @_s.JsonValue('TH')
   th,
-  @_s.JsonValue('TL')
   tl,
-  @_s.JsonValue('TG')
   tg,
-  @_s.JsonValue('TK')
   tk,
-  @_s.JsonValue('TO')
   to,
-  @_s.JsonValue('TT')
   tt,
-  @_s.JsonValue('TN')
   tn,
-  @_s.JsonValue('TR')
   tr,
-  @_s.JsonValue('TM')
   tm,
-  @_s.JsonValue('TC')
   tc,
-  @_s.JsonValue('TV')
   tv,
-  @_s.JsonValue('UG')
   ug,
-  @_s.JsonValue('UA')
   ua,
-  @_s.JsonValue('AE')
   ae,
-  @_s.JsonValue('GB')
   gb,
-  @_s.JsonValue('US')
   us,
-  @_s.JsonValue('UM')
   um,
-  @_s.JsonValue('UY')
   uy,
-  @_s.JsonValue('UZ')
   uz,
-  @_s.JsonValue('VU')
   vu,
-  @_s.JsonValue('VE')
   ve,
-  @_s.JsonValue('VN')
   vn,
-  @_s.JsonValue('VG')
   vg,
-  @_s.JsonValue('VI')
   vi,
-  @_s.JsonValue('WF')
   wf,
-  @_s.JsonValue('EH')
   eh,
-  @_s.JsonValue('YE')
   ye,
-  @_s.JsonValue('ZM')
   zm,
-  @_s.JsonValue('ZW')
   zw,
+}
+
+extension on GeoMatchConstraintValue {
+  String toValue() {
+    switch (this) {
+      case GeoMatchConstraintValue.af:
+        return 'AF';
+      case GeoMatchConstraintValue.ax:
+        return 'AX';
+      case GeoMatchConstraintValue.al:
+        return 'AL';
+      case GeoMatchConstraintValue.dz:
+        return 'DZ';
+      case GeoMatchConstraintValue.as:
+        return 'AS';
+      case GeoMatchConstraintValue.ad:
+        return 'AD';
+      case GeoMatchConstraintValue.ao:
+        return 'AO';
+      case GeoMatchConstraintValue.ai:
+        return 'AI';
+      case GeoMatchConstraintValue.aq:
+        return 'AQ';
+      case GeoMatchConstraintValue.ag:
+        return 'AG';
+      case GeoMatchConstraintValue.ar:
+        return 'AR';
+      case GeoMatchConstraintValue.am:
+        return 'AM';
+      case GeoMatchConstraintValue.aw:
+        return 'AW';
+      case GeoMatchConstraintValue.au:
+        return 'AU';
+      case GeoMatchConstraintValue.at:
+        return 'AT';
+      case GeoMatchConstraintValue.az:
+        return 'AZ';
+      case GeoMatchConstraintValue.bs:
+        return 'BS';
+      case GeoMatchConstraintValue.bh:
+        return 'BH';
+      case GeoMatchConstraintValue.bd:
+        return 'BD';
+      case GeoMatchConstraintValue.bb:
+        return 'BB';
+      case GeoMatchConstraintValue.by:
+        return 'BY';
+      case GeoMatchConstraintValue.be:
+        return 'BE';
+      case GeoMatchConstraintValue.bz:
+        return 'BZ';
+      case GeoMatchConstraintValue.bj:
+        return 'BJ';
+      case GeoMatchConstraintValue.bm:
+        return 'BM';
+      case GeoMatchConstraintValue.bt:
+        return 'BT';
+      case GeoMatchConstraintValue.bo:
+        return 'BO';
+      case GeoMatchConstraintValue.bq:
+        return 'BQ';
+      case GeoMatchConstraintValue.ba:
+        return 'BA';
+      case GeoMatchConstraintValue.bw:
+        return 'BW';
+      case GeoMatchConstraintValue.bv:
+        return 'BV';
+      case GeoMatchConstraintValue.br:
+        return 'BR';
+      case GeoMatchConstraintValue.io:
+        return 'IO';
+      case GeoMatchConstraintValue.bn:
+        return 'BN';
+      case GeoMatchConstraintValue.bg:
+        return 'BG';
+      case GeoMatchConstraintValue.bf:
+        return 'BF';
+      case GeoMatchConstraintValue.bi:
+        return 'BI';
+      case GeoMatchConstraintValue.kh:
+        return 'KH';
+      case GeoMatchConstraintValue.cm:
+        return 'CM';
+      case GeoMatchConstraintValue.ca:
+        return 'CA';
+      case GeoMatchConstraintValue.cv:
+        return 'CV';
+      case GeoMatchConstraintValue.ky:
+        return 'KY';
+      case GeoMatchConstraintValue.cf:
+        return 'CF';
+      case GeoMatchConstraintValue.td:
+        return 'TD';
+      case GeoMatchConstraintValue.cl:
+        return 'CL';
+      case GeoMatchConstraintValue.cn:
+        return 'CN';
+      case GeoMatchConstraintValue.cx:
+        return 'CX';
+      case GeoMatchConstraintValue.cc:
+        return 'CC';
+      case GeoMatchConstraintValue.co:
+        return 'CO';
+      case GeoMatchConstraintValue.km:
+        return 'KM';
+      case GeoMatchConstraintValue.cg:
+        return 'CG';
+      case GeoMatchConstraintValue.cd:
+        return 'CD';
+      case GeoMatchConstraintValue.ck:
+        return 'CK';
+      case GeoMatchConstraintValue.cr:
+        return 'CR';
+      case GeoMatchConstraintValue.ci:
+        return 'CI';
+      case GeoMatchConstraintValue.hr:
+        return 'HR';
+      case GeoMatchConstraintValue.cu:
+        return 'CU';
+      case GeoMatchConstraintValue.cw:
+        return 'CW';
+      case GeoMatchConstraintValue.cy:
+        return 'CY';
+      case GeoMatchConstraintValue.cz:
+        return 'CZ';
+      case GeoMatchConstraintValue.dk:
+        return 'DK';
+      case GeoMatchConstraintValue.dj:
+        return 'DJ';
+      case GeoMatchConstraintValue.dm:
+        return 'DM';
+      case GeoMatchConstraintValue.$do:
+        return 'DO';
+      case GeoMatchConstraintValue.ec:
+        return 'EC';
+      case GeoMatchConstraintValue.eg:
+        return 'EG';
+      case GeoMatchConstraintValue.sv:
+        return 'SV';
+      case GeoMatchConstraintValue.gq:
+        return 'GQ';
+      case GeoMatchConstraintValue.er:
+        return 'ER';
+      case GeoMatchConstraintValue.ee:
+        return 'EE';
+      case GeoMatchConstraintValue.et:
+        return 'ET';
+      case GeoMatchConstraintValue.fk:
+        return 'FK';
+      case GeoMatchConstraintValue.fo:
+        return 'FO';
+      case GeoMatchConstraintValue.fj:
+        return 'FJ';
+      case GeoMatchConstraintValue.fi:
+        return 'FI';
+      case GeoMatchConstraintValue.fr:
+        return 'FR';
+      case GeoMatchConstraintValue.gf:
+        return 'GF';
+      case GeoMatchConstraintValue.pf:
+        return 'PF';
+      case GeoMatchConstraintValue.tf:
+        return 'TF';
+      case GeoMatchConstraintValue.ga:
+        return 'GA';
+      case GeoMatchConstraintValue.gm:
+        return 'GM';
+      case GeoMatchConstraintValue.ge:
+        return 'GE';
+      case GeoMatchConstraintValue.de:
+        return 'DE';
+      case GeoMatchConstraintValue.gh:
+        return 'GH';
+      case GeoMatchConstraintValue.gi:
+        return 'GI';
+      case GeoMatchConstraintValue.gr:
+        return 'GR';
+      case GeoMatchConstraintValue.gl:
+        return 'GL';
+      case GeoMatchConstraintValue.gd:
+        return 'GD';
+      case GeoMatchConstraintValue.gp:
+        return 'GP';
+      case GeoMatchConstraintValue.gu:
+        return 'GU';
+      case GeoMatchConstraintValue.gt:
+        return 'GT';
+      case GeoMatchConstraintValue.gg:
+        return 'GG';
+      case GeoMatchConstraintValue.gn:
+        return 'GN';
+      case GeoMatchConstraintValue.gw:
+        return 'GW';
+      case GeoMatchConstraintValue.gy:
+        return 'GY';
+      case GeoMatchConstraintValue.ht:
+        return 'HT';
+      case GeoMatchConstraintValue.hm:
+        return 'HM';
+      case GeoMatchConstraintValue.va:
+        return 'VA';
+      case GeoMatchConstraintValue.hn:
+        return 'HN';
+      case GeoMatchConstraintValue.hk:
+        return 'HK';
+      case GeoMatchConstraintValue.hu:
+        return 'HU';
+      case GeoMatchConstraintValue.$is:
+        return 'IS';
+      case GeoMatchConstraintValue.$in:
+        return 'IN';
+      case GeoMatchConstraintValue.id:
+        return 'ID';
+      case GeoMatchConstraintValue.ir:
+        return 'IR';
+      case GeoMatchConstraintValue.iq:
+        return 'IQ';
+      case GeoMatchConstraintValue.ie:
+        return 'IE';
+      case GeoMatchConstraintValue.im:
+        return 'IM';
+      case GeoMatchConstraintValue.il:
+        return 'IL';
+      case GeoMatchConstraintValue.it:
+        return 'IT';
+      case GeoMatchConstraintValue.jm:
+        return 'JM';
+      case GeoMatchConstraintValue.jp:
+        return 'JP';
+      case GeoMatchConstraintValue.je:
+        return 'JE';
+      case GeoMatchConstraintValue.jo:
+        return 'JO';
+      case GeoMatchConstraintValue.kz:
+        return 'KZ';
+      case GeoMatchConstraintValue.ke:
+        return 'KE';
+      case GeoMatchConstraintValue.ki:
+        return 'KI';
+      case GeoMatchConstraintValue.kp:
+        return 'KP';
+      case GeoMatchConstraintValue.kr:
+        return 'KR';
+      case GeoMatchConstraintValue.kw:
+        return 'KW';
+      case GeoMatchConstraintValue.kg:
+        return 'KG';
+      case GeoMatchConstraintValue.la:
+        return 'LA';
+      case GeoMatchConstraintValue.lv:
+        return 'LV';
+      case GeoMatchConstraintValue.lb:
+        return 'LB';
+      case GeoMatchConstraintValue.ls:
+        return 'LS';
+      case GeoMatchConstraintValue.lr:
+        return 'LR';
+      case GeoMatchConstraintValue.ly:
+        return 'LY';
+      case GeoMatchConstraintValue.li:
+        return 'LI';
+      case GeoMatchConstraintValue.lt:
+        return 'LT';
+      case GeoMatchConstraintValue.lu:
+        return 'LU';
+      case GeoMatchConstraintValue.mo:
+        return 'MO';
+      case GeoMatchConstraintValue.mk:
+        return 'MK';
+      case GeoMatchConstraintValue.mg:
+        return 'MG';
+      case GeoMatchConstraintValue.mw:
+        return 'MW';
+      case GeoMatchConstraintValue.my:
+        return 'MY';
+      case GeoMatchConstraintValue.mv:
+        return 'MV';
+      case GeoMatchConstraintValue.ml:
+        return 'ML';
+      case GeoMatchConstraintValue.mt:
+        return 'MT';
+      case GeoMatchConstraintValue.mh:
+        return 'MH';
+      case GeoMatchConstraintValue.mq:
+        return 'MQ';
+      case GeoMatchConstraintValue.mr:
+        return 'MR';
+      case GeoMatchConstraintValue.mu:
+        return 'MU';
+      case GeoMatchConstraintValue.yt:
+        return 'YT';
+      case GeoMatchConstraintValue.mx:
+        return 'MX';
+      case GeoMatchConstraintValue.fm:
+        return 'FM';
+      case GeoMatchConstraintValue.md:
+        return 'MD';
+      case GeoMatchConstraintValue.mc:
+        return 'MC';
+      case GeoMatchConstraintValue.mn:
+        return 'MN';
+      case GeoMatchConstraintValue.me:
+        return 'ME';
+      case GeoMatchConstraintValue.ms:
+        return 'MS';
+      case GeoMatchConstraintValue.ma:
+        return 'MA';
+      case GeoMatchConstraintValue.mz:
+        return 'MZ';
+      case GeoMatchConstraintValue.mm:
+        return 'MM';
+      case GeoMatchConstraintValue.na:
+        return 'NA';
+      case GeoMatchConstraintValue.nr:
+        return 'NR';
+      case GeoMatchConstraintValue.np:
+        return 'NP';
+      case GeoMatchConstraintValue.nl:
+        return 'NL';
+      case GeoMatchConstraintValue.nc:
+        return 'NC';
+      case GeoMatchConstraintValue.nz:
+        return 'NZ';
+      case GeoMatchConstraintValue.ni:
+        return 'NI';
+      case GeoMatchConstraintValue.ne:
+        return 'NE';
+      case GeoMatchConstraintValue.ng:
+        return 'NG';
+      case GeoMatchConstraintValue.nu:
+        return 'NU';
+      case GeoMatchConstraintValue.nf:
+        return 'NF';
+      case GeoMatchConstraintValue.mp:
+        return 'MP';
+      case GeoMatchConstraintValue.no:
+        return 'NO';
+      case GeoMatchConstraintValue.om:
+        return 'OM';
+      case GeoMatchConstraintValue.pk:
+        return 'PK';
+      case GeoMatchConstraintValue.pw:
+        return 'PW';
+      case GeoMatchConstraintValue.ps:
+        return 'PS';
+      case GeoMatchConstraintValue.pa:
+        return 'PA';
+      case GeoMatchConstraintValue.pg:
+        return 'PG';
+      case GeoMatchConstraintValue.py:
+        return 'PY';
+      case GeoMatchConstraintValue.pe:
+        return 'PE';
+      case GeoMatchConstraintValue.ph:
+        return 'PH';
+      case GeoMatchConstraintValue.pn:
+        return 'PN';
+      case GeoMatchConstraintValue.pl:
+        return 'PL';
+      case GeoMatchConstraintValue.pt:
+        return 'PT';
+      case GeoMatchConstraintValue.pr:
+        return 'PR';
+      case GeoMatchConstraintValue.qa:
+        return 'QA';
+      case GeoMatchConstraintValue.re:
+        return 'RE';
+      case GeoMatchConstraintValue.ro:
+        return 'RO';
+      case GeoMatchConstraintValue.ru:
+        return 'RU';
+      case GeoMatchConstraintValue.rw:
+        return 'RW';
+      case GeoMatchConstraintValue.bl:
+        return 'BL';
+      case GeoMatchConstraintValue.sh:
+        return 'SH';
+      case GeoMatchConstraintValue.kn:
+        return 'KN';
+      case GeoMatchConstraintValue.lc:
+        return 'LC';
+      case GeoMatchConstraintValue.mf:
+        return 'MF';
+      case GeoMatchConstraintValue.pm:
+        return 'PM';
+      case GeoMatchConstraintValue.vc:
+        return 'VC';
+      case GeoMatchConstraintValue.ws:
+        return 'WS';
+      case GeoMatchConstraintValue.sm:
+        return 'SM';
+      case GeoMatchConstraintValue.st:
+        return 'ST';
+      case GeoMatchConstraintValue.sa:
+        return 'SA';
+      case GeoMatchConstraintValue.sn:
+        return 'SN';
+      case GeoMatchConstraintValue.rs:
+        return 'RS';
+      case GeoMatchConstraintValue.sc:
+        return 'SC';
+      case GeoMatchConstraintValue.sl:
+        return 'SL';
+      case GeoMatchConstraintValue.sg:
+        return 'SG';
+      case GeoMatchConstraintValue.sx:
+        return 'SX';
+      case GeoMatchConstraintValue.sk:
+        return 'SK';
+      case GeoMatchConstraintValue.si:
+        return 'SI';
+      case GeoMatchConstraintValue.sb:
+        return 'SB';
+      case GeoMatchConstraintValue.so:
+        return 'SO';
+      case GeoMatchConstraintValue.za:
+        return 'ZA';
+      case GeoMatchConstraintValue.gs:
+        return 'GS';
+      case GeoMatchConstraintValue.ss:
+        return 'SS';
+      case GeoMatchConstraintValue.es:
+        return 'ES';
+      case GeoMatchConstraintValue.lk:
+        return 'LK';
+      case GeoMatchConstraintValue.sd:
+        return 'SD';
+      case GeoMatchConstraintValue.sr:
+        return 'SR';
+      case GeoMatchConstraintValue.sj:
+        return 'SJ';
+      case GeoMatchConstraintValue.sz:
+        return 'SZ';
+      case GeoMatchConstraintValue.se:
+        return 'SE';
+      case GeoMatchConstraintValue.ch:
+        return 'CH';
+      case GeoMatchConstraintValue.sy:
+        return 'SY';
+      case GeoMatchConstraintValue.tw:
+        return 'TW';
+      case GeoMatchConstraintValue.tj:
+        return 'TJ';
+      case GeoMatchConstraintValue.tz:
+        return 'TZ';
+      case GeoMatchConstraintValue.th:
+        return 'TH';
+      case GeoMatchConstraintValue.tl:
+        return 'TL';
+      case GeoMatchConstraintValue.tg:
+        return 'TG';
+      case GeoMatchConstraintValue.tk:
+        return 'TK';
+      case GeoMatchConstraintValue.to:
+        return 'TO';
+      case GeoMatchConstraintValue.tt:
+        return 'TT';
+      case GeoMatchConstraintValue.tn:
+        return 'TN';
+      case GeoMatchConstraintValue.tr:
+        return 'TR';
+      case GeoMatchConstraintValue.tm:
+        return 'TM';
+      case GeoMatchConstraintValue.tc:
+        return 'TC';
+      case GeoMatchConstraintValue.tv:
+        return 'TV';
+      case GeoMatchConstraintValue.ug:
+        return 'UG';
+      case GeoMatchConstraintValue.ua:
+        return 'UA';
+      case GeoMatchConstraintValue.ae:
+        return 'AE';
+      case GeoMatchConstraintValue.gb:
+        return 'GB';
+      case GeoMatchConstraintValue.us:
+        return 'US';
+      case GeoMatchConstraintValue.um:
+        return 'UM';
+      case GeoMatchConstraintValue.uy:
+        return 'UY';
+      case GeoMatchConstraintValue.uz:
+        return 'UZ';
+      case GeoMatchConstraintValue.vu:
+        return 'VU';
+      case GeoMatchConstraintValue.ve:
+        return 'VE';
+      case GeoMatchConstraintValue.vn:
+        return 'VN';
+      case GeoMatchConstraintValue.vg:
+        return 'VG';
+      case GeoMatchConstraintValue.vi:
+        return 'VI';
+      case GeoMatchConstraintValue.wf:
+        return 'WF';
+      case GeoMatchConstraintValue.eh:
+        return 'EH';
+      case GeoMatchConstraintValue.ye:
+        return 'YE';
+      case GeoMatchConstraintValue.zm:
+        return 'ZM';
+      case GeoMatchConstraintValue.zw:
+        return 'ZW';
+    }
+  }
+}
+
+extension on String {
+  GeoMatchConstraintValue toGeoMatchConstraintValue() {
+    switch (this) {
+      case 'AF':
+        return GeoMatchConstraintValue.af;
+      case 'AX':
+        return GeoMatchConstraintValue.ax;
+      case 'AL':
+        return GeoMatchConstraintValue.al;
+      case 'DZ':
+        return GeoMatchConstraintValue.dz;
+      case 'AS':
+        return GeoMatchConstraintValue.as;
+      case 'AD':
+        return GeoMatchConstraintValue.ad;
+      case 'AO':
+        return GeoMatchConstraintValue.ao;
+      case 'AI':
+        return GeoMatchConstraintValue.ai;
+      case 'AQ':
+        return GeoMatchConstraintValue.aq;
+      case 'AG':
+        return GeoMatchConstraintValue.ag;
+      case 'AR':
+        return GeoMatchConstraintValue.ar;
+      case 'AM':
+        return GeoMatchConstraintValue.am;
+      case 'AW':
+        return GeoMatchConstraintValue.aw;
+      case 'AU':
+        return GeoMatchConstraintValue.au;
+      case 'AT':
+        return GeoMatchConstraintValue.at;
+      case 'AZ':
+        return GeoMatchConstraintValue.az;
+      case 'BS':
+        return GeoMatchConstraintValue.bs;
+      case 'BH':
+        return GeoMatchConstraintValue.bh;
+      case 'BD':
+        return GeoMatchConstraintValue.bd;
+      case 'BB':
+        return GeoMatchConstraintValue.bb;
+      case 'BY':
+        return GeoMatchConstraintValue.by;
+      case 'BE':
+        return GeoMatchConstraintValue.be;
+      case 'BZ':
+        return GeoMatchConstraintValue.bz;
+      case 'BJ':
+        return GeoMatchConstraintValue.bj;
+      case 'BM':
+        return GeoMatchConstraintValue.bm;
+      case 'BT':
+        return GeoMatchConstraintValue.bt;
+      case 'BO':
+        return GeoMatchConstraintValue.bo;
+      case 'BQ':
+        return GeoMatchConstraintValue.bq;
+      case 'BA':
+        return GeoMatchConstraintValue.ba;
+      case 'BW':
+        return GeoMatchConstraintValue.bw;
+      case 'BV':
+        return GeoMatchConstraintValue.bv;
+      case 'BR':
+        return GeoMatchConstraintValue.br;
+      case 'IO':
+        return GeoMatchConstraintValue.io;
+      case 'BN':
+        return GeoMatchConstraintValue.bn;
+      case 'BG':
+        return GeoMatchConstraintValue.bg;
+      case 'BF':
+        return GeoMatchConstraintValue.bf;
+      case 'BI':
+        return GeoMatchConstraintValue.bi;
+      case 'KH':
+        return GeoMatchConstraintValue.kh;
+      case 'CM':
+        return GeoMatchConstraintValue.cm;
+      case 'CA':
+        return GeoMatchConstraintValue.ca;
+      case 'CV':
+        return GeoMatchConstraintValue.cv;
+      case 'KY':
+        return GeoMatchConstraintValue.ky;
+      case 'CF':
+        return GeoMatchConstraintValue.cf;
+      case 'TD':
+        return GeoMatchConstraintValue.td;
+      case 'CL':
+        return GeoMatchConstraintValue.cl;
+      case 'CN':
+        return GeoMatchConstraintValue.cn;
+      case 'CX':
+        return GeoMatchConstraintValue.cx;
+      case 'CC':
+        return GeoMatchConstraintValue.cc;
+      case 'CO':
+        return GeoMatchConstraintValue.co;
+      case 'KM':
+        return GeoMatchConstraintValue.km;
+      case 'CG':
+        return GeoMatchConstraintValue.cg;
+      case 'CD':
+        return GeoMatchConstraintValue.cd;
+      case 'CK':
+        return GeoMatchConstraintValue.ck;
+      case 'CR':
+        return GeoMatchConstraintValue.cr;
+      case 'CI':
+        return GeoMatchConstraintValue.ci;
+      case 'HR':
+        return GeoMatchConstraintValue.hr;
+      case 'CU':
+        return GeoMatchConstraintValue.cu;
+      case 'CW':
+        return GeoMatchConstraintValue.cw;
+      case 'CY':
+        return GeoMatchConstraintValue.cy;
+      case 'CZ':
+        return GeoMatchConstraintValue.cz;
+      case 'DK':
+        return GeoMatchConstraintValue.dk;
+      case 'DJ':
+        return GeoMatchConstraintValue.dj;
+      case 'DM':
+        return GeoMatchConstraintValue.dm;
+      case 'DO':
+        return GeoMatchConstraintValue.$do;
+      case 'EC':
+        return GeoMatchConstraintValue.ec;
+      case 'EG':
+        return GeoMatchConstraintValue.eg;
+      case 'SV':
+        return GeoMatchConstraintValue.sv;
+      case 'GQ':
+        return GeoMatchConstraintValue.gq;
+      case 'ER':
+        return GeoMatchConstraintValue.er;
+      case 'EE':
+        return GeoMatchConstraintValue.ee;
+      case 'ET':
+        return GeoMatchConstraintValue.et;
+      case 'FK':
+        return GeoMatchConstraintValue.fk;
+      case 'FO':
+        return GeoMatchConstraintValue.fo;
+      case 'FJ':
+        return GeoMatchConstraintValue.fj;
+      case 'FI':
+        return GeoMatchConstraintValue.fi;
+      case 'FR':
+        return GeoMatchConstraintValue.fr;
+      case 'GF':
+        return GeoMatchConstraintValue.gf;
+      case 'PF':
+        return GeoMatchConstraintValue.pf;
+      case 'TF':
+        return GeoMatchConstraintValue.tf;
+      case 'GA':
+        return GeoMatchConstraintValue.ga;
+      case 'GM':
+        return GeoMatchConstraintValue.gm;
+      case 'GE':
+        return GeoMatchConstraintValue.ge;
+      case 'DE':
+        return GeoMatchConstraintValue.de;
+      case 'GH':
+        return GeoMatchConstraintValue.gh;
+      case 'GI':
+        return GeoMatchConstraintValue.gi;
+      case 'GR':
+        return GeoMatchConstraintValue.gr;
+      case 'GL':
+        return GeoMatchConstraintValue.gl;
+      case 'GD':
+        return GeoMatchConstraintValue.gd;
+      case 'GP':
+        return GeoMatchConstraintValue.gp;
+      case 'GU':
+        return GeoMatchConstraintValue.gu;
+      case 'GT':
+        return GeoMatchConstraintValue.gt;
+      case 'GG':
+        return GeoMatchConstraintValue.gg;
+      case 'GN':
+        return GeoMatchConstraintValue.gn;
+      case 'GW':
+        return GeoMatchConstraintValue.gw;
+      case 'GY':
+        return GeoMatchConstraintValue.gy;
+      case 'HT':
+        return GeoMatchConstraintValue.ht;
+      case 'HM':
+        return GeoMatchConstraintValue.hm;
+      case 'VA':
+        return GeoMatchConstraintValue.va;
+      case 'HN':
+        return GeoMatchConstraintValue.hn;
+      case 'HK':
+        return GeoMatchConstraintValue.hk;
+      case 'HU':
+        return GeoMatchConstraintValue.hu;
+      case 'IS':
+        return GeoMatchConstraintValue.$is;
+      case 'IN':
+        return GeoMatchConstraintValue.$in;
+      case 'ID':
+        return GeoMatchConstraintValue.id;
+      case 'IR':
+        return GeoMatchConstraintValue.ir;
+      case 'IQ':
+        return GeoMatchConstraintValue.iq;
+      case 'IE':
+        return GeoMatchConstraintValue.ie;
+      case 'IM':
+        return GeoMatchConstraintValue.im;
+      case 'IL':
+        return GeoMatchConstraintValue.il;
+      case 'IT':
+        return GeoMatchConstraintValue.it;
+      case 'JM':
+        return GeoMatchConstraintValue.jm;
+      case 'JP':
+        return GeoMatchConstraintValue.jp;
+      case 'JE':
+        return GeoMatchConstraintValue.je;
+      case 'JO':
+        return GeoMatchConstraintValue.jo;
+      case 'KZ':
+        return GeoMatchConstraintValue.kz;
+      case 'KE':
+        return GeoMatchConstraintValue.ke;
+      case 'KI':
+        return GeoMatchConstraintValue.ki;
+      case 'KP':
+        return GeoMatchConstraintValue.kp;
+      case 'KR':
+        return GeoMatchConstraintValue.kr;
+      case 'KW':
+        return GeoMatchConstraintValue.kw;
+      case 'KG':
+        return GeoMatchConstraintValue.kg;
+      case 'LA':
+        return GeoMatchConstraintValue.la;
+      case 'LV':
+        return GeoMatchConstraintValue.lv;
+      case 'LB':
+        return GeoMatchConstraintValue.lb;
+      case 'LS':
+        return GeoMatchConstraintValue.ls;
+      case 'LR':
+        return GeoMatchConstraintValue.lr;
+      case 'LY':
+        return GeoMatchConstraintValue.ly;
+      case 'LI':
+        return GeoMatchConstraintValue.li;
+      case 'LT':
+        return GeoMatchConstraintValue.lt;
+      case 'LU':
+        return GeoMatchConstraintValue.lu;
+      case 'MO':
+        return GeoMatchConstraintValue.mo;
+      case 'MK':
+        return GeoMatchConstraintValue.mk;
+      case 'MG':
+        return GeoMatchConstraintValue.mg;
+      case 'MW':
+        return GeoMatchConstraintValue.mw;
+      case 'MY':
+        return GeoMatchConstraintValue.my;
+      case 'MV':
+        return GeoMatchConstraintValue.mv;
+      case 'ML':
+        return GeoMatchConstraintValue.ml;
+      case 'MT':
+        return GeoMatchConstraintValue.mt;
+      case 'MH':
+        return GeoMatchConstraintValue.mh;
+      case 'MQ':
+        return GeoMatchConstraintValue.mq;
+      case 'MR':
+        return GeoMatchConstraintValue.mr;
+      case 'MU':
+        return GeoMatchConstraintValue.mu;
+      case 'YT':
+        return GeoMatchConstraintValue.yt;
+      case 'MX':
+        return GeoMatchConstraintValue.mx;
+      case 'FM':
+        return GeoMatchConstraintValue.fm;
+      case 'MD':
+        return GeoMatchConstraintValue.md;
+      case 'MC':
+        return GeoMatchConstraintValue.mc;
+      case 'MN':
+        return GeoMatchConstraintValue.mn;
+      case 'ME':
+        return GeoMatchConstraintValue.me;
+      case 'MS':
+        return GeoMatchConstraintValue.ms;
+      case 'MA':
+        return GeoMatchConstraintValue.ma;
+      case 'MZ':
+        return GeoMatchConstraintValue.mz;
+      case 'MM':
+        return GeoMatchConstraintValue.mm;
+      case 'NA':
+        return GeoMatchConstraintValue.na;
+      case 'NR':
+        return GeoMatchConstraintValue.nr;
+      case 'NP':
+        return GeoMatchConstraintValue.np;
+      case 'NL':
+        return GeoMatchConstraintValue.nl;
+      case 'NC':
+        return GeoMatchConstraintValue.nc;
+      case 'NZ':
+        return GeoMatchConstraintValue.nz;
+      case 'NI':
+        return GeoMatchConstraintValue.ni;
+      case 'NE':
+        return GeoMatchConstraintValue.ne;
+      case 'NG':
+        return GeoMatchConstraintValue.ng;
+      case 'NU':
+        return GeoMatchConstraintValue.nu;
+      case 'NF':
+        return GeoMatchConstraintValue.nf;
+      case 'MP':
+        return GeoMatchConstraintValue.mp;
+      case 'NO':
+        return GeoMatchConstraintValue.no;
+      case 'OM':
+        return GeoMatchConstraintValue.om;
+      case 'PK':
+        return GeoMatchConstraintValue.pk;
+      case 'PW':
+        return GeoMatchConstraintValue.pw;
+      case 'PS':
+        return GeoMatchConstraintValue.ps;
+      case 'PA':
+        return GeoMatchConstraintValue.pa;
+      case 'PG':
+        return GeoMatchConstraintValue.pg;
+      case 'PY':
+        return GeoMatchConstraintValue.py;
+      case 'PE':
+        return GeoMatchConstraintValue.pe;
+      case 'PH':
+        return GeoMatchConstraintValue.ph;
+      case 'PN':
+        return GeoMatchConstraintValue.pn;
+      case 'PL':
+        return GeoMatchConstraintValue.pl;
+      case 'PT':
+        return GeoMatchConstraintValue.pt;
+      case 'PR':
+        return GeoMatchConstraintValue.pr;
+      case 'QA':
+        return GeoMatchConstraintValue.qa;
+      case 'RE':
+        return GeoMatchConstraintValue.re;
+      case 'RO':
+        return GeoMatchConstraintValue.ro;
+      case 'RU':
+        return GeoMatchConstraintValue.ru;
+      case 'RW':
+        return GeoMatchConstraintValue.rw;
+      case 'BL':
+        return GeoMatchConstraintValue.bl;
+      case 'SH':
+        return GeoMatchConstraintValue.sh;
+      case 'KN':
+        return GeoMatchConstraintValue.kn;
+      case 'LC':
+        return GeoMatchConstraintValue.lc;
+      case 'MF':
+        return GeoMatchConstraintValue.mf;
+      case 'PM':
+        return GeoMatchConstraintValue.pm;
+      case 'VC':
+        return GeoMatchConstraintValue.vc;
+      case 'WS':
+        return GeoMatchConstraintValue.ws;
+      case 'SM':
+        return GeoMatchConstraintValue.sm;
+      case 'ST':
+        return GeoMatchConstraintValue.st;
+      case 'SA':
+        return GeoMatchConstraintValue.sa;
+      case 'SN':
+        return GeoMatchConstraintValue.sn;
+      case 'RS':
+        return GeoMatchConstraintValue.rs;
+      case 'SC':
+        return GeoMatchConstraintValue.sc;
+      case 'SL':
+        return GeoMatchConstraintValue.sl;
+      case 'SG':
+        return GeoMatchConstraintValue.sg;
+      case 'SX':
+        return GeoMatchConstraintValue.sx;
+      case 'SK':
+        return GeoMatchConstraintValue.sk;
+      case 'SI':
+        return GeoMatchConstraintValue.si;
+      case 'SB':
+        return GeoMatchConstraintValue.sb;
+      case 'SO':
+        return GeoMatchConstraintValue.so;
+      case 'ZA':
+        return GeoMatchConstraintValue.za;
+      case 'GS':
+        return GeoMatchConstraintValue.gs;
+      case 'SS':
+        return GeoMatchConstraintValue.ss;
+      case 'ES':
+        return GeoMatchConstraintValue.es;
+      case 'LK':
+        return GeoMatchConstraintValue.lk;
+      case 'SD':
+        return GeoMatchConstraintValue.sd;
+      case 'SR':
+        return GeoMatchConstraintValue.sr;
+      case 'SJ':
+        return GeoMatchConstraintValue.sj;
+      case 'SZ':
+        return GeoMatchConstraintValue.sz;
+      case 'SE':
+        return GeoMatchConstraintValue.se;
+      case 'CH':
+        return GeoMatchConstraintValue.ch;
+      case 'SY':
+        return GeoMatchConstraintValue.sy;
+      case 'TW':
+        return GeoMatchConstraintValue.tw;
+      case 'TJ':
+        return GeoMatchConstraintValue.tj;
+      case 'TZ':
+        return GeoMatchConstraintValue.tz;
+      case 'TH':
+        return GeoMatchConstraintValue.th;
+      case 'TL':
+        return GeoMatchConstraintValue.tl;
+      case 'TG':
+        return GeoMatchConstraintValue.tg;
+      case 'TK':
+        return GeoMatchConstraintValue.tk;
+      case 'TO':
+        return GeoMatchConstraintValue.to;
+      case 'TT':
+        return GeoMatchConstraintValue.tt;
+      case 'TN':
+        return GeoMatchConstraintValue.tn;
+      case 'TR':
+        return GeoMatchConstraintValue.tr;
+      case 'TM':
+        return GeoMatchConstraintValue.tm;
+      case 'TC':
+        return GeoMatchConstraintValue.tc;
+      case 'TV':
+        return GeoMatchConstraintValue.tv;
+      case 'UG':
+        return GeoMatchConstraintValue.ug;
+      case 'UA':
+        return GeoMatchConstraintValue.ua;
+      case 'AE':
+        return GeoMatchConstraintValue.ae;
+      case 'GB':
+        return GeoMatchConstraintValue.gb;
+      case 'US':
+        return GeoMatchConstraintValue.us;
+      case 'UM':
+        return GeoMatchConstraintValue.um;
+      case 'UY':
+        return GeoMatchConstraintValue.uy;
+      case 'UZ':
+        return GeoMatchConstraintValue.uz;
+      case 'VU':
+        return GeoMatchConstraintValue.vu;
+      case 'VE':
+        return GeoMatchConstraintValue.ve;
+      case 'VN':
+        return GeoMatchConstraintValue.vn;
+      case 'VG':
+        return GeoMatchConstraintValue.vg;
+      case 'VI':
+        return GeoMatchConstraintValue.vi;
+      case 'WF':
+        return GeoMatchConstraintValue.wf;
+      case 'EH':
+        return GeoMatchConstraintValue.eh;
+      case 'YE':
+        return GeoMatchConstraintValue.ye;
+      case 'ZM':
+        return GeoMatchConstraintValue.zm;
+      case 'ZW':
+        return GeoMatchConstraintValue.zw;
+    }
+    throw Exception('$this is not known in enum GeoMatchConstraintValue');
+  }
 }
 
 /// <note>
@@ -9349,15 +10170,9 @@ enum GeoMatchConstraintValue {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains one or more countries that AWS WAF will search for.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GeoMatchSet {
   /// An array of <a>GeoMatchConstraint</a> objects, which contain the country
   /// that you want AWS WAF to search for.
-  @_s.JsonKey(name: 'GeoMatchConstraints')
   final List<GeoMatchConstraint> geoMatchConstraints;
 
   /// The <code>GeoMatchSetId</code> for an <code>GeoMatchSet</code>. You use
@@ -9370,21 +10185,27 @@ class GeoMatchSet {
   ///
   /// <code>GeoMatchSetId</code> is returned by <a>CreateGeoMatchSet</a> and by
   /// <a>ListGeoMatchSets</a>.
-  @_s.JsonKey(name: 'GeoMatchSetId')
   final String geoMatchSetId;
 
   /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
   /// the name of an <code>GeoMatchSet</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GeoMatchSet({
-    @_s.required this.geoMatchConstraints,
-    @_s.required this.geoMatchSetId,
+    required this.geoMatchConstraints,
+    required this.geoMatchSetId,
     this.name,
   });
-  factory GeoMatchSet.fromJson(Map<String, dynamic> json) =>
-      _$GeoMatchSetFromJson(json);
+  factory GeoMatchSet.fromJson(Map<String, dynamic> json) {
+    return GeoMatchSet(
+      geoMatchConstraints: (json['GeoMatchConstraints'] as List)
+          .whereNotNull()
+          .map((e) => GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      geoMatchSetId: json['GeoMatchSetId'] as String,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -9399,29 +10220,26 @@ class GeoMatchSet {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name of the <code>GeoMatchSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GeoMatchSetSummary {
   /// The <code>GeoMatchSetId</code> for an <a>GeoMatchSet</a>. You can use
   /// <code>GeoMatchSetId</code> in a <a>GetGeoMatchSet</a> request to get
   /// detailed information about an <a>GeoMatchSet</a>.
-  @_s.JsonKey(name: 'GeoMatchSetId')
   final String geoMatchSetId;
 
   /// A friendly name or description of the <a>GeoMatchSet</a>. You can't change
   /// the name of an <code>GeoMatchSet</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   GeoMatchSetSummary({
-    @_s.required this.geoMatchSetId,
-    @_s.required this.name,
+    required this.geoMatchSetId,
+    required this.name,
   });
-  factory GeoMatchSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$GeoMatchSetSummaryFromJson(json);
+  factory GeoMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return GeoMatchSetSummary(
+      geoMatchSetId: json['GeoMatchSetId'] as String,
+      name: json['Name'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -9437,34 +10255,29 @@ class GeoMatchSetSummary {
 /// </note>
 /// Specifies the type of update to perform to an <a>GeoMatchSet</a> with
 /// <a>UpdateGeoMatchSet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GeoMatchSetUpdate {
   /// Specifies whether to insert or delete a country with
   /// <a>UpdateGeoMatchSet</a>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// The country from which web requests originate that you want AWS WAF to
   /// search for.
-  @_s.JsonKey(name: 'GeoMatchConstraint')
   final GeoMatchConstraint geoMatchConstraint;
 
   GeoMatchSetUpdate({
-    @_s.required this.action,
-    @_s.required this.geoMatchConstraint,
+    required this.action,
+    required this.geoMatchConstraint,
   });
-  Map<String, dynamic> toJson() => _$GeoMatchSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final geoMatchConstraint = this.geoMatchConstraint;
+    return {
+      'Action': action.toValue(),
+      'GeoMatchConstraint': geoMatchConstraint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetByteMatchSetResponse {
   /// Information about the <a>ByteMatchSet</a> that you specified in the
   /// <code>GetByteMatchSet</code> request. For more information, see the
@@ -9485,78 +10298,71 @@ class GetByteMatchSetResponse {
   /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ByteMatchSet')
-  final ByteMatchSet byteMatchSet;
+  final ByteMatchSet? byteMatchSet;
 
   GetByteMatchSetResponse({
     this.byteMatchSet,
   });
-  factory GetByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetByteMatchSetResponseFromJson(json);
+  factory GetByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetByteMatchSetResponse(
+      byteMatchSet: json['ByteMatchSet'] != null
+          ? ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetChangeTokenResponse {
   /// The <code>ChangeToken</code> that you used in the request. Use this value in
   /// a <code>GetChangeTokenStatus</code> request to get the current status of the
   /// request.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   GetChangeTokenResponse({
     this.changeToken,
   });
-  factory GetChangeTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetChangeTokenResponseFromJson(json);
+  factory GetChangeTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetChangeTokenResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetChangeTokenStatusResponse {
   /// The status of the change token.
-  @_s.JsonKey(name: 'ChangeTokenStatus')
-  final ChangeTokenStatus changeTokenStatus;
+  final ChangeTokenStatus? changeTokenStatus;
 
   GetChangeTokenStatusResponse({
     this.changeTokenStatus,
   });
-  factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetChangeTokenStatusResponseFromJson(json);
+  factory GetChangeTokenStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetChangeTokenStatusResponse(
+      changeTokenStatus:
+          (json['ChangeTokenStatus'] as String?)?.toChangeTokenStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGeoMatchSetResponse {
   /// Information about the <a>GeoMatchSet</a> that you specified in the
   /// <code>GetGeoMatchSet</code> request. This includes the <code>Type</code>,
   /// which for a <code>GeoMatchContraint</code> is always <code>Country</code>,
   /// as well as the <code>Value</code>, which is the identifier for a specific
   /// country.
-  @_s.JsonKey(name: 'GeoMatchSet')
-  final GeoMatchSet geoMatchSet;
+  final GeoMatchSet? geoMatchSet;
 
   GetGeoMatchSetResponse({
     this.geoMatchSet,
   });
-  factory GetGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGeoMatchSetResponseFromJson(json);
+  factory GetGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetGeoMatchSetResponse(
+      geoMatchSet: json['GeoMatchSet'] != null
+          ? GeoMatchSet.fromJson(json['GeoMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIPSetResponse {
   /// Information about the <a>IPSet</a> that you specified in the
   /// <code>GetIPSet</code> request. For more information, see the following
@@ -9573,154 +10379,148 @@ class GetIPSetResponse {
   /// and <code>Value</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IPSet')
-  final IPSet iPSet;
+  final IPSet? iPSet;
 
   GetIPSetResponse({
     this.iPSet,
   });
-  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIPSetResponseFromJson(json);
+  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetIPSetResponse(
+      iPSet: json['IPSet'] != null
+          ? IPSet.fromJson(json['IPSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLoggingConfigurationResponse {
   /// The <a>LoggingConfiguration</a> for the specified web ACL.
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final LoggingConfiguration? loggingConfiguration;
 
   GetLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
-  factory GetLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLoggingConfigurationResponseFromJson(json);
+  factory GetLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPermissionPolicyResponse {
   /// The IAM policy attached to the specified RuleGroup.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   GetPermissionPolicyResponse({
     this.policy,
   });
-  factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPermissionPolicyResponseFromJson(json);
+  factory GetPermissionPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPermissionPolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRateBasedRuleManagedKeysResponse {
   /// An array of IP addresses that currently are blocked by the specified
   /// <a>RateBasedRule</a>.
-  @_s.JsonKey(name: 'ManagedKeys')
-  final List<String> managedKeys;
+  final List<String>? managedKeys;
 
   /// A null value and not currently used.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   GetRateBasedRuleManagedKeysResponse({
     this.managedKeys,
     this.nextMarker,
   });
   factory GetRateBasedRuleManagedKeysResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRateBasedRuleManagedKeysResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRateBasedRuleManagedKeysResponse(
+      managedKeys: (json['ManagedKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRateBasedRuleResponse {
   /// Information about the <a>RateBasedRule</a> that you specified in the
   /// <code>GetRateBasedRule</code> request.
-  @_s.JsonKey(name: 'Rule')
-  final RateBasedRule rule;
+  final RateBasedRule? rule;
 
   GetRateBasedRuleResponse({
     this.rule,
   });
-  factory GetRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRateBasedRuleResponseFromJson(json);
+  factory GetRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetRateBasedRuleResponse(
+      rule: json['Rule'] != null
+          ? RateBasedRule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRegexMatchSetResponse {
   /// Information about the <a>RegexMatchSet</a> that you specified in the
   /// <code>GetRegexMatchSet</code> request. For more information, see
   /// <a>RegexMatchTuple</a>.
-  @_s.JsonKey(name: 'RegexMatchSet')
-  final RegexMatchSet regexMatchSet;
+  final RegexMatchSet? regexMatchSet;
 
   GetRegexMatchSetResponse({
     this.regexMatchSet,
   });
-  factory GetRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRegexMatchSetResponseFromJson(json);
+  factory GetRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegexMatchSetResponse(
+      regexMatchSet: json['RegexMatchSet'] != null
+          ? RegexMatchSet.fromJson(
+              json['RegexMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRegexPatternSetResponse {
   /// Information about the <a>RegexPatternSet</a> that you specified in the
   /// <code>GetRegexPatternSet</code> request, including the identifier of the
   /// pattern set and the regular expression patterns you want AWS WAF to search
   /// for.
-  @_s.JsonKey(name: 'RegexPatternSet')
-  final RegexPatternSet regexPatternSet;
+  final RegexPatternSet? regexPatternSet;
 
   GetRegexPatternSetResponse({
     this.regexPatternSet,
   });
-  factory GetRegexPatternSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRegexPatternSetResponseFromJson(json);
+  factory GetRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegexPatternSetResponse(
+      regexPatternSet: json['RegexPatternSet'] != null
+          ? RegexPatternSet.fromJson(
+              json['RegexPatternSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRuleGroupResponse {
   /// Information about the <a>RuleGroup</a> that you specified in the
   /// <code>GetRuleGroup</code> request.
-  @_s.JsonKey(name: 'RuleGroup')
-  final RuleGroup ruleGroup;
+  final RuleGroup? ruleGroup;
 
   GetRuleGroupResponse({
     this.ruleGroup,
   });
-  factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRuleGroupResponseFromJson(json);
+  factory GetRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetRuleGroupResponse(
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRuleResponse {
   /// Information about the <a>Rule</a> that you specified in the
   /// <code>GetRule</code> request. For more information, see the following
@@ -9736,33 +10536,30 @@ class GetRuleResponse {
   /// <code>DataId</code>, <code>Negated</code>, and <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Rule')
-  final Rule rule;
+  final Rule? rule;
 
   GetRuleResponse({
     this.rule,
   });
-  factory GetRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRuleResponseFromJson(json);
+  factory GetRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetRuleResponse(
+      rule: json['Rule'] != null
+          ? Rule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSampledRequestsResponse {
   /// The total number of requests from which <code>GetSampledRequests</code> got
   /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
   /// is less than <code>MaxItems</code>, the sample includes every request that
   /// your AWS resource received during the specified time range.
-  @_s.JsonKey(name: 'PopulationSize')
-  final int populationSize;
+  final int? populationSize;
 
   /// A complex type that contains detailed information about each of the requests
   /// in the sample.
-  @_s.JsonKey(name: 'SampledRequests')
-  final List<SampledHTTPRequest> sampledRequests;
+  final List<SampledHTTPRequest>? sampledRequests;
 
   /// Usually, <code>TimeWindow</code> is the time range that you specified in the
   /// <code>GetSampledRequests</code> request. However, if your AWS resource
@@ -9770,23 +10567,27 @@ class GetSampledRequestsResponse {
   /// in the request, <code>GetSampledRequests</code> returns the time range for
   /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
   /// format.
-  @_s.JsonKey(name: 'TimeWindow')
-  final TimeWindow timeWindow;
+  final TimeWindow? timeWindow;
 
   GetSampledRequestsResponse({
     this.populationSize,
     this.sampledRequests,
     this.timeWindow,
   });
-  factory GetSampledRequestsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSampledRequestsResponseFromJson(json);
+  factory GetSampledRequestsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSampledRequestsResponse(
+      populationSize: json['PopulationSize'] as int?,
+      sampledRequests: (json['SampledRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeWindow: json['TimeWindow'] != null
+          ? TimeWindow.fromJson(json['TimeWindow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSizeConstraintSetResponse {
   /// Information about the <a>SizeConstraintSet</a> that you specified in the
   /// <code>GetSizeConstraintSet</code> request. For more information, see the
@@ -9807,22 +10608,22 @@ class GetSizeConstraintSetResponse {
   /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SizeConstraintSet')
-  final SizeConstraintSet sizeConstraintSet;
+  final SizeConstraintSet? sizeConstraintSet;
 
   GetSizeConstraintSetResponse({
     this.sizeConstraintSet,
   });
-  factory GetSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSizeConstraintSetResponseFromJson(json);
+  factory GetSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetSizeConstraintSetResponse(
+      sizeConstraintSet: json['SizeConstraintSet'] != null
+          ? SizeConstraintSet.fromJson(
+              json['SizeConstraintSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to a <a>GetSqlInjectionMatchSet</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSqlInjectionMatchSetResponse {
   /// Information about the <a>SqlInjectionMatchSet</a> that you specified in the
   /// <code>GetSqlInjectionMatchSet</code> request. For more information, see the
@@ -9843,21 +10644,21 @@ class GetSqlInjectionMatchSetResponse {
   /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SqlInjectionMatchSet')
-  final SqlInjectionMatchSet sqlInjectionMatchSet;
+  final SqlInjectionMatchSet? sqlInjectionMatchSet;
 
   GetSqlInjectionMatchSetResponse({
     this.sqlInjectionMatchSet,
   });
-  factory GetSqlInjectionMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSqlInjectionMatchSetResponseFromJson(json);
+  factory GetSqlInjectionMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetSqlInjectionMatchSetResponse(
+      sqlInjectionMatchSet: json['SqlInjectionMatchSet'] != null
+          ? SqlInjectionMatchSet.fromJson(
+              json['SqlInjectionMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWebACLResponse {
   /// Information about the <a>WebACL</a> that you specified in the
   /// <code>GetWebACL</code> request. For more information, see the following
@@ -9882,22 +10683,21 @@ class GetWebACLResponse {
   /// <code>Action</code>: Contains <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WebACL')
-  final WebACL webACL;
+  final WebACL? webACL;
 
   GetWebACLResponse({
     this.webACL,
   });
-  factory GetWebACLResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetWebACLResponseFromJson(json);
+  factory GetWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return GetWebACLResponse(
+      webACL: json['WebACL'] != null
+          ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response to a <a>GetXssMatchSet</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetXssMatchSetResponse {
   /// Information about the <a>XssMatchSet</a> that you specified in the
   /// <code>GetXssMatchSet</code> request. For more information, see the following
@@ -9916,14 +10716,18 @@ class GetXssMatchSetResponse {
   /// <a>FieldToMatch</a>: Contains <code>Data</code> and <code>Type</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'XssMatchSet')
-  final XssMatchSet xssMatchSet;
+  final XssMatchSet? xssMatchSet;
 
   GetXssMatchSetResponse({
     this.xssMatchSet,
   });
-  factory GetXssMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetXssMatchSetResponseFromJson(json);
+  factory GetXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetXssMatchSetResponse(
+      xssMatchSet: json['XssMatchSet'] != null
+          ? XssMatchSet.fromJson(json['XssMatchSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// <note>
@@ -9942,26 +10746,23 @@ class GetXssMatchSetResponse {
 /// the response syntax. <code>HTTPHeader</code> contains the names and values
 /// of all of the headers that appear in one of the web requests that were
 /// returned by <code>GetSampledRequests</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HTTPHeader {
   /// The name of one of the headers in the sampled web request.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of one of the headers in the sampled web request.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   HTTPHeader({
     this.name,
     this.value,
   });
-  factory HTTPHeader.fromJson(Map<String, dynamic> json) =>
-      _$HTTPHeaderFromJson(json);
+  factory HTTPHeader.fromJson(Map<String, dynamic> json) {
+    return HTTPHeader(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -9980,11 +10781,6 @@ class HTTPHeader {
 /// in the response syntax. <code>HTTPRequest</code> contains information about
 /// one of the web requests that were returned by
 /// <code>GetSampledRequests</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HTTPRequest {
   /// The IP address that the request originated from. If the <code>WebACL</code>
   /// is associated with a CloudFront distribution, this is the value of one of
@@ -10000,37 +10796,31 @@ class HTTPRequest {
   /// balancer to send the request
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ClientIP')
-  final String clientIP;
+  final String? clientIP;
 
   /// The two-letter country code for the country that the request originated
   /// from. For a current list of country codes, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1
   /// alpha-2</a>.
-  @_s.JsonKey(name: 'Country')
-  final String country;
+  final String? country;
 
   /// The HTTP version specified in the sampled web request, for example,
   /// <code>HTTP/1.1</code>.
-  @_s.JsonKey(name: 'HTTPVersion')
-  final String hTTPVersion;
+  final String? hTTPVersion;
 
   /// A complex type that contains two values for each header in the sampled web
   /// request: the name of the header and the value of the header.
-  @_s.JsonKey(name: 'Headers')
-  final List<HTTPHeader> headers;
+  final List<HTTPHeader>? headers;
 
   /// The HTTP method specified in the sampled web request. CloudFront supports
   /// the following methods: <code>DELETE</code>, <code>GET</code>,
   /// <code>HEAD</code>, <code>OPTIONS</code>, <code>PATCH</code>,
   /// <code>POST</code>, and <code>PUT</code>.
-  @_s.JsonKey(name: 'Method')
-  final String method;
+  final String? method;
 
   /// The part of a web request that identifies the resource, for example,
   /// <code>/images/daily-ad.jpg</code>.
-  @_s.JsonKey(name: 'URI')
-  final String uri;
+  final String? uri;
 
   HTTPRequest({
     this.clientIP,
@@ -10040,8 +10830,19 @@ class HTTPRequest {
     this.method,
     this.uri,
   });
-  factory HTTPRequest.fromJson(Map<String, dynamic> json) =>
-      _$HTTPRequestFromJson(json);
+  factory HTTPRequest.fromJson(Map<String, dynamic> json) {
+    return HTTPRequest(
+      clientIP: json['ClientIP'] as String?,
+      country: json['Country'] as String?,
+      hTTPVersion: json['HTTPVersion'] as String?,
+      headers: (json['Headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      method: json['Method'] as String?,
+      uri: json['URI'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -10067,18 +10868,12 @@ class HTTPRequest {
 /// information about CIDR notation, see the Wikipedia entry <a
 /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
 /// Inter-Domain Routing</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IPSet {
   /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
   /// address range (in CIDR notation) that web requests originate from. If the
   /// <code>WebACL</code> is associated with a CloudFront distribution and the
   /// viewer did not use an HTTP proxy or a load balancer to send the request,
   /// this is the value of the c-ip field in the CloudFront access logs.
-  @_s.JsonKey(name: 'IPSetDescriptors')
   final List<IPSetDescriptor> iPSetDescriptors;
 
   /// The <code>IPSetId</code> for an <code>IPSet</code>. You use
@@ -10090,20 +10885,27 @@ class IPSet {
   ///
   /// <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by
   /// <a>ListIPSets</a>.
-  @_s.JsonKey(name: 'IPSetId')
   final String iPSetId;
 
   /// A friendly name or description of the <a>IPSet</a>. You can't change the
   /// name of an <code>IPSet</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   IPSet({
-    @_s.required this.iPSetDescriptors,
-    @_s.required this.iPSetId,
+    required this.iPSetDescriptors,
+    required this.iPSetId,
     this.name,
   });
-  factory IPSet.fromJson(Map<String, dynamic> json) => _$IPSetFromJson(json);
+  factory IPSet.fromJson(Map<String, dynamic> json) {
+    return IPSet(
+      iPSetDescriptors: (json['IPSetDescriptors'] as List)
+          .whereNotNull()
+          .map((e) => IPSetDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      iPSetId: json['IPSetId'] as String,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -10119,14 +10921,8 @@ class IPSet {
 /// </note>
 /// Specifies the IP address type (<code>IPV4</code> or <code>IPV6</code>) and
 /// the IP address range (in CIDR format) that web requests originate from.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IPSetDescriptor {
   /// Specify <code>IPV4</code> or <code>IPV6</code>.
-  @_s.JsonKey(name: 'Type')
   final IPSetDescriptorType type;
 
   /// Specify an IPv4 address by using CIDR notation. For example:
@@ -10161,24 +10957,55 @@ class IPSetDescriptor {
   /// <code>1111:0000:0000:0000:0000:0000:0000:0000/64</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   IPSetDescriptor({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory IPSetDescriptor.fromJson(Map<String, dynamic> json) =>
-      _$IPSetDescriptorFromJson(json);
+  factory IPSetDescriptor.fromJson(Map<String, dynamic> json) {
+    return IPSetDescriptor(
+      type: (json['Type'] as String).toIPSetDescriptorType(),
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IPSetDescriptorToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum IPSetDescriptorType {
-  @_s.JsonValue('IPV4')
   ipv4,
-  @_s.JsonValue('IPV6')
   ipv6,
+}
+
+extension on IPSetDescriptorType {
+  String toValue() {
+    switch (this) {
+      case IPSetDescriptorType.ipv4:
+        return 'IPV4';
+      case IPSetDescriptorType.ipv6:
+        return 'IPV6';
+    }
+  }
+}
+
+extension on String {
+  IPSetDescriptorType toIPSetDescriptorType() {
+    switch (this) {
+      case 'IPV4':
+        return IPSetDescriptorType.ipv4;
+      case 'IPV6':
+        return IPSetDescriptorType.ipv6;
+    }
+    throw Exception('$this is not known in enum IPSetDescriptorType');
+  }
 }
 
 /// <note>
@@ -10193,29 +11020,26 @@ enum IPSetDescriptorType {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name of the <code>IPSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IPSetSummary {
   /// The <code>IPSetId</code> for an <a>IPSet</a>. You can use
   /// <code>IPSetId</code> in a <a>GetIPSet</a> request to get detailed
   /// information about an <a>IPSet</a>.
-  @_s.JsonKey(name: 'IPSetId')
   final String iPSetId;
 
   /// A friendly name or description of the <a>IPSet</a>. You can't change the
   /// name of an <code>IPSet</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   IPSetSummary({
-    @_s.required this.iPSetId,
-    @_s.required this.name,
+    required this.iPSetId,
+    required this.name,
   });
-  factory IPSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$IPSetSummaryFromJson(json);
+  factory IPSetSummary.fromJson(Map<String, dynamic> json) {
+    return IPSetSummary(
+      iPSetId: json['IPSetId'] as String,
+      name: json['Name'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -10231,37 +11055,31 @@ class IPSetSummary {
 /// </note>
 /// Specifies the type of update to perform to an <a>IPSet</a> with
 /// <a>UpdateIPSet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IPSetUpdate {
   /// Specifies whether to insert or delete an IP address with <a>UpdateIPSet</a>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
   /// address range (in CIDR notation) that web requests originate from.
-  @_s.JsonKey(name: 'IPSetDescriptor')
   final IPSetDescriptor iPSetDescriptor;
 
   IPSetUpdate({
-    @_s.required this.action,
-    @_s.required this.iPSetDescriptor,
+    required this.action,
+    required this.iPSetDescriptor,
   });
-  Map<String, dynamic> toJson() => _$IPSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final iPSetDescriptor = this.iPSetDescriptor;
+    return {
+      'Action': action.toValue(),
+      'IPSetDescriptor': iPSetDescriptor,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListActivatedRulesInRuleGroupResponse {
   /// An array of <code>ActivatedRules</code> objects.
-  @_s.JsonKey(name: 'ActivatedRules')
-  final List<ActivatedRule> activatedRules;
+  final List<ActivatedRule>? activatedRules;
 
   /// If you have more <code>ActivatedRules</code> than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10269,27 +11087,27 @@ class ListActivatedRulesInRuleGroupResponse {
   /// submit another <code>ListActivatedRulesInRuleGroup</code> request, and
   /// specify the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListActivatedRulesInRuleGroupResponse({
     this.activatedRules,
     this.nextMarker,
   });
   factory ListActivatedRulesInRuleGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListActivatedRulesInRuleGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListActivatedRulesInRuleGroupResponse(
+      activatedRules: (json['ActivatedRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListByteMatchSetsResponse {
   /// An array of <a>ByteMatchSetSummary</a> objects.
-  @_s.JsonKey(name: 'ByteMatchSets')
-  final List<ByteMatchSetSummary> byteMatchSets;
+  final List<ByteMatchSetSummary>? byteMatchSets;
 
   /// If you have more <code>ByteMatchSet</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10297,26 +11115,26 @@ class ListByteMatchSetsResponse {
   /// objects, submit another <code>ListByteMatchSets</code> request, and specify
   /// the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListByteMatchSetsResponse({
     this.byteMatchSets,
     this.nextMarker,
   });
-  factory ListByteMatchSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListByteMatchSetsResponseFromJson(json);
+  factory ListByteMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListByteMatchSetsResponse(
+      byteMatchSets: (json['ByteMatchSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGeoMatchSetsResponse {
   /// An array of <a>GeoMatchSetSummary</a> objects.
-  @_s.JsonKey(name: 'GeoMatchSets')
-  final List<GeoMatchSetSummary> geoMatchSets;
+  final List<GeoMatchSetSummary>? geoMatchSets;
 
   /// If you have more <code>GeoMatchSet</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10324,50 +11142,50 @@ class ListGeoMatchSetsResponse {
   /// objects, submit another <code>ListGeoMatchSets</code> request, and specify
   /// the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListGeoMatchSetsResponse({
     this.geoMatchSets,
     this.nextMarker,
   });
-  factory ListGeoMatchSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGeoMatchSetsResponseFromJson(json);
+  factory ListGeoMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGeoMatchSetsResponse(
+      geoMatchSets: (json['GeoMatchSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIPSetsResponse {
   /// An array of <a>IPSetSummary</a> objects.
-  @_s.JsonKey(name: 'IPSets')
-  final List<IPSetSummary> iPSets;
+  final List<IPSetSummary>? iPSets;
 
   /// To list more <code>IPSet</code> objects, submit another
   /// <code>ListIPSets</code> request, and in the next request use the
   /// <code>NextMarker</code> response value as the <code>NextMarker</code> value.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListIPSetsResponse({
     this.iPSets,
     this.nextMarker,
   });
-  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIPSetsResponseFromJson(json);
+  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListIPSetsResponse(
+      iPSets: (json['IPSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLoggingConfigurationsResponse {
   /// An array of <a>LoggingConfiguration</a> objects.
-  @_s.JsonKey(name: 'LoggingConfigurations')
-  final List<LoggingConfiguration> loggingConfigurations;
+  final List<LoggingConfiguration>? loggingConfigurations;
 
   /// If you have more <code>LoggingConfigurations</code> than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10376,23 +11194,24 @@ class ListLoggingConfigurationsResponse {
   /// <code>ListLoggingConfigurations</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListLoggingConfigurationsResponse({
     this.loggingConfigurations,
     this.nextMarker,
   });
   factory ListLoggingConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListLoggingConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListLoggingConfigurationsResponse(
+      loggingConfigurations: (json['LoggingConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRateBasedRulesResponse {
   /// If you have more <code>Rules</code> than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -10400,26 +11219,26 @@ class ListRateBasedRulesResponse {
   /// another <code>ListRateBasedRules</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RuleSummary</a> objects.
-  @_s.JsonKey(name: 'Rules')
-  final List<RuleSummary> rules;
+  final List<RuleSummary>? rules;
 
   ListRateBasedRulesResponse({
     this.nextMarker,
     this.rules,
   });
-  factory ListRateBasedRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRateBasedRulesResponseFromJson(json);
+  factory ListRateBasedRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRateBasedRulesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRegexMatchSetsResponse {
   /// If you have more <code>RegexMatchSet</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10427,26 +11246,26 @@ class ListRegexMatchSetsResponse {
   /// objects, submit another <code>ListRegexMatchSets</code> request, and specify
   /// the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RegexMatchSetSummary</a> objects.
-  @_s.JsonKey(name: 'RegexMatchSets')
-  final List<RegexMatchSetSummary> regexMatchSets;
+  final List<RegexMatchSetSummary>? regexMatchSets;
 
   ListRegexMatchSetsResponse({
     this.nextMarker,
     this.regexMatchSets,
   });
-  factory ListRegexMatchSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRegexMatchSetsResponseFromJson(json);
+  factory ListRegexMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegexMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      regexMatchSets: (json['RegexMatchSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRegexPatternSetsResponse {
   /// If you have more <code>RegexPatternSet</code> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -10454,26 +11273,27 @@ class ListRegexPatternSetsResponse {
   /// objects, submit another <code>ListRegexPatternSets</code> request, and
   /// specify the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RegexPatternSetSummary</a> objects.
-  @_s.JsonKey(name: 'RegexPatternSets')
-  final List<RegexPatternSetSummary> regexPatternSets;
+  final List<RegexPatternSetSummary>? regexPatternSets;
 
   ListRegexPatternSetsResponse({
     this.nextMarker,
     this.regexPatternSets,
   });
-  factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRegexPatternSetsResponseFromJson(json);
+  factory ListRegexPatternSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegexPatternSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      regexPatternSets: (json['RegexPatternSets'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRuleGroupsResponse {
   /// If you have more <code>RuleGroups</code> than the number that you specified
   /// for <code>Limit</code> in the request, the response includes a
@@ -10481,26 +11301,26 @@ class ListRuleGroupsResponse {
   /// another <code>ListRuleGroups</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RuleGroup</a> objects.
-  @_s.JsonKey(name: 'RuleGroups')
-  final List<RuleGroupSummary> ruleGroups;
+  final List<RuleGroupSummary>? ruleGroups;
 
   ListRuleGroupsResponse({
     this.nextMarker,
     this.ruleGroups,
   });
-  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRuleGroupsResponseFromJson(json);
+  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRuleGroupsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      ruleGroups: (json['RuleGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRulesResponse {
   /// If you have more <code>Rules</code> than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -10508,26 +11328,26 @@ class ListRulesResponse {
   /// another <code>ListRules</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RuleSummary</a> objects.
-  @_s.JsonKey(name: 'Rules')
-  final List<RuleSummary> rules;
+  final List<RuleSummary>? rules;
 
   ListRulesResponse({
     this.nextMarker,
     this.rules,
   });
-  factory ListRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRulesResponseFromJson(json);
+  factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRulesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSizeConstraintSetsResponse {
   /// If you have more <code>SizeConstraintSet</code> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -10535,27 +11355,28 @@ class ListSizeConstraintSetsResponse {
   /// objects, submit another <code>ListSizeConstraintSets</code> request, and
   /// specify the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>SizeConstraintSetSummary</a> objects.
-  @_s.JsonKey(name: 'SizeConstraintSets')
-  final List<SizeConstraintSetSummary> sizeConstraintSets;
+  final List<SizeConstraintSetSummary>? sizeConstraintSets;
 
   ListSizeConstraintSetsResponse({
     this.nextMarker,
     this.sizeConstraintSets,
   });
-  factory ListSizeConstraintSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSizeConstraintSetsResponseFromJson(json);
+  factory ListSizeConstraintSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSizeConstraintSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      sizeConstraintSets: (json['SizeConstraintSets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response to a <a>ListSqlInjectionMatchSets</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSqlInjectionMatchSetsResponse {
   /// If you have more <a>SqlInjectionMatchSet</a> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -10564,27 +11385,28 @@ class ListSqlInjectionMatchSetsResponse {
   /// <code>ListSqlInjectionMatchSets</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>SqlInjectionMatchSetSummary</a> objects.
-  @_s.JsonKey(name: 'SqlInjectionMatchSets')
-  final List<SqlInjectionMatchSetSummary> sqlInjectionMatchSets;
+  final List<SqlInjectionMatchSetSummary>? sqlInjectionMatchSets;
 
   ListSqlInjectionMatchSetsResponse({
     this.nextMarker,
     this.sqlInjectionMatchSets,
   });
   factory ListSqlInjectionMatchSetsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSqlInjectionMatchSetsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSqlInjectionMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSubscribedRuleGroupsResponse {
   /// If you have more objects than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -10592,49 +11414,49 @@ class ListSubscribedRuleGroupsResponse {
   /// <code>ListSubscribedRuleGroups</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>RuleGroup</a> objects.
-  @_s.JsonKey(name: 'RuleGroups')
-  final List<SubscribedRuleGroupSummary> ruleGroups;
+  final List<SubscribedRuleGroupSummary>? ruleGroups;
 
   ListSubscribedRuleGroupsResponse({
     this.nextMarker,
     this.ruleGroups,
   });
-  factory ListSubscribedRuleGroupsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSubscribedRuleGroupsResponseFromJson(json);
+  factory ListSubscribedRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSubscribedRuleGroupsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      ruleGroups: (json['RuleGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// <p/>
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// <p/>
-  @_s.JsonKey(name: 'TagInfoForResource')
-  final TagInfoForResource tagInfoForResource;
+  final TagInfoForResource? tagInfoForResource;
 
   ListTagsForResourceResponse({
     this.nextMarker,
     this.tagInfoForResource,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextMarker: json['NextMarker'] as String?,
+      tagInfoForResource: json['TagInfoForResource'] != null
+          ? TagInfoForResource.fromJson(
+              json['TagInfoForResource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebACLsResponse {
   /// If you have more <code>WebACL</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10642,27 +11464,27 @@ class ListWebACLsResponse {
   /// submit another <code>ListWebACLs</code> request, and specify the
   /// <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>WebACLSummary</a> objects.
-  @_s.JsonKey(name: 'WebACLs')
-  final List<WebACLSummary> webACLs;
+  final List<WebACLSummary>? webACLs;
 
   ListWebACLsResponse({
     this.nextMarker,
     this.webACLs,
   });
-  factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListWebACLsResponseFromJson(json);
+  factory ListWebACLsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWebACLsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      webACLs: (json['WebACLs'] as List?)
+          ?.whereNotNull()
+          .map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response to a <a>ListXssMatchSets</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListXssMatchSetsResponse {
   /// If you have more <a>XssMatchSet</a> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -10670,19 +11492,24 @@ class ListXssMatchSetsResponse {
   /// objects, submit another <code>ListXssMatchSets</code> request, and specify
   /// the <code>NextMarker</code> value from the response in the
   /// <code>NextMarker</code> value in the next request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// An array of <a>XssMatchSetSummary</a> objects.
-  @_s.JsonKey(name: 'XssMatchSets')
-  final List<XssMatchSetSummary> xssMatchSets;
+  final List<XssMatchSetSummary>? xssMatchSets;
 
   ListXssMatchSetsResponse({
     this.nextMarker,
     this.xssMatchSets,
   });
-  factory ListXssMatchSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListXssMatchSetsResponseFromJson(json);
+  factory ListXssMatchSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListXssMatchSetsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      xssMatchSets: (json['XssMatchSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// <note>
@@ -10698,66 +11525,144 @@ class ListXssMatchSetsResponse {
 /// </note>
 /// The Amazon Kinesis Data Firehose, <code>RedactedFields</code> information,
 /// and the web ACL Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingConfiguration {
   /// An array of Amazon Kinesis Data Firehose ARNs.
-  @_s.JsonKey(name: 'LogDestinationConfigs')
   final List<String> logDestinationConfigs;
 
   /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
   /// with <code>LogDestinationConfigs</code>.
-  @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
   /// The parts of the request that you want redacted from the logs. For example,
   /// if you redact the cookie field, the cookie field in the firehose will be
   /// <code>xxx</code>.
-  @_s.JsonKey(name: 'RedactedFields')
-  final List<FieldToMatch> redactedFields;
+  final List<FieldToMatch>? redactedFields;
 
   LoggingConfiguration({
-    @_s.required this.logDestinationConfigs,
-    @_s.required this.resourceArn,
+    required this.logDestinationConfigs,
+    required this.resourceArn,
     this.redactedFields,
   });
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LoggingConfigurationFromJson(json);
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      logDestinationConfigs: (json['LogDestinationConfigs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceArn: json['ResourceArn'] as String,
+      redactedFields: (json['RedactedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LoggingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final logDestinationConfigs = this.logDestinationConfigs;
+    final resourceArn = this.resourceArn;
+    final redactedFields = this.redactedFields;
+    return {
+      'LogDestinationConfigs': logDestinationConfigs,
+      'ResourceArn': resourceArn,
+      if (redactedFields != null) 'RedactedFields': redactedFields,
+    };
+  }
 }
 
 enum MatchFieldType {
-  @_s.JsonValue('URI')
   uri,
-  @_s.JsonValue('QUERY_STRING')
   queryString,
-  @_s.JsonValue('HEADER')
   header,
-  @_s.JsonValue('METHOD')
   method,
-  @_s.JsonValue('BODY')
   body,
-  @_s.JsonValue('SINGLE_QUERY_ARG')
   singleQueryArg,
-  @_s.JsonValue('ALL_QUERY_ARGS')
   allQueryArgs,
 }
 
+extension on MatchFieldType {
+  String toValue() {
+    switch (this) {
+      case MatchFieldType.uri:
+        return 'URI';
+      case MatchFieldType.queryString:
+        return 'QUERY_STRING';
+      case MatchFieldType.header:
+        return 'HEADER';
+      case MatchFieldType.method:
+        return 'METHOD';
+      case MatchFieldType.body:
+        return 'BODY';
+      case MatchFieldType.singleQueryArg:
+        return 'SINGLE_QUERY_ARG';
+      case MatchFieldType.allQueryArgs:
+        return 'ALL_QUERY_ARGS';
+    }
+  }
+}
+
+extension on String {
+  MatchFieldType toMatchFieldType() {
+    switch (this) {
+      case 'URI':
+        return MatchFieldType.uri;
+      case 'QUERY_STRING':
+        return MatchFieldType.queryString;
+      case 'HEADER':
+        return MatchFieldType.header;
+      case 'METHOD':
+        return MatchFieldType.method;
+      case 'BODY':
+        return MatchFieldType.body;
+      case 'SINGLE_QUERY_ARG':
+        return MatchFieldType.singleQueryArg;
+      case 'ALL_QUERY_ARGS':
+        return MatchFieldType.allQueryArgs;
+    }
+    throw Exception('$this is not known in enum MatchFieldType');
+  }
+}
+
 enum PositionalConstraint {
-  @_s.JsonValue('EXACTLY')
   exactly,
-  @_s.JsonValue('STARTS_WITH')
   startsWith,
-  @_s.JsonValue('ENDS_WITH')
   endsWith,
-  @_s.JsonValue('CONTAINS')
   contains,
-  @_s.JsonValue('CONTAINS_WORD')
   containsWord,
+}
+
+extension on PositionalConstraint {
+  String toValue() {
+    switch (this) {
+      case PositionalConstraint.exactly:
+        return 'EXACTLY';
+      case PositionalConstraint.startsWith:
+        return 'STARTS_WITH';
+      case PositionalConstraint.endsWith:
+        return 'ENDS_WITH';
+      case PositionalConstraint.contains:
+        return 'CONTAINS';
+      case PositionalConstraint.containsWord:
+        return 'CONTAINS_WORD';
+    }
+  }
+}
+
+extension on String {
+  PositionalConstraint toPositionalConstraint() {
+    switch (this) {
+      case 'EXACTLY':
+        return PositionalConstraint.exactly;
+      case 'STARTS_WITH':
+        return PositionalConstraint.startsWith;
+      case 'ENDS_WITH':
+        return PositionalConstraint.endsWith;
+      case 'CONTAINS':
+        return PositionalConstraint.contains;
+      case 'CONTAINS_WORD':
+        return PositionalConstraint.containsWord;
+    }
+    throw Exception('$this is not known in enum PositionalConstraint');
+  }
 }
 
 /// <note>
@@ -10777,16 +11682,10 @@ enum PositionalConstraint {
 /// add to a <code>Rule</code> and, for each object, indicates whether you want
 /// to negate the settings, for example, requests that do NOT originate from the
 /// IP address 192.0.2.44.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Predicate {
   /// A unique identifier for a predicate in a <code>Rule</code>, such as
   /// <code>ByteMatchSetId</code> or <code>IPSetId</code>. The ID is returned by
   /// the corresponding <code>Create</code> or <code>List</code> command.
-  @_s.JsonKey(name: 'DataId')
   final String dataId;
 
   /// Set <code>Negated</code> to <code>False</code> if you want AWS WAF to allow,
@@ -10804,68 +11703,112 @@ class Predicate {
   /// <a>SizeConstraintSet</a>. For example, if an <code>IPSet</code> includes the
   /// IP address <code>192.0.2.44</code>, AWS WAF will allow, block, or count
   /// requests based on all IP addresses <i>except</i> <code>192.0.2.44</code>.
-  @_s.JsonKey(name: 'Negated')
   final bool negated;
 
   /// The type of predicate in a <code>Rule</code>, such as <code>ByteMatch</code>
   /// or <code>IPSet</code>.
-  @_s.JsonKey(name: 'Type')
   final PredicateType type;
 
   Predicate({
-    @_s.required this.dataId,
-    @_s.required this.negated,
-    @_s.required this.type,
+    required this.dataId,
+    required this.negated,
+    required this.type,
   });
-  factory Predicate.fromJson(Map<String, dynamic> json) =>
-      _$PredicateFromJson(json);
+  factory Predicate.fromJson(Map<String, dynamic> json) {
+    return Predicate(
+      dataId: json['DataId'] as String,
+      negated: json['Negated'] as bool,
+      type: (json['Type'] as String).toPredicateType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PredicateToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      'DataId': dataId,
+      'Negated': negated,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum PredicateType {
-  @_s.JsonValue('IPMatch')
   iPMatch,
-  @_s.JsonValue('ByteMatch')
   byteMatch,
-  @_s.JsonValue('SqlInjectionMatch')
   sqlInjectionMatch,
-  @_s.JsonValue('GeoMatch')
   geoMatch,
-  @_s.JsonValue('SizeConstraint')
   sizeConstraint,
-  @_s.JsonValue('XssMatch')
   xssMatch,
-  @_s.JsonValue('RegexMatch')
   regexMatch,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on PredicateType {
+  String toValue() {
+    switch (this) {
+      case PredicateType.iPMatch:
+        return 'IPMatch';
+      case PredicateType.byteMatch:
+        return 'ByteMatch';
+      case PredicateType.sqlInjectionMatch:
+        return 'SqlInjectionMatch';
+      case PredicateType.geoMatch:
+        return 'GeoMatch';
+      case PredicateType.sizeConstraint:
+        return 'SizeConstraint';
+      case PredicateType.xssMatch:
+        return 'XssMatch';
+      case PredicateType.regexMatch:
+        return 'RegexMatch';
+    }
+  }
+}
+
+extension on String {
+  PredicateType toPredicateType() {
+    switch (this) {
+      case 'IPMatch':
+        return PredicateType.iPMatch;
+      case 'ByteMatch':
+        return PredicateType.byteMatch;
+      case 'SqlInjectionMatch':
+        return PredicateType.sqlInjectionMatch;
+      case 'GeoMatch':
+        return PredicateType.geoMatch;
+      case 'SizeConstraint':
+        return PredicateType.sizeConstraint;
+      case 'XssMatch':
+        return PredicateType.xssMatch;
+      case 'RegexMatch':
+        return PredicateType.regexMatch;
+    }
+    throw Exception('$this is not known in enum PredicateType');
+  }
+}
+
 class PutLoggingConfigurationResponse {
   /// The <a>LoggingConfiguration</a> that you submitted in the request.
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final LoggingConfiguration? loggingConfiguration;
 
   PutLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
-  factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutLoggingConfigurationResponseFromJson(json);
+  factory PutLoggingConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return PutLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPermissionPolicyResponse {
   PutPermissionPolicyResponse();
-  factory PutPermissionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutPermissionPolicyResponseFromJson(json);
+  factory PutPermissionPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutPermissionPolicyResponse();
+  }
 }
 
 /// <note>
@@ -10899,17 +11842,11 @@ class PutPermissionPolicyResponse {
 /// Requests that meet both of these conditions and exceed 1,000 requests every
 /// five minutes trigger the rule's action (block or count), which is defined in
 /// the web ACL.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RateBasedRule {
   /// The <code>Predicates</code> object contains one <code>Predicate</code>
   /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
   /// <a>SqlInjectionMatchSet</a> object that you want to include in a
   /// <code>RateBasedRule</code>.
-  @_s.JsonKey(name: 'MatchPredicates')
   final List<Predicate> matchPredicates;
 
   /// The field that AWS WAF uses to determine if requests are likely arriving
@@ -10917,7 +11854,6 @@ class RateBasedRule {
   /// for <code>RateKey</code> is <code>IP</code>. <code>IP</code> indicates that
   /// requests arriving from the same IP address are subject to the
   /// <code>RateLimit</code> that is specified in the <code>RateBasedRule</code>.
-  @_s.JsonKey(name: 'RateKey')
   final RateKey rateKey;
 
   /// The maximum number of requests, which have an identical value in the field
@@ -10925,7 +11861,6 @@ class RateBasedRule {
   /// the number of requests exceeds the <code>RateLimit</code> and the other
   /// predicates specified in the rule are also met, AWS WAF triggers the action
   /// that is specified for this rule.
-  @_s.JsonKey(name: 'RateLimit')
   final int rateLimit;
 
   /// A unique identifier for a <code>RateBasedRule</code>. You use
@@ -10935,7 +11870,6 @@ class RateBasedRule {
   /// <code>RateBasedRule</code> into a <code>WebACL</code> or delete one from a
   /// <code>WebACL</code> (see <a>UpdateWebACL</a>), or delete a
   /// <code>RateBasedRule</code> from AWS WAF (see <a>DeleteRateBasedRule</a>).
-  @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
   /// A friendly name or description for the metrics for a
@@ -10944,28 +11878,36 @@ class RateBasedRule {
   /// It can't contain whitespace or metric names reserved for AWS WAF, including
   /// "All" and "Default_Action." You can't change the name of the metric after
   /// you create the <code>RateBasedRule</code>.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// A friendly name or description for a <code>RateBasedRule</code>. You can't
   /// change the name of a <code>RateBasedRule</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RateBasedRule({
-    @_s.required this.matchPredicates,
-    @_s.required this.rateKey,
-    @_s.required this.rateLimit,
-    @_s.required this.ruleId,
+    required this.matchPredicates,
+    required this.rateKey,
+    required this.rateLimit,
+    required this.ruleId,
     this.metricName,
     this.name,
   });
-  factory RateBasedRule.fromJson(Map<String, dynamic> json) =>
-      _$RateBasedRuleFromJson(json);
+  factory RateBasedRule.fromJson(Map<String, dynamic> json) {
+    return RateBasedRule(
+      matchPredicates: (json['MatchPredicates'] as List)
+          .whereNotNull()
+          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rateKey: (json['RateKey'] as String).toRateKey(),
+      rateLimit: json['RateLimit'] as int,
+      ruleId: json['RuleId'] as String,
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 enum RateKey {
-  @_s.JsonValue('IP')
   ip,
 }
 
@@ -10975,7 +11917,16 @@ extension on RateKey {
       case RateKey.ip:
         return 'IP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RateKey toRateKey() {
+    switch (this) {
+      case 'IP':
+        return RateKey.ip;
+    }
+    throw Exception('$this is not known in enum RateKey');
   }
 }
 
@@ -11001,16 +11952,10 @@ extension on RateKey {
 /// contains more than one <code>RegexMatchTuple</code> object, a request needs
 /// to match the settings in only one <code>ByteMatchTuple</code> to be
 /// considered a match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegexMatchSet {
   /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
   /// <code>RegexMatchSetId</code> to get information about a
@@ -11022,8 +11967,7 @@ class RegexMatchSet {
   ///
   /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
   /// by <a>ListRegexMatchSets</a>.
-  @_s.JsonKey(name: 'RegexMatchSetId')
-  final String regexMatchSetId;
+  final String? regexMatchSetId;
 
   /// Contains an array of <a>RegexMatchTuple</a> objects. Each
   /// <code>RegexMatchTuple</code> object contains:
@@ -11042,16 +11986,23 @@ class RegexMatchSet {
   /// lowercase, before inspecting it for the specified string.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'RegexMatchTuples')
-  final List<RegexMatchTuple> regexMatchTuples;
+  final List<RegexMatchTuple>? regexMatchTuples;
 
   RegexMatchSet({
     this.name,
     this.regexMatchSetId,
     this.regexMatchTuples,
   });
-  factory RegexMatchSet.fromJson(Map<String, dynamic> json) =>
-      _$RegexMatchSetFromJson(json);
+  factory RegexMatchSet.fromJson(Map<String, dynamic> json) {
+    return RegexMatchSet(
+      name: json['Name'] as String?,
+      regexMatchSetId: json['RegexMatchSetId'] as String?,
+      regexMatchTuples: (json['RegexMatchTuples'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegexMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// <note>
@@ -11068,15 +12019,9 @@ class RegexMatchSet {
 /// Returned by <a>ListRegexMatchSets</a>. Each
 /// <code>RegexMatchSetSummary</code> object includes the <code>Name</code> and
 /// <code>RegexMatchSetId</code> for one <a>RegexMatchSet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegexMatchSetSummary {
   /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The <code>RegexMatchSetId</code> for a <code>RegexMatchSet</code>. You use
@@ -11087,15 +12032,18 @@ class RegexMatchSetSummary {
   ///
   /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexMatchSet</a> and
   /// by <a>ListRegexMatchSets</a>.
-  @_s.JsonKey(name: 'RegexMatchSetId')
   final String regexMatchSetId;
 
   RegexMatchSetSummary({
-    @_s.required this.name,
-    @_s.required this.regexMatchSetId,
+    required this.name,
+    required this.regexMatchSetId,
   });
-  factory RegexMatchSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$RegexMatchSetSummaryFromJson(json);
+  factory RegexMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return RegexMatchSetSummary(
+      name: json['Name'] as String,
+      regexMatchSetId: json['RegexMatchSetId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -11112,14 +12060,8 @@ class RegexMatchSetSummary {
 /// In an <a>UpdateRegexMatchSet</a> request, <code>RegexMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>RegexMatchTuple</a> and includes
 /// the settings for the <code>RegexMatchTuple</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RegexMatchSetUpdate {
   /// Specifies whether to insert or delete a <a>RegexMatchTuple</a>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Information about the part of a web request that you want AWS WAF to inspect
@@ -11128,14 +12070,20 @@ class RegexMatchSetUpdate {
   /// <code>Action</code>, the <code>RegexMatchTuple</code> values must exactly
   /// match the values in the <code>RegexMatchTuple</code> that you want to delete
   /// from the <code>RegexMatchSet</code>.
-  @_s.JsonKey(name: 'RegexMatchTuple')
   final RegexMatchTuple regexMatchTuple;
 
   RegexMatchSetUpdate({
-    @_s.required this.action,
-    @_s.required this.regexMatchTuple,
+    required this.action,
+    required this.regexMatchTuple,
   });
-  Map<String, dynamic> toJson() => _$RegexMatchSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final regexMatchTuple = this.regexMatchTuple;
+    return {
+      'Action': action.toValue(),
+      'RegexMatchTuple': regexMatchTuple,
+    };
+  }
 }
 
 /// <note>
@@ -11167,15 +12115,9 @@ class RegexMatchSetUpdate {
 /// lowercase, before inspecting it for the specified string.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RegexMatchTuple {
   /// Specifies where in a web request to look for the
   /// <code>RegexPatternSet</code>.
-  @_s.JsonKey(name: 'FieldToMatch')
   final FieldToMatch fieldToMatch;
 
   /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
@@ -11189,7 +12131,6 @@ class RegexMatchTuple {
   ///
   /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
   /// and by <a>ListRegexPatternSets</a>.
-  @_s.JsonKey(name: 'RegexPatternSetId')
   final String regexPatternSetId;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -11291,18 +12232,33 @@ class RegexMatchTuple {
   ///
   /// Specify <code>NONE</code> if you don't want to perform any text
   /// transformations.
-  @_s.JsonKey(name: 'TextTransformation')
   final TextTransformation textTransformation;
 
   RegexMatchTuple({
-    @_s.required this.fieldToMatch,
-    @_s.required this.regexPatternSetId,
-    @_s.required this.textTransformation,
+    required this.fieldToMatch,
+    required this.regexPatternSetId,
+    required this.textTransformation,
   });
-  factory RegexMatchTuple.fromJson(Map<String, dynamic> json) =>
-      _$RegexMatchTupleFromJson(json);
+  factory RegexMatchTuple.fromJson(Map<String, dynamic> json) {
+    return RegexMatchTuple(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      regexPatternSetId: json['RegexPatternSetId'] as String,
+      textTransformation:
+          (json['TextTransformation'] as String).toTextTransformation(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RegexMatchTupleToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final regexPatternSetId = this.regexPatternSetId;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'RegexPatternSetId': regexPatternSetId,
+      'TextTransformation': textTransformation.toValue(),
+    };
+  }
 }
 
 /// <note>
@@ -11320,11 +12276,6 @@ class RegexMatchTuple {
 /// pattern that you want AWS WAF to search for, such as
 /// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
 /// requests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegexPatternSet {
   /// The identifier for the <code>RegexPatternSet</code>. You use
   /// <code>RegexPatternSetId</code> to get information about a
@@ -11334,26 +12285,31 @@ class RegexPatternSet {
   ///
   /// <code>RegexMatchSetId</code> is returned by <a>CreateRegexPatternSet</a> and
   /// by <a>ListRegexPatternSets</a>.
-  @_s.JsonKey(name: 'RegexPatternSetId')
   final String regexPatternSetId;
 
   /// Specifies the regular expression (regex) patterns that you want AWS WAF to
   /// search for, such as <code>B[a@]dB[o0]t</code>.
-  @_s.JsonKey(name: 'RegexPatternStrings')
   final List<String> regexPatternStrings;
 
   /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
   /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RegexPatternSet({
-    @_s.required this.regexPatternSetId,
-    @_s.required this.regexPatternStrings,
+    required this.regexPatternSetId,
+    required this.regexPatternStrings,
     this.name,
   });
-  factory RegexPatternSet.fromJson(Map<String, dynamic> json) =>
-      _$RegexPatternSetFromJson(json);
+  factory RegexPatternSet.fromJson(Map<String, dynamic> json) {
+    return RegexPatternSet(
+      regexPatternSetId: json['RegexPatternSetId'] as String,
+      regexPatternStrings: (json['RegexPatternStrings'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -11370,15 +12326,9 @@ class RegexPatternSet {
 /// Returned by <a>ListRegexPatternSets</a>. Each
 /// <code>RegexPatternSetSummary</code> object includes the <code>Name</code>
 /// and <code>RegexPatternSetId</code> for one <a>RegexPatternSet</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegexPatternSetSummary {
   /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
   /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The <code>RegexPatternSetId</code> for a <code>RegexPatternSet</code>. You
@@ -11389,15 +12339,18 @@ class RegexPatternSetSummary {
   ///
   /// <code>RegexPatternSetId</code> is returned by <a>CreateRegexPatternSet</a>
   /// and by <a>ListRegexPatternSets</a>.
-  @_s.JsonKey(name: 'RegexPatternSetId')
   final String regexPatternSetId;
 
   RegexPatternSetSummary({
-    @_s.required this.name,
-    @_s.required this.regexPatternSetId,
+    required this.name,
+    required this.regexPatternSetId,
   });
-  factory RegexPatternSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$RegexPatternSetSummaryFromJson(json);
+  factory RegexPatternSetSummary.fromJson(Map<String, dynamic> json) {
+    return RegexPatternSetSummary(
+      name: json['Name'] as String,
+      regexPatternSetId: json['RegexPatternSetId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -11415,26 +12368,26 @@ class RegexPatternSetSummary {
 /// <code>RegexPatternSetUpdate</code> specifies whether to insert or delete a
 /// <code>RegexPatternString</code> and includes the settings for the
 /// <code>RegexPatternString</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RegexPatternSetUpdate {
   /// Specifies whether to insert or delete a <code>RegexPatternString</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Specifies the regular expression (regex) pattern that you want AWS WAF to
   /// search for, such as <code>B[a@]dB[o0]t</code>.
-  @_s.JsonKey(name: 'RegexPatternString')
   final String regexPatternString;
 
   RegexPatternSetUpdate({
-    @_s.required this.action,
-    @_s.required this.regexPatternString,
+    required this.action,
+    required this.regexPatternString,
   });
-  Map<String, dynamic> toJson() => _$RegexPatternSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final regexPatternString = this.regexPatternString;
+    return {
+      'Action': action.toValue(),
+      'RegexPatternString': regexPatternString,
+    };
+  }
 }
 
 /// <note>
@@ -11467,17 +12420,11 @@ class RegexPatternSetUpdate {
 /// To match the settings in this <code>Rule</code>, a request must originate
 /// from <code>192.0.2.44</code> AND include a <code>User-Agent</code> header
 /// for which the value is <code>BadBot</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Rule {
   /// The <code>Predicates</code> object contains one <code>Predicate</code>
   /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
   /// <a>SqlInjectionMatchSet</a> object that you want to include in a
   /// <code>Rule</code>.
-  @_s.JsonKey(name: 'Predicates')
   final List<Predicate> predicates;
 
   /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
@@ -11489,7 +12436,6 @@ class Rule {
   ///
   /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
   /// <a>ListRules</a>.
-  @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
   /// A friendly name or description for the metrics for this <code>Rule</code>.
@@ -11497,21 +12443,29 @@ class Rule {
   /// maximum length 128 and minimum length one. It can't contain whitespace or
   /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
   /// can't change <code>MetricName</code> after you create the <code>Rule</code>.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// The friendly name or description for the <code>Rule</code>. You can't change
   /// the name of a <code>Rule</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Rule({
-    @_s.required this.predicates,
-    @_s.required this.ruleId,
+    required this.predicates,
+    required this.ruleId,
     this.metricName,
     this.name,
   });
-  factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      predicates: (json['Predicates'] as List)
+          .whereNotNull()
+          .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ruleId: json['RuleId'] as String,
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -11541,11 +12495,6 @@ class Rule {
 /// Ten rules per rule group.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleGroup {
   /// A unique identifier for a <code>RuleGroup</code>. You use
   /// <code>RuleGroupId</code> to get more information about a
@@ -11557,7 +12506,6 @@ class RuleGroup {
   ///
   /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
   /// <a>ListRuleGroups</a>.
-  @_s.JsonKey(name: 'RuleGroupId')
   final String ruleGroupId;
 
   /// A friendly name or description for the metrics for this
@@ -11566,21 +12514,24 @@ class RuleGroup {
   /// contain whitespace or metric names reserved for AWS WAF, including "All" and
   /// "Default_Action." You can't change the name of the metric after you create
   /// the <code>RuleGroup</code>.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// The friendly name or description for the <code>RuleGroup</code>. You can't
   /// change the name of a <code>RuleGroup</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RuleGroup({
-    @_s.required this.ruleGroupId,
+    required this.ruleGroupId,
     this.metricName,
     this.name,
   });
-  factory RuleGroup.fromJson(Map<String, dynamic> json) =>
-      _$RuleGroupFromJson(json);
+  factory RuleGroup.fromJson(Map<String, dynamic> json) {
+    return RuleGroup(
+      ruleGroupId: json['RuleGroupId'] as String,
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -11596,15 +12547,9 @@ class RuleGroup {
 /// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>RuleGroup</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleGroupSummary {
   /// A friendly name or description of the <a>RuleGroup</a>. You can't change the
   /// name of a <code>RuleGroup</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>RuleGroup</code>. You use
@@ -11617,15 +12562,18 @@ class RuleGroupSummary {
   ///
   /// <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by
   /// <a>ListRuleGroups</a>.
-  @_s.JsonKey(name: 'RuleGroupId')
   final String ruleGroupId;
 
   RuleGroupSummary({
-    @_s.required this.name,
-    @_s.required this.ruleGroupId,
+    required this.name,
+    required this.ruleGroupId,
   });
-  factory RuleGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$RuleGroupSummaryFromJson(json);
+  factory RuleGroupSummary.fromJson(Map<String, dynamic> json) {
+    return RuleGroupSummary(
+      name: json['Name'] as String,
+      ruleGroupId: json['RuleGroupId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -11642,16 +12590,10 @@ class RuleGroupSummary {
 /// Specifies an <code>ActivatedRule</code> and indicates whether you want to
 /// add it to a <code>RuleGroup</code> or delete it from a
 /// <code>RuleGroup</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RuleGroupUpdate {
   /// Specify <code>INSERT</code> to add an <code>ActivatedRule</code> to a
   /// <code>RuleGroup</code>. Use <code>DELETE</code> to remove an
   /// <code>ActivatedRule</code> from a <code>RuleGroup</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// The <code>ActivatedRule</code> object specifies a <code>Rule</code> that you
@@ -11659,14 +12601,20 @@ class RuleGroupUpdate {
   /// <code>WebACL</code>, and the action that you want AWS WAF to take when a web
   /// request matches the <code>Rule</code> (<code>ALLOW</code>,
   /// <code>BLOCK</code>, or <code>COUNT</code>).
-  @_s.JsonKey(name: 'ActivatedRule')
   final ActivatedRule activatedRule;
 
   RuleGroupUpdate({
-    @_s.required this.action,
-    @_s.required this.activatedRule,
+    required this.action,
+    required this.activatedRule,
   });
-  Map<String, dynamic> toJson() => _$RuleGroupUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final activatedRule = this.activatedRule;
+    return {
+      'Action': action.toValue(),
+      'ActivatedRule': activatedRule,
+    };
+  }
 }
 
 /// <note>
@@ -11682,15 +12630,9 @@ class RuleGroupUpdate {
 /// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>Rule</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleSummary {
   /// A friendly name or description of the <a>Rule</a>. You can't change the name
   /// of a <code>Rule</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>Rule</code>. You use <code>RuleId</code> to
@@ -11702,15 +12644,18 @@ class RuleSummary {
   ///
   /// <code>RuleId</code> is returned by <a>CreateRule</a> and by
   /// <a>ListRules</a>.
-  @_s.JsonKey(name: 'RuleId')
   final String ruleId;
 
   RuleSummary({
-    @_s.required this.name,
-    @_s.required this.ruleId,
+    required this.name,
+    required this.ruleId,
   });
-  factory RuleSummary.fromJson(Map<String, dynamic> json) =>
-      _$RuleSummaryFromJson(json);
+  factory RuleSummary.fromJson(Map<String, dynamic> json) {
+    return RuleSummary(
+      name: json['Name'] as String,
+      ruleId: json['RuleId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -11727,28 +12672,28 @@ class RuleSummary {
 /// Specifies a <code>Predicate</code> (such as an <code>IPSet</code>) and
 /// indicates whether you want to add it to a <code>Rule</code> or delete it
 /// from a <code>Rule</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RuleUpdate {
   /// Specify <code>INSERT</code> to add a <code>Predicate</code> to a
   /// <code>Rule</code>. Use <code>DELETE</code> to remove a
   /// <code>Predicate</code> from a <code>Rule</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// The ID of the <code>Predicate</code> (such as an <code>IPSet</code>) that
   /// you want to add to a <code>Rule</code>.
-  @_s.JsonKey(name: 'Predicate')
   final Predicate predicate;
 
   RuleUpdate({
-    @_s.required this.action,
-    @_s.required this.predicate,
+    required this.action,
+    required this.predicate,
   });
-  Map<String, dynamic> toJson() => _$RuleUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final predicate = this.predicate;
+    return {
+      'Action': action.toValue(),
+      'Predicate': predicate,
+    };
+  }
 }
 
 /// <note>
@@ -11768,51 +12713,47 @@ class RuleUpdate {
 /// <code>SampledHTTPRequests</code> contains one
 /// <code>SampledHTTPRequest</code> object for each web request that is returned
 /// by <code>GetSampledRequests</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SampledHTTPRequest {
   /// A complex type that contains detailed information about the request.
-  @_s.JsonKey(name: 'Request')
   final HTTPRequest request;
 
   /// A value that indicates how one result in the response relates proportionally
   /// to other results in the response. A result that has a weight of
   /// <code>2</code> represents roughly twice as many CloudFront web requests as a
   /// result that has a weight of <code>1</code>.
-  @_s.JsonKey(name: 'Weight')
   final int weight;
 
   /// The action for the <code>Rule</code> that the request matched:
   /// <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
-  @_s.JsonKey(name: 'Action')
-  final String action;
+  final String? action;
 
   /// This value is returned if the <code>GetSampledRequests</code> request
   /// specifies the ID of a <code>RuleGroup</code> rather than the ID of an
   /// individual rule. <code>RuleWithinRuleGroup</code> is the rule within the
   /// specified <code>RuleGroup</code> that matched the request listed in the
   /// response.
-  @_s.JsonKey(name: 'RuleWithinRuleGroup')
-  final String ruleWithinRuleGroup;
+  final String? ruleWithinRuleGroup;
 
   /// The time at which AWS WAF received the request from your AWS resource, in
   /// Unix time format (in seconds).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   SampledHTTPRequest({
-    @_s.required this.request,
-    @_s.required this.weight,
+    required this.request,
+    required this.weight,
     this.action,
     this.ruleWithinRuleGroup,
     this.timestamp,
   });
-  factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) =>
-      _$SampledHTTPRequestFromJson(json);
+  factory SampledHTTPRequest.fromJson(Map<String, dynamic> json) {
+    return SampledHTTPRequest(
+      request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
+      weight: json['Weight'] as int,
+      action: json['Action'] as String?,
+      ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
 }
 
 /// <note>
@@ -11832,11 +12773,6 @@ class SampledHTTPRequest {
 /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
 /// <code>FieldToMatch</code>". If that expression is true, the
 /// <code>SizeConstraint</code> is considered to match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SizeConstraint {
   /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in
   /// combination with the provided <code>Size</code> and
@@ -11862,11 +12798,9 @@ class SizeConstraint {
   ///
   /// <b>GT</b>: Used to test if the <code>Size</code> is strictly greater than
   /// the size of the <code>FieldToMatch</code>
-  @_s.JsonKey(name: 'ComparisonOperator')
   final ComparisonOperator comparisonOperator;
 
   /// Specifies where in a web request to look for the size constraint.
-  @_s.JsonKey(name: 'FieldToMatch')
   final FieldToMatch fieldToMatch;
 
   /// The size in bytes that you want AWS WAF to compare against the size of the
@@ -11881,7 +12815,6 @@ class SizeConstraint {
   /// If you specify <code>URI</code> for the value of <code>Type</code>, the / in
   /// the URI counts as one character. For example, the URI <code>/logo.jpg</code>
   /// is nine characters long.
-  @_s.JsonKey(name: 'Size')
   final int size;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -11988,19 +12921,38 @@ class SizeConstraint {
   /// <b>URL_DECODE</b>
   ///
   /// Use this option to decode a URL-encoded value.
-  @_s.JsonKey(name: 'TextTransformation')
   final TextTransformation textTransformation;
 
   SizeConstraint({
-    @_s.required this.comparisonOperator,
-    @_s.required this.fieldToMatch,
-    @_s.required this.size,
-    @_s.required this.textTransformation,
+    required this.comparisonOperator,
+    required this.fieldToMatch,
+    required this.size,
+    required this.textTransformation,
   });
-  factory SizeConstraint.fromJson(Map<String, dynamic> json) =>
-      _$SizeConstraintFromJson(json);
+  factory SizeConstraint.fromJson(Map<String, dynamic> json) {
+    return SizeConstraint(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      size: json['Size'] as int,
+      textTransformation:
+          (json['TextTransformation'] as String).toTextTransformation(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SizeConstraintToJson(this);
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final fieldToMatch = this.fieldToMatch;
+    final size = this.size;
+    final textTransformation = this.textTransformation;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      'FieldToMatch': fieldToMatch,
+      'Size': size,
+      'TextTransformation': textTransformation.toValue(),
+    };
+  }
 }
 
 /// <note>
@@ -12019,11 +12971,6 @@ class SizeConstraint {
 /// of. If a <code>SizeConstraintSet</code> contains more than one
 /// <code>SizeConstraint</code> object, a request only needs to match one
 /// constraint to be considered a match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SizeConstraintSet {
   /// A unique identifier for a <code>SizeConstraintSet</code>. You use
   /// <code>SizeConstraintSetId</code> to get information about a
@@ -12036,24 +12983,29 @@ class SizeConstraintSet {
   ///
   /// <code>SizeConstraintSetId</code> is returned by
   /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
-  @_s.JsonKey(name: 'SizeConstraintSetId')
   final String sizeConstraintSetId;
 
   /// Specifies the parts of web requests that you want to inspect the size of.
-  @_s.JsonKey(name: 'SizeConstraints')
   final List<SizeConstraint> sizeConstraints;
 
   /// The name, if any, of the <code>SizeConstraintSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SizeConstraintSet({
-    @_s.required this.sizeConstraintSetId,
-    @_s.required this.sizeConstraints,
+    required this.sizeConstraintSetId,
+    required this.sizeConstraints,
     this.name,
   });
-  factory SizeConstraintSet.fromJson(Map<String, dynamic> json) =>
-      _$SizeConstraintSetFromJson(json);
+  factory SizeConstraintSet.fromJson(Map<String, dynamic> json) {
+    return SizeConstraintSet(
+      sizeConstraintSetId: json['SizeConstraintSetId'] as String,
+      sizeConstraints: (json['SizeConstraints'] as List)
+          .whereNotNull()
+          .map((e) => SizeConstraint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -12069,14 +13021,8 @@ class SizeConstraintSet {
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SizeConstraintSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SizeConstraintSetSummary {
   /// The name of the <code>SizeConstraintSet</code>, if any.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>SizeConstraintSet</code>. You use
@@ -12090,15 +13036,18 @@ class SizeConstraintSetSummary {
   ///
   /// <code>SizeConstraintSetId</code> is returned by
   /// <a>CreateSizeConstraintSet</a> and by <a>ListSizeConstraintSets</a>.
-  @_s.JsonKey(name: 'SizeConstraintSetId')
   final String sizeConstraintSetId;
 
   SizeConstraintSetSummary({
-    @_s.required this.name,
-    @_s.required this.sizeConstraintSetId,
+    required this.name,
+    required this.sizeConstraintSetId,
   });
-  factory SizeConstraintSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$SizeConstraintSetSummaryFromJson(json);
+  factory SizeConstraintSetSummary.fromJson(Map<String, dynamic> json) {
+    return SizeConstraintSetSummary(
+      name: json['Name'] as String,
+      sizeConstraintSetId: json['SizeConstraintSetId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -12115,16 +13064,10 @@ class SizeConstraintSetSummary {
 /// Specifies the part of a web request that you want to inspect the size of and
 /// indicates whether you want to add the specification to a
 /// <a>SizeConstraintSet</a> or delete it from a <code>SizeConstraintSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SizeConstraintSetUpdate {
   /// Specify <code>INSERT</code> to add a <a>SizeConstraintSetUpdate</a> to a
   /// <a>SizeConstraintSet</a>. Use <code>DELETE</code> to remove a
   /// <code>SizeConstraintSetUpdate</code> from a <code>SizeConstraintSet</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Specifies a constraint on the size of a part of the web request. AWS WAF
@@ -12133,14 +13076,20 @@ class SizeConstraintSetUpdate {
   /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
   /// <code>FieldToMatch</code>". If that expression is true, the
   /// <code>SizeConstraint</code> is considered to match.
-  @_s.JsonKey(name: 'SizeConstraint')
   final SizeConstraint sizeConstraint;
 
   SizeConstraintSetUpdate({
-    @_s.required this.action,
-    @_s.required this.sizeConstraint,
+    required this.action,
+    required this.sizeConstraint,
   });
-  Map<String, dynamic> toJson() => _$SizeConstraintSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final sizeConstraint = this.sizeConstraint;
+    return {
+      'Action': action.toValue(),
+      'SizeConstraint': sizeConstraint,
+    };
+  }
 }
 
 /// <note>
@@ -12161,11 +13110,6 @@ class SizeConstraintSetUpdate {
 /// than one <code>SqlInjectionMatchTuple</code> object, a request needs to
 /// include snippets of SQL code in only one of the specified parts of the
 /// request to be considered a match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SqlInjectionMatchSet {
   /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
   /// <code>SqlInjectionMatchSetId</code> to get information about a
@@ -12179,25 +13123,31 @@ class SqlInjectionMatchSet {
   ///
   /// <code>SqlInjectionMatchSetId</code> is returned by
   /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
-  @_s.JsonKey(name: 'SqlInjectionMatchSetId')
   final String sqlInjectionMatchSetId;
 
   /// Specifies the parts of web requests that you want to inspect for snippets of
   /// malicious SQL code.
-  @_s.JsonKey(name: 'SqlInjectionMatchTuples')
   final List<SqlInjectionMatchTuple> sqlInjectionMatchTuples;
 
   /// The name, if any, of the <code>SqlInjectionMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SqlInjectionMatchSet({
-    @_s.required this.sqlInjectionMatchSetId,
-    @_s.required this.sqlInjectionMatchTuples,
+    required this.sqlInjectionMatchSetId,
+    required this.sqlInjectionMatchTuples,
     this.name,
   });
-  factory SqlInjectionMatchSet.fromJson(Map<String, dynamic> json) =>
-      _$SqlInjectionMatchSetFromJson(json);
+  factory SqlInjectionMatchSet.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchSet(
+      sqlInjectionMatchSetId: json['SqlInjectionMatchSetId'] as String,
+      sqlInjectionMatchTuples: (json['SqlInjectionMatchTuples'] as List)
+          .whereNotNull()
+          .map(
+              (e) => SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -12213,15 +13163,9 @@ class SqlInjectionMatchSet {
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SqlInjectionMatchSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SqlInjectionMatchSetSummary {
   /// The name of the <code>SqlInjectionMatchSet</code>, if any, specified by
   /// <code>Id</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
@@ -12236,15 +13180,18 @@ class SqlInjectionMatchSetSummary {
   ///
   /// <code>SqlInjectionMatchSetId</code> is returned by
   /// <a>CreateSqlInjectionMatchSet</a> and by <a>ListSqlInjectionMatchSets</a>.
-  @_s.JsonKey(name: 'SqlInjectionMatchSetId')
   final String sqlInjectionMatchSetId;
 
   SqlInjectionMatchSetSummary({
-    @_s.required this.name,
-    @_s.required this.sqlInjectionMatchSetId,
+    required this.name,
+    required this.sqlInjectionMatchSetId,
   });
-  factory SqlInjectionMatchSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$SqlInjectionMatchSetSummaryFromJson(json);
+  factory SqlInjectionMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchSetSummary(
+      name: json['Name'] as String,
+      sqlInjectionMatchSetId: json['SqlInjectionMatchSetId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -12262,30 +13209,30 @@ class SqlInjectionMatchSetSummary {
 /// malicious SQL code and indicates whether you want to add the specification
 /// to a <a>SqlInjectionMatchSet</a> or delete it from a
 /// <code>SqlInjectionMatchSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SqlInjectionMatchSetUpdate {
   /// Specify <code>INSERT</code> to add a <a>SqlInjectionMatchSetUpdate</a> to a
   /// <a>SqlInjectionMatchSet</a>. Use <code>DELETE</code> to remove a
   /// <code>SqlInjectionMatchSetUpdate</code> from a
   /// <code>SqlInjectionMatchSet</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Specifies the part of a web request that you want AWS WAF to inspect for
   /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
   /// the name of the header.
-  @_s.JsonKey(name: 'SqlInjectionMatchTuple')
   final SqlInjectionMatchTuple sqlInjectionMatchTuple;
 
   SqlInjectionMatchSetUpdate({
-    @_s.required this.action,
-    @_s.required this.sqlInjectionMatchTuple,
+    required this.action,
+    required this.sqlInjectionMatchTuple,
   });
-  Map<String, dynamic> toJson() => _$SqlInjectionMatchSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final sqlInjectionMatchTuple = this.sqlInjectionMatchTuple;
+    return {
+      'Action': action.toValue(),
+      'SqlInjectionMatchTuple': sqlInjectionMatchTuple,
+    };
+  }
 }
 
 /// <note>
@@ -12302,14 +13249,8 @@ class SqlInjectionMatchSetUpdate {
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
 /// the name of the header.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqlInjectionMatchTuple {
   /// Specifies where in a web request to look for snippets of malicious SQL code.
-  @_s.JsonKey(name: 'FieldToMatch')
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -12411,17 +13352,29 @@ class SqlInjectionMatchTuple {
   ///
   /// Specify <code>NONE</code> if you don't want to perform any text
   /// transformations.
-  @_s.JsonKey(name: 'TextTransformation')
   final TextTransformation textTransformation;
 
   SqlInjectionMatchTuple({
-    @_s.required this.fieldToMatch,
-    @_s.required this.textTransformation,
+    required this.fieldToMatch,
+    required this.textTransformation,
   });
-  factory SqlInjectionMatchTuple.fromJson(Map<String, dynamic> json) =>
-      _$SqlInjectionMatchTupleFromJson(json);
+  factory SqlInjectionMatchTuple.fromJson(Map<String, dynamic> json) {
+    return SqlInjectionMatchTuple(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      textTransformation:
+          (json['TextTransformation'] as String).toTextTransformation(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SqlInjectionMatchTupleToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'TextTransformation': textTransformation.toValue(),
+    };
+  }
 }
 
 /// <note>
@@ -12436,11 +13389,6 @@ class SqlInjectionMatchTuple {
 /// of endpoints for regional and global use.
 /// </note>
 /// A summary of the rule groups you are subscribed to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubscribedRuleGroupSummary {
   /// A friendly name or description for the metrics for this
   /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
@@ -12448,25 +13396,27 @@ class SubscribedRuleGroupSummary {
   /// contain whitespace or metric names reserved for AWS WAF, including "All" and
   /// "Default_Action." You can't change the name of the metric after you create
   /// the <code>RuleGroup</code>.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// A friendly name or description of the <code>RuleGroup</code>. You can't
   /// change the name of a <code>RuleGroup</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>RuleGroup</code>.
-  @_s.JsonKey(name: 'RuleGroupId')
   final String ruleGroupId;
 
   SubscribedRuleGroupSummary({
-    @_s.required this.metricName,
-    @_s.required this.name,
-    @_s.required this.ruleGroupId,
+    required this.metricName,
+    required this.name,
+    required this.ruleGroupId,
   });
-  factory SubscribedRuleGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$SubscribedRuleGroupSummaryFromJson(json);
+  factory SubscribedRuleGroupSummary.fromJson(Map<String, dynamic> json) {
+    return SubscribedRuleGroupSummary(
+      metricName: json['MetricName'] as String,
+      name: json['Name'] as String,
+      ruleGroupId: json['RuleGroupId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -12490,27 +13440,32 @@ class SubscribedRuleGroupSummary {
 /// or view tags through the AWS WAF Classic console. You can tag the AWS
 /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
 /// and rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// <p/>
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// <p/>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// <note>
@@ -12534,52 +13489,81 @@ class Tag {
 /// or view tags through the AWS WAF Classic console. You can tag the AWS
 /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
 /// and rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagInfoForResource {
   /// <p/>
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   /// <p/>
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   TagInfoForResource({
     this.resourceARN,
     this.tagList,
   });
-  factory TagInfoForResource.fromJson(Map<String, dynamic> json) =>
-      _$TagInfoForResourceFromJson(json);
+  factory TagInfoForResource.fromJson(Map<String, dynamic> json) {
+    return TagInfoForResource(
+      resourceARN: json['ResourceARN'] as String?,
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 enum TextTransformation {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('COMPRESS_WHITE_SPACE')
   compressWhiteSpace,
-  @_s.JsonValue('HTML_ENTITY_DECODE')
   htmlEntityDecode,
-  @_s.JsonValue('LOWERCASE')
   lowercase,
-  @_s.JsonValue('CMD_LINE')
   cmdLine,
-  @_s.JsonValue('URL_DECODE')
   urlDecode,
+}
+
+extension on TextTransformation {
+  String toValue() {
+    switch (this) {
+      case TextTransformation.none:
+        return 'NONE';
+      case TextTransformation.compressWhiteSpace:
+        return 'COMPRESS_WHITE_SPACE';
+      case TextTransformation.htmlEntityDecode:
+        return 'HTML_ENTITY_DECODE';
+      case TextTransformation.lowercase:
+        return 'LOWERCASE';
+      case TextTransformation.cmdLine:
+        return 'CMD_LINE';
+      case TextTransformation.urlDecode:
+        return 'URL_DECODE';
+    }
+  }
+}
+
+extension on String {
+  TextTransformation toTextTransformation() {
+    switch (this) {
+      case 'NONE':
+        return TextTransformation.none;
+      case 'COMPRESS_WHITE_SPACE':
+        return TextTransformation.compressWhiteSpace;
+      case 'HTML_ENTITY_DECODE':
+        return TextTransformation.htmlEntityDecode;
+      case 'LOWERCASE':
+        return TextTransformation.lowercase;
+      case 'CMD_LINE':
+        return TextTransformation.cmdLine;
+      case 'URL_DECODE':
+        return TextTransformation.urlDecode;
+    }
+    throw Exception('$this is not known in enum TextTransformation');
+  }
 }
 
 /// <note>
@@ -12609,11 +13593,6 @@ enum TextTransformation {
 /// receives more than 5,000 requests during that period, AWS WAF stops sampling
 /// after the 5,000th request. In that case, <code>EndTime</code> is the time
 /// that AWS WAF received the 5,000th request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
@@ -12621,8 +13600,6 @@ class TimeWindow {
   /// Universal Time (UTC) format. UTC format includes the special designator,
   /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
   /// specify any time range in the previous three hours.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
@@ -12631,272 +13608,241 @@ class TimeWindow {
   /// Universal Time (UTC) format. UTC format includes the special designator,
   /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
   /// specify any time range in the previous three hours.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   TimeWindow({
-    @_s.required this.endTime,
-    @_s.required this.startTime,
+    required this.endTime,
+    required this.startTime,
   });
-  factory TimeWindow.fromJson(Map<String, dynamic> json) =>
-      _$TimeWindowFromJson(json);
+  factory TimeWindow.fromJson(Map<String, dynamic> json) {
+    return TimeWindow(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TimeWindowToJson(this);
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateByteMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateByteMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateByteMatchSetResponse({
     this.changeToken,
   });
-  factory UpdateByteMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateByteMatchSetResponseFromJson(json);
+  factory UpdateByteMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateByteMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateGeoMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateGeoMatchSetResponse({
     this.changeToken,
   });
-  factory UpdateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGeoMatchSetResponseFromJson(json);
+  factory UpdateGeoMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGeoMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateIPSet</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateIPSetResponse({
     this.changeToken,
   });
-  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateIPSetResponseFromJson(json);
+  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateIPSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRateBasedRule</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateRateBasedRuleResponse({
     this.changeToken,
   });
-  factory UpdateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRateBasedRuleResponseFromJson(json);
+  factory UpdateRateBasedRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRateBasedRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRegexMatchSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateRegexMatchSetResponse({
     this.changeToken,
   });
-  factory UpdateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRegexMatchSetResponseFromJson(json);
+  factory UpdateRegexMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegexMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRegexPatternSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateRegexPatternSetResponse({
     this.changeToken,
   });
-  factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRegexPatternSetResponseFromJson(json);
+  factory UpdateRegexPatternSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegexPatternSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRuleGroup</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateRuleGroupResponse({
     this.changeToken,
   });
-  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRuleGroupResponseFromJson(json);
+  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleGroupResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRule</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateRuleResponse({
     this.changeToken,
   });
-  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRuleResponseFromJson(json);
+  factory UpdateRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateSizeConstraintSet</code> request. You can also use this value to
   /// query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateSizeConstraintSetResponse({
     this.changeToken,
   });
-  factory UpdateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSizeConstraintSetResponseFromJson(json);
+  factory UpdateSizeConstraintSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSizeConstraintSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// The response to an <a>UpdateSqlInjectionMatchSets</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateSqlInjectionMatchSet</code> request. You can also use this value
   /// to query the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateSqlInjectionMatchSetResponse({
     this.changeToken,
   });
   factory UpdateSqlInjectionMatchSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSqlInjectionMatchSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateSqlInjectionMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateWebACL</code> request. You can also use this value to query the
   /// status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateWebACLResponse({
     this.changeToken,
   });
-  factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateWebACLResponseFromJson(json);
+  factory UpdateWebACLResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateWebACLResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// The response to an <a>UpdateXssMatchSets</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateXssMatchSet</code> request. You can also use this value to query
   /// the status of the request. For more information, see
   /// <a>GetChangeTokenStatus</a>.
-  @_s.JsonKey(name: 'ChangeToken')
-  final String changeToken;
+  final String? changeToken;
 
   UpdateXssMatchSetResponse({
     this.changeToken,
   });
-  factory UpdateXssMatchSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateXssMatchSetResponseFromJson(json);
+  factory UpdateXssMatchSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateXssMatchSetResponse(
+      changeToken: json['ChangeToken'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -12916,11 +13862,6 @@ class UpdateXssMatchSetResponse {
 /// <code>WebACL</code>, specifies the action that you want AWS WAF to take when
 /// a web request doesn't match all of the conditions in any of the rules in a
 /// <code>WebACL</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WafAction {
   /// Specifies how you want AWS WAF to respond to requests that match the
   /// settings in a <code>Rule</code>. Valid settings include the following:
@@ -12939,25 +13880,56 @@ class WafAction {
   /// <code>COUNT</code> for the default action for a <code>WebACL</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
   final WafActionType type;
 
   WafAction({
-    @_s.required this.type,
+    required this.type,
   });
-  factory WafAction.fromJson(Map<String, dynamic> json) =>
-      _$WafActionFromJson(json);
+  factory WafAction.fromJson(Map<String, dynamic> json) {
+    return WafAction(
+      type: (json['Type'] as String).toWafActionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WafActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum WafActionType {
-  @_s.JsonValue('BLOCK')
   block,
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('COUNT')
   count,
+}
+
+extension on WafActionType {
+  String toValue() {
+    switch (this) {
+      case WafActionType.block:
+        return 'BLOCK';
+      case WafActionType.allow:
+        return 'ALLOW';
+      case WafActionType.count:
+        return 'COUNT';
+    }
+  }
+}
+
+extension on String {
+  WafActionType toWafActionType() {
+    switch (this) {
+      case 'BLOCK':
+        return WafActionType.block;
+      case 'ALLOW':
+        return WafActionType.allow;
+      case 'COUNT':
+        return WafActionType.count;
+    }
+    throw Exception('$this is not known in enum WafActionType');
+  }
 }
 
 /// <note>
@@ -12973,41 +13945,88 @@ enum WafActionType {
 /// </note>
 /// The action to take if any rule within the <code>RuleGroup</code> matches a
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WafOverrideAction {
   /// <code>COUNT</code> overrides the action specified by the individual rule
   /// within a <code>RuleGroup</code> . If set to <code>NONE</code>, the rule's
   /// action will take place.
-  @_s.JsonKey(name: 'Type')
   final WafOverrideActionType type;
 
   WafOverrideAction({
-    @_s.required this.type,
+    required this.type,
   });
-  factory WafOverrideAction.fromJson(Map<String, dynamic> json) =>
-      _$WafOverrideActionFromJson(json);
+  factory WafOverrideAction.fromJson(Map<String, dynamic> json) {
+    return WafOverrideAction(
+      type: (json['Type'] as String).toWafOverrideActionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WafOverrideActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum WafOverrideActionType {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('COUNT')
   count,
 }
 
+extension on WafOverrideActionType {
+  String toValue() {
+    switch (this) {
+      case WafOverrideActionType.none:
+        return 'NONE';
+      case WafOverrideActionType.count:
+        return 'COUNT';
+    }
+  }
+}
+
+extension on String {
+  WafOverrideActionType toWafOverrideActionType() {
+    switch (this) {
+      case 'NONE':
+        return WafOverrideActionType.none;
+      case 'COUNT':
+        return WafOverrideActionType.count;
+    }
+    throw Exception('$this is not known in enum WafOverrideActionType');
+  }
+}
+
 enum WafRuleType {
-  @_s.JsonValue('REGULAR')
   regular,
-  @_s.JsonValue('RATE_BASED')
   rateBased,
-  @_s.JsonValue('GROUP')
   group,
+}
+
+extension on WafRuleType {
+  String toValue() {
+    switch (this) {
+      case WafRuleType.regular:
+        return 'REGULAR';
+      case WafRuleType.rateBased:
+        return 'RATE_BASED';
+      case WafRuleType.group:
+        return 'GROUP';
+    }
+  }
+}
+
+extension on String {
+  WafRuleType toWafRuleType() {
+    switch (this) {
+      case 'REGULAR':
+        return WafRuleType.regular;
+      case 'RATE_BASED':
+        return WafRuleType.rateBased;
+      case 'GROUP':
+        return WafRuleType.group;
+    }
+    throw Exception('$this is not known in enum WafRuleType');
+  }
 }
 
 /// <note>
@@ -13031,22 +14050,15 @@ enum WafRuleType {
 /// you add more than one <code>Rule</code> to a <code>WebACL</code>, a request
 /// needs to match only one of the specifications to be allowed, blocked, or
 /// counted. For more information, see <a>UpdateWebACL</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WebACL {
   /// The action to perform if none of the <code>Rules</code> contained in the
   /// <code>WebACL</code> match. The action is specified by the <a>WafAction</a>
   /// object.
-  @_s.JsonKey(name: 'DefaultAction')
   final WafAction defaultAction;
 
   /// An array that contains the action for each <code>Rule</code> in a
   /// <code>WebACL</code>, the priority of the <code>Rule</code>, and the ID of
   /// the <code>Rule</code>.
-  @_s.JsonKey(name: 'Rules')
   final List<ActivatedRule> rules;
 
   /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
@@ -13056,7 +14068,6 @@ class WebACL {
   ///
   /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
   /// <a>ListWebACLs</a>.
-  @_s.JsonKey(name: 'WebACLId')
   final String webACLId;
 
   /// A friendly name or description for the metrics for this <code>WebACL</code>.
@@ -13065,27 +14076,37 @@ class WebACL {
   /// metric names reserved for AWS WAF, including "All" and "Default_Action." You
   /// can't change <code>MetricName</code> after you create the
   /// <code>WebACL</code>.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// A friendly name or description of the <code>WebACL</code>. You can't change
   /// the name of a <code>WebACL</code> after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tha Amazon Resource Name (ARN) of the web ACL.
-  @_s.JsonKey(name: 'WebACLArn')
-  final String webACLArn;
+  final String? webACLArn;
 
   WebACL({
-    @_s.required this.defaultAction,
-    @_s.required this.rules,
-    @_s.required this.webACLId,
+    required this.defaultAction,
+    required this.rules,
+    required this.webACLId,
     this.metricName,
     this.name,
     this.webACLArn,
   });
-  factory WebACL.fromJson(Map<String, dynamic> json) => _$WebACLFromJson(json);
+  factory WebACL.fromJson(Map<String, dynamic> json) {
+    return WebACL(
+      defaultAction:
+          WafAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
+      rules: (json['Rules'] as List)
+          .whereNotNull()
+          .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      webACLId: json['WebACLId'] as String,
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      webACLArn: json['WebACLArn'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -13100,15 +14121,9 @@ class WebACL {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name or description of the <a>WebACL</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WebACLSummary {
   /// A friendly name or description of the <a>WebACL</a>. You can't change the
   /// name of a <code>WebACL</code> after you create it.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for a <code>WebACL</code>. You use <code>WebACLId</code>
@@ -13118,15 +14133,18 @@ class WebACLSummary {
   ///
   /// <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by
   /// <a>ListWebACLs</a>.
-  @_s.JsonKey(name: 'WebACLId')
   final String webACLId;
 
   WebACLSummary({
-    @_s.required this.name,
-    @_s.required this.webACLId,
+    required this.name,
+    required this.webACLId,
   });
-  factory WebACLSummary.fromJson(Map<String, dynamic> json) =>
-      _$WebACLSummaryFromJson(json);
+  factory WebACLSummary.fromJson(Map<String, dynamic> json) {
+    return WebACLSummary(
+      name: json['Name'] as String,
+      webACLId: json['WebACLId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -13142,15 +14160,9 @@ class WebACLSummary {
 /// </note>
 /// Specifies whether to insert a <code>Rule</code> into or delete a
 /// <code>Rule</code> from a <code>WebACL</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WebACLUpdate {
   /// Specifies whether to insert a <code>Rule</code> into or delete a
   /// <code>Rule</code> from a <code>WebACL</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// The <code>ActivatedRule</code> object in an <a>UpdateWebACL</a> request
@@ -13159,14 +14171,20 @@ class WebACLUpdate {
   /// that you want AWS WAF to take when a web request matches the
   /// <code>Rule</code> (<code>ALLOW</code>, <code>BLOCK</code>, or
   /// <code>COUNT</code>).
-  @_s.JsonKey(name: 'ActivatedRule')
   final ActivatedRule activatedRule;
 
   WebACLUpdate({
-    @_s.required this.action,
-    @_s.required this.activatedRule,
+    required this.action,
+    required this.activatedRule,
   });
-  Map<String, dynamic> toJson() => _$WebACLUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final activatedRule = this.activatedRule;
+    return {
+      'Action': action.toValue(),
+      'ActivatedRule': activatedRule,
+    };
+  }
 }
 
 /// <note>
@@ -13187,11 +14205,6 @@ class WebACLUpdate {
 /// <code>XssMatchTuple</code> object, a request needs to include cross-site
 /// scripting attacks in only one of the specified parts of the request to be
 /// considered a match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class XssMatchSet {
   /// A unique identifier for an <code>XssMatchSet</code>. You use
   /// <code>XssMatchSetId</code> to get information about an
@@ -13203,25 +14216,30 @@ class XssMatchSet {
   ///
   /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
   /// <a>ListXssMatchSets</a>.
-  @_s.JsonKey(name: 'XssMatchSetId')
   final String xssMatchSetId;
 
   /// Specifies the parts of web requests that you want to inspect for cross-site
   /// scripting attacks.
-  @_s.JsonKey(name: 'XssMatchTuples')
   final List<XssMatchTuple> xssMatchTuples;
 
   /// The name, if any, of the <code>XssMatchSet</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   XssMatchSet({
-    @_s.required this.xssMatchSetId,
-    @_s.required this.xssMatchTuples,
+    required this.xssMatchSetId,
+    required this.xssMatchTuples,
     this.name,
   });
-  factory XssMatchSet.fromJson(Map<String, dynamic> json) =>
-      _$XssMatchSetFromJson(json);
+  factory XssMatchSet.fromJson(Map<String, dynamic> json) {
+    return XssMatchSet(
+      xssMatchSetId: json['XssMatchSetId'] as String,
+      xssMatchTuples: (json['XssMatchTuples'] as List)
+          .whereNotNull()
+          .map((e) => XssMatchTuple.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// <note>
@@ -13236,15 +14254,9 @@ class XssMatchSet {
 /// of endpoints for regional and global use.
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of an <code>XssMatchSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class XssMatchSetSummary {
   /// The name of the <code>XssMatchSet</code>, if any, specified by
   /// <code>Id</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A unique identifier for an <code>XssMatchSet</code>. You use
@@ -13257,15 +14269,18 @@ class XssMatchSetSummary {
   ///
   /// <code>XssMatchSetId</code> is returned by <a>CreateXssMatchSet</a> and by
   /// <a>ListXssMatchSets</a>.
-  @_s.JsonKey(name: 'XssMatchSetId')
   final String xssMatchSetId;
 
   XssMatchSetSummary({
-    @_s.required this.name,
-    @_s.required this.xssMatchSetId,
+    required this.name,
+    required this.xssMatchSetId,
   });
-  factory XssMatchSetSummary.fromJson(Map<String, dynamic> json) =>
-      _$XssMatchSetSummaryFromJson(json);
+  factory XssMatchSetSummary.fromJson(Map<String, dynamic> json) {
+    return XssMatchSetSummary(
+      name: json['Name'] as String,
+      xssMatchSetId: json['XssMatchSetId'] as String,
+    );
+  }
 }
 
 /// <note>
@@ -13282,29 +14297,29 @@ class XssMatchSetSummary {
 /// Specifies the part of a web request that you want to inspect for cross-site
 /// scripting attacks and indicates whether you want to add the specification to
 /// an <a>XssMatchSet</a> or delete it from an <code>XssMatchSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class XssMatchSetUpdate {
   /// Specify <code>INSERT</code> to add an <a>XssMatchSetUpdate</a> to an
   /// <a>XssMatchSet</a>. Use <code>DELETE</code> to remove an
   /// <code>XssMatchSetUpdate</code> from an <code>XssMatchSet</code>.
-  @_s.JsonKey(name: 'Action')
   final ChangeAction action;
 
   /// Specifies the part of a web request that you want AWS WAF to inspect for
   /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
   /// the name of the header.
-  @_s.JsonKey(name: 'XssMatchTuple')
   final XssMatchTuple xssMatchTuple;
 
   XssMatchSetUpdate({
-    @_s.required this.action,
-    @_s.required this.xssMatchTuple,
+    required this.action,
+    required this.xssMatchTuple,
   });
-  Map<String, dynamic> toJson() => _$XssMatchSetUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final xssMatchTuple = this.xssMatchTuple;
+    return {
+      'Action': action.toValue(),
+      'XssMatchTuple': xssMatchTuple,
+    };
+  }
 }
 
 /// <note>
@@ -13321,14 +14336,8 @@ class XssMatchSetUpdate {
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
 /// the name of the header.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class XssMatchTuple {
   /// Specifies where in a web request to look for cross-site scripting attacks.
-  @_s.JsonKey(name: 'FieldToMatch')
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -13430,59 +14439,71 @@ class XssMatchTuple {
   ///
   /// Specify <code>NONE</code> if you don't want to perform any text
   /// transformations.
-  @_s.JsonKey(name: 'TextTransformation')
   final TextTransformation textTransformation;
 
   XssMatchTuple({
-    @_s.required this.fieldToMatch,
-    @_s.required this.textTransformation,
+    required this.fieldToMatch,
+    required this.textTransformation,
   });
-  factory XssMatchTuple.fromJson(Map<String, dynamic> json) =>
-      _$XssMatchTupleFromJson(json);
+  factory XssMatchTuple.fromJson(Map<String, dynamic> json) {
+    return XssMatchTuple(
+      fieldToMatch:
+          FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+      textTransformation:
+          (json['TextTransformation'] as String).toTextTransformation(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$XssMatchTupleToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldToMatch = this.fieldToMatch;
+    final textTransformation = this.textTransformation;
+    return {
+      'FieldToMatch': fieldToMatch,
+      'TextTransformation': textTransformation.toValue(),
+    };
+  }
 }
 
 class WAFBadRequestException extends _s.GenericAwsException {
-  WAFBadRequestException({String type, String message})
+  WAFBadRequestException({String? type, String? message})
       : super(type: type, code: 'WAFBadRequestException', message: message);
 }
 
 class WAFDisallowedNameException extends _s.GenericAwsException {
-  WAFDisallowedNameException({String type, String message})
+  WAFDisallowedNameException({String? type, String? message})
       : super(type: type, code: 'WAFDisallowedNameException', message: message);
 }
 
 class WAFEntityMigrationException extends _s.GenericAwsException {
-  WAFEntityMigrationException({String type, String message})
+  WAFEntityMigrationException({String? type, String? message})
       : super(
             type: type, code: 'WAFEntityMigrationException', message: message);
 }
 
 class WAFInternalErrorException extends _s.GenericAwsException {
-  WAFInternalErrorException({String type, String message})
+  WAFInternalErrorException({String? type, String? message})
       : super(type: type, code: 'WAFInternalErrorException', message: message);
 }
 
 class WAFInvalidAccountException extends _s.GenericAwsException {
-  WAFInvalidAccountException({String type, String message})
+  WAFInvalidAccountException({String? type, String? message})
       : super(type: type, code: 'WAFInvalidAccountException', message: message);
 }
 
 class WAFInvalidOperationException extends _s.GenericAwsException {
-  WAFInvalidOperationException({String type, String message})
+  WAFInvalidOperationException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidOperationException', message: message);
 }
 
 class WAFInvalidParameterException extends _s.GenericAwsException {
-  WAFInvalidParameterException({String type, String message})
+  WAFInvalidParameterException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidParameterException', message: message);
 }
 
 class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
-  WAFInvalidPermissionPolicyException({String type, String message})
+  WAFInvalidPermissionPolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFInvalidPermissionPolicyException',
@@ -13490,7 +14511,7 @@ class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
 }
 
 class WAFInvalidRegexPatternException extends _s.GenericAwsException {
-  WAFInvalidRegexPatternException({String type, String message})
+  WAFInvalidRegexPatternException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFInvalidRegexPatternException',
@@ -13498,17 +14519,17 @@ class WAFInvalidRegexPatternException extends _s.GenericAwsException {
 }
 
 class WAFLimitsExceededException extends _s.GenericAwsException {
-  WAFLimitsExceededException({String type, String message})
+  WAFLimitsExceededException({String? type, String? message})
       : super(type: type, code: 'WAFLimitsExceededException', message: message);
 }
 
 class WAFNonEmptyEntityException extends _s.GenericAwsException {
-  WAFNonEmptyEntityException({String type, String message})
+  WAFNonEmptyEntityException({String? type, String? message})
       : super(type: type, code: 'WAFNonEmptyEntityException', message: message);
 }
 
 class WAFNonexistentContainerException extends _s.GenericAwsException {
-  WAFNonexistentContainerException({String type, String message})
+  WAFNonexistentContainerException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFNonexistentContainerException',
@@ -13516,18 +14537,18 @@ class WAFNonexistentContainerException extends _s.GenericAwsException {
 }
 
 class WAFNonexistentItemException extends _s.GenericAwsException {
-  WAFNonexistentItemException({String type, String message})
+  WAFNonexistentItemException({String? type, String? message})
       : super(
             type: type, code: 'WAFNonexistentItemException', message: message);
 }
 
 class WAFReferencedItemException extends _s.GenericAwsException {
-  WAFReferencedItemException({String type, String message})
+  WAFReferencedItemException({String? type, String? message})
       : super(type: type, code: 'WAFReferencedItemException', message: message);
 }
 
 class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
-  WAFServiceLinkedRoleErrorException({String type, String message})
+  WAFServiceLinkedRoleErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFServiceLinkedRoleErrorException',
@@ -13535,12 +14556,12 @@ class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
 }
 
 class WAFStaleDataException extends _s.GenericAwsException {
-  WAFStaleDataException({String type, String message})
+  WAFStaleDataException({String? type, String? message})
       : super(type: type, code: 'WAFStaleDataException', message: message);
 }
 
 class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
-  WAFSubscriptionNotFoundException({String type, String message})
+  WAFSubscriptionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFSubscriptionNotFoundException',
@@ -13548,12 +14569,12 @@ class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
 }
 
 class WAFTagOperationException extends _s.GenericAwsException {
-  WAFTagOperationException({String type, String message})
+  WAFTagOperationException({String? type, String? message})
       : super(type: type, code: 'WAFTagOperationException', message: message);
 }
 
 class WAFTagOperationInternalErrorException extends _s.GenericAwsException {
-  WAFTagOperationInternalErrorException({String type, String message})
+  WAFTagOperationInternalErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'WAFTagOperationInternalErrorException',

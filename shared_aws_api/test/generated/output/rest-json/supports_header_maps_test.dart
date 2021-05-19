@@ -28,11 +28,11 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.allHeaders['Content-Length'], "10");
-    expect(output.allHeaders['X-Foo'], "bar");
-    expect(output.allHeaders['X-Bam'], "boo");
-    expect(output.prefixedHeaders['Foo'], "bar");
-    expect(output.prefixedHeaders['Bam'], "boo");
+    expect(output.allHeaders?['Content-Length'], "10");
+    expect(output.allHeaders?['X-Foo'], "bar");
+    expect(output.allHeaders?['X-Bam'], "boo");
+    expect(output.prefixedHeaders?['Foo'], "bar");
+    expect(output.prefixedHeaders?['Bam'], "boo");
 /*
 {
   "AllHeaders": {

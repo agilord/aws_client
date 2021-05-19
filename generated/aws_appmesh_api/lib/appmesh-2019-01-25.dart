@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'appmesh-2019-01-25.g.dart';
 
 /// AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy
 /// to monitor and control microservices. App Mesh standardizes how your
@@ -48,10 +40,10 @@ part 'appmesh-2019-01-25.g.dart';
 class AppMesh {
   final _s.RestJsonProtocol _protocol;
   AppMesh({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -116,13 +108,13 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateGatewayRouteOutput> createGatewayRoute({
-    @_s.required String gatewayRouteName,
-    @_s.required String meshName,
-    @_s.required GatewayRouteSpec spec,
-    @_s.required String virtualGatewayName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String gatewayRouteName,
+    required String meshName,
+    required GatewayRouteSpec spec,
+    required String virtualGatewayName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
     _s.validateStringLength(
@@ -217,10 +209,10 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateMeshOutput> createMesh({
-    @_s.required String meshName,
-    String clientToken,
-    MeshSpec spec,
-    List<TagRef> tags,
+    required String meshName,
+    String? clientToken,
+    MeshSpec? spec,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -299,13 +291,13 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateRouteOutput> createRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required RouteSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String meshName,
+    required String routeName,
+    required RouteSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -412,12 +404,12 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateVirtualGatewayOutput> createVirtualGateway({
-    @_s.required String meshName,
-    @_s.required VirtualGatewaySpec spec,
-    @_s.required String virtualGatewayName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String meshName,
+    required VirtualGatewaySpec spec,
+    required String virtualGatewayName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -540,12 +532,12 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateVirtualNodeOutput> createVirtualNode({
-    @_s.required String meshName,
-    @_s.required VirtualNodeSpec spec,
-    @_s.required String virtualNodeName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String meshName,
+    required VirtualNodeSpec spec,
+    required String virtualNodeName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -644,12 +636,12 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateVirtualRouterOutput> createVirtualRouter({
-    @_s.required String meshName,
-    @_s.required VirtualRouterSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String meshName,
+    required VirtualRouterSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -748,12 +740,12 @@ class AppMesh {
   /// character length of 128 characters, and tag values can have a maximum
   /// length of 256 characters.
   Future<CreateVirtualServiceOutput> createVirtualService({
-    @_s.required String meshName,
-    @_s.required VirtualServiceSpec spec,
-    @_s.required String virtualServiceName,
-    String clientToken,
-    String meshOwner,
-    List<TagRef> tags,
+    required String meshName,
+    required VirtualServiceSpec spec,
+    required String virtualServiceName,
+    String? clientToken,
+    String? meshOwner,
+    List<TagRef>? tags,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -820,10 +812,10 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteGatewayRouteOutput> deleteGatewayRoute({
-    @_s.required String gatewayRouteName,
-    @_s.required String meshName,
-    @_s.required String virtualGatewayName,
-    String meshOwner,
+    required String gatewayRouteName,
+    required String meshName,
+    required String virtualGatewayName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
     _s.validateStringLength(
@@ -889,7 +881,7 @@ class AppMesh {
   /// Parameter [meshName] :
   /// The name of the service mesh to delete.
   Future<DeleteMeshOutput> deleteMesh({
-    @_s.required String meshName,
+    required String meshName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -937,10 +929,10 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteRouteOutput> deleteRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required String virtualRouterName,
-    String meshOwner,
+    required String meshName,
+    required String routeName,
+    required String virtualRouterName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1013,9 +1005,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualGatewayOutput> deleteVirtualGateway({
-    @_s.required String meshName,
-    @_s.required String virtualGatewayName,
-    String meshOwner,
+    required String meshName,
+    required String virtualGatewayName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1082,9 +1074,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualNodeOutput> deleteVirtualNode({
-    @_s.required String meshName,
-    @_s.required String virtualNodeName,
-    String meshOwner,
+    required String meshName,
+    required String virtualNodeName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1151,9 +1143,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualRouterOutput> deleteVirtualRouter({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
-    String meshOwner,
+    required String meshName,
+    required String virtualRouterName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1217,9 +1209,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualServiceOutput> deleteVirtualService({
-    @_s.required String meshName,
-    @_s.required String virtualServiceName,
-    String meshOwner,
+    required String meshName,
+    required String virtualServiceName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1278,10 +1270,10 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeGatewayRouteOutput> describeGatewayRoute({
-    @_s.required String gatewayRouteName,
-    @_s.required String meshName,
-    @_s.required String virtualGatewayName,
-    String meshOwner,
+    required String gatewayRouteName,
+    required String meshName,
+    required String virtualGatewayName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
     _s.validateStringLength(
@@ -1349,8 +1341,8 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeMeshOutput> describeMesh({
-    @_s.required String meshName,
-    String meshOwner,
+    required String meshName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1407,10 +1399,10 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeRouteOutput> describeRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required String virtualRouterName,
-    String meshOwner,
+    required String meshName,
+    required String routeName,
+    required String virtualRouterName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1481,9 +1473,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualGatewayOutput> describeVirtualGateway({
-    @_s.required String meshName,
-    @_s.required String virtualGatewayName,
-    String meshOwner,
+    required String meshName,
+    required String virtualGatewayName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1546,9 +1538,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualNodeOutput> describeVirtualNode({
-    @_s.required String meshName,
-    @_s.required String virtualNodeName,
-    String meshOwner,
+    required String meshName,
+    required String virtualNodeName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1611,9 +1603,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualRouterOutput> describeVirtualRouter({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
-    String meshOwner,
+    required String meshName,
+    required String virtualRouterName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1676,9 +1668,9 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualServiceOutput> describeVirtualService({
-    @_s.required String meshName,
-    @_s.required String virtualServiceName,
-    String meshOwner,
+    required String meshName,
+    required String virtualServiceName,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1753,11 +1745,11 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListGatewayRoutesOutput> listGatewayRoutes({
-    @_s.required String meshName,
-    @_s.required String virtualGatewayName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    required String virtualGatewayName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1834,8 +1826,8 @@ class AppMesh {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListMeshesOutput> listMeshes({
-    int limit,
-    String nextToken,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1897,11 +1889,11 @@ class AppMesh {
   /// the end of the previous results that returned the <code>nextToken</code>
   /// value.
   Future<ListRoutesOutput> listRoutes({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    required String virtualRouterName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1978,9 +1970,9 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
-    int limit,
-    String nextToken,
+    required String resourceArn,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
@@ -1990,7 +1982,7 @@ class AppMesh {
       50,
     );
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
       if (limit != null) 'limit': [limit.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2041,10 +2033,10 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListVirtualGatewaysOutput> listVirtualGateways({
-    @_s.required String meshName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2119,10 +2111,10 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListVirtualNodesOutput> listVirtualNodes({
-    @_s.required String meshName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2197,10 +2189,10 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListVirtualRoutersOutput> listVirtualRouters({
-    @_s.required String meshName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2275,10 +2267,10 @@ class AppMesh {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListVirtualServicesOutput> listVirtualServices({
-    @_s.required String meshName,
-    int limit,
-    String meshOwner,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? meshOwner,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2337,13 +2329,13 @@ class AppMesh {
   /// keys can have a maximum character length of 128 characters, and tag values
   /// can have a maximum length of 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<TagRef> tags,
+    required String resourceArn,
+    required List<TagRef> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2355,7 +2347,6 @@ class AppMesh {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceOutput.fromJson(response);
   }
 
   /// Deletes specified tags from a resource.
@@ -2373,13 +2364,13 @@ class AppMesh {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tagKeys': tagKeys,
@@ -2391,7 +2382,6 @@ class AppMesh {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceOutput.fromJson(response);
   }
 
   /// Updates an existing gateway route that is associated to a specified
@@ -2431,12 +2421,12 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateGatewayRouteOutput> updateGatewayRoute({
-    @_s.required String gatewayRouteName,
-    @_s.required String meshName,
-    @_s.required GatewayRouteSpec spec,
-    @_s.required String virtualGatewayName,
-    String clientToken,
-    String meshOwner,
+    required String gatewayRouteName,
+    required String meshName,
+    required GatewayRouteSpec spec,
+    required String virtualGatewayName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(gatewayRouteName, 'gatewayRouteName');
     _s.validateStringLength(
@@ -2511,9 +2501,9 @@ class AppMesh {
   /// Parameter [spec] :
   /// The service mesh specification to apply.
   Future<UpdateMeshOutput> updateMesh({
-    @_s.required String meshName,
-    String clientToken,
-    MeshSpec spec,
+    required String meshName,
+    String? clientToken,
+    MeshSpec? spec,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2574,12 +2564,12 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateRouteOutput> updateRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required RouteSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
-    String meshOwner,
+    required String meshName,
+    required String routeName,
+    required RouteSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2666,11 +2656,11 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualGatewayOutput> updateVirtualGateway({
-    @_s.required String meshName,
-    @_s.required VirtualGatewaySpec spec,
-    @_s.required String virtualGatewayName,
-    String clientToken,
-    String meshOwner,
+    required String meshName,
+    required VirtualGatewaySpec spec,
+    required String virtualGatewayName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2749,11 +2739,11 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualNodeOutput> updateVirtualNode({
-    @_s.required String meshName,
-    @_s.required VirtualNodeSpec spec,
-    @_s.required String virtualNodeName,
-    String clientToken,
-    String meshOwner,
+    required String meshName,
+    required VirtualNodeSpec spec,
+    required String virtualNodeName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2832,11 +2822,11 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualRouterOutput> updateVirtualRouter({
-    @_s.required String meshName,
-    @_s.required VirtualRouterSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
-    String meshOwner,
+    required String meshName,
+    required VirtualRouterSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2915,11 +2905,11 @@ class AppMesh {
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualServiceOutput> updateVirtualService({
-    @_s.required String meshName,
-    @_s.required VirtualServiceSpec spec,
-    @_s.required String virtualServiceName,
-    String clientToken,
-    String meshOwner,
+    required String meshName,
+    required VirtualServiceSpec spec,
+    required String virtualServiceName,
+    String? clientToken,
+    String? meshOwner,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -2960,23 +2950,27 @@ class AppMesh {
 }
 
 /// An object that represents the access logging information for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessLog {
   /// The file object to send virtual node access logs to.
-  @_s.JsonKey(name: 'file')
-  final FileAccessLog file;
+  final FileAccessLog? file;
 
   AccessLog({
     this.file,
   });
-  factory AccessLog.fromJson(Map<String, dynamic> json) =>
-      _$AccessLogFromJson(json);
+  factory AccessLog.fromJson(Map<String, dynamic> json) {
+    return AccessLog(
+      file: json['file'] != null
+          ? FileAccessLog.fromJson(json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessLogToJson(this);
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    return {
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// An object that represents the AWS Cloud Map attribute information for your
@@ -2984,30 +2978,34 @@ class AccessLog {
 /// <note>
 /// AWS Cloud Map is not available in the eu-south-1 Region.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsCloudMapInstanceAttribute {
   /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud
   /// Map service instance that contains the specified key and value is returned.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud
   /// Map service instance that contains the specified key and value is returned.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   AwsCloudMapInstanceAttribute({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory AwsCloudMapInstanceAttribute.fromJson(Map<String, dynamic> json) =>
-      _$AwsCloudMapInstanceAttributeFromJson(json);
+  factory AwsCloudMapInstanceAttribute.fromJson(Map<String, dynamic> json) {
+    return AwsCloudMapInstanceAttribute(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AwsCloudMapInstanceAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
 /// An object that represents the AWS Cloud Map service discovery information
@@ -3015,594 +3013,504 @@ class AwsCloudMapInstanceAttribute {
 /// <note>
 /// AWS Cloud Map is not available in the eu-south-1 Region.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsCloudMapServiceDiscovery {
   /// The name of the AWS Cloud Map namespace to use.
-  @_s.JsonKey(name: 'namespaceName')
   final String namespaceName;
 
   /// The name of the AWS Cloud Map service to use.
-  @_s.JsonKey(name: 'serviceName')
   final String serviceName;
 
   /// A string map that contains attributes with values that you can use to filter
   /// instances by any custom attribute that you specified when you registered the
   /// instance. Only instances that match all of the specified key/value pairs
   /// will be returned.
-  @_s.JsonKey(name: 'attributes')
-  final List<AwsCloudMapInstanceAttribute> attributes;
+  final List<AwsCloudMapInstanceAttribute>? attributes;
 
   AwsCloudMapServiceDiscovery({
-    @_s.required this.namespaceName,
-    @_s.required this.serviceName,
+    required this.namespaceName,
+    required this.serviceName,
     this.attributes,
   });
-  factory AwsCloudMapServiceDiscovery.fromJson(Map<String, dynamic> json) =>
-      _$AwsCloudMapServiceDiscoveryFromJson(json);
+  factory AwsCloudMapServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return AwsCloudMapServiceDiscovery(
+      namespaceName: json['namespaceName'] as String,
+      serviceName: json['serviceName'] as String,
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsCloudMapInstanceAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AwsCloudMapServiceDiscoveryToJson(this);
+  Map<String, dynamic> toJson() {
+    final namespaceName = this.namespaceName;
+    final serviceName = this.serviceName;
+    final attributes = this.attributes;
+    return {
+      'namespaceName': namespaceName,
+      'serviceName': serviceName,
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
 }
 
 /// An object that represents the backends that a virtual node is expected to
 /// send outbound traffic to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Backend {
   /// Specifies a virtual service to use as a backend.
-  @_s.JsonKey(name: 'virtualService')
-  final VirtualServiceBackend virtualService;
+  final VirtualServiceBackend? virtualService;
 
   Backend({
     this.virtualService,
   });
-  factory Backend.fromJson(Map<String, dynamic> json) =>
-      _$BackendFromJson(json);
+  factory Backend.fromJson(Map<String, dynamic> json) {
+    return Backend(
+      virtualService: json['virtualService'] != null
+          ? VirtualServiceBackend.fromJson(
+              json['virtualService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BackendToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualService = this.virtualService;
+    return {
+      if (virtualService != null) 'virtualService': virtualService,
+    };
+  }
 }
 
 /// An object that represents the default properties for a backend.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackendDefaults {
   /// A reference to an object that represents a client policy.
-  @_s.JsonKey(name: 'clientPolicy')
-  final ClientPolicy clientPolicy;
+  final ClientPolicy? clientPolicy;
 
   BackendDefaults({
     this.clientPolicy,
   });
-  factory BackendDefaults.fromJson(Map<String, dynamic> json) =>
-      _$BackendDefaultsFromJson(json);
+  factory BackendDefaults.fromJson(Map<String, dynamic> json) {
+    return BackendDefaults(
+      clientPolicy: json['clientPolicy'] != null
+          ? ClientPolicy.fromJson(json['clientPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BackendDefaultsToJson(this);
+  Map<String, dynamic> toJson() {
+    final clientPolicy = this.clientPolicy;
+    return {
+      if (clientPolicy != null) 'clientPolicy': clientPolicy,
+    };
+  }
 }
 
 /// An object that represents a client policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClientPolicy {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// client policy.
-  @_s.JsonKey(name: 'tls')
-  final ClientPolicyTls tls;
+  final ClientPolicyTls? tls;
 
   ClientPolicy({
     this.tls,
   });
-  factory ClientPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ClientPolicyFromJson(json);
+  factory ClientPolicy.fromJson(Map<String, dynamic> json) {
+    return ClientPolicy(
+      tls: json['tls'] != null
+          ? ClientPolicyTls.fromJson(json['tls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClientPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final tls = this.tls;
+    return {
+      if (tls != null) 'tls': tls,
+    };
+  }
 }
 
 /// A reference to an object that represents a Transport Layer Security (TLS)
 /// client policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClientPolicyTls {
   /// A reference to an object that represents a TLS validation context.
-  @_s.JsonKey(name: 'validation')
   final TlsValidationContext validation;
 
   /// Whether the policy is enforced. The default is <code>True</code>, if a value
   /// isn't specified.
-  @_s.JsonKey(name: 'enforce')
-  final bool enforce;
+  final bool? enforce;
 
   /// One or more ports that the policy is enforced for.
-  @_s.JsonKey(name: 'ports')
-  final List<int> ports;
+  final List<int>? ports;
 
   ClientPolicyTls({
-    @_s.required this.validation,
+    required this.validation,
     this.enforce,
     this.ports,
   });
-  factory ClientPolicyTls.fromJson(Map<String, dynamic> json) =>
-      _$ClientPolicyTlsFromJson(json);
+  factory ClientPolicyTls.fromJson(Map<String, dynamic> json) {
+    return ClientPolicyTls(
+      validation: TlsValidationContext.fromJson(
+          json['validation'] as Map<String, dynamic>),
+      enforce: json['enforce'] as bool?,
+      ports: (json['ports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClientPolicyTlsToJson(this);
+  Map<String, dynamic> toJson() {
+    final validation = this.validation;
+    final enforce = this.enforce;
+    final ports = this.ports;
+    return {
+      'validation': validation,
+      if (enforce != null) 'enforce': enforce,
+      if (ports != null) 'ports': ports,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGatewayRouteOutput {
   /// The full description of your gateway route following the create call.
-  @_s.JsonKey(name: 'gatewayRoute')
   final GatewayRouteData gatewayRoute;
 
   CreateGatewayRouteOutput({
-    @_s.required this.gatewayRoute,
+    required this.gatewayRoute,
   });
-  factory CreateGatewayRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateGatewayRouteOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMeshOutput {
   /// The full description of your service mesh following the create call.
-  @_s.JsonKey(name: 'mesh')
   final MeshData mesh;
 
   CreateMeshOutput({
-    @_s.required this.mesh,
+    required this.mesh,
   });
-  factory CreateMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateMeshOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRouteOutput {
   /// The full description of your mesh following the create call.
-  @_s.JsonKey(name: 'route')
   final RouteData route;
 
   CreateRouteOutput({
-    @_s.required this.route,
+    required this.route,
   });
-  factory CreateRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateRouteOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualGatewayOutput {
   /// The full description of your virtual gateway following the create call.
-  @_s.JsonKey(name: 'virtualGateway')
   final VirtualGatewayData virtualGateway;
 
   CreateVirtualGatewayOutput({
-    @_s.required this.virtualGateway,
+    required this.virtualGateway,
   });
-  factory CreateVirtualGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualGatewayOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualNodeOutput {
   /// The full description of your virtual node following the create call.
-  @_s.JsonKey(name: 'virtualNode')
   final VirtualNodeData virtualNode;
 
   CreateVirtualNodeOutput({
-    @_s.required this.virtualNode,
+    required this.virtualNode,
   });
-  factory CreateVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualNodeOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualRouterOutput {
   /// The full description of your virtual router following the create call.
-  @_s.JsonKey(name: 'virtualRouter')
   final VirtualRouterData virtualRouter;
 
   CreateVirtualRouterOutput({
-    @_s.required this.virtualRouter,
+    required this.virtualRouter,
   });
-  factory CreateVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualRouterOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualServiceOutput {
   /// The full description of your virtual service following the create call.
-  @_s.JsonKey(name: 'virtualService')
   final VirtualServiceData virtualService;
 
   CreateVirtualServiceOutput({
-    @_s.required this.virtualService,
+    required this.virtualService,
   });
-  factory CreateVirtualServiceOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualServiceOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGatewayRouteOutput {
   /// The gateway route that was deleted.
-  @_s.JsonKey(name: 'gatewayRoute')
   final GatewayRouteData gatewayRoute;
 
   DeleteGatewayRouteOutput({
-    @_s.required this.gatewayRoute,
+    required this.gatewayRoute,
   });
-  factory DeleteGatewayRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGatewayRouteOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMeshOutput {
   /// The service mesh that was deleted.
-  @_s.JsonKey(name: 'mesh')
   final MeshData mesh;
 
   DeleteMeshOutput({
-    @_s.required this.mesh,
+    required this.mesh,
   });
-  factory DeleteMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMeshOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRouteOutput {
   /// The route that was deleted.
-  @_s.JsonKey(name: 'route')
   final RouteData route;
 
   DeleteRouteOutput({
-    @_s.required this.route,
+    required this.route,
   });
-  factory DeleteRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRouteOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualGatewayOutput {
   /// The virtual gateway that was deleted.
-  @_s.JsonKey(name: 'virtualGateway')
   final VirtualGatewayData virtualGateway;
 
   DeleteVirtualGatewayOutput({
-    @_s.required this.virtualGateway,
+    required this.virtualGateway,
   });
-  factory DeleteVirtualGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualGatewayOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualNodeOutput {
   /// The virtual node that was deleted.
-  @_s.JsonKey(name: 'virtualNode')
   final VirtualNodeData virtualNode;
 
   DeleteVirtualNodeOutput({
-    @_s.required this.virtualNode,
+    required this.virtualNode,
   });
-  factory DeleteVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualNodeOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualRouterOutput {
   /// The virtual router that was deleted.
-  @_s.JsonKey(name: 'virtualRouter')
   final VirtualRouterData virtualRouter;
 
   DeleteVirtualRouterOutput({
-    @_s.required this.virtualRouter,
+    required this.virtualRouter,
   });
-  factory DeleteVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualRouterOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualServiceOutput {
   /// The virtual service that was deleted.
-  @_s.JsonKey(name: 'virtualService')
   final VirtualServiceData virtualService;
 
   DeleteVirtualServiceOutput({
-    @_s.required this.virtualService,
+    required this.virtualService,
   });
-  factory DeleteVirtualServiceOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualServiceOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGatewayRouteOutput {
   /// The full description of your gateway route.
-  @_s.JsonKey(name: 'gatewayRoute')
   final GatewayRouteData gatewayRoute;
 
   DescribeGatewayRouteOutput({
-    @_s.required this.gatewayRoute,
+    required this.gatewayRoute,
   });
-  factory DescribeGatewayRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGatewayRouteOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMeshOutput {
   /// The full description of your service mesh.
-  @_s.JsonKey(name: 'mesh')
   final MeshData mesh;
 
   DescribeMeshOutput({
-    @_s.required this.mesh,
+    required this.mesh,
   });
-  factory DescribeMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMeshOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRouteOutput {
   /// The full description of your route.
-  @_s.JsonKey(name: 'route')
   final RouteData route;
 
   DescribeRouteOutput({
-    @_s.required this.route,
+    required this.route,
   });
-  factory DescribeRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRouteOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualGatewayOutput {
   /// The full description of your virtual gateway.
-  @_s.JsonKey(name: 'virtualGateway')
   final VirtualGatewayData virtualGateway;
 
   DescribeVirtualGatewayOutput({
-    @_s.required this.virtualGateway,
+    required this.virtualGateway,
   });
-  factory DescribeVirtualGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualGatewayOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualNodeOutput {
   /// The full description of your virtual node.
-  @_s.JsonKey(name: 'virtualNode')
   final VirtualNodeData virtualNode;
 
   DescribeVirtualNodeOutput({
-    @_s.required this.virtualNode,
+    required this.virtualNode,
   });
-  factory DescribeVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualNodeOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualRouterOutput {
   /// The full description of your virtual router.
-  @_s.JsonKey(name: 'virtualRouter')
   final VirtualRouterData virtualRouter;
 
   DescribeVirtualRouterOutput({
-    @_s.required this.virtualRouter,
+    required this.virtualRouter,
   });
-  factory DescribeVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualRouterOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualServiceOutput {
   /// The full description of your virtual service.
-  @_s.JsonKey(name: 'virtualService')
   final VirtualServiceData virtualService;
 
   DescribeVirtualServiceOutput({
-    @_s.required this.virtualService,
+    required this.virtualService,
   });
-  factory DescribeVirtualServiceOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualServiceOutputFromJson(json);
 }
 
 /// An object that represents the DNS service discovery information for your
 /// virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DnsServiceDiscovery {
   /// Specifies the DNS service discovery hostname for the virtual node.
-  @_s.JsonKey(name: 'hostname')
   final String hostname;
 
   DnsServiceDiscovery({
-    @_s.required this.hostname,
+    required this.hostname,
   });
-  factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) =>
-      _$DnsServiceDiscoveryFromJson(json);
+  factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return DnsServiceDiscovery(
+      hostname: json['hostname'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DnsServiceDiscoveryToJson(this);
+  Map<String, dynamic> toJson() {
+    final hostname = this.hostname;
+    return {
+      'hostname': hostname,
+    };
+  }
 }
 
 /// An object that represents a duration of time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Duration {
   /// A unit of time.
-  @_s.JsonKey(name: 'unit')
-  final DurationUnit unit;
+  final DurationUnit? unit;
 
   /// A number of time units.
-  @_s.JsonKey(name: 'value')
-  final int value;
+  final int? value;
 
   Duration({
     this.unit,
     this.value,
   });
-  factory Duration.fromJson(Map<String, dynamic> json) =>
-      _$DurationFromJson(json);
+  factory Duration.fromJson(Map<String, dynamic> json) {
+    return Duration(
+      unit: (json['unit'] as String?)?.toDurationUnit(),
+      value: json['value'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      if (unit != null) 'unit': unit.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum DurationUnit {
-  @_s.JsonValue('s')
   s,
-  @_s.JsonValue('ms')
   ms,
 }
 
+extension on DurationUnit {
+  String toValue() {
+    switch (this) {
+      case DurationUnit.s:
+        return 's';
+      case DurationUnit.ms:
+        return 'ms';
+    }
+  }
+}
+
+extension on String {
+  DurationUnit toDurationUnit() {
+    switch (this) {
+      case 's':
+        return DurationUnit.s;
+      case 'ms':
+        return DurationUnit.ms;
+    }
+    throw Exception('$this is not known in enum DurationUnit');
+  }
+}
+
 /// An object that represents the egress filter rules for a service mesh.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EgressFilter {
   /// The egress filter type. By default, the type is <code>DROP_ALL</code>, which
   /// allows egress only from virtual nodes to other defined resources in the
   /// service mesh (and any traffic to <code>*.amazonaws.com</code> for AWS API
   /// calls). You can set the egress filter type to <code>ALLOW_ALL</code> to
   /// allow egress to any endpoint inside or outside of the service mesh.
-  @_s.JsonKey(name: 'type')
   final EgressFilterType type;
 
   EgressFilter({
-    @_s.required this.type,
+    required this.type,
   });
-  factory EgressFilter.fromJson(Map<String, dynamic> json) =>
-      _$EgressFilterFromJson(json);
+  factory EgressFilter.fromJson(Map<String, dynamic> json) {
+    return EgressFilter(
+      type: (json['type'] as String).toEgressFilterType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EgressFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum EgressFilterType {
-  @_s.JsonValue('ALLOW_ALL')
   allowAll,
-  @_s.JsonValue('DROP_ALL')
   dropAll,
 }
 
+extension on EgressFilterType {
+  String toValue() {
+    switch (this) {
+      case EgressFilterType.allowAll:
+        return 'ALLOW_ALL';
+      case EgressFilterType.dropAll:
+        return 'DROP_ALL';
+    }
+  }
+}
+
+extension on String {
+  EgressFilterType toEgressFilterType() {
+    switch (this) {
+      case 'ALLOW_ALL':
+        return EgressFilterType.allowAll;
+      case 'DROP_ALL':
+        return EgressFilterType.dropAll;
+    }
+    throw Exception('$this is not known in enum EgressFilterType');
+  }
+}
+
 /// An object that represents an access log file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FileAccessLog {
   /// The file path to write access logs to. You can use <code>/dev/stdout</code>
   /// to send access logs to standard out and configure your Envoy container to
@@ -3613,86 +3521,80 @@ class FileAccessLog {
   /// The Envoy process must have write permissions to the path that you specify
   /// here. Otherwise, Envoy fails to bootstrap properly.
   /// </note>
-  @_s.JsonKey(name: 'path')
   final String path;
 
   FileAccessLog({
-    @_s.required this.path,
+    required this.path,
   });
-  factory FileAccessLog.fromJson(Map<String, dynamic> json) =>
-      _$FileAccessLogFromJson(json);
+  factory FileAccessLog.fromJson(Map<String, dynamic> json) {
+    return FileAccessLog(
+      path: json['path'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FileAccessLogToJson(this);
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      'path': path,
+    };
+  }
 }
 
 /// An object that represents a gateway route returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayRouteData {
   /// The name of the gateway route.
-  @_s.JsonKey(name: 'gatewayRouteName')
   final String gatewayRouteName;
 
   /// The name of the service mesh that the resource resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The specifications of the gateway route.
-  @_s.JsonKey(name: 'spec')
   final GatewayRouteSpec spec;
 
   /// The status of the gateway route.
-  @_s.JsonKey(name: 'status')
   final GatewayRouteStatus status;
 
   /// The virtual gateway that the gateway route is associated with.
-  @_s.JsonKey(name: 'virtualGatewayName')
   final String virtualGatewayName;
 
   GatewayRouteData({
-    @_s.required this.gatewayRouteName,
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualGatewayName,
+    required this.gatewayRouteName,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
+    required this.virtualGatewayName,
   });
-  factory GatewayRouteData.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteDataFromJson(json);
+  factory GatewayRouteData.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteData(
+      gatewayRouteName: json['gatewayRouteName'] as String,
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: GatewayRouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status:
+          GatewayRouteStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualGatewayName: json['virtualGatewayName'] as String,
+    );
+  }
 }
 
 /// An object that represents a gateway route returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayRouteRef {
   /// The full Amazon Resource Name (ARN) for the gateway route.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the gateway route.
-  @_s.JsonKey(name: 'gatewayRouteName')
   final String gatewayRouteName;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the resource resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -3700,7 +3602,6 @@ class GatewayRouteRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -3708,217 +3609,268 @@ class GatewayRouteRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The virtual gateway that the gateway route is associated with.
-  @_s.JsonKey(name: 'virtualGatewayName')
   final String virtualGatewayName;
 
   GatewayRouteRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.gatewayRouteName,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
-    @_s.required this.virtualGatewayName,
+    required this.arn,
+    required this.createdAt,
+    required this.gatewayRouteName,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
+    required this.virtualGatewayName,
   });
-  factory GatewayRouteRef.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteRefFromJson(json);
+  factory GatewayRouteRef.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      gatewayRouteName: json['gatewayRouteName'] as String,
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+      virtualGatewayName: json['virtualGatewayName'] as String,
+    );
+  }
 }
 
 /// An object that represents a gateway route specification. Specify one gateway
 /// route type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GatewayRouteSpec {
   /// An object that represents the specification of a gRPC gateway route.
-  @_s.JsonKey(name: 'grpcRoute')
-  final GrpcGatewayRoute grpcRoute;
+  final GrpcGatewayRoute? grpcRoute;
 
   /// An object that represents the specification of an HTTP/2 gateway route.
-  @_s.JsonKey(name: 'http2Route')
-  final HttpGatewayRoute http2Route;
+  final HttpGatewayRoute? http2Route;
 
   /// An object that represents the specification of an HTTP gateway route.
-  @_s.JsonKey(name: 'httpRoute')
-  final HttpGatewayRoute httpRoute;
+  final HttpGatewayRoute? httpRoute;
 
   GatewayRouteSpec({
     this.grpcRoute,
     this.http2Route,
     this.httpRoute,
   });
-  factory GatewayRouteSpec.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteSpecFromJson(json);
+  factory GatewayRouteSpec.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteSpec(
+      grpcRoute: json['grpcRoute'] != null
+          ? GrpcGatewayRoute.fromJson(json['grpcRoute'] as Map<String, dynamic>)
+          : null,
+      http2Route: json['http2Route'] != null
+          ? HttpGatewayRoute.fromJson(
+              json['http2Route'] as Map<String, dynamic>)
+          : null,
+      httpRoute: json['httpRoute'] != null
+          ? HttpGatewayRoute.fromJson(json['httpRoute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GatewayRouteSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpcRoute = this.grpcRoute;
+    final http2Route = this.http2Route;
+    final httpRoute = this.httpRoute;
+    return {
+      if (grpcRoute != null) 'grpcRoute': grpcRoute,
+      if (http2Route != null) 'http2Route': http2Route,
+      if (httpRoute != null) 'httpRoute': httpRoute,
+    };
+  }
 }
 
 /// An object that represents the current status of a gateway route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayRouteStatus {
   /// The current status for the gateway route.
-  @_s.JsonKey(name: 'status')
   final GatewayRouteStatusCode status;
 
   GatewayRouteStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory GatewayRouteStatus.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteStatusFromJson(json);
+  factory GatewayRouteStatus.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteStatus(
+      status: (json['status'] as String).toGatewayRouteStatusCode(),
+    );
+  }
 }
 
 enum GatewayRouteStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on GatewayRouteStatusCode {
+  String toValue() {
+    switch (this) {
+      case GatewayRouteStatusCode.active:
+        return 'ACTIVE';
+      case GatewayRouteStatusCode.inactive:
+        return 'INACTIVE';
+      case GatewayRouteStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  GatewayRouteStatusCode toGatewayRouteStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return GatewayRouteStatusCode.active;
+      case 'INACTIVE':
+        return GatewayRouteStatusCode.inactive;
+      case 'DELETED':
+        return GatewayRouteStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum GatewayRouteStatusCode');
+  }
+}
+
 /// An object that represents a gateway route target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GatewayRouteTarget {
   /// An object that represents a virtual service gateway route target.
-  @_s.JsonKey(name: 'virtualService')
   final GatewayRouteVirtualService virtualService;
 
   GatewayRouteTarget({
-    @_s.required this.virtualService,
+    required this.virtualService,
   });
-  factory GatewayRouteTarget.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteTargetFromJson(json);
+  factory GatewayRouteTarget.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteTarget(
+      virtualService: GatewayRouteVirtualService.fromJson(
+          json['virtualService'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GatewayRouteTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualService = this.virtualService;
+    return {
+      'virtualService': virtualService,
+    };
+  }
 }
 
 /// An object that represents the virtual service that traffic is routed to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GatewayRouteVirtualService {
   /// The name of the virtual service that traffic is routed to.
-  @_s.JsonKey(name: 'virtualServiceName')
   final String virtualServiceName;
 
   GatewayRouteVirtualService({
-    @_s.required this.virtualServiceName,
+    required this.virtualServiceName,
   });
-  factory GatewayRouteVirtualService.fromJson(Map<String, dynamic> json) =>
-      _$GatewayRouteVirtualServiceFromJson(json);
+  factory GatewayRouteVirtualService.fromJson(Map<String, dynamic> json) {
+    return GatewayRouteVirtualService(
+      virtualServiceName: json['virtualServiceName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GatewayRouteVirtualServiceToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualServiceName = this.virtualServiceName;
+    return {
+      'virtualServiceName': virtualServiceName,
+    };
+  }
 }
 
 /// An object that represents a gRPC gateway route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcGatewayRoute {
   /// An object that represents the action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
   final GrpcGatewayRouteAction action;
 
   /// An object that represents the criteria for determining a request match.
-  @_s.JsonKey(name: 'match')
   final GrpcGatewayRouteMatch match;
 
   GrpcGatewayRoute({
-    @_s.required this.action,
-    @_s.required this.match,
+    required this.action,
+    required this.match,
   });
-  factory GrpcGatewayRoute.fromJson(Map<String, dynamic> json) =>
-      _$GrpcGatewayRouteFromJson(json);
+  factory GrpcGatewayRoute.fromJson(Map<String, dynamic> json) {
+    return GrpcGatewayRoute(
+      action: GrpcGatewayRouteAction.fromJson(
+          json['action'] as Map<String, dynamic>),
+      match:
+          GrpcGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcGatewayRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    return {
+      'action': action,
+      'match': match,
+    };
+  }
 }
 
 /// An object that represents the action to take if a match is determined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcGatewayRouteAction {
   /// An object that represents the target that traffic is routed to when a
   /// request matches the gateway route.
-  @_s.JsonKey(name: 'target')
   final GatewayRouteTarget target;
 
   GrpcGatewayRouteAction({
-    @_s.required this.target,
+    required this.target,
   });
-  factory GrpcGatewayRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$GrpcGatewayRouteActionFromJson(json);
+  factory GrpcGatewayRouteAction.fromJson(Map<String, dynamic> json) {
+    return GrpcGatewayRouteAction(
+      target:
+          GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcGatewayRouteActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final target = this.target;
+    return {
+      'target': target,
+    };
+  }
 }
 
 /// An object that represents the criteria for determining a request match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcGatewayRouteMatch {
   /// The fully qualified domain name for the service to match from the request.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   GrpcGatewayRouteMatch({
     this.serviceName,
   });
-  factory GrpcGatewayRouteMatch.fromJson(Map<String, dynamic> json) =>
-      _$GrpcGatewayRouteMatchFromJson(json);
+  factory GrpcGatewayRouteMatch.fromJson(Map<String, dynamic> json) {
+    return GrpcGatewayRouteMatch(
+      serviceName: json['serviceName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcGatewayRouteMatchToJson(this);
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    return {
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
 }
 
 /// An object that represents a retry policy. Specify at least one value for at
 /// least one of the types of <code>RetryEvents</code>, a value for
 /// <code>maxRetries</code>, and a value for <code>perRetryTimeout</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRetryPolicy {
   /// The maximum number of retry attempts.
-  @_s.JsonKey(name: 'maxRetries')
   final int maxRetries;
 
   /// The timeout for each retry attempt.
-  @_s.JsonKey(name: 'perRetryTimeout')
   final Duration perRetryTimeout;
 
   /// Specify at least one of the valid values.
-  @_s.JsonKey(name: 'grpcRetryEvents')
-  final List<GrpcRetryPolicyEvent> grpcRetryEvents;
+  final List<GrpcRetryPolicyEvent>? grpcRetryEvents;
 
   /// Specify at least one of the following values.
   ///
@@ -3937,185 +3889,271 @@ class GrpcRetryPolicy {
   /// <b>stream-error</b> – Retry on refused stream
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'httpRetryEvents')
-  final List<String> httpRetryEvents;
+  final List<String>? httpRetryEvents;
 
   /// Specify a valid value. The event occurs before any processing of a request
   /// has started and is encountered when the upstream is temporarily or
   /// permanently unavailable.
-  @_s.JsonKey(name: 'tcpRetryEvents')
-  final List<TcpRetryPolicyEvent> tcpRetryEvents;
+  final List<TcpRetryPolicyEvent>? tcpRetryEvents;
 
   GrpcRetryPolicy({
-    @_s.required this.maxRetries,
-    @_s.required this.perRetryTimeout,
+    required this.maxRetries,
+    required this.perRetryTimeout,
     this.grpcRetryEvents,
     this.httpRetryEvents,
     this.tcpRetryEvents,
   });
-  factory GrpcRetryPolicy.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRetryPolicyFromJson(json);
+  factory GrpcRetryPolicy.fromJson(Map<String, dynamic> json) {
+    return GrpcRetryPolicy(
+      maxRetries: json['maxRetries'] as int,
+      perRetryTimeout:
+          Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+      grpcRetryEvents: (json['grpcRetryEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toGrpcRetryPolicyEvent())
+          .toList(),
+      httpRetryEvents: (json['httpRetryEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tcpRetryEvents: (json['tcpRetryEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toTcpRetryPolicyEvent())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRetryPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRetries = this.maxRetries;
+    final perRetryTimeout = this.perRetryTimeout;
+    final grpcRetryEvents = this.grpcRetryEvents;
+    final httpRetryEvents = this.httpRetryEvents;
+    final tcpRetryEvents = this.tcpRetryEvents;
+    return {
+      'maxRetries': maxRetries,
+      'perRetryTimeout': perRetryTimeout,
+      if (grpcRetryEvents != null)
+        'grpcRetryEvents': grpcRetryEvents.map((e) => e.toValue()).toList(),
+      if (httpRetryEvents != null) 'httpRetryEvents': httpRetryEvents,
+      if (tcpRetryEvents != null)
+        'tcpRetryEvents': tcpRetryEvents.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum GrpcRetryPolicyEvent {
-  @_s.JsonValue('cancelled')
   cancelled,
-  @_s.JsonValue('deadline-exceeded')
   deadlineExceeded,
-  @_s.JsonValue('internal')
   internal,
-  @_s.JsonValue('resource-exhausted')
   resourceExhausted,
-  @_s.JsonValue('unavailable')
   unavailable,
 }
 
+extension on GrpcRetryPolicyEvent {
+  String toValue() {
+    switch (this) {
+      case GrpcRetryPolicyEvent.cancelled:
+        return 'cancelled';
+      case GrpcRetryPolicyEvent.deadlineExceeded:
+        return 'deadline-exceeded';
+      case GrpcRetryPolicyEvent.internal:
+        return 'internal';
+      case GrpcRetryPolicyEvent.resourceExhausted:
+        return 'resource-exhausted';
+      case GrpcRetryPolicyEvent.unavailable:
+        return 'unavailable';
+    }
+  }
+}
+
+extension on String {
+  GrpcRetryPolicyEvent toGrpcRetryPolicyEvent() {
+    switch (this) {
+      case 'cancelled':
+        return GrpcRetryPolicyEvent.cancelled;
+      case 'deadline-exceeded':
+        return GrpcRetryPolicyEvent.deadlineExceeded;
+      case 'internal':
+        return GrpcRetryPolicyEvent.internal;
+      case 'resource-exhausted':
+        return GrpcRetryPolicyEvent.resourceExhausted;
+      case 'unavailable':
+        return GrpcRetryPolicyEvent.unavailable;
+    }
+    throw Exception('$this is not known in enum GrpcRetryPolicyEvent');
+  }
+}
+
 /// An object that represents a gRPC route type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRoute {
   /// An object that represents the action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
   final GrpcRouteAction action;
 
   /// An object that represents the criteria for determining a request match.
-  @_s.JsonKey(name: 'match')
   final GrpcRouteMatch match;
 
   /// An object that represents a retry policy.
-  @_s.JsonKey(name: 'retryPolicy')
-  final GrpcRetryPolicy retryPolicy;
+  final GrpcRetryPolicy? retryPolicy;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'timeout')
-  final GrpcTimeout timeout;
+  final GrpcTimeout? timeout;
 
   GrpcRoute({
-    @_s.required this.action,
-    @_s.required this.match,
+    required this.action,
+    required this.match,
     this.retryPolicy,
     this.timeout,
   });
-  factory GrpcRoute.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRouteFromJson(json);
+  factory GrpcRoute.fromJson(Map<String, dynamic> json) {
+    return GrpcRoute(
+      action: GrpcRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+      match: GrpcRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+      retryPolicy: json['retryPolicy'] != null
+          ? GrpcRetryPolicy.fromJson(
+              json['retryPolicy'] as Map<String, dynamic>)
+          : null,
+      timeout: json['timeout'] != null
+          ? GrpcTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    final retryPolicy = this.retryPolicy;
+    final timeout = this.timeout;
+    return {
+      'action': action,
+      'match': match,
+      if (retryPolicy != null) 'retryPolicy': retryPolicy,
+      if (timeout != null) 'timeout': timeout,
+    };
+  }
 }
 
 /// An object that represents the action to take if a match is determined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
-  @_s.JsonKey(name: 'weightedTargets')
   final List<WeightedTarget> weightedTargets;
 
   GrpcRouteAction({
-    @_s.required this.weightedTargets,
+    required this.weightedTargets,
   });
-  factory GrpcRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRouteActionFromJson(json);
+  factory GrpcRouteAction.fromJson(Map<String, dynamic> json) {
+    return GrpcRouteAction(
+      weightedTargets: (json['weightedTargets'] as List)
+          .whereNotNull()
+          .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRouteActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final weightedTargets = this.weightedTargets;
+    return {
+      'weightedTargets': weightedTargets,
+    };
+  }
 }
 
 /// An object that represents the criteria for determining a request match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRouteMatch {
   /// An object that represents the data to match from the request.
-  @_s.JsonKey(name: 'metadata')
-  final List<GrpcRouteMetadata> metadata;
+  final List<GrpcRouteMetadata>? metadata;
 
   /// The method name to match from the request. If you specify a name, you must
   /// also specify a <code>serviceName</code>.
-  @_s.JsonKey(name: 'methodName')
-  final String methodName;
+  final String? methodName;
 
   /// The fully qualified domain name for the service to match from the request.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   GrpcRouteMatch({
     this.metadata,
     this.methodName,
     this.serviceName,
   });
-  factory GrpcRouteMatch.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRouteMatchFromJson(json);
+  factory GrpcRouteMatch.fromJson(Map<String, dynamic> json) {
+    return GrpcRouteMatch(
+      metadata: (json['metadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => GrpcRouteMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      methodName: json['methodName'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRouteMatchToJson(this);
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final methodName = this.methodName;
+    final serviceName = this.serviceName;
+    return {
+      if (metadata != null) 'metadata': metadata,
+      if (methodName != null) 'methodName': methodName,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
 }
 
 /// An object that represents the match metadata for the route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRouteMetadata {
   /// The name of the route.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Specify <code>True</code> to match anything except the match criteria. The
   /// default value is <code>False</code>.
-  @_s.JsonKey(name: 'invert')
-  final bool invert;
+  final bool? invert;
 
   /// An object that represents the data to match from the request.
-  @_s.JsonKey(name: 'match')
-  final GrpcRouteMetadataMatchMethod match;
+  final GrpcRouteMetadataMatchMethod? match;
 
   GrpcRouteMetadata({
-    @_s.required this.name,
+    required this.name,
     this.invert,
     this.match,
   });
-  factory GrpcRouteMetadata.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRouteMetadataFromJson(json);
+  factory GrpcRouteMetadata.fromJson(Map<String, dynamic> json) {
+    return GrpcRouteMetadata(
+      name: json['name'] as String,
+      invert: json['invert'] as bool?,
+      match: json['match'] != null
+          ? GrpcRouteMetadataMatchMethod.fromJson(
+              json['match'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRouteMetadataToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final invert = this.invert;
+    final match = this.match;
+    return {
+      'name': name,
+      if (invert != null) 'invert': invert,
+      if (match != null) 'match': match,
+    };
+  }
 }
 
 /// An object that represents the match method. Specify one of the match values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcRouteMetadataMatchMethod {
   /// The value sent by the client must match the specified value exactly.
-  @_s.JsonKey(name: 'exact')
-  final String exact;
+  final String? exact;
 
   /// The value sent by the client must begin with the specified characters.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   /// An object that represents the range of values to match on.
-  @_s.JsonKey(name: 'range')
-  final MatchRange range;
+  final MatchRange? range;
 
   /// The value sent by the client must include the specified characters.
-  @_s.JsonKey(name: 'regex')
-  final String regex;
+  final String? regex;
 
   /// The value sent by the client must end with the specified characters.
-  @_s.JsonKey(name: 'suffix')
-  final String suffix;
+  final String? suffix;
 
   GrpcRouteMetadataMatchMethod({
     this.exact,
@@ -4124,23 +4162,39 @@ class GrpcRouteMetadataMatchMethod {
     this.regex,
     this.suffix,
   });
-  factory GrpcRouteMetadataMatchMethod.fromJson(Map<String, dynamic> json) =>
-      _$GrpcRouteMetadataMatchMethodFromJson(json);
+  factory GrpcRouteMetadataMatchMethod.fromJson(Map<String, dynamic> json) {
+    return GrpcRouteMetadataMatchMethod(
+      exact: json['exact'] as String?,
+      prefix: json['prefix'] as String?,
+      range: json['range'] != null
+          ? MatchRange.fromJson(json['range'] as Map<String, dynamic>)
+          : null,
+      regex: json['regex'] as String?,
+      suffix: json['suffix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcRouteMetadataMatchMethodToJson(this);
+  Map<String, dynamic> toJson() {
+    final exact = this.exact;
+    final prefix = this.prefix;
+    final range = this.range;
+    final regex = this.regex;
+    final suffix = this.suffix;
+    return {
+      if (exact != null) 'exact': exact,
+      if (prefix != null) 'prefix': prefix,
+      if (range != null) 'range': range,
+      if (regex != null) 'regex': regex,
+      if (suffix != null) 'suffix': suffix,
+    };
+  }
 }
 
 /// An object that represents types of timeouts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrpcTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
-  @_s.JsonKey(name: 'idle')
-  final Duration idle;
+  final Duration? idle;
 
   /// An object that represents a per request timeout. The default value is 15
   /// seconds. If you set a higher timeout, then make sure that the higher value
@@ -4148,46 +4202,50 @@ class GrpcTimeout {
   /// virtual node backend uses a virtual router provider to route to another
   /// virtual node, then the timeout should be greater than 15 seconds for the
   /// source and destination virtual node and the route.
-  @_s.JsonKey(name: 'perRequest')
-  final Duration perRequest;
+  final Duration? perRequest;
 
   GrpcTimeout({
     this.idle,
     this.perRequest,
   });
-  factory GrpcTimeout.fromJson(Map<String, dynamic> json) =>
-      _$GrpcTimeoutFromJson(json);
+  factory GrpcTimeout.fromJson(Map<String, dynamic> json) {
+    return GrpcTimeout(
+      idle: json['idle'] != null
+          ? Duration.fromJson(json['idle'] as Map<String, dynamic>)
+          : null,
+      perRequest: json['perRequest'] != null
+          ? Duration.fromJson(json['perRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrpcTimeoutToJson(this);
+  Map<String, dynamic> toJson() {
+    final idle = this.idle;
+    final perRequest = this.perRequest;
+    return {
+      if (idle != null) 'idle': idle,
+      if (perRequest != null) 'perRequest': perRequest,
+    };
+  }
 }
 
 /// An object that represents the method and value to match with the header
 /// value sent in a request. Specify one match method.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HeaderMatchMethod {
   /// The value sent by the client must match the specified value exactly.
-  @_s.JsonKey(name: 'exact')
-  final String exact;
+  final String? exact;
 
   /// The value sent by the client must begin with the specified characters.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   /// An object that represents the range of values to match on.
-  @_s.JsonKey(name: 'range')
-  final MatchRange range;
+  final MatchRange? range;
 
   /// The value sent by the client must include the specified characters.
-  @_s.JsonKey(name: 'regex')
-  final String regex;
+  final String? regex;
 
   /// The value sent by the client must end with the specified characters.
-  @_s.JsonKey(name: 'suffix')
-  final String suffix;
+  final String? suffix;
 
   HeaderMatchMethod({
     this.exact,
@@ -4196,124 +4254,164 @@ class HeaderMatchMethod {
     this.regex,
     this.suffix,
   });
-  factory HeaderMatchMethod.fromJson(Map<String, dynamic> json) =>
-      _$HeaderMatchMethodFromJson(json);
+  factory HeaderMatchMethod.fromJson(Map<String, dynamic> json) {
+    return HeaderMatchMethod(
+      exact: json['exact'] as String?,
+      prefix: json['prefix'] as String?,
+      range: json['range'] != null
+          ? MatchRange.fromJson(json['range'] as Map<String, dynamic>)
+          : null,
+      regex: json['regex'] as String?,
+      suffix: json['suffix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HeaderMatchMethodToJson(this);
+  Map<String, dynamic> toJson() {
+    final exact = this.exact;
+    final prefix = this.prefix;
+    final range = this.range;
+    final regex = this.regex;
+    final suffix = this.suffix;
+    return {
+      if (exact != null) 'exact': exact,
+      if (prefix != null) 'prefix': prefix,
+      if (range != null) 'range': range,
+      if (regex != null) 'regex': regex,
+      if (suffix != null) 'suffix': suffix,
+    };
+  }
 }
 
 /// An object that represents the health check policy for a virtual node's
 /// listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HealthCheckPolicy {
   /// The number of consecutive successful health checks that must occur before
   /// declaring listener healthy.
-  @_s.JsonKey(name: 'healthyThreshold')
   final int healthyThreshold;
 
   /// The time period in milliseconds between each health check execution.
-  @_s.JsonKey(name: 'intervalMillis')
   final int intervalMillis;
 
   /// The protocol for the health check request. If you specify <code>grpc</code>,
   /// then your service must conform to the <a
   /// href="https://github.com/grpc/grpc/blob/master/doc/health-checking.md">GRPC
   /// Health Checking Protocol</a>.
-  @_s.JsonKey(name: 'protocol')
   final PortProtocol protocol;
 
   /// The amount of time to wait when receiving a response from the health check,
   /// in milliseconds.
-  @_s.JsonKey(name: 'timeoutMillis')
   final int timeoutMillis;
 
   /// The number of consecutive failed health checks that must occur before
   /// declaring a virtual node unhealthy.
-  @_s.JsonKey(name: 'unhealthyThreshold')
   final int unhealthyThreshold;
 
   /// The destination path for the health check request. This value is only used
   /// if the specified protocol is HTTP or HTTP/2. For any other protocol, this
   /// value is ignored.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   /// The destination port for the health check request. This port must match the
   /// port defined in the <a>PortMapping</a> for the listener.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   HealthCheckPolicy({
-    @_s.required this.healthyThreshold,
-    @_s.required this.intervalMillis,
-    @_s.required this.protocol,
-    @_s.required this.timeoutMillis,
-    @_s.required this.unhealthyThreshold,
+    required this.healthyThreshold,
+    required this.intervalMillis,
+    required this.protocol,
+    required this.timeoutMillis,
+    required this.unhealthyThreshold,
     this.path,
     this.port,
   });
-  factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) =>
-      _$HealthCheckPolicyFromJson(json);
+  factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) {
+    return HealthCheckPolicy(
+      healthyThreshold: json['healthyThreshold'] as int,
+      intervalMillis: json['intervalMillis'] as int,
+      protocol: (json['protocol'] as String).toPortProtocol(),
+      timeoutMillis: json['timeoutMillis'] as int,
+      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      path: json['path'] as String?,
+      port: json['port'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HealthCheckPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final healthyThreshold = this.healthyThreshold;
+    final intervalMillis = this.intervalMillis;
+    final protocol = this.protocol;
+    final timeoutMillis = this.timeoutMillis;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    final path = this.path;
+    final port = this.port;
+    return {
+      'healthyThreshold': healthyThreshold,
+      'intervalMillis': intervalMillis,
+      'protocol': protocol.toValue(),
+      'timeoutMillis': timeoutMillis,
+      'unhealthyThreshold': unhealthyThreshold,
+      if (path != null) 'path': path,
+      if (port != null) 'port': port,
+    };
+  }
 }
 
 /// An object that represents an HTTP gateway route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpGatewayRoute {
   /// An object that represents the action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
   final HttpGatewayRouteAction action;
 
   /// An object that represents the criteria for determining a request match.
-  @_s.JsonKey(name: 'match')
   final HttpGatewayRouteMatch match;
 
   HttpGatewayRoute({
-    @_s.required this.action,
-    @_s.required this.match,
+    required this.action,
+    required this.match,
   });
-  factory HttpGatewayRoute.fromJson(Map<String, dynamic> json) =>
-      _$HttpGatewayRouteFromJson(json);
+  factory HttpGatewayRoute.fromJson(Map<String, dynamic> json) {
+    return HttpGatewayRoute(
+      action: HttpGatewayRouteAction.fromJson(
+          json['action'] as Map<String, dynamic>),
+      match:
+          HttpGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpGatewayRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    return {
+      'action': action,
+      'match': match,
+    };
+  }
 }
 
 /// An object that represents the action to take if a match is determined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpGatewayRouteAction {
   /// An object that represents the target that traffic is routed to when a
   /// request matches the gateway route.
-  @_s.JsonKey(name: 'target')
   final GatewayRouteTarget target;
 
   HttpGatewayRouteAction({
-    @_s.required this.target,
+    required this.target,
   });
-  factory HttpGatewayRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$HttpGatewayRouteActionFromJson(json);
+  factory HttpGatewayRouteAction.fromJson(Map<String, dynamic> json) {
+    return HttpGatewayRouteAction(
+      target:
+          GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpGatewayRouteActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final target = this.target;
+    return {
+      'target': target,
+    };
+  }
 }
 
 /// An object that represents the criteria for determining a request match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpGatewayRouteMatch {
   /// Specifies the path to match requests with. This parameter must always start
   /// with <code>/</code>, which by itself matches all requests to the virtual
@@ -4322,54 +4420,96 @@ class HttpGatewayRouteMatch {
   /// you want the route to match requests to
   /// <code>my-service.local/metrics</code>, your prefix should be
   /// <code>/metrics</code>.
-  @_s.JsonKey(name: 'prefix')
   final String prefix;
 
   HttpGatewayRouteMatch({
-    @_s.required this.prefix,
+    required this.prefix,
   });
-  factory HttpGatewayRouteMatch.fromJson(Map<String, dynamic> json) =>
-      _$HttpGatewayRouteMatchFromJson(json);
+  factory HttpGatewayRouteMatch.fromJson(Map<String, dynamic> json) {
+    return HttpGatewayRouteMatch(
+      prefix: json['prefix'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpGatewayRouteMatchToJson(this);
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    return {
+      'prefix': prefix,
+    };
+  }
 }
 
 enum HttpMethod {
-  @_s.JsonValue('GET')
   get,
-  @_s.JsonValue('HEAD')
   head,
-  @_s.JsonValue('POST')
   post,
-  @_s.JsonValue('PUT')
   put,
-  @_s.JsonValue('DELETE')
   delete,
-  @_s.JsonValue('CONNECT')
   connect,
-  @_s.JsonValue('OPTIONS')
   options,
-  @_s.JsonValue('TRACE')
   trace,
-  @_s.JsonValue('PATCH')
   patch,
+}
+
+extension on HttpMethod {
+  String toValue() {
+    switch (this) {
+      case HttpMethod.get:
+        return 'GET';
+      case HttpMethod.head:
+        return 'HEAD';
+      case HttpMethod.post:
+        return 'POST';
+      case HttpMethod.put:
+        return 'PUT';
+      case HttpMethod.delete:
+        return 'DELETE';
+      case HttpMethod.connect:
+        return 'CONNECT';
+      case HttpMethod.options:
+        return 'OPTIONS';
+      case HttpMethod.trace:
+        return 'TRACE';
+      case HttpMethod.patch:
+        return 'PATCH';
+    }
+  }
+}
+
+extension on String {
+  HttpMethod toHttpMethod() {
+    switch (this) {
+      case 'GET':
+        return HttpMethod.get;
+      case 'HEAD':
+        return HttpMethod.head;
+      case 'POST':
+        return HttpMethod.post;
+      case 'PUT':
+        return HttpMethod.put;
+      case 'DELETE':
+        return HttpMethod.delete;
+      case 'CONNECT':
+        return HttpMethod.connect;
+      case 'OPTIONS':
+        return HttpMethod.options;
+      case 'TRACE':
+        return HttpMethod.trace;
+      case 'PATCH':
+        return HttpMethod.patch;
+    }
+    throw Exception('$this is not known in enum HttpMethod');
+  }
 }
 
 /// An object that represents a retry policy. Specify at least one value for at
 /// least one of the types of <code>RetryEvents</code>, a value for
 /// <code>maxRetries</code>, and a value for <code>perRetryTimeout</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRetryPolicy {
   /// The maximum number of retry attempts.
-  @_s.JsonKey(name: 'maxRetries')
   final int maxRetries;
 
   /// The timeout for each retry attempt.
-  @_s.JsonKey(name: 'perRetryTimeout')
   final Duration perRetryTimeout;
 
   /// Specify at least one of the following values.
@@ -4389,121 +4529,165 @@ class HttpRetryPolicy {
   /// <b>stream-error</b> – Retry on refused stream
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'httpRetryEvents')
-  final List<String> httpRetryEvents;
+  final List<String>? httpRetryEvents;
 
   /// Specify a valid value. The event occurs before any processing of a request
   /// has started and is encountered when the upstream is temporarily or
   /// permanently unavailable.
-  @_s.JsonKey(name: 'tcpRetryEvents')
-  final List<TcpRetryPolicyEvent> tcpRetryEvents;
+  final List<TcpRetryPolicyEvent>? tcpRetryEvents;
 
   HttpRetryPolicy({
-    @_s.required this.maxRetries,
-    @_s.required this.perRetryTimeout,
+    required this.maxRetries,
+    required this.perRetryTimeout,
     this.httpRetryEvents,
     this.tcpRetryEvents,
   });
-  factory HttpRetryPolicy.fromJson(Map<String, dynamic> json) =>
-      _$HttpRetryPolicyFromJson(json);
+  factory HttpRetryPolicy.fromJson(Map<String, dynamic> json) {
+    return HttpRetryPolicy(
+      maxRetries: json['maxRetries'] as int,
+      perRetryTimeout:
+          Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+      httpRetryEvents: (json['httpRetryEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tcpRetryEvents: (json['tcpRetryEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toTcpRetryPolicyEvent())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpRetryPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRetries = this.maxRetries;
+    final perRetryTimeout = this.perRetryTimeout;
+    final httpRetryEvents = this.httpRetryEvents;
+    final tcpRetryEvents = this.tcpRetryEvents;
+    return {
+      'maxRetries': maxRetries,
+      'perRetryTimeout': perRetryTimeout,
+      if (httpRetryEvents != null) 'httpRetryEvents': httpRetryEvents,
+      if (tcpRetryEvents != null)
+        'tcpRetryEvents': tcpRetryEvents.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// An object that represents an HTTP or HTTP/2 route type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRoute {
   /// An object that represents the action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
   final HttpRouteAction action;
 
   /// An object that represents the criteria for determining a request match.
-  @_s.JsonKey(name: 'match')
   final HttpRouteMatch match;
 
   /// An object that represents a retry policy.
-  @_s.JsonKey(name: 'retryPolicy')
-  final HttpRetryPolicy retryPolicy;
+  final HttpRetryPolicy? retryPolicy;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'timeout')
-  final HttpTimeout timeout;
+  final HttpTimeout? timeout;
 
   HttpRoute({
-    @_s.required this.action,
-    @_s.required this.match,
+    required this.action,
+    required this.match,
     this.retryPolicy,
     this.timeout,
   });
-  factory HttpRoute.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteFromJson(json);
+  factory HttpRoute.fromJson(Map<String, dynamic> json) {
+    return HttpRoute(
+      action: HttpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+      match: HttpRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+      retryPolicy: json['retryPolicy'] != null
+          ? HttpRetryPolicy.fromJson(
+              json['retryPolicy'] as Map<String, dynamic>)
+          : null,
+      timeout: json['timeout'] != null
+          ? HttpTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    final retryPolicy = this.retryPolicy;
+    final timeout = this.timeout;
+    return {
+      'action': action,
+      'match': match,
+      if (retryPolicy != null) 'retryPolicy': retryPolicy,
+      if (timeout != null) 'timeout': timeout,
+    };
+  }
 }
 
 /// An object that represents the action to take if a match is determined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
-  @_s.JsonKey(name: 'weightedTargets')
   final List<WeightedTarget> weightedTargets;
 
   HttpRouteAction({
-    @_s.required this.weightedTargets,
+    required this.weightedTargets,
   });
-  factory HttpRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteActionFromJson(json);
+  factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
+    return HttpRouteAction(
+      weightedTargets: (json['weightedTargets'] as List)
+          .whereNotNull()
+          .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpRouteActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final weightedTargets = this.weightedTargets;
+    return {
+      'weightedTargets': weightedTargets,
+    };
+  }
 }
 
 /// An object that represents the HTTP header in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRouteHeader {
   /// A name for the HTTP header in the client request that will be matched on.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Specify <code>True</code> to match anything except the match criteria. The
   /// default value is <code>False</code>.
-  @_s.JsonKey(name: 'invert')
-  final bool invert;
+  final bool? invert;
 
   /// The <code>HeaderMatchMethod</code> object.
-  @_s.JsonKey(name: 'match')
-  final HeaderMatchMethod match;
+  final HeaderMatchMethod? match;
 
   HttpRouteHeader({
-    @_s.required this.name,
+    required this.name,
     this.invert,
     this.match,
   });
-  factory HttpRouteHeader.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteHeaderFromJson(json);
+  factory HttpRouteHeader.fromJson(Map<String, dynamic> json) {
+    return HttpRouteHeader(
+      name: json['name'] as String,
+      invert: json['invert'] as bool?,
+      match: json['match'] != null
+          ? HeaderMatchMethod.fromJson(json['match'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpRouteHeaderToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final invert = this.invert;
+    final match = this.match;
+    return {
+      'name': name,
+      if (invert != null) 'invert': invert,
+      if (match != null) 'match': match,
+    };
+  }
 }
 
 /// An object that represents the requirements for a route to match HTTP
 /// requests for a virtual router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRouteMatch {
   /// Specifies the path to match requests with. This parameter must always start
   /// with <code>/</code>, which by itself matches all requests to the virtual
@@ -4512,51 +4696,82 @@ class HttpRouteMatch {
   /// you want the route to match requests to
   /// <code>my-service.local/metrics</code>, your prefix should be
   /// <code>/metrics</code>.
-  @_s.JsonKey(name: 'prefix')
   final String prefix;
 
   /// An object that represents the client request headers to match on.
-  @_s.JsonKey(name: 'headers')
-  final List<HttpRouteHeader> headers;
+  final List<HttpRouteHeader>? headers;
 
   /// The client request method to match on. Specify only one.
-  @_s.JsonKey(name: 'method')
-  final HttpMethod method;
+  final HttpMethod? method;
 
   /// The client request scheme to match on. Specify only one.
-  @_s.JsonKey(name: 'scheme')
-  final HttpScheme scheme;
+  final HttpScheme? scheme;
 
   HttpRouteMatch({
-    @_s.required this.prefix,
+    required this.prefix,
     this.headers,
     this.method,
     this.scheme,
   });
-  factory HttpRouteMatch.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteMatchFromJson(json);
+  factory HttpRouteMatch.fromJson(Map<String, dynamic> json) {
+    return HttpRouteMatch(
+      prefix: json['prefix'] as String,
+      headers: (json['headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => HttpRouteHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      method: (json['method'] as String?)?.toHttpMethod(),
+      scheme: (json['scheme'] as String?)?.toHttpScheme(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpRouteMatchToJson(this);
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final headers = this.headers;
+    final method = this.method;
+    final scheme = this.scheme;
+    return {
+      'prefix': prefix,
+      if (headers != null) 'headers': headers,
+      if (method != null) 'method': method.toValue(),
+      if (scheme != null) 'scheme': scheme.toValue(),
+    };
+  }
 }
 
 enum HttpScheme {
-  @_s.JsonValue('http')
   http,
-  @_s.JsonValue('https')
   https,
 }
 
+extension on HttpScheme {
+  String toValue() {
+    switch (this) {
+      case HttpScheme.http:
+        return 'http';
+      case HttpScheme.https:
+        return 'https';
+    }
+  }
+}
+
+extension on String {
+  HttpScheme toHttpScheme() {
+    switch (this) {
+      case 'http':
+        return HttpScheme.http;
+      case 'https':
+        return HttpScheme.https;
+    }
+    throw Exception('$this is not known in enum HttpScheme');
+  }
+}
+
 /// An object that represents types of timeouts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
-  @_s.JsonKey(name: 'idle')
-  final Duration idle;
+  final Duration? idle;
 
   /// An object that represents a per request timeout. The default value is 15
   /// seconds. If you set a higher timeout, then make sure that the higher value
@@ -4564,28 +4779,36 @@ class HttpTimeout {
   /// virtual node backend uses a virtual router provider to route to another
   /// virtual node, then the timeout should be greater than 15 seconds for the
   /// source and destination virtual node and the route.
-  @_s.JsonKey(name: 'perRequest')
-  final Duration perRequest;
+  final Duration? perRequest;
 
   HttpTimeout({
     this.idle,
     this.perRequest,
   });
-  factory HttpTimeout.fromJson(Map<String, dynamic> json) =>
-      _$HttpTimeoutFromJson(json);
+  factory HttpTimeout.fromJson(Map<String, dynamic> json) {
+    return HttpTimeout(
+      idle: json['idle'] != null
+          ? Duration.fromJson(json['idle'] as Map<String, dynamic>)
+          : null,
+      perRequest: json['perRequest'] != null
+          ? Duration.fromJson(json['perRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpTimeoutToJson(this);
+  Map<String, dynamic> toJson() {
+    final idle = this.idle;
+    final perRequest = this.perRequest;
+    return {
+      if (idle != null) 'idle': idle,
+      if (perRequest != null) 'perRequest': perRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGatewayRoutesOutput {
   /// The list of existing gateway routes for the specified service mesh and
   /// virtual gateway.
-  @_s.JsonKey(name: 'gatewayRoutes')
   final List<GatewayRouteRef> gatewayRoutes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4593,26 +4816,26 @@ class ListGatewayRoutesOutput {
   /// <code>ListGatewayRoutes</code> request exceed <code>limit</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGatewayRoutesOutput({
-    @_s.required this.gatewayRoutes,
+    required this.gatewayRoutes,
     this.nextToken,
   });
-  factory ListGatewayRoutesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListGatewayRoutesOutputFromJson(json);
+  factory ListGatewayRoutesOutput.fromJson(Map<String, dynamic> json) {
+    return ListGatewayRoutesOutput(
+      gatewayRoutes: (json['gatewayRoutes'] as List)
+          .whereNotNull()
+          .map((e) => GatewayRouteRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMeshesOutput {
   /// The list of existing service meshes.
-  @_s.JsonKey(name: 'meshes')
   final List<MeshRef> meshes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4620,27 +4843,27 @@ class ListMeshesOutput {
   /// <code>ListMeshes</code> request exceed <code>limit</code>, you can use this
   /// value to retrieve the next page of results. This value is <code>null</code>
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMeshesOutput({
-    @_s.required this.meshes,
+    required this.meshes,
     this.nextToken,
   });
-  factory ListMeshesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListMeshesOutputFromJson(json);
+  factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
+    return ListMeshesOutput(
+      meshes: (json['meshes'] as List)
+          .whereNotNull()
+          .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoutesOutput {
   /// The list of existing routes for the specified service mesh and virtual
   /// router.
-  @_s.JsonKey(name: 'routes')
   final List<RouteRef> routes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4648,26 +4871,26 @@ class ListRoutesOutput {
   /// <code>ListRoutes</code> request exceed <code>limit</code>, you can use this
   /// value to retrieve the next page of results. This value is <code>null</code>
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRoutesOutput({
-    @_s.required this.routes,
+    required this.routes,
     this.nextToken,
   });
-  factory ListRoutesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListRoutesOutputFromJson(json);
+  factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRoutesOutput(
+      routes: (json['routes'] as List)
+          .whereNotNull()
+          .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
   final List<TagRef> tags;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4675,25 +4898,25 @@ class ListTagsForResourceOutput {
   /// <code>ListTagsForResource</code> request exceed <code>limit</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTagsForResourceOutput({
-    @_s.required this.tags,
+    required this.tags,
     this.nextToken,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as List)
+          .whereNotNull()
+          .map((e) => TagRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualGatewaysOutput {
   /// The list of existing virtual gateways for the specified service mesh.
-  @_s.JsonKey(name: 'virtualGateways')
   final List<VirtualGatewayRef> virtualGateways;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4701,26 +4924,26 @@ class ListVirtualGatewaysOutput {
   /// <code>ListVirtualGateways</code> request exceed <code>limit</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualGatewaysOutput({
-    @_s.required this.virtualGateways,
+    required this.virtualGateways,
     this.nextToken,
   });
-  factory ListVirtualGatewaysOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualGatewaysOutputFromJson(json);
+  factory ListVirtualGatewaysOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualGatewaysOutput(
+      virtualGateways: (json['virtualGateways'] as List)
+          .whereNotNull()
+          .map((e) => VirtualGatewayRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualNodesOutput {
   /// The list of existing virtual nodes for the specified service mesh.
-  @_s.JsonKey(name: 'virtualNodes')
   final List<VirtualNodeRef> virtualNodes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4728,26 +4951,26 @@ class ListVirtualNodesOutput {
   /// <code>ListVirtualNodes</code> request exceed <code>limit</code>, you can use
   /// this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualNodesOutput({
-    @_s.required this.virtualNodes,
+    required this.virtualNodes,
     this.nextToken,
   });
-  factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualNodesOutputFromJson(json);
+  factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualNodesOutput(
+      virtualNodes: (json['virtualNodes'] as List)
+          .whereNotNull()
+          .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualRoutersOutput {
   /// The list of existing virtual routers for the specified service mesh.
-  @_s.JsonKey(name: 'virtualRouters')
   final List<VirtualRouterRef> virtualRouters;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4755,26 +4978,26 @@ class ListVirtualRoutersOutput {
   /// <code>ListVirtualRouters</code> request exceed <code>limit</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualRoutersOutput({
-    @_s.required this.virtualRouters,
+    required this.virtualRouters,
     this.nextToken,
   });
-  factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualRoutersOutputFromJson(json);
+  factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualRoutersOutput(
+      virtualRouters: (json['virtualRouters'] as List)
+          .whereNotNull()
+          .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualServicesOutput {
   /// The list of existing virtual services for the specified service mesh.
-  @_s.JsonKey(name: 'virtualServices')
   final List<VirtualServiceRef> virtualServices;
 
   /// The <code>nextToken</code> value to include in a future
@@ -4782,84 +5005,107 @@ class ListVirtualServicesOutput {
   /// <code>ListVirtualServices</code> request exceed <code>limit</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualServicesOutput({
-    @_s.required this.virtualServices,
+    required this.virtualServices,
     this.nextToken,
   });
-  factory ListVirtualServicesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualServicesOutputFromJson(json);
+  factory ListVirtualServicesOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualServicesOutput(
+      virtualServices: (json['virtualServices'] as List)
+          .whereNotNull()
+          .map((e) => VirtualServiceRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// An object that represents a listener for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Listener {
   /// The port mapping information for the listener.
-  @_s.JsonKey(name: 'portMapping')
   final PortMapping portMapping;
 
   /// The connection pool information for the listener.
-  @_s.JsonKey(name: 'connectionPool')
-  final VirtualNodeConnectionPool connectionPool;
+  final VirtualNodeConnectionPool? connectionPool;
 
   /// The health check information for the listener.
-  @_s.JsonKey(name: 'healthCheck')
-  final HealthCheckPolicy healthCheck;
+  final HealthCheckPolicy? healthCheck;
 
   /// The outlier detection information for the listener.
-  @_s.JsonKey(name: 'outlierDetection')
-  final OutlierDetection outlierDetection;
+  final OutlierDetection? outlierDetection;
 
   /// An object that represents timeouts for different protocols.
-  @_s.JsonKey(name: 'timeout')
-  final ListenerTimeout timeout;
+  final ListenerTimeout? timeout;
 
   /// A reference to an object that represents the Transport Layer Security (TLS)
   /// properties for a listener.
-  @_s.JsonKey(name: 'tls')
-  final ListenerTls tls;
+  final ListenerTls? tls;
 
   Listener({
-    @_s.required this.portMapping,
+    required this.portMapping,
     this.connectionPool,
     this.healthCheck,
     this.outlierDetection,
     this.timeout,
     this.tls,
   });
-  factory Listener.fromJson(Map<String, dynamic> json) =>
-      _$ListenerFromJson(json);
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      portMapping:
+          PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+      connectionPool: json['connectionPool'] != null
+          ? VirtualNodeConnectionPool.fromJson(
+              json['connectionPool'] as Map<String, dynamic>)
+          : null,
+      healthCheck: json['healthCheck'] != null
+          ? HealthCheckPolicy.fromJson(
+              json['healthCheck'] as Map<String, dynamic>)
+          : null,
+      outlierDetection: json['outlierDetection'] != null
+          ? OutlierDetection.fromJson(
+              json['outlierDetection'] as Map<String, dynamic>)
+          : null,
+      timeout: json['timeout'] != null
+          ? ListenerTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+      tls: json['tls'] != null
+          ? ListenerTls.fromJson(json['tls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerToJson(this);
+  Map<String, dynamic> toJson() {
+    final portMapping = this.portMapping;
+    final connectionPool = this.connectionPool;
+    final healthCheck = this.healthCheck;
+    final outlierDetection = this.outlierDetection;
+    final timeout = this.timeout;
+    final tls = this.tls;
+    return {
+      'portMapping': portMapping,
+      if (connectionPool != null) 'connectionPool': connectionPool,
+      if (healthCheck != null) 'healthCheck': healthCheck,
+      if (outlierDetection != null) 'outlierDetection': outlierDetection,
+      if (timeout != null) 'timeout': timeout,
+      if (tls != null) 'tls': tls,
+    };
+  }
 }
 
 /// An object that represents timeouts for different protocols.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ListenerTimeout {
-  @_s.JsonKey(name: 'grpc')
-  final GrpcTimeout grpc;
+  final GrpcTimeout? grpc;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'http')
-  final HttpTimeout http;
+  final HttpTimeout? http;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'http2')
-  final HttpTimeout http2;
+  final HttpTimeout? http2;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'tcp')
-  final TcpTimeout tcp;
+  final TcpTimeout? tcp;
 
   ListenerTimeout({
     this.grpc,
@@ -4867,22 +5113,41 @@ class ListenerTimeout {
     this.http2,
     this.tcp,
   });
-  factory ListenerTimeout.fromJson(Map<String, dynamic> json) =>
-      _$ListenerTimeoutFromJson(json);
+  factory ListenerTimeout.fromJson(Map<String, dynamic> json) {
+    return ListenerTimeout(
+      grpc: json['grpc'] != null
+          ? GrpcTimeout.fromJson(json['grpc'] as Map<String, dynamic>)
+          : null,
+      http: json['http'] != null
+          ? HttpTimeout.fromJson(json['http'] as Map<String, dynamic>)
+          : null,
+      http2: json['http2'] != null
+          ? HttpTimeout.fromJson(json['http2'] as Map<String, dynamic>)
+          : null,
+      tcp: json['tcp'] != null
+          ? TcpTimeout.fromJson(json['tcp'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerTimeoutToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpc = this.grpc;
+    final http = this.http;
+    final http2 = this.http2;
+    final tcp = this.tcp;
+    return {
+      if (grpc != null) 'grpc': grpc,
+      if (http != null) 'http': http,
+      if (http2 != null) 'http2': http2,
+      if (tcp != null) 'tcp': tcp,
+    };
+  }
 }
 
 /// An object that represents the Transport Layer Security (TLS) properties for
 /// a listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ListenerTls {
   /// A reference to an object that represents a listener's TLS certificate.
-  @_s.JsonKey(name: 'certificate')
   final ListenerTlsCertificate certificate;
 
   /// Specify one of the following modes.
@@ -4898,68 +5163,91 @@ class ListenerTls {
   /// <b/>DISABLED – Listener only accepts connections without TLS.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'mode')
   final ListenerTlsMode mode;
 
   ListenerTls({
-    @_s.required this.certificate,
-    @_s.required this.mode,
+    required this.certificate,
+    required this.mode,
   });
-  factory ListenerTls.fromJson(Map<String, dynamic> json) =>
-      _$ListenerTlsFromJson(json);
+  factory ListenerTls.fromJson(Map<String, dynamic> json) {
+    return ListenerTls(
+      certificate: ListenerTlsCertificate.fromJson(
+          json['certificate'] as Map<String, dynamic>),
+      mode: (json['mode'] as String).toListenerTlsMode(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerTlsToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final mode = this.mode;
+    return {
+      'certificate': certificate,
+      'mode': mode.toValue(),
+    };
+  }
 }
 
 /// An object that represents an AWS Certicate Manager (ACM) certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ListenerTlsAcmCertificate {
   /// The Amazon Resource Name (ARN) for the certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
   /// Layer Security (TLS)</a>.
-  @_s.JsonKey(name: 'certificateArn')
   final String certificateArn;
 
   ListenerTlsAcmCertificate({
-    @_s.required this.certificateArn,
+    required this.certificateArn,
   });
-  factory ListenerTlsAcmCertificate.fromJson(Map<String, dynamic> json) =>
-      _$ListenerTlsAcmCertificateFromJson(json);
+  factory ListenerTlsAcmCertificate.fromJson(Map<String, dynamic> json) {
+    return ListenerTlsAcmCertificate(
+      certificateArn: json['certificateArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerTlsAcmCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      'certificateArn': certificateArn,
+    };
+  }
 }
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ListenerTlsCertificate {
   /// A reference to an object that represents an AWS Certicate Manager (ACM)
   /// certificate.
-  @_s.JsonKey(name: 'acm')
-  final ListenerTlsAcmCertificate acm;
+  final ListenerTlsAcmCertificate? acm;
 
   /// A reference to an object that represents a local file certificate.
-  @_s.JsonKey(name: 'file')
-  final ListenerTlsFileCertificate file;
+  final ListenerTlsFileCertificate? file;
 
   ListenerTlsCertificate({
     this.acm,
     this.file,
   });
-  factory ListenerTlsCertificate.fromJson(Map<String, dynamic> json) =>
-      _$ListenerTlsCertificateFromJson(json);
+  factory ListenerTlsCertificate.fromJson(Map<String, dynamic> json) {
+    return ListenerTlsCertificate(
+      acm: json['acm'] != null
+          ? ListenerTlsAcmCertificate.fromJson(
+              json['acm'] as Map<String, dynamic>)
+          : null,
+      file: json['file'] != null
+          ? ListenerTlsFileCertificate.fromJson(
+              json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerTlsCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final acm = this.acm;
+    final file = this.file;
+    return {
+      if (acm != null) 'acm': acm,
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// An object that represents a local file certificate. The certificate must
@@ -4967,144 +5255,167 @@ class ListenerTlsCertificate {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
 /// Layer Security (TLS)</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ListenerTlsFileCertificate {
   /// The certificate chain for the certificate.
-  @_s.JsonKey(name: 'certificateChain')
   final String certificateChain;
 
   /// The private key for a certificate stored on the file system of the virtual
   /// node that the proxy is running on.
-  @_s.JsonKey(name: 'privateKey')
   final String privateKey;
 
   ListenerTlsFileCertificate({
-    @_s.required this.certificateChain,
-    @_s.required this.privateKey,
+    required this.certificateChain,
+    required this.privateKey,
   });
-  factory ListenerTlsFileCertificate.fromJson(Map<String, dynamic> json) =>
-      _$ListenerTlsFileCertificateFromJson(json);
+  factory ListenerTlsFileCertificate.fromJson(Map<String, dynamic> json) {
+    return ListenerTlsFileCertificate(
+      certificateChain: json['certificateChain'] as String,
+      privateKey: json['privateKey'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ListenerTlsFileCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateChain = this.certificateChain;
+    final privateKey = this.privateKey;
+    return {
+      'certificateChain': certificateChain,
+      'privateKey': privateKey,
+    };
+  }
 }
 
 enum ListenerTlsMode {
-  @_s.JsonValue('STRICT')
   strict,
-  @_s.JsonValue('PERMISSIVE')
   permissive,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on ListenerTlsMode {
+  String toValue() {
+    switch (this) {
+      case ListenerTlsMode.strict:
+        return 'STRICT';
+      case ListenerTlsMode.permissive:
+        return 'PERMISSIVE';
+      case ListenerTlsMode.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ListenerTlsMode toListenerTlsMode() {
+    switch (this) {
+      case 'STRICT':
+        return ListenerTlsMode.strict;
+      case 'PERMISSIVE':
+        return ListenerTlsMode.permissive;
+      case 'DISABLED':
+        return ListenerTlsMode.disabled;
+    }
+    throw Exception('$this is not known in enum ListenerTlsMode');
+  }
+}
+
 /// An object that represents the logging information for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Logging {
   /// The access log configuration for a virtual node.
-  @_s.JsonKey(name: 'accessLog')
-  final AccessLog accessLog;
+  final AccessLog? accessLog;
 
   Logging({
     this.accessLog,
   });
-  factory Logging.fromJson(Map<String, dynamic> json) =>
-      _$LoggingFromJson(json);
+  factory Logging.fromJson(Map<String, dynamic> json) {
+    return Logging(
+      accessLog: json['accessLog'] != null
+          ? AccessLog.fromJson(json['accessLog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LoggingToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessLog = this.accessLog;
+    return {
+      if (accessLog != null) 'accessLog': accessLog,
+    };
+  }
 }
 
 /// An object that represents the range of values to match on. The first
 /// character of the range is included in the range, though the last character
 /// is not. For example, if the range specified were 1-100, only values 1-99
 /// would be matched.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MatchRange {
   /// The end of the range.
-  @_s.JsonKey(name: 'end')
   final int end;
 
   /// The start of the range.
-  @_s.JsonKey(name: 'start')
   final int start;
 
   MatchRange({
-    @_s.required this.end,
-    @_s.required this.start,
+    required this.end,
+    required this.start,
   });
-  factory MatchRange.fromJson(Map<String, dynamic> json) =>
-      _$MatchRangeFromJson(json);
+  factory MatchRange.fromJson(Map<String, dynamic> json) {
+    return MatchRange(
+      end: json['end'] as int,
+      start: json['start'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MatchRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      'end': end,
+      'start': start,
+    };
+  }
 }
 
 /// An object that represents a service mesh returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshData {
   /// The name of the service mesh.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The associated metadata for the service mesh.
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The associated specification for the service mesh.
-  @_s.JsonKey(name: 'spec')
   final MeshSpec spec;
 
   /// The status of the service mesh.
-  @_s.JsonKey(name: 'status')
   final MeshStatus status;
 
   MeshData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
   });
-  factory MeshData.fromJson(Map<String, dynamic> json) =>
-      _$MeshDataFromJson(json);
+  factory MeshData.fromJson(Map<String, dynamic> json) {
+    return MeshData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: MeshSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status: MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// An object that represents a service mesh returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshRef {
   /// The full Amazon Resource Name (ARN) of the service mesh.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -5112,7 +5423,6 @@ class MeshRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -5120,166 +5430,229 @@ class MeshRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   MeshRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
   });
-  factory MeshRef.fromJson(Map<String, dynamic> json) =>
-      _$MeshRefFromJson(json);
+  factory MeshRef.fromJson(Map<String, dynamic> json) {
+    return MeshRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+    );
+  }
 }
 
 /// An object that represents the specification of a service mesh.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MeshSpec {
   /// The egress filter rules for the service mesh.
-  @_s.JsonKey(name: 'egressFilter')
-  final EgressFilter egressFilter;
+  final EgressFilter? egressFilter;
 
   MeshSpec({
     this.egressFilter,
   });
-  factory MeshSpec.fromJson(Map<String, dynamic> json) =>
-      _$MeshSpecFromJson(json);
+  factory MeshSpec.fromJson(Map<String, dynamic> json) {
+    return MeshSpec(
+      egressFilter: json['egressFilter'] != null
+          ? EgressFilter.fromJson(json['egressFilter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MeshSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final egressFilter = this.egressFilter;
+    return {
+      if (egressFilter != null) 'egressFilter': egressFilter,
+    };
+  }
 }
 
 /// An object that represents the status of a service mesh.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshStatus {
   /// The current mesh status.
-  @_s.JsonKey(name: 'status')
-  final MeshStatusCode status;
+  final MeshStatusCode? status;
 
   MeshStatus({
     this.status,
   });
-  factory MeshStatus.fromJson(Map<String, dynamic> json) =>
-      _$MeshStatusFromJson(json);
+  factory MeshStatus.fromJson(Map<String, dynamic> json) {
+    return MeshStatus(
+      status: (json['status'] as String?)?.toMeshStatusCode(),
+    );
+  }
 }
 
 enum MeshStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on MeshStatusCode {
+  String toValue() {
+    switch (this) {
+      case MeshStatusCode.active:
+        return 'ACTIVE';
+      case MeshStatusCode.inactive:
+        return 'INACTIVE';
+      case MeshStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  MeshStatusCode toMeshStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return MeshStatusCode.active;
+      case 'INACTIVE':
+        return MeshStatusCode.inactive;
+      case 'DELETED':
+        return MeshStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum MeshStatusCode');
+  }
 }
 
 /// An object that represents the outlier detection for a virtual node's
 /// listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutlierDetection {
   /// The base amount of time for which a host is ejected.
-  @_s.JsonKey(name: 'baseEjectionDuration')
   final Duration baseEjectionDuration;
 
   /// The time interval between ejection sweep analysis.
-  @_s.JsonKey(name: 'interval')
   final Duration interval;
 
   /// Maximum percentage of hosts in load balancing pool for upstream service that
   /// can be ejected. Will eject at least one host regardless of the value.
-  @_s.JsonKey(name: 'maxEjectionPercent')
   final int maxEjectionPercent;
 
   /// Number of consecutive <code>5xx</code> errors required for ejection.
-  @_s.JsonKey(name: 'maxServerErrors')
   final int maxServerErrors;
 
   OutlierDetection({
-    @_s.required this.baseEjectionDuration,
-    @_s.required this.interval,
-    @_s.required this.maxEjectionPercent,
-    @_s.required this.maxServerErrors,
+    required this.baseEjectionDuration,
+    required this.interval,
+    required this.maxEjectionPercent,
+    required this.maxServerErrors,
   });
-  factory OutlierDetection.fromJson(Map<String, dynamic> json) =>
-      _$OutlierDetectionFromJson(json);
+  factory OutlierDetection.fromJson(Map<String, dynamic> json) {
+    return OutlierDetection(
+      baseEjectionDuration: Duration.fromJson(
+          json['baseEjectionDuration'] as Map<String, dynamic>),
+      interval: Duration.fromJson(json['interval'] as Map<String, dynamic>),
+      maxEjectionPercent: json['maxEjectionPercent'] as int,
+      maxServerErrors: json['maxServerErrors'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$OutlierDetectionToJson(this);
+  Map<String, dynamic> toJson() {
+    final baseEjectionDuration = this.baseEjectionDuration;
+    final interval = this.interval;
+    final maxEjectionPercent = this.maxEjectionPercent;
+    final maxServerErrors = this.maxServerErrors;
+    return {
+      'baseEjectionDuration': baseEjectionDuration,
+      'interval': interval,
+      'maxEjectionPercent': maxEjectionPercent,
+      'maxServerErrors': maxServerErrors,
+    };
+  }
 }
 
 /// An object that represents a port mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortMapping {
   /// The port used for the port mapping.
-  @_s.JsonKey(name: 'port')
   final int port;
 
   /// The protocol used for the port mapping. Specify one protocol.
-  @_s.JsonKey(name: 'protocol')
   final PortProtocol protocol;
 
   PortMapping({
-    @_s.required this.port,
-    @_s.required this.protocol,
+    required this.port,
+    required this.protocol,
   });
-  factory PortMapping.fromJson(Map<String, dynamic> json) =>
-      _$PortMappingFromJson(json);
+  factory PortMapping.fromJson(Map<String, dynamic> json) {
+    return PortMapping(
+      port: json['port'] as int,
+      protocol: (json['protocol'] as String).toPortProtocol(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PortMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      'port': port,
+      'protocol': protocol.toValue(),
+    };
+  }
 }
 
 enum PortProtocol {
-  @_s.JsonValue('http')
   http,
-  @_s.JsonValue('tcp')
   tcp,
-  @_s.JsonValue('http2')
   http2,
-  @_s.JsonValue('grpc')
   grpc,
 }
 
+extension on PortProtocol {
+  String toValue() {
+    switch (this) {
+      case PortProtocol.http:
+        return 'http';
+      case PortProtocol.tcp:
+        return 'tcp';
+      case PortProtocol.http2:
+        return 'http2';
+      case PortProtocol.grpc:
+        return 'grpc';
+    }
+  }
+}
+
+extension on String {
+  PortProtocol toPortProtocol() {
+    switch (this) {
+      case 'http':
+        return PortProtocol.http;
+      case 'tcp':
+        return PortProtocol.tcp;
+      case 'http2':
+        return PortProtocol.http2;
+      case 'grpc':
+        return PortProtocol.grpc;
+    }
+    throw Exception('$this is not known in enum PortProtocol');
+  }
+}
+
 /// An object that represents metadata for a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceMetadata {
   /// The full Amazon Resource Name (ARN) for the resource.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -5287,7 +5660,6 @@ class ResourceMetadata {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -5295,97 +5667,91 @@ class ResourceMetadata {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The unique identifier for the resource.
-  @_s.JsonKey(name: 'uid')
   final String uid;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   ResourceMetadata({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.uid,
-    @_s.required this.version,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.uid,
+    required this.version,
   });
-  factory ResourceMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ResourceMetadataFromJson(json);
+  factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
+    return ResourceMetadata(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      uid: json['uid'] as String,
+      version: json['version'] as int,
+    );
+  }
 }
 
 /// An object that represents a route returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteData {
   /// The name of the service mesh that the route resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The associated metadata for the route.
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The name of the route.
-  @_s.JsonKey(name: 'routeName')
   final String routeName;
 
   /// The specifications of the route.
-  @_s.JsonKey(name: 'spec')
   final RouteSpec spec;
 
   /// The status of the route.
-  @_s.JsonKey(name: 'status')
   final RouteStatus status;
 
   /// The virtual router that the route is associated with.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   RouteData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.routeName,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualRouterName,
+    required this.meshName,
+    required this.metadata,
+    required this.routeName,
+    required this.spec,
+    required this.status,
+    required this.virtualRouterName,
   });
-  factory RouteData.fromJson(Map<String, dynamic> json) =>
-      _$RouteDataFromJson(json);
+  factory RouteData.fromJson(Map<String, dynamic> json) {
+    return RouteData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      routeName: json['routeName'] as String,
+      spec: RouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status: RouteStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualRouterName: json['virtualRouterName'] as String,
+    );
+  }
 }
 
 /// An object that represents a route returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteRef {
   /// The full Amazon Resource Name (ARN) for the route.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the route resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -5393,7 +5759,6 @@ class RouteRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -5401,64 +5766,62 @@ class RouteRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The name of the route.
-  @_s.JsonKey(name: 'routeName')
   final String routeName;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The virtual router that the route is associated with.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   RouteRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.routeName,
-    @_s.required this.version,
-    @_s.required this.virtualRouterName,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.routeName,
+    required this.version,
+    required this.virtualRouterName,
   });
-  factory RouteRef.fromJson(Map<String, dynamic> json) =>
-      _$RouteRefFromJson(json);
+  factory RouteRef.fromJson(Map<String, dynamic> json) {
+    return RouteRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      routeName: json['routeName'] as String,
+      version: json['version'] as int,
+      virtualRouterName: json['virtualRouterName'] as String,
+    );
+  }
 }
 
 /// An object that represents a route specification. Specify one route type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RouteSpec {
   /// An object that represents the specification of a gRPC route.
-  @_s.JsonKey(name: 'grpcRoute')
-  final GrpcRoute grpcRoute;
+  final GrpcRoute? grpcRoute;
 
   /// An object that represents the specification of an HTTP/2 route.
-  @_s.JsonKey(name: 'http2Route')
-  final HttpRoute http2Route;
+  final HttpRoute? http2Route;
 
   /// An object that represents the specification of an HTTP route.
-  @_s.JsonKey(name: 'httpRoute')
-  final HttpRoute httpRoute;
+  final HttpRoute? httpRoute;
 
   /// The priority for the route. Routes are matched based on the specified value,
   /// where 0 is the highest priority.
-  @_s.JsonKey(name: 'priority')
-  final int priority;
+  final int? priority;
 
   /// An object that represents the specification of a TCP route.
-  @_s.JsonKey(name: 'tcpRoute')
-  final TcpRoute tcpRoute;
+  final TcpRoute? tcpRoute;
 
   RouteSpec({
     this.grpcRoute,
@@ -5467,494 +5830,571 @@ class RouteSpec {
     this.priority,
     this.tcpRoute,
   });
-  factory RouteSpec.fromJson(Map<String, dynamic> json) =>
-      _$RouteSpecFromJson(json);
+  factory RouteSpec.fromJson(Map<String, dynamic> json) {
+    return RouteSpec(
+      grpcRoute: json['grpcRoute'] != null
+          ? GrpcRoute.fromJson(json['grpcRoute'] as Map<String, dynamic>)
+          : null,
+      http2Route: json['http2Route'] != null
+          ? HttpRoute.fromJson(json['http2Route'] as Map<String, dynamic>)
+          : null,
+      httpRoute: json['httpRoute'] != null
+          ? HttpRoute.fromJson(json['httpRoute'] as Map<String, dynamic>)
+          : null,
+      priority: json['priority'] as int?,
+      tcpRoute: json['tcpRoute'] != null
+          ? TcpRoute.fromJson(json['tcpRoute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RouteSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpcRoute = this.grpcRoute;
+    final http2Route = this.http2Route;
+    final httpRoute = this.httpRoute;
+    final priority = this.priority;
+    final tcpRoute = this.tcpRoute;
+    return {
+      if (grpcRoute != null) 'grpcRoute': grpcRoute,
+      if (http2Route != null) 'http2Route': http2Route,
+      if (httpRoute != null) 'httpRoute': httpRoute,
+      if (priority != null) 'priority': priority,
+      if (tcpRoute != null) 'tcpRoute': tcpRoute,
+    };
+  }
 }
 
 /// An object that represents the current status of a route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteStatus {
   /// The current status for the route.
-  @_s.JsonKey(name: 'status')
   final RouteStatusCode status;
 
   RouteStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory RouteStatus.fromJson(Map<String, dynamic> json) =>
-      _$RouteStatusFromJson(json);
+  factory RouteStatus.fromJson(Map<String, dynamic> json) {
+    return RouteStatus(
+      status: (json['status'] as String).toRouteStatusCode(),
+    );
+  }
 }
 
 enum RouteStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on RouteStatusCode {
+  String toValue() {
+    switch (this) {
+      case RouteStatusCode.active:
+        return 'ACTIVE';
+      case RouteStatusCode.inactive:
+        return 'INACTIVE';
+      case RouteStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  RouteStatusCode toRouteStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return RouteStatusCode.active;
+      case 'INACTIVE':
+        return RouteStatusCode.inactive;
+      case 'DELETED':
+        return RouteStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum RouteStatusCode');
+  }
 }
 
 /// An object that represents the service discovery information for a virtual
 /// node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceDiscovery {
   /// Specifies any AWS Cloud Map information for the virtual node.
-  @_s.JsonKey(name: 'awsCloudMap')
-  final AwsCloudMapServiceDiscovery awsCloudMap;
+  final AwsCloudMapServiceDiscovery? awsCloudMap;
 
   /// Specifies the DNS information for the virtual node.
-  @_s.JsonKey(name: 'dns')
-  final DnsServiceDiscovery dns;
+  final DnsServiceDiscovery? dns;
 
   ServiceDiscovery({
     this.awsCloudMap,
     this.dns,
   });
-  factory ServiceDiscovery.fromJson(Map<String, dynamic> json) =>
-      _$ServiceDiscoveryFromJson(json);
+  factory ServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return ServiceDiscovery(
+      awsCloudMap: json['awsCloudMap'] != null
+          ? AwsCloudMapServiceDiscovery.fromJson(
+              json['awsCloudMap'] as Map<String, dynamic>)
+          : null,
+      dns: json['dns'] != null
+          ? DnsServiceDiscovery.fromJson(json['dns'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServiceDiscoveryToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsCloudMap = this.awsCloudMap;
+    final dns = this.dns;
+    return {
+      if (awsCloudMap != null) 'awsCloudMap': awsCloudMap,
+      if (dns != null) 'dns': dns,
+    };
+  }
 }
 
 /// Optional metadata that you apply to a resource to assist with categorization
 /// and organization. Each tag consists of a key and an optional value, both of
 /// which you define. Tag keys can have a maximum character length of 128
 /// characters, and tag values can have a maximum length of 256 characters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TagRef {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The optional part of a key-value pair that make up a tag. A
   /// <code>value</code> acts as a descriptor within a tag category (key).
-  @_s.JsonKey(name: 'value')
   final String value;
 
   TagRef({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory TagRef.fromJson(Map<String, dynamic> json) => _$TagRefFromJson(json);
+  factory TagRef.fromJson(Map<String, dynamic> json) {
+    return TagRef(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagRefToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
 }
 
 enum TcpRetryPolicyEvent {
-  @_s.JsonValue('connection-error')
   connectionError,
 }
 
+extension on TcpRetryPolicyEvent {
+  String toValue() {
+    switch (this) {
+      case TcpRetryPolicyEvent.connectionError:
+        return 'connection-error';
+    }
+  }
+}
+
+extension on String {
+  TcpRetryPolicyEvent toTcpRetryPolicyEvent() {
+    switch (this) {
+      case 'connection-error':
+        return TcpRetryPolicyEvent.connectionError;
+    }
+    throw Exception('$this is not known in enum TcpRetryPolicyEvent');
+  }
+}
+
 /// An object that represents a TCP route type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TcpRoute {
   /// The action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
   final TcpRouteAction action;
 
   /// An object that represents types of timeouts.
-  @_s.JsonKey(name: 'timeout')
-  final TcpTimeout timeout;
+  final TcpTimeout? timeout;
 
   TcpRoute({
-    @_s.required this.action,
+    required this.action,
     this.timeout,
   });
-  factory TcpRoute.fromJson(Map<String, dynamic> json) =>
-      _$TcpRouteFromJson(json);
+  factory TcpRoute.fromJson(Map<String, dynamic> json) {
+    return TcpRoute(
+      action: TcpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+      timeout: json['timeout'] != null
+          ? TcpTimeout.fromJson(json['timeout'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TcpRouteToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final timeout = this.timeout;
+    return {
+      'action': action,
+      if (timeout != null) 'timeout': timeout,
+    };
+  }
 }
 
 /// An object that represents the action to take if a match is determined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TcpRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
-  @_s.JsonKey(name: 'weightedTargets')
   final List<WeightedTarget> weightedTargets;
 
   TcpRouteAction({
-    @_s.required this.weightedTargets,
+    required this.weightedTargets,
   });
-  factory TcpRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$TcpRouteActionFromJson(json);
+  factory TcpRouteAction.fromJson(Map<String, dynamic> json) {
+    return TcpRouteAction(
+      weightedTargets: (json['weightedTargets'] as List)
+          .whereNotNull()
+          .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TcpRouteActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final weightedTargets = this.weightedTargets;
+    return {
+      'weightedTargets': weightedTargets,
+    };
+  }
 }
 
 /// An object that represents types of timeouts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TcpTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
-  @_s.JsonKey(name: 'idle')
-  final Duration idle;
+  final Duration? idle;
 
   TcpTimeout({
     this.idle,
   });
-  factory TcpTimeout.fromJson(Map<String, dynamic> json) =>
-      _$TcpTimeoutFromJson(json);
+  factory TcpTimeout.fromJson(Map<String, dynamic> json) {
+    return TcpTimeout(
+      idle: json['idle'] != null
+          ? Duration.fromJson(json['idle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TcpTimeoutToJson(this);
+  Map<String, dynamic> toJson() {
+    final idle = this.idle;
+    return {
+      if (idle != null) 'idle': idle,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TlsValidationContext {
   /// A reference to an object that represents a TLS validation context trust.
-  @_s.JsonKey(name: 'trust')
   final TlsValidationContextTrust trust;
 
   TlsValidationContext({
-    @_s.required this.trust,
+    required this.trust,
   });
-  factory TlsValidationContext.fromJson(Map<String, dynamic> json) =>
-      _$TlsValidationContextFromJson(json);
+  factory TlsValidationContext.fromJson(Map<String, dynamic> json) {
+    return TlsValidationContext(
+      trust: TlsValidationContextTrust.fromJson(
+          json['trust'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TlsValidationContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final trust = this.trust;
+    return {
+      'trust': trust,
+    };
+  }
 }
 
 /// An object that represents a TLS validation context trust for an AWS
 /// Certicate Manager (ACM) certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TlsValidationContextAcmTrust {
   /// One or more ACM Amazon Resource Name (ARN)s.
-  @_s.JsonKey(name: 'certificateAuthorityArns')
   final List<String> certificateAuthorityArns;
 
   TlsValidationContextAcmTrust({
-    @_s.required this.certificateAuthorityArns,
+    required this.certificateAuthorityArns,
   });
-  factory TlsValidationContextAcmTrust.fromJson(Map<String, dynamic> json) =>
-      _$TlsValidationContextAcmTrustFromJson(json);
+  factory TlsValidationContextAcmTrust.fromJson(Map<String, dynamic> json) {
+    return TlsValidationContextAcmTrust(
+      certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TlsValidationContextAcmTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArns = this.certificateAuthorityArns;
+    return {
+      'certificateAuthorityArns': certificateAuthorityArns,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for a local file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TlsValidationContextFileTrust {
   /// The certificate trust chain for a certificate stored on the file system of
   /// the virtual node that the proxy is running on.
-  @_s.JsonKey(name: 'certificateChain')
   final String certificateChain;
 
   TlsValidationContextFileTrust({
-    @_s.required this.certificateChain,
+    required this.certificateChain,
   });
-  factory TlsValidationContextFileTrust.fromJson(Map<String, dynamic> json) =>
-      _$TlsValidationContextFileTrustFromJson(json);
+  factory TlsValidationContextFileTrust.fromJson(Map<String, dynamic> json) {
+    return TlsValidationContextFileTrust(
+      certificateChain: json['certificateChain'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TlsValidationContextFileTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateChain = this.certificateChain;
+    return {
+      'certificateChain': certificateChain,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TlsValidationContextTrust {
   /// A reference to an object that represents a TLS validation context trust for
   /// an AWS Certicate Manager (ACM) certificate.
-  @_s.JsonKey(name: 'acm')
-  final TlsValidationContextAcmTrust acm;
+  final TlsValidationContextAcmTrust? acm;
 
   /// An object that represents a TLS validation context trust for a local file.
-  @_s.JsonKey(name: 'file')
-  final TlsValidationContextFileTrust file;
+  final TlsValidationContextFileTrust? file;
 
   TlsValidationContextTrust({
     this.acm,
     this.file,
   });
-  factory TlsValidationContextTrust.fromJson(Map<String, dynamic> json) =>
-      _$TlsValidationContextTrustFromJson(json);
+  factory TlsValidationContextTrust.fromJson(Map<String, dynamic> json) {
+    return TlsValidationContextTrust(
+      acm: json['acm'] != null
+          ? TlsValidationContextAcmTrust.fromJson(
+              json['acm'] as Map<String, dynamic>)
+          : null,
+      file: json['file'] != null
+          ? TlsValidationContextFileTrust.fromJson(
+              json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TlsValidationContextTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final acm = this.acm;
+    final file = this.file;
+    return {
+      if (acm != null) 'acm': acm,
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGatewayRouteOutput {
   /// A full description of the gateway route that was updated.
-  @_s.JsonKey(name: 'gatewayRoute')
   final GatewayRouteData gatewayRoute;
 
   UpdateGatewayRouteOutput({
-    @_s.required this.gatewayRoute,
+    required this.gatewayRoute,
   });
-  factory UpdateGatewayRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGatewayRouteOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMeshOutput {
-  @_s.JsonKey(name: 'mesh')
   final MeshData mesh;
 
   UpdateMeshOutput({
-    @_s.required this.mesh,
+    required this.mesh,
   });
-  factory UpdateMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMeshOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRouteOutput {
   /// A full description of the route that was updated.
-  @_s.JsonKey(name: 'route')
   final RouteData route;
 
   UpdateRouteOutput({
-    @_s.required this.route,
+    required this.route,
   });
-  factory UpdateRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRouteOutputFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVirtualGatewayOutput {
   /// A full description of the virtual gateway that was updated.
-  @_s.JsonKey(name: 'virtualGateway')
   final VirtualGatewayData virtualGateway;
 
   UpdateVirtualGatewayOutput({
-    @_s.required this.virtualGateway,
+    required this.virtualGateway,
   });
-  factory UpdateVirtualGatewayOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualGatewayOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVirtualNodeOutput {
   /// A full description of the virtual node that was updated.
-  @_s.JsonKey(name: 'virtualNode')
   final VirtualNodeData virtualNode;
 
   UpdateVirtualNodeOutput({
-    @_s.required this.virtualNode,
+    required this.virtualNode,
   });
-  factory UpdateVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualNodeOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVirtualRouterOutput {
   /// A full description of the virtual router that was updated.
-  @_s.JsonKey(name: 'virtualRouter')
   final VirtualRouterData virtualRouter;
 
   UpdateVirtualRouterOutput({
-    @_s.required this.virtualRouter,
+    required this.virtualRouter,
   });
-  factory UpdateVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualRouterOutputFromJson(json);
 }
 
 /// <zonbook></zonbook><xhtml></xhtml>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVirtualServiceOutput {
   /// A full description of the virtual service that was updated.
-  @_s.JsonKey(name: 'virtualService')
   final VirtualServiceData virtualService;
 
   UpdateVirtualServiceOutput({
-    @_s.required this.virtualService,
+    required this.virtualService,
   });
-  factory UpdateVirtualServiceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualServiceOutputFromJson(json);
 }
 
 /// The access log configuration for a virtual gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayAccessLog {
   /// The file object to send virtual gateway access logs to.
-  @_s.JsonKey(name: 'file')
-  final VirtualGatewayFileAccessLog file;
+  final VirtualGatewayFileAccessLog? file;
 
   VirtualGatewayAccessLog({
     this.file,
   });
-  factory VirtualGatewayAccessLog.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayAccessLogFromJson(json);
+  factory VirtualGatewayAccessLog.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayAccessLog(
+      file: json['file'] != null
+          ? VirtualGatewayFileAccessLog.fromJson(
+              json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayAccessLogToJson(this);
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    return {
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// An object that represents the default properties for a backend.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayBackendDefaults {
   /// A reference to an object that represents a client policy.
-  @_s.JsonKey(name: 'clientPolicy')
-  final VirtualGatewayClientPolicy clientPolicy;
+  final VirtualGatewayClientPolicy? clientPolicy;
 
   VirtualGatewayBackendDefaults({
     this.clientPolicy,
   });
-  factory VirtualGatewayBackendDefaults.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayBackendDefaultsFromJson(json);
+  factory VirtualGatewayBackendDefaults.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayBackendDefaults(
+      clientPolicy: json['clientPolicy'] != null
+          ? VirtualGatewayClientPolicy.fromJson(
+              json['clientPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayBackendDefaultsToJson(this);
+  Map<String, dynamic> toJson() {
+    final clientPolicy = this.clientPolicy;
+    return {
+      if (clientPolicy != null) 'clientPolicy': clientPolicy,
+    };
+  }
 }
 
 /// An object that represents a client policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayClientPolicy {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// client policy.
-  @_s.JsonKey(name: 'tls')
-  final VirtualGatewayClientPolicyTls tls;
+  final VirtualGatewayClientPolicyTls? tls;
 
   VirtualGatewayClientPolicy({
     this.tls,
   });
-  factory VirtualGatewayClientPolicy.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayClientPolicyFromJson(json);
+  factory VirtualGatewayClientPolicy.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayClientPolicy(
+      tls: json['tls'] != null
+          ? VirtualGatewayClientPolicyTls.fromJson(
+              json['tls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayClientPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final tls = this.tls;
+    return {
+      if (tls != null) 'tls': tls,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) client policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayClientPolicyTls {
   /// A reference to an object that represents a TLS validation context.
-  @_s.JsonKey(name: 'validation')
   final VirtualGatewayTlsValidationContext validation;
 
   /// Whether the policy is enforced. The default is <code>True</code>, if a value
   /// isn't specified.
-  @_s.JsonKey(name: 'enforce')
-  final bool enforce;
+  final bool? enforce;
 
   /// One or more ports that the policy is enforced for.
-  @_s.JsonKey(name: 'ports')
-  final List<int> ports;
+  final List<int>? ports;
 
   VirtualGatewayClientPolicyTls({
-    @_s.required this.validation,
+    required this.validation,
     this.enforce,
     this.ports,
   });
-  factory VirtualGatewayClientPolicyTls.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayClientPolicyTlsFromJson(json);
+  factory VirtualGatewayClientPolicyTls.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayClientPolicyTls(
+      validation: VirtualGatewayTlsValidationContext.fromJson(
+          json['validation'] as Map<String, dynamic>),
+      enforce: json['enforce'] as bool?,
+      ports: (json['ports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayClientPolicyTlsToJson(this);
+  Map<String, dynamic> toJson() {
+    final validation = this.validation;
+    final enforce = this.enforce;
+    final ports = this.ports;
+    return {
+      'validation': validation,
+      if (enforce != null) 'enforce': enforce,
+      if (ports != null) 'ports': ports,
+    };
+  }
 }
 
 /// An object that represents the type of virtual gateway connection pool.
@@ -5964,278 +6404,322 @@ class VirtualGatewayClientPolicyTls {
 ///
 /// If not present the default value for <code>maxPendingRequests</code> is
 /// <code>2147483647</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayConnectionPool {
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'grpc')
-  final VirtualGatewayGrpcConnectionPool grpc;
+  final VirtualGatewayGrpcConnectionPool? grpc;
 
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'http')
-  final VirtualGatewayHttpConnectionPool http;
+  final VirtualGatewayHttpConnectionPool? http;
 
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'http2')
-  final VirtualGatewayHttp2ConnectionPool http2;
+  final VirtualGatewayHttp2ConnectionPool? http2;
 
   VirtualGatewayConnectionPool({
     this.grpc,
     this.http,
     this.http2,
   });
-  factory VirtualGatewayConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayConnectionPoolFromJson(json);
+  factory VirtualGatewayConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayConnectionPool(
+      grpc: json['grpc'] != null
+          ? VirtualGatewayGrpcConnectionPool.fromJson(
+              json['grpc'] as Map<String, dynamic>)
+          : null,
+      http: json['http'] != null
+          ? VirtualGatewayHttpConnectionPool.fromJson(
+              json['http'] as Map<String, dynamic>)
+          : null,
+      http2: json['http2'] != null
+          ? VirtualGatewayHttp2ConnectionPool.fromJson(
+              json['http2'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpc = this.grpc;
+    final http = this.http;
+    final http2 = this.http2;
+    return {
+      if (grpc != null) 'grpc': grpc,
+      if (http != null) 'http': http,
+      if (http2 != null) 'http2': http2,
+    };
+  }
 }
 
 /// An object that represents a virtual gateway returned by a describe
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualGatewayData {
   /// The name of the service mesh that the virtual gateway resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The specifications of the virtual gateway.
-  @_s.JsonKey(name: 'spec')
   final VirtualGatewaySpec spec;
 
   /// The current status of the virtual gateway.
-  @_s.JsonKey(name: 'status')
   final VirtualGatewayStatus status;
 
   /// The name of the virtual gateway.
-  @_s.JsonKey(name: 'virtualGatewayName')
   final String virtualGatewayName;
 
   VirtualGatewayData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualGatewayName,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
+    required this.virtualGatewayName,
   });
-  factory VirtualGatewayData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayDataFromJson(json);
+  factory VirtualGatewayData.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: VirtualGatewaySpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status:
+          VirtualGatewayStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualGatewayName: json['virtualGatewayName'] as String,
+    );
+  }
 }
 
 /// An object that represents an access log file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayFileAccessLog {
   /// The file path to write access logs to. You can use <code>/dev/stdout</code>
   /// to send access logs to standard out and configure your Envoy container to
   /// use a log driver, such as <code>awslogs</code>, to export the access logs to
   /// a log storage service such as Amazon CloudWatch Logs. You can also specify a
   /// path in the Envoy container's file system to write the files to disk.
-  @_s.JsonKey(name: 'path')
   final String path;
 
   VirtualGatewayFileAccessLog({
-    @_s.required this.path,
+    required this.path,
   });
-  factory VirtualGatewayFileAccessLog.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayFileAccessLogFromJson(json);
+  factory VirtualGatewayFileAccessLog.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayFileAccessLog(
+      path: json['path'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayFileAccessLogToJson(this);
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      'path': path,
+    };
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayGrpcConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxRequests')
   final int maxRequests;
 
   VirtualGatewayGrpcConnectionPool({
-    @_s.required this.maxRequests,
+    required this.maxRequests,
   });
-  factory VirtualGatewayGrpcConnectionPool.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayGrpcConnectionPoolFromJson(json);
+  factory VirtualGatewayGrpcConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayGrpcConnectionPool(
+      maxRequests: json['maxRequests'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayGrpcConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRequests = this.maxRequests;
+    return {
+      'maxRequests': maxRequests,
+    };
+  }
 }
 
 /// An object that represents the health check policy for a virtual gateway's
 /// listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayHealthCheckPolicy {
   /// The number of consecutive successful health checks that must occur before
   /// declaring the listener healthy.
-  @_s.JsonKey(name: 'healthyThreshold')
   final int healthyThreshold;
 
   /// The time period in milliseconds between each health check execution.
-  @_s.JsonKey(name: 'intervalMillis')
   final int intervalMillis;
 
   /// The protocol for the health check request. If you specify <code>grpc</code>,
   /// then your service must conform to the <a
   /// href="https://github.com/grpc/grpc/blob/master/doc/health-checking.md">GRPC
   /// Health Checking Protocol</a>.
-  @_s.JsonKey(name: 'protocol')
   final VirtualGatewayPortProtocol protocol;
 
   /// The amount of time to wait when receiving a response from the health check,
   /// in milliseconds.
-  @_s.JsonKey(name: 'timeoutMillis')
   final int timeoutMillis;
 
   /// The number of consecutive failed health checks that must occur before
   /// declaring a virtual gateway unhealthy.
-  @_s.JsonKey(name: 'unhealthyThreshold')
   final int unhealthyThreshold;
 
   /// The destination path for the health check request. This value is only used
   /// if the specified protocol is HTTP or HTTP/2. For any other protocol, this
   /// value is ignored.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   /// The destination port for the health check request. This port must match the
   /// port defined in the <a>PortMapping</a> for the listener.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   VirtualGatewayHealthCheckPolicy({
-    @_s.required this.healthyThreshold,
-    @_s.required this.intervalMillis,
-    @_s.required this.protocol,
-    @_s.required this.timeoutMillis,
-    @_s.required this.unhealthyThreshold,
+    required this.healthyThreshold,
+    required this.intervalMillis,
+    required this.protocol,
+    required this.timeoutMillis,
+    required this.unhealthyThreshold,
     this.path,
     this.port,
   });
-  factory VirtualGatewayHealthCheckPolicy.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayHealthCheckPolicyFromJson(json);
+  factory VirtualGatewayHealthCheckPolicy.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayHealthCheckPolicy(
+      healthyThreshold: json['healthyThreshold'] as int,
+      intervalMillis: json['intervalMillis'] as int,
+      protocol: (json['protocol'] as String).toVirtualGatewayPortProtocol(),
+      timeoutMillis: json['timeoutMillis'] as int,
+      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      path: json['path'] as String?,
+      port: json['port'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayHealthCheckPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final healthyThreshold = this.healthyThreshold;
+    final intervalMillis = this.intervalMillis;
+    final protocol = this.protocol;
+    final timeoutMillis = this.timeoutMillis;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    final path = this.path;
+    final port = this.port;
+    return {
+      'healthyThreshold': healthyThreshold,
+      'intervalMillis': intervalMillis,
+      'protocol': protocol.toValue(),
+      'timeoutMillis': timeoutMillis,
+      'unhealthyThreshold': unhealthyThreshold,
+      if (path != null) 'path': path,
+      if (port != null) 'port': port,
+    };
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayHttp2ConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxRequests')
   final int maxRequests;
 
   VirtualGatewayHttp2ConnectionPool({
-    @_s.required this.maxRequests,
+    required this.maxRequests,
   });
   factory VirtualGatewayHttp2ConnectionPool.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayHttp2ConnectionPoolFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayHttp2ConnectionPool(
+      maxRequests: json['maxRequests'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayHttp2ConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRequests = this.maxRequests;
+    return {
+      'maxRequests': maxRequests,
+    };
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayHttpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxConnections')
   final int maxConnections;
 
   /// Number of overflowing requests after <code>max_connections</code> Envoy will
   /// queue to upstream cluster.
-  @_s.JsonKey(name: 'maxPendingRequests')
-  final int maxPendingRequests;
+  final int? maxPendingRequests;
 
   VirtualGatewayHttpConnectionPool({
-    @_s.required this.maxConnections,
+    required this.maxConnections,
     this.maxPendingRequests,
   });
-  factory VirtualGatewayHttpConnectionPool.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayHttpConnectionPoolFromJson(json);
+  factory VirtualGatewayHttpConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayHttpConnectionPool(
+      maxConnections: json['maxConnections'] as int,
+      maxPendingRequests: json['maxPendingRequests'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayHttpConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxConnections = this.maxConnections;
+    final maxPendingRequests = this.maxPendingRequests;
+    return {
+      'maxConnections': maxConnections,
+      if (maxPendingRequests != null) 'maxPendingRequests': maxPendingRequests,
+    };
+  }
 }
 
 /// An object that represents a listener for a virtual gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayListener {
   /// The port mapping information for the listener.
-  @_s.JsonKey(name: 'portMapping')
   final VirtualGatewayPortMapping portMapping;
 
   /// The connection pool information for the virtual gateway listener.
-  @_s.JsonKey(name: 'connectionPool')
-  final VirtualGatewayConnectionPool connectionPool;
+  final VirtualGatewayConnectionPool? connectionPool;
 
   /// The health check information for the listener.
-  @_s.JsonKey(name: 'healthCheck')
-  final VirtualGatewayHealthCheckPolicy healthCheck;
+  final VirtualGatewayHealthCheckPolicy? healthCheck;
 
   /// A reference to an object that represents the Transport Layer Security (TLS)
   /// properties for the listener.
-  @_s.JsonKey(name: 'tls')
-  final VirtualGatewayListenerTls tls;
+  final VirtualGatewayListenerTls? tls;
 
   VirtualGatewayListener({
-    @_s.required this.portMapping,
+    required this.portMapping,
     this.connectionPool,
     this.healthCheck,
     this.tls,
   });
-  factory VirtualGatewayListener.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayListenerFromJson(json);
+  factory VirtualGatewayListener.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayListener(
+      portMapping: VirtualGatewayPortMapping.fromJson(
+          json['portMapping'] as Map<String, dynamic>),
+      connectionPool: json['connectionPool'] != null
+          ? VirtualGatewayConnectionPool.fromJson(
+              json['connectionPool'] as Map<String, dynamic>)
+          : null,
+      healthCheck: json['healthCheck'] != null
+          ? VirtualGatewayHealthCheckPolicy.fromJson(
+              json['healthCheck'] as Map<String, dynamic>)
+          : null,
+      tls: json['tls'] != null
+          ? VirtualGatewayListenerTls.fromJson(
+              json['tls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayListenerToJson(this);
+  Map<String, dynamic> toJson() {
+    final portMapping = this.portMapping;
+    final connectionPool = this.connectionPool;
+    final healthCheck = this.healthCheck;
+    final tls = this.tls;
+    return {
+      'portMapping': portMapping,
+      if (connectionPool != null) 'connectionPool': connectionPool,
+      if (healthCheck != null) 'healthCheck': healthCheck,
+      if (tls != null) 'tls': tls,
+    };
+  }
 }
 
 /// An object that represents the Transport Layer Security (TLS) properties for
 /// a listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayListenerTls {
   /// An object that represents a Transport Layer Security (TLS) certificate.
-  @_s.JsonKey(name: 'certificate')
   final VirtualGatewayListenerTlsCertificate certificate;
 
   /// Specify one of the following modes.
@@ -6251,72 +6735,93 @@ class VirtualGatewayListenerTls {
   /// <b/>DISABLED – Listener only accepts connections without TLS.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'mode')
   final VirtualGatewayListenerTlsMode mode;
 
   VirtualGatewayListenerTls({
-    @_s.required this.certificate,
-    @_s.required this.mode,
+    required this.certificate,
+    required this.mode,
   });
-  factory VirtualGatewayListenerTls.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayListenerTlsFromJson(json);
+  factory VirtualGatewayListenerTls.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayListenerTls(
+      certificate: VirtualGatewayListenerTlsCertificate.fromJson(
+          json['certificate'] as Map<String, dynamic>),
+      mode: (json['mode'] as String).toVirtualGatewayListenerTlsMode(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayListenerTlsToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final mode = this.mode;
+    return {
+      'certificate': certificate,
+      'mode': mode.toValue(),
+    };
+  }
 }
 
 /// An object that represents an AWS Certicate Manager (ACM) certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayListenerTlsAcmCertificate {
   /// The Amazon Resource Name (ARN) for the certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
   /// Layer Security (TLS)</a>.
-  @_s.JsonKey(name: 'certificateArn')
   final String certificateArn;
 
   VirtualGatewayListenerTlsAcmCertificate({
-    @_s.required this.certificateArn,
+    required this.certificateArn,
   });
   factory VirtualGatewayListenerTlsAcmCertificate.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayListenerTlsAcmCertificateFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayListenerTlsAcmCertificate(
+      certificateArn: json['certificateArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayListenerTlsAcmCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      'certificateArn': certificateArn,
+    };
+  }
 }
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayListenerTlsCertificate {
   /// A reference to an object that represents an AWS Certicate Manager (ACM)
   /// certificate.
-  @_s.JsonKey(name: 'acm')
-  final VirtualGatewayListenerTlsAcmCertificate acm;
+  final VirtualGatewayListenerTlsAcmCertificate? acm;
 
   /// A reference to an object that represents a local file certificate.
-  @_s.JsonKey(name: 'file')
-  final VirtualGatewayListenerTlsFileCertificate file;
+  final VirtualGatewayListenerTlsFileCertificate? file;
 
   VirtualGatewayListenerTlsCertificate({
     this.acm,
     this.file,
   });
   factory VirtualGatewayListenerTlsCertificate.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayListenerTlsCertificateFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayListenerTlsCertificate(
+      acm: json['acm'] != null
+          ? VirtualGatewayListenerTlsAcmCertificate.fromJson(
+              json['acm'] as Map<String, dynamic>)
+          : null,
+      file: json['file'] != null
+          ? VirtualGatewayListenerTlsFileCertificate.fromJson(
+              json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayListenerTlsCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final acm = this.acm;
+    final file = this.file;
+    return {
+      if (acm != null) 'acm': acm,
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// An object that represents a local file certificate. The certificate must
@@ -6324,119 +6829,168 @@ class VirtualGatewayListenerTlsCertificate {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
 /// Layer Security (TLS)</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayListenerTlsFileCertificate {
   /// The certificate chain for the certificate.
-  @_s.JsonKey(name: 'certificateChain')
   final String certificateChain;
 
   /// The private key for a certificate stored on the file system of the mesh
   /// endpoint that the proxy is running on.
-  @_s.JsonKey(name: 'privateKey')
   final String privateKey;
 
   VirtualGatewayListenerTlsFileCertificate({
-    @_s.required this.certificateChain,
-    @_s.required this.privateKey,
+    required this.certificateChain,
+    required this.privateKey,
   });
   factory VirtualGatewayListenerTlsFileCertificate.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayListenerTlsFileCertificateFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayListenerTlsFileCertificate(
+      certificateChain: json['certificateChain'] as String,
+      privateKey: json['privateKey'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayListenerTlsFileCertificateToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateChain = this.certificateChain;
+    final privateKey = this.privateKey;
+    return {
+      'certificateChain': certificateChain,
+      'privateKey': privateKey,
+    };
+  }
 }
 
 enum VirtualGatewayListenerTlsMode {
-  @_s.JsonValue('STRICT')
   strict,
-  @_s.JsonValue('PERMISSIVE')
   permissive,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on VirtualGatewayListenerTlsMode {
+  String toValue() {
+    switch (this) {
+      case VirtualGatewayListenerTlsMode.strict:
+        return 'STRICT';
+      case VirtualGatewayListenerTlsMode.permissive:
+        return 'PERMISSIVE';
+      case VirtualGatewayListenerTlsMode.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  VirtualGatewayListenerTlsMode toVirtualGatewayListenerTlsMode() {
+    switch (this) {
+      case 'STRICT':
+        return VirtualGatewayListenerTlsMode.strict;
+      case 'PERMISSIVE':
+        return VirtualGatewayListenerTlsMode.permissive;
+      case 'DISABLED':
+        return VirtualGatewayListenerTlsMode.disabled;
+    }
+    throw Exception('$this is not known in enum VirtualGatewayListenerTlsMode');
+  }
+}
+
 /// An object that represents logging information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayLogging {
   /// The access log configuration.
-  @_s.JsonKey(name: 'accessLog')
-  final VirtualGatewayAccessLog accessLog;
+  final VirtualGatewayAccessLog? accessLog;
 
   VirtualGatewayLogging({
     this.accessLog,
   });
-  factory VirtualGatewayLogging.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayLoggingFromJson(json);
+  factory VirtualGatewayLogging.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayLogging(
+      accessLog: json['accessLog'] != null
+          ? VirtualGatewayAccessLog.fromJson(
+              json['accessLog'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayLoggingToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessLog = this.accessLog;
+    return {
+      if (accessLog != null) 'accessLog': accessLog,
+    };
+  }
 }
 
 /// An object that represents a port mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayPortMapping {
   /// The port used for the port mapping. Specify one protocol.
-  @_s.JsonKey(name: 'port')
   final int port;
 
   /// The protocol used for the port mapping.
-  @_s.JsonKey(name: 'protocol')
   final VirtualGatewayPortProtocol protocol;
 
   VirtualGatewayPortMapping({
-    @_s.required this.port,
-    @_s.required this.protocol,
+    required this.port,
+    required this.protocol,
   });
-  factory VirtualGatewayPortMapping.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayPortMappingFromJson(json);
+  factory VirtualGatewayPortMapping.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayPortMapping(
+      port: json['port'] as int,
+      protocol: (json['protocol'] as String).toVirtualGatewayPortProtocol(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewayPortMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      'port': port,
+      'protocol': protocol.toValue(),
+    };
+  }
 }
 
 enum VirtualGatewayPortProtocol {
-  @_s.JsonValue('http')
   http,
-  @_s.JsonValue('http2')
   http2,
-  @_s.JsonValue('grpc')
   grpc,
 }
 
+extension on VirtualGatewayPortProtocol {
+  String toValue() {
+    switch (this) {
+      case VirtualGatewayPortProtocol.http:
+        return 'http';
+      case VirtualGatewayPortProtocol.http2:
+        return 'http2';
+      case VirtualGatewayPortProtocol.grpc:
+        return 'grpc';
+    }
+  }
+}
+
+extension on String {
+  VirtualGatewayPortProtocol toVirtualGatewayPortProtocol() {
+    switch (this) {
+      case 'http':
+        return VirtualGatewayPortProtocol.http;
+      case 'http2':
+        return VirtualGatewayPortProtocol.http2;
+      case 'grpc':
+        return VirtualGatewayPortProtocol.grpc;
+    }
+    throw Exception('$this is not known in enum VirtualGatewayPortProtocol');
+  }
+}
+
 /// An object that represents a virtual gateway returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualGatewayRef {
   /// The full Amazon Resource Name (ARN) for the resource.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the resource resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -6444,7 +6998,6 @@ class VirtualGatewayRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -6452,185 +7005,246 @@ class VirtualGatewayRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The name of the resource.
-  @_s.JsonKey(name: 'virtualGatewayName')
   final String virtualGatewayName;
 
   VirtualGatewayRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
-    @_s.required this.virtualGatewayName,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
+    required this.virtualGatewayName,
   });
-  factory VirtualGatewayRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayRefFromJson(json);
+  factory VirtualGatewayRef.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+      virtualGatewayName: json['virtualGatewayName'] as String,
+    );
+  }
 }
 
 /// An object that represents the specification of a service mesh resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewaySpec {
   /// The listeners that the mesh endpoint is expected to receive inbound traffic
   /// from. You can specify one listener.
-  @_s.JsonKey(name: 'listeners')
   final List<VirtualGatewayListener> listeners;
 
   /// A reference to an object that represents the defaults for backends.
-  @_s.JsonKey(name: 'backendDefaults')
-  final VirtualGatewayBackendDefaults backendDefaults;
-  @_s.JsonKey(name: 'logging')
-  final VirtualGatewayLogging logging;
+  final VirtualGatewayBackendDefaults? backendDefaults;
+  final VirtualGatewayLogging? logging;
 
   VirtualGatewaySpec({
-    @_s.required this.listeners,
+    required this.listeners,
     this.backendDefaults,
     this.logging,
   });
-  factory VirtualGatewaySpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewaySpecFromJson(json);
+  factory VirtualGatewaySpec.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewaySpec(
+      listeners: (json['listeners'] as List)
+          .whereNotNull()
+          .map(
+              (e) => VirtualGatewayListener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      backendDefaults: json['backendDefaults'] != null
+          ? VirtualGatewayBackendDefaults.fromJson(
+              json['backendDefaults'] as Map<String, dynamic>)
+          : null,
+      logging: json['logging'] != null
+          ? VirtualGatewayLogging.fromJson(
+              json['logging'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualGatewaySpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final listeners = this.listeners;
+    final backendDefaults = this.backendDefaults;
+    final logging = this.logging;
+    return {
+      'listeners': listeners,
+      if (backendDefaults != null) 'backendDefaults': backendDefaults,
+      if (logging != null) 'logging': logging,
+    };
+  }
 }
 
 /// An object that represents the status of the mesh resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualGatewayStatus {
   /// The current status.
-  @_s.JsonKey(name: 'status')
   final VirtualGatewayStatusCode status;
 
   VirtualGatewayStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory VirtualGatewayStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayStatusFromJson(json);
+  factory VirtualGatewayStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualGatewayStatus(
+      status: (json['status'] as String).toVirtualGatewayStatusCode(),
+    );
+  }
 }
 
 enum VirtualGatewayStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on VirtualGatewayStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualGatewayStatusCode.active:
+        return 'ACTIVE';
+      case VirtualGatewayStatusCode.inactive:
+        return 'INACTIVE';
+      case VirtualGatewayStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  VirtualGatewayStatusCode toVirtualGatewayStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualGatewayStatusCode.active;
+      case 'INACTIVE':
+        return VirtualGatewayStatusCode.inactive;
+      case 'DELETED':
+        return VirtualGatewayStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum VirtualGatewayStatusCode');
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayTlsValidationContext {
   /// A reference to an object that represents a TLS validation context trust.
-  @_s.JsonKey(name: 'trust')
   final VirtualGatewayTlsValidationContextTrust trust;
 
   VirtualGatewayTlsValidationContext({
-    @_s.required this.trust,
+    required this.trust,
   });
   factory VirtualGatewayTlsValidationContext.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayTlsValidationContextFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayTlsValidationContext(
+      trust: VirtualGatewayTlsValidationContextTrust.fromJson(
+          json['trust'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayTlsValidationContextToJson(this);
+  Map<String, dynamic> toJson() {
+    final trust = this.trust;
+    return {
+      'trust': trust,
+    };
+  }
 }
 
 /// An object that represents a TLS validation context trust for an AWS
 /// Certicate Manager (ACM) certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayTlsValidationContextAcmTrust {
   /// One or more ACM Amazon Resource Name (ARN)s.
-  @_s.JsonKey(name: 'certificateAuthorityArns')
   final List<String> certificateAuthorityArns;
 
   VirtualGatewayTlsValidationContextAcmTrust({
-    @_s.required this.certificateAuthorityArns,
+    required this.certificateAuthorityArns,
   });
   factory VirtualGatewayTlsValidationContextAcmTrust.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayTlsValidationContextAcmTrustFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayTlsValidationContextAcmTrust(
+      certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayTlsValidationContextAcmTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArns = this.certificateAuthorityArns;
+    return {
+      'certificateAuthorityArns': certificateAuthorityArns,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for a local file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayTlsValidationContextFileTrust {
   /// The certificate trust chain for a certificate stored on the file system of
   /// the virtual node that the proxy is running on.
-  @_s.JsonKey(name: 'certificateChain')
   final String certificateChain;
 
   VirtualGatewayTlsValidationContextFileTrust({
-    @_s.required this.certificateChain,
+    required this.certificateChain,
   });
   factory VirtualGatewayTlsValidationContextFileTrust.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayTlsValidationContextFileTrustFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayTlsValidationContextFileTrust(
+      certificateChain: json['certificateChain'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayTlsValidationContextFileTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final certificateChain = this.certificateChain;
+    return {
+      'certificateChain': certificateChain,
+    };
+  }
 }
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualGatewayTlsValidationContextTrust {
   /// A reference to an object that represents a TLS validation context trust for
   /// an AWS Certicate Manager (ACM) certificate.
-  @_s.JsonKey(name: 'acm')
-  final VirtualGatewayTlsValidationContextAcmTrust acm;
+  final VirtualGatewayTlsValidationContextAcmTrust? acm;
 
   /// An object that represents a TLS validation context trust for a local file.
-  @_s.JsonKey(name: 'file')
-  final VirtualGatewayTlsValidationContextFileTrust file;
+  final VirtualGatewayTlsValidationContextFileTrust? file;
 
   VirtualGatewayTlsValidationContextTrust({
     this.acm,
     this.file,
   });
   factory VirtualGatewayTlsValidationContextTrust.fromJson(
-          Map<String, dynamic> json) =>
-      _$VirtualGatewayTlsValidationContextTrustFromJson(json);
+      Map<String, dynamic> json) {
+    return VirtualGatewayTlsValidationContextTrust(
+      acm: json['acm'] != null
+          ? VirtualGatewayTlsValidationContextAcmTrust.fromJson(
+              json['acm'] as Map<String, dynamic>)
+          : null,
+      file: json['file'] != null
+          ? VirtualGatewayTlsValidationContextFileTrust.fromJson(
+              json['file'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$VirtualGatewayTlsValidationContextTrustToJson(this);
+  Map<String, dynamic> toJson() {
+    final acm = this.acm;
+    final file = this.file;
+    return {
+      if (acm != null) 'acm': acm,
+      if (file != null) 'file': file,
+    };
+  }
 }
 
 /// An object that represents the type of virtual node connection pool.
@@ -6641,27 +7255,18 @@ class VirtualGatewayTlsValidationContextTrust {
 /// If not present the default value for <code>maxPendingRequests</code> is
 /// <code>2147483647</code>.
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeConnectionPool {
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'grpc')
-  final VirtualNodeGrpcConnectionPool grpc;
+  final VirtualNodeGrpcConnectionPool? grpc;
 
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'http')
-  final VirtualNodeHttpConnectionPool http;
+  final VirtualNodeHttpConnectionPool? http;
 
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'http2')
-  final VirtualNodeHttp2ConnectionPool http2;
+  final VirtualNodeHttp2ConnectionPool? http2;
 
   /// An object that represents a type of connection pool.
-  @_s.JsonKey(name: 'tcp')
-  final VirtualNodeTcpConnectionPool tcp;
+  final VirtualNodeTcpConnectionPool? tcp;
 
   VirtualNodeConnectionPool({
     this.grpc,
@@ -6669,142 +7274,167 @@ class VirtualNodeConnectionPool {
     this.http2,
     this.tcp,
   });
-  factory VirtualNodeConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeConnectionPoolFromJson(json);
+  factory VirtualNodeConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeConnectionPool(
+      grpc: json['grpc'] != null
+          ? VirtualNodeGrpcConnectionPool.fromJson(
+              json['grpc'] as Map<String, dynamic>)
+          : null,
+      http: json['http'] != null
+          ? VirtualNodeHttpConnectionPool.fromJson(
+              json['http'] as Map<String, dynamic>)
+          : null,
+      http2: json['http2'] != null
+          ? VirtualNodeHttp2ConnectionPool.fromJson(
+              json['http2'] as Map<String, dynamic>)
+          : null,
+      tcp: json['tcp'] != null
+          ? VirtualNodeTcpConnectionPool.fromJson(
+              json['tcp'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final grpc = this.grpc;
+    final http = this.http;
+    final http2 = this.http2;
+    final tcp = this.tcp;
+    return {
+      if (grpc != null) 'grpc': grpc,
+      if (http != null) 'http': http,
+      if (http2 != null) 'http2': http2,
+      if (tcp != null) 'tcp': tcp,
+    };
+  }
 }
 
 /// An object that represents a virtual node returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeData {
   /// The name of the service mesh that the virtual node resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The associated metadata for the virtual node.
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The specifications of the virtual node.
-  @_s.JsonKey(name: 'spec')
   final VirtualNodeSpec spec;
 
   /// The current status for the virtual node.
-  @_s.JsonKey(name: 'status')
   final VirtualNodeStatus status;
 
   /// The name of the virtual node.
-  @_s.JsonKey(name: 'virtualNodeName')
   final String virtualNodeName;
 
   VirtualNodeData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualNodeName,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
+    required this.virtualNodeName,
   });
-  factory VirtualNodeData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeDataFromJson(json);
+  factory VirtualNodeData.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: VirtualNodeSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status:
+          VirtualNodeStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualNodeName: json['virtualNodeName'] as String,
+    );
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeGrpcConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxRequests')
   final int maxRequests;
 
   VirtualNodeGrpcConnectionPool({
-    @_s.required this.maxRequests,
+    required this.maxRequests,
   });
-  factory VirtualNodeGrpcConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeGrpcConnectionPoolFromJson(json);
+  factory VirtualNodeGrpcConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeGrpcConnectionPool(
+      maxRequests: json['maxRequests'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeGrpcConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRequests = this.maxRequests;
+    return {
+      'maxRequests': maxRequests,
+    };
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeHttp2ConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxRequests')
   final int maxRequests;
 
   VirtualNodeHttp2ConnectionPool({
-    @_s.required this.maxRequests,
+    required this.maxRequests,
   });
-  factory VirtualNodeHttp2ConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeHttp2ConnectionPoolFromJson(json);
+  factory VirtualNodeHttp2ConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeHttp2ConnectionPool(
+      maxRequests: json['maxRequests'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeHttp2ConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxRequests = this.maxRequests;
+    return {
+      'maxRequests': maxRequests,
+    };
+  }
 }
 
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeHttpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxConnections')
   final int maxConnections;
 
   /// Number of overflowing requests after <code>max_connections</code> Envoy will
   /// queue to upstream cluster.
-  @_s.JsonKey(name: 'maxPendingRequests')
-  final int maxPendingRequests;
+  final int? maxPendingRequests;
 
   VirtualNodeHttpConnectionPool({
-    @_s.required this.maxConnections,
+    required this.maxConnections,
     this.maxPendingRequests,
   });
-  factory VirtualNodeHttpConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeHttpConnectionPoolFromJson(json);
+  factory VirtualNodeHttpConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeHttpConnectionPool(
+      maxConnections: json['maxConnections'] as int,
+      maxPendingRequests: json['maxPendingRequests'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeHttpConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxConnections = this.maxConnections;
+    final maxPendingRequests = this.maxPendingRequests;
+    return {
+      'maxConnections': maxConnections,
+      if (maxPendingRequests != null) 'maxPendingRequests': maxPendingRequests,
+    };
+  }
 }
 
 /// An object that represents a virtual node returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeRef {
   /// The full Amazon Resource Name (ARN) for the virtual node.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the virtual node resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -6812,7 +7442,6 @@ class VirtualNodeRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -6820,82 +7449,82 @@ class VirtualNodeRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The name of the virtual node.
-  @_s.JsonKey(name: 'virtualNodeName')
   final String virtualNodeName;
 
   VirtualNodeRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
-    @_s.required this.virtualNodeName,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
+    required this.virtualNodeName,
   });
-  factory VirtualNodeRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeRefFromJson(json);
+  factory VirtualNodeRef.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+      virtualNodeName: json['virtualNodeName'] as String,
+    );
+  }
 }
 
 /// An object that represents a virtual node service provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeServiceProvider {
   /// The name of the virtual node that is acting as a service provider.
-  @_s.JsonKey(name: 'virtualNodeName')
   final String virtualNodeName;
 
   VirtualNodeServiceProvider({
-    @_s.required this.virtualNodeName,
+    required this.virtualNodeName,
   });
-  factory VirtualNodeServiceProvider.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeServiceProviderFromJson(json);
+  factory VirtualNodeServiceProvider.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeServiceProvider(
+      virtualNodeName: json['virtualNodeName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeServiceProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualNodeName = this.virtualNodeName;
+    return {
+      'virtualNodeName': virtualNodeName,
+    };
+  }
 }
 
 /// An object that represents the specification of a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeSpec {
   /// A reference to an object that represents the defaults for backends.
-  @_s.JsonKey(name: 'backendDefaults')
-  final BackendDefaults backendDefaults;
+  final BackendDefaults? backendDefaults;
 
   /// The backends that the virtual node is expected to send outbound traffic to.
-  @_s.JsonKey(name: 'backends')
-  final List<Backend> backends;
+  final List<Backend>? backends;
 
   /// The listener that the virtual node is expected to receive inbound traffic
   /// from. You can specify one listener.
-  @_s.JsonKey(name: 'listeners')
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// The inbound and outbound access logging information for the virtual node.
-  @_s.JsonKey(name: 'logging')
-  final Logging logging;
+  final Logging? logging;
 
   /// The service discovery information for the virtual node. If your virtual node
   /// does not expect ingress traffic, you can omit this parameter. If you specify
   /// a <code>listener</code>, then you must specify service discovery
   /// information.
-  @_s.JsonKey(name: 'serviceDiscovery')
-  final ServiceDiscovery serviceDiscovery;
+  final ServiceDiscovery? serviceDiscovery;
 
   VirtualNodeSpec({
     this.backendDefaults,
@@ -6904,140 +7533,188 @@ class VirtualNodeSpec {
     this.logging,
     this.serviceDiscovery,
   });
-  factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeSpecFromJson(json);
+  factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeSpec(
+      backendDefaults: json['backendDefaults'] != null
+          ? BackendDefaults.fromJson(
+              json['backendDefaults'] as Map<String, dynamic>)
+          : null,
+      backends: (json['backends'] as List?)
+          ?.whereNotNull()
+          .map((e) => Backend.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listeners: (json['listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => Listener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logging: json['logging'] != null
+          ? Logging.fromJson(json['logging'] as Map<String, dynamic>)
+          : null,
+      serviceDiscovery: json['serviceDiscovery'] != null
+          ? ServiceDiscovery.fromJson(
+              json['serviceDiscovery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final backendDefaults = this.backendDefaults;
+    final backends = this.backends;
+    final listeners = this.listeners;
+    final logging = this.logging;
+    final serviceDiscovery = this.serviceDiscovery;
+    return {
+      if (backendDefaults != null) 'backendDefaults': backendDefaults,
+      if (backends != null) 'backends': backends,
+      if (listeners != null) 'listeners': listeners,
+      if (logging != null) 'logging': logging,
+      if (serviceDiscovery != null) 'serviceDiscovery': serviceDiscovery,
+    };
+  }
 }
 
 /// An object that represents the current status of the virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeStatus {
   /// The current status of the virtual node.
-  @_s.JsonKey(name: 'status')
   final VirtualNodeStatusCode status;
 
   VirtualNodeStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeStatusFromJson(json);
+  factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeStatus(
+      status: (json['status'] as String).toVirtualNodeStatusCode(),
+    );
+  }
 }
 
 enum VirtualNodeStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on VirtualNodeStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualNodeStatusCode.active:
+        return 'ACTIVE';
+      case VirtualNodeStatusCode.inactive:
+        return 'INACTIVE';
+      case VirtualNodeStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  VirtualNodeStatusCode toVirtualNodeStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualNodeStatusCode.active;
+      case 'INACTIVE':
+        return VirtualNodeStatusCode.inactive;
+      case 'DELETED':
+        return VirtualNodeStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum VirtualNodeStatusCode');
+  }
+}
+
 /// An object that represents a type of connection pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeTcpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
-  @_s.JsonKey(name: 'maxConnections')
   final int maxConnections;
 
   VirtualNodeTcpConnectionPool({
-    @_s.required this.maxConnections,
+    required this.maxConnections,
   });
-  factory VirtualNodeTcpConnectionPool.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeTcpConnectionPoolFromJson(json);
+  factory VirtualNodeTcpConnectionPool.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeTcpConnectionPool(
+      maxConnections: json['maxConnections'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualNodeTcpConnectionPoolToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxConnections = this.maxConnections;
+    return {
+      'maxConnections': maxConnections,
+    };
+  }
 }
 
 /// An object that represents a virtual router returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterData {
   /// The name of the service mesh that the virtual router resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The associated metadata for the virtual router.
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The specifications of the virtual router.
-  @_s.JsonKey(name: 'spec')
   final VirtualRouterSpec spec;
 
   /// The current status of the virtual router.
-  @_s.JsonKey(name: 'status')
   final VirtualRouterStatus status;
 
   /// The name of the virtual router.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   VirtualRouterData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualRouterName,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
+    required this.virtualRouterName,
   });
-  factory VirtualRouterData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterDataFromJson(json);
+  factory VirtualRouterData.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: VirtualRouterSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status:
+          VirtualRouterStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualRouterName: json['virtualRouterName'] as String,
+    );
+  }
 }
 
 /// An object that represents a virtual router listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualRouterListener {
-  @_s.JsonKey(name: 'portMapping')
   final PortMapping portMapping;
 
   VirtualRouterListener({
-    @_s.required this.portMapping,
+    required this.portMapping,
   });
-  factory VirtualRouterListener.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterListenerFromJson(json);
+  factory VirtualRouterListener.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterListener(
+      portMapping:
+          PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualRouterListenerToJson(this);
+  Map<String, dynamic> toJson() {
+    final portMapping = this.portMapping;
+    return {
+      'portMapping': portMapping,
+    };
+  }
 }
 
 /// An object that represents a virtual router returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterRef {
   /// The full Amazon Resource Name (ARN) for the virtual router.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the virtual router resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -7045,7 +7722,6 @@ class VirtualRouterRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -7053,210 +7729,250 @@ class VirtualRouterRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The name of the virtual router.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   VirtualRouterRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
-    @_s.required this.virtualRouterName,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
+    required this.virtualRouterName,
   });
-  factory VirtualRouterRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterRefFromJson(json);
+  factory VirtualRouterRef.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+      virtualRouterName: json['virtualRouterName'] as String,
+    );
+  }
 }
 
 /// An object that represents a virtual node service provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualRouterServiceProvider {
   /// The name of the virtual router that is acting as a service provider.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   VirtualRouterServiceProvider({
-    @_s.required this.virtualRouterName,
+    required this.virtualRouterName,
   });
-  factory VirtualRouterServiceProvider.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterServiceProviderFromJson(json);
+  factory VirtualRouterServiceProvider.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterServiceProvider(
+      virtualRouterName: json['virtualRouterName'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualRouterServiceProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualRouterName = this.virtualRouterName;
+    return {
+      'virtualRouterName': virtualRouterName,
+    };
+  }
 }
 
 /// An object that represents the specification of a virtual router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualRouterSpec {
   /// The listeners that the virtual router is expected to receive inbound traffic
   /// from. You can specify one listener.
-  @_s.JsonKey(name: 'listeners')
-  final List<VirtualRouterListener> listeners;
+  final List<VirtualRouterListener>? listeners;
 
   VirtualRouterSpec({
     this.listeners,
   });
-  factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterSpecFromJson(json);
+  factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterSpec(
+      listeners: (json['listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => VirtualRouterListener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualRouterSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final listeners = this.listeners;
+    return {
+      if (listeners != null) 'listeners': listeners,
+    };
+  }
 }
 
 /// An object that represents the status of a virtual router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterStatus {
   /// The current status of the virtual router.
-  @_s.JsonKey(name: 'status')
   final VirtualRouterStatusCode status;
 
   VirtualRouterStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterStatusFromJson(json);
+  factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterStatus(
+      status: (json['status'] as String).toVirtualRouterStatusCode(),
+    );
+  }
 }
 
 enum VirtualRouterStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on VirtualRouterStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualRouterStatusCode.active:
+        return 'ACTIVE';
+      case VirtualRouterStatusCode.inactive:
+        return 'INACTIVE';
+      case VirtualRouterStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  VirtualRouterStatusCode toVirtualRouterStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualRouterStatusCode.active;
+      case 'INACTIVE':
+        return VirtualRouterStatusCode.inactive;
+      case 'DELETED':
+        return VirtualRouterStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum VirtualRouterStatusCode');
+  }
+}
+
 /// An object that represents a virtual service backend for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualServiceBackend {
   /// The name of the virtual service that is acting as a virtual node backend.
-  @_s.JsonKey(name: 'virtualServiceName')
   final String virtualServiceName;
 
   /// A reference to an object that represents the client policy for a backend.
-  @_s.JsonKey(name: 'clientPolicy')
-  final ClientPolicy clientPolicy;
+  final ClientPolicy? clientPolicy;
 
   VirtualServiceBackend({
-    @_s.required this.virtualServiceName,
+    required this.virtualServiceName,
     this.clientPolicy,
   });
-  factory VirtualServiceBackend.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceBackendFromJson(json);
+  factory VirtualServiceBackend.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceBackend(
+      virtualServiceName: json['virtualServiceName'] as String,
+      clientPolicy: json['clientPolicy'] != null
+          ? ClientPolicy.fromJson(json['clientPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualServiceBackendToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualServiceName = this.virtualServiceName;
+    final clientPolicy = this.clientPolicy;
+    return {
+      'virtualServiceName': virtualServiceName,
+      if (clientPolicy != null) 'clientPolicy': clientPolicy,
+    };
+  }
 }
 
 /// An object that represents a virtual service returned by a describe
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualServiceData {
   /// The name of the service mesh that the virtual service resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The specifications of the virtual service.
-  @_s.JsonKey(name: 'spec')
   final VirtualServiceSpec spec;
 
   /// The current status of the virtual service.
-  @_s.JsonKey(name: 'status')
   final VirtualServiceStatus status;
 
   /// The name of the virtual service.
-  @_s.JsonKey(name: 'virtualServiceName')
   final String virtualServiceName;
 
   VirtualServiceData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
-    @_s.required this.spec,
-    @_s.required this.status,
-    @_s.required this.virtualServiceName,
+    required this.meshName,
+    required this.metadata,
+    required this.spec,
+    required this.status,
+    required this.virtualServiceName,
   });
-  factory VirtualServiceData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceDataFromJson(json);
+  factory VirtualServiceData.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      spec: VirtualServiceSpec.fromJson(json['spec'] as Map<String, dynamic>),
+      status:
+          VirtualServiceStatus.fromJson(json['status'] as Map<String, dynamic>),
+      virtualServiceName: json['virtualServiceName'] as String,
+    );
+  }
 }
 
 /// An object that represents the provider for a virtual service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualServiceProvider {
   /// The virtual node associated with a virtual service.
-  @_s.JsonKey(name: 'virtualNode')
-  final VirtualNodeServiceProvider virtualNode;
+  final VirtualNodeServiceProvider? virtualNode;
 
   /// The virtual router associated with a virtual service.
-  @_s.JsonKey(name: 'virtualRouter')
-  final VirtualRouterServiceProvider virtualRouter;
+  final VirtualRouterServiceProvider? virtualRouter;
 
   VirtualServiceProvider({
     this.virtualNode,
     this.virtualRouter,
   });
-  factory VirtualServiceProvider.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceProviderFromJson(json);
+  factory VirtualServiceProvider.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceProvider(
+      virtualNode: json['virtualNode'] != null
+          ? VirtualNodeServiceProvider.fromJson(
+              json['virtualNode'] as Map<String, dynamic>)
+          : null,
+      virtualRouter: json['virtualRouter'] != null
+          ? VirtualRouterServiceProvider.fromJson(
+              json['virtualRouter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualServiceProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    final virtualRouter = this.virtualRouter;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+      if (virtualRouter != null) 'virtualRouter': virtualRouter,
+    };
+  }
 }
 
 /// An object that represents a virtual service returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualServiceRef {
   /// The full Amazon Resource Name (ARN) for the virtual service.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the service mesh that the virtual service resides in.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not
@@ -7264,7 +7980,6 @@ class VirtualServiceRef {
   /// account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'meshOwner')
   final String meshOwner;
 
   /// The AWS IAM account ID of the resource owner. If the account ID is not your
@@ -7272,78 +7987,112 @@ class VirtualServiceRef {
   /// is shared with. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
-  @_s.JsonKey(name: 'resourceOwner')
   final String resourceOwner;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is incremented each time that they're updated.
-  @_s.JsonKey(name: 'version')
   final int version;
 
   /// The name of the virtual service.
-  @_s.JsonKey(name: 'virtualServiceName')
   final String virtualServiceName;
 
   VirtualServiceRef({
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.lastUpdatedAt,
-    @_s.required this.meshName,
-    @_s.required this.meshOwner,
-    @_s.required this.resourceOwner,
-    @_s.required this.version,
-    @_s.required this.virtualServiceName,
+    required this.arn,
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.meshName,
+    required this.meshOwner,
+    required this.resourceOwner,
+    required this.version,
+    required this.virtualServiceName,
   });
-  factory VirtualServiceRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceRefFromJson(json);
+  factory VirtualServiceRef.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceRef(
+      arn: json['arn'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['lastUpdatedAt'] as Object),
+      meshName: json['meshName'] as String,
+      meshOwner: json['meshOwner'] as String,
+      resourceOwner: json['resourceOwner'] as String,
+      version: json['version'] as int,
+      virtualServiceName: json['virtualServiceName'] as String,
+    );
+  }
 }
 
 /// An object that represents the specification of a virtual service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualServiceSpec {
   /// The App Mesh object that is acting as the provider for a virtual service.
   /// You can specify a single virtual node or virtual router.
-  @_s.JsonKey(name: 'provider')
-  final VirtualServiceProvider provider;
+  final VirtualServiceProvider? provider;
 
   VirtualServiceSpec({
     this.provider,
   });
-  factory VirtualServiceSpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceSpecFromJson(json);
+  factory VirtualServiceSpec.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceSpec(
+      provider: json['provider'] != null
+          ? VirtualServiceProvider.fromJson(
+              json['provider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VirtualServiceSpecToJson(this);
+  Map<String, dynamic> toJson() {
+    final provider = this.provider;
+    return {
+      if (provider != null) 'provider': provider,
+    };
+  }
 }
 
 /// An object that represents the status of a virtual service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualServiceStatus {
   /// The current status of the virtual service.
-  @_s.JsonKey(name: 'status')
   final VirtualServiceStatusCode status;
 
   VirtualServiceStatus({
-    @_s.required this.status,
+    required this.status,
   });
-  factory VirtualServiceStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualServiceStatusFromJson(json);
+  factory VirtualServiceStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualServiceStatus(
+      status: (json['status'] as String).toVirtualServiceStatusCode(),
+    );
+  }
 }
 
 enum VirtualServiceStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on VirtualServiceStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualServiceStatusCode.active:
+        return 'ACTIVE';
+      case VirtualServiceStatusCode.inactive:
+        return 'INACTIVE';
+      case VirtualServiceStatusCode.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  VirtualServiceStatusCode toVirtualServiceStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualServiceStatusCode.active;
+      case 'INACTIVE':
+        return VirtualServiceStatusCode.inactive;
+      case 'DELETED':
+        return VirtualServiceStatusCode.deleted;
+    }
+    throw Exception('$this is not known in enum VirtualServiceStatusCode');
+  }
 }
 
 /// An object that represents a target and its relative weight. Traffic is
@@ -7351,79 +8100,83 @@ enum VirtualServiceStatusCode {
 /// a weighted target with a relative weight of 50 receives five times as much
 /// traffic as one with a relative weight of 10. The total weight for all
 /// targets combined must be less than or equal to 100.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WeightedTarget {
   /// The virtual node to associate with the weighted target.
-  @_s.JsonKey(name: 'virtualNode')
   final String virtualNode;
 
   /// The relative weight of the weighted target.
-  @_s.JsonKey(name: 'weight')
   final int weight;
 
   WeightedTarget({
-    @_s.required this.virtualNode,
-    @_s.required this.weight,
+    required this.virtualNode,
+    required this.weight,
   });
-  factory WeightedTarget.fromJson(Map<String, dynamic> json) =>
-      _$WeightedTargetFromJson(json);
+  factory WeightedTarget.fromJson(Map<String, dynamic> json) {
+    return WeightedTarget(
+      virtualNode: json['virtualNode'] as String,
+      weight: json['weight'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WeightedTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    final weight = this.weight;
+    return {
+      'virtualNode': virtualNode,
+      'weight': weight,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

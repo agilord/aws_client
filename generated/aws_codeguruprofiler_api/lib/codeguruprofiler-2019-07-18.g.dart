@@ -20,43 +20,37 @@ AgentConfiguration _$AgentConfigurationFromJson(Map<String, dynamic> json) {
   return AgentConfiguration(
     periodInSeconds: json['periodInSeconds'] as int,
     shouldProfile: json['shouldProfile'] as bool,
-    agentParameters: (json['agentParameters'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          _$enumDecodeNullable(_$AgentParameterFieldEnumMap, k), e as String),
+    agentParameters: (json['agentParameters'] as Map<String, dynamic>?)?.map(
+      (k, e) =>
+          MapEntry(_$enumDecode(_$AgentParameterFieldEnumMap, k), e as String),
     ),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AgentParameterFieldEnumMap = {
@@ -78,18 +72,10 @@ AgentOrchestrationConfig _$AgentOrchestrationConfigFromJson(
 }
 
 Map<String, dynamic> _$AgentOrchestrationConfigToJson(
-    AgentOrchestrationConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('profilingEnabled', instance.profilingEnabled);
-  return val;
-}
+        AgentOrchestrationConfig instance) =>
+    <String, dynamic>{
+      'profilingEnabled': instance.profilingEnabled,
+    };
 
 AggregatedProfileTime _$AggregatedProfileTimeFromJson(
     Map<String, dynamic> json) {
@@ -97,6 +83,17 @@ AggregatedProfileTime _$AggregatedProfileTimeFromJson(
     period: _$enumDecodeNullable(_$AggregationPeriodEnumMap, json['period']),
     start: const IsoDateTimeConverter().fromJson(json['start']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AggregationPeriodEnumMap = {
@@ -107,14 +104,10 @@ const _$AggregationPeriodEnumMap = {
 
 Anomaly _$AnomalyFromJson(Map<String, dynamic> json) {
   return Anomaly(
-    instances: (json['instances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AnomalyInstance.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    metric: json['metric'] == null
-        ? null
-        : Metric.fromJson(json['metric'] as Map<String, dynamic>),
+    instances: (json['instances'] as List<dynamic>)
+        .map((e) => AnomalyInstance.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    metric: Metric.fromJson(json['metric'] as Map<String, dynamic>),
     reason: json['reason'] as String,
   );
 }
@@ -122,7 +115,7 @@ Anomaly _$AnomalyFromJson(Map<String, dynamic> json) {
 AnomalyInstance _$AnomalyInstanceFromJson(Map<String, dynamic> json) {
   return AnomalyInstance(
     id: json['id'] as String,
-    startTime: const IsoDateTimeConverter().fromJson(json['startTime']),
+    startTime: DateTime.parse(json['startTime'] as String),
     endTime: const IsoDateTimeConverter().fromJson(json['endTime']),
     userFeedback: json['userFeedback'] == null
         ? null
@@ -133,45 +126,44 @@ AnomalyInstance _$AnomalyInstanceFromJson(Map<String, dynamic> json) {
 BatchGetFrameMetricDataResponse _$BatchGetFrameMetricDataResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetFrameMetricDataResponse(
-    endTime: const IsoDateTimeConverter().fromJson(json['endTime']),
-    endTimes: (json['endTimes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TimestampStructure.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    frameMetricData: (json['frameMetricData'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FrameMetricDatum.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resolution:
-        _$enumDecodeNullable(_$AggregationPeriodEnumMap, json['resolution']),
-    startTime: const IsoDateTimeConverter().fromJson(json['startTime']),
+    endTime: DateTime.parse(json['endTime'] as String),
+    endTimes: (json['endTimes'] as List<dynamic>)
+        .map((e) => TimestampStructure.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    frameMetricData: (json['frameMetricData'] as List<dynamic>)
+        .map((e) => FrameMetricDatum.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resolution: _$enumDecode(_$AggregationPeriodEnumMap, json['resolution']),
+    startTime: DateTime.parse(json['startTime'] as String),
     unprocessedEndTimes:
-        (json['unprocessedEndTimes'] as Map<String, dynamic>)?.map(
+        (json['unprocessedEndTimes'] as Map<String, dynamic>).map(
       (k, e) => MapEntry(
           k,
-          (e as List)
-              ?.map((e) => e == null
-                  ? null
-                  : TimestampStructure.fromJson(e as Map<String, dynamic>))
-              ?.toList()),
+          (e as List<dynamic>)
+              .map(
+                  (e) => TimestampStructure.fromJson(e as Map<String, dynamic>))
+              .toList()),
     ),
   );
 }
 
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
-    eventPublishers: (json['eventPublishers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EventPublisherEnumMap, e))
-        ?.toList(),
+    eventPublishers: (json['eventPublishers'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$EventPublisherEnumMap, e))
+        .toList(),
     uri: json['uri'] as String,
-    id: json['id'] as String,
+    id: json['id'] as String?,
   );
 }
 
 Map<String, dynamic> _$ChannelToJson(Channel instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'eventPublishers': instance.eventPublishers
+        .map((e) => _$EventPublisherEnumMap[e])
+        .toList(),
+    'uri': instance.uri,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -179,12 +171,6 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) {
     }
   }
 
-  writeNotNull(
-      'eventPublishers',
-      instance.eventPublishers
-          ?.map((e) => _$EventPublisherEnumMap[e])
-          ?.toList());
-  writeNotNull('uri', instance.uri);
   writeNotNull('id', instance.id);
   return val;
 }
@@ -196,20 +182,16 @@ const _$EventPublisherEnumMap = {
 ConfigureAgentResponse _$ConfigureAgentResponseFromJson(
     Map<String, dynamic> json) {
   return ConfigureAgentResponse(
-    configuration: json['configuration'] == null
-        ? null
-        : AgentConfiguration.fromJson(
-            json['configuration'] as Map<String, dynamic>),
+    configuration: AgentConfiguration.fromJson(
+        json['configuration'] as Map<String, dynamic>),
   );
 }
 
 CreateProfilingGroupResponse _$CreateProfilingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateProfilingGroupResponse(
-    profilingGroup: json['profilingGroup'] == null
-        ? null
-        : ProfilingGroupDescription.fromJson(
-            json['profilingGroup'] as Map<String, dynamic>),
+    profilingGroup: ProfilingGroupDescription.fromJson(
+        json['profilingGroup'] as Map<String, dynamic>),
   );
 }
 
@@ -221,49 +203,40 @@ DeleteProfilingGroupResponse _$DeleteProfilingGroupResponseFromJson(
 DescribeProfilingGroupResponse _$DescribeProfilingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProfilingGroupResponse(
-    profilingGroup: json['profilingGroup'] == null
-        ? null
-        : ProfilingGroupDescription.fromJson(
-            json['profilingGroup'] as Map<String, dynamic>),
+    profilingGroup: ProfilingGroupDescription.fromJson(
+        json['profilingGroup'] as Map<String, dynamic>),
   );
 }
 
 FindingsReportSummary _$FindingsReportSummaryFromJson(
     Map<String, dynamic> json) {
   return FindingsReportSummary(
-    id: json['id'] as String,
+    id: json['id'] as String?,
     profileEndTime:
         const IsoDateTimeConverter().fromJson(json['profileEndTime']),
     profileStartTime:
         const IsoDateTimeConverter().fromJson(json['profileStartTime']),
-    profilingGroupName: json['profilingGroupName'] as String,
-    totalNumberOfFindings: json['totalNumberOfFindings'] as int,
+    profilingGroupName: json['profilingGroupName'] as String?,
+    totalNumberOfFindings: json['totalNumberOfFindings'] as int?,
   );
 }
 
 FrameMetric _$FrameMetricFromJson(Map<String, dynamic> json) {
   return FrameMetric(
     frameName: json['frameName'] as String,
-    threadStates:
-        (json['threadStates'] as List)?.map((e) => e as String)?.toList(),
-    type: _$enumDecodeNullable(_$MetricTypeEnumMap, json['type']),
+    threadStates: (json['threadStates'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    type: _$enumDecode(_$MetricTypeEnumMap, json['type']),
   );
 }
 
-Map<String, dynamic> _$FrameMetricToJson(FrameMetric instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('frameName', instance.frameName);
-  writeNotNull('threadStates', instance.threadStates);
-  writeNotNull('type', _$MetricTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$FrameMetricToJson(FrameMetric instance) =>
+    <String, dynamic>{
+      'frameName': instance.frameName,
+      'threadStates': instance.threadStates,
+      'type': _$MetricTypeEnumMap[instance.type],
+    };
 
 const _$MetricTypeEnumMap = {
   MetricType.aggregatedRelativeTotalTime: 'AggregatedRelativeTotalTime',
@@ -271,11 +244,11 @@ const _$MetricTypeEnumMap = {
 
 FrameMetricDatum _$FrameMetricDatumFromJson(Map<String, dynamic> json) {
   return FrameMetricDatum(
-    frameMetric: json['frameMetric'] == null
-        ? null
-        : FrameMetric.fromJson(json['frameMetric'] as Map<String, dynamic>),
-    values:
-        (json['values'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),
+    frameMetric:
+        FrameMetric.fromJson(json['frameMetric'] as Map<String, dynamic>),
+    values: (json['values'] as List<dynamic>)
+        .map((e) => (e as num).toDouble())
+        .toList(),
   );
 }
 
@@ -283,22 +256,18 @@ GetFindingsReportAccountSummaryResponse
     _$GetFindingsReportAccountSummaryResponseFromJson(
         Map<String, dynamic> json) {
   return GetFindingsReportAccountSummaryResponse(
-    reportSummaries: (json['reportSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FindingsReportSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    reportSummaries: (json['reportSummaries'] as List<dynamic>)
+        .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 GetNotificationConfigurationResponse
     _$GetNotificationConfigurationResponseFromJson(Map<String, dynamic> json) {
   return GetNotificationConfigurationResponse(
-    notificationConfiguration: json['notificationConfiguration'] == null
-        ? null
-        : NotificationConfiguration.fromJson(
-            json['notificationConfiguration'] as Map<String, dynamic>),
+    notificationConfiguration: NotificationConfiguration.fromJson(
+        json['notificationConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -313,72 +282,63 @@ GetProfileResponse _$GetProfileResponseFromJson(Map<String, dynamic> json) {
   return GetProfileResponse(
     contentType: json['Content-Type'] as String,
     profile: const Uint8ListConverter().fromJson(json['profile'] as String),
-    contentEncoding: json['Content-Encoding'] as String,
+    contentEncoding: json['Content-Encoding'] as String?,
   );
 }
 
 GetRecommendationsResponse _$GetRecommendationsResponseFromJson(
     Map<String, dynamic> json) {
   return GetRecommendationsResponse(
-    anomalies: (json['anomalies'] as List)
-        ?.map((e) =>
-            e == null ? null : Anomaly.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    profileEndTime:
-        const IsoDateTimeConverter().fromJson(json['profileEndTime']),
-    profileStartTime:
-        const IsoDateTimeConverter().fromJson(json['profileStartTime']),
+    anomalies: (json['anomalies'] as List<dynamic>)
+        .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    profileEndTime: DateTime.parse(json['profileEndTime'] as String),
+    profileStartTime: DateTime.parse(json['profileStartTime'] as String),
     profilingGroupName: json['profilingGroupName'] as String,
-    recommendations: (json['recommendations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Recommendation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    recommendations: (json['recommendations'] as List<dynamic>)
+        .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListFindingsReportsResponse _$ListFindingsReportsResponseFromJson(
     Map<String, dynamic> json) {
   return ListFindingsReportsResponse(
-    findingsReportSummaries: (json['findingsReportSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FindingsReportSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    findingsReportSummaries: (json['findingsReportSummaries'] as List<dynamic>)
+        .map((e) => FindingsReportSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListProfileTimesResponse _$ListProfileTimesResponseFromJson(
     Map<String, dynamic> json) {
   return ListProfileTimesResponse(
-    profileTimes: (json['profileTimes'] as List)
-        ?.map((e) =>
-            e == null ? null : ProfileTime.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    profileTimes: (json['profileTimes'] as List<dynamic>)
+        .map((e) => ProfileTime.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListProfilingGroupsResponse _$ListProfilingGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListProfilingGroupsResponse(
-    profilingGroupNames: (json['profilingGroupNames'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
-    profilingGroups: (json['profilingGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProfilingGroupDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    profilingGroupNames: (json['profilingGroupNames'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    nextToken: json['nextToken'] as String?,
+    profilingGroups: (json['profilingGroups'] as List<dynamic>?)
+        ?.map((e) =>
+            ProfilingGroupDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -386,44 +346,44 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 Match _$MatchFromJson(Map<String, dynamic> json) {
   return Match(
-    frameAddress: json['frameAddress'] as String,
-    targetFramesIndex: json['targetFramesIndex'] as int,
-    thresholdBreachValue: (json['thresholdBreachValue'] as num)?.toDouble(),
+    frameAddress: json['frameAddress'] as String?,
+    targetFramesIndex: json['targetFramesIndex'] as int?,
+    thresholdBreachValue: (json['thresholdBreachValue'] as num?)?.toDouble(),
   );
 }
 
 Metric _$MetricFromJson(Map<String, dynamic> json) {
   return Metric(
     frameName: json['frameName'] as String,
-    threadStates:
-        (json['threadStates'] as List)?.map((e) => e as String)?.toList(),
-    type: _$enumDecodeNullable(_$MetricTypeEnumMap, json['type']),
+    threadStates: (json['threadStates'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    type: _$enumDecode(_$MetricTypeEnumMap, json['type']),
   );
 }
 
 NotificationConfiguration _$NotificationConfigurationFromJson(
     Map<String, dynamic> json) {
   return NotificationConfiguration(
-    channels: (json['channels'] as List)
-        ?.map((e) =>
-            e == null ? null : Channel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    channels: (json['channels'] as List<dynamic>?)
+        ?.map((e) => Channel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Pattern _$PatternFromJson(Map<String, dynamic> json) {
   return Pattern(
-    countersToAggregate: (json['countersToAggregate'] as List)
+    countersToAggregate: (json['countersToAggregate'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    description: json['description'] as String,
-    id: json['id'] as String,
-    name: json['name'] as String,
-    resolutionSteps: json['resolutionSteps'] as String,
-    targetFrames: (json['targetFrames'] as List)
-        ?.map((e) => (e as List)?.map((e) => e as String)?.toList())
-        ?.toList(),
-    thresholdPercent: (json['thresholdPercent'] as num)?.toDouble(),
+        .toList(),
+    description: json['description'] as String?,
+    id: json['id'] as String?,
+    name: json['name'] as String?,
+    resolutionSteps: json['resolutionSteps'] as String?,
+    targetFrames: (json['targetFrames'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+        .toList(),
+    thresholdPercent: (json['thresholdPercent'] as num?)?.toDouble(),
   );
 }
 
@@ -445,16 +405,16 @@ ProfilingGroupDescription _$ProfilingGroupDescriptionFromJson(
         ? null
         : AgentOrchestrationConfig.fromJson(
             json['agentOrchestrationConfig'] as Map<String, dynamic>),
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     computePlatform:
         _$enumDecodeNullable(_$ComputePlatformEnumMap, json['computePlatform']),
     createdAt: const IsoDateTimeConverter().fromJson(json['createdAt']),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     profilingStatus: json['profilingStatus'] == null
         ? null
         : ProfilingStatus.fromJson(
             json['profilingStatus'] as Map<String, dynamic>),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     updatedAt: const IsoDateTimeConverter().fromJson(json['updatedAt']),
@@ -490,16 +450,13 @@ PutPermissionResponse _$PutPermissionResponseFromJson(
 Recommendation _$RecommendationFromJson(Map<String, dynamic> json) {
   return Recommendation(
     allMatchesCount: json['allMatchesCount'] as int,
-    allMatchesSum: (json['allMatchesSum'] as num)?.toDouble(),
-    endTime: const IsoDateTimeConverter().fromJson(json['endTime']),
-    pattern: json['pattern'] == null
-        ? null
-        : Pattern.fromJson(json['pattern'] as Map<String, dynamic>),
-    startTime: const IsoDateTimeConverter().fromJson(json['startTime']),
-    topMatches: (json['topMatches'] as List)
-        ?.map(
-            (e) => e == null ? null : Match.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    allMatchesSum: (json['allMatchesSum'] as num).toDouble(),
+    endTime: DateTime.parse(json['endTime'] as String),
+    pattern: Pattern.fromJson(json['pattern'] as Map<String, dynamic>),
+    startTime: DateTime.parse(json['startTime'] as String),
+    topMatches: (json['topMatches'] as List<dynamic>)
+        .map((e) => Match.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -532,7 +489,7 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TimestampStructure _$TimestampStructureFromJson(Map<String, dynamic> json) {
   return TimestampStructure(
-    value: const IsoDateTimeConverter().fromJson(json['value']),
+    value: DateTime.parse(json['value'] as String),
   );
 }
 
@@ -544,16 +501,14 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 UpdateProfilingGroupResponse _$UpdateProfilingGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateProfilingGroupResponse(
-    profilingGroup: json['profilingGroup'] == null
-        ? null
-        : ProfilingGroupDescription.fromJson(
-            json['profilingGroup'] as Map<String, dynamic>),
+    profilingGroup: ProfilingGroupDescription.fromJson(
+        json['profilingGroup'] as Map<String, dynamic>),
   );
 }
 
 UserFeedback _$UserFeedbackFromJson(Map<String, dynamic> json) {
   return UserFeedback(
-    type: _$enumDecodeNullable(_$FeedbackTypeEnumMap, json['type']),
+    type: _$enumDecode(_$FeedbackTypeEnumMap, json['type']),
   );
 }
 

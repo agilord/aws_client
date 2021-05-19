@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'kms-2014-11-01.g.dart';
 
 /// AWS Key Management Service (AWS KMS) is an encryption and key management web
 /// service. This guide describes the AWS KMS operations that you can call
@@ -46,10 +38,10 @@ part 'kms-2014-11-01.g.dart';
 class KMS {
   final _s.JsonProtocol _protocol;
   KMS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -111,7 +103,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<CancelKeyDeletionResponse> cancelKeyDeletion({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -226,7 +218,7 @@ class KMS {
   /// To find the ID of a custom key store, use the
   /// <a>DescribeCustomKeyStores</a> operation.
   Future<void> connectCustomKeyStore({
-    @_s.required String customKeyStoreId,
+    required String customKeyStoreId,
   }) async {
     ArgumentError.checkNotNull(customKeyStoreId, 'customKeyStoreId');
     _s.validateStringLength(
@@ -240,7 +232,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ConnectCustomKeyStore'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -250,8 +242,6 @@ class KMS {
         'CustomKeyStoreId': customKeyStoreId,
       },
     );
-
-    return ConnectCustomKeyStoreResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a friendly name for a customer master key (CMK). You can use an
@@ -369,8 +359,8 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> createAlias({
-    @_s.required String aliasName,
-    @_s.required String targetKeyId,
+    required String aliasName,
+    required String targetKeyId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
     _s.validateStringLength(
@@ -398,7 +388,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.CreateAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -509,10 +499,10 @@ class KMS {
   /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html">initialized
   /// the cluster</a>.
   Future<CreateCustomKeyStoreResponse> createCustomKeyStore({
-    @_s.required String cloudHsmClusterId,
-    @_s.required String customKeyStoreName,
-    @_s.required String keyStorePassword,
-    @_s.required String trustAnchorCertificate,
+    required String cloudHsmClusterId,
+    required String customKeyStoreName,
+    required String keyStorePassword,
+    required String trustAnchorCertificate,
   }) async {
     ArgumentError.checkNotNull(cloudHsmClusterId, 'cloudHsmClusterId');
     _s.validateStringLength(
@@ -754,13 +744,13 @@ class KMS {
   /// Identity and Access Management (IAM)</a> in the Example ARNs section of
   /// the <i>AWS General Reference</i>.
   Future<CreateGrantResponse> createGrant({
-    @_s.required String granteePrincipal,
-    @_s.required String keyId,
-    @_s.required List<GrantOperation> operations,
-    GrantConstraints constraints,
-    List<String> grantTokens,
-    String name,
-    String retiringPrincipal,
+    required String granteePrincipal,
+    required String keyId,
+    required List<GrantOperation> operations,
+    GrantConstraints? constraints,
+    List<String>? grantTokens,
+    String? name,
+    String? retiringPrincipal,
   }) async {
     ArgumentError.checkNotNull(granteePrincipal, 'granteePrincipal');
     _s.validateStringLength(
@@ -820,7 +810,7 @@ class KMS {
       payload: {
         'GranteePrincipal': granteePrincipal,
         'KeyId': keyId,
-        'Operations': operations?.map((e) => e?.toValue() ?? '')?.toList(),
+        'Operations': operations.map((e) => e.toValue()).toList(),
         if (constraints != null) 'Constraints': constraints,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (name != null) 'Name': name,
@@ -1179,14 +1169,14 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">kms:TagResource</a>
   /// permission in an IAM policy.
   Future<CreateKeyResponse> createKey({
-    bool bypassPolicyLockoutSafetyCheck,
-    String customKeyStoreId,
-    CustomerMasterKeySpec customerMasterKeySpec,
-    String description,
-    KeyUsageType keyUsage,
-    OriginType origin,
-    String policy,
-    List<Tag> tags,
+    bool? bypassPolicyLockoutSafetyCheck,
+    String? customKeyStoreId,
+    CustomerMasterKeySpec? customerMasterKeySpec,
+    String? description,
+    KeyUsageType? keyUsage,
+    OriginType? origin,
+    String? policy,
+    List<Tag>? tags,
   }) async {
     _s.validateStringLength(
       'customKeyStoreId',
@@ -1416,11 +1406,11 @@ class KMS {
   /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
   /// <a>ListAliases</a>.
   Future<DecryptResponse> decrypt({
-    @_s.required Uint8List ciphertextBlob,
-    EncryptionAlgorithmSpec encryptionAlgorithm,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
-    String keyId,
+    required Uint8List ciphertextBlob,
+    EncryptionAlgorithmSpec? encryptionAlgorithm,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
+    String? keyId,
   }) async {
     ArgumentError.checkNotNull(ciphertextBlob, 'ciphertextBlob');
     _s.validateStringLength(
@@ -1440,7 +1430,7 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
+        'CiphertextBlob': base64Encode(ciphertextBlob),
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -1510,7 +1500,7 @@ class KMS {
   /// <code>alias/</code> followed by the alias name, such as
   /// <code>alias/ExampleAlias</code>.
   Future<void> deleteAlias({
-    @_s.required String aliasName,
+    required String aliasName,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
     _s.validateStringLength(
@@ -1530,7 +1520,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DeleteAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1615,7 +1605,7 @@ class KMS {
   /// Enter the ID of the custom key store you want to delete. To find the ID of
   /// a custom key store, use the <a>DescribeCustomKeyStores</a> operation.
   Future<void> deleteCustomKeyStore({
-    @_s.required String customKeyStoreId,
+    required String customKeyStoreId,
   }) async {
     ArgumentError.checkNotNull(customKeyStoreId, 'customKeyStoreId');
     _s.validateStringLength(
@@ -1629,7 +1619,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DeleteCustomKeyStore'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1639,8 +1629,6 @@ class KMS {
         'CustomKeyStoreId': customKeyStoreId,
       },
     );
-
-    return DeleteCustomKeyStoreResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes key material that you previously imported. This operation makes
@@ -1707,7 +1695,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> deleteImportedKeyMaterial({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -1721,7 +1709,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DeleteImportedKeyMaterial'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1826,10 +1814,10 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<DescribeCustomKeyStoresResponse> describeCustomKeyStores({
-    String customKeyStoreId,
-    String customKeyStoreName,
-    int limit,
-    String marker,
+    String? customKeyStoreId,
+    String? customKeyStoreName,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateStringLength(
       'customKeyStoreId',
@@ -2011,8 +1999,8 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   Future<DescribeKeyResponse> describeKey({
-    @_s.required String keyId,
-    List<String> grantTokens,
+    required String keyId,
+    List<String>? grantTokens,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2091,7 +2079,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> disableKey({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2105,7 +2093,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DisableKey'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2185,7 +2173,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> disableKeyRotation({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2199,7 +2187,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DisableKeyRotation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2272,7 +2260,7 @@ class KMS {
   /// ID of a custom key store, use the <a>DescribeCustomKeyStores</a>
   /// operation.
   Future<void> disconnectCustomKeyStore({
-    @_s.required String customKeyStoreId,
+    required String customKeyStoreId,
   }) async {
     ArgumentError.checkNotNull(customKeyStoreId, 'customKeyStoreId');
     _s.validateStringLength(
@@ -2286,7 +2274,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.DisconnectCustomKeyStore'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2296,8 +2284,6 @@ class KMS {
         'CustomKeyStoreId': customKeyStoreId,
       },
     );
-
-    return DisconnectCustomKeyStoreResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets the key state of a customer master key (CMK) to enabled. This allows
@@ -2346,7 +2332,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> enableKey({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2360,7 +2346,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.EnableKey'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2437,7 +2423,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> enableKeyRotation({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2451,7 +2437,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.EnableKeyRotation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2664,11 +2650,11 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   Future<EncryptResponse> encrypt({
-    @_s.required String keyId,
-    @_s.required Uint8List plaintext,
-    EncryptionAlgorithmSpec encryptionAlgorithm,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
+    required String keyId,
+    required Uint8List plaintext,
+    EncryptionAlgorithmSpec? encryptionAlgorithm,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -2691,7 +2677,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Plaintext': plaintext?.let(base64Encode),
+        'Plaintext': base64Encode(plaintext),
         if (encryptionAlgorithm != null)
           'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
@@ -2884,11 +2870,11 @@ class KMS {
   /// <code>NumberOfBytes</code> parameter (but not both) in every
   /// <code>GenerateDataKey</code> request.
   Future<GenerateDataKeyResponse> generateDataKey({
-    @_s.required String keyId,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
-    DataKeySpec keySpec,
-    int numberOfBytes,
+    required String keyId,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
+    DataKeySpec? keySpec,
+    int? numberOfBytes,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3073,10 +3059,10 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   Future<GenerateDataKeyPairResponse> generateDataKeyPair({
-    @_s.required String keyId,
-    @_s.required DataKeyPairSpec keyPairSpec,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
+    required String keyId,
+    required DataKeyPairSpec keyPairSpec,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3099,7 +3085,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue() ?? '',
+        'KeyPairSpec': keyPairSpec.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -3248,10 +3234,10 @@ class KMS {
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   Future<GenerateDataKeyPairWithoutPlaintextResponse>
       generateDataKeyPairWithoutPlaintext({
-    @_s.required String keyId,
-    @_s.required DataKeyPairSpec keyPairSpec,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
+    required String keyId,
+    required DataKeyPairSpec keyPairSpec,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3274,7 +3260,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue() ?? '',
+        'KeyPairSpec': keyPairSpec.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -3434,11 +3420,11 @@ class KMS {
   /// <code>KeySpec</code> field instead of this one.
   Future<GenerateDataKeyWithoutPlaintextResponse>
       generateDataKeyWithoutPlaintext({
-    @_s.required String keyId,
-    Map<String, String> encryptionContext,
-    List<String> grantTokens,
-    DataKeySpec keySpec,
-    int numberOfBytes,
+    required String keyId,
+    Map<String, String>? encryptionContext,
+    List<String>? grantTokens,
+    DataKeySpec? keySpec,
+    int? numberOfBytes,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3507,8 +3493,8 @@ class KMS {
   /// Parameter [numberOfBytes] :
   /// The length of the byte string.
   Future<GenerateRandomResponse> generateRandom({
-    String customKeyStoreId,
-    int numberOfBytes,
+    String? customKeyStoreId,
+    int? numberOfBytes,
   }) async {
     _s.validateStringLength(
       'customKeyStoreId',
@@ -3582,8 +3568,8 @@ class KMS {
   /// <code>default</code>. To get the names of key policies, use
   /// <a>ListKeyPolicies</a>.
   Future<GetKeyPolicyResponse> getKeyPolicy({
-    @_s.required String keyId,
-    @_s.required String policyName,
+    required String keyId,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3701,7 +3687,7 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<GetKeyRotationStatusResponse> getKeyRotationStatus({
-    @_s.required String keyId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3816,9 +3802,9 @@ class KMS {
   /// The type of wrapping key (public key) to return in the response. Only
   /// 2048-bit RSA public keys are supported.
   Future<GetParametersForImportResponse> getParametersForImport({
-    @_s.required String keyId,
-    @_s.required AlgorithmSpec wrappingAlgorithm,
-    @_s.required WrappingKeySpec wrappingKeySpec,
+    required String keyId,
+    required AlgorithmSpec wrappingAlgorithm,
+    required WrappingKeySpec wrappingKeySpec,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -3842,8 +3828,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm?.toValue() ?? '',
-        'WrappingKeySpec': wrappingKeySpec?.toValue() ?? '',
+        'WrappingAlgorithm': wrappingAlgorithm.toValue(),
+        'WrappingKeySpec': wrappingKeySpec.toValue(),
       },
     );
 
@@ -3967,8 +3953,8 @@ class KMS {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
   Future<GetPublicKeyResponse> getPublicKey({
-    @_s.required String keyId,
-    List<String> grantTokens,
+    required String keyId,
+    List<String>? grantTokens,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -4137,11 +4123,11 @@ class KMS {
   /// parameter is set to <code>KEY_MATERIAL_DOES_NOT_EXPIRE</code>. Otherwise
   /// it is required.
   Future<void> importKeyMaterial({
-    @_s.required Uint8List encryptedKeyMaterial,
-    @_s.required Uint8List importToken,
-    @_s.required String keyId,
-    ExpirationModelType expirationModel,
-    DateTime validTo,
+    required Uint8List encryptedKeyMaterial,
+    required Uint8List importToken,
+    required String keyId,
+    ExpirationModelType? expirationModel,
+    DateTime? validTo,
   }) async {
     ArgumentError.checkNotNull(encryptedKeyMaterial, 'encryptedKeyMaterial');
     ArgumentError.checkNotNull(importToken, 'importToken');
@@ -4157,23 +4143,21 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.ImportKeyMaterial'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptedKeyMaterial': encryptedKeyMaterial?.let(base64Encode),
-        'ImportToken': importToken?.let(base64Encode),
+        'EncryptedKeyMaterial': base64Encode(encryptedKeyMaterial),
+        'ImportToken': base64Encode(importToken),
         'KeyId': keyId,
         if (expirationModel != null)
           'ExpirationModel': expirationModel.toValue(),
         if (validTo != null) 'ValidTo': unixTimestampToJson(validTo),
       },
     );
-
-    return ImportKeyMaterialResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of aliases in the caller's AWS account and region. For more
@@ -4265,9 +4249,9 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<ListAliasesResponse> listAliases({
-    String keyId,
-    int limit,
-    String marker,
+    String? keyId,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateStringLength(
       'keyId',
@@ -4386,9 +4370,9 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<ListGrantsResponse> listGrants({
-    @_s.required String keyId,
-    int limit,
-    String marker,
+    required String keyId,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -4498,9 +4482,9 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<ListKeyPoliciesResponse> listKeyPolicies({
-    @_s.required String keyId,
-    int limit,
-    String marker,
+    required String keyId,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -4591,8 +4575,8 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<ListKeysResponse> listKeys({
-    int limit,
-    String marker,
+    int? limit,
+    String? marker,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -4698,9 +4682,9 @@ class KMS {
   /// Do not attempt to construct this value. Use only the value of
   /// <code>NextMarker</code> from the truncated response you just received.
   Future<ListResourceTagsResponse> listResourceTags({
-    @_s.required String keyId,
-    int limit,
-    String marker,
+    required String keyId,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -4815,9 +4799,9 @@ class KMS {
   /// with truncated results. Set it to the value of <code>NextMarker</code>
   /// from the truncated response you just received.
   Future<ListGrantsResponse> listRetirableGrants({
-    @_s.required String retiringPrincipal,
-    int limit,
-    String marker,
+    required String retiringPrincipal,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(retiringPrincipal, 'retiringPrincipal');
     _s.validateStringLength(
@@ -4973,10 +4957,10 @@ class KMS {
   ///
   /// The default value is false.
   Future<void> putKeyPolicy({
-    @_s.required String keyId,
-    @_s.required String policy,
-    @_s.required String policyName,
-    bool bypassPolicyLockoutSafetyCheck,
+    required String keyId,
+    required String policy,
+    required String policyName,
+    bool? bypassPolicyLockoutSafetyCheck,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -5018,7 +5002,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.PutKeyPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5296,14 +5280,14 @@ class KMS {
   /// <a>DescribeKey</a>. To get the alias name and alias ARN, use
   /// <a>ListAliases</a>.
   Future<ReEncryptResponse> reEncrypt({
-    @_s.required Uint8List ciphertextBlob,
-    @_s.required String destinationKeyId,
-    EncryptionAlgorithmSpec destinationEncryptionAlgorithm,
-    Map<String, String> destinationEncryptionContext,
-    List<String> grantTokens,
-    EncryptionAlgorithmSpec sourceEncryptionAlgorithm,
-    Map<String, String> sourceEncryptionContext,
-    String sourceKeyId,
+    required Uint8List ciphertextBlob,
+    required String destinationKeyId,
+    EncryptionAlgorithmSpec? destinationEncryptionAlgorithm,
+    Map<String, String>? destinationEncryptionContext,
+    List<String>? grantTokens,
+    EncryptionAlgorithmSpec? sourceEncryptionAlgorithm,
+    Map<String, String>? sourceEncryptionContext,
+    String? sourceKeyId,
   }) async {
     ArgumentError.checkNotNull(ciphertextBlob, 'ciphertextBlob');
     ArgumentError.checkNotNull(destinationKeyId, 'destinationKeyId');
@@ -5331,7 +5315,7 @@ class KMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CiphertextBlob': ciphertextBlob?.let(base64Encode),
+        'CiphertextBlob': base64Encode(ciphertextBlob),
         'DestinationKeyId': destinationKeyId,
         if (destinationEncryptionAlgorithm != null)
           'DestinationEncryptionAlgorithm':
@@ -5427,9 +5411,9 @@ class KMS {
   /// For example:
   /// <code>arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
   Future<void> retireGrant({
-    String grantId,
-    String grantToken,
-    String keyId,
+    String? grantId,
+    String? grantToken,
+    String? keyId,
   }) async {
     _s.validateStringLength(
       'grantId',
@@ -5453,7 +5437,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.RetireGrant'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5525,8 +5509,8 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> revokeGrant({
-    @_s.required String grantId,
-    @_s.required String keyId,
+    required String grantId,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(grantId, 'grantId');
     _s.validateStringLength(
@@ -5548,7 +5532,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.RevokeGrant'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5645,8 +5629,8 @@ class KMS {
   /// This value is optional. If you include a value, it must be between 7 and
   /// 30, inclusive. If you do not include a value, it defaults to 30.
   Future<ScheduleKeyDeletionResponse> scheduleKeyDeletion({
-    @_s.required String keyId,
-    int pendingWindowInDays,
+    required String keyId,
+    int? pendingWindowInDays,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -5812,11 +5796,11 @@ class KMS {
   /// message or message digest. The default value, RAW, indicates a message. To
   /// indicate a message digest, enter <code>DIGEST</code>.
   Future<SignResponse> sign({
-    @_s.required String keyId,
-    @_s.required Uint8List message,
-    @_s.required SigningAlgorithmSpec signingAlgorithm,
-    List<String> grantTokens,
-    MessageType messageType,
+    required String keyId,
+    required Uint8List message,
+    required SigningAlgorithmSpec signingAlgorithm,
+    List<String>? grantTokens,
+    MessageType? messageType,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -5840,8 +5824,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': message?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
+        'Message': base64Encode(message),
+        'SigningAlgorithm': signingAlgorithm.toValue(),
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType.toValue(),
       },
@@ -5936,8 +5920,8 @@ class KMS {
   /// specify an existing tag key with a different tag value, AWS KMS replaces
   /// the current tag value with the specified one.
   Future<void> tagResource({
-    @_s.required String keyId,
-    @_s.required List<Tag> tags,
+    required String keyId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -5952,7 +5936,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6034,8 +6018,8 @@ class KMS {
   /// Parameter [tagKeys] :
   /// One or more tag keys. Specify only the tag keys, not the tag values.
   Future<void> untagResource({
-    @_s.required String keyId,
-    @_s.required List<String> tagKeys,
+    required String keyId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -6050,7 +6034,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6175,8 +6159,8 @@ class KMS {
   /// To verify that the alias is mapped to the correct CMK, use
   /// <a>ListAliases</a>.
   Future<void> updateAlias({
-    @_s.required String aliasName,
-    @_s.required String targetKeyId,
+    required String aliasName,
+    required String targetKeyId,
   }) async {
     ArgumentError.checkNotNull(aliasName, 'aliasName');
     _s.validateStringLength(
@@ -6204,7 +6188,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.UpdateAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6334,10 +6318,10 @@ class KMS {
   /// Changes the friendly name of the custom key store to the value that you
   /// specify. The custom key store name must be unique in the AWS account.
   Future<void> updateCustomKeyStore({
-    @_s.required String customKeyStoreId,
-    String cloudHsmClusterId,
-    String keyStorePassword,
-    String newCustomKeyStoreName,
+    required String customKeyStoreId,
+    String? cloudHsmClusterId,
+    String? keyStorePassword,
+    String? newCustomKeyStoreName,
   }) async {
     ArgumentError.checkNotNull(customKeyStoreId, 'customKeyStoreId');
     _s.validateStringLength(
@@ -6369,7 +6353,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.UpdateCustomKeyStore'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6383,8 +6367,6 @@ class KMS {
           'NewCustomKeyStoreName': newCustomKeyStoreName,
       },
     );
-
-    return UpdateCustomKeyStoreResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the description of a customer master key (CMK). To see the
@@ -6442,8 +6424,8 @@ class KMS {
   /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or
   /// <a>DescribeKey</a>.
   Future<void> updateKeyDescription({
-    @_s.required String description,
-    @_s.required String keyId,
+    required String description,
+    required String keyId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -6465,7 +6447,7 @@ class KMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TrentService.UpdateKeyDescription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6603,12 +6585,12 @@ class KMS {
   /// verification operation can be compromised.
   /// </important>
   Future<VerifyResponse> verify({
-    @_s.required String keyId,
-    @_s.required Uint8List message,
-    @_s.required Uint8List signature,
-    @_s.required SigningAlgorithmSpec signingAlgorithm,
-    List<String> grantTokens,
-    MessageType messageType,
+    required String keyId,
+    required Uint8List message,
+    required Uint8List signature,
+    required SigningAlgorithmSpec signingAlgorithm,
+    List<String>? grantTokens,
+    MessageType? messageType,
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     _s.validateStringLength(
@@ -6633,9 +6615,9 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'Message': message?.let(base64Encode),
-        'Signature': signature?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
+        'Message': base64Encode(message),
+        'Signature': base64Encode(signature),
+        'SigningAlgorithm': signingAlgorithm.toValue(),
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (messageType != null) 'MessageType': messageType.toValue(),
       },
@@ -6646,11 +6628,8 @@ class KMS {
 }
 
 enum AlgorithmSpec {
-  @_s.JsonValue('RSAES_PKCS1_V1_5')
   rsaesPkcs1V1_5,
-  @_s.JsonValue('RSAES_OAEP_SHA_1')
   rsaesOaepSha_1,
-  @_s.JsonValue('RSAES_OAEP_SHA_256')
   rsaesOaepSha_256,
 }
 
@@ -6664,41 +6643,42 @@ extension on AlgorithmSpec {
       case AlgorithmSpec.rsaesOaepSha_256:
         return 'RSAES_OAEP_SHA_256';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AlgorithmSpec toAlgorithmSpec() {
+    switch (this) {
+      case 'RSAES_PKCS1_V1_5':
+        return AlgorithmSpec.rsaesPkcs1V1_5;
+      case 'RSAES_OAEP_SHA_1':
+        return AlgorithmSpec.rsaesOaepSha_1;
+      case 'RSAES_OAEP_SHA_256':
+        return AlgorithmSpec.rsaesOaepSha_256;
+    }
+    throw Exception('$this is not known in enum AlgorithmSpec');
   }
 }
 
 /// Contains information about an alias.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AliasListEntry {
   /// String that contains the key ARN.
-  @_s.JsonKey(name: 'AliasArn')
-  final String aliasArn;
+  final String? aliasArn;
 
   /// String that contains the alias. This value begins with <code>alias/</code>.
-  @_s.JsonKey(name: 'AliasName')
-  final String aliasName;
+  final String? aliasName;
 
   /// Date and time that the alias was most recently created in the account and
   /// Region. Formatted as Unix time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Date and time that the alias was most recently associated with a CMK in the
   /// account and Region. Formatted as Unix time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedDate')
-  final DateTime lastUpdatedDate;
+  final DateTime? lastUpdatedDate;
 
   /// String that contains the key identifier of the CMK associated with the
   /// alias.
-  @_s.JsonKey(name: 'TargetKeyId')
-  final String targetKeyId;
+  final String? targetKeyId;
 
   AliasListEntry({
     this.aliasArn,
@@ -6707,149 +6687,208 @@ class AliasListEntry {
     this.lastUpdatedDate,
     this.targetKeyId,
   });
-  factory AliasListEntry.fromJson(Map<String, dynamic> json) =>
-      _$AliasListEntryFromJson(json);
+  factory AliasListEntry.fromJson(Map<String, dynamic> json) {
+    return AliasListEntry(
+      aliasArn: json['AliasArn'] as String?,
+      aliasName: json['AliasName'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
+      targetKeyId: json['TargetKeyId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelKeyDeletionResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK whose deletion is canceled.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   CancelKeyDeletionResponse({
     this.keyId,
   });
-  factory CancelKeyDeletionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelKeyDeletionResponseFromJson(json);
+  factory CancelKeyDeletionResponse.fromJson(Map<String, dynamic> json) {
+    return CancelKeyDeletionResponse(
+      keyId: json['KeyId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectCustomKeyStoreResponse {
   ConnectCustomKeyStoreResponse();
-  factory ConnectCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConnectCustomKeyStoreResponseFromJson(json);
+  factory ConnectCustomKeyStoreResponse.fromJson(Map<String, dynamic> _) {
+    return ConnectCustomKeyStoreResponse();
+  }
 }
 
 enum ConnectionErrorCodeType {
-  @_s.JsonValue('INVALID_CREDENTIALS')
   invalidCredentials,
-  @_s.JsonValue('CLUSTER_NOT_FOUND')
   clusterNotFound,
-  @_s.JsonValue('NETWORK_ERRORS')
   networkErrors,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('INSUFFICIENT_CLOUDHSM_HSMS')
   insufficientCloudhsmHsms,
-  @_s.JsonValue('USER_LOCKED_OUT')
   userLockedOut,
-  @_s.JsonValue('USER_NOT_FOUND')
   userNotFound,
-  @_s.JsonValue('USER_LOGGED_IN')
   userLoggedIn,
-  @_s.JsonValue('SUBNET_NOT_FOUND')
   subnetNotFound,
 }
 
+extension on ConnectionErrorCodeType {
+  String toValue() {
+    switch (this) {
+      case ConnectionErrorCodeType.invalidCredentials:
+        return 'INVALID_CREDENTIALS';
+      case ConnectionErrorCodeType.clusterNotFound:
+        return 'CLUSTER_NOT_FOUND';
+      case ConnectionErrorCodeType.networkErrors:
+        return 'NETWORK_ERRORS';
+      case ConnectionErrorCodeType.internalError:
+        return 'INTERNAL_ERROR';
+      case ConnectionErrorCodeType.insufficientCloudhsmHsms:
+        return 'INSUFFICIENT_CLOUDHSM_HSMS';
+      case ConnectionErrorCodeType.userLockedOut:
+        return 'USER_LOCKED_OUT';
+      case ConnectionErrorCodeType.userNotFound:
+        return 'USER_NOT_FOUND';
+      case ConnectionErrorCodeType.userLoggedIn:
+        return 'USER_LOGGED_IN';
+      case ConnectionErrorCodeType.subnetNotFound:
+        return 'SUBNET_NOT_FOUND';
+    }
+  }
+}
+
+extension on String {
+  ConnectionErrorCodeType toConnectionErrorCodeType() {
+    switch (this) {
+      case 'INVALID_CREDENTIALS':
+        return ConnectionErrorCodeType.invalidCredentials;
+      case 'CLUSTER_NOT_FOUND':
+        return ConnectionErrorCodeType.clusterNotFound;
+      case 'NETWORK_ERRORS':
+        return ConnectionErrorCodeType.networkErrors;
+      case 'INTERNAL_ERROR':
+        return ConnectionErrorCodeType.internalError;
+      case 'INSUFFICIENT_CLOUDHSM_HSMS':
+        return ConnectionErrorCodeType.insufficientCloudhsmHsms;
+      case 'USER_LOCKED_OUT':
+        return ConnectionErrorCodeType.userLockedOut;
+      case 'USER_NOT_FOUND':
+        return ConnectionErrorCodeType.userNotFound;
+      case 'USER_LOGGED_IN':
+        return ConnectionErrorCodeType.userLoggedIn;
+      case 'SUBNET_NOT_FOUND':
+        return ConnectionErrorCodeType.subnetNotFound;
+    }
+    throw Exception('$this is not known in enum ConnectionErrorCodeType');
+  }
+}
+
 enum ConnectionStateType {
-  @_s.JsonValue('CONNECTED')
   connected,
-  @_s.JsonValue('CONNECTING')
   connecting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DISCONNECTED')
   disconnected,
-  @_s.JsonValue('DISCONNECTING')
   disconnecting,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionStateType {
+  String toValue() {
+    switch (this) {
+      case ConnectionStateType.connected:
+        return 'CONNECTED';
+      case ConnectionStateType.connecting:
+        return 'CONNECTING';
+      case ConnectionStateType.failed:
+        return 'FAILED';
+      case ConnectionStateType.disconnected:
+        return 'DISCONNECTED';
+      case ConnectionStateType.disconnecting:
+        return 'DISCONNECTING';
+    }
+  }
+}
+
+extension on String {
+  ConnectionStateType toConnectionStateType() {
+    switch (this) {
+      case 'CONNECTED':
+        return ConnectionStateType.connected;
+      case 'CONNECTING':
+        return ConnectionStateType.connecting;
+      case 'FAILED':
+        return ConnectionStateType.failed;
+      case 'DISCONNECTED':
+        return ConnectionStateType.disconnected;
+      case 'DISCONNECTING':
+        return ConnectionStateType.disconnecting;
+    }
+    throw Exception('$this is not known in enum ConnectionStateType');
+  }
+}
+
 class CreateCustomKeyStoreResponse {
   /// A unique identifier for the new custom key store.
-  @_s.JsonKey(name: 'CustomKeyStoreId')
-  final String customKeyStoreId;
+  final String? customKeyStoreId;
 
   CreateCustomKeyStoreResponse({
     this.customKeyStoreId,
   });
-  factory CreateCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCustomKeyStoreResponseFromJson(json);
+  factory CreateCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCustomKeyStoreResponse(
+      customKeyStoreId: json['CustomKeyStoreId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGrantResponse {
   /// The unique identifier for the grant.
   ///
   /// You can use the <code>GrantId</code> in a subsequent <a>RetireGrant</a> or
   /// <a>RevokeGrant</a> operation.
-  @_s.JsonKey(name: 'GrantId')
-  final String grantId;
+  final String? grantId;
 
   /// The grant token.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
   /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
-  @_s.JsonKey(name: 'GrantToken')
-  final String grantToken;
+  final String? grantToken;
 
   CreateGrantResponse({
     this.grantId,
     this.grantToken,
   });
-  factory CreateGrantResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGrantResponseFromJson(json);
+  factory CreateGrantResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGrantResponse(
+      grantId: json['GrantId'] as String?,
+      grantToken: json['GrantToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateKeyResponse {
   /// Metadata associated with the CMK.
-  @_s.JsonKey(name: 'KeyMetadata')
-  final KeyMetadata keyMetadata;
+  final KeyMetadata? keyMetadata;
 
   CreateKeyResponse({
     this.keyMetadata,
   });
-  factory CreateKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateKeyResponseFromJson(json);
+  factory CreateKeyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateKeyResponse(
+      keyMetadata: json['KeyMetadata'] != null
+          ? KeyMetadata.fromJson(json['KeyMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about each custom key store in the custom key store
 /// list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomKeyStoresListEntry {
   /// A unique identifier for the AWS CloudHSM cluster that is associated with the
   /// custom key store.
-  @_s.JsonKey(name: 'CloudHsmClusterId')
-  final String cloudHsmClusterId;
+  final String? cloudHsmClusterId;
 
   /// Describes the connection error. This field appears in the response only when
   /// the <code>ConnectionState</code> is <code>FAILED</code>. For help resolving
@@ -6926,8 +6965,7 @@ class CustomKeyStoresListEntry {
   /// store password value for the custom key store.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ConnectionErrorCode')
-  final ConnectionErrorCodeType connectionErrorCode;
+  final ConnectionErrorCodeType? connectionErrorCode;
 
   /// Indicates whether the custom key store is connected to its AWS CloudHSM
   /// cluster.
@@ -6948,29 +6986,23 @@ class CustomKeyStoresListEntry {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html">Troubleshooting
   /// a Custom Key Store</a> in the <i>AWS Key Management Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'ConnectionState')
-  final ConnectionStateType connectionState;
+  final ConnectionStateType? connectionState;
 
   /// The date and time when the custom key store was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique identifier for the custom key store.
-  @_s.JsonKey(name: 'CustomKeyStoreId')
-  final String customKeyStoreId;
+  final String? customKeyStoreId;
 
   /// The user-specified friendly name for the custom key store.
-  @_s.JsonKey(name: 'CustomKeyStoreName')
-  final String customKeyStoreName;
+  final String? customKeyStoreName;
 
   /// The trust anchor certificate of the associated AWS CloudHSM cluster. When
   /// you <a
   /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr">initialize
   /// the cluster</a>, you create this certificate and save it in the
   /// <code>customerCA.crt</code> file.
-  @_s.JsonKey(name: 'TrustAnchorCertificate')
-  final String trustAnchorCertificate;
+  final String? trustAnchorCertificate;
 
   CustomKeyStoresListEntry({
     this.cloudHsmClusterId,
@@ -6981,26 +7013,29 @@ class CustomKeyStoresListEntry {
     this.customKeyStoreName,
     this.trustAnchorCertificate,
   });
-  factory CustomKeyStoresListEntry.fromJson(Map<String, dynamic> json) =>
-      _$CustomKeyStoresListEntryFromJson(json);
+  factory CustomKeyStoresListEntry.fromJson(Map<String, dynamic> json) {
+    return CustomKeyStoresListEntry(
+      cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
+      connectionErrorCode:
+          (json['ConnectionErrorCode'] as String?)?.toConnectionErrorCodeType(),
+      connectionState:
+          (json['ConnectionState'] as String?)?.toConnectionStateType(),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      customKeyStoreId: json['CustomKeyStoreId'] as String?,
+      customKeyStoreName: json['CustomKeyStoreName'] as String?,
+      trustAnchorCertificate: json['TrustAnchorCertificate'] as String?,
+    );
+  }
 }
 
 enum CustomerMasterKeySpec {
-  @_s.JsonValue('RSA_2048')
   rsa_2048,
-  @_s.JsonValue('RSA_3072')
   rsa_3072,
-  @_s.JsonValue('RSA_4096')
   rsa_4096,
-  @_s.JsonValue('ECC_NIST_P256')
   eccNistP256,
-  @_s.JsonValue('ECC_NIST_P384')
   eccNistP384,
-  @_s.JsonValue('ECC_NIST_P521')
   eccNistP521,
-  @_s.JsonValue('ECC_SECG_P256K1')
   eccSecgP256k1,
-  @_s.JsonValue('SYMMETRIC_DEFAULT')
   symmetricDefault,
 }
 
@@ -7024,24 +7059,40 @@ extension on CustomerMasterKeySpec {
       case CustomerMasterKeySpec.symmetricDefault:
         return 'SYMMETRIC_DEFAULT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CustomerMasterKeySpec toCustomerMasterKeySpec() {
+    switch (this) {
+      case 'RSA_2048':
+        return CustomerMasterKeySpec.rsa_2048;
+      case 'RSA_3072':
+        return CustomerMasterKeySpec.rsa_3072;
+      case 'RSA_4096':
+        return CustomerMasterKeySpec.rsa_4096;
+      case 'ECC_NIST_P256':
+        return CustomerMasterKeySpec.eccNistP256;
+      case 'ECC_NIST_P384':
+        return CustomerMasterKeySpec.eccNistP384;
+      case 'ECC_NIST_P521':
+        return CustomerMasterKeySpec.eccNistP521;
+      case 'ECC_SECG_P256K1':
+        return CustomerMasterKeySpec.eccSecgP256k1;
+      case 'SYMMETRIC_DEFAULT':
+        return CustomerMasterKeySpec.symmetricDefault;
+    }
+    throw Exception('$this is not known in enum CustomerMasterKeySpec');
   }
 }
 
 enum DataKeyPairSpec {
-  @_s.JsonValue('RSA_2048')
   rsa_2048,
-  @_s.JsonValue('RSA_3072')
   rsa_3072,
-  @_s.JsonValue('RSA_4096')
   rsa_4096,
-  @_s.JsonValue('ECC_NIST_P256')
   eccNistP256,
-  @_s.JsonValue('ECC_NIST_P384')
   eccNistP384,
-  @_s.JsonValue('ECC_NIST_P521')
   eccNistP521,
-  @_s.JsonValue('ECC_SECG_P256K1')
   eccSecgP256k1,
 }
 
@@ -7063,14 +7114,33 @@ extension on DataKeyPairSpec {
       case DataKeyPairSpec.eccSecgP256k1:
         return 'ECC_SECG_P256K1';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataKeyPairSpec toDataKeyPairSpec() {
+    switch (this) {
+      case 'RSA_2048':
+        return DataKeyPairSpec.rsa_2048;
+      case 'RSA_3072':
+        return DataKeyPairSpec.rsa_3072;
+      case 'RSA_4096':
+        return DataKeyPairSpec.rsa_4096;
+      case 'ECC_NIST_P256':
+        return DataKeyPairSpec.eccNistP256;
+      case 'ECC_NIST_P384':
+        return DataKeyPairSpec.eccNistP384;
+      case 'ECC_NIST_P521':
+        return DataKeyPairSpec.eccNistP521;
+      case 'ECC_SECG_P256K1':
+        return DataKeyPairSpec.eccSecgP256k1;
+    }
+    throw Exception('$this is not known in enum DataKeyPairSpec');
   }
 }
 
 enum DataKeySpec {
-  @_s.JsonValue('AES_256')
   aes_256,
-  @_s.JsonValue('AES_128')
   aes_128,
 }
 
@@ -7082,150 +7152,144 @@ extension on DataKeySpec {
       case DataKeySpec.aes_128:
         return 'AES_128';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DataKeySpec toDataKeySpec() {
+    switch (this) {
+      case 'AES_256':
+        return DataKeySpec.aes_256;
+      case 'AES_128':
+        return DataKeySpec.aes_128;
+    }
+    throw Exception('$this is not known in enum DataKeySpec');
+  }
+}
+
 class DecryptResponse {
   /// The encryption algorithm that was used to decrypt the ciphertext.
-  @_s.JsonKey(name: 'EncryptionAlgorithm')
-  final EncryptionAlgorithmSpec encryptionAlgorithm;
+  final EncryptionAlgorithmSpec? encryptionAlgorithm;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that was used to decrypt the ciphertext.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// Decrypted plaintext data. When you use the HTTP API or the AWS CLI, the
   /// value is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Plaintext')
-  final Uint8List plaintext;
+  final Uint8List? plaintext;
 
   DecryptResponse({
     this.encryptionAlgorithm,
     this.keyId,
     this.plaintext,
   });
-  factory DecryptResponse.fromJson(Map<String, dynamic> json) =>
-      _$DecryptResponseFromJson(json);
+  factory DecryptResponse.fromJson(Map<String, dynamic> json) {
+    return DecryptResponse(
+      encryptionAlgorithm:
+          (json['EncryptionAlgorithm'] as String?)?.toEncryptionAlgorithmSpec(),
+      keyId: json['KeyId'] as String?,
+      plaintext: _s.decodeNullableUint8List(json['Plaintext'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCustomKeyStoreResponse {
   DeleteCustomKeyStoreResponse();
-  factory DeleteCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCustomKeyStoreResponseFromJson(json);
+  factory DeleteCustomKeyStoreResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCustomKeyStoreResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomKeyStoresResponse {
   /// Contains metadata about each custom key store.
-  @_s.JsonKey(name: 'CustomKeyStores')
-  final List<CustomKeyStoresListEntry> customKeyStores;
+  final List<CustomKeyStoresListEntry>? customKeyStores;
 
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   DescribeCustomKeyStoresResponse({
     this.customKeyStores,
     this.nextMarker,
     this.truncated,
   });
-  factory DescribeCustomKeyStoresResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCustomKeyStoresResponseFromJson(json);
+  factory DescribeCustomKeyStoresResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCustomKeyStoresResponse(
+      customKeyStores: (json['CustomKeyStores'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CustomKeyStoresListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeKeyResponse {
   /// Metadata associated with the key.
-  @_s.JsonKey(name: 'KeyMetadata')
-  final KeyMetadata keyMetadata;
+  final KeyMetadata? keyMetadata;
 
   DescribeKeyResponse({
     this.keyMetadata,
   });
-  factory DescribeKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeKeyResponseFromJson(json);
+  factory DescribeKeyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeKeyResponse(
+      keyMetadata: json['KeyMetadata'] != null
+          ? KeyMetadata.fromJson(json['KeyMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisconnectCustomKeyStoreResponse {
   DisconnectCustomKeyStoreResponse();
-  factory DisconnectCustomKeyStoreResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisconnectCustomKeyStoreResponseFromJson(json);
+  factory DisconnectCustomKeyStoreResponse.fromJson(Map<String, dynamic> _) {
+    return DisconnectCustomKeyStoreResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EncryptResponse {
   /// The encrypted plaintext. When you use the HTTP API or the AWS CLI, the value
   /// is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'CiphertextBlob')
-  final Uint8List ciphertextBlob;
+  final Uint8List? ciphertextBlob;
 
   /// The encryption algorithm that was used to encrypt the plaintext.
-  @_s.JsonKey(name: 'EncryptionAlgorithm')
-  final EncryptionAlgorithmSpec encryptionAlgorithm;
+  final EncryptionAlgorithmSpec? encryptionAlgorithm;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that was used to encrypt the plaintext.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   EncryptResponse({
     this.ciphertextBlob,
     this.encryptionAlgorithm,
     this.keyId,
   });
-  factory EncryptResponse.fromJson(Map<String, dynamic> json) =>
-      _$EncryptResponseFromJson(json);
+  factory EncryptResponse.fromJson(Map<String, dynamic> json) {
+    return EncryptResponse(
+      ciphertextBlob:
+          _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
+      encryptionAlgorithm:
+          (json['EncryptionAlgorithm'] as String?)?.toEncryptionAlgorithmSpec(),
+      keyId: json['KeyId'] as String?,
+    );
+  }
 }
 
 enum EncryptionAlgorithmSpec {
-  @_s.JsonValue('SYMMETRIC_DEFAULT')
   symmetricDefault,
-  @_s.JsonValue('RSAES_OAEP_SHA_1')
   rsaesOaepSha_1,
-  @_s.JsonValue('RSAES_OAEP_SHA_256')
   rsaesOaepSha_256,
 }
 
@@ -7239,14 +7303,25 @@ extension on EncryptionAlgorithmSpec {
       case EncryptionAlgorithmSpec.rsaesOaepSha_256:
         return 'RSAES_OAEP_SHA_256';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EncryptionAlgorithmSpec toEncryptionAlgorithmSpec() {
+    switch (this) {
+      case 'SYMMETRIC_DEFAULT':
+        return EncryptionAlgorithmSpec.symmetricDefault;
+      case 'RSAES_OAEP_SHA_1':
+        return EncryptionAlgorithmSpec.rsaesOaepSha_1;
+      case 'RSAES_OAEP_SHA_256':
+        return EncryptionAlgorithmSpec.rsaesOaepSha_256;
+    }
+    throw Exception('$this is not known in enum EncryptionAlgorithmSpec');
   }
 }
 
 enum ExpirationModelType {
-  @_s.JsonValue('KEY_MATERIAL_EXPIRES')
   keyMaterialExpires,
-  @_s.JsonValue('KEY_MATERIAL_DOES_NOT_EXPIRE')
   keyMaterialDoesNotExpire,
 }
 
@@ -7258,42 +7333,40 @@ extension on ExpirationModelType {
       case ExpirationModelType.keyMaterialDoesNotExpire:
         return 'KEY_MATERIAL_DOES_NOT_EXPIRE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ExpirationModelType toExpirationModelType() {
+    switch (this) {
+      case 'KEY_MATERIAL_EXPIRES':
+        return ExpirationModelType.keyMaterialExpires;
+      case 'KEY_MATERIAL_DOES_NOT_EXPIRE':
+        return ExpirationModelType.keyMaterialDoesNotExpire;
+    }
+    throw Exception('$this is not known in enum ExpirationModelType');
+  }
+}
+
 class GenerateDataKeyPairResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that encrypted the private key.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The type of data key pair that was generated.
-  @_s.JsonKey(name: 'KeyPairSpec')
-  final DataKeyPairSpec keyPairSpec;
+  final DataKeyPairSpec? keyPairSpec;
 
   /// The encrypted copy of the private key. When you use the HTTP API or the AWS
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PrivateKeyCiphertextBlob')
-  final Uint8List privateKeyCiphertextBlob;
+  final Uint8List? privateKeyCiphertextBlob;
 
   /// The plaintext copy of the private key. When you use the HTTP API or the AWS
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PrivateKeyPlaintext')
-  final Uint8List privateKeyPlaintext;
+  final Uint8List? privateKeyPlaintext;
 
   /// The public key (in plaintext).
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PublicKey')
-  final Uint8List publicKey;
+  final Uint8List? publicKey;
 
   GenerateDataKeyPairResponse({
     this.keyId,
@@ -7302,36 +7375,34 @@ class GenerateDataKeyPairResponse {
     this.privateKeyPlaintext,
     this.publicKey,
   });
-  factory GenerateDataKeyPairResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateDataKeyPairResponseFromJson(json);
+  factory GenerateDataKeyPairResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateDataKeyPairResponse(
+      keyId: json['KeyId'] as String?,
+      keyPairSpec: (json['KeyPairSpec'] as String?)?.toDataKeyPairSpec(),
+      privateKeyCiphertextBlob: _s
+          .decodeNullableUint8List(json['PrivateKeyCiphertextBlob'] as String?),
+      privateKeyPlaintext:
+          _s.decodeNullableUint8List(json['PrivateKeyPlaintext'] as String?),
+      publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateDataKeyPairWithoutPlaintextResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that encrypted the private key.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The type of data key pair that was generated.
-  @_s.JsonKey(name: 'KeyPairSpec')
-  final DataKeyPairSpec keyPairSpec;
+  final DataKeyPairSpec? keyPairSpec;
 
   /// The encrypted copy of the private key. When you use the HTTP API or the AWS
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PrivateKeyCiphertextBlob')
-  final Uint8List privateKeyCiphertextBlob;
+  final Uint8List? privateKeyCiphertextBlob;
 
   /// The public key (in plaintext).
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PublicKey')
-  final Uint8List publicKey;
+  final Uint8List? publicKey;
 
   GenerateDataKeyPairWithoutPlaintextResponse({
     this.keyId,
@@ -7340,157 +7411,135 @@ class GenerateDataKeyPairWithoutPlaintextResponse {
     this.publicKey,
   });
   factory GenerateDataKeyPairWithoutPlaintextResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GenerateDataKeyPairWithoutPlaintextResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GenerateDataKeyPairWithoutPlaintextResponse(
+      keyId: json['KeyId'] as String?,
+      keyPairSpec: (json['KeyPairSpec'] as String?)?.toDataKeyPairSpec(),
+      privateKeyCiphertextBlob: _s
+          .decodeNullableUint8List(json['PrivateKeyCiphertextBlob'] as String?),
+      publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateDataKeyResponse {
   /// The encrypted copy of the data key. When you use the HTTP API or the AWS
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'CiphertextBlob')
-  final Uint8List ciphertextBlob;
+  final Uint8List? ciphertextBlob;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that encrypted the data key.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The plaintext data key. When you use the HTTP API or the AWS CLI, the value
   /// is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to
   /// encrypt your data outside of KMS. Then, remove it from memory as soon as
   /// possible.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Plaintext')
-  final Uint8List plaintext;
+  final Uint8List? plaintext;
 
   GenerateDataKeyResponse({
     this.ciphertextBlob,
     this.keyId,
     this.plaintext,
   });
-  factory GenerateDataKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateDataKeyResponseFromJson(json);
+  factory GenerateDataKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateDataKeyResponse(
+      ciphertextBlob:
+          _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
+      keyId: json['KeyId'] as String?,
+      plaintext: _s.decodeNullableUint8List(json['Plaintext'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateDataKeyWithoutPlaintextResponse {
   /// The encrypted data key. When you use the HTTP API or the AWS CLI, the value
   /// is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'CiphertextBlob')
-  final Uint8List ciphertextBlob;
+  final Uint8List? ciphertextBlob;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that encrypted the data key.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   GenerateDataKeyWithoutPlaintextResponse({
     this.ciphertextBlob,
     this.keyId,
   });
   factory GenerateDataKeyWithoutPlaintextResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GenerateDataKeyWithoutPlaintextResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GenerateDataKeyWithoutPlaintextResponse(
+      ciphertextBlob:
+          _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
+      keyId: json['KeyId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateRandomResponse {
   /// The random byte string. When you use the HTTP API or the AWS CLI, the value
   /// is Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Plaintext')
-  final Uint8List plaintext;
+  final Uint8List? plaintext;
 
   GenerateRandomResponse({
     this.plaintext,
   });
-  factory GenerateRandomResponse.fromJson(Map<String, dynamic> json) =>
-      _$GenerateRandomResponseFromJson(json);
+  factory GenerateRandomResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateRandomResponse(
+      plaintext: _s.decodeNullableUint8List(json['Plaintext'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetKeyPolicyResponse {
   /// A key policy document in JSON format.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   GetKeyPolicyResponse({
     this.policy,
   });
-  factory GetKeyPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetKeyPolicyResponseFromJson(json);
+  factory GetKeyPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetKeyPolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetKeyRotationStatusResponse {
   /// A Boolean value that specifies whether key rotation is enabled.
-  @_s.JsonKey(name: 'KeyRotationEnabled')
-  final bool keyRotationEnabled;
+  final bool? keyRotationEnabled;
 
   GetKeyRotationStatusResponse({
     this.keyRotationEnabled,
   });
-  factory GetKeyRotationStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetKeyRotationStatusResponseFromJson(json);
+  factory GetKeyRotationStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetKeyRotationStatusResponse(
+      keyRotationEnabled: json['KeyRotationEnabled'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetParametersForImportResponse {
   /// The import token to send in a subsequent <a>ImportKeyMaterial</a> request.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'ImportToken')
-  final Uint8List importToken;
+  final Uint8List? importToken;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK to use in a subsequent <a>ImportKeyMaterial</a> request.
   /// This is the same CMK specified in the <code>GetParametersForImport</code>
   /// request.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The time at which the import token and public key are no longer valid. After
   /// this time, you cannot use them to make an <a>ImportKeyMaterial</a> request
   /// and you must send another <code>GetParametersForImport</code> request to get
   /// new ones.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ParametersValidTo')
-  final DateTime parametersValidTo;
+  final DateTime? parametersValidTo;
 
   /// The public key to use to encrypt the key material before importing it with
   /// <a>ImportKeyMaterial</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PublicKey')
-  final Uint8List publicKey;
+  final Uint8List? publicKey;
 
   GetParametersForImportResponse({
     this.importToken,
@@ -7498,19 +7547,19 @@ class GetParametersForImportResponse {
     this.parametersValidTo,
     this.publicKey,
   });
-  factory GetParametersForImportResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetParametersForImportResponseFromJson(json);
+  factory GetParametersForImportResponse.fromJson(Map<String, dynamic> json) {
+    return GetParametersForImportResponse(
+      importToken: _s.decodeNullableUint8List(json['ImportToken'] as String?),
+      keyId: json['KeyId'] as String?,
+      parametersValidTo: timeStampFromJson(json['ParametersValidTo']),
+      publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPublicKeyResponse {
   /// The type of the of the public key that was downloaded.
-  @_s.JsonKey(name: 'CustomerMasterKeySpec')
-  final CustomerMasterKeySpec customerMasterKeySpec;
+  final CustomerMasterKeySpec? customerMasterKeySpec;
 
   /// The encryption algorithms that AWS KMS supports for this key.
   ///
@@ -7520,14 +7569,12 @@ class GetPublicKeyResponse {
   ///
   /// This field appears in the response only when the <code>KeyUsage</code> of
   /// the public key is <code>ENCRYPT_DECRYPT</code>.
-  @_s.JsonKey(name: 'EncryptionAlgorithms')
-  final List<EncryptionAlgorithmSpec> encryptionAlgorithms;
+  final List<EncryptionAlgorithmSpec>? encryptionAlgorithms;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the asymmetric CMK from which the public key was downloaded.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The permitted use of the public key. Valid values are
   /// <code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>.
@@ -7535,8 +7582,7 @@ class GetPublicKeyResponse {
   /// This information is critical. If a public key with <code>SIGN_VERIFY</code>
   /// key usage encrypts data outside of AWS KMS, the ciphertext cannot be
   /// decrypted.
-  @_s.JsonKey(name: 'KeyUsage')
-  final KeyUsageType keyUsage;
+  final KeyUsageType? keyUsage;
 
   /// The exported public key.
   ///
@@ -7546,16 +7592,13 @@ class GetPublicKeyResponse {
   /// HTTP API or the AWS CLI, the value is Base64-encoded. Otherwise, it is not
   /// Base64-encoded.
   /// <p/>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'PublicKey')
-  final Uint8List publicKey;
+  final Uint8List? publicKey;
 
   /// The signing algorithms that AWS KMS supports for this key.
   ///
   /// This field appears in the response only when the <code>KeyUsage</code> of
   /// the public key is <code>SIGN_VERIFY</code>.
-  @_s.JsonKey(name: 'SigningAlgorithms')
-  final List<SigningAlgorithmSpec> signingAlgorithms;
+  final List<SigningAlgorithmSpec>? signingAlgorithms;
 
   GetPublicKeyResponse({
     this.customerMasterKeySpec,
@@ -7565,8 +7608,23 @@ class GetPublicKeyResponse {
     this.publicKey,
     this.signingAlgorithms,
   });
-  factory GetPublicKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPublicKeyResponseFromJson(json);
+  factory GetPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPublicKeyResponse(
+      customerMasterKeySpec:
+          (json['CustomerMasterKeySpec'] as String?)?.toCustomerMasterKeySpec(),
+      encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEncryptionAlgorithmSpec())
+          .toList(),
+      keyId: json['KeyId'] as String?,
+      keyUsage: (json['KeyUsage'] as String?)?.toKeyUsageType(),
+      publicKey: _s.decodeNullableUint8List(json['PublicKey'] as String?),
+      signingAlgorithms: (json['SigningAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSigningAlgorithmSpec())
+          .toList(),
+    );
+  }
 }
 
 /// Use this structure to allow <a
@@ -7600,19 +7658,13 @@ class GetPublicKeyResponse {
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-context">kms:EncryptionContext:</a>
 /// in the <i> <i>AWS Key Management Service Developer Guide</i> </i>.
 /// </important>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GrantConstraints {
   /// A list of key-value pairs that must match the encryption context in the <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
   /// operation</a> request. The grant allows the operation only when the
   /// encryption context in the request is the same as the encryption context
   /// specified in this constraint.
-  @_s.JsonKey(name: 'EncryptionContextEquals')
-  final Map<String, String> encryptionContextEquals;
+  final Map<String, String>? encryptionContextEquals;
 
   /// A list of key-value pairs that must be included in the encryption context of
   /// the <a
@@ -7621,39 +7673,46 @@ class GrantConstraints {
   /// when the encryption context in the request includes the key-value pairs
   /// specified in this constraint, although it can include additional key-value
   /// pairs.
-  @_s.JsonKey(name: 'EncryptionContextSubset')
-  final Map<String, String> encryptionContextSubset;
+  final Map<String, String>? encryptionContextSubset;
 
   GrantConstraints({
     this.encryptionContextEquals,
     this.encryptionContextSubset,
   });
-  factory GrantConstraints.fromJson(Map<String, dynamic> json) =>
-      _$GrantConstraintsFromJson(json);
+  factory GrantConstraints.fromJson(Map<String, dynamic> json) {
+    return GrantConstraints(
+      encryptionContextEquals:
+          (json['EncryptionContextEquals'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      encryptionContextSubset:
+          (json['EncryptionContextSubset'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GrantConstraintsToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionContextEquals = this.encryptionContextEquals;
+    final encryptionContextSubset = this.encryptionContextSubset;
+    return {
+      if (encryptionContextEquals != null)
+        'EncryptionContextEquals': encryptionContextEquals,
+      if (encryptionContextSubset != null)
+        'EncryptionContextSubset': encryptionContextSubset,
+    };
+  }
 }
 
 /// Contains information about a grant.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GrantListEntry {
   /// A list of key-value pairs that must be present in the encryption context of
   /// certain subsequent operations that the grant allows.
-  @_s.JsonKey(name: 'Constraints')
-  final GrantConstraints constraints;
+  final GrantConstraints? constraints;
 
   /// The date and time when the grant was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The unique identifier for the grant.
-  @_s.JsonKey(name: 'GrantId')
-  final String grantId;
+  final String? grantId;
 
   /// The identity that gets the permissions in the grant.
   ///
@@ -7663,31 +7722,25 @@ class GrantListEntry {
   /// an AWS service, the <code>GranteePrincipal</code> field contains the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services">service
   /// principal</a>, which might represent several different grantee principals.
-  @_s.JsonKey(name: 'GranteePrincipal')
-  final String granteePrincipal;
+  final String? granteePrincipal;
 
   /// The AWS account under which the grant was issued.
-  @_s.JsonKey(name: 'IssuingAccount')
-  final String issuingAccount;
+  final String? issuingAccount;
 
   /// The unique identifier for the customer master key (CMK) to which the grant
   /// applies.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The friendly name that identifies the grant. If a name was provided in the
   /// <a>CreateGrant</a> request, that name is returned. Otherwise this value is
   /// null.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The list of operations permitted by the grant.
-  @_s.JsonKey(name: 'Operations')
-  final List<GrantOperation> operations;
+  final List<GrantOperation>? operations;
 
   /// The principal that can retire the grant.
-  @_s.JsonKey(name: 'RetiringPrincipal')
-  final String retiringPrincipal;
+  final String? retiringPrincipal;
 
   GrantListEntry({
     this.constraints,
@@ -7700,38 +7753,41 @@ class GrantListEntry {
     this.operations,
     this.retiringPrincipal,
   });
-  factory GrantListEntry.fromJson(Map<String, dynamic> json) =>
-      _$GrantListEntryFromJson(json);
+  factory GrantListEntry.fromJson(Map<String, dynamic> json) {
+    return GrantListEntry(
+      constraints: json['Constraints'] != null
+          ? GrantConstraints.fromJson(
+              json['Constraints'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      grantId: json['GrantId'] as String?,
+      granteePrincipal: json['GranteePrincipal'] as String?,
+      issuingAccount: json['IssuingAccount'] as String?,
+      keyId: json['KeyId'] as String?,
+      name: json['Name'] as String?,
+      operations: (json['Operations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toGrantOperation())
+          .toList(),
+      retiringPrincipal: json['RetiringPrincipal'] as String?,
+    );
+  }
 }
 
 enum GrantOperation {
-  @_s.JsonValue('Decrypt')
   decrypt,
-  @_s.JsonValue('Encrypt')
   encrypt,
-  @_s.JsonValue('GenerateDataKey')
   generateDataKey,
-  @_s.JsonValue('GenerateDataKeyWithoutPlaintext')
   generateDataKeyWithoutPlaintext,
-  @_s.JsonValue('ReEncryptFrom')
   reEncryptFrom,
-  @_s.JsonValue('ReEncryptTo')
   reEncryptTo,
-  @_s.JsonValue('Sign')
   sign,
-  @_s.JsonValue('Verify')
   verify,
-  @_s.JsonValue('GetPublicKey')
   getPublicKey,
-  @_s.JsonValue('CreateGrant')
   createGrant,
-  @_s.JsonValue('RetireGrant')
   retireGrant,
-  @_s.JsonValue('DescribeKey')
   describeKey,
-  @_s.JsonValue('GenerateDataKeyPair')
   generateDataKeyPair,
-  @_s.JsonValue('GenerateDataKeyPairWithoutPlaintext')
   generateDataKeyPairWithoutPlaintext,
 }
 
@@ -7767,75 +7823,116 @@ extension on GrantOperation {
       case GrantOperation.generateDataKeyPairWithoutPlaintext:
         return 'GenerateDataKeyPairWithoutPlaintext';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  GrantOperation toGrantOperation() {
+    switch (this) {
+      case 'Decrypt':
+        return GrantOperation.decrypt;
+      case 'Encrypt':
+        return GrantOperation.encrypt;
+      case 'GenerateDataKey':
+        return GrantOperation.generateDataKey;
+      case 'GenerateDataKeyWithoutPlaintext':
+        return GrantOperation.generateDataKeyWithoutPlaintext;
+      case 'ReEncryptFrom':
+        return GrantOperation.reEncryptFrom;
+      case 'ReEncryptTo':
+        return GrantOperation.reEncryptTo;
+      case 'Sign':
+        return GrantOperation.sign;
+      case 'Verify':
+        return GrantOperation.verify;
+      case 'GetPublicKey':
+        return GrantOperation.getPublicKey;
+      case 'CreateGrant':
+        return GrantOperation.createGrant;
+      case 'RetireGrant':
+        return GrantOperation.retireGrant;
+      case 'DescribeKey':
+        return GrantOperation.describeKey;
+      case 'GenerateDataKeyPair':
+        return GrantOperation.generateDataKeyPair;
+      case 'GenerateDataKeyPairWithoutPlaintext':
+        return GrantOperation.generateDataKeyPairWithoutPlaintext;
+    }
+    throw Exception('$this is not known in enum GrantOperation');
+  }
+}
+
 class ImportKeyMaterialResponse {
   ImportKeyMaterialResponse();
-  factory ImportKeyMaterialResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportKeyMaterialResponseFromJson(json);
+  factory ImportKeyMaterialResponse.fromJson(Map<String, dynamic> _) {
+    return ImportKeyMaterialResponse();
+  }
 }
 
 /// Contains information about each entry in the key list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyListEntry {
   /// ARN of the key.
-  @_s.JsonKey(name: 'KeyArn')
-  final String keyArn;
+  final String? keyArn;
 
   /// Unique identifier of the key.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   KeyListEntry({
     this.keyArn,
     this.keyId,
   });
-  factory KeyListEntry.fromJson(Map<String, dynamic> json) =>
-      _$KeyListEntryFromJson(json);
+  factory KeyListEntry.fromJson(Map<String, dynamic> json) {
+    return KeyListEntry(
+      keyArn: json['KeyArn'] as String?,
+      keyId: json['KeyId'] as String?,
+    );
+  }
 }
 
 enum KeyManagerType {
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('CUSTOMER')
   customer,
+}
+
+extension on KeyManagerType {
+  String toValue() {
+    switch (this) {
+      case KeyManagerType.aws:
+        return 'AWS';
+      case KeyManagerType.customer:
+        return 'CUSTOMER';
+    }
+  }
+}
+
+extension on String {
+  KeyManagerType toKeyManagerType() {
+    switch (this) {
+      case 'AWS':
+        return KeyManagerType.aws;
+      case 'CUSTOMER':
+        return KeyManagerType.customer;
+    }
+    throw Exception('$this is not known in enum KeyManagerType');
+  }
 }
 
 /// Contains metadata about a customer master key (CMK).
 ///
 /// This data type is used as a response element for the <a>CreateKey</a> and
 /// <a>DescribeKey</a> operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyMetadata {
   /// The globally unique identifier for the CMK.
-  @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
   /// The twelve-digit account ID of the AWS account that owns the CMK.
-  @_s.JsonKey(name: 'AWSAccountId')
-  final String awsAccountId;
+  final String? awsAccountId;
 
   /// The Amazon Resource Name (ARN) of the CMK. For examples, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">AWS
   /// Key Management Service (AWS KMS)</a> in the Example ARNs section of the
   /// <i>AWS General Reference</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The cluster ID of the AWS CloudHSM cluster that contains the key material
   /// for the CMK. When you create a CMK in a <a
@@ -7843,60 +7940,48 @@ class KeyMetadata {
   /// key store</a>, AWS KMS creates the key material for the CMK in the
   /// associated AWS CloudHSM cluster. This value is present only when the CMK is
   /// created in a custom key store.
-  @_s.JsonKey(name: 'CloudHsmClusterId')
-  final String cloudHsmClusterId;
+  final String? cloudHsmClusterId;
 
   /// The date and time when the CMK was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A unique identifier for the <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
   /// key store</a> that contains the CMK. This value is present only when the CMK
   /// is created in a custom key store.
-  @_s.JsonKey(name: 'CustomKeyStoreId')
-  final String customKeyStoreId;
+  final String? customKeyStoreId;
 
   /// Describes the type of key material in the CMK.
-  @_s.JsonKey(name: 'CustomerMasterKeySpec')
-  final CustomerMasterKeySpec customerMasterKeySpec;
+  final CustomerMasterKeySpec? customerMasterKeySpec;
 
   /// The date and time after which AWS KMS deletes the CMK. This value is present
   /// only when <code>KeyState</code> is <code>PendingDeletion</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// The description of the CMK.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Specifies whether the CMK is enabled. When <code>KeyState</code> is
   /// <code>Enabled</code> this value is true, otherwise it is false.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The encryption algorithms that the CMK supports. You cannot use the CMK with
   /// other encryption algorithms within AWS KMS.
   ///
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>ENCRYPT_DECRYPT</code>.
-  @_s.JsonKey(name: 'EncryptionAlgorithms')
-  final List<EncryptionAlgorithmSpec> encryptionAlgorithms;
+  final List<EncryptionAlgorithmSpec>? encryptionAlgorithms;
 
   /// Specifies whether the CMK's key material expires. This value is present only
   /// when <code>Origin</code> is <code>EXTERNAL</code>, otherwise this value is
   /// omitted.
-  @_s.JsonKey(name: 'ExpirationModel')
-  final ExpirationModelType expirationModel;
+  final ExpirationModelType? expirationModel;
 
   /// The manager of the CMK. CMKs in your AWS account are either customer managed
   /// or AWS managed. For more information about the difference, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
   /// Master Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
-  @_s.JsonKey(name: 'KeyManager')
-  final KeyManagerType keyManager;
+  final KeyManagerType? keyManager;
 
   /// The current status of the CMK.
   ///
@@ -7904,14 +7989,12 @@ class KeyMetadata {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">Key
   /// state: Effect on your CMK</a> in the <i>AWS Key Management Service Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'KeyState')
-  final KeyState keyState;
+  final KeyState? keyState;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations">cryptographic
   /// operations</a> for which you can use the CMK.
-  @_s.JsonKey(name: 'KeyUsage')
-  final KeyUsageType keyUsage;
+  final KeyUsageType? keyUsage;
 
   /// The source of the CMK's key material. When this value is
   /// <code>AWS_KMS</code>, AWS KMS created the key material. When this value is
@@ -7919,28 +8002,24 @@ class KeyMetadata {
   /// management infrastructure or the CMK lacks key material. When this value is
   /// <code>AWS_CLOUDHSM</code>, the key material was created in the AWS CloudHSM
   /// cluster associated with a custom key store.
-  @_s.JsonKey(name: 'Origin')
-  final OriginType origin;
+  final OriginType? origin;
 
   /// The signing algorithms that the CMK supports. You cannot use the CMK with
   /// other signing algorithms within AWS KMS.
   ///
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>SIGN_VERIFY</code>.
-  @_s.JsonKey(name: 'SigningAlgorithms')
-  final List<SigningAlgorithmSpec> signingAlgorithms;
+  final List<SigningAlgorithmSpec>? signingAlgorithms;
 
   /// The time at which the imported key material expires. When the key material
   /// expires, AWS KMS deletes the key material and the CMK becomes unusable. This
   /// value is present only for CMKs whose <code>Origin</code> is
   /// <code>EXTERNAL</code> and whose <code>ExpirationModel</code> is
   /// <code>KEY_MATERIAL_EXPIRES</code>, otherwise this value is omitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ValidTo')
-  final DateTime validTo;
+  final DateTime? validTo;
 
   KeyMetadata({
-    @_s.required this.keyId,
+    required this.keyId,
     this.awsAccountId,
     this.arn,
     this.cloudHsmClusterId,
@@ -7959,27 +8038,83 @@ class KeyMetadata {
     this.signingAlgorithms,
     this.validTo,
   });
-  factory KeyMetadata.fromJson(Map<String, dynamic> json) =>
-      _$KeyMetadataFromJson(json);
+  factory KeyMetadata.fromJson(Map<String, dynamic> json) {
+    return KeyMetadata(
+      keyId: json['KeyId'] as String,
+      awsAccountId: json['AWSAccountId'] as String?,
+      arn: json['Arn'] as String?,
+      cloudHsmClusterId: json['CloudHsmClusterId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      customKeyStoreId: json['CustomKeyStoreId'] as String?,
+      customerMasterKeySpec:
+          (json['CustomerMasterKeySpec'] as String?)?.toCustomerMasterKeySpec(),
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      description: json['Description'] as String?,
+      enabled: json['Enabled'] as bool?,
+      encryptionAlgorithms: (json['EncryptionAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEncryptionAlgorithmSpec())
+          .toList(),
+      expirationModel:
+          (json['ExpirationModel'] as String?)?.toExpirationModelType(),
+      keyManager: (json['KeyManager'] as String?)?.toKeyManagerType(),
+      keyState: (json['KeyState'] as String?)?.toKeyState(),
+      keyUsage: (json['KeyUsage'] as String?)?.toKeyUsageType(),
+      origin: (json['Origin'] as String?)?.toOriginType(),
+      signingAlgorithms: (json['SigningAlgorithms'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSigningAlgorithmSpec())
+          .toList(),
+      validTo: timeStampFromJson(json['ValidTo']),
+    );
+  }
 }
 
 enum KeyState {
-  @_s.JsonValue('Enabled')
   enabled,
-  @_s.JsonValue('Disabled')
   disabled,
-  @_s.JsonValue('PendingDeletion')
   pendingDeletion,
-  @_s.JsonValue('PendingImport')
   pendingImport,
-  @_s.JsonValue('Unavailable')
   unavailable,
 }
 
+extension on KeyState {
+  String toValue() {
+    switch (this) {
+      case KeyState.enabled:
+        return 'Enabled';
+      case KeyState.disabled:
+        return 'Disabled';
+      case KeyState.pendingDeletion:
+        return 'PendingDeletion';
+      case KeyState.pendingImport:
+        return 'PendingImport';
+      case KeyState.unavailable:
+        return 'Unavailable';
+    }
+  }
+}
+
+extension on String {
+  KeyState toKeyState() {
+    switch (this) {
+      case 'Enabled':
+        return KeyState.enabled;
+      case 'Disabled':
+        return KeyState.disabled;
+      case 'PendingDeletion':
+        return KeyState.pendingDeletion;
+      case 'PendingImport':
+        return KeyState.pendingImport;
+      case 'Unavailable':
+        return KeyState.unavailable;
+    }
+    throw Exception('$this is not known in enum KeyState');
+  }
+}
+
 enum KeyUsageType {
-  @_s.JsonValue('SIGN_VERIFY')
   signVerify,
-  @_s.JsonValue('ENCRYPT_DECRYPT')
   encryptDecrypt,
 }
 
@@ -7991,176 +8126,185 @@ extension on KeyUsageType {
       case KeyUsageType.encryptDecrypt:
         return 'ENCRYPT_DECRYPT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  KeyUsageType toKeyUsageType() {
+    switch (this) {
+      case 'SIGN_VERIFY':
+        return KeyUsageType.signVerify;
+      case 'ENCRYPT_DECRYPT':
+        return KeyUsageType.encryptDecrypt;
+    }
+    throw Exception('$this is not known in enum KeyUsageType');
+  }
+}
+
 class ListAliasesResponse {
   /// A list of aliases.
-  @_s.JsonKey(name: 'Aliases')
-  final List<AliasListEntry> aliases;
+  final List<AliasListEntry>? aliases;
 
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ListAliasesResponse({
     this.aliases,
     this.nextMarker,
     this.truncated,
   });
-  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAliasesResponseFromJson(json);
+  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => AliasListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGrantsResponse {
   /// A list of grants.
-  @_s.JsonKey(name: 'Grants')
-  final List<GrantListEntry> grants;
+  final List<GrantListEntry>? grants;
 
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ListGrantsResponse({
     this.grants,
     this.nextMarker,
     this.truncated,
   });
-  factory ListGrantsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGrantsResponseFromJson(json);
+  factory ListGrantsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGrantsResponse(
+      grants: (json['Grants'] as List?)
+          ?.whereNotNull()
+          .map((e) => GrantListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListKeyPoliciesResponse {
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A list of key policy names. The only valid value is <code>default</code>.
-  @_s.JsonKey(name: 'PolicyNames')
-  final List<String> policyNames;
+  final List<String>? policyNames;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ListKeyPoliciesResponse({
     this.nextMarker,
     this.policyNames,
     this.truncated,
   });
-  factory ListKeyPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListKeyPoliciesResponseFromJson(json);
+  factory ListKeyPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListKeyPoliciesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      policyNames: (json['PolicyNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListKeysResponse {
   /// A list of customer master keys (CMKs).
-  @_s.JsonKey(name: 'Keys')
-  final List<KeyListEntry> keys;
+  final List<KeyListEntry>? keys;
 
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ListKeysResponse({
     this.keys,
     this.nextMarker,
     this.truncated,
   });
-  factory ListKeysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListKeysResponseFromJson(json);
+  factory ListKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListKeysResponse(
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceTagsResponse {
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
   /// request.
   ///
   /// Do not assume or infer any information from this value.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A list of tags. Each tag consists of a tag key and a tag value.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// A flag that indicates whether there are more items in the list. When this
   /// value is true, the list in this response is truncated. To get more items,
   /// pass the value of the <code>NextMarker</code> element in thisresponse to the
   /// <code>Marker</code> parameter in a subsequent request.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ListResourceTagsResponse({
     this.nextMarker,
     this.tags,
     this.truncated,
   });
-  factory ListResourceTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceTagsResponseFromJson(json);
+  factory ListResourceTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceTagsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      truncated: json['Truncated'] as bool?,
+    );
+  }
 }
 
 enum MessageType {
-  @_s.JsonValue('RAW')
   raw,
-  @_s.JsonValue('DIGEST')
   digest,
 }
 
@@ -8172,16 +8316,24 @@ extension on MessageType {
       case MessageType.digest:
         return 'DIGEST';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MessageType toMessageType() {
+    switch (this) {
+      case 'RAW':
+        return MessageType.raw;
+      case 'DIGEST':
+        return MessageType.digest;
+    }
+    throw Exception('$this is not known in enum MessageType');
   }
 }
 
 enum OriginType {
-  @_s.JsonValue('AWS_KMS')
   awsKms,
-  @_s.JsonValue('EXTERNAL')
   external,
-  @_s.JsonValue('AWS_CLOUDHSM')
   awsCloudhsm,
 }
 
@@ -8195,40 +8347,42 @@ extension on OriginType {
       case OriginType.awsCloudhsm:
         return 'AWS_CLOUDHSM';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  OriginType toOriginType() {
+    switch (this) {
+      case 'AWS_KMS':
+        return OriginType.awsKms;
+      case 'EXTERNAL':
+        return OriginType.external;
+      case 'AWS_CLOUDHSM':
+        return OriginType.awsCloudhsm;
+    }
+    throw Exception('$this is not known in enum OriginType');
+  }
+}
+
 class ReEncryptResponse {
   /// The reencrypted data. When you use the HTTP API or the AWS CLI, the value is
   /// Base64-encoded. Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'CiphertextBlob')
-  final Uint8List ciphertextBlob;
+  final Uint8List? ciphertextBlob;
 
   /// The encryption algorithm that was used to reencrypt the data.
-  @_s.JsonKey(name: 'DestinationEncryptionAlgorithm')
-  final EncryptionAlgorithmSpec destinationEncryptionAlgorithm;
+  final EncryptionAlgorithmSpec? destinationEncryptionAlgorithm;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK that was used to reencrypt the data.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The encryption algorithm that was used to decrypt the ciphertext before it
   /// was reencrypted.
-  @_s.JsonKey(name: 'SourceEncryptionAlgorithm')
-  final EncryptionAlgorithmSpec sourceEncryptionAlgorithm;
+  final EncryptionAlgorithmSpec? sourceEncryptionAlgorithm;
 
   /// Unique identifier of the CMK used to originally encrypt the data.
-  @_s.JsonKey(name: 'SourceKeyId')
-  final String sourceKeyId;
+  final String? sourceKeyId;
 
   ReEncryptResponse({
     this.ciphertextBlob,
@@ -8237,46 +8391,47 @@ class ReEncryptResponse {
     this.sourceEncryptionAlgorithm,
     this.sourceKeyId,
   });
-  factory ReEncryptResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReEncryptResponseFromJson(json);
+  factory ReEncryptResponse.fromJson(Map<String, dynamic> json) {
+    return ReEncryptResponse(
+      ciphertextBlob:
+          _s.decodeNullableUint8List(json['CiphertextBlob'] as String?),
+      destinationEncryptionAlgorithm:
+          (json['DestinationEncryptionAlgorithm'] as String?)
+              ?.toEncryptionAlgorithmSpec(),
+      keyId: json['KeyId'] as String?,
+      sourceEncryptionAlgorithm: (json['SourceEncryptionAlgorithm'] as String?)
+          ?.toEncryptionAlgorithmSpec(),
+      sourceKeyId: json['SourceKeyId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduleKeyDeletionResponse {
   /// The date and time after which AWS KMS deletes the customer master key (CMK).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionDate')
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
 
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the CMK whose deletion is scheduled.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   ScheduleKeyDeletionResponse({
     this.deletionDate,
     this.keyId,
   });
-  factory ScheduleKeyDeletionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleKeyDeletionResponseFromJson(json);
+  factory ScheduleKeyDeletionResponse.fromJson(Map<String, dynamic> json) {
+    return ScheduleKeyDeletionResponse(
+      deletionDate: timeStampFromJson(json['DeletionDate']),
+      keyId: json['KeyId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the asymmetric CMK that was used to sign the message.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The cryptographic signature that was generated for the message.
   ///
@@ -8297,41 +8452,35 @@ class SignResponse {
   /// </ul>
   /// When you use the HTTP API or the AWS CLI, the value is Base64-encoded.
   /// Otherwise, it is not Base64-encoded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Signature')
-  final Uint8List signature;
+  final Uint8List? signature;
 
   /// The signing algorithm that was used to sign the message.
-  @_s.JsonKey(name: 'SigningAlgorithm')
-  final SigningAlgorithmSpec signingAlgorithm;
+  final SigningAlgorithmSpec? signingAlgorithm;
 
   SignResponse({
     this.keyId,
     this.signature,
     this.signingAlgorithm,
   });
-  factory SignResponse.fromJson(Map<String, dynamic> json) =>
-      _$SignResponseFromJson(json);
+  factory SignResponse.fromJson(Map<String, dynamic> json) {
+    return SignResponse(
+      keyId: json['KeyId'] as String?,
+      signature: _s.decodeNullableUint8List(json['Signature'] as String?),
+      signingAlgorithm:
+          (json['SigningAlgorithm'] as String?)?.toSigningAlgorithmSpec(),
+    );
+  }
 }
 
 enum SigningAlgorithmSpec {
-  @_s.JsonValue('RSASSA_PSS_SHA_256')
   rsassaPssSha_256,
-  @_s.JsonValue('RSASSA_PSS_SHA_384')
   rsassaPssSha_384,
-  @_s.JsonValue('RSASSA_PSS_SHA_512')
   rsassaPssSha_512,
-  @_s.JsonValue('RSASSA_PKCS1_V1_5_SHA_256')
   rsassaPkcs1V1_5Sha_256,
-  @_s.JsonValue('RSASSA_PKCS1_V1_5_SHA_384')
   rsassaPkcs1V1_5Sha_384,
-  @_s.JsonValue('RSASSA_PKCS1_V1_5_SHA_512')
   rsassaPkcs1V1_5Sha_512,
-  @_s.JsonValue('ECDSA_SHA_256')
   ecdsaSha_256,
-  @_s.JsonValue('ECDSA_SHA_384')
   ecdsaSha_384,
-  @_s.JsonValue('ECDSA_SHA_512')
   ecdsaSha_512,
 }
 
@@ -8357,7 +8506,32 @@ extension on SigningAlgorithmSpec {
       case SigningAlgorithmSpec.ecdsaSha_512:
         return 'ECDSA_SHA_512';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SigningAlgorithmSpec toSigningAlgorithmSpec() {
+    switch (this) {
+      case 'RSASSA_PSS_SHA_256':
+        return SigningAlgorithmSpec.rsassaPssSha_256;
+      case 'RSASSA_PSS_SHA_384':
+        return SigningAlgorithmSpec.rsassaPssSha_384;
+      case 'RSASSA_PSS_SHA_512':
+        return SigningAlgorithmSpec.rsassaPssSha_512;
+      case 'RSASSA_PKCS1_V1_5_SHA_256':
+        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256;
+      case 'RSASSA_PKCS1_V1_5_SHA_384':
+        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384;
+      case 'RSASSA_PKCS1_V1_5_SHA_512':
+        return SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512;
+      case 'ECDSA_SHA_256':
+        return SigningAlgorithmSpec.ecdsaSha_256;
+      case 'ECDSA_SHA_384':
+        return SigningAlgorithmSpec.ecdsaSha_384;
+      case 'ECDSA_SHA_512':
+        return SigningAlgorithmSpec.ecdsaSha_512;
+    }
+    throw Exception('$this is not known in enum SigningAlgorithmSpec');
   }
 }
 
@@ -8369,51 +8543,46 @@ extension on SigningAlgorithmSpec {
 /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
 /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'TagKey')
   final String tagKey;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'TagValue')
   final String tagValue;
 
   Tag({
-    @_s.required this.tagKey,
-    @_s.required this.tagValue,
+    required this.tagKey,
+    required this.tagValue,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      tagKey: json['TagKey'] as String,
+      tagValue: json['TagValue'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagValue = this.tagValue;
+    return {
+      'TagKey': tagKey,
+      'TagValue': tagValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCustomKeyStoreResponse {
   UpdateCustomKeyStoreResponse();
-  factory UpdateCustomKeyStoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCustomKeyStoreResponseFromJson(json);
+  factory UpdateCustomKeyStoreResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateCustomKeyStoreResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VerifyResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
   /// ARN</a>) of the asymmetric CMK that was used to verify the signature.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// A Boolean value that indicates whether the signature was verified. A value
   /// of <code>True</code> indicates that the <code>Signature</code> was produced
@@ -8421,24 +8590,27 @@ class VerifyResponse {
   /// and <code>SigningAlgorithm.</code> If the signature is not verified, the
   /// <code>Verify</code> operation fails with a
   /// <code>KMSInvalidSignatureException</code> exception.
-  @_s.JsonKey(name: 'SignatureValid')
-  final bool signatureValid;
+  final bool? signatureValid;
 
   /// The signing algorithm that was used to verify the signature.
-  @_s.JsonKey(name: 'SigningAlgorithm')
-  final SigningAlgorithmSpec signingAlgorithm;
+  final SigningAlgorithmSpec? signingAlgorithm;
 
   VerifyResponse({
     this.keyId,
     this.signatureValid,
     this.signingAlgorithm,
   });
-  factory VerifyResponse.fromJson(Map<String, dynamic> json) =>
-      _$VerifyResponseFromJson(json);
+  factory VerifyResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyResponse(
+      keyId: json['KeyId'] as String?,
+      signatureValid: json['SignatureValid'] as bool?,
+      signingAlgorithm:
+          (json['SigningAlgorithm'] as String?)?.toSigningAlgorithmSpec(),
+    );
+  }
 }
 
 enum WrappingKeySpec {
-  @_s.JsonValue('RSA_2048')
   rsa_2048,
 }
 
@@ -8448,17 +8620,26 @@ extension on WrappingKeySpec {
       case WrappingKeySpec.rsa_2048:
         return 'RSA_2048';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WrappingKeySpec toWrappingKeySpec() {
+    switch (this) {
+      case 'RSA_2048':
+        return WrappingKeySpec.rsa_2048;
+    }
+    throw Exception('$this is not known in enum WrappingKeySpec');
   }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class CloudHsmClusterInUseException extends _s.GenericAwsException {
-  CloudHsmClusterInUseException({String type, String message})
+  CloudHsmClusterInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmClusterInUseException',
@@ -8467,7 +8648,7 @@ class CloudHsmClusterInUseException extends _s.GenericAwsException {
 
 class CloudHsmClusterInvalidConfigurationException
     extends _s.GenericAwsException {
-  CloudHsmClusterInvalidConfigurationException({String type, String message})
+  CloudHsmClusterInvalidConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmClusterInvalidConfigurationException',
@@ -8475,7 +8656,7 @@ class CloudHsmClusterInvalidConfigurationException
 }
 
 class CloudHsmClusterNotActiveException extends _s.GenericAwsException {
-  CloudHsmClusterNotActiveException({String type, String message})
+  CloudHsmClusterNotActiveException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmClusterNotActiveException',
@@ -8483,7 +8664,7 @@ class CloudHsmClusterNotActiveException extends _s.GenericAwsException {
 }
 
 class CloudHsmClusterNotFoundException extends _s.GenericAwsException {
-  CloudHsmClusterNotFoundException({String type, String message})
+  CloudHsmClusterNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmClusterNotFoundException',
@@ -8491,7 +8672,7 @@ class CloudHsmClusterNotFoundException extends _s.GenericAwsException {
 }
 
 class CloudHsmClusterNotRelatedException extends _s.GenericAwsException {
-  CloudHsmClusterNotRelatedException({String type, String message})
+  CloudHsmClusterNotRelatedException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmClusterNotRelatedException',
@@ -8499,7 +8680,7 @@ class CloudHsmClusterNotRelatedException extends _s.GenericAwsException {
 }
 
 class CustomKeyStoreHasCMKsException extends _s.GenericAwsException {
-  CustomKeyStoreHasCMKsException({String type, String message})
+  CustomKeyStoreHasCMKsException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomKeyStoreHasCMKsException',
@@ -8507,7 +8688,7 @@ class CustomKeyStoreHasCMKsException extends _s.GenericAwsException {
 }
 
 class CustomKeyStoreInvalidStateException extends _s.GenericAwsException {
-  CustomKeyStoreInvalidStateException({String type, String message})
+  CustomKeyStoreInvalidStateException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomKeyStoreInvalidStateException',
@@ -8515,7 +8696,7 @@ class CustomKeyStoreInvalidStateException extends _s.GenericAwsException {
 }
 
 class CustomKeyStoreNameInUseException extends _s.GenericAwsException {
-  CustomKeyStoreNameInUseException({String type, String message})
+  CustomKeyStoreNameInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomKeyStoreNameInUseException',
@@ -8523,7 +8704,7 @@ class CustomKeyStoreNameInUseException extends _s.GenericAwsException {
 }
 
 class CustomKeyStoreNotFoundException extends _s.GenericAwsException {
-  CustomKeyStoreNotFoundException({String type, String message})
+  CustomKeyStoreNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomKeyStoreNotFoundException',
@@ -8531,28 +8712,28 @@ class CustomKeyStoreNotFoundException extends _s.GenericAwsException {
 }
 
 class DependencyTimeoutException extends _s.GenericAwsException {
-  DependencyTimeoutException({String type, String message})
+  DependencyTimeoutException({String? type, String? message})
       : super(type: type, code: 'DependencyTimeoutException', message: message);
 }
 
 class DisabledException extends _s.GenericAwsException {
-  DisabledException({String type, String message})
+  DisabledException({String? type, String? message})
       : super(type: type, code: 'DisabledException', message: message);
 }
 
 class ExpiredImportTokenException extends _s.GenericAwsException {
-  ExpiredImportTokenException({String type, String message})
+  ExpiredImportTokenException({String? type, String? message})
       : super(
             type: type, code: 'ExpiredImportTokenException', message: message);
 }
 
 class IncorrectKeyException extends _s.GenericAwsException {
-  IncorrectKeyException({String type, String message})
+  IncorrectKeyException({String? type, String? message})
       : super(type: type, code: 'IncorrectKeyException', message: message);
 }
 
 class IncorrectKeyMaterialException extends _s.GenericAwsException {
-  IncorrectKeyMaterialException({String type, String message})
+  IncorrectKeyMaterialException({String? type, String? message})
       : super(
             type: type,
             code: 'IncorrectKeyMaterialException',
@@ -8560,7 +8741,7 @@ class IncorrectKeyMaterialException extends _s.GenericAwsException {
 }
 
 class IncorrectTrustAnchorException extends _s.GenericAwsException {
-  IncorrectTrustAnchorException({String type, String message})
+  IncorrectTrustAnchorException({String? type, String? message})
       : super(
             type: type,
             code: 'IncorrectTrustAnchorException',
@@ -8568,74 +8749,74 @@ class IncorrectTrustAnchorException extends _s.GenericAwsException {
 }
 
 class InvalidAliasNameException extends _s.GenericAwsException {
-  InvalidAliasNameException({String type, String message})
+  InvalidAliasNameException({String? type, String? message})
       : super(type: type, code: 'InvalidAliasNameException', message: message);
 }
 
 class InvalidArnException extends _s.GenericAwsException {
-  InvalidArnException({String type, String message})
+  InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
 class InvalidCiphertextException extends _s.GenericAwsException {
-  InvalidCiphertextException({String type, String message})
+  InvalidCiphertextException({String? type, String? message})
       : super(type: type, code: 'InvalidCiphertextException', message: message);
 }
 
 class InvalidGrantIdException extends _s.GenericAwsException {
-  InvalidGrantIdException({String type, String message})
+  InvalidGrantIdException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantIdException', message: message);
 }
 
 class InvalidGrantTokenException extends _s.GenericAwsException {
-  InvalidGrantTokenException({String type, String message})
+  InvalidGrantTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantTokenException', message: message);
 }
 
 class InvalidImportTokenException extends _s.GenericAwsException {
-  InvalidImportTokenException({String type, String message})
+  InvalidImportTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidImportTokenException', message: message);
 }
 
 class InvalidKeyUsageException extends _s.GenericAwsException {
-  InvalidKeyUsageException({String type, String message})
+  InvalidKeyUsageException({String? type, String? message})
       : super(type: type, code: 'InvalidKeyUsageException', message: message);
 }
 
 class InvalidMarkerException extends _s.GenericAwsException {
-  InvalidMarkerException({String type, String message})
+  InvalidMarkerException({String? type, String? message})
       : super(type: type, code: 'InvalidMarkerException', message: message);
 }
 
 class KMSInternalException extends _s.GenericAwsException {
-  KMSInternalException({String type, String message})
+  KMSInternalException({String? type, String? message})
       : super(type: type, code: 'KMSInternalException', message: message);
 }
 
 class KMSInvalidSignatureException extends _s.GenericAwsException {
-  KMSInvalidSignatureException({String type, String message})
+  KMSInvalidSignatureException({String? type, String? message})
       : super(
             type: type, code: 'KMSInvalidSignatureException', message: message);
 }
 
 class KMSInvalidStateException extends _s.GenericAwsException {
-  KMSInvalidStateException({String type, String message})
+  KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
 class KeyUnavailableException extends _s.GenericAwsException {
-  KeyUnavailableException({String type, String message})
+  KeyUnavailableException({String? type, String? message})
       : super(type: type, code: 'KeyUnavailableException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -8643,17 +8824,17 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TagException extends _s.GenericAwsException {
-  TagException({String type, String message})
+  TagException({String? type, String? message})
       : super(type: type, code: 'TagException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

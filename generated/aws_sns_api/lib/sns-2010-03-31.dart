@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'sns-2010-03-31.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sns-2010-03-31.g.dart';
 
 /// Amazon Simple Notification Service (Amazon SNS) is a web service that
 /// enables you to build distributed web-enabled applications. Applications can
@@ -41,9 +33,9 @@ class SNS {
   final Map<String, _s.Shape> shapes;
 
   SNS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -80,10 +72,10 @@ class SNS {
   /// Parameter [topicArn] :
   /// The ARN of the topic whose access control policy you wish to modify.
   Future<void> addPermission({
-    @_s.required List<String> awsAccountId,
-    @_s.required List<String> actionName,
-    @_s.required String label,
-    @_s.required String topicArn,
+    required List<String> awsAccountId,
+    required List<String> actionName,
+    required String label,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     ArgumentError.checkNotNull(actionName, 'actionName');
@@ -121,7 +113,7 @@ class SNS {
   /// Parameter [phoneNumber] :
   /// The phone number for which you want to check the opt out status.
   Future<CheckIfPhoneNumberIsOptedOutResponse> checkIfPhoneNumberIsOptedOut({
-    @_s.required String phoneNumber,
+    required String phoneNumber,
   }) async {
     ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
     final $request = <String, dynamic>{};
@@ -167,9 +159,9 @@ class SNS {
   /// unsubscribe the endpoint. The unsubscribe action requires AWS
   /// authentication.
   Future<ConfirmSubscriptionResponse> confirmSubscription({
-    @_s.required String token,
-    @_s.required String topicArn,
-    String authenticateOnUnsubscribe,
+    required String token,
+    required String topicArn,
+    String? authenticateOnUnsubscribe,
   }) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
@@ -253,9 +245,9 @@ class SNS {
   /// (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud
   /// Messaging).
   Future<CreatePlatformApplicationResponse> createPlatformApplication({
-    @_s.required Map<String, String> attributes,
-    @_s.required String name,
-    @_s.required String platform,
+    required Map<String, String> attributes,
+    required String name,
+    required String platform,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(name, 'name');
@@ -323,10 +315,10 @@ class SNS {
   /// Arbitrary user data to associate with the endpoint. Amazon SNS does not
   /// use this data. The data must be in UTF-8 format and less than 2KB.
   Future<CreateEndpointResponse> createPlatformEndpoint({
-    @_s.required String platformApplicationArn,
-    @_s.required String token,
-    Map<String, String> attributes,
-    String customUserData,
+    required String platformApplicationArn,
+    required String token,
+    Map<String, String>? attributes,
+    String? customUserData,
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
@@ -455,9 +447,9 @@ class SNS {
   /// <code>sns:CreateTopic</code> and <code>sns:TagResource</code> permissions.
   /// </note>
   Future<CreateTopicResponse> createTopic({
-    @_s.required String name,
-    Map<String, String> attributes,
-    List<Tag> tags,
+    required String name,
+    Map<String, String>? attributes,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $request = <String, dynamic>{};
@@ -493,7 +485,7 @@ class SNS {
   /// Parameter [endpointArn] :
   /// EndpointArn of endpoint to delete.
   Future<void> deleteEndpoint({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final $request = <String, dynamic>{};
@@ -523,7 +515,7 @@ class SNS {
   /// Parameter [platformApplicationArn] :
   /// PlatformApplicationArn of platform application object to delete.
   Future<void> deletePlatformApplication({
-    @_s.required String platformApplicationArn,
+    required String platformApplicationArn,
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
@@ -557,7 +549,7 @@ class SNS {
   /// Parameter [topicArn] :
   /// The ARN of the topic you want to delete.
   Future<void> deleteTopic({
-    @_s.required String topicArn,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
@@ -588,7 +580,7 @@ class SNS {
   /// Parameter [endpointArn] :
   /// EndpointArn for GetEndpointAttributes input.
   Future<GetEndpointAttributesResponse> getEndpointAttributes({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final $request = <String, dynamic>{};
@@ -622,7 +614,7 @@ class SNS {
   /// PlatformApplicationArn for GetPlatformApplicationAttributesInput.
   Future<GetPlatformApplicationAttributesResponse>
       getPlatformApplicationAttributes({
-    @_s.required String platformApplicationArn,
+    required String platformApplicationArn,
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
@@ -660,7 +652,7 @@ class SNS {
   ///
   /// If you don't use this parameter, Amazon SNS returns all SMS attributes.
   Future<GetSMSAttributesResponse> getSMSAttributes({
-    List<String> attributes,
+    List<String>? attributes,
   }) async {
     final $request = <String, dynamic>{};
     attributes?.also((arg) => $request['attributes'] = arg);
@@ -688,7 +680,7 @@ class SNS {
   /// Parameter [subscriptionArn] :
   /// The ARN of the subscription whose properties you want to get.
   Future<GetSubscriptionAttributesResponse> getSubscriptionAttributes({
-    @_s.required String subscriptionArn,
+    required String subscriptionArn,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     final $request = <String, dynamic>{};
@@ -719,7 +711,7 @@ class SNS {
   /// Parameter [topicArn] :
   /// The ARN of the topic whose properties you want to get.
   Future<GetTopicAttributesResponse> getTopicAttributes({
-    @_s.required String topicArn,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
@@ -766,8 +758,8 @@ class SNS {
   /// page results.
   Future<ListEndpointsByPlatformApplicationResponse>
       listEndpointsByPlatformApplication({
-    @_s.required String platformApplicationArn,
-    String nextToken,
+    required String platformApplicationArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         platformApplicationArn, 'platformApplicationArn');
@@ -809,7 +801,7 @@ class SNS {
   /// <code>ListPhoneNumbersOptedOut</code> action to retrieve additional
   /// records that are available after the first page of results.
   Future<ListPhoneNumbersOptedOutResponse> listPhoneNumbersOptedOut({
-    String nextToken,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['nextToken'] = arg);
@@ -850,7 +842,7 @@ class SNS {
   /// retrieve additional records that are available after the first page
   /// results.
   Future<ListPlatformApplicationsResponse> listPlatformApplications({
-    String nextToken,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -883,7 +875,7 @@ class SNS {
   /// Parameter [nextToken] :
   /// Token returned by the previous <code>ListSubscriptions</code> request.
   Future<ListSubscriptionsResponse> listSubscriptions({
-    String nextToken,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -921,8 +913,8 @@ class SNS {
   /// Token returned by the previous <code>ListSubscriptionsByTopic</code>
   /// request.
   Future<ListSubscriptionsByTopicResponse> listSubscriptionsByTopic({
-    @_s.required String topicArn,
-    String nextToken,
+    required String topicArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
@@ -956,7 +948,7 @@ class SNS {
   /// Parameter [resourceArn] :
   /// The ARN of the topic for which to list tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -996,7 +988,7 @@ class SNS {
   /// Parameter [nextToken] :
   /// Token returned by the previous <code>ListTopics</code> request.
   Future<ListTopicsResponse> listTopics({
-    String nextToken,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -1027,7 +1019,7 @@ class SNS {
   /// Parameter [phoneNumber] :
   /// The phone number to opt in.
   Future<void> optInPhoneNumber({
-    @_s.required String phoneNumber,
+    required String phoneNumber,
   }) async {
     ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
     final $request = <String, dynamic>{};
@@ -1237,15 +1229,15 @@ class SNS {
   /// must specify a value for the <code>PhoneNumber</code> or
   /// <code>TargetArn</code> parameters.
   Future<PublishResponse> publish({
-    @_s.required String message,
-    Map<String, MessageAttributeValue> messageAttributes,
-    String messageDeduplicationId,
-    String messageGroupId,
-    String messageStructure,
-    String phoneNumber,
-    String subject,
-    String targetArn,
-    String topicArn,
+    required String message,
+    Map<String, MessageAttributeValue>? messageAttributes,
+    String? messageDeduplicationId,
+    String? messageGroupId,
+    String? messageStructure,
+    String? phoneNumber,
+    String? subject,
+    String? targetArn,
+    String? topicArn,
   }) async {
     ArgumentError.checkNotNull(message, 'message');
     final $request = <String, dynamic>{};
@@ -1286,8 +1278,8 @@ class SNS {
   /// Parameter [topicArn] :
   /// The ARN of the topic whose access control policy you wish to modify.
   Future<void> removePermission({
-    @_s.required String label,
-    @_s.required String topicArn,
+    required String label,
+    required String topicArn,
   }) async {
     ArgumentError.checkNotNull(label, 'label');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
@@ -1344,8 +1336,8 @@ class SNS {
   /// Parameter [endpointArn] :
   /// EndpointArn used for SetEndpointAttributes action.
   Future<void> setEndpointAttributes({
-    @_s.required Map<String, String> attributes,
-    @_s.required String endpointArn,
+    required Map<String, String> attributes,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
@@ -1435,8 +1427,8 @@ class SNS {
   /// Parameter [platformApplicationArn] :
   /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
   Future<void> setPlatformApplicationAttributes({
-    @_s.required Map<String, String> attributes,
-    @_s.required String platformApplicationArn,
+    required Map<String, String> attributes,
+    required String platformApplicationArn,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(
@@ -1566,7 +1558,7 @@ class SNS {
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sms_stats.html">Monitoring
   /// SMS Activity</a> in the <i>Amazon SNS Developer Guide</i>.
   Future<void> setSMSAttributes({
-    @_s.required Map<String, String> attributes,
+    required Map<String, String> attributes,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     final $request = <String, dynamic>{};
@@ -1631,9 +1623,9 @@ class SNS {
   /// Parameter [attributeValue] :
   /// The new value for the attribute in JSON format.
   Future<void> setSubscriptionAttributes({
-    @_s.required String attributeName,
-    @_s.required String subscriptionArn,
-    String attributeValue,
+    required String attributeName,
+    required String subscriptionArn,
+    String? attributeValue,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
@@ -1731,9 +1723,9 @@ class SNS {
   /// Parameter [attributeValue] :
   /// The new value for the attribute.
   Future<void> setTopicAttributes({
-    @_s.required String attributeName,
-    @_s.required String topicArn,
-    String attributeValue,
+    required String attributeName,
+    required String topicArn,
+    String? attributeValue,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
@@ -1889,11 +1881,11 @@ class SNS {
   /// <p/>
   /// The default value is <code>false</code>.
   Future<SubscribeResponse> subscribe({
-    @_s.required String protocol,
-    @_s.required String topicArn,
-    Map<String, String> attributes,
-    String endpoint,
-    bool returnSubscriptionArn,
+    required String protocol,
+    required String topicArn,
+    Map<String, String>? attributes,
+    String? endpoint,
+    bool? returnSubscriptionArn,
   }) async {
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(topicArn, 'topicArn');
@@ -1962,8 +1954,8 @@ class SNS {
   /// The tags to be added to the specified topic. A tag consists of a required
   /// key and an optional value.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2010,7 +2002,7 @@ class SNS {
   /// Parameter [subscriptionArn] :
   /// The ARN of the subscription to be deleted.
   Future<void> unsubscribe({
-    @_s.required String subscriptionArn,
+    required String subscriptionArn,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     final $request = <String, dynamic>{};
@@ -2045,8 +2037,8 @@ class SNS {
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the specified topic.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2088,7 +2080,7 @@ class CheckIfPhoneNumberIsOptedOutResponse {
   /// SMS messages to it.
   /// </li>
   /// </ul>
-  final bool isOptedOut;
+  final bool? isOptedOut;
 
   CheckIfPhoneNumberIsOptedOutResponse({
     this.isOptedOut,
@@ -2103,7 +2095,7 @@ class CheckIfPhoneNumberIsOptedOutResponse {
 /// Response for ConfirmSubscriptions action.
 class ConfirmSubscriptionResponse {
   /// The ARN of the created subscription.
-  final String subscriptionArn;
+  final String? subscriptionArn;
 
   ConfirmSubscriptionResponse({
     this.subscriptionArn,
@@ -2118,7 +2110,7 @@ class ConfirmSubscriptionResponse {
 /// Response from CreateEndpoint action.
 class CreateEndpointResponse {
   /// EndpointArn returned from CreateEndpoint action.
-  final String endpointArn;
+  final String? endpointArn;
 
   CreateEndpointResponse({
     this.endpointArn,
@@ -2133,7 +2125,7 @@ class CreateEndpointResponse {
 /// Response from CreatePlatformApplication action.
 class CreatePlatformApplicationResponse {
   /// PlatformApplicationArn is returned.
-  final String platformApplicationArn;
+  final String? platformApplicationArn;
 
   CreatePlatformApplicationResponse({
     this.platformApplicationArn,
@@ -2149,7 +2141,7 @@ class CreatePlatformApplicationResponse {
 /// Response from CreateTopic action.
 class CreateTopicResponse {
   /// The Amazon Resource Name (ARN) assigned to the created topic.
-  final String topicArn;
+  final String? topicArn;
 
   CreateTopicResponse({
     this.topicArn,
@@ -2164,10 +2156,10 @@ class CreateTopicResponse {
 /// Endpoint for mobile app and device.
 class Endpoint {
   /// Attributes for endpoint.
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// EndpointArn for mobile app and device.
-  final String endpointArn;
+  final String? endpointArn;
 
   Endpoint({
     this.attributes,
@@ -2176,12 +2168,13 @@ class Endpoint {
   factory Endpoint.fromXml(_s.XmlElement elem) {
     return Endpoint(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       endpointArn: _s.extractXmlStringValue(elem, 'EndpointArn'),
     );
@@ -2212,7 +2205,7 @@ class GetEndpointAttributesResponse {
   /// The device token for the iOS platform is returned in lowercase.
   /// </note> </li>
   /// </ul>
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetEndpointAttributesResponse({
     this.attributes,
@@ -2220,12 +2213,13 @@ class GetEndpointAttributesResponse {
   factory GetEndpointAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetEndpointAttributesResponse(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2254,7 +2248,7 @@ class GetPlatformApplicationAttributesResponse {
   /// (permanent) to one of the application's endpoints.
   /// </li>
   /// </ul>
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetPlatformApplicationAttributesResponse({
     this.attributes,
@@ -2262,12 +2256,13 @@ class GetPlatformApplicationAttributesResponse {
   factory GetPlatformApplicationAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetPlatformApplicationAttributesResponse(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2276,7 +2271,7 @@ class GetPlatformApplicationAttributesResponse {
 /// The response from the <code>GetSMSAttributes</code> request.
 class GetSMSAttributesResponse {
   /// The SMS attribute names and their values.
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetSMSAttributesResponse({
     this.attributes,
@@ -2284,12 +2279,13 @@ class GetSMSAttributesResponse {
   factory GetSMSAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetSMSAttributesResponse(
       attributes: Map.fromEntries(
-        elem.getElement('attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2349,7 +2345,7 @@ class GetSubscriptionAttributesResponse {
   /// with.
   /// </li>
   /// </ul>
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetSubscriptionAttributesResponse({
     this.attributes,
@@ -2357,12 +2353,13 @@ class GetSubscriptionAttributesResponse {
   factory GetSubscriptionAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetSubscriptionAttributesResponse(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2457,7 +2454,7 @@ class GetTopicAttributesResponse {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetTopicAttributesResponse({
     this.attributes,
@@ -2465,12 +2462,13 @@ class GetTopicAttributesResponse {
   factory GetTopicAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetTopicAttributesResponse(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
   }
@@ -2479,11 +2477,11 @@ class GetTopicAttributesResponse {
 /// Response for ListEndpointsByPlatformApplication action.
 class ListEndpointsByPlatformApplicationResponse {
   /// Endpoints returned for ListEndpointsByPlatformApplication action.
-  final List<Endpoint> endpoints;
+  final List<Endpoint>? endpoints;
 
   /// NextToken string is returned when calling ListEndpointsByPlatformApplication
   /// action if additional records are available after the first page results.
-  final String nextToken;
+  final String? nextToken;
 
   ListEndpointsByPlatformApplicationResponse({
     this.endpoints,
@@ -2504,11 +2502,11 @@ class ListPhoneNumbersOptedOutResponse {
   /// A <code>NextToken</code> string is returned when you call the
   /// <code>ListPhoneNumbersOptedOut</code> action if additional records are
   /// available after the first page of results.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of phone numbers that are opted out of receiving SMS messages. The
   /// list is paginated, and each page can contain up to 100 phone numbers.
-  final List<String> phoneNumbers;
+  final List<String>? phoneNumbers;
 
   ListPhoneNumbersOptedOutResponse({
     this.nextToken,
@@ -2528,10 +2526,10 @@ class ListPhoneNumbersOptedOutResponse {
 class ListPlatformApplicationsResponse {
   /// NextToken string is returned when calling ListPlatformApplications action if
   /// additional records are available after the first page results.
-  final String nextToken;
+  final String? nextToken;
 
   /// Platform applications returned when calling ListPlatformApplications action.
-  final List<PlatformApplication> platformApplications;
+  final List<PlatformApplication>? platformApplications;
 
   ListPlatformApplicationsResponse({
     this.nextToken,
@@ -2555,10 +2553,10 @@ class ListSubscriptionsByTopicResponse {
   /// Token to pass along to the next <code>ListSubscriptionsByTopic</code>
   /// request. This element is returned if there are more subscriptions to
   /// retrieve.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of subscriptions.
-  final List<Subscription> subscriptions;
+  final List<Subscription>? subscriptions;
 
   ListSubscriptionsByTopicResponse({
     this.nextToken,
@@ -2580,10 +2578,10 @@ class ListSubscriptionsByTopicResponse {
 class ListSubscriptionsResponse {
   /// Token to pass along to the next <code>ListSubscriptions</code> request. This
   /// element is returned if there are more subscriptions to retrieve.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of subscriptions.
-  final List<Subscription> subscriptions;
+  final List<Subscription>? subscriptions;
 
   ListSubscriptionsResponse({
     this.nextToken,
@@ -2603,7 +2601,7 @@ class ListSubscriptionsResponse {
 
 class ListTagsForResourceResponse {
   /// The tags associated with the specified topic.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
@@ -2620,10 +2618,10 @@ class ListTagsForResourceResponse {
 class ListTopicsResponse {
   /// Token to pass along to the next <code>ListTopics</code> request. This
   /// element is returned if there are additional topics to retrieve.
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of topic ARNs.
-  final List<Topic> topics;
+  final List<Topic>? topics;
 
   ListTopicsResponse({
     this.nextToken,
@@ -2652,38 +2650,38 @@ class ListTopicsResponse {
 /// SNS message attributes</a> and <a
 /// href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Publishing
 /// to a mobile phone</a> in the <i>Amazon SNS Developer Guide.</i>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageAttributeValue {
   /// Amazon SNS supports the following logical data types: String, String.Array,
   /// Number, and Binary. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html#SNSMessageAttributes.DataTypes">Message
   /// Attribute Data Types</a>.
-  @_s.JsonKey(name: 'DataType')
   final String dataType;
 
   /// Binary type attributes can store any binary data, for example, compressed
   /// data, encrypted data, or images.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'BinaryValue')
-  final Uint8List binaryValue;
+  final Uint8List? binaryValue;
 
   /// Strings are Unicode with UTF8 binary encoding. For a list of code values,
   /// see <a
   /// href="https://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">ASCII
   /// Printable Characters</a>.
-  @_s.JsonKey(name: 'StringValue')
-  final String stringValue;
+  final String? stringValue;
 
   MessageAttributeValue({
-    @_s.required this.dataType,
+    required this.dataType,
     this.binaryValue,
     this.stringValue,
   });
-  Map<String, dynamic> toJson() => _$MessageAttributeValueToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final binaryValue = this.binaryValue;
+    final stringValue = this.stringValue;
+    return {
+      'DataType': dataType,
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
 }
 
 /// The response for the OptInPhoneNumber action.
@@ -2699,10 +2697,10 @@ class OptInPhoneNumberResponse {
 /// Platform application object.
 class PlatformApplication {
   /// Attributes for platform application object.
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// PlatformApplicationArn for platform application object.
-  final String platformApplicationArn;
+  final String? platformApplicationArn;
 
   PlatformApplication({
     this.attributes,
@@ -2711,12 +2709,13 @@ class PlatformApplication {
   factory PlatformApplication.fromXml(_s.XmlElement elem) {
     return PlatformApplication(
       attributes: Map.fromEntries(
-        elem.getElement('Attributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Attributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       platformApplicationArn:
           _s.extractXmlStringValue(elem, 'PlatformApplicationArn'),
@@ -2729,7 +2728,7 @@ class PublishResponse {
   /// Unique identifier assigned to the published message.
   ///
   /// Length Constraint: Maximum 100 characters
-  final String messageId;
+  final String? messageId;
 
   /// This response element applies only to FIFO (first-in-first-out) topics.
   ///
@@ -2737,7 +2736,7 @@ class PublishResponse {
   /// assigns to each message. The length of <code>SequenceNumber</code> is 128
   /// bits. <code>SequenceNumber</code> continues to increase for each
   /// <code>MessageGroupId</code>.
-  final String sequenceNumber;
+  final String? sequenceNumber;
 
   PublishResponse({
     this.messageId,
@@ -2768,7 +2767,7 @@ class SubscribeResponse {
   /// request parameter <code>ReturnSubscriptionArn</code> is true, then the value
   /// is always the subscription ARN, even if the subscription requires
   /// confirmation.
-  final String subscriptionArn;
+  final String? subscriptionArn;
 
   SubscribeResponse({
     this.subscriptionArn,
@@ -2783,19 +2782,19 @@ class SubscribeResponse {
 /// A wrapper type for the attributes of an Amazon SNS subscription.
 class Subscription {
   /// The subscription's endpoint (format depends on the protocol).
-  final String endpoint;
+  final String? endpoint;
 
   /// The subscription's owner.
-  final String owner;
+  final String? owner;
 
   /// The subscription's protocol.
-  final String protocol;
+  final String? protocol;
 
   /// The subscription's ARN.
-  final String subscriptionArn;
+  final String? subscriptionArn;
 
   /// The ARN of the subscription's topic.
-  final String topicArn;
+  final String? topicArn;
 
   Subscription({
     this.endpoint,
@@ -2816,32 +2815,32 @@ class Subscription {
 }
 
 /// The list of tags to be added to the specified topic.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The required key portion of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional value portion of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 class TagResourceResponse {
@@ -2857,7 +2856,7 @@ class TagResourceResponse {
 /// topic's attributes, use <code>GetTopicAttributes</code>.
 class Topic {
   /// The topic's ARN.
-  final String topicArn;
+  final String? topicArn;
 
   Topic({
     this.topicArn,
@@ -2879,23 +2878,23 @@ class UntagResourceResponse {
 }
 
 class AuthorizationErrorException extends _s.GenericAwsException {
-  AuthorizationErrorException({String type, String message})
+  AuthorizationErrorException({String? type, String? message})
       : super(
             type: type, code: 'AuthorizationErrorException', message: message);
 }
 
 class ConcurrentAccessException extends _s.GenericAwsException {
-  ConcurrentAccessException({String type, String message})
+  ConcurrentAccessException({String? type, String? message})
       : super(type: type, code: 'ConcurrentAccessException', message: message);
 }
 
 class EndpointDisabledException extends _s.GenericAwsException {
-  EndpointDisabledException({String type, String message})
+  EndpointDisabledException({String? type, String? message})
       : super(type: type, code: 'EndpointDisabledException', message: message);
 }
 
 class FilterPolicyLimitExceededException extends _s.GenericAwsException {
-  FilterPolicyLimitExceededException({String type, String message})
+  FilterPolicyLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'FilterPolicyLimitExceededException',
@@ -2903,17 +2902,17 @@ class FilterPolicyLimitExceededException extends _s.GenericAwsException {
 }
 
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -2921,47 +2920,47 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidSecurityException extends _s.GenericAwsException {
-  InvalidSecurityException({String type, String message})
+  InvalidSecurityException({String? type, String? message})
       : super(type: type, code: 'InvalidSecurityException', message: message);
 }
 
 class KMSAccessDeniedException extends _s.GenericAwsException {
-  KMSAccessDeniedException({String type, String message})
+  KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
 }
 
 class KMSDisabledException extends _s.GenericAwsException {
-  KMSDisabledException({String type, String message})
+  KMSDisabledException({String? type, String? message})
       : super(type: type, code: 'KMSDisabledException', message: message);
 }
 
 class KMSInvalidStateException extends _s.GenericAwsException {
-  KMSInvalidStateException({String type, String message})
+  KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
 class KMSNotFoundException extends _s.GenericAwsException {
-  KMSNotFoundException({String type, String message})
+  KMSNotFoundException({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundException', message: message);
 }
 
 class KMSOptInRequired extends _s.GenericAwsException {
-  KMSOptInRequired({String type, String message})
+  KMSOptInRequired({String? type, String? message})
       : super(type: type, code: 'KMSOptInRequired', message: message);
 }
 
 class KMSThrottlingException extends _s.GenericAwsException {
-  KMSThrottlingException({String type, String message})
+  KMSThrottlingException({String? type, String? message})
       : super(type: type, code: 'KMSThrottlingException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class PlatformApplicationDisabledException extends _s.GenericAwsException {
-  PlatformApplicationDisabledException({String type, String message})
+  PlatformApplicationDisabledException({String? type, String? message})
       : super(
             type: type,
             code: 'PlatformApplicationDisabledException',
@@ -2969,17 +2968,17 @@ class PlatformApplicationDisabledException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class StaleTagException extends _s.GenericAwsException {
-  StaleTagException({String type, String message})
+  StaleTagException({String? type, String? message})
       : super(type: type, code: 'StaleTagException', message: message);
 }
 
 class SubscriptionLimitExceededException extends _s.GenericAwsException {
-  SubscriptionLimitExceededException({String type, String message})
+  SubscriptionLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'SubscriptionLimitExceededException',
@@ -2987,22 +2986,22 @@ class SubscriptionLimitExceededException extends _s.GenericAwsException {
 }
 
 class TagLimitExceededException extends _s.GenericAwsException {
-  TagLimitExceededException({String type, String message})
+  TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
 class TagPolicyException extends _s.GenericAwsException {
-  TagPolicyException({String type, String message})
+  TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
 class ThrottledException extends _s.GenericAwsException {
-  ThrottledException({String type, String message})
+  ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
 class TopicLimitExceededException extends _s.GenericAwsException {
-  TopicLimitExceededException({String type, String message})
+  TopicLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'TopicLimitExceededException', message: message);
 }

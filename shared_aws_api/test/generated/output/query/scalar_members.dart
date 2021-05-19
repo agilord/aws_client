@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'scalar_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class ScalarMembers {
   final Map<String, _s.Shape> shapes;
 
   ScalarMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,15 +56,15 @@ class ScalarMembers {
 }
 
 class OutputShape {
-  final String char;
-  final double doubleValue;
-  final bool falseBool;
-  final double float;
-  final int long;
-  final int num;
-  final String str;
-  final DateTime timestamp;
-  final bool trueBool;
+  final String? char;
+  final double? doubleValue;
+  final bool? falseBool;
+  final double? float;
+  final int? long;
+  final int? num;
+  final String? str;
+  final DateTime? timestamp;
+  final bool? trueBool;
 
   OutputShape({
     this.char,

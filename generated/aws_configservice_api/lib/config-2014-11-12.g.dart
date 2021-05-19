@@ -9,15 +9,20 @@ part of 'config-2014-11-12.dart';
 AccountAggregationSource _$AccountAggregationSourceFromJson(
     Map<String, dynamic> json) {
   return AccountAggregationSource(
-    accountIds: (json['AccountIds'] as List)?.map((e) => e as String)?.toList(),
-    allAwsRegions: json['AllAwsRegions'] as bool,
-    awsRegions: (json['AwsRegions'] as List)?.map((e) => e as String)?.toList(),
+    accountIds:
+        (json['AccountIds'] as List<dynamic>).map((e) => e as String).toList(),
+    allAwsRegions: json['AllAwsRegions'] as bool?,
+    awsRegions: (json['AwsRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$AccountAggregationSourceToJson(
     AccountAggregationSource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AccountIds': instance.accountIds,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -25,7 +30,6 @@ Map<String, dynamic> _$AccountAggregationSourceToJson(
     }
   }
 
-  writeNotNull('AccountIds', instance.accountIds);
   writeNotNull('AllAwsRegions', instance.allAwsRegions);
   writeNotNull('AwsRegions', instance.awsRegions);
   return val;
@@ -34,12 +38,12 @@ Map<String, dynamic> _$AccountAggregationSourceToJson(
 AggregateComplianceByConfigRule _$AggregateComplianceByConfigRuleFromJson(
     Map<String, dynamic> json) {
   return AggregateComplianceByConfigRule(
-    accountId: json['AccountId'] as String,
-    awsRegion: json['AwsRegion'] as String,
+    accountId: json['AccountId'] as String?,
+    awsRegion: json['AwsRegion'] as String?,
     compliance: json['Compliance'] == null
         ? null
         : Compliance.fromJson(json['Compliance'] as Map<String, dynamic>),
-    configRuleName: json['ConfigRuleName'] as String,
+    configRuleName: json['ConfigRuleName'] as String?,
   );
 }
 
@@ -50,16 +54,16 @@ AggregateComplianceCount _$AggregateComplianceCountFromJson(
         ? null
         : ComplianceSummary.fromJson(
             json['ComplianceSummary'] as Map<String, dynamic>),
-    groupName: json['GroupName'] as String,
+    groupName: json['GroupName'] as String?,
   );
 }
 
 AggregateEvaluationResult _$AggregateEvaluationResultFromJson(
     Map<String, dynamic> json) {
   return AggregateEvaluationResult(
-    accountId: json['AccountId'] as String,
-    annotation: json['Annotation'] as String,
-    awsRegion: json['AwsRegion'] as String,
+    accountId: json['AccountId'] as String?,
+    annotation: json['Annotation'] as String?,
+    awsRegion: json['AwsRegion'] as String?,
     complianceType:
         _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
     configRuleInvokedTime:
@@ -73,36 +77,41 @@ AggregateEvaluationResult _$AggregateEvaluationResultFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ComplianceTypeEnumMap = {
@@ -116,17 +125,21 @@ AggregateResourceIdentifier _$AggregateResourceIdentifierFromJson(
     Map<String, dynamic> json) {
   return AggregateResourceIdentifier(
     resourceId: json['ResourceId'] as String,
-    resourceType:
-        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['ResourceType']),
+    resourceType: _$enumDecode(_$ResourceTypeEnumMap, json['ResourceType']),
     sourceAccountId: json['SourceAccountId'] as String,
     sourceRegion: json['SourceRegion'] as String,
-    resourceName: json['ResourceName'] as String,
+    resourceName: json['ResourceName'] as String?,
   );
 }
 
 Map<String, dynamic> _$AggregateResourceIdentifierToJson(
     AggregateResourceIdentifier instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ResourceId': instance.resourceId,
+    'ResourceType': _$ResourceTypeEnumMap[instance.resourceType],
+    'SourceAccountId': instance.sourceAccountId,
+    'SourceRegion': instance.sourceRegion,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -134,10 +147,6 @@ Map<String, dynamic> _$AggregateResourceIdentifierToJson(
     }
   }
 
-  writeNotNull('ResourceId', instance.resourceId);
-  writeNotNull('ResourceType', _$ResourceTypeEnumMap[instance.resourceType]);
-  writeNotNull('SourceAccountId', instance.sourceAccountId);
-  writeNotNull('SourceRegion', instance.sourceRegion);
   writeNotNull('ResourceName', instance.resourceName);
   return val;
 }
@@ -262,14 +271,14 @@ const _$ResourceTypeEnumMap = {
 AggregatedSourceStatus _$AggregatedSourceStatusFromJson(
     Map<String, dynamic> json) {
   return AggregatedSourceStatus(
-    awsRegion: json['AwsRegion'] as String,
-    lastErrorCode: json['LastErrorCode'] as String,
-    lastErrorMessage: json['LastErrorMessage'] as String,
+    awsRegion: json['AwsRegion'] as String?,
+    lastErrorCode: json['LastErrorCode'] as String?,
+    lastErrorMessage: json['LastErrorMessage'] as String?,
     lastUpdateStatus: _$enumDecodeNullable(
         _$AggregatedSourceStatusTypeEnumMap, json['LastUpdateStatus']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
-    sourceId: json['SourceId'] as String,
+    sourceId: json['SourceId'] as String?,
     sourceType:
         _$enumDecodeNullable(_$AggregatedSourceTypeEnumMap, json['SourceType']),
   );
@@ -289,9 +298,9 @@ const _$AggregatedSourceTypeEnumMap = {
 AggregationAuthorization _$AggregationAuthorizationFromJson(
     Map<String, dynamic> json) {
   return AggregationAuthorization(
-    aggregationAuthorizationArn: json['AggregationAuthorizationArn'] as String,
-    authorizedAccountId: json['AuthorizedAccountId'] as String,
-    authorizedAwsRegion: json['AuthorizedAwsRegion'] as String,
+    aggregationAuthorizationArn: json['AggregationAuthorizationArn'] as String?,
+    authorizedAccountId: json['AuthorizedAccountId'] as String?,
+    authorizedAwsRegion: json['AuthorizedAwsRegion'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
   );
 }
@@ -299,27 +308,27 @@ AggregationAuthorization _$AggregationAuthorizationFromJson(
 BaseConfigurationItem _$BaseConfigurationItemFromJson(
     Map<String, dynamic> json) {
   return BaseConfigurationItem(
-    accountId: json['accountId'] as String,
-    arn: json['arn'] as String,
-    availabilityZone: json['availabilityZone'] as String,
-    awsRegion: json['awsRegion'] as String,
-    configuration: json['configuration'] as String,
+    accountId: json['accountId'] as String?,
+    arn: json['arn'] as String?,
+    availabilityZone: json['availabilityZone'] as String?,
+    awsRegion: json['awsRegion'] as String?,
+    configuration: json['configuration'] as String?,
     configurationItemCaptureTime: const UnixDateTimeConverter()
         .fromJson(json['configurationItemCaptureTime']),
     configurationItemStatus: _$enumDecodeNullable(
         _$ConfigurationItemStatusEnumMap, json['configurationItemStatus']),
-    configurationStateId: json['configurationStateId'] as String,
+    configurationStateId: json['configurationStateId'] as String?,
     resourceCreationTime:
         const UnixDateTimeConverter().fromJson(json['resourceCreationTime']),
-    resourceId: json['resourceId'] as String,
-    resourceName: json['resourceName'] as String,
+    resourceId: json['resourceId'] as String?,
+    resourceName: json['resourceName'] as String?,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
     supplementaryConfiguration:
-        (json['supplementaryConfiguration'] as Map<String, dynamic>)?.map(
+        (json['supplementaryConfiguration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    version: json['version'] as String,
+    version: json['version'] as String?,
   );
 }
 
@@ -336,32 +345,26 @@ BatchGetAggregateResourceConfigResponse
     _$BatchGetAggregateResourceConfigResponseFromJson(
         Map<String, dynamic> json) {
   return BatchGetAggregateResourceConfigResponse(
-    baseConfigurationItems: (json['BaseConfigurationItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    unprocessedResourceIdentifiers: (json['UnprocessedResourceIdentifiers']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    baseConfigurationItems: (json['BaseConfigurationItems'] as List<dynamic>?)
+        ?.map((e) => BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    unprocessedResourceIdentifiers:
+        (json['UnprocessedResourceIdentifiers'] as List<dynamic>?)
+            ?.map((e) =>
+                AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 BatchGetResourceConfigResponse _$BatchGetResourceConfigResponseFromJson(
     Map<String, dynamic> json) {
   return BatchGetResourceConfigResponse(
-    baseConfigurationItems: (json['baseConfigurationItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    unprocessedResourceKeys: (json['unprocessedResourceKeys'] as List)
-        ?.map((e) =>
-            e == null ? null : ResourceKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    baseConfigurationItems: (json['baseConfigurationItems'] as List<dynamic>?)
+        ?.map((e) => BaseConfigurationItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    unprocessedResourceKeys: (json['unprocessedResourceKeys'] as List<dynamic>?)
+        ?.map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -382,7 +385,7 @@ ComplianceByConfigRule _$ComplianceByConfigRuleFromJson(
     compliance: json['Compliance'] == null
         ? null
         : Compliance.fromJson(json['Compliance'] as Map<String, dynamic>),
-    configRuleName: json['ConfigRuleName'] as String,
+    configRuleName: json['ConfigRuleName'] as String?,
   );
 }
 
@@ -391,16 +394,16 @@ ComplianceByResource _$ComplianceByResourceFromJson(Map<String, dynamic> json) {
     compliance: json['Compliance'] == null
         ? null
         : Compliance.fromJson(json['Compliance'] as Map<String, dynamic>),
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
 ComplianceContributorCount _$ComplianceContributorCountFromJson(
     Map<String, dynamic> json) {
   return ComplianceContributorCount(
-    capExceeded: json['CapExceeded'] as bool,
-    cappedCount: json['CappedCount'] as int,
+    capExceeded: json['CapExceeded'] as bool?,
+    cappedCount: json['CappedCount'] as int?,
   );
 }
 
@@ -426,7 +429,7 @@ ComplianceSummaryByResourceType _$ComplianceSummaryByResourceTypeFromJson(
         ? null
         : ComplianceSummary.fromJson(
             json['ComplianceSummary'] as Map<String, dynamic>),
-    resourceType: json['ResourceType'] as String,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
@@ -435,8 +438,8 @@ ConfigExportDeliveryInfo _$ConfigExportDeliveryInfoFromJson(
   return ConfigExportDeliveryInfo(
     lastAttemptTime:
         const UnixDateTimeConverter().fromJson(json['lastAttemptTime']),
-    lastErrorCode: json['lastErrorCode'] as String,
-    lastErrorMessage: json['lastErrorMessage'] as String,
+    lastErrorCode: json['lastErrorCode'] as String?,
+    lastErrorMessage: json['lastErrorMessage'] as String?,
     lastStatus:
         _$enumDecodeNullable(_$DeliveryStatusEnumMap, json['lastStatus']),
     lastSuccessfulTime:
@@ -454,17 +457,15 @@ const _$DeliveryStatusEnumMap = {
 
 ConfigRule _$ConfigRuleFromJson(Map<String, dynamic> json) {
   return ConfigRule(
-    source: json['Source'] == null
-        ? null
-        : Source.fromJson(json['Source'] as Map<String, dynamic>),
-    configRuleArn: json['ConfigRuleArn'] as String,
-    configRuleId: json['ConfigRuleId'] as String,
-    configRuleName: json['ConfigRuleName'] as String,
+    source: Source.fromJson(json['Source'] as Map<String, dynamic>),
+    configRuleArn: json['ConfigRuleArn'] as String?,
+    configRuleId: json['ConfigRuleId'] as String?,
+    configRuleName: json['ConfigRuleName'] as String?,
     configRuleState:
         _$enumDecodeNullable(_$ConfigRuleStateEnumMap, json['ConfigRuleState']),
-    createdBy: json['CreatedBy'] as String,
-    description: json['Description'] as String,
-    inputParameters: json['InputParameters'] as String,
+    createdBy: json['CreatedBy'] as String?,
+    description: json['Description'] as String?,
+    inputParameters: json['InputParameters'] as String?,
     maximumExecutionFrequency: _$enumDecodeNullable(
         _$MaximumExecutionFrequencyEnumMap, json['MaximumExecutionFrequency']),
     scope: json['Scope'] == null
@@ -474,7 +475,9 @@ ConfigRule _$ConfigRuleFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ConfigRuleToJson(ConfigRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Source': instance.source.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -482,7 +485,6 @@ Map<String, dynamic> _$ConfigRuleToJson(ConfigRule instance) {
     }
   }
 
-  writeNotNull('Source', instance.source?.toJson());
   writeNotNull('ConfigRuleArn', instance.configRuleArn);
   writeNotNull('ConfigRuleId', instance.configRuleId);
   writeNotNull('ConfigRuleName', instance.configRuleName);
@@ -548,16 +550,16 @@ Map<String, dynamic> _$ConfigRuleComplianceSummaryFiltersToJson(
 ConfigRuleEvaluationStatus _$ConfigRuleEvaluationStatusFromJson(
     Map<String, dynamic> json) {
   return ConfigRuleEvaluationStatus(
-    configRuleArn: json['ConfigRuleArn'] as String,
-    configRuleId: json['ConfigRuleId'] as String,
-    configRuleName: json['ConfigRuleName'] as String,
+    configRuleArn: json['ConfigRuleArn'] as String?,
+    configRuleId: json['ConfigRuleId'] as String?,
+    configRuleName: json['ConfigRuleName'] as String?,
     firstActivatedTime:
         const UnixDateTimeConverter().fromJson(json['FirstActivatedTime']),
-    firstEvaluationStarted: json['FirstEvaluationStarted'] as bool,
+    firstEvaluationStarted: json['FirstEvaluationStarted'] as bool?,
     lastDeactivatedTime:
         const UnixDateTimeConverter().fromJson(json['LastDeactivatedTime']),
-    lastErrorCode: json['LastErrorCode'] as String,
-    lastErrorMessage: json['LastErrorMessage'] as String,
+    lastErrorCode: json['LastErrorCode'] as String?,
+    lastErrorMessage: json['LastErrorMessage'] as String?,
     lastFailedEvaluationTime: const UnixDateTimeConverter()
         .fromJson(json['LastFailedEvaluationTime']),
     lastFailedInvocationTime: const UnixDateTimeConverter()
@@ -595,8 +597,8 @@ Map<String, dynamic> _$ConfigSnapshotDeliveryPropertiesToJson(
 ConfigStreamDeliveryInfo _$ConfigStreamDeliveryInfoFromJson(
     Map<String, dynamic> json) {
   return ConfigStreamDeliveryInfo(
-    lastErrorCode: json['lastErrorCode'] as String,
-    lastErrorMessage: json['lastErrorMessage'] as String,
+    lastErrorCode: json['lastErrorCode'] as String?,
+    lastErrorMessage: json['lastErrorMessage'] as String?,
     lastStatus:
         _$enumDecodeNullable(_$DeliveryStatusEnumMap, json['lastStatus']),
     lastStatusChangeTime:
@@ -607,14 +609,14 @@ ConfigStreamDeliveryInfo _$ConfigStreamDeliveryInfoFromJson(
 ConfigurationAggregator _$ConfigurationAggregatorFromJson(
     Map<String, dynamic> json) {
   return ConfigurationAggregator(
-    accountAggregationSources: (json['AccountAggregationSources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccountAggregationSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String,
-    configurationAggregatorName: json['ConfigurationAggregatorName'] as String,
-    createdBy: json['CreatedBy'] as String,
+    accountAggregationSources: (json['AccountAggregationSources']
+            as List<dynamic>?)
+        ?.map(
+            (e) => AccountAggregationSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    configurationAggregatorArn: json['ConfigurationAggregatorArn'] as String?,
+    configurationAggregatorName: json['ConfigurationAggregatorName'] as String?,
+    createdBy: json['CreatedBy'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
@@ -627,49 +629,49 @@ ConfigurationAggregator _$ConfigurationAggregatorFromJson(
 
 ConfigurationItem _$ConfigurationItemFromJson(Map<String, dynamic> json) {
   return ConfigurationItem(
-    accountId: json['accountId'] as String,
-    arn: json['arn'] as String,
-    availabilityZone: json['availabilityZone'] as String,
-    awsRegion: json['awsRegion'] as String,
-    configuration: json['configuration'] as String,
+    accountId: json['accountId'] as String?,
+    arn: json['arn'] as String?,
+    availabilityZone: json['availabilityZone'] as String?,
+    awsRegion: json['awsRegion'] as String?,
+    configuration: json['configuration'] as String?,
     configurationItemCaptureTime: const UnixDateTimeConverter()
         .fromJson(json['configurationItemCaptureTime']),
-    configurationItemMD5Hash: json['configurationItemMD5Hash'] as String,
+    configurationItemMD5Hash: json['configurationItemMD5Hash'] as String?,
     configurationItemStatus: _$enumDecodeNullable(
         _$ConfigurationItemStatusEnumMap, json['configurationItemStatus']),
-    configurationStateId: json['configurationStateId'] as String,
-    relatedEvents:
-        (json['relatedEvents'] as List)?.map((e) => e as String)?.toList(),
-    relationships: (json['relationships'] as List)
-        ?.map((e) =>
-            e == null ? null : Relationship.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    configurationStateId: json['configurationStateId'] as String?,
+    relatedEvents: (json['relatedEvents'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    relationships: (json['relationships'] as List<dynamic>?)
+        ?.map((e) => Relationship.fromJson(e as Map<String, dynamic>))
+        .toList(),
     resourceCreationTime:
         const UnixDateTimeConverter().fromJson(json['resourceCreationTime']),
-    resourceId: json['resourceId'] as String,
-    resourceName: json['resourceName'] as String,
+    resourceId: json['resourceId'] as String?,
+    resourceName: json['resourceName'] as String?,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
     supplementaryConfiguration:
-        (json['supplementaryConfiguration'] as Map<String, dynamic>)?.map(
+        (json['supplementaryConfiguration'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    version: json['version'] as String,
+    version: json['version'] as String?,
   );
 }
 
 ConfigurationRecorder _$ConfigurationRecorderFromJson(
     Map<String, dynamic> json) {
   return ConfigurationRecorder(
-    name: json['name'] as String,
+    name: json['name'] as String?,
     recordingGroup: json['recordingGroup'] == null
         ? null
         : RecordingGroup.fromJson(
             json['recordingGroup'] as Map<String, dynamic>),
-    roleARN: json['roleARN'] as String,
+    roleARN: json['roleARN'] as String?,
   );
 }
 
@@ -692,8 +694,8 @@ Map<String, dynamic> _$ConfigurationRecorderToJson(
 ConfigurationRecorderStatus _$ConfigurationRecorderStatusFromJson(
     Map<String, dynamic> json) {
   return ConfigurationRecorderStatus(
-    lastErrorCode: json['lastErrorCode'] as String,
-    lastErrorMessage: json['lastErrorMessage'] as String,
+    lastErrorCode: json['lastErrorCode'] as String?,
+    lastErrorMessage: json['lastErrorMessage'] as String?,
     lastStartTime:
         const UnixDateTimeConverter().fromJson(json['lastStartTime']),
     lastStatus:
@@ -701,8 +703,8 @@ ConfigurationRecorderStatus _$ConfigurationRecorderStatusFromJson(
     lastStatusChangeTime:
         const UnixDateTimeConverter().fromJson(json['lastStatusChangeTime']),
     lastStopTime: const UnixDateTimeConverter().fromJson(json['lastStopTime']),
-    name: json['name'] as String,
-    recording: json['recording'] as bool,
+    name: json['name'] as String?,
+    recording: json['recording'] as bool?,
   );
 }
 
@@ -736,7 +738,7 @@ const _$ConformancePackComplianceTypeEnumMap = {
 ConformancePackComplianceSummary _$ConformancePackComplianceSummaryFromJson(
     Map<String, dynamic> json) {
   return ConformancePackComplianceSummary(
-    conformancePackComplianceStatus: _$enumDecodeNullable(
+    conformancePackComplianceStatus: _$enumDecode(
         _$ConformancePackComplianceTypeEnumMap,
         json['ConformancePackComplianceStatus']),
     conformancePackName: json['ConformancePackName'] as String,
@@ -750,14 +752,13 @@ ConformancePackDetail _$ConformancePackDetailFromJson(
     conformancePackId: json['ConformancePackId'] as String,
     conformancePackName: json['ConformancePackName'] as String,
     conformancePackInputParameters: (json['ConformancePackInputParameters']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    createdBy: json['CreatedBy'] as String,
-    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
-    deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String,
+            as List<dynamic>?)
+        ?.map((e) =>
+            ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    createdBy: json['CreatedBy'] as String?,
+    deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
+    deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
     lastUpdateRequestedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateRequestedTime']),
   );
@@ -784,17 +785,14 @@ Map<String, dynamic> _$ConformancePackEvaluationFiltersToJson(
 ConformancePackEvaluationResult _$ConformancePackEvaluationResultFromJson(
     Map<String, dynamic> json) {
   return ConformancePackEvaluationResult(
-    complianceType: _$enumDecodeNullable(
+    complianceType: _$enumDecode(
         _$ConformancePackComplianceTypeEnumMap, json['ComplianceType']),
     configRuleInvokedTime:
-        const UnixDateTimeConverter().fromJson(json['ConfigRuleInvokedTime']),
-    evaluationResultIdentifier: json['EvaluationResultIdentifier'] == null
-        ? null
-        : EvaluationResultIdentifier.fromJson(
-            json['EvaluationResultIdentifier'] as Map<String, dynamic>),
-    resultRecordedTime:
-        const UnixDateTimeConverter().fromJson(json['ResultRecordedTime']),
-    annotation: json['Annotation'] as String,
+        DateTime.parse(json['ConfigRuleInvokedTime'] as String),
+    evaluationResultIdentifier: EvaluationResultIdentifier.fromJson(
+        json['EvaluationResultIdentifier'] as Map<String, dynamic>),
+    resultRecordedTime: DateTime.parse(json['ResultRecordedTime'] as String),
+    annotation: json['Annotation'] as String?,
   );
 }
 
@@ -807,26 +805,18 @@ ConformancePackInputParameter _$ConformancePackInputParameterFromJson(
 }
 
 Map<String, dynamic> _$ConformancePackInputParameterToJson(
-    ConformancePackInputParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ParameterName', instance.parameterName);
-  writeNotNull('ParameterValue', instance.parameterValue);
-  return val;
-}
+        ConformancePackInputParameter instance) =>
+    <String, dynamic>{
+      'ParameterName': instance.parameterName,
+      'ParameterValue': instance.parameterValue,
+    };
 
 ConformancePackRuleCompliance _$ConformancePackRuleComplianceFromJson(
     Map<String, dynamic> json) {
   return ConformancePackRuleCompliance(
     complianceType: _$enumDecodeNullable(
         _$ConformancePackComplianceTypeEnumMap, json['ComplianceType']),
-    configRuleName: json['ConfigRuleName'] as String,
+    configRuleName: json['ConfigRuleName'] as String?,
   );
 }
 
@@ -836,12 +826,12 @@ ConformancePackStatusDetail _$ConformancePackStatusDetailFromJson(
     conformancePackArn: json['ConformancePackArn'] as String,
     conformancePackId: json['ConformancePackId'] as String,
     conformancePackName: json['ConformancePackName'] as String,
-    conformancePackState: _$enumDecodeNullable(
+    conformancePackState: _$enumDecode(
         _$ConformancePackStateEnumMap, json['ConformancePackState']),
     lastUpdateRequestedTime:
-        const UnixDateTimeConverter().fromJson(json['LastUpdateRequestedTime']),
+        DateTime.parse(json['LastUpdateRequestedTime'] as String),
     stackArn: json['StackArn'] as String,
-    conformancePackStatusReason: json['ConformancePackStatusReason'] as String,
+    conformancePackStatusReason: json['ConformancePackStatusReason'] as String?,
     lastUpdateCompletedTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateCompletedTime']),
   );
@@ -869,12 +859,10 @@ DeleteRemediationConfigurationResponse
 DeleteRemediationExceptionsResponse
     _$DeleteRemediationExceptionsResponseFromJson(Map<String, dynamic> json) {
   return DeleteRemediationExceptionsResponse(
-    failedBatches: (json['FailedBatches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedDeleteRemediationExceptionsBatch.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    failedBatches: (json['FailedBatches'] as List<dynamic>?)
+        ?.map((e) => FailedDeleteRemediationExceptionsBatch.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -886,7 +874,7 @@ DeleteStoredQueryResponse _$DeleteStoredQueryResponseFromJson(
 DeliverConfigSnapshotResponse _$DeliverConfigSnapshotResponseFromJson(
     Map<String, dynamic> json) {
   return DeliverConfigSnapshotResponse(
-    configSnapshotId: json['configSnapshotId'] as String,
+    configSnapshotId: json['configSnapshotId'] as String?,
   );
 }
 
@@ -898,10 +886,10 @@ DeliveryChannel _$DeliveryChannelFromJson(Map<String, dynamic> json) {
             : ConfigSnapshotDeliveryProperties.fromJson(
                 json['configSnapshotDeliveryProperties']
                     as Map<String, dynamic>),
-    name: json['name'] as String,
-    s3BucketName: json['s3BucketName'] as String,
-    s3KeyPrefix: json['s3KeyPrefix'] as String,
-    snsTopicARN: json['snsTopicARN'] as String,
+    name: json['name'] as String?,
+    s3BucketName: json['s3BucketName'] as String?,
+    s3KeyPrefix: json['s3KeyPrefix'] as String?,
+    snsTopicARN: json['snsTopicARN'] as String?,
   );
 }
 
@@ -938,7 +926,7 @@ DeliveryChannelStatus _$DeliveryChannelStatusFromJson(
         ? null
         : ConfigStreamDeliveryInfo.fromJson(
             json['configStreamDeliveryInfo'] as Map<String, dynamic>),
-    name: json['name'] as String,
+    name: json['name'] as String?,
   );
 }
 
@@ -946,14 +934,12 @@ DescribeAggregateComplianceByConfigRulesResponse
     _$DescribeAggregateComplianceByConfigRulesResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeAggregateComplianceByConfigRulesResponse(
-    aggregateComplianceByConfigRules:
-        (json['AggregateComplianceByConfigRules'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AggregateComplianceByConfigRule.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aggregateComplianceByConfigRules: (json['AggregateComplianceByConfigRules']
+            as List<dynamic>?)
+        ?.map((e) =>
+            AggregateComplianceByConfigRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -961,12 +947,12 @@ DescribeAggregationAuthorizationsResponse
     _$DescribeAggregationAuthorizationsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeAggregationAuthorizationsResponse(
-    aggregationAuthorizations: (json['AggregationAuthorizations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregationAuthorization.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aggregationAuthorizations: (json['AggregationAuthorizations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => AggregationAuthorization.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -974,24 +960,20 @@ DescribeComplianceByConfigRuleResponse
     _$DescribeComplianceByConfigRuleResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeComplianceByConfigRuleResponse(
-    complianceByConfigRules: (json['ComplianceByConfigRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ComplianceByConfigRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    complianceByConfigRules: (json['ComplianceByConfigRules'] as List<dynamic>?)
+        ?.map((e) => ComplianceByConfigRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeComplianceByResourceResponse
     _$DescribeComplianceByResourceResponseFromJson(Map<String, dynamic> json) {
   return DescribeComplianceByResourceResponse(
-    complianceByResources: (json['ComplianceByResources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ComplianceByResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    complianceByResources: (json['ComplianceByResources'] as List<dynamic>?)
+        ?.map((e) => ComplianceByResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -999,23 +981,22 @@ DescribeConfigRuleEvaluationStatusResponse
     _$DescribeConfigRuleEvaluationStatusResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeConfigRuleEvaluationStatusResponse(
-    configRulesEvaluationStatus: (json['ConfigRulesEvaluationStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigRuleEvaluationStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    configRulesEvaluationStatus:
+        (json['ConfigRulesEvaluationStatus'] as List<dynamic>?)
+            ?.map((e) =>
+                ConfigRuleEvaluationStatus.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeConfigRulesResponse _$DescribeConfigRulesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigRulesResponse(
-    configRules: (json['ConfigRules'] as List)
-        ?.map((e) =>
-            e == null ? null : ConfigRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    configRules: (json['ConfigRules'] as List<dynamic>?)
+        ?.map((e) => ConfigRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1023,12 +1004,11 @@ DescribeConfigurationAggregatorSourcesStatusResponse
     _$DescribeConfigurationAggregatorSourcesStatusResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeConfigurationAggregatorSourcesStatusResponse(
-    aggregatedSourceStatusList: (json['AggregatedSourceStatusList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregatedSourceStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aggregatedSourceStatusList: (json['AggregatedSourceStatusList']
+            as List<dynamic>?)
+        ?.map((e) => AggregatedSourceStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1036,12 +1016,12 @@ DescribeConfigurationAggregatorsResponse
     _$DescribeConfigurationAggregatorsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeConfigurationAggregatorsResponse(
-    configurationAggregators: (json['ConfigurationAggregators'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigurationAggregator.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    configurationAggregators: (json['ConfigurationAggregators']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ConfigurationAggregator.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1049,11 +1029,11 @@ DescribeConfigurationRecorderStatusResponse
     _$DescribeConfigurationRecorderStatusResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeConfigurationRecorderStatusResponse(
-    configurationRecordersStatus: (json['ConfigurationRecordersStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigurationRecorderStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    configurationRecordersStatus:
+        (json['ConfigurationRecordersStatus'] as List<dynamic>?)
+            ?.map((e) =>
+                ConfigurationRecorderStatus.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1061,11 +1041,9 @@ DescribeConfigurationRecordersResponse
     _$DescribeConfigurationRecordersResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeConfigurationRecordersResponse(
-    configurationRecorders: (json['ConfigurationRecorders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigurationRecorder.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    configurationRecorders: (json['ConfigurationRecorders'] as List<dynamic>?)
+        ?.map((e) => ConfigurationRecorder.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1075,59 +1053,51 @@ DescribeConformancePackComplianceResponse
   return DescribeConformancePackComplianceResponse(
     conformancePackName: json['ConformancePackName'] as String,
     conformancePackRuleComplianceList:
-        (json['ConformancePackRuleComplianceList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ConformancePackRuleCompliance.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ConformancePackRuleComplianceList'] as List<dynamic>)
+            .map((e) => ConformancePackRuleCompliance.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeConformancePackStatusResponse
     _$DescribeConformancePackStatusResponseFromJson(Map<String, dynamic> json) {
   return DescribeConformancePackStatusResponse(
-    conformancePackStatusDetails: (json['ConformancePackStatusDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConformancePackStatusDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    conformancePackStatusDetails:
+        (json['ConformancePackStatusDetails'] as List<dynamic>?)
+            ?.map((e) =>
+                ConformancePackStatusDetail.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeConformancePacksResponse _$DescribeConformancePacksResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConformancePacksResponse(
-    conformancePackDetails: (json['ConformancePackDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConformancePackDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    conformancePackDetails: (json['ConformancePackDetails'] as List<dynamic>?)
+        ?.map((e) => ConformancePackDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeDeliveryChannelStatusResponse
     _$DescribeDeliveryChannelStatusResponseFromJson(Map<String, dynamic> json) {
   return DescribeDeliveryChannelStatusResponse(
-    deliveryChannelsStatus: (json['DeliveryChannelsStatus'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeliveryChannelStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deliveryChannelsStatus: (json['DeliveryChannelsStatus'] as List<dynamic>?)
+        ?.map((e) => DeliveryChannelStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeDeliveryChannelsResponse _$DescribeDeliveryChannelsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDeliveryChannelsResponse(
-    deliveryChannels: (json['DeliveryChannels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DeliveryChannel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deliveryChannels: (json['DeliveryChannels'] as List<dynamic>?)
+        ?.map((e) => DeliveryChannel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1135,13 +1105,12 @@ DescribeOrganizationConfigRuleStatusesResponse
     _$DescribeOrganizationConfigRuleStatusesResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeOrganizationConfigRuleStatusesResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     organizationConfigRuleStatuses: (json['OrganizationConfigRuleStatuses']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationConfigRuleStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            OrganizationConfigRuleStatus.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1149,12 +1118,10 @@ DescribeOrganizationConfigRulesResponse
     _$DescribeOrganizationConfigRulesResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeOrganizationConfigRulesResponse(
-    nextToken: json['NextToken'] as String,
-    organizationConfigRules: (json['OrganizationConfigRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    organizationConfigRules: (json['OrganizationConfigRules'] as List<dynamic>?)
+        ?.map((e) => OrganizationConfigRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1162,14 +1129,12 @@ DescribeOrganizationConformancePackStatusesResponse
     _$DescribeOrganizationConformancePackStatusesResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeOrganizationConformancePackStatusesResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     organizationConformancePackStatuses:
-        (json['OrganizationConformancePackStatuses'] as List)
-            ?.map((e) => e == null
-                ? null
-                : OrganizationConformancePackStatus.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['OrganizationConformancePackStatuses'] as List<dynamic>?)
+            ?.map((e) => OrganizationConformancePackStatus.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1177,12 +1142,12 @@ DescribeOrganizationConformancePacksResponse
     _$DescribeOrganizationConformancePacksResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeOrganizationConformancePacksResponse(
-    nextToken: json['NextToken'] as String,
-    organizationConformancePacks: (json['OrganizationConformancePacks'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    organizationConformancePacks:
+        (json['OrganizationConformancePacks'] as List<dynamic>?)
+            ?.map((e) =>
+                OrganizationConformancePack.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1190,12 +1155,12 @@ DescribePendingAggregationRequestsResponse
     _$DescribePendingAggregationRequestsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribePendingAggregationRequestsResponse(
-    nextToken: json['NextToken'] as String,
-    pendingAggregationRequests: (json['PendingAggregationRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PendingAggregationRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    pendingAggregationRequests:
+        (json['PendingAggregationRequests'] as List<dynamic>?)
+            ?.map((e) =>
+                PendingAggregationRequest.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1203,23 +1168,21 @@ DescribeRemediationConfigurationsResponse
     _$DescribeRemediationConfigurationsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeRemediationConfigurationsResponse(
-    remediationConfigurations: (json['RemediationConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    remediationConfigurations: (json['RemediationConfigurations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => RemediationConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeRemediationExceptionsResponse
     _$DescribeRemediationExceptionsResponseFromJson(Map<String, dynamic> json) {
   return DescribeRemediationExceptionsResponse(
-    nextToken: json['NextToken'] as String,
-    remediationExceptions: (json['RemediationExceptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationException.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    remediationExceptions: (json['RemediationExceptions'] as List<dynamic>?)
+        ?.map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1227,12 +1190,12 @@ DescribeRemediationExecutionStatusResponse
     _$DescribeRemediationExecutionStatusResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeRemediationExecutionStatusResponse(
-    nextToken: json['NextToken'] as String,
-    remediationExecutionStatuses: (json['RemediationExecutionStatuses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationExecutionStatus.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    remediationExecutionStatuses:
+        (json['RemediationExecutionStatuses'] as List<dynamic>?)
+            ?.map((e) =>
+                RemediationExecutionStatus.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1240,12 +1203,10 @@ DescribeRetentionConfigurationsResponse
     _$DescribeRetentionConfigurationsResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeRetentionConfigurationsResponse(
-    nextToken: json['NextToken'] as String,
-    retentionConfigurations: (json['RetentionConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RetentionConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    retentionConfigurations: (json['RetentionConfigurations'] as List<dynamic>?)
+        ?.map((e) => RetentionConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1254,15 +1215,19 @@ Evaluation _$EvaluationFromJson(Map<String, dynamic> json) {
     complianceResourceId: json['ComplianceResourceId'] as String,
     complianceResourceType: json['ComplianceResourceType'] as String,
     complianceType:
-        _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
-    orderingTimestamp:
-        const UnixDateTimeConverter().fromJson(json['OrderingTimestamp']),
-    annotation: json['Annotation'] as String,
+        _$enumDecode(_$ComplianceTypeEnumMap, json['ComplianceType']),
+    orderingTimestamp: DateTime.parse(json['OrderingTimestamp'] as String),
+    annotation: json['Annotation'] as String?,
   );
 }
 
 Map<String, dynamic> _$EvaluationToJson(Evaluation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ComplianceResourceId': instance.complianceResourceId,
+    'ComplianceResourceType': instance.complianceResourceType,
+    'ComplianceType': _$ComplianceTypeEnumMap[instance.complianceType],
+    'OrderingTimestamp': instance.orderingTimestamp.toIso8601String(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1270,19 +1235,13 @@ Map<String, dynamic> _$EvaluationToJson(Evaluation instance) {
     }
   }
 
-  writeNotNull('ComplianceResourceId', instance.complianceResourceId);
-  writeNotNull('ComplianceResourceType', instance.complianceResourceType);
-  writeNotNull(
-      'ComplianceType', _$ComplianceTypeEnumMap[instance.complianceType]);
-  writeNotNull('OrderingTimestamp',
-      const UnixDateTimeConverter().toJson(instance.orderingTimestamp));
   writeNotNull('Annotation', instance.annotation);
   return val;
 }
 
 EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
   return EvaluationResult(
-    annotation: json['Annotation'] as String,
+    annotation: json['Annotation'] as String?,
     complianceType:
         _$enumDecodeNullable(_$ComplianceTypeEnumMap, json['ComplianceType']),
     configRuleInvokedTime:
@@ -1293,7 +1252,7 @@ EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
             json['EvaluationResultIdentifier'] as Map<String, dynamic>),
     resultRecordedTime:
         const UnixDateTimeConverter().fromJson(json['ResultRecordedTime']),
-    resultToken: json['ResultToken'] as String,
+    resultToken: json['ResultToken'] as String?,
   );
 }
 
@@ -1312,9 +1271,9 @@ EvaluationResultIdentifier _$EvaluationResultIdentifierFromJson(
 EvaluationResultQualifier _$EvaluationResultQualifierFromJson(
     Map<String, dynamic> json) {
   return EvaluationResultQualifier(
-    configRuleName: json['ConfigRuleName'] as String,
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
+    configRuleName: json['ConfigRuleName'] as String?,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
@@ -1340,7 +1299,12 @@ Map<String, dynamic> _$ExecutionControlsToJson(ExecutionControls instance) {
 }
 
 Map<String, dynamic> _$ExternalEvaluationToJson(ExternalEvaluation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ComplianceResourceId': instance.complianceResourceId,
+    'ComplianceResourceType': instance.complianceResourceType,
+    'ComplianceType': _$ComplianceTypeEnumMap[instance.complianceType],
+    'OrderingTimestamp': instance.orderingTimestamp.toIso8601String(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1348,12 +1312,6 @@ Map<String, dynamic> _$ExternalEvaluationToJson(ExternalEvaluation instance) {
     }
   }
 
-  writeNotNull('ComplianceResourceId', instance.complianceResourceId);
-  writeNotNull('ComplianceResourceType', instance.complianceResourceType);
-  writeNotNull(
-      'ComplianceType', _$ComplianceTypeEnumMap[instance.complianceType]);
-  writeNotNull('OrderingTimestamp',
-      const UnixDateTimeConverter().toJson(instance.orderingTimestamp));
   writeNotNull('Annotation', instance.annotation);
   return val;
 }
@@ -1362,43 +1320,38 @@ FailedDeleteRemediationExceptionsBatch
     _$FailedDeleteRemediationExceptionsBatchFromJson(
         Map<String, dynamic> json) {
   return FailedDeleteRemediationExceptionsBatch(
-    failedItems: (json['FailedItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationExceptionResourceKey.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    failureMessage: json['FailureMessage'] as String,
+    failedItems: (json['FailedItems'] as List<dynamic>?)
+        ?.map((e) =>
+            RemediationExceptionResourceKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    failureMessage: json['FailureMessage'] as String?,
   );
 }
 
 FailedRemediationBatch _$FailedRemediationBatchFromJson(
     Map<String, dynamic> json) {
   return FailedRemediationBatch(
-    failedItems: (json['FailedItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    failureMessage: json['FailureMessage'] as String,
+    failedItems: (json['FailedItems'] as List<dynamic>?)
+        ?.map(
+            (e) => RemediationConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    failureMessage: json['FailureMessage'] as String?,
   );
 }
 
 FailedRemediationExceptionBatch _$FailedRemediationExceptionBatchFromJson(
     Map<String, dynamic> json) {
   return FailedRemediationExceptionBatch(
-    failedItems: (json['FailedItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationException.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    failureMessage: json['FailureMessage'] as String,
+    failedItems: (json['FailedItems'] as List<dynamic>?)
+        ?.map((e) => RemediationException.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    failureMessage: json['FailureMessage'] as String?,
   );
 }
 
 FieldInfo _$FieldInfoFromJson(Map<String, dynamic> json) {
   return FieldInfo(
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1406,12 +1359,12 @@ GetAggregateComplianceDetailsByConfigRuleResponse
     _$GetAggregateComplianceDetailsByConfigRuleResponseFromJson(
         Map<String, dynamic> json) {
   return GetAggregateComplianceDetailsByConfigRuleResponse(
-    aggregateEvaluationResults: (json['AggregateEvaluationResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregateEvaluationResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    aggregateEvaluationResults:
+        (json['AggregateEvaluationResults'] as List<dynamic>?)
+            ?.map((e) =>
+                AggregateEvaluationResult.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1419,13 +1372,13 @@ GetAggregateConfigRuleComplianceSummaryResponse
     _$GetAggregateConfigRuleComplianceSummaryResponseFromJson(
         Map<String, dynamic> json) {
   return GetAggregateConfigRuleComplianceSummaryResponse(
-    aggregateComplianceCounts: (json['AggregateComplianceCounts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregateComplianceCount.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    groupByKey: json['GroupByKey'] as String,
-    nextToken: json['NextToken'] as String,
+    aggregateComplianceCounts: (json['AggregateComplianceCounts']
+            as List<dynamic>?)
+        ?.map(
+            (e) => AggregateComplianceCount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    groupByKey: json['GroupByKey'] as String?,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1434,13 +1387,11 @@ GetAggregateDiscoveredResourceCountsResponse
         Map<String, dynamic> json) {
   return GetAggregateDiscoveredResourceCountsResponse(
     totalDiscoveredResources: json['TotalDiscoveredResources'] as int,
-    groupByKey: json['GroupByKey'] as String,
-    groupedResourceCounts: (json['GroupedResourceCounts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GroupedResourceCount.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    groupByKey: json['GroupByKey'] as String?,
+    groupedResourceCounts: (json['GroupedResourceCounts'] as List<dynamic>?)
+        ?.map((e) => GroupedResourceCount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1458,12 +1409,10 @@ GetComplianceDetailsByConfigRuleResponse
     _$GetComplianceDetailsByConfigRuleResponseFromJson(
         Map<String, dynamic> json) {
   return GetComplianceDetailsByConfigRuleResponse(
-    evaluationResults: (json['EvaluationResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EvaluationResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    evaluationResults: (json['EvaluationResults'] as List<dynamic>?)
+        ?.map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1471,12 +1420,10 @@ GetComplianceDetailsByResourceResponse
     _$GetComplianceDetailsByResourceResponseFromJson(
         Map<String, dynamic> json) {
   return GetComplianceDetailsByResourceResponse(
-    evaluationResults: (json['EvaluationResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : EvaluationResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    evaluationResults: (json['EvaluationResults'] as List<dynamic>?)
+        ?.map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1496,12 +1443,10 @@ GetComplianceSummaryByResourceTypeResponse
         Map<String, dynamic> json) {
   return GetComplianceSummaryByResourceTypeResponse(
     complianceSummariesByResourceType:
-        (json['ComplianceSummariesByResourceType'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ComplianceSummaryByResourceType.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['ComplianceSummariesByResourceType'] as List<dynamic>?)
+            ?.map((e) => ComplianceSummaryByResourceType.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1511,13 +1456,11 @@ GetConformancePackComplianceDetailsResponse
   return GetConformancePackComplianceDetailsResponse(
     conformancePackName: json['ConformancePackName'] as String,
     conformancePackRuleEvaluationResults:
-        (json['ConformancePackRuleEvaluationResults'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ConformancePackEvaluationResult.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ConformancePackRuleEvaluationResults'] as List<dynamic>?)
+            ?.map((e) => ConformancePackEvaluationResult.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1526,26 +1469,22 @@ GetConformancePackComplianceSummaryResponse
         Map<String, dynamic> json) {
   return GetConformancePackComplianceSummaryResponse(
     conformancePackComplianceSummaryList:
-        (json['ConformancePackComplianceSummaryList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ConformancePackComplianceSummary.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['ConformancePackComplianceSummaryList'] as List<dynamic>?)
+            ?.map((e) => ConformancePackComplianceSummary.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 GetDiscoveredResourceCountsResponse
     _$GetDiscoveredResourceCountsResponseFromJson(Map<String, dynamic> json) {
   return GetDiscoveredResourceCountsResponse(
-    nextToken: json['nextToken'] as String,
-    resourceCounts: (json['resourceCounts'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceCount.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalDiscoveredResources: json['totalDiscoveredResources'] as int,
+    nextToken: json['nextToken'] as String?,
+    resourceCounts: (json['resourceCounts'] as List<dynamic>?)
+        ?.map((e) => ResourceCount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalDiscoveredResources: json['totalDiscoveredResources'] as int?,
   );
 }
 
@@ -1553,13 +1492,12 @@ GetOrganizationConfigRuleDetailedStatusResponse
     _$GetOrganizationConfigRuleDetailedStatusResponseFromJson(
         Map<String, dynamic> json) {
   return GetOrganizationConfigRuleDetailedStatusResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     organizationConfigRuleDetailedStatus:
-        (json['OrganizationConfigRuleDetailedStatus'] as List)
-            ?.map((e) => e == null
-                ? null
-                : MemberAccountStatus.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+        (json['OrganizationConfigRuleDetailedStatus'] as List<dynamic>?)
+            ?.map(
+                (e) => MemberAccountStatus.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1567,26 +1505,22 @@ GetOrganizationConformancePackDetailedStatusResponse
     _$GetOrganizationConformancePackDetailedStatusResponseFromJson(
         Map<String, dynamic> json) {
   return GetOrganizationConformancePackDetailedStatusResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     organizationConformancePackDetailedStatuses:
-        (json['OrganizationConformancePackDetailedStatuses'] as List)
-            ?.map((e) => e == null
-                ? null
-                : OrganizationConformancePackDetailedStatus.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['OrganizationConformancePackDetailedStatuses'] as List<dynamic>?)
+            ?.map((e) => OrganizationConformancePackDetailedStatus.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 GetResourceConfigHistoryResponse _$GetResourceConfigHistoryResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourceConfigHistoryResponse(
-    configurationItems: (json['configurationItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigurationItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    configurationItems: (json['configurationItems'] as List<dynamic>?)
+        ?.map((e) => ConfigurationItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
@@ -1610,46 +1544,41 @@ ListAggregateDiscoveredResourcesResponse
     _$ListAggregateDiscoveredResourcesResponseFromJson(
         Map<String, dynamic> json) {
   return ListAggregateDiscoveredResourcesResponse(
-    nextToken: json['NextToken'] as String,
-    resourceIdentifiers: (json['ResourceIdentifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    resourceIdentifiers: (json['ResourceIdentifiers'] as List<dynamic>?)
+        ?.map((e) =>
+            AggregateResourceIdentifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListDiscoveredResourcesResponse _$ListDiscoveredResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDiscoveredResourcesResponse(
-    nextToken: json['nextToken'] as String,
-    resourceIdentifiers: (json['resourceIdentifiers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceIdentifier.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resourceIdentifiers: (json['resourceIdentifiers'] as List<dynamic>?)
+        ?.map((e) => ResourceIdentifier.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListStoredQueriesResponse _$ListStoredQueriesResponseFromJson(
     Map<String, dynamic> json) {
   return ListStoredQueriesResponse(
-    nextToken: json['NextToken'] as String,
-    storedQueryMetadata: (json['StoredQueryMetadata'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StoredQueryMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    storedQueryMetadata: (json['StoredQueryMetadata'] as List<dynamic>?)
+        ?.map((e) => StoredQueryMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1657,10 +1586,10 @@ MemberAccountStatus _$MemberAccountStatusFromJson(Map<String, dynamic> json) {
   return MemberAccountStatus(
     accountId: json['AccountId'] as String,
     configRuleName: json['ConfigRuleName'] as String,
-    memberAccountRuleStatus: _$enumDecodeNullable(
+    memberAccountRuleStatus: _$enumDecode(
         _$MemberAccountRuleStatusEnumMap, json['MemberAccountRuleStatus']),
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
   );
@@ -1682,14 +1611,18 @@ OrganizationAggregationSource _$OrganizationAggregationSourceFromJson(
     Map<String, dynamic> json) {
   return OrganizationAggregationSource(
     roleArn: json['RoleArn'] as String,
-    allAwsRegions: json['AllAwsRegions'] as bool,
-    awsRegions: (json['AwsRegions'] as List)?.map((e) => e as String)?.toList(),
+    allAwsRegions: json['AllAwsRegions'] as bool?,
+    awsRegions: (json['AwsRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$OrganizationAggregationSourceToJson(
     OrganizationAggregationSource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RoleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1697,7 +1630,6 @@ Map<String, dynamic> _$OrganizationAggregationSourceToJson(
     }
   }
 
-  writeNotNull('RoleArn', instance.roleArn);
   writeNotNull('AllAwsRegions', instance.allAwsRegions);
   writeNotNull('AwsRegions', instance.awsRegions);
   return val;
@@ -1708,8 +1640,9 @@ OrganizationConfigRule _$OrganizationConfigRuleFromJson(
   return OrganizationConfigRule(
     organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String,
     organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
-    excludedAccounts:
-        (json['ExcludedAccounts'] as List)?.map((e) => e as String)?.toList(),
+    excludedAccounts: (json['ExcludedAccounts'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
     organizationCustomRuleMetadata:
@@ -1729,10 +1662,10 @@ OrganizationConfigRuleStatus _$OrganizationConfigRuleStatusFromJson(
     Map<String, dynamic> json) {
   return OrganizationConfigRuleStatus(
     organizationConfigRuleName: json['OrganizationConfigRuleName'] as String,
-    organizationRuleStatus: _$enumDecodeNullable(
+    organizationRuleStatus: _$enumDecode(
         _$OrganizationRuleStatusEnumMap, json['OrganizationRuleStatus']),
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
   );
@@ -1753,22 +1686,21 @@ const _$OrganizationRuleStatusEnumMap = {
 OrganizationConformancePack _$OrganizationConformancePackFromJson(
     Map<String, dynamic> json) {
   return OrganizationConformancePack(
-    lastUpdateTime:
-        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
+    lastUpdateTime: DateTime.parse(json['LastUpdateTime'] as String),
     organizationConformancePackArn:
         json['OrganizationConformancePackArn'] as String,
     organizationConformancePackName:
         json['OrganizationConformancePackName'] as String,
     conformancePackInputParameters: (json['ConformancePackInputParameters']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    deliveryS3Bucket: json['DeliveryS3Bucket'] as String,
-    deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String,
-    excludedAccounts:
-        (json['ExcludedAccounts'] as List)?.map((e) => e as String)?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            ConformancePackInputParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    deliveryS3Bucket: json['DeliveryS3Bucket'] as String?,
+    deliveryS3KeyPrefix: json['DeliveryS3KeyPrefix'] as String?,
+    excludedAccounts: (json['ExcludedAccounts'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1778,10 +1710,10 @@ OrganizationConformancePackDetailedStatus
   return OrganizationConformancePackDetailedStatus(
     accountId: json['AccountId'] as String,
     conformancePackName: json['ConformancePackName'] as String,
-    status: _$enumDecodeNullable(
+    status: _$enumDecode(
         _$OrganizationResourceDetailedStatusEnumMap, json['Status']),
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
   );
@@ -1804,10 +1736,9 @@ OrganizationConformancePackStatus _$OrganizationConformancePackStatusFromJson(
   return OrganizationConformancePackStatus(
     organizationConformancePackName:
         json['OrganizationConformancePackName'] as String,
-    status: _$enumDecodeNullable(
-        _$OrganizationResourceStatusEnumMap, json['Status']),
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    status: _$enumDecode(_$OrganizationResourceStatusEnumMap, json['Status']),
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
   );
@@ -1829,26 +1760,32 @@ OrganizationCustomRuleMetadata _$OrganizationCustomRuleMetadataFromJson(
     Map<String, dynamic> json) {
   return OrganizationCustomRuleMetadata(
     lambdaFunctionArn: json['LambdaFunctionArn'] as String,
-    organizationConfigRuleTriggerTypes:
-        (json['OrganizationConfigRuleTriggerTypes'] as List)
-            ?.map((e) => _$enumDecodeNullable(
-                _$OrganizationConfigRuleTriggerTypeEnumMap, e))
-            ?.toList(),
-    description: json['Description'] as String,
-    inputParameters: json['InputParameters'] as String,
+    organizationConfigRuleTriggerTypes: (json[
+            'OrganizationConfigRuleTriggerTypes'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$OrganizationConfigRuleTriggerTypeEnumMap, e))
+        .toList(),
+    description: json['Description'] as String?,
+    inputParameters: json['InputParameters'] as String?,
     maximumExecutionFrequency: _$enumDecodeNullable(
         _$MaximumExecutionFrequencyEnumMap, json['MaximumExecutionFrequency']),
-    resourceIdScope: json['ResourceIdScope'] as String,
-    resourceTypesScope:
-        (json['ResourceTypesScope'] as List)?.map((e) => e as String)?.toList(),
-    tagKeyScope: json['TagKeyScope'] as String,
-    tagValueScope: json['TagValueScope'] as String,
+    resourceIdScope: json['ResourceIdScope'] as String?,
+    resourceTypesScope: (json['ResourceTypesScope'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    tagKeyScope: json['TagKeyScope'] as String?,
+    tagValueScope: json['TagValueScope'] as String?,
   );
 }
 
 Map<String, dynamic> _$OrganizationCustomRuleMetadataToJson(
     OrganizationCustomRuleMetadata instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LambdaFunctionArn': instance.lambdaFunctionArn,
+    'OrganizationConfigRuleTriggerTypes': instance
+        .organizationConfigRuleTriggerTypes
+        .map((e) => _$OrganizationConfigRuleTriggerTypeEnumMap[e])
+        .toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1856,12 +1793,6 @@ Map<String, dynamic> _$OrganizationCustomRuleMetadataToJson(
     }
   }
 
-  writeNotNull('LambdaFunctionArn', instance.lambdaFunctionArn);
-  writeNotNull(
-      'OrganizationConfigRuleTriggerTypes',
-      instance.organizationConfigRuleTriggerTypes
-          ?.map((e) => _$OrganizationConfigRuleTriggerTypeEnumMap[e])
-          ?.toList());
   writeNotNull('Description', instance.description);
   writeNotNull('InputParameters', instance.inputParameters);
   writeNotNull('MaximumExecutionFrequency',
@@ -1887,21 +1818,24 @@ OrganizationManagedRuleMetadata _$OrganizationManagedRuleMetadataFromJson(
     Map<String, dynamic> json) {
   return OrganizationManagedRuleMetadata(
     ruleIdentifier: json['RuleIdentifier'] as String,
-    description: json['Description'] as String,
-    inputParameters: json['InputParameters'] as String,
+    description: json['Description'] as String?,
+    inputParameters: json['InputParameters'] as String?,
     maximumExecutionFrequency: _$enumDecodeNullable(
         _$MaximumExecutionFrequencyEnumMap, json['MaximumExecutionFrequency']),
-    resourceIdScope: json['ResourceIdScope'] as String,
-    resourceTypesScope:
-        (json['ResourceTypesScope'] as List)?.map((e) => e as String)?.toList(),
-    tagKeyScope: json['TagKeyScope'] as String,
-    tagValueScope: json['TagValueScope'] as String,
+    resourceIdScope: json['ResourceIdScope'] as String?,
+    resourceTypesScope: (json['ResourceTypesScope'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    tagKeyScope: json['TagKeyScope'] as String?,
+    tagValueScope: json['TagValueScope'] as String?,
   );
 }
 
 Map<String, dynamic> _$OrganizationManagedRuleMetadataToJson(
     OrganizationManagedRuleMetadata instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RuleIdentifier': instance.ruleIdentifier,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1909,7 +1843,6 @@ Map<String, dynamic> _$OrganizationManagedRuleMetadataToJson(
     }
   }
 
-  writeNotNull('RuleIdentifier', instance.ruleIdentifier);
   writeNotNull('Description', instance.description);
   writeNotNull('InputParameters', instance.inputParameters);
   writeNotNull('MaximumExecutionFrequency',
@@ -1940,8 +1873,8 @@ Map<String, dynamic> _$OrganizationResourceDetailedStatusFiltersToJson(
 PendingAggregationRequest _$PendingAggregationRequestFromJson(
     Map<String, dynamic> json) {
   return PendingAggregationRequest(
-    requesterAccountId: json['RequesterAccountId'] as String,
-    requesterAwsRegion: json['RequesterAwsRegion'] as String,
+    requesterAccountId: json['RequesterAccountId'] as String?,
+    requesterAwsRegion: json['RequesterAwsRegion'] as String?,
   );
 }
 
@@ -1968,17 +1901,16 @@ PutConfigurationAggregatorResponse _$PutConfigurationAggregatorResponseFromJson(
 PutConformancePackResponse _$PutConformancePackResponseFromJson(
     Map<String, dynamic> json) {
   return PutConformancePackResponse(
-    conformancePackArn: json['ConformancePackArn'] as String,
+    conformancePackArn: json['ConformancePackArn'] as String?,
   );
 }
 
 PutEvaluationsResponse _$PutEvaluationsResponseFromJson(
     Map<String, dynamic> json) {
   return PutEvaluationsResponse(
-    failedEvaluations: (json['FailedEvaluations'] as List)
-        ?.map((e) =>
-            e == null ? null : Evaluation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedEvaluations: (json['FailedEvaluations'] as List<dynamic>?)
+        ?.map((e) => Evaluation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1990,7 +1922,7 @@ PutExternalEvaluationResponse _$PutExternalEvaluationResponseFromJson(
 PutOrganizationConfigRuleResponse _$PutOrganizationConfigRuleResponseFromJson(
     Map<String, dynamic> json) {
   return PutOrganizationConfigRuleResponse(
-    organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String,
+    organizationConfigRuleArn: json['OrganizationConfigRuleArn'] as String?,
   );
 }
 
@@ -1999,30 +1931,26 @@ PutOrganizationConformancePackResponse
         Map<String, dynamic> json) {
   return PutOrganizationConformancePackResponse(
     organizationConformancePackArn:
-        json['OrganizationConformancePackArn'] as String,
+        json['OrganizationConformancePackArn'] as String?,
   );
 }
 
 PutRemediationConfigurationsResponse
     _$PutRemediationConfigurationsResponseFromJson(Map<String, dynamic> json) {
   return PutRemediationConfigurationsResponse(
-    failedBatches: (json['FailedBatches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedRemediationBatch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failedBatches: (json['FailedBatches'] as List<dynamic>?)
+        ?.map((e) => FailedRemediationBatch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 PutRemediationExceptionsResponse _$PutRemediationExceptionsResponseFromJson(
     Map<String, dynamic> json) {
   return PutRemediationExceptionsResponse(
-    failedBatches: (json['FailedBatches'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailedRemediationExceptionBatch.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    failedBatches: (json['FailedBatches'] as List<dynamic>?)
+        ?.map((e) =>
+            FailedRemediationExceptionBatch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2039,26 +1967,25 @@ PutRetentionConfigurationResponse _$PutRetentionConfigurationResponseFromJson(
 PutStoredQueryResponse _$PutStoredQueryResponseFromJson(
     Map<String, dynamic> json) {
   return PutStoredQueryResponse(
-    queryArn: json['QueryArn'] as String,
+    queryArn: json['QueryArn'] as String?,
   );
 }
 
 QueryInfo _$QueryInfoFromJson(Map<String, dynamic> json) {
   return QueryInfo(
-    selectFields: (json['SelectFields'] as List)
-        ?.map((e) =>
-            e == null ? null : FieldInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    selectFields: (json['SelectFields'] as List<dynamic>?)
+        ?.map((e) => FieldInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 RecordingGroup _$RecordingGroupFromJson(Map<String, dynamic> json) {
   return RecordingGroup(
-    allSupported: json['allSupported'] as bool,
-    includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool,
-    resourceTypes: (json['resourceTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ResourceTypeEnumMap, e))
-        ?.toList(),
+    allSupported: json['allSupported'] as bool?,
+    includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool?,
+    resourceTypes: (json['resourceTypes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ResourceTypeEnumMap, e))
+        .toList(),
   );
 }
 
@@ -2075,15 +2002,15 @@ Map<String, dynamic> _$RecordingGroupToJson(RecordingGroup instance) {
   writeNotNull(
       'includeGlobalResourceTypes', instance.includeGlobalResourceTypes);
   writeNotNull('resourceTypes',
-      instance.resourceTypes?.map((e) => _$ResourceTypeEnumMap[e])?.toList());
+      instance.resourceTypes?.map((e) => _$ResourceTypeEnumMap[e]).toList());
   return val;
 }
 
 Relationship _$RelationshipFromJson(Map<String, dynamic> json) {
   return Relationship(
-    relationshipName: json['relationshipName'] as String,
-    resourceId: json['resourceId'] as String,
-    resourceName: json['resourceName'] as String,
+    relationshipName: json['relationshipName'] as String?,
+    resourceId: json['resourceId'] as String?,
+    resourceName: json['resourceName'] as String?,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
   );
@@ -2094,32 +2021,33 @@ RemediationConfiguration _$RemediationConfigurationFromJson(
   return RemediationConfiguration(
     configRuleName: json['ConfigRuleName'] as String,
     targetId: json['TargetId'] as String,
-    targetType: _$enumDecodeNullable(
-        _$RemediationTargetTypeEnumMap, json['TargetType']),
-    arn: json['Arn'] as String,
-    automatic: json['Automatic'] as bool,
-    createdByService: json['CreatedByService'] as String,
+    targetType:
+        _$enumDecode(_$RemediationTargetTypeEnumMap, json['TargetType']),
+    arn: json['Arn'] as String?,
+    automatic: json['Automatic'] as bool?,
+    createdByService: json['CreatedByService'] as String?,
     executionControls: json['ExecutionControls'] == null
         ? null
         : ExecutionControls.fromJson(
             json['ExecutionControls'] as Map<String, dynamic>),
-    maximumAutomaticAttempts: json['MaximumAutomaticAttempts'] as int,
-    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+    maximumAutomaticAttempts: json['MaximumAutomaticAttempts'] as int?,
+    parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : RemediationParameterValue.fromJson(e as Map<String, dynamic>)),
+          k, RemediationParameterValue.fromJson(e as Map<String, dynamic>)),
     ),
-    resourceType: json['ResourceType'] as String,
-    retryAttemptSeconds: json['RetryAttemptSeconds'] as int,
-    targetVersion: json['TargetVersion'] as String,
+    resourceType: json['ResourceType'] as String?,
+    retryAttemptSeconds: json['RetryAttemptSeconds'] as int?,
+    targetVersion: json['TargetVersion'] as String?,
   );
 }
 
 Map<String, dynamic> _$RemediationConfigurationToJson(
     RemediationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ConfigRuleName': instance.configRuleName,
+    'TargetId': instance.targetId,
+    'TargetType': _$RemediationTargetTypeEnumMap[instance.targetType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2127,17 +2055,13 @@ Map<String, dynamic> _$RemediationConfigurationToJson(
     }
   }
 
-  writeNotNull('ConfigRuleName', instance.configRuleName);
-  writeNotNull('TargetId', instance.targetId);
-  writeNotNull(
-      'TargetType', _$RemediationTargetTypeEnumMap[instance.targetType]);
   writeNotNull('Arn', instance.arn);
   writeNotNull('Automatic', instance.automatic);
   writeNotNull('CreatedByService', instance.createdByService);
   writeNotNull('ExecutionControls', instance.executionControls?.toJson());
   writeNotNull('MaximumAutomaticAttempts', instance.maximumAutomaticAttempts);
   writeNotNull('Parameters',
-      instance.parameters?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.parameters?.map((k, e) => MapEntry(k, e.toJson())));
   writeNotNull('ResourceType', instance.resourceType);
   writeNotNull('RetryAttemptSeconds', instance.retryAttemptSeconds);
   writeNotNull('TargetVersion', instance.targetVersion);
@@ -2155,15 +2079,15 @@ RemediationException _$RemediationExceptionFromJson(Map<String, dynamic> json) {
     resourceType: json['ResourceType'] as String,
     expirationTime:
         const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 RemediationExceptionResourceKey _$RemediationExceptionResourceKeyFromJson(
     Map<String, dynamic> json) {
   return RemediationExceptionResourceKey(
-    resourceId: json['ResourceId'] as String,
-    resourceType: json['ResourceType'] as String,
+    resourceId: json['ResourceId'] as String?,
+    resourceType: json['ResourceType'] as String?,
   );
 }
 
@@ -2194,11 +2118,10 @@ RemediationExecutionStatus _$RemediationExecutionStatusFromJson(
         : ResourceKey.fromJson(json['ResourceKey'] as Map<String, dynamic>),
     state:
         _$enumDecodeNullable(_$RemediationExecutionStateEnumMap, json['State']),
-    stepDetails: (json['StepDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RemediationExecutionStep.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    stepDetails: (json['StepDetails'] as List<dynamic>?)
+        ?.map(
+            (e) => RemediationExecutionStep.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2212,8 +2135,8 @@ const _$RemediationExecutionStateEnumMap = {
 RemediationExecutionStep _$RemediationExecutionStepFromJson(
     Map<String, dynamic> json) {
   return RemediationExecutionStep(
-    errorMessage: json['ErrorMessage'] as String,
-    name: json['Name'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    name: json['Name'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     state: _$enumDecodeNullable(
         _$RemediationExecutionStepStateEnumMap, json['State']),
@@ -2256,7 +2179,7 @@ Map<String, dynamic> _$RemediationParameterValueToJson(
 
 ResourceCount _$ResourceCountFromJson(Map<String, dynamic> json) {
   return ResourceCount(
-    count: json['count'] as int,
+    count: json['count'] as int?,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
   );
@@ -2298,8 +2221,8 @@ ResourceIdentifier _$ResourceIdentifierFromJson(Map<String, dynamic> json) {
   return ResourceIdentifier(
     resourceDeletionTime:
         const UnixDateTimeConverter().fromJson(json['resourceDeletionTime']),
-    resourceId: json['resourceId'] as String,
-    resourceName: json['resourceName'] as String,
+    resourceId: json['resourceId'] as String?,
+    resourceName: json['resourceName'] as String?,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
   );
@@ -2308,43 +2231,26 @@ ResourceIdentifier _$ResourceIdentifierFromJson(Map<String, dynamic> json) {
 ResourceKey _$ResourceKeyFromJson(Map<String, dynamic> json) {
   return ResourceKey(
     resourceId: json['resourceId'] as String,
-    resourceType:
-        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+    resourceType: _$enumDecode(_$ResourceTypeEnumMap, json['resourceType']),
   );
 }
 
-Map<String, dynamic> _$ResourceKeyToJson(ResourceKey instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('resourceId', instance.resourceId);
-  writeNotNull('resourceType', _$ResourceTypeEnumMap[instance.resourceType]);
-  return val;
-}
+Map<String, dynamic> _$ResourceKeyToJson(ResourceKey instance) =>
+    <String, dynamic>{
+      'resourceId': instance.resourceId,
+      'resourceType': _$ResourceTypeEnumMap[instance.resourceType],
+    };
 
 ResourceValue _$ResourceValueFromJson(Map<String, dynamic> json) {
   return ResourceValue(
-    value: _$enumDecodeNullable(_$ResourceValueTypeEnumMap, json['Value']),
+    value: _$enumDecode(_$ResourceValueTypeEnumMap, json['Value']),
   );
 }
 
-Map<String, dynamic> _$ResourceValueToJson(ResourceValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Value', _$ResourceValueTypeEnumMap[instance.value]);
-  return val;
-}
+Map<String, dynamic> _$ResourceValueToJson(ResourceValue instance) =>
+    <String, dynamic>{
+      'Value': _$ResourceValueTypeEnumMap[instance.value],
+    };
 
 const _$ResourceValueTypeEnumMap = {
   ResourceValueType.resourceId: 'RESOURCE_ID',
@@ -2360,12 +2266,12 @@ RetentionConfiguration _$RetentionConfigurationFromJson(
 
 Scope _$ScopeFromJson(Map<String, dynamic> json) {
   return Scope(
-    complianceResourceId: json['ComplianceResourceId'] as String,
-    complianceResourceTypes: (json['ComplianceResourceTypes'] as List)
+    complianceResourceId: json['ComplianceResourceId'] as String?,
+    complianceResourceTypes: (json['ComplianceResourceTypes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    tagKey: json['TagKey'] as String,
-    tagValue: json['TagValue'] as String,
+        .toList(),
+    tagKey: json['TagKey'] as String?,
+    tagValue: json['TagValue'] as String?,
   );
 }
 
@@ -2388,38 +2294,42 @@ Map<String, dynamic> _$ScopeToJson(Scope instance) {
 SelectAggregateResourceConfigResponse
     _$SelectAggregateResourceConfigResponseFromJson(Map<String, dynamic> json) {
   return SelectAggregateResourceConfigResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     queryInfo: json['QueryInfo'] == null
         ? null
         : QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>),
-    results: (json['Results'] as List)?.map((e) => e as String)?.toList(),
+    results:
+        (json['Results'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 SelectResourceConfigResponse _$SelectResourceConfigResponseFromJson(
     Map<String, dynamic> json) {
   return SelectResourceConfigResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     queryInfo: json['QueryInfo'] == null
         ? null
         : QueryInfo.fromJson(json['QueryInfo'] as Map<String, dynamic>),
-    results: (json['Results'] as List)?.map((e) => e as String)?.toList(),
+    results:
+        (json['Results'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Source _$SourceFromJson(Map<String, dynamic> json) {
   return Source(
-    owner: _$enumDecodeNullable(_$OwnerEnumMap, json['Owner']),
+    owner: _$enumDecode(_$OwnerEnumMap, json['Owner']),
     sourceIdentifier: json['SourceIdentifier'] as String,
-    sourceDetails: (json['SourceDetails'] as List)
-        ?.map((e) =>
-            e == null ? null : SourceDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    sourceDetails: (json['SourceDetails'] as List<dynamic>?)
+        ?.map((e) => SourceDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SourceToJson(Source instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Owner': _$OwnerEnumMap[instance.owner],
+    'SourceIdentifier': instance.sourceIdentifier,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2427,10 +2337,8 @@ Map<String, dynamic> _$SourceToJson(Source instance) {
     }
   }
 
-  writeNotNull('Owner', _$OwnerEnumMap[instance.owner]);
-  writeNotNull('SourceIdentifier', instance.sourceIdentifier);
-  writeNotNull('SourceDetails',
-      instance.sourceDetails?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'SourceDetails', instance.sourceDetails?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -2483,8 +2391,8 @@ const _$MessageTypeEnumMap = {
 SsmControls _$SsmControlsFromJson(Map<String, dynamic> json) {
   return SsmControls(
     concurrentExecutionRatePercentage:
-        json['ConcurrentExecutionRatePercentage'] as int,
-    errorPercentage: json['ErrorPercentage'] as int,
+        json['ConcurrentExecutionRatePercentage'] as int?,
+    errorPercentage: json['ErrorPercentage'] as int?,
   );
 }
 
@@ -2511,32 +2419,23 @@ StartConfigRulesEvaluationResponse _$StartConfigRulesEvaluationResponseFromJson(
 StartRemediationExecutionResponse _$StartRemediationExecutionResponseFromJson(
     Map<String, dynamic> json) {
   return StartRemediationExecutionResponse(
-    failedItems: (json['FailedItems'] as List)
-        ?.map((e) =>
-            e == null ? null : ResourceKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    failureMessage: json['FailureMessage'] as String,
+    failedItems: (json['FailedItems'] as List<dynamic>?)
+        ?.map((e) => ResourceKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    failureMessage: json['FailureMessage'] as String?,
   );
 }
 
 StaticValue _$StaticValueFromJson(Map<String, dynamic> json) {
   return StaticValue(
-    values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
+    values: (json['Values'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$StaticValueToJson(StaticValue instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$StaticValueToJson(StaticValue instance) =>
+    <String, dynamic>{
+      'Values': instance.values,
+    };
 
 Map<String, dynamic> _$StatusDetailFiltersToJson(StatusDetailFilters instance) {
   final val = <String, dynamic>{};
@@ -2556,15 +2455,17 @@ Map<String, dynamic> _$StatusDetailFiltersToJson(StatusDetailFilters instance) {
 StoredQuery _$StoredQueryFromJson(Map<String, dynamic> json) {
   return StoredQuery(
     queryName: json['QueryName'] as String,
-    description: json['Description'] as String,
-    expression: json['Expression'] as String,
-    queryArn: json['QueryArn'] as String,
-    queryId: json['QueryId'] as String,
+    description: json['Description'] as String?,
+    expression: json['Expression'] as String?,
+    queryArn: json['QueryArn'] as String?,
+    queryId: json['QueryId'] as String?,
   );
 }
 
 Map<String, dynamic> _$StoredQueryToJson(StoredQuery instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'QueryName': instance.queryName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2572,7 +2473,6 @@ Map<String, dynamic> _$StoredQueryToJson(StoredQuery instance) {
     }
   }
 
-  writeNotNull('QueryName', instance.queryName);
   writeNotNull('Description', instance.description);
   writeNotNull('Expression', instance.expression);
   writeNotNull('QueryArn', instance.queryArn);
@@ -2585,14 +2485,14 @@ StoredQueryMetadata _$StoredQueryMetadataFromJson(Map<String, dynamic> json) {
     queryArn: json['QueryArn'] as String,
     queryId: json['QueryId'] as String,
     queryName: json['QueryName'] as String,
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['Key'] as String,
-    value: json['Value'] as String,
+    key: json['Key'] as String?,
+    value: json['Value'] as String?,
   );
 }
 

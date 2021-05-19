@@ -13,30 +13,22 @@ AssociateRepositoryResponse _$AssociateRepositoryResponseFromJson(
         ? null
         : RepositoryAssociation.fromJson(
             json['RepositoryAssociation'] as Map<String, dynamic>),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
 }
 
 Map<String, dynamic> _$CodeCommitRepositoryToJson(
-    CodeCommitRepository instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+        CodeCommitRepository instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 CodeReview _$CodeReviewFromJson(Map<String, dynamic> json) {
   return CodeReview(
-    associationArn: json['AssociationArn'] as String,
-    codeReviewArn: json['CodeReviewArn'] as String,
+    associationArn: json['AssociationArn'] as String?,
+    codeReviewArn: json['CodeReviewArn'] as String?,
     createdTimeStamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimeStamp']),
     lastUpdatedTimeStamp:
@@ -44,52 +36,57 @@ CodeReview _$CodeReviewFromJson(Map<String, dynamic> json) {
     metrics: json['Metrics'] == null
         ? null
         : Metrics.fromJson(json['Metrics'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
-    pullRequestId: json['PullRequestId'] as String,
-    repositoryName: json['RepositoryName'] as String,
+    pullRequestId: json['PullRequestId'] as String?,
+    repositoryName: json['RepositoryName'] as String?,
     sourceCodeType: json['SourceCodeType'] == null
         ? null
         : SourceCodeType.fromJson(
             json['SourceCodeType'] as Map<String, dynamic>),
     state: _$enumDecodeNullable(_$JobStateEnumMap, json['State']),
-    stateReason: json['StateReason'] as String,
+    stateReason: json['StateReason'] as String?,
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ProviderTypeEnumMap = {
@@ -113,7 +110,7 @@ const _$TypeEnumMap = {
 
 CodeReviewSummary _$CodeReviewSummaryFromJson(Map<String, dynamic> json) {
   return CodeReviewSummary(
-    codeReviewArn: json['CodeReviewArn'] as String,
+    codeReviewArn: json['CodeReviewArn'] as String?,
     createdTimeStamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimeStamp']),
     lastUpdatedTimeStamp:
@@ -122,35 +119,27 @@ CodeReviewSummary _$CodeReviewSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : MetricsSummary.fromJson(
             json['MetricsSummary'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
-    pullRequestId: json['PullRequestId'] as String,
-    repositoryName: json['RepositoryName'] as String,
+    pullRequestId: json['PullRequestId'] as String?,
+    repositoryName: json['RepositoryName'] as String?,
     state: _$enumDecodeNullable(_$JobStateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$CodeReviewTypeToJson(CodeReviewType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RepositoryAnalysis', instance.repositoryAnalysis?.toJson());
-  return val;
-}
+Map<String, dynamic> _$CodeReviewTypeToJson(CodeReviewType instance) =>
+    <String, dynamic>{
+      'RepositoryAnalysis': instance.repositoryAnalysis.toJson(),
+    };
 
 CommitDiffSourceCodeType _$CommitDiffSourceCodeTypeFromJson(
     Map<String, dynamic> json) {
   return CommitDiffSourceCodeType(
-    destinationCommit: json['DestinationCommit'] as String,
-    sourceCommit: json['SourceCommit'] as String,
+    destinationCommit: json['DestinationCommit'] as String?,
+    sourceCommit: json['SourceCommit'] as String?,
   );
 }
 
@@ -190,7 +179,7 @@ DescribeRepositoryAssociationResponse
         ? null
         : RepositoryAssociation.fromJson(
             json['RepositoryAssociation'] as Map<String, dynamic>),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -203,7 +192,7 @@ DisassociateRepositoryResponse _$DisassociateRepositoryResponseFromJson(
         ? null
         : RepositoryAssociation.fromJson(
             json['RepositoryAssociation'] as Map<String, dynamic>),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -212,57 +201,51 @@ DisassociateRepositoryResponse _$DisassociateRepositoryResponseFromJson(
 ListCodeReviewsResponse _$ListCodeReviewsResponseFromJson(
     Map<String, dynamic> json) {
   return ListCodeReviewsResponse(
-    codeReviewSummaries: (json['CodeReviewSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CodeReviewSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    codeReviewSummaries: (json['CodeReviewSummaries'] as List<dynamic>?)
+        ?.map((e) => CodeReviewSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListRecommendationFeedbackResponse _$ListRecommendationFeedbackResponseFromJson(
     Map<String, dynamic> json) {
   return ListRecommendationFeedbackResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     recommendationFeedbackSummaries: (json['RecommendationFeedbackSummaries']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : RecommendationFeedbackSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            RecommendationFeedbackSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRecommendationsResponse _$ListRecommendationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRecommendationsResponse(
-    nextToken: json['NextToken'] as String,
-    recommendationSummaries: (json['RecommendationSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecommendationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    recommendationSummaries: (json['RecommendationSummaries'] as List<dynamic>?)
+        ?.map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRepositoryAssociationsResponse _$ListRepositoryAssociationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRepositoryAssociationsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     repositoryAssociationSummaries: (json['RepositoryAssociationSummaries']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : RepositoryAssociationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            RepositoryAssociationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -270,15 +253,15 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 Metrics _$MetricsFromJson(Map<String, dynamic> json) {
   return Metrics(
-    findingsCount: json['FindingsCount'] as int,
-    meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int,
+    findingsCount: json['FindingsCount'] as int?,
+    meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
   );
 }
 
 MetricsSummary _$MetricsSummaryFromJson(Map<String, dynamic> json) {
   return MetricsSummary(
-    findingsCount: json['FindingsCount'] as int,
-    meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int,
+    findingsCount: json['FindingsCount'] as int?,
+    meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
   );
 }
 
@@ -290,16 +273,16 @@ PutRecommendationFeedbackResponse _$PutRecommendationFeedbackResponseFromJson(
 RecommendationFeedback _$RecommendationFeedbackFromJson(
     Map<String, dynamic> json) {
   return RecommendationFeedback(
-    codeReviewArn: json['CodeReviewArn'] as String,
+    codeReviewArn: json['CodeReviewArn'] as String?,
     createdTimeStamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimeStamp']),
     lastUpdatedTimeStamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimeStamp']),
-    reactions: (json['Reactions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ReactionEnumMap, e))
-        ?.toList(),
-    recommendationId: json['RecommendationId'] as String,
-    userId: json['UserId'] as String,
+    reactions: (json['Reactions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ReactionEnumMap, e))
+        .toList(),
+    recommendationId: json['RecommendationId'] as String?,
+    userId: json['UserId'] as String?,
   );
 }
 
@@ -311,22 +294,22 @@ const _$ReactionEnumMap = {
 RecommendationFeedbackSummary _$RecommendationFeedbackSummaryFromJson(
     Map<String, dynamic> json) {
   return RecommendationFeedbackSummary(
-    reactions: (json['Reactions'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ReactionEnumMap, e))
-        ?.toList(),
-    recommendationId: json['RecommendationId'] as String,
-    userId: json['UserId'] as String,
+    reactions: (json['Reactions'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ReactionEnumMap, e))
+        .toList(),
+    recommendationId: json['RecommendationId'] as String?,
+    userId: json['UserId'] as String?,
   );
 }
 
 RecommendationSummary _$RecommendationSummaryFromJson(
     Map<String, dynamic> json) {
   return RecommendationSummary(
-    description: json['Description'] as String,
-    endLine: json['EndLine'] as int,
-    filePath: json['FilePath'] as String,
-    recommendationId: json['RecommendationId'] as String,
-    startLine: json['StartLine'] as int,
+    description: json['Description'] as String?,
+    endLine: json['EndLine'] as int?,
+    filePath: json['FilePath'] as String?,
+    recommendationId: json['RecommendationId'] as String?,
+    startLine: json['StartLine'] as int?,
   );
 }
 
@@ -346,36 +329,28 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) {
   return val;
 }
 
-Map<String, dynamic> _$RepositoryAnalysisToJson(RepositoryAnalysis instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RepositoryHead', instance.repositoryHead?.toJson());
-  return val;
-}
+Map<String, dynamic> _$RepositoryAnalysisToJson(RepositoryAnalysis instance) =>
+    <String, dynamic>{
+      'RepositoryHead': instance.repositoryHead.toJson(),
+    };
 
 RepositoryAssociation _$RepositoryAssociationFromJson(
     Map<String, dynamic> json) {
   return RepositoryAssociation(
-    associationArn: json['AssociationArn'] as String,
-    associationId: json['AssociationId'] as String,
-    connectionArn: json['ConnectionArn'] as String,
+    associationArn: json['AssociationArn'] as String?,
+    associationId: json['AssociationId'] as String?,
+    connectionArn: json['ConnectionArn'] as String?,
     createdTimeStamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimeStamp']),
     lastUpdatedTimeStamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimeStamp']),
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
     state: _$enumDecodeNullable(
         _$RepositoryAssociationStateEnumMap, json['State']),
-    stateReason: json['StateReason'] as String,
+    stateReason: json['StateReason'] as String?,
   );
 }
 
@@ -390,13 +365,13 @@ const _$RepositoryAssociationStateEnumMap = {
 RepositoryAssociationSummary _$RepositoryAssociationSummaryFromJson(
     Map<String, dynamic> json) {
   return RepositoryAssociationSummary(
-    associationArn: json['AssociationArn'] as String,
-    associationId: json['AssociationId'] as String,
-    connectionArn: json['ConnectionArn'] as String,
+    associationArn: json['AssociationArn'] as String?,
+    associationId: json['AssociationId'] as String?,
+    connectionArn: json['ConnectionArn'] as String?,
     lastUpdatedTimeStamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimeStamp']),
-    name: json['Name'] as String,
-    owner: json['Owner'] as String,
+    name: json['Name'] as String?,
+    owner: json['Owner'] as String?,
     providerType:
         _$enumDecodeNullable(_$ProviderTypeEnumMap, json['ProviderType']),
     state: _$enumDecodeNullable(
@@ -412,18 +387,10 @@ RepositoryHeadSourceCodeType _$RepositoryHeadSourceCodeTypeFromJson(
 }
 
 Map<String, dynamic> _$RepositoryHeadSourceCodeTypeToJson(
-    RepositoryHeadSourceCodeType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BranchName', instance.branchName);
-  return val;
-}
+        RepositoryHeadSourceCodeType instance) =>
+    <String, dynamic>{
+      'BranchName': instance.branchName,
+    };
 
 SourceCodeType _$SourceCodeTypeFromJson(Map<String, dynamic> json) {
   return SourceCodeType(
@@ -443,20 +410,12 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ThirdPartySourceRepositoryToJson(
-    ThirdPartySourceRepository instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ConnectionArn', instance.connectionArn);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Owner', instance.owner);
-  return val;
-}
+        ThirdPartySourceRepository instance) =>
+    <String, dynamic>{
+      'ConnectionArn': instance.connectionArn,
+      'Name': instance.name,
+      'Owner': instance.owner,
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {

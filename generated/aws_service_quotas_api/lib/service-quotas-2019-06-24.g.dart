@@ -26,40 +26,45 @@ DisassociateServiceQuotaTemplateResponse
 ErrorReason _$ErrorReasonFromJson(Map<String, dynamic> json) {
   return ErrorReason(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ErrorCodeEnumMap = {
@@ -129,11 +134,10 @@ GetServiceQuotaResponse _$GetServiceQuotaResponseFromJson(
 ListAWSDefaultServiceQuotasResponse
     _$ListAWSDefaultServiceQuotasResponseFromJson(Map<String, dynamic> json) {
   return ListAWSDefaultServiceQuotasResponse(
-    nextToken: json['NextToken'] as String,
-    quotas: (json['Quotas'] as List)
-        ?.map((e) =>
-            e == null ? null : ServiceQuota.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    quotas: (json['Quotas'] as List<dynamic>?)
+        ?.map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -141,12 +145,11 @@ ListRequestedServiceQuotaChangeHistoryByQuotaResponse
     _$ListRequestedServiceQuotaChangeHistoryByQuotaResponseFromJson(
         Map<String, dynamic> json) {
   return ListRequestedServiceQuotaChangeHistoryByQuotaResponse(
-    nextToken: json['NextToken'] as String,
-    requestedQuotas: (json['RequestedQuotas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestedQuotas: (json['RequestedQuotas'] as List<dynamic>?)
+        ?.map((e) =>
+            RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -154,12 +157,11 @@ ListRequestedServiceQuotaChangeHistoryResponse
     _$ListRequestedServiceQuotaChangeHistoryResponseFromJson(
         Map<String, dynamic> json) {
   return ListRequestedServiceQuotaChangeHistoryResponse(
-    nextToken: json['NextToken'] as String,
-    requestedQuotas: (json['RequestedQuotas'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    requestedQuotas: (json['RequestedQuotas'] as List<dynamic>?)
+        ?.map((e) =>
+            RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -167,56 +169,52 @@ ListServiceQuotaIncreaseRequestsInTemplateResponse
     _$ListServiceQuotaIncreaseRequestsInTemplateResponseFromJson(
         Map<String, dynamic> json) {
   return ListServiceQuotaIncreaseRequestsInTemplateResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     serviceQuotaIncreaseRequestInTemplateList:
-        (json['ServiceQuotaIncreaseRequestInTemplateList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ServiceQuotaIncreaseRequestInTemplate.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['ServiceQuotaIncreaseRequestInTemplateList'] as List<dynamic>?)
+            ?.map((e) => ServiceQuotaIncreaseRequestInTemplate.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListServiceQuotasResponse _$ListServiceQuotasResponseFromJson(
     Map<String, dynamic> json) {
   return ListServiceQuotasResponse(
-    nextToken: json['NextToken'] as String,
-    quotas: (json['Quotas'] as List)
-        ?.map((e) =>
-            e == null ? null : ServiceQuota.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    quotas: (json['Quotas'] as List<dynamic>?)
+        ?.map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
   return ListServicesResponse(
-    nextToken: json['NextToken'] as String,
-    services: (json['Services'] as List)
-        ?.map((e) =>
-            e == null ? null : ServiceInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    services: (json['Services'] as List<dynamic>?)
+        ?.map((e) => ServiceInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MetricInfo _$MetricInfoFromJson(Map<String, dynamic> json) {
   return MetricInfo(
-    metricDimensions: (json['MetricDimensions'] as Map<String, dynamic>)?.map(
+    metricDimensions: (json['MetricDimensions'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    metricName: json['MetricName'] as String,
-    metricNamespace: json['MetricNamespace'] as String,
+    metricName: json['MetricName'] as String?,
+    metricNamespace: json['MetricNamespace'] as String?,
     metricStatisticRecommendation:
-        json['MetricStatisticRecommendation'] as String,
+        json['MetricStatisticRecommendation'] as String?,
   );
 }
 
@@ -236,7 +234,7 @@ PutServiceQuotaIncreaseRequestIntoTemplateResponse
 QuotaPeriod _$QuotaPeriodFromJson(Map<String, dynamic> json) {
   return QuotaPeriod(
     periodUnit: _$enumDecodeNullable(_$PeriodUnitEnumMap, json['PeriodUnit']),
-    periodValue: json['PeriodValue'] as int,
+    periodValue: json['PeriodValue'] as int?,
   );
 }
 
@@ -263,20 +261,20 @@ RequestServiceQuotaIncreaseResponse
 RequestedServiceQuotaChange _$RequestedServiceQuotaChangeFromJson(
     Map<String, dynamic> json) {
   return RequestedServiceQuotaChange(
-    caseId: json['CaseId'] as String,
+    caseId: json['CaseId'] as String?,
     created: const UnixDateTimeConverter().fromJson(json['Created']),
-    desiredValue: (json['DesiredValue'] as num)?.toDouble(),
-    globalQuota: json['GlobalQuota'] as bool,
-    id: json['Id'] as String,
+    desiredValue: (json['DesiredValue'] as num?)?.toDouble(),
+    globalQuota: json['GlobalQuota'] as bool?,
+    id: json['Id'] as String?,
     lastUpdated: const UnixDateTimeConverter().fromJson(json['LastUpdated']),
-    quotaArn: json['QuotaArn'] as String,
-    quotaCode: json['QuotaCode'] as String,
-    quotaName: json['QuotaName'] as String,
-    requester: json['Requester'] as String,
-    serviceCode: json['ServiceCode'] as String,
-    serviceName: json['ServiceName'] as String,
+    quotaArn: json['QuotaArn'] as String?,
+    quotaCode: json['QuotaCode'] as String?,
+    quotaName: json['QuotaName'] as String?,
+    requester: json['Requester'] as String?,
+    serviceCode: json['ServiceCode'] as String?,
+    serviceName: json['ServiceName'] as String?,
     status: _$enumDecodeNullable(_$RequestStatusEnumMap, json['Status']),
-    unit: json['Unit'] as String,
+    unit: json['Unit'] as String?,
   );
 }
 
@@ -290,45 +288,45 @@ const _$RequestStatusEnumMap = {
 
 ServiceInfo _$ServiceInfoFromJson(Map<String, dynamic> json) {
   return ServiceInfo(
-    serviceCode: json['ServiceCode'] as String,
-    serviceName: json['ServiceName'] as String,
+    serviceCode: json['ServiceCode'] as String?,
+    serviceName: json['ServiceName'] as String?,
   );
 }
 
 ServiceQuota _$ServiceQuotaFromJson(Map<String, dynamic> json) {
   return ServiceQuota(
-    adjustable: json['Adjustable'] as bool,
+    adjustable: json['Adjustable'] as bool?,
     errorReason: json['ErrorReason'] == null
         ? null
         : ErrorReason.fromJson(json['ErrorReason'] as Map<String, dynamic>),
-    globalQuota: json['GlobalQuota'] as bool,
+    globalQuota: json['GlobalQuota'] as bool?,
     period: json['Period'] == null
         ? null
         : QuotaPeriod.fromJson(json['Period'] as Map<String, dynamic>),
-    quotaArn: json['QuotaArn'] as String,
-    quotaCode: json['QuotaCode'] as String,
-    quotaName: json['QuotaName'] as String,
-    serviceCode: json['ServiceCode'] as String,
-    serviceName: json['ServiceName'] as String,
-    unit: json['Unit'] as String,
+    quotaArn: json['QuotaArn'] as String?,
+    quotaCode: json['QuotaCode'] as String?,
+    quotaName: json['QuotaName'] as String?,
+    serviceCode: json['ServiceCode'] as String?,
+    serviceName: json['ServiceName'] as String?,
+    unit: json['Unit'] as String?,
     usageMetric: json['UsageMetric'] == null
         ? null
         : MetricInfo.fromJson(json['UsageMetric'] as Map<String, dynamic>),
-    value: (json['Value'] as num)?.toDouble(),
+    value: (json['Value'] as num?)?.toDouble(),
   );
 }
 
 ServiceQuotaIncreaseRequestInTemplate
     _$ServiceQuotaIncreaseRequestInTemplateFromJson(Map<String, dynamic> json) {
   return ServiceQuotaIncreaseRequestInTemplate(
-    awsRegion: json['AwsRegion'] as String,
-    desiredValue: (json['DesiredValue'] as num)?.toDouble(),
-    globalQuota: json['GlobalQuota'] as bool,
-    quotaCode: json['QuotaCode'] as String,
-    quotaName: json['QuotaName'] as String,
-    serviceCode: json['ServiceCode'] as String,
-    serviceName: json['ServiceName'] as String,
-    unit: json['Unit'] as String,
+    awsRegion: json['AwsRegion'] as String?,
+    desiredValue: (json['DesiredValue'] as num?)?.toDouble(),
+    globalQuota: json['GlobalQuota'] as bool?,
+    quotaCode: json['QuotaCode'] as String?,
+    quotaName: json['QuotaName'] as String?,
+    serviceCode: json['ServiceCode'] as String?,
+    serviceName: json['ServiceName'] as String?,
+    unit: json['Unit'] as String?,
   );
 }
 
@@ -339,19 +337,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();

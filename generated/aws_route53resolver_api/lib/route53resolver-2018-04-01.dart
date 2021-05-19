@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'route53resolver-2018-04-01.g.dart';
 
 /// When you create a VPC using Amazon VPC, you automatically get DNS resolution
 /// within the VPC from Route 53 Resolver. By default, Resolver answers DNS
@@ -68,10 +60,10 @@ part 'route53resolver-2018-04-01.g.dart';
 class Route53Resolver {
   final _s.JsonProtocol _protocol;
   Route53Resolver({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -108,8 +100,8 @@ class Route53Resolver {
   /// with.
   Future<AssociateResolverEndpointIpAddressResponse>
       associateResolverEndpointIpAddress({
-    @_s.required IpAddressUpdate ipAddress,
-    @_s.required String resolverEndpointId,
+    required IpAddressUpdate ipAddress,
+    required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(ipAddress, 'ipAddress');
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
@@ -173,8 +165,8 @@ class Route53Resolver {
   /// </note>
   Future<AssociateResolverQueryLogConfigResponse>
       associateResolverQueryLogConfig({
-    @_s.required String resolverQueryLogConfigId,
-    @_s.required String resourceId,
+    required String resolverQueryLogConfigId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
@@ -240,9 +232,9 @@ class Route53Resolver {
   /// A name for the association that you're creating between a Resolver rule
   /// and a VPC.
   Future<AssociateResolverRuleResponse> associateResolverRule({
-    @_s.required String resolverRuleId,
-    @_s.required String vPCId,
-    String name,
+    required String resolverRuleId,
+    required String vPCId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
     _s.validateStringLength(
@@ -354,12 +346,12 @@ class Route53Resolver {
   /// A list of the tag keys and values that you want to associate with the
   /// endpoint.
   Future<CreateResolverEndpointResponse> createResolverEndpoint({
-    @_s.required String creatorRequestId,
-    @_s.required ResolverEndpointDirection direction,
-    @_s.required List<IpAddressRequest> ipAddresses,
-    @_s.required List<String> securityGroupIds,
-    String name,
-    List<Tag> tags,
+    required String creatorRequestId,
+    required ResolverEndpointDirection direction,
+    required List<IpAddressRequest> ipAddresses,
+    required List<String> securityGroupIds,
+    String? name,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(creatorRequestId, 'creatorRequestId');
     _s.validateStringLength(
@@ -395,7 +387,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'Direction': direction?.toValue() ?? '',
+        'Direction': direction.toValue(),
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
         if (name != null) 'Name': name,
@@ -430,12 +422,6 @@ class Route53Resolver {
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   ///
-  /// Parameter [creatorRequestId] :
-  /// A unique string that identifies the request and that allows failed
-  /// requests to be retried without the risk of executing the operation twice.
-  /// <code>CreatorRequestId</code> can be any unique string, for example, a
-  /// date/time stamp.
-  ///
   /// Parameter [destinationArn] :
   /// The ARN of the resource that you want Resolver to send query logs. You can
   /// send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis
@@ -467,23 +453,21 @@ class Route53Resolver {
   /// Parameter [name] :
   /// The name that you want to give the query logging configuration
   ///
+  /// Parameter [creatorRequestId] :
+  /// A unique string that identifies the request and that allows failed
+  /// requests to be retried without the risk of executing the operation twice.
+  /// <code>CreatorRequestId</code> can be any unique string, for example, a
+  /// date/time stamp.
+  ///
   /// Parameter [tags] :
   /// A list of the tag keys and values that you want to associate with the
   /// query logging configuration.
   Future<CreateResolverQueryLogConfigResponse> createResolverQueryLogConfig({
-    @_s.required String creatorRequestId,
-    @_s.required String destinationArn,
-    @_s.required String name,
-    List<Tag> tags,
+    required String destinationArn,
+    required String name,
+    String? creatorRequestId,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(creatorRequestId, 'creatorRequestId');
-    _s.validateStringLength(
-      'creatorRequestId',
-      creatorRequestId,
-      1,
-      255,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(destinationArn, 'destinationArn');
     _s.validateStringLength(
       'destinationArn',
@@ -506,6 +490,12 @@ class Route53Resolver {
       r'''(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'creatorRequestId',
+      creatorRequestId,
+      1,
+      255,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.CreateResolverQueryLogConfig'
@@ -517,9 +507,9 @@ class Route53Resolver {
       // TODO queryParams
       headers: headers,
       payload: {
-        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         'DestinationArn': destinationArn,
         'Name': name,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -590,13 +580,13 @@ class Route53Resolver {
   /// <code>TargetIps</code> is available only when the value of <code>Rule
   /// type</code> is <code>FORWARD</code>.
   Future<CreateResolverRuleResponse> createResolverRule({
-    @_s.required String creatorRequestId,
-    @_s.required String domainName,
-    @_s.required RuleTypeOption ruleType,
-    String name,
-    String resolverEndpointId,
-    List<Tag> tags,
-    List<TargetAddress> targetIps,
+    required String creatorRequestId,
+    required String domainName,
+    required RuleTypeOption ruleType,
+    String? name,
+    String? resolverEndpointId,
+    List<Tag>? tags,
+    List<TargetAddress>? targetIps,
   }) async {
     ArgumentError.checkNotNull(creatorRequestId, 'creatorRequestId');
     _s.validateStringLength(
@@ -645,7 +635,7 @@ class Route53Resolver {
       payload: {
         'CreatorRequestId': creatorRequestId,
         'DomainName': domainName,
-        'RuleType': ruleType?.toValue() ?? '',
+        'RuleType': ruleType.toValue(),
         if (name != null) 'Name': name,
         if (resolverEndpointId != null)
           'ResolverEndpointId': resolverEndpointId,
@@ -680,7 +670,7 @@ class Route53Resolver {
   /// Parameter [resolverEndpointId] :
   /// The ID of the Resolver endpoint that you want to delete.
   Future<DeleteResolverEndpointResponse> deleteResolverEndpoint({
-    @_s.required String resolverEndpointId,
+    required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
     _s.validateStringLength(
@@ -736,7 +726,7 @@ class Route53Resolver {
   /// Parameter [resolverQueryLogConfigId] :
   /// The ID of the query logging configuration that you want to delete.
   Future<DeleteResolverQueryLogConfigResponse> deleteResolverQueryLogConfig({
-    @_s.required String resolverQueryLogConfigId,
+    required String resolverQueryLogConfigId,
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
@@ -779,7 +769,7 @@ class Route53Resolver {
   /// Parameter [resolverRuleId] :
   /// The ID of the Resolver rule that you want to delete.
   Future<DeleteResolverRuleResponse> deleteResolverRule({
-    @_s.required String resolverRuleId,
+    required String resolverRuleId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
     _s.validateStringLength(
@@ -830,8 +820,8 @@ class Route53Resolver {
   /// address from.
   Future<DisassociateResolverEndpointIpAddressResponse>
       disassociateResolverEndpointIpAddress({
-    @_s.required IpAddressUpdate ipAddress,
-    @_s.required String resolverEndpointId,
+    required IpAddressUpdate ipAddress,
+    required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(ipAddress, 'ipAddress');
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
@@ -895,8 +885,8 @@ class Route53Resolver {
   /// query logging configuration.
   Future<DisassociateResolverQueryLogConfigResponse>
       disassociateResolverQueryLogConfig({
-    @_s.required String resolverQueryLogConfigId,
-    @_s.required String resourceId,
+    required String resolverQueryLogConfigId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
@@ -954,8 +944,8 @@ class Route53Resolver {
   /// Parameter [vPCId] :
   /// The ID of the VPC that you want to disassociate the Resolver rule from.
   Future<DisassociateResolverRuleResponse> disassociateResolverRule({
-    @_s.required String resolverRuleId,
-    @_s.required String vPCId,
+    required String resolverRuleId,
+    required String vPCId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
     _s.validateStringLength(
@@ -1005,7 +995,7 @@ class Route53Resolver {
   /// The ID of the virtual private cloud (VPC) for the DNSSEC validation
   /// status.
   Future<GetResolverDnssecConfigResponse> getResolverDnssecConfig({
-    @_s.required String resourceId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1045,7 +1035,7 @@ class Route53Resolver {
   /// Parameter [resolverEndpointId] :
   /// The ID of the Resolver endpoint that you want to get information about.
   Future<GetResolverEndpointResponse> getResolverEndpoint({
-    @_s.required String resolverEndpointId,
+    required String resolverEndpointId,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
     _s.validateStringLength(
@@ -1088,7 +1078,7 @@ class Route53Resolver {
   /// The ID of the Resolver query logging configuration that you want to get
   /// information about.
   Future<GetResolverQueryLogConfigResponse> getResolverQueryLogConfig({
-    @_s.required String resolverQueryLogConfigId,
+    required String resolverQueryLogConfigId,
   }) async {
     ArgumentError.checkNotNull(
         resolverQueryLogConfigId, 'resolverQueryLogConfigId');
@@ -1134,7 +1124,7 @@ class Route53Resolver {
   /// want to get information about.
   Future<GetResolverQueryLogConfigAssociationResponse>
       getResolverQueryLogConfigAssociation({
-    @_s.required String resolverQueryLogConfigAssociationId,
+    required String resolverQueryLogConfigAssociationId,
   }) async {
     ArgumentError.checkNotNull(resolverQueryLogConfigAssociationId,
         'resolverQueryLogConfigAssociationId');
@@ -1180,7 +1170,7 @@ class Route53Resolver {
   /// logging policy for.
   Future<GetResolverQueryLogConfigPolicyResponse>
       getResolverQueryLogConfigPolicy({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1220,7 +1210,7 @@ class Route53Resolver {
   /// Parameter [resolverRuleId] :
   /// The ID of the Resolver rule that you want to get information about.
   Future<GetResolverRuleResponse> getResolverRule({
-    @_s.required String resolverRuleId,
+    required String resolverRuleId,
   }) async {
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
     _s.validateStringLength(
@@ -1261,7 +1251,7 @@ class Route53Resolver {
   /// The ID of the Resolver rule association that you want to get information
   /// about.
   Future<GetResolverRuleAssociationResponse> getResolverRuleAssociation({
-    @_s.required String resolverRuleAssociationId,
+    required String resolverRuleAssociationId,
   }) async {
     ArgumentError.checkNotNull(
         resolverRuleAssociationId, 'resolverRuleAssociationId');
@@ -1303,7 +1293,7 @@ class Route53Resolver {
   /// The ID of the Resolver rule that you want to get the Resolver rule policy
   /// for.
   Future<GetResolverRulePolicyResponse> getResolverRulePolicy({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -1362,9 +1352,9 @@ class Route53Resolver {
   /// <code>NextToken</code> from the previous response and specify that value
   /// for <code>NextToken</code> in the request.
   Future<ListResolverDnssecConfigsResponse> listResolverDnssecConfigs({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1420,9 +1410,9 @@ class Route53Resolver {
   /// <code>NextToken</code> from the previous response.
   Future<ListResolverEndpointIpAddressesResponse>
       listResolverEndpointIpAddresses({
-    @_s.required String resolverEndpointId,
-    int maxResults,
-    String nextToken,
+    required String resolverEndpointId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
     _s.validateStringLength(
@@ -1490,9 +1480,9 @@ class Route53Resolver {
   /// group of Resolver endpoints. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
   Future<ListResolverEndpointsResponse> listResolverEndpoints({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1643,11 +1633,11 @@ class Route53Resolver {
   /// </note>
   Future<ListResolverQueryLogConfigAssociationsResponse>
       listResolverQueryLogConfigAssociations({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    String sortBy,
-    SortOrder sortOrder,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? sortBy,
+    SortOrder? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1810,11 +1800,11 @@ class Route53Resolver {
   /// <code>SortOrder</code>, if any, as in the previous request.
   /// </note>
   Future<ListResolverQueryLogConfigsResponse> listResolverQueryLogConfigs({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    String sortBy,
-    SortOrder sortOrder,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? sortBy,
+    SortOrder? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1884,9 +1874,9 @@ class Route53Resolver {
   /// next group of rule associations. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
   Future<ListResolverRuleAssociationsResponse> listResolverRuleAssociations({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1945,9 +1935,9 @@ class Route53Resolver {
   /// group of Resolver rules. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
   Future<ListResolverRulesResponse> listResolverRules({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2001,9 +1991,9 @@ class Route53Resolver {
   /// the resource. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2081,8 +2071,8 @@ class Route53Resolver {
   /// account that you specified in <code>Arn</code>.
   Future<PutResolverQueryLogConfigPolicyResponse>
       putResolverQueryLogConfigPolicy({
-    @_s.required String arn,
-    @_s.required String resolverQueryLogConfigPolicy,
+    required String arn,
+    required String resolverQueryLogConfigPolicy,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2160,8 +2150,8 @@ class Route53Resolver {
   /// the rule that you want to share with another account. Specify the same ARN
   /// that you specified in <code>Arn</code>.
   Future<PutResolverRulePolicyResponse> putResolverRulePolicy({
-    @_s.required String arn,
-    @_s.required String resolverRulePolicy,
+    required String arn,
+    required String resolverRulePolicy,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2243,8 +2233,8 @@ class Route53Resolver {
   /// Parameter [tags] :
   /// The tags that you want to add to the specified resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2259,7 +2249,7 @@ class Route53Resolver {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2270,8 +2260,6 @@ class Route53Resolver {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more tags from a specified resource.
@@ -2317,8 +2305,8 @@ class Route53Resolver {
   /// Parameter [tagKeys] :
   /// The tags that you want to remove to the specified resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2333,7 +2321,7 @@ class Route53Resolver {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Resolver.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2344,8 +2332,6 @@ class Route53Resolver {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing DNSSEC validation configuration. If there is no
@@ -2367,8 +2353,8 @@ class Route53Resolver {
   /// The value can be <code>ENABLE</code> or <code>DISABLE</code>. Be aware
   /// that it can take time for a validation status change to be completed.
   Future<UpdateResolverDnssecConfigResponse> updateResolverDnssecConfig({
-    @_s.required String resourceId,
-    @_s.required Validation validation,
+    required String resourceId,
+    required Validation validation,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -2391,7 +2377,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'Validation': validation?.toValue() ?? '',
+        'Validation': validation.toValue(),
       },
     );
 
@@ -2412,8 +2398,8 @@ class Route53Resolver {
   /// Parameter [name] :
   /// The name of the Resolver endpoint that you want to update.
   Future<UpdateResolverEndpointResponse> updateResolverEndpoint({
-    @_s.required String resolverEndpointId,
-    String name,
+    required String resolverEndpointId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(resolverEndpointId, 'resolverEndpointId');
     _s.validateStringLength(
@@ -2471,8 +2457,8 @@ class Route53Resolver {
   /// Parameter [resolverRuleId] :
   /// The ID of the Resolver rule that you want to update.
   Future<UpdateResolverRuleResponse> updateResolverRule({
-    @_s.required ResolverRuleConfig config,
-    @_s.required String resolverRuleId,
+    required ResolverRuleConfig config,
+    required String resolverRuleId,
   }) async {
     ArgumentError.checkNotNull(config, 'config');
     ArgumentError.checkNotNull(resolverRuleId, 'resolverRuleId');
@@ -2503,226 +2489,227 @@ class Route53Resolver {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateResolverEndpointIpAddressResponse {
   /// The response to an <code>AssociateResolverEndpointIpAddress</code> request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   AssociateResolverEndpointIpAddressResponse({
     this.resolverEndpoint,
   });
   factory AssociateResolverEndpointIpAddressResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateResolverEndpointIpAddressResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateResolverEndpointIpAddressResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateResolverQueryLogConfigResponse {
   /// A complex type that contains settings for a specified association between an
   /// Amazon VPC and a query logging configuration.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigAssociation')
-  final ResolverQueryLogConfigAssociation resolverQueryLogConfigAssociation;
+  final ResolverQueryLogConfigAssociation? resolverQueryLogConfigAssociation;
 
   AssociateResolverQueryLogConfigResponse({
     this.resolverQueryLogConfigAssociation,
   });
   factory AssociateResolverQueryLogConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateResolverQueryLogConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateResolverQueryLogConfigResponse(
+      resolverQueryLogConfigAssociation:
+          json['ResolverQueryLogConfigAssociation'] != null
+              ? ResolverQueryLogConfigAssociation.fromJson(
+                  json['ResolverQueryLogConfigAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateResolverRuleResponse {
   /// Information about the <code>AssociateResolverRule</code> request, including
   /// the status of the request.
-  @_s.JsonKey(name: 'ResolverRuleAssociation')
-  final ResolverRuleAssociation resolverRuleAssociation;
+  final ResolverRuleAssociation? resolverRuleAssociation;
 
   AssociateResolverRuleResponse({
     this.resolverRuleAssociation,
   });
-  factory AssociateResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateResolverRuleResponseFromJson(json);
+  factory AssociateResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateResolverRuleResponse(
+      resolverRuleAssociation: json['ResolverRuleAssociation'] != null
+          ? ResolverRuleAssociation.fromJson(
+              json['ResolverRuleAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResolverEndpointResponse {
   /// Information about the <code>CreateResolverEndpoint</code> request, including
   /// the status of the request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   CreateResolverEndpointResponse({
     this.resolverEndpoint,
   });
-  factory CreateResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResolverEndpointResponseFromJson(json);
+  factory CreateResolverEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResolverEndpointResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResolverQueryLogConfigResponse {
   /// Information about the <code>CreateResolverQueryLogConfig</code> request,
   /// including the status of the request.
-  @_s.JsonKey(name: 'ResolverQueryLogConfig')
-  final ResolverQueryLogConfig resolverQueryLogConfig;
+  final ResolverQueryLogConfig? resolverQueryLogConfig;
 
   CreateResolverQueryLogConfigResponse({
     this.resolverQueryLogConfig,
   });
   factory CreateResolverQueryLogConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateResolverQueryLogConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateResolverQueryLogConfigResponse(
+      resolverQueryLogConfig: json['ResolverQueryLogConfig'] != null
+          ? ResolverQueryLogConfig.fromJson(
+              json['ResolverQueryLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResolverRuleResponse {
   /// Information about the <code>CreateResolverRule</code> request, including the
   /// status of the request.
-  @_s.JsonKey(name: 'ResolverRule')
-  final ResolverRule resolverRule;
+  final ResolverRule? resolverRule;
 
   CreateResolverRuleResponse({
     this.resolverRule,
   });
-  factory CreateResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResolverRuleResponseFromJson(json);
+  factory CreateResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResolverRuleResponse(
+      resolverRule: json['ResolverRule'] != null
+          ? ResolverRule.fromJson(json['ResolverRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResolverEndpointResponse {
   /// Information about the <code>DeleteResolverEndpoint</code> request, including
   /// the status of the request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   DeleteResolverEndpointResponse({
     this.resolverEndpoint,
   });
-  factory DeleteResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResolverEndpointResponseFromJson(json);
+  factory DeleteResolverEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResolverEndpointResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResolverQueryLogConfigResponse {
   /// Information about the query logging configuration that you deleted,
   /// including the status of the request.
-  @_s.JsonKey(name: 'ResolverQueryLogConfig')
-  final ResolverQueryLogConfig resolverQueryLogConfig;
+  final ResolverQueryLogConfig? resolverQueryLogConfig;
 
   DeleteResolverQueryLogConfigResponse({
     this.resolverQueryLogConfig,
   });
   factory DeleteResolverQueryLogConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteResolverQueryLogConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteResolverQueryLogConfigResponse(
+      resolverQueryLogConfig: json['ResolverQueryLogConfig'] != null
+          ? ResolverQueryLogConfig.fromJson(
+              json['ResolverQueryLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResolverRuleResponse {
   /// Information about the <code>DeleteResolverRule</code> request, including the
   /// status of the request.
-  @_s.JsonKey(name: 'ResolverRule')
-  final ResolverRule resolverRule;
+  final ResolverRule? resolverRule;
 
   DeleteResolverRuleResponse({
     this.resolverRule,
   });
-  factory DeleteResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResolverRuleResponseFromJson(json);
+  factory DeleteResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteResolverRuleResponse(
+      resolverRule: json['ResolverRule'] != null
+          ? ResolverRule.fromJson(json['ResolverRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateResolverEndpointIpAddressResponse {
   /// The response to an <code>DisassociateResolverEndpointIpAddress</code>
   /// request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   DisassociateResolverEndpointIpAddressResponse({
     this.resolverEndpoint,
   });
   factory DisassociateResolverEndpointIpAddressResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateResolverEndpointIpAddressResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateResolverEndpointIpAddressResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateResolverQueryLogConfigResponse {
   /// A complex type that contains settings for the association that you deleted
   /// between an Amazon VPC and a query logging configuration.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigAssociation')
-  final ResolverQueryLogConfigAssociation resolverQueryLogConfigAssociation;
+  final ResolverQueryLogConfigAssociation? resolverQueryLogConfigAssociation;
 
   DisassociateResolverQueryLogConfigResponse({
     this.resolverQueryLogConfigAssociation,
   });
   factory DisassociateResolverQueryLogConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateResolverQueryLogConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateResolverQueryLogConfigResponse(
+      resolverQueryLogConfigAssociation:
+          json['ResolverQueryLogConfigAssociation'] != null
+              ? ResolverQueryLogConfigAssociation.fromJson(
+                  json['ResolverQueryLogConfigAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateResolverRuleResponse {
   /// Information about the <code>DisassociateResolverRule</code> request,
   /// including the status of the request.
-  @_s.JsonKey(name: 'ResolverRuleAssociation')
-  final ResolverRuleAssociation resolverRuleAssociation;
+  final ResolverRuleAssociation? resolverRuleAssociation;
 
   DisassociateResolverRuleResponse({
     this.resolverRuleAssociation,
   });
-  factory DisassociateResolverRuleResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateResolverRuleResponseFromJson(json);
+  factory DisassociateResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateResolverRuleResponse(
+      resolverRuleAssociation: json['ResolverRuleAssociation'] != null
+          ? ResolverRuleAssociation.fromJson(
+              json['ResolverRuleAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// For Resolver list operations (<a
@@ -2743,11 +2730,6 @@ class DisassociateResolverRuleResponse {
 /// <code>Name</code> and <code>Values</code>. For example, to list only inbound
 /// Resolver endpoints, specify <code>Direction</code> for <code>Name</code> and
 /// specify <code>INBOUND</code> for <code>Values</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name of the parameter that you want to use to filter objects.
   ///
@@ -2981,8 +2963,7 @@ class Filter {
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverQueryLogConfigAssociation.html#Route53Resolver-Type-route53resolver_ResolverQueryLogConfigAssociation-Status">Status</a>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// When you're using a <code>List</code> operation and you want the operation
   /// to return a subset of objects, such as Resolver endpoints or Resolver rules,
@@ -2990,162 +2971,164 @@ class Filter {
   /// example, to list only inbound Resolver endpoints, specify
   /// <code>Direction</code> for <code>Name</code> and specify
   /// <code>INBOUND</code> for <code>Values</code>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverDnssecConfigResponse {
   /// The information about a configuration for DNSSEC validation.
-  @_s.JsonKey(name: 'ResolverDNSSECConfig')
-  final ResolverDnssecConfig resolverDNSSECConfig;
+  final ResolverDnssecConfig? resolverDNSSECConfig;
 
   GetResolverDnssecConfigResponse({
     this.resolverDNSSECConfig,
   });
-  factory GetResolverDnssecConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResolverDnssecConfigResponseFromJson(json);
+  factory GetResolverDnssecConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverDnssecConfigResponse(
+      resolverDNSSECConfig: json['ResolverDNSSECConfig'] != null
+          ? ResolverDnssecConfig.fromJson(
+              json['ResolverDNSSECConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverEndpointResponse {
   /// Information about the Resolver endpoint that you specified in a
   /// <code>GetResolverEndpoint</code> request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   GetResolverEndpointResponse({
     this.resolverEndpoint,
   });
-  factory GetResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResolverEndpointResponseFromJson(json);
+  factory GetResolverEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverEndpointResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverQueryLogConfigAssociationResponse {
   /// Information about the Resolver query logging configuration association that
   /// you specified in a <code>GetQueryLogConfigAssociation</code> request.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigAssociation')
-  final ResolverQueryLogConfigAssociation resolverQueryLogConfigAssociation;
+  final ResolverQueryLogConfigAssociation? resolverQueryLogConfigAssociation;
 
   GetResolverQueryLogConfigAssociationResponse({
     this.resolverQueryLogConfigAssociation,
   });
   factory GetResolverQueryLogConfigAssociationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResolverQueryLogConfigAssociationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResolverQueryLogConfigAssociationResponse(
+      resolverQueryLogConfigAssociation:
+          json['ResolverQueryLogConfigAssociation'] != null
+              ? ResolverQueryLogConfigAssociation.fromJson(
+                  json['ResolverQueryLogConfigAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverQueryLogConfigPolicyResponse {
   /// Information about the query logging policy for the query logging
   /// configuration that you specified in a
   /// <code>GetResolverQueryLogConfigPolicy</code> request.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigPolicy')
-  final String resolverQueryLogConfigPolicy;
+  final String? resolverQueryLogConfigPolicy;
 
   GetResolverQueryLogConfigPolicyResponse({
     this.resolverQueryLogConfigPolicy,
   });
   factory GetResolverQueryLogConfigPolicyResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResolverQueryLogConfigPolicyResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResolverQueryLogConfigPolicyResponse(
+      resolverQueryLogConfigPolicy:
+          json['ResolverQueryLogConfigPolicy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverQueryLogConfigResponse {
   /// Information about the Resolver query logging configuration that you
   /// specified in a <code>GetQueryLogConfig</code> request.
-  @_s.JsonKey(name: 'ResolverQueryLogConfig')
-  final ResolverQueryLogConfig resolverQueryLogConfig;
+  final ResolverQueryLogConfig? resolverQueryLogConfig;
 
   GetResolverQueryLogConfigResponse({
     this.resolverQueryLogConfig,
   });
   factory GetResolverQueryLogConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResolverQueryLogConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResolverQueryLogConfigResponse(
+      resolverQueryLogConfig: json['ResolverQueryLogConfig'] != null
+          ? ResolverQueryLogConfig.fromJson(
+              json['ResolverQueryLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverRuleAssociationResponse {
   /// Information about the Resolver rule association that you specified in a
   /// <code>GetResolverRuleAssociation</code> request.
-  @_s.JsonKey(name: 'ResolverRuleAssociation')
-  final ResolverRuleAssociation resolverRuleAssociation;
+  final ResolverRuleAssociation? resolverRuleAssociation;
 
   GetResolverRuleAssociationResponse({
     this.resolverRuleAssociation,
   });
   factory GetResolverRuleAssociationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResolverRuleAssociationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResolverRuleAssociationResponse(
+      resolverRuleAssociation: json['ResolverRuleAssociation'] != null
+          ? ResolverRuleAssociation.fromJson(
+              json['ResolverRuleAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverRulePolicyResponse {
   /// The Resolver rule policy for the rule that you specified in a
   /// <code>GetResolverRulePolicy</code> request.
-  @_s.JsonKey(name: 'ResolverRulePolicy')
-  final String resolverRulePolicy;
+  final String? resolverRulePolicy;
 
   GetResolverRulePolicyResponse({
     this.resolverRulePolicy,
   });
-  factory GetResolverRulePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResolverRulePolicyResponseFromJson(json);
+  factory GetResolverRulePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverRulePolicyResponse(
+      resolverRulePolicy: json['ResolverRulePolicy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResolverRuleResponse {
   /// Information about the Resolver rule that you specified in a
   /// <code>GetResolverRule</code> request.
-  @_s.JsonKey(name: 'ResolverRule')
-  final ResolverRule resolverRule;
+  final ResolverRule? resolverRule;
 
   GetResolverRuleResponse({
     this.resolverRule,
   });
-  factory GetResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResolverRuleResponseFromJson(json);
+  factory GetResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetResolverRuleResponse(
+      resolverRule: json['ResolverRule'] != null
+          ? ResolverRule.fromJson(json['ResolverRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// In a <a
@@ -3154,67 +3137,55 @@ class GetResolverRuleResponse {
 /// endpoints) or that you forward DNS queries to (for inbound endpoints).
 /// <code>IpAddressRequest</code> also includes the ID of the subnet that
 /// contains the IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IpAddressRequest {
   /// The ID of the subnet that contains the IP address.
-  @_s.JsonKey(name: 'SubnetId')
   final String subnetId;
 
   /// The IP address that you want to use for DNS queries.
-  @_s.JsonKey(name: 'Ip')
-  final String ip;
+  final String? ip;
 
   IpAddressRequest({
-    @_s.required this.subnetId,
+    required this.subnetId,
     this.ip,
   });
-  Map<String, dynamic> toJson() => _$IpAddressRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final subnetId = this.subnetId;
+    final ip = this.ip;
+    return {
+      'SubnetId': subnetId,
+      if (ip != null) 'Ip': ip,
+    };
+  }
 }
 
 /// In the response to a <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html">GetResolverEndpoint</a>
 /// request, information about the IP addresses that the Resolver endpoint uses
 /// for DNS queries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IpAddressResponse {
   /// The date and time that the IP address was created, in Unix time format and
   /// Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'CreationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// One IP address that the Resolver endpoint uses for DNS queries.
-  @_s.JsonKey(name: 'Ip')
-  final String ip;
+  final String? ip;
 
   /// The ID of one IP address.
-  @_s.JsonKey(name: 'IpId')
-  final String ipId;
+  final String? ipId;
 
   /// The date and time that the IP address was last modified, in Unix time format
   /// and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'ModificationTime')
-  final String modificationTime;
+  final String? modificationTime;
 
   /// A status code that gives the current status of the request.
-  @_s.JsonKey(name: 'Status')
-  final IpAddressStatus status;
+  final IpAddressStatus? status;
 
   /// A message that provides additional information about the status of the
   /// request.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The ID of one subnet.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   IpAddressResponse({
     this.creationTime,
@@ -3225,71 +3196,121 @@ class IpAddressResponse {
     this.statusMessage,
     this.subnetId,
   });
-  factory IpAddressResponse.fromJson(Map<String, dynamic> json) =>
-      _$IpAddressResponseFromJson(json);
+  factory IpAddressResponse.fromJson(Map<String, dynamic> json) {
+    return IpAddressResponse(
+      creationTime: json['CreationTime'] as String?,
+      ip: json['Ip'] as String?,
+      ipId: json['IpId'] as String?,
+      modificationTime: json['ModificationTime'] as String?,
+      status: (json['Status'] as String?)?.toIpAddressStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
 }
 
 enum IpAddressStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('FAILED_CREATION')
   failedCreation,
-  @_s.JsonValue('ATTACHING')
   attaching,
-  @_s.JsonValue('ATTACHED')
   attached,
-  @_s.JsonValue('REMAP_DETACHING')
   remapDetaching,
-  @_s.JsonValue('REMAP_ATTACHING')
   remapAttaching,
-  @_s.JsonValue('DETACHING')
   detaching,
-  @_s.JsonValue('FAILED_RESOURCE_GONE')
   failedResourceGone,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETE_FAILED_FAS_EXPIRED')
   deleteFailedFasExpired,
+}
+
+extension on IpAddressStatus {
+  String toValue() {
+    switch (this) {
+      case IpAddressStatus.creating:
+        return 'CREATING';
+      case IpAddressStatus.failedCreation:
+        return 'FAILED_CREATION';
+      case IpAddressStatus.attaching:
+        return 'ATTACHING';
+      case IpAddressStatus.attached:
+        return 'ATTACHED';
+      case IpAddressStatus.remapDetaching:
+        return 'REMAP_DETACHING';
+      case IpAddressStatus.remapAttaching:
+        return 'REMAP_ATTACHING';
+      case IpAddressStatus.detaching:
+        return 'DETACHING';
+      case IpAddressStatus.failedResourceGone:
+        return 'FAILED_RESOURCE_GONE';
+      case IpAddressStatus.deleting:
+        return 'DELETING';
+      case IpAddressStatus.deleteFailedFasExpired:
+        return 'DELETE_FAILED_FAS_EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  IpAddressStatus toIpAddressStatus() {
+    switch (this) {
+      case 'CREATING':
+        return IpAddressStatus.creating;
+      case 'FAILED_CREATION':
+        return IpAddressStatus.failedCreation;
+      case 'ATTACHING':
+        return IpAddressStatus.attaching;
+      case 'ATTACHED':
+        return IpAddressStatus.attached;
+      case 'REMAP_DETACHING':
+        return IpAddressStatus.remapDetaching;
+      case 'REMAP_ATTACHING':
+        return IpAddressStatus.remapAttaching;
+      case 'DETACHING':
+        return IpAddressStatus.detaching;
+      case 'FAILED_RESOURCE_GONE':
+        return IpAddressStatus.failedResourceGone;
+      case 'DELETING':
+        return IpAddressStatus.deleting;
+      case 'DELETE_FAILED_FAS_EXPIRED':
+        return IpAddressStatus.deleteFailedFasExpired;
+    }
+    throw Exception('$this is not known in enum IpAddressStatus');
+  }
 }
 
 /// In an <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html">UpdateResolverEndpoint</a>
 /// request, information about an IP address to update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IpAddressUpdate {
   /// The new IP address.
-  @_s.JsonKey(name: 'Ip')
-  final String ip;
+  final String? ip;
 
   /// <i>Only when removing an IP address from a Resolver endpoint</i>: The ID of
   /// the IP address that you want to remove. To get this ID, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html">GetResolverEndpoint</a>.
-  @_s.JsonKey(name: 'IpId')
-  final String ipId;
+  final String? ipId;
 
   /// The ID of the subnet that includes the IP address that you want to update.
   /// To get this ID, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html">GetResolverEndpoint</a>.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   IpAddressUpdate({
     this.ip,
     this.ipId,
     this.subnetId,
   });
-  Map<String, dynamic> toJson() => _$IpAddressUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final ip = this.ip;
+    final ipId = this.ipId;
+    final subnetId = this.subnetId;
+    return {
+      if (ip != null) 'Ip': ip,
+      if (ipId != null) 'IpId': ipId,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverDnssecConfigsResponse {
   /// If a response includes the last of the DNSSEC configurations that are
   /// associated with the current AWS account, <code>NextToken</code> doesn't
@@ -3301,48 +3322,45 @@ class ListResolverDnssecConfigsResponse {
   /// request. Get the value of <code>NextToken</code> that Amazon Route 53
   /// returned in the previous response and include it in <code>NextToken</code>
   /// in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html">ResolverDnssecConfig</a>
   /// element for each configuration for DNSSEC validation that is associated with
   /// the current AWS account.
-  @_s.JsonKey(name: 'ResolverDnssecConfigs')
-  final List<ResolverDnssecConfig> resolverDnssecConfigs;
+  final List<ResolverDnssecConfig>? resolverDnssecConfigs;
 
   ListResolverDnssecConfigsResponse({
     this.nextToken,
     this.resolverDnssecConfigs,
   });
   factory ListResolverDnssecConfigsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResolverDnssecConfigsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResolverDnssecConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      resolverDnssecConfigs: (json['ResolverDnssecConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResolverDnssecConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverEndpointIpAddressesResponse {
   /// Information about the IP addresses in your VPC that DNS queries originate
   /// from (for outbound endpoints) or that you forward DNS queries to (for
   /// inbound endpoints).
-  @_s.JsonKey(name: 'IpAddresses')
-  final List<IpAddressResponse> ipAddresses;
+  final List<IpAddressResponse>? ipAddresses;
 
   /// The value that you specified for <code>MaxResults</code> in the request.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// If the specified endpoint has more than <code>MaxResults</code> IP
   /// addresses, you can submit another
   /// <code>ListResolverEndpointIpAddresses</code> request to get the next group
   /// of IP addresses. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListResolverEndpointIpAddressesResponse({
     this.ipAddresses,
@@ -3350,59 +3368,60 @@ class ListResolverEndpointIpAddressesResponse {
     this.nextToken,
   });
   factory ListResolverEndpointIpAddressesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResolverEndpointIpAddressesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResolverEndpointIpAddressesResponse(
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpAddressResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxResults: json['MaxResults'] as int?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverEndpointsResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// If more than <code>MaxResults</code> IP addresses match the specified
   /// criteria, you can submit another <code>ListResolverEndpoint</code> request
   /// to get the next group of results. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The Resolver endpoints that were created by using the current AWS account,
   /// and that match the specified filters, if any.
-  @_s.JsonKey(name: 'ResolverEndpoints')
-  final List<ResolverEndpoint> resolverEndpoints;
+  final List<ResolverEndpoint>? resolverEndpoints;
 
   ListResolverEndpointsResponse({
     this.maxResults,
     this.nextToken,
     this.resolverEndpoints,
   });
-  factory ListResolverEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResolverEndpointsResponseFromJson(json);
+  factory ListResolverEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResolverEndpointsResponse(
+      maxResults: json['MaxResults'] as int?,
+      nextToken: json['NextToken'] as String?,
+      resolverEndpoints: (json['ResolverEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResolverEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverQueryLogConfigAssociationsResponse {
   /// If there are more than <code>MaxResults</code> query logging associations,
   /// you can submit another <code>ListResolverQueryLogConfigAssociations</code>
   /// request to get the next group of associations. In the next request, specify
   /// the value of <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list that contains one <code>ResolverQueryLogConfigAssociations</code>
   /// element for each query logging association that matches the values that you
   /// specified for <code>Filter</code>.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigAssociations')
-  final List<ResolverQueryLogConfigAssociation>
+  final List<ResolverQueryLogConfigAssociation>?
       resolverQueryLogConfigAssociations;
 
   /// The total number of query logging associations that were created by the
@@ -3410,16 +3429,14 @@ class ListResolverQueryLogConfigAssociationsResponse {
   /// number of associations that are returned in a
   /// <code>ListResolverQueryLogConfigAssociations</code> response, depending on
   /// the values that you specify in the request.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   /// The total number of query logging associations that were created by the
   /// current account in the specified Region and that match the filters that were
   /// specified in the <code>ListResolverQueryLogConfigAssociations</code>
   /// request. For the total number of associations that were created by the
   /// current account in the specified Region, see <code>TotalCount</code>.
-  @_s.JsonKey(name: 'TotalFilteredCount')
-  final int totalFilteredCount;
+  final int? totalFilteredCount;
 
   ListResolverQueryLogConfigAssociationsResponse({
     this.nextToken,
@@ -3428,44 +3445,46 @@ class ListResolverQueryLogConfigAssociationsResponse {
     this.totalFilteredCount,
   });
   factory ListResolverQueryLogConfigAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResolverQueryLogConfigAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResolverQueryLogConfigAssociationsResponse(
+      nextToken: json['NextToken'] as String?,
+      resolverQueryLogConfigAssociations:
+          (json['ResolverQueryLogConfigAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => ResolverQueryLogConfigAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      totalCount: json['TotalCount'] as int?,
+      totalFilteredCount: json['TotalFilteredCount'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverQueryLogConfigsResponse {
   /// If there are more than <code>MaxResults</code> query logging configurations,
   /// you can submit another <code>ListResolverQueryLogConfigs</code> request to
   /// get the next group of configurations. In the next request, specify the value
   /// of <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list that contains one <code>ResolverQueryLogConfig</code> element for
   /// each query logging configuration that matches the values that you specified
   /// for <code>Filter</code>.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigs')
-  final List<ResolverQueryLogConfig> resolverQueryLogConfigs;
+  final List<ResolverQueryLogConfig>? resolverQueryLogConfigs;
 
   /// The total number of query logging configurations that were created by the
   /// current account in the specified Region. This count can differ from the
   /// number of query logging configurations that are returned in a
   /// <code>ListResolverQueryLogConfigs</code> response, depending on the values
   /// that you specify in the request.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   /// The total number of query logging configurations that were created by the
   /// current account in the specified Region and that match the filters that were
   /// specified in the <code>ListResolverQueryLogConfigs</code> request. For the
   /// total number of query logging configurations that were created by the
   /// current account in the specified Region, see <code>TotalCount</code>.
-  @_s.JsonKey(name: 'TotalFilteredCount')
-  final int totalFilteredCount;
+  final int? totalFilteredCount;
 
   ListResolverQueryLogConfigsResponse({
     this.nextToken,
@@ -3474,31 +3493,33 @@ class ListResolverQueryLogConfigsResponse {
     this.totalFilteredCount,
   });
   factory ListResolverQueryLogConfigsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResolverQueryLogConfigsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResolverQueryLogConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      resolverQueryLogConfigs: (json['ResolverQueryLogConfigs'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ResolverQueryLogConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['TotalCount'] as int?,
+      totalFilteredCount: json['TotalFilteredCount'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverRuleAssociationsResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// If more than <code>MaxResults</code> rule associations match the specified
   /// criteria, you can submit another <code>ListResolverRuleAssociation</code>
   /// request to get the next group of results. In the next request, specify the
   /// value of <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The associations that were created between Resolver rules and VPCs using the
   /// current AWS account, and that match the specified filters, if any.
-  @_s.JsonKey(name: 'ResolverRuleAssociations')
-  final List<ResolverRuleAssociation> resolverRuleAssociations;
+  final List<ResolverRuleAssociation>? resolverRuleAssociations;
 
   ListResolverRuleAssociationsResponse({
     this.maxResults,
@@ -3506,137 +3527,160 @@ class ListResolverRuleAssociationsResponse {
     this.resolverRuleAssociations,
   });
   factory ListResolverRuleAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResolverRuleAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResolverRuleAssociationsResponse(
+      maxResults: json['MaxResults'] as int?,
+      nextToken: json['NextToken'] as String?,
+      resolverRuleAssociations: (json['ResolverRuleAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResolverRuleAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResolverRulesResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
-  @_s.JsonKey(name: 'MaxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// If more than <code>MaxResults</code> Resolver rules match the specified
   /// criteria, you can submit another <code>ListResolverRules</code> request to
   /// get the next group of results. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The Resolver rules that were created using the current AWS account and that
   /// match the specified filters, if any.
-  @_s.JsonKey(name: 'ResolverRules')
-  final List<ResolverRule> resolverRules;
+  final List<ResolverRule>? resolverRules;
 
   ListResolverRulesResponse({
     this.maxResults,
     this.nextToken,
     this.resolverRules,
   });
-  factory ListResolverRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResolverRulesResponseFromJson(json);
+  factory ListResolverRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResolverRulesResponse(
+      maxResults: json['MaxResults'] as int?,
+      nextToken: json['NextToken'] as String?,
+      resolverRules: (json['ResolverRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResolverRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// If more than <code>MaxResults</code> tags match the specified criteria, you
   /// can submit another <code>ListTagsForResource</code> request to get the next
   /// group of results. In the next request, specify the value of
   /// <code>NextToken</code> from the previous response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags that are associated with the resource that you specified in the
   /// <code>ListTagsForResource</code> request.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response to a <code>PutResolverQueryLogConfigPolicy</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResolverQueryLogConfigPolicyResponse {
   /// Whether the <code>PutResolverQueryLogConfigPolicy</code> request was
   /// successful.
-  @_s.JsonKey(name: 'ReturnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   PutResolverQueryLogConfigPolicyResponse({
     this.returnValue,
   });
   factory PutResolverQueryLogConfigPolicyResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutResolverQueryLogConfigPolicyResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutResolverQueryLogConfigPolicyResponse(
+      returnValue: json['ReturnValue'] as bool?,
+    );
+  }
 }
 
 /// The response to a <code>PutResolverRulePolicy</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResolverRulePolicyResponse {
   /// Whether the <code>PutResolverRulePolicy</code> request was successful.
-  @_s.JsonKey(name: 'ReturnValue')
-  final bool returnValue;
+  final bool? returnValue;
 
   PutResolverRulePolicyResponse({
     this.returnValue,
   });
-  factory PutResolverRulePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResolverRulePolicyResponseFromJson(json);
+  factory PutResolverRulePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResolverRulePolicyResponse(
+      returnValue: json['ReturnValue'] as bool?,
+    );
+  }
 }
 
 enum ResolverDNSSECValidationStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on ResolverDNSSECValidationStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverDNSSECValidationStatus.enabling:
+        return 'ENABLING';
+      case ResolverDNSSECValidationStatus.enabled:
+        return 'ENABLED';
+      case ResolverDNSSECValidationStatus.disabling:
+        return 'DISABLING';
+      case ResolverDNSSECValidationStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ResolverDNSSECValidationStatus toResolverDNSSECValidationStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return ResolverDNSSECValidationStatus.enabling;
+      case 'ENABLED':
+        return ResolverDNSSECValidationStatus.enabled;
+      case 'DISABLING':
+        return ResolverDNSSECValidationStatus.disabling;
+      case 'DISABLED':
+        return ResolverDNSSECValidationStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum ResolverDNSSECValidationStatus');
+  }
 }
 
 /// A complex type that contains information about a configuration for DNSSEC
 /// validation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverDnssecConfig {
   /// The ID for a configuration for DNSSEC validation.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The owner account ID of the virtual private cloud (VPC) for a configuration
   /// for DNSSEC validation.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The ID of the virtual private cloud (VPC) that you're configuring the DNSSEC
   /// validation status for.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The validation status for a DNSSEC configuration. The status can be one of
   /// the following:
@@ -3655,8 +3699,7 @@ class ResolverDnssecConfig {
   /// <b>DISABLED</b> DNSSEC validation is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ValidationStatus')
-  final ResolverDNSSECValidationStatus validationStatus;
+  final ResolverDNSSECValidationStatus? validationStatus;
 
   ResolverDnssecConfig({
     this.id,
@@ -3664,8 +3707,15 @@ class ResolverDnssecConfig {
     this.resourceId,
     this.validationStatus,
   });
-  factory ResolverDnssecConfig.fromJson(Map<String, dynamic> json) =>
-      _$ResolverDnssecConfigFromJson(json);
+  factory ResolverDnssecConfig.fromJson(Map<String, dynamic> json) {
+    return ResolverDnssecConfig(
+      id: json['Id'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      validationStatus: (json['ValidationStatus'] as String?)
+          ?.toResolverDNSSECValidationStatus(),
+    );
+  }
 }
 
 /// In the response to a <a
@@ -3680,26 +3730,18 @@ class ResolverDnssecConfig {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html">UpdateResolverEndpoint</a>
 /// request, a complex type that contains settings for an existing inbound or
 /// outbound Resolver endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverEndpoint {
   /// The ARN (Amazon Resource Name) for the Resolver endpoint.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time that the endpoint was created, in Unix time format and
   /// Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'CreationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// A unique string that identifies the request that created the Resolver
   /// endpoint. The <code>CreatorRequestId</code> allows failed requests to be
   /// retried without the risk of executing the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// Indicates whether the Resolver endpoint allows inbound or outbound DNS
   /// queries:
@@ -3712,32 +3754,26 @@ class ResolverEndpoint {
   /// <code>OUTBOUND</code>: allows DNS queries from your VPC to your network
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Direction')
-  final ResolverEndpointDirection direction;
+  final ResolverEndpointDirection? direction;
 
   /// The ID of the VPC that you want to create the Resolver endpoint in.
-  @_s.JsonKey(name: 'HostVPCId')
-  final String hostVPCId;
+  final String? hostVPCId;
 
   /// The ID of the Resolver endpoint.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The number of IP addresses that the Resolver endpoint can use for DNS
   /// queries.
-  @_s.JsonKey(name: 'IpAddressCount')
-  final int ipAddressCount;
+  final int? ipAddressCount;
 
   /// The date and time that the endpoint was last modified, in Unix time format
   /// and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'ModificationTime')
-  final String modificationTime;
+  final String? modificationTime;
 
   /// The name that you assigned to the Resolver endpoint when you submitted a <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html">CreateResolverEndpoint</a>
   /// request.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of one or more security groups that control access to this VPC. The
   /// security group must include one or more inbound rules (for inbound
@@ -3745,8 +3781,7 @@ class ResolverEndpoint {
   /// rules must allow TCP and UDP access. For inbound access, open port 53. For
   /// outbound access, open the port that you're using for DNS queries on your
   /// network.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A code that specifies the current status of the Resolver endpoint. Valid
   /// values include the following:
@@ -3798,12 +3833,10 @@ class ResolverEndpoint {
   /// network interfaces.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ResolverEndpointStatus status;
+  final ResolverEndpointStatus? status;
 
   /// A detailed description of the status of the Resolver endpoint.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   ResolverEndpoint({
     this.arn,
@@ -3819,14 +3852,29 @@ class ResolverEndpoint {
     this.status,
     this.statusMessage,
   });
-  factory ResolverEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$ResolverEndpointFromJson(json);
+  factory ResolverEndpoint.fromJson(Map<String, dynamic> json) {
+    return ResolverEndpoint(
+      arn: json['Arn'] as String?,
+      creationTime: json['CreationTime'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      direction: (json['Direction'] as String?)?.toResolverEndpointDirection(),
+      hostVPCId: json['HostVPCId'] as String?,
+      id: json['Id'] as String?,
+      ipAddressCount: json['IpAddressCount'] as int?,
+      modificationTime: json['ModificationTime'] as String?,
+      name: json['Name'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      status: (json['Status'] as String?)?.toResolverEndpointStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
 }
 
 enum ResolverEndpointDirection {
-  @_s.JsonValue('INBOUND')
   inbound,
-  @_s.JsonValue('OUTBOUND')
   outbound,
 }
 
@@ -3838,23 +3886,67 @@ extension on ResolverEndpointDirection {
       case ResolverEndpointDirection.outbound:
         return 'OUTBOUND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResolverEndpointDirection toResolverEndpointDirection() {
+    switch (this) {
+      case 'INBOUND':
+        return ResolverEndpointDirection.inbound;
+      case 'OUTBOUND':
+        return ResolverEndpointDirection.outbound;
+    }
+    throw Exception('$this is not known in enum ResolverEndpointDirection');
   }
 }
 
 enum ResolverEndpointStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('OPERATIONAL')
   operational,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('AUTO_RECOVERING')
   autoRecovering,
-  @_s.JsonValue('ACTION_NEEDED')
   actionNeeded,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on ResolverEndpointStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverEndpointStatus.creating:
+        return 'CREATING';
+      case ResolverEndpointStatus.operational:
+        return 'OPERATIONAL';
+      case ResolverEndpointStatus.updating:
+        return 'UPDATING';
+      case ResolverEndpointStatus.autoRecovering:
+        return 'AUTO_RECOVERING';
+      case ResolverEndpointStatus.actionNeeded:
+        return 'ACTION_NEEDED';
+      case ResolverEndpointStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ResolverEndpointStatus toResolverEndpointStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ResolverEndpointStatus.creating;
+      case 'OPERATIONAL':
+        return ResolverEndpointStatus.operational;
+      case 'UPDATING':
+        return ResolverEndpointStatus.updating;
+      case 'AUTO_RECOVERING':
+        return ResolverEndpointStatus.autoRecovering;
+      case 'ACTION_NEEDED':
+        return ResolverEndpointStatus.actionNeeded;
+      case 'DELETING':
+        return ResolverEndpointStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ResolverEndpointStatus');
+  }
 }
 
 /// In the response to a <a
@@ -3867,56 +3959,42 @@ enum ResolverEndpointStatus {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html">ListResolverQueryLogConfigs</a>
 /// request, a complex type that contains settings for one query logging
 /// configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverQueryLogConfig {
   /// The ARN for the query logging configuration.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The number of VPCs that are associated with the query logging configuration.
-  @_s.JsonKey(name: 'AssociationCount')
-  final int associationCount;
+  final int? associationCount;
 
   /// The date and time that the query logging configuration was created, in Unix
   /// time format and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'CreationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// A unique string that identifies the request that created the query logging
   /// configuration. The <code>CreatorRequestId</code> allows failed requests to
   /// be retried without the risk of executing the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// The ARN of the resource that you want Resolver to send query logs: an Amazon
   /// S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery
   /// stream.
-  @_s.JsonKey(name: 'DestinationArn')
-  final String destinationArn;
+  final String? destinationArn;
 
   /// The ID for the query logging configuration.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the query logging configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The AWS account ID for the account that created the query logging
   /// configuration.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// An indication of whether the query logging configuration is shared with
   /// other AWS accounts, or was shared with the current account by another AWS
   /// account. Sharing is configured through AWS Resource Access Manager (AWS
   /// RAM).
-  @_s.JsonKey(name: 'ShareStatus')
-  final ShareStatus shareStatus;
+  final ShareStatus? shareStatus;
 
   /// The status of the specified query logging configuration. Valid values
   /// include the following:
@@ -3946,8 +4024,7 @@ class ResolverQueryLogConfig {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ResolverQueryLogConfigStatus status;
+  final ResolverQueryLogConfigStatus? status;
 
   ResolverQueryLogConfig({
     this.arn,
@@ -3961,8 +4038,20 @@ class ResolverQueryLogConfig {
     this.shareStatus,
     this.status,
   });
-  factory ResolverQueryLogConfig.fromJson(Map<String, dynamic> json) =>
-      _$ResolverQueryLogConfigFromJson(json);
+  factory ResolverQueryLogConfig.fromJson(Map<String, dynamic> json) {
+    return ResolverQueryLogConfig(
+      arn: json['Arn'] as String?,
+      associationCount: json['AssociationCount'] as int?,
+      creationTime: json['CreationTime'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      destinationArn: json['DestinationArn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      status: (json['Status'] as String?)?.toResolverQueryLogConfigStatus(),
+    );
+  }
 }
 
 /// In the response to an <a
@@ -3975,16 +4064,10 @@ class ResolverQueryLogConfig {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html">ListResolverQueryLogConfigAssociations</a>,
 /// request, a complex type that contains settings for a specified association
 /// between an Amazon VPC and a query logging configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverQueryLogConfigAssociation {
   /// The date and time that the VPC was associated with the query logging
   /// configuration, in Unix time format and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'CreationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// If the value of <code>Status</code> is <code>FAILED</code>, the value of
   /// <code>Error</code> indicates the cause:
@@ -4001,27 +4084,22 @@ class ResolverQueryLogConfigAssociation {
   /// </ul>
   /// If the value of <code>Status</code> is a value other than
   /// <code>FAILED</code>, <code>Error</code> is null.
-  @_s.JsonKey(name: 'Error')
-  final ResolverQueryLogConfigAssociationError error;
+  final ResolverQueryLogConfigAssociationError? error;
 
   /// Contains additional information about the error. If the value or
   /// <code>Error</code> is null, the value of <code>ErrorMessage</code> also is
   /// null.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the query logging association.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the query logging configuration that a VPC is associated with.
-  @_s.JsonKey(name: 'ResolverQueryLogConfigId')
-  final String resolverQueryLogConfigId;
+  final String? resolverQueryLogConfigId;
 
   /// The ID of the Amazon VPC that is associated with the query logging
   /// configuration.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The status of the specified query logging association. Valid values include
   /// the following:
@@ -4044,8 +4122,7 @@ class ResolverQueryLogConfigAssociation {
   /// query logging association.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ResolverQueryLogConfigAssociationStatus status;
+  final ResolverQueryLogConfigAssociationStatus? status;
 
   ResolverQueryLogConfigAssociation({
     this.creationTime,
@@ -4057,43 +4134,142 @@ class ResolverQueryLogConfigAssociation {
     this.status,
   });
   factory ResolverQueryLogConfigAssociation.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResolverQueryLogConfigAssociationFromJson(json);
+      Map<String, dynamic> json) {
+    return ResolverQueryLogConfigAssociation(
+      creationTime: json['CreationTime'] as String?,
+      error: (json['Error'] as String?)
+          ?.toResolverQueryLogConfigAssociationError(),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+      resolverQueryLogConfigId: json['ResolverQueryLogConfigId'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      status: (json['Status'] as String?)
+          ?.toResolverQueryLogConfigAssociationStatus(),
+    );
+  }
 }
 
 enum ResolverQueryLogConfigAssociationError {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('DESTINATION_NOT_FOUND')
   destinationNotFound,
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('INTERNAL_SERVICE_ERROR')
   internalServiceError,
 }
 
+extension on ResolverQueryLogConfigAssociationError {
+  String toValue() {
+    switch (this) {
+      case ResolverQueryLogConfigAssociationError.none:
+        return 'NONE';
+      case ResolverQueryLogConfigAssociationError.destinationNotFound:
+        return 'DESTINATION_NOT_FOUND';
+      case ResolverQueryLogConfigAssociationError.accessDenied:
+        return 'ACCESS_DENIED';
+      case ResolverQueryLogConfigAssociationError.internalServiceError:
+        return 'INTERNAL_SERVICE_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ResolverQueryLogConfigAssociationError
+      toResolverQueryLogConfigAssociationError() {
+    switch (this) {
+      case 'NONE':
+        return ResolverQueryLogConfigAssociationError.none;
+      case 'DESTINATION_NOT_FOUND':
+        return ResolverQueryLogConfigAssociationError.destinationNotFound;
+      case 'ACCESS_DENIED':
+        return ResolverQueryLogConfigAssociationError.accessDenied;
+      case 'INTERNAL_SERVICE_ERROR':
+        return ResolverQueryLogConfigAssociationError.internalServiceError;
+    }
+    throw Exception(
+        '$this is not known in enum ResolverQueryLogConfigAssociationError');
+  }
+}
+
 enum ResolverQueryLogConfigAssociationStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('ACTION_NEEDED')
   actionNeeded,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ResolverQueryLogConfigAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverQueryLogConfigAssociationStatus.creating:
+        return 'CREATING';
+      case ResolverQueryLogConfigAssociationStatus.active:
+        return 'ACTIVE';
+      case ResolverQueryLogConfigAssociationStatus.actionNeeded:
+        return 'ACTION_NEEDED';
+      case ResolverQueryLogConfigAssociationStatus.deleting:
+        return 'DELETING';
+      case ResolverQueryLogConfigAssociationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ResolverQueryLogConfigAssociationStatus
+      toResolverQueryLogConfigAssociationStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ResolverQueryLogConfigAssociationStatus.creating;
+      case 'ACTIVE':
+        return ResolverQueryLogConfigAssociationStatus.active;
+      case 'ACTION_NEEDED':
+        return ResolverQueryLogConfigAssociationStatus.actionNeeded;
+      case 'DELETING':
+        return ResolverQueryLogConfigAssociationStatus.deleting;
+      case 'FAILED':
+        return ResolverQueryLogConfigAssociationStatus.failed;
+    }
+    throw Exception(
+        '$this is not known in enum ResolverQueryLogConfigAssociationStatus');
+  }
+}
+
 enum ResolverQueryLogConfigStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on ResolverQueryLogConfigStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverQueryLogConfigStatus.creating:
+        return 'CREATING';
+      case ResolverQueryLogConfigStatus.created:
+        return 'CREATED';
+      case ResolverQueryLogConfigStatus.deleting:
+        return 'DELETING';
+      case ResolverQueryLogConfigStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ResolverQueryLogConfigStatus toResolverQueryLogConfigStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ResolverQueryLogConfigStatus.creating;
+      case 'CREATED':
+        return ResolverQueryLogConfigStatus.created;
+      case 'DELETING':
+        return ResolverQueryLogConfigStatus.deleting;
+      case 'FAILED':
+        return ResolverQueryLogConfigStatus.failed;
+    }
+    throw Exception('$this is not known in enum ResolverQueryLogConfigStatus');
+  }
 }
 
 /// For queries that originate in your VPC, detailed information about a
@@ -4109,57 +4285,43 @@ enum ResolverQueryLogConfigStatus {
 /// or <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html">UpdateResolverRule</a>
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverRule {
   /// The ARN (Amazon Resource Name) for the Resolver rule specified by
   /// <code>Id</code>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time that the Resolver rule was created, in Unix time format
   /// and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'CreationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// A unique string that you specified when you created the Resolver rule.
   /// <code>CreatorRequestId</code> identifies the request and allows failed
   /// requests to be retried without the risk of executing the operation twice.
-  @_s.JsonKey(name: 'CreatorRequestId')
-  final String creatorRequestId;
+  final String? creatorRequestId;
 
   /// DNS queries for this domain name are forwarded to the IP addresses that are
   /// specified in <code>TargetIps</code>. If a query matches multiple Resolver
   /// rules (example.com and www.example.com), the query is routed using the
   /// Resolver rule that contains the most specific domain name (www.example.com).
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID that Resolver assigned to the Resolver rule when you created it.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The date and time that the Resolver rule was last updated, in Unix time
   /// format and Coordinated Universal Time (UTC).
-  @_s.JsonKey(name: 'ModificationTime')
-  final String modificationTime;
+  final String? modificationTime;
 
   /// The name for the Resolver rule, which you specified when you created the
   /// Resolver rule.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// When a rule is shared with another AWS account, the account ID of the
   /// account that the rule is shared with.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The ID of the endpoint that the rule is associated with.
-  @_s.JsonKey(name: 'ResolverEndpointId')
-  final String resolverEndpointId;
+  final String? resolverEndpointId;
 
   /// When you want to forward DNS queries for specified domain name to resolvers
   /// on your network, specify <code>FORWARD</code>.
@@ -4176,28 +4338,23 @@ class ResolverRule {
   ///
   /// Currently, only Resolver can create rules that have a value of
   /// <code>RECURSIVE</code> for <code>RuleType</code>.
-  @_s.JsonKey(name: 'RuleType')
-  final RuleTypeOption ruleType;
+  final RuleTypeOption? ruleType;
 
   /// Whether the rules is shared and, if so, whether the current account is
   /// sharing the rule with another account, or another account is sharing the
   /// rule with the current account.
-  @_s.JsonKey(name: 'ShareStatus')
-  final ShareStatus shareStatus;
+  final ShareStatus? shareStatus;
 
   /// A code that specifies the current status of the Resolver rule.
-  @_s.JsonKey(name: 'Status')
-  final ResolverRuleStatus status;
+  final ResolverRuleStatus? status;
 
   /// A detailed description of the status of a Resolver rule.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// An array that contains the IP addresses and ports that an outbound endpoint
   /// forwards DNS queries to. Typically, these are the IP addresses of DNS
   /// resolvers on your network. Specify IPv4 addresses. IPv6 is not supported.
-  @_s.JsonKey(name: 'TargetIps')
-  final List<TargetAddress> targetIps;
+  final List<TargetAddress>? targetIps;
 
   ResolverRule({
     this.arn,
@@ -4215,8 +4372,27 @@ class ResolverRule {
     this.statusMessage,
     this.targetIps,
   });
-  factory ResolverRule.fromJson(Map<String, dynamic> json) =>
-      _$ResolverRuleFromJson(json);
+  factory ResolverRule.fromJson(Map<String, dynamic> json) {
+    return ResolverRule(
+      arn: json['Arn'] as String?,
+      creationTime: json['CreationTime'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      domainName: json['DomainName'] as String?,
+      id: json['Id'] as String?,
+      modificationTime: json['ModificationTime'] as String?,
+      name: json['Name'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      resolverEndpointId: json['ResolverEndpointId'] as String?,
+      ruleType: (json['RuleType'] as String?)?.toRuleTypeOption(),
+      shareStatus: (json['ShareStatus'] as String?)?.toShareStatus(),
+      status: (json['Status'] as String?)?.toResolverRuleStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      targetIps: (json['TargetIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// In the response to an <a
@@ -4228,41 +4404,30 @@ class ResolverRule {
 /// request, provides information about an association between a Resolver rule
 /// and a VPC. The association determines which DNS queries that originate in
 /// the VPC are forwarded to your network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolverRuleAssociation {
   /// The ID of the association between a Resolver rule and a VPC. Resolver
   /// assigns this value when you submit an <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html">AssociateResolverRule</a>
   /// request.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of an association between a Resolver rule and a VPC.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the Resolver rule that you associated with the VPC that is
   /// specified by <code>VPCId</code>.
-  @_s.JsonKey(name: 'ResolverRuleId')
-  final String resolverRuleId;
+  final String? resolverRuleId;
 
   /// A code that specifies the current status of the association between a
   /// Resolver rule and a VPC.
-  @_s.JsonKey(name: 'Status')
-  final ResolverRuleAssociationStatus status;
+  final ResolverRuleAssociationStatus? status;
 
   /// A detailed description of the status of the association between a Resolver
   /// rule and a VPC.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The ID of the VPC that you associated the Resolver rule with.
-  @_s.JsonKey(name: 'VPCId')
-  final String vPCId;
+  final String? vPCId;
 
   ResolverRuleAssociation({
     this.id,
@@ -4272,72 +4437,135 @@ class ResolverRuleAssociation {
     this.statusMessage,
     this.vPCId,
   });
-  factory ResolverRuleAssociation.fromJson(Map<String, dynamic> json) =>
-      _$ResolverRuleAssociationFromJson(json);
+  factory ResolverRuleAssociation.fromJson(Map<String, dynamic> json) {
+    return ResolverRuleAssociation(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      resolverRuleId: json['ResolverRuleId'] as String?,
+      status: (json['Status'] as String?)?.toResolverRuleAssociationStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      vPCId: json['VPCId'] as String?,
+    );
+  }
 }
 
 enum ResolverRuleAssociationStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('OVERRIDDEN')
   overridden,
+}
+
+extension on ResolverRuleAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverRuleAssociationStatus.creating:
+        return 'CREATING';
+      case ResolverRuleAssociationStatus.complete:
+        return 'COMPLETE';
+      case ResolverRuleAssociationStatus.deleting:
+        return 'DELETING';
+      case ResolverRuleAssociationStatus.failed:
+        return 'FAILED';
+      case ResolverRuleAssociationStatus.overridden:
+        return 'OVERRIDDEN';
+    }
+  }
+}
+
+extension on String {
+  ResolverRuleAssociationStatus toResolverRuleAssociationStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ResolverRuleAssociationStatus.creating;
+      case 'COMPLETE':
+        return ResolverRuleAssociationStatus.complete;
+      case 'DELETING':
+        return ResolverRuleAssociationStatus.deleting;
+      case 'FAILED':
+        return ResolverRuleAssociationStatus.failed;
+      case 'OVERRIDDEN':
+        return ResolverRuleAssociationStatus.overridden;
+    }
+    throw Exception('$this is not known in enum ResolverRuleAssociationStatus');
+  }
 }
 
 /// In an <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html">UpdateResolverRule</a>
 /// request, information about the changes that you want to make.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResolverRuleConfig {
   /// The new name for the Resolver rule. The name that you specify appears in the
   /// Resolver dashboard in the Route 53 console.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the new outbound Resolver endpoint that you want to use to route
   /// DNS queries to the IP addresses that you specify in <code>TargetIps</code>.
-  @_s.JsonKey(name: 'ResolverEndpointId')
-  final String resolverEndpointId;
+  final String? resolverEndpointId;
 
   /// For DNS queries that originate in your VPC, the new IP addresses that you
   /// want to route outbound DNS queries to.
-  @_s.JsonKey(name: 'TargetIps')
-  final List<TargetAddress> targetIps;
+  final List<TargetAddress>? targetIps;
 
   ResolverRuleConfig({
     this.name,
     this.resolverEndpointId,
     this.targetIps,
   });
-  Map<String, dynamic> toJson() => _$ResolverRuleConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final resolverEndpointId = this.resolverEndpointId;
+    final targetIps = this.targetIps;
+    return {
+      if (name != null) 'Name': name,
+      if (resolverEndpointId != null) 'ResolverEndpointId': resolverEndpointId,
+      if (targetIps != null) 'TargetIps': targetIps,
+    };
+  }
 }
 
 enum ResolverRuleStatus {
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ResolverRuleStatus {
+  String toValue() {
+    switch (this) {
+      case ResolverRuleStatus.complete:
+        return 'COMPLETE';
+      case ResolverRuleStatus.deleting:
+        return 'DELETING';
+      case ResolverRuleStatus.updating:
+        return 'UPDATING';
+      case ResolverRuleStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ResolverRuleStatus toResolverRuleStatus() {
+    switch (this) {
+      case 'COMPLETE':
+        return ResolverRuleStatus.complete;
+      case 'DELETING':
+        return ResolverRuleStatus.deleting;
+      case 'UPDATING':
+        return ResolverRuleStatus.updating;
+      case 'FAILED':
+        return ResolverRuleStatus.failed;
+    }
+    throw Exception('$this is not known in enum ResolverRuleStatus');
+  }
+}
+
 enum RuleTypeOption {
-  @_s.JsonValue('FORWARD')
   forward,
-  @_s.JsonValue('SYSTEM')
   system,
-  @_s.JsonValue('RECURSIVE')
   recursive,
 }
 
@@ -4351,23 +4579,58 @@ extension on RuleTypeOption {
       case RuleTypeOption.recursive:
         return 'RECURSIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RuleTypeOption toRuleTypeOption() {
+    switch (this) {
+      case 'FORWARD':
+        return RuleTypeOption.forward;
+      case 'SYSTEM':
+        return RuleTypeOption.system;
+      case 'RECURSIVE':
+        return RuleTypeOption.recursive;
+    }
+    throw Exception('$this is not known in enum RuleTypeOption');
   }
 }
 
 enum ShareStatus {
-  @_s.JsonValue('NOT_SHARED')
   notShared,
-  @_s.JsonValue('SHARED_WITH_ME')
   sharedWithMe,
-  @_s.JsonValue('SHARED_BY_ME')
   sharedByMe,
 }
 
+extension on ShareStatus {
+  String toValue() {
+    switch (this) {
+      case ShareStatus.notShared:
+        return 'NOT_SHARED';
+      case ShareStatus.sharedWithMe:
+        return 'SHARED_WITH_ME';
+      case ShareStatus.sharedByMe:
+        return 'SHARED_BY_ME';
+    }
+  }
+}
+
+extension on String {
+  ShareStatus toShareStatus() {
+    switch (this) {
+      case 'NOT_SHARED':
+        return ShareStatus.notShared;
+      case 'SHARED_WITH_ME':
+        return ShareStatus.sharedWithMe;
+      case 'SHARED_BY_ME':
+        return ShareStatus.sharedByMe;
+    }
+    throw Exception('$this is not known in enum ShareStatus');
+  }
+}
+
 enum SortOrder {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
@@ -4379,146 +4642,155 @@ extension on SortOrder {
       case SortOrder.descending:
         return 'DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
 /// One tag that you want to add to the specified resource. A tag consists of a
 /// <code>Key</code> (a name for the tag) and a <code>Value</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The name for the tag. For example, if you want to associate Resolver
   /// resources with the account IDs of your customers for billing purposes, the
   /// value of <code>Key</code> might be <code>account-id</code>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for the tag. For example, if <code>Key</code> is
   /// <code>account-id</code>, then <code>Value</code> might be the ID of the
   /// customer account that you're creating the resource for.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// In a <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html">CreateResolverRule</a>
 /// request, an array of the IPs that you want to forward DNS queries to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetAddress {
   /// One IP address that you want to forward DNS queries to. You can specify only
   /// IPv4 addresses.
-  @_s.JsonKey(name: 'Ip')
   final String ip;
 
   /// The port at <code>Ip</code> that you want to forward DNS queries to.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   TargetAddress({
-    @_s.required this.ip,
+    required this.ip,
     this.port,
   });
-  factory TargetAddress.fromJson(Map<String, dynamic> json) =>
-      _$TargetAddressFromJson(json);
+  factory TargetAddress.fromJson(Map<String, dynamic> json) {
+    return TargetAddress(
+      ip: json['Ip'] as String,
+      port: json['Port'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TargetAddressToJson(this);
+  Map<String, dynamic> toJson() {
+    final ip = this.ip;
+    final port = this.port;
+    return {
+      'Ip': ip,
+      if (port != null) 'Port': port,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResolverDnssecConfigResponse {
   /// A complex type that contains settings for the specified DNSSEC
   /// configuration.
-  @_s.JsonKey(name: 'ResolverDNSSECConfig')
-  final ResolverDnssecConfig resolverDNSSECConfig;
+  final ResolverDnssecConfig? resolverDNSSECConfig;
 
   UpdateResolverDnssecConfigResponse({
     this.resolverDNSSECConfig,
   });
   factory UpdateResolverDnssecConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateResolverDnssecConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateResolverDnssecConfigResponse(
+      resolverDNSSECConfig: json['ResolverDNSSECConfig'] != null
+          ? ResolverDnssecConfig.fromJson(
+              json['ResolverDNSSECConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResolverEndpointResponse {
   /// The response to an <code>UpdateResolverEndpoint</code> request.
-  @_s.JsonKey(name: 'ResolverEndpoint')
-  final ResolverEndpoint resolverEndpoint;
+  final ResolverEndpoint? resolverEndpoint;
 
   UpdateResolverEndpointResponse({
     this.resolverEndpoint,
   });
-  factory UpdateResolverEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResolverEndpointResponseFromJson(json);
+  factory UpdateResolverEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResolverEndpointResponse(
+      resolverEndpoint: json['ResolverEndpoint'] != null
+          ? ResolverEndpoint.fromJson(
+              json['ResolverEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResolverRuleResponse {
   /// The response to an <code>UpdateResolverRule</code> request.
-  @_s.JsonKey(name: 'ResolverRule')
-  final ResolverRule resolverRule;
+  final ResolverRule? resolverRule;
 
   UpdateResolverRuleResponse({
     this.resolverRule,
   });
-  factory UpdateResolverRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResolverRuleResponseFromJson(json);
+  factory UpdateResolverRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResolverRuleResponse(
+      resolverRule: json['ResolverRule'] != null
+          ? ResolverRule.fromJson(json['ResolverRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum Validation {
-  @_s.JsonValue('ENABLE')
   enable,
-  @_s.JsonValue('DISABLE')
   disable,
 }
 
@@ -4530,17 +4802,28 @@ extension on Validation {
       case Validation.disable:
         return 'DISABLE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Validation toValidation() {
+    switch (this) {
+      case 'ENABLE':
+        return Validation.enable;
+      case 'DISABLE':
+        return Validation.disable;
+    }
+    throw Exception('$this is not known in enum Validation');
   }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
-  InternalServiceErrorException({String type, String message})
+  InternalServiceErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'InternalServiceErrorException',
@@ -4548,63 +4831,63 @@ class InternalServiceErrorException extends _s.GenericAwsException {
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidPolicyDocument extends _s.GenericAwsException {
-  InvalidPolicyDocument({String type, String message})
+  InvalidPolicyDocument({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyDocument', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class InvalidTagException extends _s.GenericAwsException {
-  InvalidTagException({String type, String message})
+  InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceExistsException extends _s.GenericAwsException {
-  ResourceExistsException({String type, String message})
+  ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceUnavailableException extends _s.GenericAwsException {
-  ResourceUnavailableException({String type, String message})
+  ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnknownResourceException extends _s.GenericAwsException {
-  UnknownResourceException({String type, String message})
+  UnknownResourceException({String? type, String? message})
       : super(type: type, code: 'UnknownResourceException', message: message);
 }
 

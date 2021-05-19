@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'elasticbeanstalk-2010-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'elasticbeanstalk-2010-12-01.g.dart';
 
 /// AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage
 /// scalable, fault-tolerant applications running on the Amazon Web Services
@@ -35,9 +27,9 @@ class ElasticBeanstalk {
   final Map<String, _s.Shape> shapes;
 
   ElasticBeanstalk({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +54,8 @@ class ElasticBeanstalk {
   /// This specifies the name of the environment with the in-progress update
   /// that you want to cancel.
   Future<void> abortEnvironmentUpdate({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -103,9 +95,9 @@ class ElasticBeanstalk {
   /// Parameter [environmentName] :
   /// The name of the target environment.
   Future<ApplyEnvironmentManagedActionResult> applyEnvironmentManagedAction({
-    @_s.required String actionId,
-    String environmentId,
-    String environmentName,
+    required String actionId,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(actionId, 'actionId');
     final $request = <String, dynamic>{};
@@ -142,8 +134,8 @@ class ElasticBeanstalk {
   /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the
   /// environment's operations role.
   Future<void> associateEnvironmentOperationsRole({
-    @_s.required String environmentName,
-    @_s.required String operationsRole,
+    required String environmentName,
+    required String operationsRole,
   }) async {
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
@@ -181,7 +173,7 @@ class ElasticBeanstalk {
   /// Parameter [cNAMEPrefix] :
   /// The prefix used when this CNAME is reserved.
   Future<CheckDNSAvailabilityResultMessage> checkDNSAvailability({
-    @_s.required String cNAMEPrefix,
+    required String cNAMEPrefix,
   }) async {
     ArgumentError.checkNotNull(cNAMEPrefix, 'cNAMEPrefix');
     _s.validateStringLength(
@@ -236,9 +228,9 @@ class ElasticBeanstalk {
   /// and the name of the solution stack to use, and optionally can specify
   /// environment links to create.
   Future<EnvironmentDescriptionsMessage> composeEnvironments({
-    String applicationName,
-    String groupName,
-    List<String> versionLabels,
+    String? applicationName,
+    String? groupName,
+    List<String>? versionLabels,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -291,10 +283,10 @@ class ElasticBeanstalk {
   /// Elastic Beanstalk applies these tags only to the application. Environments
   /// that you create in the application don't inherit the tags.
   Future<ApplicationDescriptionMessage> createApplication({
-    @_s.required String applicationName,
-    String description,
-    ApplicationResourceLifecycleConfig resourceLifecycleConfig,
-    List<Tag> tags,
+    required String applicationName,
+    String? description,
+    ApplicationResourceLifecycleConfig? resourceLifecycleConfig,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -416,15 +408,15 @@ class ElasticBeanstalk {
   /// Elastic Beanstalk applies these tags only to the application version.
   /// Environments that use the application version don't inherit the tags.
   Future<ApplicationVersionDescriptionMessage> createApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    bool autoCreateApplication,
-    BuildConfiguration buildConfiguration,
-    String description,
-    bool process,
-    SourceBuildInformation sourceBuildInformation,
-    S3Location sourceBundle,
-    List<Tag> tags,
+    required String applicationName,
+    required String versionLabel,
+    bool? autoCreateApplication,
+    BuildConfiguration? buildConfiguration,
+    String? description,
+    bool? process,
+    SourceBuildInformation? sourceBuildInformation,
+    S3Location? sourceBundle,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -575,15 +567,15 @@ class ElasticBeanstalk {
   /// Parameter [tags] :
   /// Specifies the tags applied to the configuration template.
   Future<ConfigurationSettingsDescription> createConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
-    String description,
-    String environmentId,
-    List<ConfigurationOptionSetting> optionSettings,
-    String platformArn,
-    String solutionStackName,
-    SourceConfiguration sourceConfiguration,
-    List<Tag> tags,
+    required String applicationName,
+    required String templateName,
+    String? description,
+    String? environmentId,
+    List<ConfigurationOptionSetting>? optionSettings,
+    String? platformArn,
+    String? solutionStackName,
+    SourceConfiguration? sourceConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -735,20 +727,20 @@ class ElasticBeanstalk {
   /// Default: If not specified, Elastic Beanstalk attempts to deploy the sample
   /// application.
   Future<EnvironmentDescription> createEnvironment({
-    @_s.required String applicationName,
-    String cNAMEPrefix,
-    String description,
-    String environmentName,
-    String groupName,
-    String operationsRole,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
-    String platformArn,
-    String solutionStackName,
-    List<Tag> tags,
-    String templateName,
-    EnvironmentTier tier,
-    String versionLabel,
+    required String applicationName,
+    String? cNAMEPrefix,
+    String? description,
+    String? environmentName,
+    String? groupName,
+    String? operationsRole,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
+    String? platformArn,
+    String? solutionStackName,
+    List<Tag>? tags,
+    String? templateName,
+    EnvironmentTier? tier,
+    String? versionLabel,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -857,12 +849,12 @@ class ElasticBeanstalk {
   /// Environments that you create using the platform version don't inherit the
   /// tags.
   Future<CreatePlatformVersionResult> createPlatformVersion({
-    @_s.required S3Location platformDefinitionBundle,
-    @_s.required String platformName,
-    @_s.required String platformVersion,
-    String environmentName,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<Tag> tags,
+    required S3Location platformDefinitionBundle,
+    required String platformName,
+    required String platformVersion,
+    String? environmentName,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         platformDefinitionBundle, 'platformDefinitionBundle');
@@ -936,8 +928,8 @@ class ElasticBeanstalk {
   /// When set to true, running environments will be terminated before deleting
   /// the application.
   Future<void> deleteApplication({
-    @_s.required String applicationName,
-    bool terminateEnvByForce,
+    required String applicationName,
+    bool? terminateEnvByForce,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -984,9 +976,9 @@ class ElasticBeanstalk {
   /// bucket. Otherwise, the application version is deleted only from Elastic
   /// Beanstalk and the source bundle remains in Amazon S3.
   Future<void> deleteApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    bool deleteSourceBundle,
+    required String applicationName,
+    required String versionLabel,
+    bool? deleteSourceBundle,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1036,8 +1028,8 @@ class ElasticBeanstalk {
   /// Parameter [templateName] :
   /// The name of the configuration template to delete.
   Future<void> deleteConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
+    required String applicationName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1086,8 +1078,8 @@ class ElasticBeanstalk {
   /// Parameter [environmentName] :
   /// The name of the environment to delete the draft configuration from.
   Future<void> deleteEnvironmentConfiguration({
-    @_s.required String applicationName,
-    @_s.required String environmentName,
+    required String applicationName,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1130,7 +1122,7 @@ class ElasticBeanstalk {
   /// Parameter [platformArn] :
   /// The ARN of the version of the custom platform.
   Future<DeletePlatformVersionResult> deletePlatformVersion({
-    String platformArn,
+    String? platformArn,
   }) async {
     final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
@@ -1192,10 +1184,10 @@ class ElasticBeanstalk {
   /// Parameter [versionLabels] :
   /// Specify a version label to show a specific application version.
   Future<ApplicationVersionDescriptionsMessage> describeApplicationVersions({
-    String applicationName,
-    int maxRecords,
-    String nextToken,
-    List<String> versionLabels,
+    String? applicationName,
+    int? maxRecords,
+    String? nextToken,
+    List<String>? versionLabels,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1234,7 +1226,7 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// only include those with the specified names.
   Future<ApplicationDescriptionsMessage> describeApplications({
-    List<String> applicationNames,
+    List<String>? applicationNames,
   }) async {
     final $request = <String, dynamic>{};
     applicationNames?.also((arg) => $request['ApplicationNames'] = arg);
@@ -1283,12 +1275,12 @@ class ElasticBeanstalk {
   /// The name of the configuration template whose configuration options you
   /// want to describe.
   Future<ConfigurationOptionsDescription> describeConfigurationOptions({
-    String applicationName,
-    String environmentName,
-    List<OptionSpecification> options,
-    String platformArn,
-    String solutionStackName,
-    String templateName,
+    String? applicationName,
+    String? environmentName,
+    List<OptionSpecification>? options,
+    String? platformArn,
+    String? solutionStackName,
+    String? templateName,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1370,9 +1362,9 @@ class ElasticBeanstalk {
   /// either, AWS Elastic Beanstalk returns a
   /// <code>MissingRequiredParameter</code> error.
   Future<ConfigurationSettingsDescriptions> describeConfigurationSettings({
-    @_s.required String applicationName,
-    String environmentName,
-    String templateName,
+    required String applicationName,
+    String? environmentName,
+    String? templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1434,9 +1426,9 @@ class ElasticBeanstalk {
   ///
   /// You must specify either this or an EnvironmentName, or both.
   Future<DescribeEnvironmentHealthResult> describeEnvironmentHealth({
-    List<EnvironmentHealthAttribute> attributeNames,
-    String environmentId,
-    String environmentName,
+    List<EnvironmentHealthAttribute>? attributeNames,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1445,8 +1437,8 @@ class ElasticBeanstalk {
       40,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
@@ -1480,10 +1472,10 @@ class ElasticBeanstalk {
   /// The pagination token returned by a previous request.
   Future<DescribeEnvironmentManagedActionHistoryResult>
       describeEnvironmentManagedActionHistory({
-    String environmentId,
-    String environmentName,
-    int maxItems,
-    String nextToken,
+    String? environmentId,
+    String? environmentName,
+    int? maxItems,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1530,9 +1522,9 @@ class ElasticBeanstalk {
   /// To show only actions with a particular status, specify a status.
   Future<DescribeEnvironmentManagedActionsResult>
       describeEnvironmentManagedActions({
-    String environmentId,
-    String environmentName,
-    ActionStatus status,
+    String? environmentId,
+    String? environmentName,
+    ActionStatus? status,
   }) async {
     final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
@@ -1570,8 +1562,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<EnvironmentResourceDescriptionsMessage> describeEnvironmentResources({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1640,14 +1632,14 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// include only those that are associated with this application version.
   Future<EnvironmentDescriptionsMessage> describeEnvironments({
-    String applicationName,
-    List<String> environmentIds,
-    List<String> environmentNames,
-    bool includeDeleted,
-    DateTime includedDeletedBackTo,
-    int maxRecords,
-    String nextToken,
-    String versionLabel,
+    String? applicationName,
+    List<String>? environmentIds,
+    List<String>? environmentNames,
+    bool? includeDeleted,
+    DateTime? includedDeletedBackTo,
+    int? maxRecords,
+    String? nextToken,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1747,18 +1739,18 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// those associated with this application version.
   Future<EventDescriptionsMessage> describeEvents({
-    String applicationName,
-    DateTime endTime,
-    String environmentId,
-    String environmentName,
-    int maxRecords,
-    String nextToken,
-    String platformArn,
-    String requestId,
-    EventSeverity severity,
-    DateTime startTime,
-    String templateName,
-    String versionLabel,
+    String? applicationName,
+    DateTime? endTime,
+    String? environmentId,
+    String? environmentName,
+    int? maxRecords,
+    String? nextToken,
+    String? platformArn,
+    String? requestId,
+    EventSeverity? severity,
+    DateTime? startTime,
+    String? templateName,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1839,10 +1831,10 @@ class ElasticBeanstalk {
   /// Parameter [nextToken] :
   /// Specify the pagination token returned by a previous call.
   Future<DescribeInstancesHealthResult> describeInstancesHealth({
-    List<InstancesHealthAttribute> attributeNames,
-    String environmentId,
-    String environmentName,
-    String nextToken,
+    List<InstancesHealthAttribute>? attributeNames,
+    String? environmentId,
+    String? environmentName,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1857,8 +1849,8 @@ class ElasticBeanstalk {
       100,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -1891,7 +1883,7 @@ class ElasticBeanstalk {
   /// Parameter [platformArn] :
   /// The ARN of the platform version.
   Future<DescribePlatformVersionResult> describePlatformVersion({
-    String platformArn,
+    String? platformArn,
   }) async {
     final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
@@ -1922,7 +1914,7 @@ class ElasticBeanstalk {
   /// The name of the environment from which to disassociate the operations
   /// role.
   Future<void> disassociateEnvironmentOperationsRole({
-    @_s.required String environmentName,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
@@ -2044,9 +2036,9 @@ class ElasticBeanstalk {
   ///
   /// If no <code>NextToken</code> is specified, the first page is retrieved.
   Future<ListPlatformBranchesResult> listPlatformBranches({
-    List<SearchFilter> filters,
-    int maxRecords,
-    String nextToken,
+    List<SearchFilter>? filters,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -2100,9 +2092,9 @@ class ElasticBeanstalk {
   ///
   /// If no <code>NextToken</code> is specified, the first page is retrieved.
   Future<ListPlatformVersionsResult> listPlatformVersions({
-    List<PlatformFilter> filters,
-    int maxRecords,
-    String nextToken,
+    List<PlatformFilter>? filters,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -2146,7 +2138,7 @@ class ElasticBeanstalk {
   ///
   /// Must be the ARN of an Elastic Beanstalk resource.
   Future<ResourceTagsDescriptionMessage> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
@@ -2185,8 +2177,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> rebuildEnvironment({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2254,9 +2246,9 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> requestEnvironmentInfo({
-    @_s.required EnvironmentInfoType infoType,
-    String environmentId,
-    String environmentName,
+    required EnvironmentInfoType infoType,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
     _s.validateStringLength(
@@ -2298,8 +2290,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> restartAppServer({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2356,9 +2348,9 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<RetrieveEnvironmentInfoResultMessage> retrieveEnvironmentInfo({
-    @_s.required EnvironmentInfoType infoType,
-    String environmentId,
-    String environmentName,
+    required EnvironmentInfoType infoType,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
     _s.validateStringLength(
@@ -2421,10 +2413,10 @@ class ElasticBeanstalk {
   /// you specify the <code>SourceEnvironmentName</code>, you must specify the
   /// <code>DestinationEnvironmentName</code>.
   Future<void> swapEnvironmentCNAMEs({
-    String destinationEnvironmentId,
-    String destinationEnvironmentName,
-    String sourceEnvironmentId,
-    String sourceEnvironmentName,
+    String? destinationEnvironmentId,
+    String? destinationEnvironmentName,
+    String? sourceEnvironmentId,
+    String? sourceEnvironmentName,
   }) async {
     _s.validateStringLength(
       'destinationEnvironmentName',
@@ -2502,10 +2494,10 @@ class ElasticBeanstalk {
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<EnvironmentDescription> terminateEnvironment({
-    String environmentId,
-    String environmentName,
-    bool forceTerminate,
-    bool terminateResources,
+    String? environmentId,
+    String? environmentName,
+    bool? forceTerminate,
+    bool? terminateResources,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2550,8 +2542,8 @@ class ElasticBeanstalk {
   /// Default: If not specified, AWS Elastic Beanstalk does not update the
   /// description.
   Future<ApplicationDescriptionMessage> updateApplication({
-    @_s.required String applicationName,
-    String description,
+    required String applicationName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2595,8 +2587,8 @@ class ElasticBeanstalk {
   /// The lifecycle configuration.
   Future<ApplicationResourceLifecycleDescriptionMessage>
       updateApplicationResourceLifecycle({
-    @_s.required String applicationName,
-    @_s.required ApplicationResourceLifecycleConfig resourceLifecycleConfig,
+    required String applicationName,
+    required ApplicationResourceLifecycleConfig resourceLifecycleConfig,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2648,9 +2640,9 @@ class ElasticBeanstalk {
   /// Parameter [description] :
   /// A new description for this version.
   Future<ApplicationVersionDescriptionMessage> updateApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    String description,
+    required String applicationName,
+    required String versionLabel,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2738,11 +2730,11 @@ class ElasticBeanstalk {
   /// Constraint: You can remove only <code>UserDefined</code> configuration
   /// options.
   Future<ConfigurationSettingsDescription> updateConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
-    String description,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
+    required String applicationName,
+    required String templateName,
+    String? description,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2870,18 +2862,18 @@ class ElasticBeanstalk {
   /// application version to the environment. If no such application version is
   /// found, returns an <code>InvalidParameterValue</code> error.
   Future<EnvironmentDescription> updateEnvironment({
-    String applicationName,
-    String description,
-    String environmentId,
-    String environmentName,
-    String groupName,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
-    String platformArn,
-    String solutionStackName,
-    String templateName,
-    EnvironmentTier tier,
-    String versionLabel,
+    String? applicationName,
+    String? description,
+    String? environmentId,
+    String? environmentName,
+    String? groupName,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
+    String? platformArn,
+    String? solutionStackName,
+    String? templateName,
+    EnvironmentTier? tier,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -2994,9 +2986,9 @@ class ElasticBeanstalk {
   /// Specify at least one of these parameters: <code>TagsToAdd</code>,
   /// <code>TagsToRemove</code>.
   Future<void> updateTagsForResource({
-    @_s.required String resourceArn,
-    List<Tag> tagsToAdd,
-    List<String> tagsToRemove,
+    required String resourceArn,
+    List<Tag>? tagsToAdd,
+    List<String>? tagsToRemove,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
@@ -3042,10 +3034,10 @@ class ElasticBeanstalk {
   /// Condition: You cannot specify both this and an environment name.
   Future<ConfigurationSettingsValidationMessages>
       validateConfigurationSettings({
-    @_s.required String applicationName,
-    @_s.required List<ConfigurationOptionSetting> optionSettings,
-    String environmentName,
-    String templateName,
+    required String applicationName,
+    required List<ConfigurationOptionSetting> optionSettings,
+    String? environmentName,
+    String? templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -3089,12 +3081,22 @@ class ElasticBeanstalk {
 }
 
 enum ActionHistoryStatus {
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Unknown')
   unknown,
+}
+
+extension on ActionHistoryStatus {
+  String toValue() {
+    switch (this) {
+      case ActionHistoryStatus.completed:
+        return 'Completed';
+      case ActionHistoryStatus.failed:
+        return 'Failed';
+      case ActionHistoryStatus.unknown:
+        return 'Unknown';
+    }
+  }
 }
 
 extension on String {
@@ -3107,18 +3109,14 @@ extension on String {
       case 'Unknown':
         return ActionHistoryStatus.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionHistoryStatus');
   }
 }
 
 enum ActionStatus {
-  @_s.JsonValue('Scheduled')
   scheduled,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Running')
   running,
-  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -3134,7 +3132,6 @@ extension on ActionStatus {
       case ActionStatus.unknown:
         return 'Unknown';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3150,17 +3147,27 @@ extension on String {
       case 'Unknown':
         return ActionStatus.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionStatus');
   }
 }
 
 enum ActionType {
-  @_s.JsonValue('InstanceRefresh')
   instanceRefresh,
-  @_s.JsonValue('PlatformUpdate')
   platformUpdate,
-  @_s.JsonValue('Unknown')
   unknown,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.instanceRefresh:
+        return 'InstanceRefresh';
+      case ActionType.platformUpdate:
+        return 'PlatformUpdate';
+      case ActionType.unknown:
+        return 'Unknown';
+    }
+  }
 }
 
 extension on String {
@@ -3173,35 +3180,35 @@ extension on String {
       case 'Unknown':
         return ActionType.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionType');
   }
 }
 
 /// Describes the properties of an application.
 class ApplicationDescription {
   /// The Amazon Resource Name (ARN) of the application.
-  final String applicationArn;
+  final String? applicationArn;
 
   /// The name of the application.
-  final String applicationName;
+  final String? applicationName;
 
   /// The names of the configuration templates associated with this application.
-  final List<String> configurationTemplates;
+  final List<String>? configurationTemplates;
 
   /// The date when the application was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date when the application was last modified.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// User-defined description of the application.
-  final String description;
+  final String? description;
 
   /// The lifecycle settings for the application.
-  final ApplicationResourceLifecycleConfig resourceLifecycleConfig;
+  final ApplicationResourceLifecycleConfig? resourceLifecycleConfig;
 
   /// The names of the versions for this application.
-  final List<String> versions;
+  final List<String>? versions;
 
   ApplicationDescription({
     this.applicationArn,
@@ -3236,7 +3243,7 @@ class ApplicationDescription {
 /// Result message containing a single description of an application.
 class ApplicationDescriptionMessage {
   /// The <a>ApplicationDescription</a> of the application.
-  final ApplicationDescription application;
+  final ApplicationDescription? application;
 
   ApplicationDescriptionMessage({
     this.application,
@@ -3253,7 +3260,7 @@ class ApplicationDescriptionMessage {
 /// Result message containing a list of application descriptions.
 class ApplicationDescriptionsMessage {
   /// This parameter contains a list of <a>ApplicationDescription</a>.
-  final List<ApplicationDescription> applications;
+  final List<ApplicationDescription>? applications;
 
   ApplicationDescriptionsMessage({
     this.applications,
@@ -3273,20 +3280,20 @@ class ApplicationMetrics {
   /// The amount of time that the metrics cover (usually 10 seconds). For example,
   /// you might have 5 requests (<code>request_count</code>) within the most
   /// recent time slice of 10 seconds (<code>duration</code>).
-  final int duration;
+  final int? duration;
 
   /// Represents the average latency for the slowest X percent of requests over
   /// the last 10 seconds. Latencies are in seconds with one millisecond
   /// resolution.
-  final Latency latency;
+  final Latency? latency;
 
   /// Average number of requests handled by the web server per second over the
   /// last 10 seconds.
-  final int requestCount;
+  final int? requestCount;
 
   /// Represents the percentage of requests over the last 10 seconds that resulted
   /// in each type of status code response.
-  final StatusCodes statusCodes;
+  final StatusCodes? statusCodes;
 
   ApplicationMetrics({
     this.duration,
@@ -3312,11 +3319,6 @@ class ApplicationMetrics {
 /// that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The
 /// version lifecycle configuration defines lifecycle settings for application
 /// versions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationResourceLifecycleConfig {
   /// The ARN of an IAM service role that Elastic Beanstalk has permission to
   /// assume.
@@ -3329,12 +3331,10 @@ class ApplicationResourceLifecycleConfig {
   /// the application, and you don't need to specify it again in subsequent
   /// <code>UpdateApplicationResourceLifecycle</code> calls. You can, however,
   /// specify it in subsequent calls to change the Service Role to another value.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Defines lifecycle settings for application versions.
-  @_s.JsonKey(name: 'VersionLifecycleConfig')
-  final ApplicationVersionLifecycleConfig versionLifecycleConfig;
+  final ApplicationVersionLifecycleConfig? versionLifecycleConfig;
 
   ApplicationResourceLifecycleConfig({
     this.serviceRole,
@@ -3349,16 +3349,23 @@ class ApplicationResourceLifecycleConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$ApplicationResourceLifecycleConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final serviceRole = this.serviceRole;
+    final versionLifecycleConfig = this.versionLifecycleConfig;
+    return {
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (versionLifecycleConfig != null)
+        'VersionLifecycleConfig': versionLifecycleConfig,
+    };
+  }
 }
 
 class ApplicationResourceLifecycleDescriptionMessage {
   /// The name of the application.
-  final String applicationName;
+  final String? applicationName;
 
   /// The lifecycle configuration.
-  final ApplicationResourceLifecycleConfig resourceLifecycleConfig;
+  final ApplicationResourceLifecycleConfig? resourceLifecycleConfig;
 
   ApplicationResourceLifecycleDescriptionMessage({
     this.applicationName,
@@ -3378,30 +3385,30 @@ class ApplicationResourceLifecycleDescriptionMessage {
 /// Describes the properties of an application version.
 class ApplicationVersionDescription {
   /// The name of the application to which the application version belongs.
-  final String applicationName;
+  final String? applicationName;
 
   /// The Amazon Resource Name (ARN) of the application version.
-  final String applicationVersionArn;
+  final String? applicationVersionArn;
 
   /// Reference to the artifact from the AWS CodeBuild build.
-  final String buildArn;
+  final String? buildArn;
 
   /// The creation date of the application version.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The last modified date of the application version.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// The description of the application version.
-  final String description;
+  final String? description;
 
   /// If the version's source code was retrieved from AWS CodeCommit, the location
   /// of the source code for the application version.
-  final SourceBuildInformation sourceBuildInformation;
+  final SourceBuildInformation? sourceBuildInformation;
 
   /// The storage location of the application version's source bundle in Amazon
   /// S3.
-  final S3Location sourceBundle;
+  final S3Location? sourceBundle;
 
   /// The processing status of the application version. Reflects the state of the
   /// application version during its creation. Many of the values are only
@@ -3432,10 +3439,10 @@ class ApplicationVersionDescription {
   /// files didn't pass validation. This application version isn't usable.
   /// </li>
   /// </ul>
-  final ApplicationVersionStatus status;
+  final ApplicationVersionStatus? status;
 
   /// A unique identifier for the application version.
-  final String versionLabel;
+  final String? versionLabel;
 
   ApplicationVersionDescription({
     this.applicationName,
@@ -3475,7 +3482,7 @@ class ApplicationVersionDescription {
 /// Result message wrapping a single description of an application version.
 class ApplicationVersionDescriptionMessage {
   /// The <a>ApplicationVersionDescription</a> of the application version.
-  final ApplicationVersionDescription applicationVersion;
+  final ApplicationVersionDescription? applicationVersion;
 
   ApplicationVersionDescriptionMessage({
     this.applicationVersion,
@@ -3493,11 +3500,11 @@ class ApplicationVersionDescriptionMessage {
 class ApplicationVersionDescriptionsMessage {
   /// List of <code>ApplicationVersionDescription</code> objects sorted in order
   /// of creation.
-  final List<ApplicationVersionDescription> applicationVersions;
+  final List<ApplicationVersionDescription>? applicationVersions;
 
   /// In a paginated request, the token that you can pass in a subsequent request
   /// to get the next response page.
-  final String nextToken;
+  final String? nextToken;
 
   ApplicationVersionDescriptionsMessage({
     this.applicationVersions,
@@ -3522,21 +3529,14 @@ class ApplicationVersionDescriptionsMessage {
 /// When Elastic Beanstalk deletes an application version from its database, you
 /// can no longer deploy that version to an environment. The source bundle
 /// remains in S3 unless you configure the rule to delete it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationVersionLifecycleConfig {
   /// Specify a max age rule to restrict the length of time that application
   /// versions are retained for an application.
-  @_s.JsonKey(name: 'MaxAgeRule')
-  final MaxAgeRule maxAgeRule;
+  final MaxAgeRule? maxAgeRule;
 
   /// Specify a max count rule to restrict the number of application versions that
   /// are retained for an application.
-  @_s.JsonKey(name: 'MaxCountRule')
-  final MaxCountRule maxCountRule;
+  final MaxCountRule? maxCountRule;
 
   ApplicationVersionLifecycleConfig({
     this.maxAgeRule,
@@ -3553,21 +3553,39 @@ class ApplicationVersionLifecycleConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$ApplicationVersionLifecycleConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxAgeRule = this.maxAgeRule;
+    final maxCountRule = this.maxCountRule;
+    return {
+      if (maxAgeRule != null) 'MaxAgeRule': maxAgeRule,
+      if (maxCountRule != null) 'MaxCountRule': maxCountRule,
+    };
+  }
 }
 
 enum ApplicationVersionStatus {
-  @_s.JsonValue('Processed')
   processed,
-  @_s.JsonValue('Unprocessed')
   unprocessed,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Building')
   building,
+}
+
+extension on ApplicationVersionStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationVersionStatus.processed:
+        return 'Processed';
+      case ApplicationVersionStatus.unprocessed:
+        return 'Unprocessed';
+      case ApplicationVersionStatus.failed:
+        return 'Failed';
+      case ApplicationVersionStatus.processing:
+        return 'Processing';
+      case ApplicationVersionStatus.building:
+        return 'Building';
+    }
+  }
 }
 
 extension on String {
@@ -3584,23 +3602,23 @@ extension on String {
       case 'Building':
         return ApplicationVersionStatus.building;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ApplicationVersionStatus');
   }
 }
 
 /// The result message containing information about the managed action.
 class ApplyEnvironmentManagedActionResult {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// The action ID of the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The status of the managed action.
-  final String status;
+  final String? status;
 
   ApplyEnvironmentManagedActionResult({
     this.actionDescription,
@@ -3621,7 +3639,7 @@ class ApplyEnvironmentManagedActionResult {
 /// Describes an Auto Scaling launch configuration.
 class AutoScalingGroup {
   /// The name of the <code>AutoScalingGroup</code> .
-  final String name;
+  final String? name;
 
   AutoScalingGroup({
     this.name,
@@ -3634,20 +3652,13 @@ class AutoScalingGroup {
 }
 
 /// Settings for an AWS CodeBuild build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BuildConfiguration {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that enables AWS CodeBuild to interact with dependent AWS
   /// services on behalf of the AWS account.
-  @_s.JsonKey(name: 'CodeBuildServiceRole')
   final String codeBuildServiceRole;
 
   /// The ID of the Docker image to use for this build project.
-  @_s.JsonKey(name: 'Image')
   final String image;
 
   /// The name of the artifact of the CodeBuild build. If provided, Elastic
@@ -3656,8 +3667,7 @@ class BuildConfiguration {
   /// If not provided, Elastic Beanstalk stores the build artifact in the S3
   /// location
   /// <i>S3-bucket</i>/resources/<i>application-name</i>/codebuild/codebuild-<i>version-label</i>.zip.
-  @_s.JsonKey(name: 'ArtifactName')
-  final String artifactName;
+  final String? artifactName;
 
   /// Information about the compute resources the build project will use.
   ///
@@ -3675,29 +3685,40 @@ class BuildConfiguration {
   /// builds</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ComputeType')
-  final ComputeType computeType;
+  final ComputeType? computeType;
 
   /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
   /// until timing out any related build that does not get marked as completed.
   /// The default is 60 minutes.
-  @_s.JsonKey(name: 'TimeoutInMinutes')
-  final int timeoutInMinutes;
+  final int? timeoutInMinutes;
 
   BuildConfiguration({
-    @_s.required this.codeBuildServiceRole,
-    @_s.required this.image,
+    required this.codeBuildServiceRole,
+    required this.image,
     this.artifactName,
     this.computeType,
     this.timeoutInMinutes,
   });
-  Map<String, dynamic> toJson() => _$BuildConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final codeBuildServiceRole = this.codeBuildServiceRole;
+    final image = this.image;
+    final artifactName = this.artifactName;
+    final computeType = this.computeType;
+    final timeoutInMinutes = this.timeoutInMinutes;
+    return {
+      'CodeBuildServiceRole': codeBuildServiceRole,
+      'Image': image,
+      if (artifactName != null) 'ArtifactName': artifactName,
+      if (computeType != null) 'ComputeType': computeType.toValue(),
+      if (timeoutInMinutes != null) 'TimeoutInMinutes': timeoutInMinutes,
+    };
+  }
 }
 
 /// The builder used to build the custom platform.
 class Builder {
   /// The ARN of the builder.
-  final String arn;
+  final String? arn;
 
   Builder({
     this.arn,
@@ -3715,45 +3736,45 @@ class CPUUtilization {
   ///
   /// Percentage of time that the CPU has spent in the <code>I/O Wait</code> state
   /// over the last 10 seconds.
-  final double iOWait;
+  final double? iOWait;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>IRQ</code> state over
   /// the last 10 seconds.
-  final double irq;
+  final double? irq;
 
   /// Percentage of time that the CPU has spent in the <code>Idle</code> state
   /// over the last 10 seconds.
-  final double idle;
+  final double? idle;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>Nice</code> state
   /// over the last 10 seconds.
-  final double nice;
+  final double? nice;
 
   /// Available on Windows environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>Privileged</code>
   /// state over the last 10 seconds.
-  final double privileged;
+  final double? privileged;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>SoftIRQ</code> state
   /// over the last 10 seconds.
-  final double softIRQ;
+  final double? softIRQ;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>System</code> state
   /// over the last 10 seconds.
-  final double system;
+  final double? system;
 
   /// Percentage of time that the CPU has spent in the <code>User</code> state
   /// over the last 10 seconds.
-  final double user;
+  final double? user;
 
   CPUUtilization({
     this.iOWait,
@@ -3791,11 +3812,11 @@ class CheckDNSAvailabilityResultMessage {
   /// <code>false</code> : The CNAME is not available.
   /// </li>
   /// </ul>
-  final bool available;
+  final bool? available;
 
   /// The fully qualified CNAME to reserve when <a>CreateEnvironment</a> is called
   /// with the provided prefix.
-  final String fullyQualifiedCNAME;
+  final String? fullyQualifiedCNAME;
 
   CheckDNSAvailabilityResultMessage({
     this.available,
@@ -3811,12 +3832,22 @@ class CheckDNSAvailabilityResultMessage {
 }
 
 enum ComputeType {
-  @_s.JsonValue('BUILD_GENERAL1_SMALL')
   buildGeneral1Small,
-  @_s.JsonValue('BUILD_GENERAL1_MEDIUM')
   buildGeneral1Medium,
-  @_s.JsonValue('BUILD_GENERAL1_LARGE')
   buildGeneral1Large,
+}
+
+extension on ComputeType {
+  String toValue() {
+    switch (this) {
+      case ComputeType.buildGeneral1Small:
+        return 'BUILD_GENERAL1_SMALL';
+      case ComputeType.buildGeneral1Medium:
+        return 'BUILD_GENERAL1_MEDIUM';
+      case ComputeType.buildGeneral1Large:
+        return 'BUILD_GENERAL1_LARGE';
+    }
+  }
 }
 
 extension on String {
@@ -3829,17 +3860,27 @@ extension on String {
       case 'BUILD_GENERAL1_LARGE':
         return ComputeType.buildGeneral1Large;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ComputeType');
   }
 }
 
 enum ConfigurationDeploymentStatus {
-  @_s.JsonValue('deployed')
   deployed,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('failed')
   failed,
+}
+
+extension on ConfigurationDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigurationDeploymentStatus.deployed:
+        return 'deployed';
+      case ConfigurationDeploymentStatus.pending:
+        return 'pending';
+      case ConfigurationDeploymentStatus.failed:
+        return 'failed';
+    }
+  }
 }
 
 extension on String {
@@ -3852,7 +3893,7 @@ extension on String {
       case 'failed':
         return ConfigurationDeploymentStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ConfigurationDeploymentStatus');
   }
 }
 
@@ -3877,32 +3918,32 @@ class ConfigurationOptionDescription {
   /// servers on the running Amazon EC2 instances are restarted.
   /// </li>
   /// </ul>
-  final String changeSeverity;
+  final String? changeSeverity;
 
   /// The default value for this configuration option.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// If specified, the configuration option must be a string value no longer than
   /// this value.
-  final int maxLength;
+  final int? maxLength;
 
   /// If specified, the configuration option must be a numeric value less than
   /// this value.
-  final int maxValue;
+  final int? maxValue;
 
   /// If specified, the configuration option must be a numeric value greater than
   /// this value.
-  final int minValue;
+  final int? minValue;
 
   /// The name of the configuration option.
-  final String name;
+  final String? name;
 
   /// A unique namespace identifying the option's associated AWS resource.
-  final String namespace;
+  final String? namespace;
 
   /// If specified, the configuration option must be a string value that satisfies
   /// this regular expression.
-  final OptionRestrictionRegex regex;
+  final OptionRestrictionRegex? regex;
 
   /// An indication of whether the user defined this configuration option:
   ///
@@ -3920,11 +3961,11 @@ class ConfigurationOptionDescription {
   /// configuration.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  final bool userDefined;
+  final bool? userDefined;
 
   /// If specified, values for the configuration option are selected from this
   /// list.
-  final List<String> valueOptions;
+  final List<String>? valueOptions;
 
   /// An indication of which type of values this option has and whether it is
   /// allowable to select one or more than one of the possible values:
@@ -3948,7 +3989,7 @@ class ConfigurationOptionDescription {
   /// <code>ConfigDocument</code>.
   /// </li>
   /// </ul>
-  final ConfigurationOptionValueType valueType;
+  final ConfigurationOptionValueType? valueType;
 
   ConfigurationOptionDescription({
     this.changeSeverity,
@@ -3991,28 +4032,19 @@ class ConfigurationOptionDescription {
 /// <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
 /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConfigurationOptionSetting {
   /// A unique namespace that identifies the option's associated AWS resource.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the configuration option.
-  @_s.JsonKey(name: 'OptionName')
-  final String optionName;
+  final String? optionName;
 
   /// A unique resource name for the option setting. Use it for a time–based
   /// scaling configuration option.
-  @_s.JsonKey(name: 'ResourceName')
-  final String resourceName;
+  final String? resourceName;
 
   /// The current value for the configuration option.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ConfigurationOptionSetting({
     this.namespace,
@@ -4029,14 +4061,34 @@ class ConfigurationOptionSetting {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ConfigurationOptionSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final optionName = this.optionName;
+    final resourceName = this.resourceName;
+    final value = this.value;
+    return {
+      if (namespace != null) 'Namespace': namespace,
+      if (optionName != null) 'OptionName': optionName,
+      if (resourceName != null) 'ResourceName': resourceName,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum ConfigurationOptionValueType {
-  @_s.JsonValue('Scalar')
   scalar,
-  @_s.JsonValue('List')
   list,
+}
+
+extension on ConfigurationOptionValueType {
+  String toValue() {
+    switch (this) {
+      case ConfigurationOptionValueType.scalar:
+        return 'Scalar';
+      case ConfigurationOptionValueType.list:
+        return 'List';
+    }
+  }
 }
 
 extension on String {
@@ -4047,20 +4099,20 @@ extension on String {
       case 'List':
         return ConfigurationOptionValueType.list;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ConfigurationOptionValueType');
   }
 }
 
 /// Describes the settings for a specified configuration set.
 class ConfigurationOptionsDescription {
   /// A list of <a>ConfigurationOptionDescription</a>.
-  final List<ConfigurationOptionDescription> options;
+  final List<ConfigurationOptionDescription>? options;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The name of the solution stack these configuration options belong to.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   ConfigurationOptionsDescription({
     this.options,
@@ -4082,13 +4134,13 @@ class ConfigurationOptionsDescription {
 /// Describes the settings for a configuration set.
 class ConfigurationSettingsDescription {
   /// The name of the application associated with this configuration set.
-  final String applicationName;
+  final String? applicationName;
 
   /// The date (in UTC time) when this configuration set was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date (in UTC time) when this configuration set was last modified.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// If this configuration set is associated with an environment, the
   /// <code>DeploymentStatus</code> parameter indicates the deployment status of
@@ -4112,28 +4164,28 @@ class ConfigurationSettingsDescription {
   /// successfully deploy.
   /// </li>
   /// </ul>
-  final ConfigurationDeploymentStatus deploymentStatus;
+  final ConfigurationDeploymentStatus? deploymentStatus;
 
   /// Describes this configuration set.
-  final String description;
+  final String? description;
 
   /// If not <code>null</code>, the name of the environment for this configuration
   /// set.
-  final String environmentName;
+  final String? environmentName;
 
   /// A list of the configuration options and their values in this configuration
   /// set.
-  final List<ConfigurationOptionSetting> optionSettings;
+  final List<ConfigurationOptionSetting>? optionSettings;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The name of the solution stack this configuration set uses.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// If not <code>null</code>, the name of the configuration template for this
   /// configuration set.
-  final String templateName;
+  final String? templateName;
 
   ConfigurationSettingsDescription({
     this.applicationName,
@@ -4173,7 +4225,7 @@ class ConfigurationSettingsDescription {
 /// environment.
 class ConfigurationSettingsDescriptions {
   /// A list of <a>ConfigurationSettingsDescription</a>.
-  final List<ConfigurationSettingsDescription> configurationSettings;
+  final List<ConfigurationSettingsDescription>? configurationSettings;
 
   ConfigurationSettingsDescriptions({
     this.configurationSettings,
@@ -4193,7 +4245,7 @@ class ConfigurationSettingsDescriptions {
 /// Provides a list of validation messages.
 class ConfigurationSettingsValidationMessages {
   /// A list of <a>ValidationMessage</a>.
-  final List<ValidationMessage> messages;
+  final List<ValidationMessage>? messages;
 
   ConfigurationSettingsValidationMessages({
     this.messages,
@@ -4210,10 +4262,10 @@ class ConfigurationSettingsValidationMessages {
 
 class CreatePlatformVersionResult {
   /// The builder used to create the custom platform.
-  final Builder builder;
+  final Builder? builder;
 
   /// Detailed information about the new version of the custom platform.
-  final PlatformSummary platformSummary;
+  final PlatformSummary? platformSummary;
 
   CreatePlatformVersionResult({
     this.builder,
@@ -4233,7 +4285,7 @@ class CreatePlatformVersionResult {
 /// Results of a <a>CreateStorageLocationResult</a> call.
 class CreateStorageLocationResultMessage {
   /// The name of the Amazon S3 bucket created.
-  final String s3Bucket;
+  final String? s3Bucket;
 
   CreateStorageLocationResultMessage({
     this.s3Bucket,
@@ -4248,10 +4300,10 @@ class CreateStorageLocationResultMessage {
 /// A custom AMI available to platforms.
 class CustomAmi {
   /// THe ID of the image used to create the custom AMI.
-  final String imageId;
+  final String? imageId;
 
   /// The type of virtualization used to create the custom AMI.
-  final String virtualizationType;
+  final String? virtualizationType;
 
   CustomAmi({
     this.imageId,
@@ -4267,7 +4319,7 @@ class CustomAmi {
 
 class DeletePlatformVersionResult {
   /// Detailed information about the version of the custom platform.
-  final PlatformSummary platformSummary;
+  final PlatformSummary? platformSummary;
 
   DeletePlatformVersionResult({
     this.platformSummary,
@@ -4285,12 +4337,12 @@ class DeletePlatformVersionResult {
 class Deployment {
   /// The ID of the deployment. This number increases by one each time that you
   /// deploy source code or change instance configuration settings.
-  final int deploymentId;
+  final int? deploymentId;
 
   /// For in-progress deployments, the time that the deployment started.
   ///
   /// For completed deployments, the time that the deployment ended.
-  final DateTime deploymentTime;
+  final DateTime? deploymentTime;
 
   /// The status of the deployment:
   ///
@@ -4305,10 +4357,10 @@ class Deployment {
   /// <code>Failed</code> : The deployment failed.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   /// The version label of the application version in the deployment.
-  final String versionLabel;
+  final String? versionLabel;
 
   Deployment({
     this.deploymentId,
@@ -4329,7 +4381,7 @@ class Deployment {
 class DescribeAccountAttributesResult {
   /// The Elastic Beanstalk resource quotas associated with the calling AWS
   /// account.
-  final ResourceQuotas resourceQuotas;
+  final ResourceQuotas? resourceQuotas;
 
   DescribeAccountAttributesResult({
     this.resourceQuotas,
@@ -4346,35 +4398,35 @@ class DescribeAccountAttributesResult {
 /// Health details for an AWS Elastic Beanstalk environment.
 class DescribeEnvironmentHealthResult {
   /// Application request metrics for the environment.
-  final ApplicationMetrics applicationMetrics;
+  final ApplicationMetrics? applicationMetrics;
 
   /// Descriptions of the data that contributed to the environment's current
   /// health status.
-  final List<String> causes;
+  final List<String>? causes;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">health
   /// color</a> of the environment.
-  final String color;
+  final String? color;
 
   /// The environment's name.
-  final String environmentName;
+  final String? environmentName;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">health
   /// status</a> of the environment. For example, <code>Ok</code>.
-  final String healthStatus;
+  final String? healthStatus;
 
   /// Summary health information for the instances in the environment.
-  final InstanceHealthSummary instancesHealth;
+  final InstanceHealthSummary? instancesHealth;
 
   /// The date and time that the health information was retrieved.
-  final DateTime refreshedAt;
+  final DateTime? refreshedAt;
 
   /// The environment's operational status. <code>Ready</code>,
   /// <code>Launching</code>, <code>Updating</code>, <code>Terminating</code>, or
   /// <code>Terminated</code>.
-  final EnvironmentHealth status;
+  final EnvironmentHealth? status;
 
   DescribeEnvironmentHealthResult({
     this.applicationMetrics,
@@ -4409,12 +4461,12 @@ class DescribeEnvironmentHealthResult {
 /// A result message containing a list of completed and failed managed actions.
 class DescribeEnvironmentManagedActionHistoryResult {
   /// A list of completed and failed managed actions.
-  final List<ManagedActionHistoryItem> managedActionHistoryItems;
+  final List<ManagedActionHistoryItem>? managedActionHistoryItems;
 
   /// A pagination token that you pass to
   /// <a>DescribeEnvironmentManagedActionHistory</a> to get the next page of
   /// results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEnvironmentManagedActionHistoryResult({
     this.managedActionHistoryItems,
@@ -4437,7 +4489,7 @@ class DescribeEnvironmentManagedActionHistoryResult {
 /// The result message containing a list of managed actions.
 class DescribeEnvironmentManagedActionsResult {
   /// A list of upcoming and in-progress managed actions.
-  final List<ManagedAction> managedActions;
+  final List<ManagedAction>? managedActions;
 
   DescribeEnvironmentManagedActionsResult({
     this.managedActions,
@@ -4461,13 +4513,13 @@ class DescribeInstancesHealthResult {
   /// The output differs slightly between Linux and Windows environments. There is
   /// a difference in the members that are supported under the
   /// <code>&lt;CPUUtilization&gt;</code> type.
-  final List<SingleInstanceHealth> instanceHealthList;
+  final List<SingleInstanceHealth>? instanceHealthList;
 
   /// Pagination token for the next page of results, if available.
-  final String nextToken;
+  final String? nextToken;
 
   /// The date and time that the health information was retrieved.
-  final DateTime refreshedAt;
+  final DateTime? refreshedAt;
 
   DescribeInstancesHealthResult({
     this.instanceHealthList,
@@ -4489,7 +4541,7 @@ class DescribeInstancesHealthResult {
 
 class DescribePlatformVersionResult {
   /// Detailed information about the platform version.
-  final PlatformDescription platformDescription;
+  final PlatformDescription? platformDescription;
 
   DescribePlatformVersionResult({
     this.platformDescription,
@@ -4511,39 +4563,39 @@ class EnvironmentDescription {
   /// <code>true:</code> There is an update in progress.
   ///
   /// <code>false:</code> There are no updates currently in progress.
-  final bool abortableOperationInProgress;
+  final bool? abortableOperationInProgress;
 
   /// The name of the application associated with this environment.
-  final String applicationName;
+  final String? applicationName;
 
   /// The URL to the CNAME for this environment.
-  final String cname;
+  final String? cname;
 
   /// The creation date for this environment.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The last modified date for this environment.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// Describes this environment.
-  final String description;
+  final String? description;
 
   /// For load-balanced, autoscaling environments, the URL to the LoadBalancer.
   /// For single-instance environments, the IP address of the instance.
-  final String endpointURL;
+  final String? endpointURL;
 
   /// The environment's Amazon Resource Name (ARN), which can be used in other API
   /// requests that require an ARN.
-  final String environmentArn;
+  final String? environmentArn;
 
   /// The ID of this environment.
-  final String environmentId;
+  final String? environmentId;
 
   /// A list of links to other environments in the same group.
-  final List<EnvironmentLink> environmentLinks;
+  final List<EnvironmentLink>? environmentLinks;
 
   /// The name of this environment.
-  final String environmentName;
+  final String? environmentName;
 
   /// Describes the health status of the environment. AWS Elastic Beanstalk
   /// indicates the failure levels for a running environment:
@@ -4569,28 +4621,28 @@ class EnvironmentDescription {
   /// </li>
   /// </ul>
   /// Default: <code>Grey</code>
-  final EnvironmentHealth health;
+  final EnvironmentHealth? health;
 
   /// Returns the health status of the application running in your environment.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final EnvironmentHealthStatus healthStatus;
+  final EnvironmentHealthStatus? healthStatus;
 
   /// The Amazon Resource Name (ARN) of the environment's operations role. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
   /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
-  final String operationsRole;
+  final String? operationsRole;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The description of the AWS resources used by this environment.
-  final EnvironmentResourcesDescription resources;
+  final EnvironmentResourcesDescription? resources;
 
   /// The name of the <code>SolutionStack</code> deployed with this environment.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// The current operational status of the environment:
   ///
@@ -4613,17 +4665,17 @@ class EnvironmentDescription {
   /// <code>Terminated</code>: Environment is not running.
   /// </li>
   /// </ul>
-  final EnvironmentStatus status;
+  final EnvironmentStatus? status;
 
   /// The name of the configuration template used to originally launch this
   /// environment.
-  final String templateName;
+  final String? templateName;
 
   /// Describes the current tier of this environment.
-  final EnvironmentTier tier;
+  final EnvironmentTier? tier;
 
   /// The application version deployed in this environment.
-  final String versionLabel;
+  final String? versionLabel;
 
   EnvironmentDescription({
     this.abortableOperationInProgress,
@@ -4689,11 +4741,11 @@ class EnvironmentDescription {
 /// Result message containing a list of environment descriptions.
 class EnvironmentDescriptionsMessage {
   /// Returns an <a>EnvironmentDescription</a> list.
-  final List<EnvironmentDescription> environments;
+  final List<EnvironmentDescription>? environments;
 
   /// In a paginated request, the token that you can pass in a subsequent request
   /// to get the next response page.
-  final String nextToken;
+  final String? nextToken;
 
   EnvironmentDescriptionsMessage({
     this.environments,
@@ -4711,14 +4763,25 @@ class EnvironmentDescriptionsMessage {
 }
 
 enum EnvironmentHealth {
-  @_s.JsonValue('Green')
   green,
-  @_s.JsonValue('Yellow')
   yellow,
-  @_s.JsonValue('Red')
   red,
-  @_s.JsonValue('Grey')
   grey,
+}
+
+extension on EnvironmentHealth {
+  String toValue() {
+    switch (this) {
+      case EnvironmentHealth.green:
+        return 'Green';
+      case EnvironmentHealth.yellow:
+        return 'Yellow';
+      case EnvironmentHealth.red:
+        return 'Red';
+      case EnvironmentHealth.grey:
+        return 'Grey';
+    }
+  }
 }
 
 extension on String {
@@ -4733,26 +4796,18 @@ extension on String {
       case 'Grey':
         return EnvironmentHealth.grey;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealth');
   }
 }
 
 enum EnvironmentHealthAttribute {
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Color')
   color,
-  @_s.JsonValue('Causes')
   causes,
-  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
-  @_s.JsonValue('InstancesHealth')
   instancesHealth,
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('HealthStatus')
   healthStatus,
-  @_s.JsonValue('RefreshedAt')
   refreshedAt,
 }
 
@@ -4776,7 +4831,6 @@ extension on EnvironmentHealthAttribute {
       case EnvironmentHealthAttribute.refreshedAt:
         return 'RefreshedAt';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4800,29 +4854,45 @@ extension on String {
       case 'RefreshedAt':
         return EnvironmentHealthAttribute.refreshedAt;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealthAttribute');
   }
 }
 
 enum EnvironmentHealthStatus {
-  @_s.JsonValue('NoData')
   noData,
-  @_s.JsonValue('Unknown')
   unknown,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Ok')
   ok,
-  @_s.JsonValue('Info')
   info,
-  @_s.JsonValue('Warning')
   warning,
-  @_s.JsonValue('Degraded')
   degraded,
-  @_s.JsonValue('Severe')
   severe,
-  @_s.JsonValue('Suspended')
   suspended,
+}
+
+extension on EnvironmentHealthStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentHealthStatus.noData:
+        return 'NoData';
+      case EnvironmentHealthStatus.unknown:
+        return 'Unknown';
+      case EnvironmentHealthStatus.pending:
+        return 'Pending';
+      case EnvironmentHealthStatus.ok:
+        return 'Ok';
+      case EnvironmentHealthStatus.info:
+        return 'Info';
+      case EnvironmentHealthStatus.warning:
+        return 'Warning';
+      case EnvironmentHealthStatus.degraded:
+        return 'Degraded';
+      case EnvironmentHealthStatus.severe:
+        return 'Severe';
+      case EnvironmentHealthStatus.suspended:
+        return 'Suspended';
+    }
+  }
 }
 
 extension on String {
@@ -4847,27 +4917,27 @@ extension on String {
       case 'Suspended':
         return EnvironmentHealthStatus.suspended;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealthStatus');
   }
 }
 
 /// The information retrieved from the Amazon EC2 instances.
 class EnvironmentInfoDescription {
   /// The Amazon EC2 Instance ID for this information.
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The type of information retrieved.
-  final EnvironmentInfoType infoType;
+  final EnvironmentInfoType? infoType;
 
   /// The retrieved information. Currently contains a presigned Amazon S3 URL. The
   /// files are deleted after 15 minutes.
   ///
   /// Anyone in possession of this URL can access the files before they are
   /// deleted. Make the URL available only to trusted parties.
-  final String message;
+  final String? message;
 
   /// The time stamp when this information was retrieved.
-  final DateTime sampleTimestamp;
+  final DateTime? sampleTimestamp;
 
   EnvironmentInfoDescription({
     this.ec2InstanceId,
@@ -4887,9 +4957,7 @@ class EnvironmentInfoDescription {
 }
 
 enum EnvironmentInfoType {
-  @_s.JsonValue('tail')
   tail,
-  @_s.JsonValue('bundle')
   bundle,
 }
 
@@ -4901,7 +4969,6 @@ extension on EnvironmentInfoType {
       case EnvironmentInfoType.bundle:
         return 'bundle';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4913,7 +4980,7 @@ extension on String {
       case 'bundle':
         return EnvironmentInfoType.bundle;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentInfoType');
   }
 }
 
@@ -4924,10 +4991,10 @@ extension on String {
 /// Manifest (env.yaml)</a> for details.
 class EnvironmentLink {
   /// The name of the linked environment (the dependency).
-  final String environmentName;
+  final String? environmentName;
 
   /// The name of the link.
-  final String linkName;
+  final String? linkName;
 
   EnvironmentLink({
     this.environmentName,
@@ -4944,28 +5011,28 @@ class EnvironmentLink {
 /// Describes the AWS resources in use by this environment. This data is live.
 class EnvironmentResourceDescription {
   /// The <code>AutoScalingGroups</code> used by this environment.
-  final List<AutoScalingGroup> autoScalingGroups;
+  final List<AutoScalingGroup>? autoScalingGroups;
 
   /// The name of the environment.
-  final String environmentName;
+  final String? environmentName;
 
   /// The Amazon EC2 instances used by this environment.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The Auto Scaling launch configurations in use by this environment.
-  final List<LaunchConfiguration> launchConfigurations;
+  final List<LaunchConfiguration>? launchConfigurations;
 
   /// The Amazon EC2 launch templates in use by this environment.
-  final List<LaunchTemplate> launchTemplates;
+  final List<LaunchTemplate>? launchTemplates;
 
   /// The LoadBalancers in use by this environment.
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   /// The queues used by this environment.
-  final List<Queue> queues;
+  final List<Queue>? queues;
 
   /// The <code>AutoScaling</code> triggers in use by this environment.
-  final List<Trigger> triggers;
+  final List<Trigger>? triggers;
 
   EnvironmentResourceDescription({
     this.autoScalingGroups,
@@ -5014,7 +5081,7 @@ class EnvironmentResourceDescription {
 /// Result message containing a list of environment resource descriptions.
 class EnvironmentResourceDescriptionsMessage {
   /// A list of <a>EnvironmentResourceDescription</a>.
-  final EnvironmentResourceDescription environmentResources;
+  final EnvironmentResourceDescription? environmentResources;
 
   EnvironmentResourceDescriptionsMessage({
     this.environmentResources,
@@ -5032,7 +5099,7 @@ class EnvironmentResourceDescriptionsMessage {
 /// live data.
 class EnvironmentResourcesDescription {
   /// Describes the LoadBalancer.
-  final LoadBalancerDescription loadBalancer;
+  final LoadBalancerDescription? loadBalancer;
 
   EnvironmentResourcesDescription({
     this.loadBalancer,
@@ -5047,22 +5114,37 @@ class EnvironmentResourcesDescription {
 }
 
 enum EnvironmentStatus {
-  @_s.JsonValue('Aborting')
   aborting,
-  @_s.JsonValue('Launching')
   launching,
-  @_s.JsonValue('Updating')
   updating,
-  @_s.JsonValue('LinkingFrom')
   linkingFrom,
-  @_s.JsonValue('LinkingTo')
   linkingTo,
-  @_s.JsonValue('Ready')
   ready,
-  @_s.JsonValue('Terminating')
   terminating,
-  @_s.JsonValue('Terminated')
   terminated,
+}
+
+extension on EnvironmentStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentStatus.aborting:
+        return 'Aborting';
+      case EnvironmentStatus.launching:
+        return 'Launching';
+      case EnvironmentStatus.updating:
+        return 'Updating';
+      case EnvironmentStatus.linkingFrom:
+        return 'LinkingFrom';
+      case EnvironmentStatus.linkingTo:
+        return 'LinkingTo';
+      case EnvironmentStatus.ready:
+        return 'Ready';
+      case EnvironmentStatus.terminating:
+        return 'Terminating';
+      case EnvironmentStatus.terminated:
+        return 'Terminated';
+    }
+  }
 }
 
 extension on String {
@@ -5085,16 +5167,11 @@ extension on String {
       case 'Terminated':
         return EnvironmentStatus.terminated;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentStatus');
   }
 }
 
 /// Describes the properties of an environment tier
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EnvironmentTier {
   /// The name of this environment tier.
   ///
@@ -5108,8 +5185,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>Worker</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of this environment tier.
   ///
@@ -5123,8 +5199,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>SQS/HTTP</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The version of this environment tier. When you don't set a value to it,
   /// Elastic Beanstalk uses the latest compatible worker tier version.
@@ -5132,8 +5207,7 @@ class EnvironmentTier {
   /// This member is deprecated. Any specific version that you set may become out
   /// of date. We recommend leaving it unspecified.
   /// </note>
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   EnvironmentTier({
     this.name,
@@ -5148,37 +5222,46 @@ class EnvironmentTier {
     );
   }
 
-  Map<String, dynamic> toJson() => _$EnvironmentTierToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Describes an event.
 class EventDescription {
   /// The application associated with the event.
-  final String applicationName;
+  final String? applicationName;
 
   /// The name of the environment associated with this event.
-  final String environmentName;
+  final String? environmentName;
 
   /// The date when the event occurred.
-  final DateTime eventDate;
+  final DateTime? eventDate;
 
   /// The event message.
-  final String message;
+  final String? message;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The web service request ID for the activity of this event.
-  final String requestId;
+  final String? requestId;
 
   /// The severity level of this event.
-  final EventSeverity severity;
+  final EventSeverity? severity;
 
   /// The name of the configuration associated with this event.
-  final String templateName;
+  final String? templateName;
 
   /// The release label for the application version associated with this event.
-  final String versionLabel;
+  final String? versionLabel;
 
   EventDescription({
     this.applicationName,
@@ -5209,12 +5292,12 @@ class EventDescription {
 /// Result message wrapping a list of event descriptions.
 class EventDescriptionsMessage {
   /// A list of <a>EventDescription</a>.
-  final List<EventDescription> events;
+  final List<EventDescription>? events;
 
   /// If returned, this indicates that there are more results to obtain. Use this
   /// token in the next <a>DescribeEvents</a> call to get the next batch of
   /// events.
-  final String nextToken;
+  final String? nextToken;
 
   EventDescriptionsMessage({
     this.events,
@@ -5232,17 +5315,11 @@ class EventDescriptionsMessage {
 }
 
 enum EventSeverity {
-  @_s.JsonValue('TRACE')
   trace,
-  @_s.JsonValue('DEBUG')
   debug,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('FATAL')
   fatal,
 }
 
@@ -5262,7 +5339,6 @@ extension on EventSeverity {
       case EventSeverity.fatal:
         return 'FATAL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5282,25 +5358,39 @@ extension on String {
       case 'FATAL':
         return EventSeverity.fatal;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EventSeverity');
   }
 }
 
 enum FailureType {
-  @_s.JsonValue('UpdateCancelled')
   updateCancelled,
-  @_s.JsonValue('CancellationFailed')
   cancellationFailed,
-  @_s.JsonValue('RollbackFailed')
   rollbackFailed,
-  @_s.JsonValue('RollbackSuccessful')
   rollbackSuccessful,
-  @_s.JsonValue('InternalFailure')
   internalFailure,
-  @_s.JsonValue('InvalidEnvironmentState')
   invalidEnvironmentState,
-  @_s.JsonValue('PermissionsError')
   permissionsError,
+}
+
+extension on FailureType {
+  String toValue() {
+    switch (this) {
+      case FailureType.updateCancelled:
+        return 'UpdateCancelled';
+      case FailureType.cancellationFailed:
+        return 'CancellationFailed';
+      case FailureType.rollbackFailed:
+        return 'RollbackFailed';
+      case FailureType.rollbackSuccessful:
+        return 'RollbackSuccessful';
+      case FailureType.internalFailure:
+        return 'InternalFailure';
+      case FailureType.invalidEnvironmentState:
+        return 'InvalidEnvironmentState';
+      case FailureType.permissionsError:
+        return 'PermissionsError';
+    }
+  }
 }
 
 extension on String {
@@ -5321,14 +5411,14 @@ extension on String {
       case 'PermissionsError':
         return FailureType.permissionsError;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum FailureType');
   }
 }
 
 /// The description of an Amazon EC2 instance.
 class Instance {
   /// The ID of the Amazon EC2 instance.
-  final String id;
+  final String? id;
 
   Instance({
     this.id,
@@ -5347,34 +5437,34 @@ class Instance {
 class InstanceHealthSummary {
   /// <b>Red.</b> The health agent is reporting a high number of request failures
   /// or other issues for an instance or environment.
-  final int degraded;
+  final int? degraded;
 
   /// <b>Green.</b> An operation is in progress on an instance.
-  final int info;
+  final int? info;
 
   /// <b>Grey.</b> AWS Elastic Beanstalk and the health agent are reporting no
   /// data on an instance.
-  final int noData;
+  final int? noData;
 
   /// <b>Green.</b> An instance is passing health checks and the health agent is
   /// not reporting any problems.
-  final int ok;
+  final int? ok;
 
   /// <b>Grey.</b> An operation is in progress on an instance within the command
   /// timeout.
-  final int pending;
+  final int? pending;
 
   /// <b>Red.</b> The health agent is reporting a very high number of request
   /// failures or other issues for an instance or environment.
-  final int severe;
+  final int? severe;
 
   /// <b>Grey.</b> AWS Elastic Beanstalk and the health agent are reporting an
   /// insufficient amount of data on an instance.
-  final int unknown;
+  final int? unknown;
 
   /// <b>Yellow.</b> The health agent is reporting a moderate number of request
   /// failures or other issues for an instance or environment.
-  final int warning;
+  final int? warning;
 
   InstanceHealthSummary({
     this.degraded,
@@ -5401,27 +5491,16 @@ class InstanceHealthSummary {
 }
 
 enum InstancesHealthAttribute {
-  @_s.JsonValue('HealthStatus')
   healthStatus,
-  @_s.JsonValue('Color')
   color,
-  @_s.JsonValue('Causes')
   causes,
-  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
-  @_s.JsonValue('RefreshedAt')
   refreshedAt,
-  @_s.JsonValue('LaunchedAt')
   launchedAt,
-  @_s.JsonValue('System')
   system,
-  @_s.JsonValue('Deployment')
   deployment,
-  @_s.JsonValue('AvailabilityZone')
   availabilityZone,
-  @_s.JsonValue('InstanceType')
   instanceType,
-  @_s.JsonValue('All')
   all,
 }
 
@@ -5451,7 +5530,6 @@ extension on InstancesHealthAttribute {
       case InstancesHealthAttribute.all:
         return 'All';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5481,7 +5559,7 @@ extension on String {
       case 'All':
         return InstancesHealthAttribute.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InstancesHealthAttribute');
   }
 }
 
@@ -5490,35 +5568,35 @@ extension on String {
 class Latency {
   /// The average latency for the slowest 90 percent of requests over the last 10
   /// seconds.
-  final double p10;
+  final double? p10;
 
   /// The average latency for the slowest 50 percent of requests over the last 10
   /// seconds.
-  final double p50;
+  final double? p50;
 
   /// The average latency for the slowest 25 percent of requests over the last 10
   /// seconds.
-  final double p75;
+  final double? p75;
 
   /// The average latency for the slowest 15 percent of requests over the last 10
   /// seconds.
-  final double p85;
+  final double? p85;
 
   /// The average latency for the slowest 10 percent of requests over the last 10
   /// seconds.
-  final double p90;
+  final double? p90;
 
   /// The average latency for the slowest 5 percent of requests over the last 10
   /// seconds.
-  final double p95;
+  final double? p95;
 
   /// The average latency for the slowest 1 percent of requests over the last 10
   /// seconds.
-  final double p99;
+  final double? p99;
 
   /// The average latency for the slowest 0.1 percent of requests over the last 10
   /// seconds.
-  final double p999;
+  final double? p999;
 
   Latency({
     this.p10,
@@ -5547,7 +5625,7 @@ class Latency {
 /// Describes an Auto Scaling launch configuration.
 class LaunchConfiguration {
   /// The name of the launch configuration.
-  final String name;
+  final String? name;
 
   LaunchConfiguration({
     this.name,
@@ -5562,7 +5640,7 @@ class LaunchConfiguration {
 /// Describes an Amazon EC2 launch template.
 class LaunchTemplate {
   /// The ID of the launch template.
-  final String id;
+  final String? id;
 
   LaunchTemplate({
     this.id,
@@ -5578,10 +5656,10 @@ class LaunchTemplate {
 class ListAvailableSolutionStacksResultMessage {
   /// A list of available solution stacks and their
   /// <a>SolutionStackDescription</a>.
-  final List<SolutionStackDescription> solutionStackDetails;
+  final List<SolutionStackDescription>? solutionStackDetails;
 
   /// A list of available solution stacks.
-  final List<String> solutionStacks;
+  final List<String>? solutionStacks;
 
   ListAvailableSolutionStacksResultMessage({
     this.solutionStackDetails,
@@ -5606,10 +5684,10 @@ class ListPlatformBranchesResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
   /// page.
-  final String nextToken;
+  final String? nextToken;
 
   /// Summary information about the platform branches.
-  final List<PlatformBranchSummary> platformBranchSummaryList;
+  final List<PlatformBranchSummary>? platformBranchSummaryList;
 
   ListPlatformBranchesResult({
     this.nextToken,
@@ -5632,10 +5710,10 @@ class ListPlatformVersionsResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
   /// page.
-  final String nextToken;
+  final String? nextToken;
 
   /// Summary information about the platform versions.
-  final List<PlatformSummary> platformSummaryList;
+  final List<PlatformSummary>? platformSummaryList;
 
   ListPlatformVersionsResult({
     this.nextToken,
@@ -5656,10 +5734,10 @@ class ListPlatformVersionsResult {
 /// Describes the properties of a Listener for the LoadBalancer.
 class Listener {
   /// The port that is used by the Listener.
-  final int port;
+  final int? port;
 
   /// The protocol that is used by the Listener.
-  final String protocol;
+  final String? protocol;
 
   Listener({
     this.port,
@@ -5676,7 +5754,7 @@ class Listener {
 /// Describes a LoadBalancer.
 class LoadBalancer {
   /// The name of the LoadBalancer.
-  final String name;
+  final String? name;
 
   LoadBalancer({
     this.name,
@@ -5691,13 +5769,13 @@ class LoadBalancer {
 /// Describes the details of a LoadBalancer.
 class LoadBalancerDescription {
   /// The domain name of the LoadBalancer.
-  final String domain;
+  final String? domain;
 
   /// A list of Listeners used by the LoadBalancer.
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// The name of the LoadBalancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   LoadBalancerDescription({
     this.domain,
@@ -5717,21 +5795,21 @@ class LoadBalancerDescription {
 /// The record of an upcoming or in-progress managed action.
 class ManagedAction {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// A unique identifier for the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The status of the managed action. If the action is <code>Scheduled</code>,
   /// you can apply it immediately with <a>ApplyEnvironmentManagedAction</a>.
-  final ActionStatus status;
+  final ActionStatus? status;
 
   /// The start time of the maintenance window in which the managed action will
   /// execute.
-  final DateTime windowStartTime;
+  final DateTime? windowStartTime;
 
   ManagedAction({
     this.actionDescription,
@@ -5754,28 +5832,28 @@ class ManagedAction {
 /// The record of a completed or failed managed action.
 class ManagedActionHistoryItem {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// A unique identifier for the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of the managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The date and time that the action started executing.
-  final DateTime executedTime;
+  final DateTime? executedTime;
 
   /// If the action failed, a description of the failure.
-  final String failureDescription;
+  final String? failureDescription;
 
   /// If the action failed, the type of failure.
-  final FailureType failureType;
+  final FailureType? failureType;
 
   /// The date and time that the action finished executing.
-  final DateTime finishedTime;
+  final DateTime? finishedTime;
 
   /// The status of the action.
-  final ActionHistoryStatus status;
+  final ActionHistoryStatus? status;
 
   ManagedActionHistoryItem({
     this.actionDescription,
@@ -5804,89 +5882,91 @@ class ManagedActionHistoryItem {
 
 /// A lifecycle rule that deletes application versions after the specified
 /// number of days.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MaxAgeRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
-  @_s.JsonKey(name: 'DeleteSourceFromS3')
-  final bool deleteSourceFromS3;
+  final bool? deleteSourceFromS3;
 
   /// Specify the number of days to retain an application versions.
-  @_s.JsonKey(name: 'MaxAgeInDays')
-  final int maxAgeInDays;
+  final int? maxAgeInDays;
 
   MaxAgeRule({
-    @_s.required this.enabled,
+    required this.enabled,
     this.deleteSourceFromS3,
     this.maxAgeInDays,
   });
   factory MaxAgeRule.fromXml(_s.XmlElement elem) {
     return MaxAgeRule(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       deleteSourceFromS3: _s.extractXmlBoolValue(elem, 'DeleteSourceFromS3'),
       maxAgeInDays: _s.extractXmlIntValue(elem, 'MaxAgeInDays'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$MaxAgeRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deleteSourceFromS3 = this.deleteSourceFromS3;
+    final maxAgeInDays = this.maxAgeInDays;
+    return {
+      'Enabled': enabled,
+      if (deleteSourceFromS3 != null) 'DeleteSourceFromS3': deleteSourceFromS3,
+      if (maxAgeInDays != null) 'MaxAgeInDays': maxAgeInDays,
+    };
+  }
 }
 
 /// A lifecycle rule that deletes the oldest application version when the
 /// maximum count is exceeded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MaxCountRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
-  @_s.JsonKey(name: 'DeleteSourceFromS3')
-  final bool deleteSourceFromS3;
+  final bool? deleteSourceFromS3;
 
   /// Specify the maximum number of application versions to retain.
-  @_s.JsonKey(name: 'MaxCount')
-  final int maxCount;
+  final int? maxCount;
 
   MaxCountRule({
-    @_s.required this.enabled,
+    required this.enabled,
     this.deleteSourceFromS3,
     this.maxCount,
   });
   factory MaxCountRule.fromXml(_s.XmlElement elem) {
     return MaxCountRule(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       deleteSourceFromS3: _s.extractXmlBoolValue(elem, 'DeleteSourceFromS3'),
       maxCount: _s.extractXmlIntValue(elem, 'MaxCount'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$MaxCountRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deleteSourceFromS3 = this.deleteSourceFromS3;
+    final maxCount = this.maxCount;
+    return {
+      'Enabled': enabled,
+      if (deleteSourceFromS3 != null) 'DeleteSourceFromS3': deleteSourceFromS3,
+      if (maxCount != null) 'MaxCount': maxCount,
+    };
+  }
 }
 
 /// A regular expression representing a restriction on a string configuration
 /// option value.
 class OptionRestrictionRegex {
   /// A unique name representing this regular expression.
-  final String label;
+  final String? label;
 
   /// The regular expression pattern that a string configuration option value with
   /// this restriction must match.
-  final String pattern;
+  final String? pattern;
 
   OptionRestrictionRegex({
     this.label,
@@ -5901,36 +5981,37 @@ class OptionRestrictionRegex {
 }
 
 /// A specification identifying an individual configuration option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionSpecification {
   /// A unique namespace identifying the option's associated AWS resource.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the configuration option.
-  @_s.JsonKey(name: 'OptionName')
-  final String optionName;
+  final String? optionName;
 
   /// A unique resource name for a time-based scaling configuration option.
-  @_s.JsonKey(name: 'ResourceName')
-  final String resourceName;
+  final String? resourceName;
 
   OptionSpecification({
     this.namespace,
     this.optionName,
     this.resourceName,
   });
-  Map<String, dynamic> toJson() => _$OptionSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final optionName = this.optionName;
+    final resourceName = this.resourceName;
+    return {
+      if (namespace != null) 'Namespace': namespace,
+      if (optionName != null) 'OptionName': optionName,
+      if (resourceName != null) 'ResourceName': resourceName,
+    };
+  }
 }
 
 /// Summary information about a platform branch.
 class PlatformBranchSummary {
   /// The name of the platform branch.
-  final String branchName;
+  final String? branchName;
 
   /// An ordinal number that designates the order in which platform branches have
   /// been added to a platform. This can be helpful, for example, if your code
@@ -5939,22 +6020,22 @@ class PlatformBranchSummary {
   ///
   /// A larger <code>BranchOrder</code> value designates a newer platform branch
   /// within the platform.
-  final int branchOrder;
+  final int? branchOrder;
 
   /// The support life cycle state of the platform branch.
   ///
   /// Possible values: <code>beta</code> | <code>supported</code> |
   /// <code>deprecated</code> | <code>retired</code>
-  final String lifecycleState;
+  final String? lifecycleState;
 
   /// The name of the platform to which this platform branch belongs.
-  final String platformName;
+  final String? platformName;
 
   /// The environment tiers that platform versions in this branch support.
   ///
   /// Possible values: <code>WebServer/Standard</code> |
   /// <code>Worker/SQS/HTTP</code>
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformBranchSummary({
     this.branchName,
@@ -5979,43 +6060,43 @@ class PlatformBranchSummary {
 /// Detailed information about a platform version.
 class PlatformDescription {
   /// The custom AMIs supported by the platform version.
-  final List<CustomAmi> customAmiList;
+  final List<CustomAmi>? customAmiList;
 
   /// The date when the platform version was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date when the platform version was last updated.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// The description of the platform version.
-  final String description;
+  final String? description;
 
   /// The frameworks supported by the platform version.
-  final List<PlatformFramework> frameworks;
+  final List<PlatformFramework>? frameworks;
 
   /// Information about the maintainer of the platform version.
-  final String maintainer;
+  final String? maintainer;
 
   /// The operating system used by the platform version.
-  final String operatingSystemName;
+  final String? operatingSystemName;
 
   /// The version of the operating system used by the platform version.
-  final String operatingSystemVersion;
+  final String? operatingSystemVersion;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The state of the platform version's branch in its lifecycle.
   ///
   /// Possible values: <code>Beta</code> | <code>Supported</code> |
   /// <code>Deprecated</code> | <code>Retired</code>
-  final String platformBranchLifecycleState;
+  final String? platformBranchLifecycleState;
 
   /// The platform branch to which the platform version belongs.
-  final String platformBranchName;
+  final String? platformBranchName;
 
   /// The category of the platform version.
-  final String platformCategory;
+  final String? platformCategory;
 
   /// The state of the platform version in its lifecycle.
   ///
@@ -6024,31 +6105,31 @@ class PlatformDescription {
   /// If a null value is returned, the platform version isn't the recommended one
   /// for its branch. Each platform branch has a single recommended platform
   /// version, typically the most recent one.
-  final String platformLifecycleState;
+  final String? platformLifecycleState;
 
   /// The name of the platform version.
-  final String platformName;
+  final String? platformName;
 
   /// The AWS account ID of the person who created the platform version.
-  final String platformOwner;
+  final String? platformOwner;
 
   /// The status of the platform version.
-  final PlatformStatus platformStatus;
+  final PlatformStatus? platformStatus;
 
   /// The version of the platform version.
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The programming languages supported by the platform version.
-  final List<PlatformProgrammingLanguage> programmingLanguages;
+  final List<PlatformProgrammingLanguage>? programmingLanguages;
 
   /// The name of the solution stack used by the platform version.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// The additions supported by the platform version.
-  final List<String> supportedAddonList;
+  final List<String>? supportedAddonList;
 
   /// The tiers supported by the platform version.
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformDescription({
     this.customAmiList,
@@ -6124,11 +6205,6 @@ class PlatformDescription {
 /// Describes criteria to restrict the results when listing platform versions.
 ///
 /// The filter is evaluated as follows: <code>Type Operator Values[1]</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PlatformFilter {
   /// The operator to apply to the <code>Type</code> with each of the
   /// <code>Values</code>.
@@ -6136,8 +6212,7 @@ class PlatformFilter {
   /// Valid values: <code>=</code> | <code>!=</code> | <code>&lt;</code> |
   /// <code>&lt;=</code> | <code>&gt;</code> | <code>&gt;=</code> |
   /// <code>contains</code> | <code>begins_with</code> | <code>ends_with</code>
-  @_s.JsonKey(name: 'Operator')
-  final String operator;
+  final String? operator;
 
   /// The platform version attribute to which the filter values are applied.
   ///
@@ -6146,8 +6221,7 @@ class PlatformFilter {
   /// <code>PlatformLifecycleState</code> | <code>PlatformOwner</code> |
   /// <code>SupportedTier</code> | <code>SupportedAddon</code> |
   /// <code>ProgrammingLanguageName</code> | <code>OperatingSystemName</code>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The list of values applied to the filtering platform version attribute. Only
   /// one value is supported for all current operators.
@@ -6171,24 +6245,32 @@ class PlatformFilter {
   /// <code>Monitoring/Healthd</code> | <code>WorkerDaemon/SQSD</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PlatformFilter({
     this.operator,
     this.type,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$PlatformFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final operator = this.operator;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (operator != null) 'Operator': operator,
+      if (type != null) 'Type': type,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// A framework supported by the platform.
 class PlatformFramework {
   /// The name of the framework.
-  final String name;
+  final String? name;
 
   /// The version of the framework.
-  final String version;
+  final String? version;
 
   PlatformFramework({
     this.name,
@@ -6205,10 +6287,10 @@ class PlatformFramework {
 /// A programming language supported by the platform.
 class PlatformProgrammingLanguage {
   /// The name of the programming language.
-  final String name;
+  final String? name;
 
   /// The version of the programming language.
-  final String version;
+  final String? version;
 
   PlatformProgrammingLanguage({
     this.name,
@@ -6223,16 +6305,28 @@ class PlatformProgrammingLanguage {
 }
 
 enum PlatformStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Ready')
   ready,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Deleted')
   deleted,
+}
+
+extension on PlatformStatus {
+  String toValue() {
+    switch (this) {
+      case PlatformStatus.creating:
+        return 'Creating';
+      case PlatformStatus.failed:
+        return 'Failed';
+      case PlatformStatus.ready:
+        return 'Ready';
+      case PlatformStatus.deleting:
+        return 'Deleting';
+      case PlatformStatus.deleted:
+        return 'Deleted';
+    }
+  }
 }
 
 extension on String {
@@ -6249,32 +6343,32 @@ extension on String {
       case 'Deleted':
         return PlatformStatus.deleted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PlatformStatus');
   }
 }
 
 /// Summary information about a platform version.
 class PlatformSummary {
   /// The operating system used by the platform version.
-  final String operatingSystemName;
+  final String? operatingSystemName;
 
   /// The version of the operating system used by the platform version.
-  final String operatingSystemVersion;
+  final String? operatingSystemVersion;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The state of the platform version's branch in its lifecycle.
   ///
   /// Possible values: <code>beta</code> | <code>supported</code> |
   /// <code>deprecated</code> | <code>retired</code>
-  final String platformBranchLifecycleState;
+  final String? platformBranchLifecycleState;
 
   /// The platform branch to which the platform version belongs.
-  final String platformBranchName;
+  final String? platformBranchName;
 
   /// The category of platform version.
-  final String platformCategory;
+  final String? platformCategory;
 
   /// The state of the platform version in its lifecycle.
   ///
@@ -6282,23 +6376,23 @@ class PlatformSummary {
   ///
   /// If an empty value is returned, the platform version is supported but isn't
   /// the recommended one for its branch.
-  final String platformLifecycleState;
+  final String? platformLifecycleState;
 
   /// The AWS account ID of the person who created the platform version.
-  final String platformOwner;
+  final String? platformOwner;
 
   /// The status of the platform version. You can create an environment from the
   /// platform version once it is ready.
-  final PlatformStatus platformStatus;
+  final PlatformStatus? platformStatus;
 
   /// The version string of the platform version.
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The additions associated with the platform version.
-  final List<String> supportedAddonList;
+  final List<String>? supportedAddonList;
 
   /// The tiers in which the platform version runs.
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformSummary({
     this.operatingSystemName,
@@ -6344,10 +6438,10 @@ class PlatformSummary {
 /// Describes a queue.
 class Queue {
   /// The name of the queue.
-  final String name;
+  final String? name;
 
   /// The URL of the queue.
-  final String url;
+  final String? url;
 
   Queue({
     this.name,
@@ -6366,7 +6460,7 @@ class Queue {
 class ResourceQuota {
   /// The maximum number of instances of this Elastic Beanstalk resource type that
   /// an AWS account can use.
-  final int maximum;
+  final int? maximum;
 
   ResourceQuota({
     this.maximum,
@@ -6382,19 +6476,19 @@ class ResourceQuota {
 /// account. They reflect Elastic Beanstalk resource limits for this account.
 class ResourceQuotas {
   /// The quota for applications in the AWS account.
-  final ResourceQuota applicationQuota;
+  final ResourceQuota? applicationQuota;
 
   /// The quota for application versions in the AWS account.
-  final ResourceQuota applicationVersionQuota;
+  final ResourceQuota? applicationVersionQuota;
 
   /// The quota for configuration templates in the AWS account.
-  final ResourceQuota configurationTemplateQuota;
+  final ResourceQuota? configurationTemplateQuota;
 
   /// The quota for custom platforms in the AWS account.
-  final ResourceQuota customPlatformQuota;
+  final ResourceQuota? customPlatformQuota;
 
   /// The quota for environments in the AWS account.
-  final ResourceQuota environmentQuota;
+  final ResourceQuota? environmentQuota;
 
   ResourceQuotas({
     this.applicationQuota,
@@ -6427,10 +6521,10 @@ class ResourceQuotas {
 class ResourceTagsDescriptionMessage {
   /// The Amazon Resource Name (ARN) of the resource for which a tag list was
   /// requested.
-  final String resourceArn;
+  final String? resourceArn;
 
   /// A list of tag key-value pairs.
-  final List<Tag> resourceTags;
+  final List<Tag>? resourceTags;
 
   ResourceTagsDescriptionMessage({
     this.resourceArn,
@@ -6448,7 +6542,7 @@ class ResourceTagsDescriptionMessage {
 /// Result message containing a description of the requested environment info.
 class RetrieveEnvironmentInfoResultMessage {
   /// The <a>EnvironmentInfoDescription</a> of the environment.
-  final List<EnvironmentInfoDescription> environmentInfo;
+  final List<EnvironmentInfoDescription>? environmentInfo;
 
   RetrieveEnvironmentInfoResultMessage({
     this.environmentInfo,
@@ -6465,19 +6559,12 @@ class RetrieveEnvironmentInfoResultMessage {
 }
 
 /// The bucket and key of an item stored in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Location {
   /// The Amazon S3 bucket where the data is located.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The Amazon S3 key where the data is located.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   S3Location({
     this.s3Bucket,
@@ -6490,7 +6577,14 @@ class S3Location {
     );
   }
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
 /// Describes criteria to restrict a list of results.
@@ -6506,75 +6600,76 @@ class S3Location {
 /// The valid values for attributes of <code>SearchFilter</code> depend on the
 /// API action. For valid values, see the reference page for the API action
 /// you're calling that takes a <code>SearchFilter</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SearchFilter {
   /// The result attribute to which the filter values are applied. Valid values
   /// vary by API action.
-  @_s.JsonKey(name: 'Attribute')
-  final String attribute;
+  final String? attribute;
 
   /// The operator to apply to the <code>Attribute</code> with each of the
   /// <code>Values</code>. Valid values vary by <code>Attribute</code>.
-  @_s.JsonKey(name: 'Operator')
-  final String operator;
+  final String? operator;
 
   /// The list of values applied to the <code>Attribute</code> and
   /// <code>Operator</code> attributes. Number of values and valid values vary by
   /// <code>Attribute</code>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   SearchFilter({
     this.attribute,
     this.operator,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$SearchFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (attribute != null) 'Attribute': attribute,
+      if (operator != null) 'Operator': operator,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Detailed health information about an Amazon EC2 instance in your Elastic
 /// Beanstalk environment.
 class SingleInstanceHealth {
   /// Request metrics from your application.
-  final ApplicationMetrics applicationMetrics;
+  final ApplicationMetrics? applicationMetrics;
 
   /// The availability zone in which the instance runs.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Represents the causes, which provide more information about the current
   /// health status.
-  final List<String> causes;
+  final List<String>? causes;
 
   /// Represents the color indicator that gives you information about the health
   /// of the EC2 instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final String color;
+  final String? color;
 
   /// Information about the most recent deployment to an instance.
-  final Deployment deployment;
+  final Deployment? deployment;
 
   /// Returns the health status of the specified instance. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final String healthStatus;
+  final String? healthStatus;
 
   /// The ID of the Amazon EC2 instance.
-  final String instanceId;
+  final String? instanceId;
 
   /// The instance's type.
-  final String instanceType;
+  final String? instanceType;
 
   /// The time at which the EC2 instance was launched.
-  final DateTime launchedAt;
+  final DateTime? launchedAt;
 
   /// Operating system metrics from the instance.
-  final SystemStatus system;
+  final SystemStatus? system;
 
   SingleInstanceHealth({
     this.applicationMetrics,
@@ -6615,10 +6710,10 @@ class SingleInstanceHealth {
 /// Describes the solution stack.
 class SolutionStackDescription {
   /// The permitted file types allowed for a solution stack.
-  final List<String> permittedFileTypes;
+  final List<String>? permittedFileTypes;
 
   /// The name of the solution stack.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   SolutionStackDescription({
     this.permittedFileTypes,
@@ -6635,11 +6730,6 @@ class SolutionStackDescription {
 }
 
 /// Location of the source code for an application version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceBuildInformation {
   /// The location of the source code, as a formatted string, depending on the
   /// value of <code>SourceRepository</code>
@@ -6656,7 +6746,6 @@ class SourceBuildInformation {
   /// <code>my-s3-bucket/Folders/my-source-file</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceLocation')
   final String sourceLocation;
 
   /// Location where the repository is stored.
@@ -6669,7 +6758,6 @@ class SourceBuildInformation {
   /// <code>S3</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceRepository')
   final SourceRepository sourceRepository;
 
   /// The type of repository.
@@ -6682,54 +6770,71 @@ class SourceBuildInformation {
   /// <code>Zip</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceType')
   final SourceType sourceType;
 
   SourceBuildInformation({
-    @_s.required this.sourceLocation,
-    @_s.required this.sourceRepository,
-    @_s.required this.sourceType,
+    required this.sourceLocation,
+    required this.sourceRepository,
+    required this.sourceType,
   });
   factory SourceBuildInformation.fromXml(_s.XmlElement elem) {
     return SourceBuildInformation(
-      sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation'),
+      sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation')!,
       sourceRepository: _s
-          .extractXmlStringValue(elem, 'SourceRepository')
-          ?.toSourceRepository(),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
+          .extractXmlStringValue(elem, 'SourceRepository')!
+          .toSourceRepository(),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType')!.toSourceType(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceBuildInformationToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceLocation = this.sourceLocation;
+    final sourceRepository = this.sourceRepository;
+    final sourceType = this.sourceType;
+    return {
+      'SourceLocation': sourceLocation,
+      'SourceRepository': sourceRepository.toValue(),
+      'SourceType': sourceType.toValue(),
+    };
+  }
 }
 
 /// A specification for an environment configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceConfiguration {
   /// The name of the application associated with the configuration.
-  @_s.JsonKey(name: 'ApplicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// The name of the configuration template.
-  @_s.JsonKey(name: 'TemplateName')
-  final String templateName;
+  final String? templateName;
 
   SourceConfiguration({
     this.applicationName,
     this.templateName,
   });
-  Map<String, dynamic> toJson() => _$SourceConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final templateName = this.templateName;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (templateName != null) 'TemplateName': templateName,
+    };
+  }
 }
 
 enum SourceRepository {
-  @_s.JsonValue('CodeCommit')
   codeCommit,
-  @_s.JsonValue('S3')
   s3,
+}
+
+extension on SourceRepository {
+  String toValue() {
+    switch (this) {
+      case SourceRepository.codeCommit:
+        return 'CodeCommit';
+      case SourceRepository.s3:
+        return 'S3';
+    }
+  }
 }
 
 extension on String {
@@ -6740,15 +6845,24 @@ extension on String {
       case 'S3':
         return SourceRepository.s3;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceRepository');
   }
 }
 
 enum SourceType {
-  @_s.JsonValue('Git')
   git,
-  @_s.JsonValue('Zip')
   zip,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.git:
+        return 'Git';
+      case SourceType.zip:
+        return 'Zip';
+    }
+  }
 }
 
 extension on String {
@@ -6759,7 +6873,7 @@ extension on String {
       case 'Zip':
         return SourceType.zip;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
@@ -6770,19 +6884,19 @@ extension on String {
 class StatusCodes {
   /// The percentage of requests over the last 10 seconds that resulted in a 2xx
   /// (200, 201, etc.) status code.
-  final int status2xx;
+  final int? status2xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 3xx
   /// (300, 301, etc.) status code.
-  final int status3xx;
+  final int? status3xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 4xx
   /// (400, 401, etc.) status code.
-  final int status4xx;
+  final int? status4xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 5xx
   /// (500, 501, etc.) status code.
-  final int status5xx;
+  final int? status5xx;
 
   StatusCodes({
     this.status2xx,
@@ -6803,13 +6917,13 @@ class StatusCodes {
 /// CPU utilization and load average metrics for an Amazon EC2 instance.
 class SystemStatus {
   /// CPU utilization metrics for the instance.
-  final CPUUtilization cPUUtilization;
+  final CPUUtilization? cPUUtilization;
 
   /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-metrics.html#health-enhanced-metrics-os">Operating
   /// System Metrics</a>.
-  final List<double> loadAverage;
+  final List<double>? loadAverage;
 
   SystemStatus({
     this.cPUUtilization,
@@ -6828,19 +6942,12 @@ class SystemStatus {
 }
 
 /// Describes a tag applied to a resource in an environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
@@ -6853,13 +6960,20 @@ class Tag {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Describes a trigger.
 class Trigger {
   /// The name of the trigger.
-  final String name;
+  final String? name;
 
   Trigger({
     this.name,
@@ -6874,13 +6988,13 @@ class Trigger {
 /// An error or warning for a desired configuration option value.
 class ValidationMessage {
   /// A message describing the error or warning.
-  final String message;
+  final String? message;
 
   /// The namespace to which the option belongs.
-  final String namespace;
+  final String? namespace;
 
   /// The name of the option.
-  final String optionName;
+  final String? optionName;
 
   /// An indication of the severity of this message:
   ///
@@ -6894,7 +7008,7 @@ class ValidationMessage {
   /// into account.
   /// </li>
   /// </ul>
-  final ValidationSeverity severity;
+  final ValidationSeverity? severity;
 
   ValidationMessage({
     this.message,
@@ -6914,10 +7028,19 @@ class ValidationMessage {
 }
 
 enum ValidationSeverity {
-  @_s.JsonValue('error')
   error,
-  @_s.JsonValue('warning')
   warning,
+}
+
+extension on ValidationSeverity {
+  String toValue() {
+    switch (this) {
+      case ValidationSeverity.error:
+        return 'error';
+      case ValidationSeverity.warning:
+        return 'warning';
+    }
+  }
 }
 
 extension on String {
@@ -6928,12 +7051,12 @@ extension on String {
       case 'warning':
         return ValidationSeverity.warning;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ValidationSeverity');
   }
 }
 
 class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
-  CodeBuildNotInServiceRegionException({String type, String message})
+  CodeBuildNotInServiceRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'CodeBuildNotInServiceRegionException',
@@ -6941,7 +7064,7 @@ class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
 }
 
 class ElasticBeanstalkServiceException extends _s.GenericAwsException {
-  ElasticBeanstalkServiceException({String type, String message})
+  ElasticBeanstalkServiceException({String? type, String? message})
       : super(
             type: type,
             code: 'ElasticBeanstalkServiceException',
@@ -6949,7 +7072,7 @@ class ElasticBeanstalkServiceException extends _s.GenericAwsException {
 }
 
 class InsufficientPrivilegesException extends _s.GenericAwsException {
-  InsufficientPrivilegesException({String type, String message})
+  InsufficientPrivilegesException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientPrivilegesException',
@@ -6957,12 +7080,12 @@ class InsufficientPrivilegesException extends _s.GenericAwsException {
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ManagedActionInvalidStateException extends _s.GenericAwsException {
-  ManagedActionInvalidStateException({String type, String message})
+  ManagedActionInvalidStateException({String? type, String? message})
       : super(
             type: type,
             code: 'ManagedActionInvalidStateException',
@@ -6970,13 +7093,13 @@ class ManagedActionInvalidStateException extends _s.GenericAwsException {
 }
 
 class OperationInProgressException extends _s.GenericAwsException {
-  OperationInProgressException({String type, String message})
+  OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
 class PlatformVersionStillReferencedException extends _s.GenericAwsException {
-  PlatformVersionStillReferencedException({String type, String message})
+  PlatformVersionStillReferencedException({String? type, String? message})
       : super(
             type: type,
             code: 'PlatformVersionStillReferencedException',
@@ -6984,12 +7107,12 @@ class PlatformVersionStillReferencedException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceTypeNotSupportedException extends _s.GenericAwsException {
-  ResourceTypeNotSupportedException({String type, String message})
+  ResourceTypeNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceTypeNotSupportedException',
@@ -6997,7 +7120,7 @@ class ResourceTypeNotSupportedException extends _s.GenericAwsException {
 }
 
 class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
-  S3LocationNotInServiceRegionException({String type, String message})
+  S3LocationNotInServiceRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'S3LocationNotInServiceRegionException',
@@ -7005,7 +7128,7 @@ class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
 }
 
 class S3SubscriptionRequiredException extends _s.GenericAwsException {
-  S3SubscriptionRequiredException({String type, String message})
+  S3SubscriptionRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'S3SubscriptionRequiredException',
@@ -7013,7 +7136,7 @@ class S3SubscriptionRequiredException extends _s.GenericAwsException {
 }
 
 class SourceBundleDeletionException extends _s.GenericAwsException {
-  SourceBundleDeletionException({String type, String message})
+  SourceBundleDeletionException({String? type, String? message})
       : super(
             type: type,
             code: 'SourceBundleDeletionException',
@@ -7021,7 +7144,7 @@ class SourceBundleDeletionException extends _s.GenericAwsException {
 }
 
 class TooManyApplicationVersionsException extends _s.GenericAwsException {
-  TooManyApplicationVersionsException({String type, String message})
+  TooManyApplicationVersionsException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyApplicationVersionsException',
@@ -7029,18 +7152,18 @@ class TooManyApplicationVersionsException extends _s.GenericAwsException {
 }
 
 class TooManyApplicationsException extends _s.GenericAwsException {
-  TooManyApplicationsException({String type, String message})
+  TooManyApplicationsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyApplicationsException', message: message);
 }
 
 class TooManyBucketsException extends _s.GenericAwsException {
-  TooManyBucketsException({String type, String message})
+  TooManyBucketsException({String? type, String? message})
       : super(type: type, code: 'TooManyBucketsException', message: message);
 }
 
 class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
-  TooManyConfigurationTemplatesException({String type, String message})
+  TooManyConfigurationTemplatesException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyConfigurationTemplatesException',
@@ -7048,18 +7171,18 @@ class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
 }
 
 class TooManyEnvironmentsException extends _s.GenericAwsException {
-  TooManyEnvironmentsException({String type, String message})
+  TooManyEnvironmentsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyEnvironmentsException', message: message);
 }
 
 class TooManyPlatformsException extends _s.GenericAwsException {
-  TooManyPlatformsException({String type, String message})
+  TooManyPlatformsException({String? type, String? message})
       : super(type: type, code: 'TooManyPlatformsException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

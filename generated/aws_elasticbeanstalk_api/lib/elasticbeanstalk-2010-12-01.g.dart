@@ -38,7 +38,10 @@ Map<String, dynamic> _$ApplicationVersionLifecycleConfigToJson(
 }
 
 Map<String, dynamic> _$BuildConfigurationToJson(BuildConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'CodeBuildServiceRole': instance.codeBuildServiceRole,
+    'Image': instance.image,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -46,8 +49,6 @@ Map<String, dynamic> _$BuildConfigurationToJson(BuildConfiguration instance) {
     }
   }
 
-  writeNotNull('CodeBuildServiceRole', instance.codeBuildServiceRole);
-  writeNotNull('Image', instance.image);
   writeNotNull('ArtifactName', instance.artifactName);
   writeNotNull('ComputeType', _$ComputeTypeEnumMap[instance.computeType]);
   writeNotNull('TimeoutInMinutes', instance.timeoutInMinutes);
@@ -93,7 +94,9 @@ Map<String, dynamic> _$EnvironmentTierToJson(EnvironmentTier instance) {
 }
 
 Map<String, dynamic> _$MaxAgeRuleToJson(MaxAgeRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -101,14 +104,15 @@ Map<String, dynamic> _$MaxAgeRuleToJson(MaxAgeRule instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('DeleteSourceFromS3', instance.deleteSourceFromS3);
   writeNotNull('MaxAgeInDays', instance.maxAgeInDays);
   return val;
 }
 
 Map<String, dynamic> _$MaxCountRuleToJson(MaxCountRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -116,7 +120,6 @@ Map<String, dynamic> _$MaxCountRuleToJson(MaxCountRule instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('DeleteSourceFromS3', instance.deleteSourceFromS3);
   writeNotNull('MaxCount', instance.maxCount);
   return val;
@@ -182,21 +185,12 @@ Map<String, dynamic> _$SearchFilterToJson(SearchFilter instance) {
 }
 
 Map<String, dynamic> _$SourceBuildInformationToJson(
-    SourceBuildInformation instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SourceLocation', instance.sourceLocation);
-  writeNotNull(
-      'SourceRepository', _$SourceRepositoryEnumMap[instance.sourceRepository]);
-  writeNotNull('SourceType', _$SourceTypeEnumMap[instance.sourceType]);
-  return val;
-}
+        SourceBuildInformation instance) =>
+    <String, dynamic>{
+      'SourceLocation': instance.sourceLocation,
+      'SourceRepository': _$SourceRepositoryEnumMap[instance.sourceRepository],
+      'SourceType': _$SourceTypeEnumMap[instance.sourceType],
+    };
 
 const _$SourceRepositoryEnumMap = {
   SourceRepository.codeCommit: 'CodeCommit',

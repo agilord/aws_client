@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'discovery-2015-11-01.g.dart';
 
 /// AWS Application Discovery Service helps you plan application migration
 /// projects. It automatically identifies servers, virtual machines (VMs), and
@@ -36,10 +28,10 @@ part 'discovery-2015-11-01.g.dart';
 class ApplicationDiscoveryService {
   final _s.JsonProtocol _protocol;
   ApplicationDiscoveryService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,8 +57,8 @@ class ApplicationDiscoveryService {
   /// Parameter [configurationIds] :
   /// The ID of each configuration item to be associated with an application.
   Future<void> associateConfigurationItemsToApplication({
-    @_s.required String applicationConfigurationId,
-    @_s.required List<String> configurationIds,
+    required String applicationConfigurationId,
+    required List<String> configurationIds,
   }) async {
     ArgumentError.checkNotNull(
         applicationConfigurationId, 'applicationConfigurationId');
@@ -76,7 +68,7 @@ class ApplicationDiscoveryService {
       'X-Amz-Target':
           'AWSPoseidonService_V2015_11_01.AssociateConfigurationItemsToApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -87,9 +79,6 @@ class ApplicationDiscoveryService {
         'configurationIds': configurationIds,
       },
     );
-
-    return AssociateConfigurationItemsToApplicationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Deletes one or more import tasks, each identified by their import ID. Each
@@ -112,7 +101,7 @@ class ApplicationDiscoveryService {
   /// Parameter [importTaskIds] :
   /// The IDs for the import tasks that you want to delete.
   Future<BatchDeleteImportDataResponse> batchDeleteImportData({
-    @_s.required List<String> importTaskIds,
+    required List<String> importTaskIds,
   }) async {
     ArgumentError.checkNotNull(importTaskIds, 'importTaskIds');
     final headers = <String, String>{
@@ -147,8 +136,8 @@ class ApplicationDiscoveryService {
   /// Parameter [description] :
   /// Description of the application to be created.
   Future<CreateApplicationResponse> createApplication({
-    @_s.required String name,
-    String description,
+    required String name,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -191,8 +180,8 @@ class ApplicationDiscoveryService {
   ///
   /// <code>{"key": "serverType", "value": "webServer"}</code>
   Future<void> createTags({
-    @_s.required List<String> configurationIds,
-    @_s.required List<Tag> tags,
+    required List<String> configurationIds,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -200,7 +189,7 @@ class ApplicationDiscoveryService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.CreateTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -211,8 +200,6 @@ class ApplicationDiscoveryService {
         'tags': tags,
       },
     );
-
-    return CreateTagsResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a list of applications and their associations with configuration
@@ -227,14 +214,14 @@ class ApplicationDiscoveryService {
   /// Parameter [configurationIds] :
   /// Configuration ID of an application to be deleted.
   Future<void> deleteApplications({
-    @_s.required List<String> configurationIds,
+    required List<String> configurationIds,
   }) async {
     ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DeleteApplications'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -244,8 +231,6 @@ class ApplicationDiscoveryService {
         'configurationIds': configurationIds,
       },
     );
-
-    return DeleteApplicationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the association between configuration items and one or more tags.
@@ -268,15 +253,15 @@ class ApplicationDiscoveryService {
   ///
   /// <code>{"key": "serverType", "value": "webServer"}</code>
   Future<void> deleteTags({
-    @_s.required List<String> configurationIds,
-    List<Tag> tags,
+    required List<String> configurationIds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DeleteTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -287,8 +272,6 @@ class ApplicationDiscoveryService {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return DeleteTagsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists agents or connectors as specified by ID or other filters. All
@@ -323,10 +306,10 @@ class ApplicationDiscoveryService {
   /// 10 results along with a token. Use that token in this query to get the
   /// next set of 10.
   Future<DescribeAgentsResponse> describeAgents({
-    List<String> agentIds,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<String>? agentIds,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -388,7 +371,7 @@ class ApplicationDiscoveryService {
   /// Parameter [configurationIds] :
   /// One or more configuration IDs.
   Future<DescribeConfigurationsResponse> describeConfigurations({
-    @_s.required List<String> configurationIds,
+    required List<String> configurationIds,
   }) async {
     ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
@@ -432,9 +415,9 @@ class ApplicationDiscoveryService {
   /// Parameter [nextToken] :
   /// The token from the previous call to <code>DescribeExportTasks</code>.
   Future<DescribeContinuousExportsResponse> describeContinuousExports({
-    List<String> exportIds,
-    int maxResults,
-    String nextToken,
+    List<String>? exportIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -484,9 +467,9 @@ class ApplicationDiscoveryService {
   /// The token from the previous call to describe-export-tasks.
   @Deprecated('Deprecated')
   Future<DescribeExportConfigurationsResponse> describeExportConfigurations({
-    List<String> exportIds,
-    int maxResults,
-    String nextToken,
+    List<String>? exportIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -547,10 +530,10 @@ class ApplicationDiscoveryService {
   /// <code>nextToken</code> value. This value is null when there are no more
   /// results to return.
   Future<DescribeExportTasksResponse> describeExportTasks({
-    List<String> exportIds,
-    List<ExportFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<String>? exportIds,
+    List<ExportFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -595,9 +578,9 @@ class ApplicationDiscoveryService {
   /// Parameter [nextToken] :
   /// The token to request a specific page of results.
   Future<DescribeImportTasksResponse> describeImportTasks({
-    List<ImportTaskFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ImportTaskFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -666,9 +649,9 @@ class ApplicationDiscoveryService {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<DescribeTagsResponse> describeTags({
-    List<TagFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<TagFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -704,8 +687,8 @@ class ApplicationDiscoveryService {
   /// Parameter [configurationIds] :
   /// Configuration ID of each item to be disassociated from an application.
   Future<void> disassociateConfigurationItemsFromApplication({
-    @_s.required String applicationConfigurationId,
-    @_s.required List<String> configurationIds,
+    required String applicationConfigurationId,
+    required List<String> configurationIds,
   }) async {
     ArgumentError.checkNotNull(
         applicationConfigurationId, 'applicationConfigurationId');
@@ -715,7 +698,7 @@ class ApplicationDiscoveryService {
       'X-Amz-Target':
           'AWSPoseidonService_V2015_11_01.DisassociateConfigurationItemsFromApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -726,9 +709,6 @@ class ApplicationDiscoveryService {
         'configurationIds': configurationIds,
       },
     );
-
-    return DisassociateConfigurationItemsFromApplicationResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Deprecated. Use <code>StartExportTask</code> instead.
@@ -833,11 +813,11 @@ class ApplicationDiscoveryService {
   /// the ListConfigurations Action</a> in the <i>AWS Application Discovery
   /// Service User Guide</i>.
   Future<ListConfigurationsResponse> listConfigurations({
-    @_s.required ConfigurationItemType configurationType,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<OrderByElement> orderBy,
+    required ConfigurationItemType configurationType,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<OrderByElement>? orderBy,
   }) async {
     ArgumentError.checkNotNull(configurationType, 'configurationType');
     final headers = <String, String>{
@@ -851,7 +831,7 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'configurationType': configurationType?.toValue() ?? '',
+        'configurationType': configurationType.toValue(),
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
@@ -892,11 +872,11 @@ class ApplicationDiscoveryService {
   /// Flag to indicate if port and protocol information is needed as part of the
   /// response.
   Future<ListServerNeighborsResponse> listServerNeighbors({
-    @_s.required String configurationId,
-    int maxResults,
-    List<String> neighborConfigurationIds,
-    String nextToken,
-    bool portInformationNeeded,
+    required String configurationId,
+    int? maxResults,
+    List<String>? neighborConfigurationIds,
+    String? nextToken,
+    bool? portInformationNeeded,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     final headers = <String, String>{
@@ -967,7 +947,7 @@ class ApplicationDiscoveryService {
   /// agents/connectors, the system does not throw an exception. Instead, the
   /// system shows <code>Failed</code> in the <i>Description</i> field.
   Future<StartDataCollectionByAgentIdsResponse> startDataCollectionByAgentIds({
-    @_s.required List<String> agentIds,
+    required List<String> agentIds,
   }) async {
     ArgumentError.checkNotNull(agentIds, 'agentIds');
     final headers = <String, String>{
@@ -1034,10 +1014,10 @@ class ApplicationDiscoveryService {
   /// Discovery Agent selected in the filters. If no value is specified, data is
   /// exported starting from the first data collected by the agent.
   Future<StartExportTaskResponse> startExportTask({
-    DateTime endTime,
-    List<ExportDataFormat> exportDataFormat,
-    List<ExportFilter> filters,
-    DateTime startTime,
+    DateTime? endTime,
+    List<ExportDataFormat>? exportDataFormat,
+    List<ExportFilter>? filters,
+    DateTime? startTime,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1052,8 +1032,7 @@ class ApplicationDiscoveryService {
       payload: {
         if (endTime != null) 'endTime': unixTimestampToJson(endTime),
         if (exportDataFormat != null)
-          'exportDataFormat':
-              exportDataFormat.map((e) => e?.toValue() ?? '').toList(),
+          'exportDataFormat': exportDataFormat.map((e) => e.toValue()).toList(),
         if (filters != null) 'filters': filters,
         if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       },
@@ -1128,9 +1107,9 @@ class ApplicationDiscoveryService {
   /// client request token will return information about the original import
   /// task with that client request token.
   Future<StartImportTaskResponse> startImportTask({
-    @_s.required String importUrl,
-    @_s.required String name,
-    String clientRequestToken,
+    required String importUrl,
+    required String name,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(importUrl, 'importUrl');
     _s.validateStringLength(
@@ -1189,7 +1168,7 @@ class ApplicationDiscoveryService {
   /// Parameter [exportId] :
   /// The unique ID assigned to this export.
   Future<StopContinuousExportResponse> stopContinuousExport({
-    @_s.required String exportId,
+    required String exportId,
   }) async {
     ArgumentError.checkNotNull(exportId, 'exportId');
     final headers = <String, String>{
@@ -1221,7 +1200,7 @@ class ApplicationDiscoveryService {
   /// Parameter [agentIds] :
   /// The IDs of the agents or connectors from which to stop collecting data.
   Future<StopDataCollectionByAgentIdsResponse> stopDataCollectionByAgentIds({
-    @_s.required List<String> agentIds,
+    required List<String> agentIds,
   }) async {
     ArgumentError.checkNotNull(agentIds, 'agentIds');
     final headers = <String, String>{
@@ -1260,16 +1239,16 @@ class ApplicationDiscoveryService {
   /// Parameter [name] :
   /// New name of the application to be updated.
   Future<void> updateApplication({
-    @_s.required String configurationId,
-    String description,
-    String name,
+    required String configurationId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.UpdateApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1281,94 +1260,74 @@ class ApplicationDiscoveryService {
         if (name != null) 'name': name,
       },
     );
-
-    return UpdateApplicationResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// Information about agents or connectors that were instructed to start
 /// collecting data. Information includes the agent/connector ID, a description
 /// of the operation, and whether the agent/connector configuration was updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgentConfigurationStatus {
   /// The agent/connector ID.
-  @_s.JsonKey(name: 'agentId')
-  final String agentId;
+  final String? agentId;
 
   /// A description of the operation performed.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Information about the status of the <code>StartDataCollection</code> and
   /// <code>StopDataCollection</code> operations. The system has recorded the data
   /// collection operation. The agent/connector receives this command the next
   /// time it polls for a new command.
-  @_s.JsonKey(name: 'operationSucceeded')
-  final bool operationSucceeded;
+  final bool? operationSucceeded;
 
   AgentConfigurationStatus({
     this.agentId,
     this.description,
     this.operationSucceeded,
   });
-  factory AgentConfigurationStatus.fromJson(Map<String, dynamic> json) =>
-      _$AgentConfigurationStatusFromJson(json);
+  factory AgentConfigurationStatus.fromJson(Map<String, dynamic> json) {
+    return AgentConfigurationStatus(
+      agentId: json['agentId'] as String?,
+      description: json['description'] as String?,
+      operationSucceeded: json['operationSucceeded'] as bool?,
+    );
+  }
 }
 
 /// Information about agents or connectors associated with the user’s AWS
 /// account. Information includes agent or connector IDs, IP addresses, media
 /// access control (MAC) addresses, agent or connector health, hostname where
 /// the agent or connector resides, and agent version for each agent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgentInfo {
   /// The agent or connector ID.
-  @_s.JsonKey(name: 'agentId')
-  final String agentId;
+  final String? agentId;
 
   /// Network details about the host where the agent or connector resides.
-  @_s.JsonKey(name: 'agentNetworkInfoList')
-  final List<AgentNetworkInfo> agentNetworkInfoList;
+  final List<AgentNetworkInfo>? agentNetworkInfoList;
 
   /// Type of agent.
-  @_s.JsonKey(name: 'agentType')
-  final String agentType;
+  final String? agentType;
 
   /// Status of the collection process for an agent or connector.
-  @_s.JsonKey(name: 'collectionStatus')
-  final String collectionStatus;
+  final String? collectionStatus;
 
   /// The ID of the connector.
-  @_s.JsonKey(name: 'connectorId')
-  final String connectorId;
+  final String? connectorId;
 
   /// The health of the agent or connector.
-  @_s.JsonKey(name: 'health')
-  final AgentStatus health;
+  final AgentStatus? health;
 
   /// The name of the host where the agent or connector resides. The host can be a
   /// server or virtual machine.
-  @_s.JsonKey(name: 'hostName')
-  final String hostName;
+  final String? hostName;
 
   /// Time since agent or connector health was reported.
-  @_s.JsonKey(name: 'lastHealthPingTime')
-  final String lastHealthPingTime;
+  final String? lastHealthPingTime;
 
   /// Agent's first registration timestamp in UTC.
-  @_s.JsonKey(name: 'registeredTime')
-  final String registeredTime;
+  final String? registeredTime;
 
   /// The agent or connector version.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   AgentInfo({
     this.agentId,
@@ -1382,124 +1341,185 @@ class AgentInfo {
     this.registeredTime,
     this.version,
   });
-  factory AgentInfo.fromJson(Map<String, dynamic> json) =>
-      _$AgentInfoFromJson(json);
+  factory AgentInfo.fromJson(Map<String, dynamic> json) {
+    return AgentInfo(
+      agentId: json['agentId'] as String?,
+      agentNetworkInfoList: (json['agentNetworkInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AgentNetworkInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      agentType: json['agentType'] as String?,
+      collectionStatus: json['collectionStatus'] as String?,
+      connectorId: json['connectorId'] as String?,
+      health: (json['health'] as String?)?.toAgentStatus(),
+      hostName: json['hostName'] as String?,
+      lastHealthPingTime: json['lastHealthPingTime'] as String?,
+      registeredTime: json['registeredTime'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 }
 
 /// Network details about the host where the agent/connector resides.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AgentNetworkInfo {
   /// The IP address for the host where the agent/connector resides.
-  @_s.JsonKey(name: 'ipAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The MAC address for the host where the agent/connector resides.
-  @_s.JsonKey(name: 'macAddress')
-  final String macAddress;
+  final String? macAddress;
 
   AgentNetworkInfo({
     this.ipAddress,
     this.macAddress,
   });
-  factory AgentNetworkInfo.fromJson(Map<String, dynamic> json) =>
-      _$AgentNetworkInfoFromJson(json);
+  factory AgentNetworkInfo.fromJson(Map<String, dynamic> json) {
+    return AgentNetworkInfo(
+      ipAddress: json['ipAddress'] as String?,
+      macAddress: json['macAddress'] as String?,
+    );
+  }
 }
 
 enum AgentStatus {
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('BLACKLISTED')
   blacklisted,
-  @_s.JsonValue('SHUTDOWN')
   shutdown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AgentStatus {
+  String toValue() {
+    switch (this) {
+      case AgentStatus.healthy:
+        return 'HEALTHY';
+      case AgentStatus.unhealthy:
+        return 'UNHEALTHY';
+      case AgentStatus.running:
+        return 'RUNNING';
+      case AgentStatus.unknown:
+        return 'UNKNOWN';
+      case AgentStatus.blacklisted:
+        return 'BLACKLISTED';
+      case AgentStatus.shutdown:
+        return 'SHUTDOWN';
+    }
+  }
+}
+
+extension on String {
+  AgentStatus toAgentStatus() {
+    switch (this) {
+      case 'HEALTHY':
+        return AgentStatus.healthy;
+      case 'UNHEALTHY':
+        return AgentStatus.unhealthy;
+      case 'RUNNING':
+        return AgentStatus.running;
+      case 'UNKNOWN':
+        return AgentStatus.unknown;
+      case 'BLACKLISTED':
+        return AgentStatus.blacklisted;
+      case 'SHUTDOWN':
+        return AgentStatus.shutdown;
+    }
+    throw Exception('$this is not known in enum AgentStatus');
+  }
+}
+
 class AssociateConfigurationItemsToApplicationResponse {
   AssociateConfigurationItemsToApplicationResponse();
   factory AssociateConfigurationItemsToApplicationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateConfigurationItemsToApplicationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateConfigurationItemsToApplicationResponse();
+  }
 }
 
 /// Error messages returned for each import task that you deleted as a response
 /// for this command.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteImportDataError {
   /// The type of error that occurred for a specific import task.
-  @_s.JsonKey(name: 'errorCode')
-  final BatchDeleteImportDataErrorCode errorCode;
+  final BatchDeleteImportDataErrorCode? errorCode;
 
   /// The description of the error that occurred for a specific import task.
-  @_s.JsonKey(name: 'errorDescription')
-  final String errorDescription;
+  final String? errorDescription;
 
   /// The unique import ID associated with the error that occurred.
-  @_s.JsonKey(name: 'importTaskId')
-  final String importTaskId;
+  final String? importTaskId;
 
   BatchDeleteImportDataError({
     this.errorCode,
     this.errorDescription,
     this.importTaskId,
   });
-  factory BatchDeleteImportDataError.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteImportDataErrorFromJson(json);
+  factory BatchDeleteImportDataError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteImportDataError(
+      errorCode:
+          (json['errorCode'] as String?)?.toBatchDeleteImportDataErrorCode(),
+      errorDescription: json['errorDescription'] as String?,
+      importTaskId: json['importTaskId'] as String?,
+    );
+  }
 }
 
 enum BatchDeleteImportDataErrorCode {
-  @_s.JsonValue('NOT_FOUND')
   notFound,
-  @_s.JsonValue('INTERNAL_SERVER_ERROR')
   internalServerError,
-  @_s.JsonValue('OVER_LIMIT')
   overLimit,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on BatchDeleteImportDataErrorCode {
+  String toValue() {
+    switch (this) {
+      case BatchDeleteImportDataErrorCode.notFound:
+        return 'NOT_FOUND';
+      case BatchDeleteImportDataErrorCode.internalServerError:
+        return 'INTERNAL_SERVER_ERROR';
+      case BatchDeleteImportDataErrorCode.overLimit:
+        return 'OVER_LIMIT';
+    }
+  }
+}
+
+extension on String {
+  BatchDeleteImportDataErrorCode toBatchDeleteImportDataErrorCode() {
+    switch (this) {
+      case 'NOT_FOUND':
+        return BatchDeleteImportDataErrorCode.notFound;
+      case 'INTERNAL_SERVER_ERROR':
+        return BatchDeleteImportDataErrorCode.internalServerError;
+      case 'OVER_LIMIT':
+        return BatchDeleteImportDataErrorCode.overLimit;
+    }
+    throw Exception(
+        '$this is not known in enum BatchDeleteImportDataErrorCode');
+  }
+}
+
 class BatchDeleteImportDataResponse {
   /// Error messages returned for each import task that you deleted as a response
   /// for this command.
-  @_s.JsonKey(name: 'errors')
-  final List<BatchDeleteImportDataError> errors;
+  final List<BatchDeleteImportDataError>? errors;
 
   BatchDeleteImportDataResponse({
     this.errors,
   });
-  factory BatchDeleteImportDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteImportDataResponseFromJson(json);
+  factory BatchDeleteImportDataResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteImportDataResponse(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchDeleteImportDataError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum ConfigurationItemType {
-  @_s.JsonValue('SERVER')
   server,
-  @_s.JsonValue('PROCESS')
   process,
-  @_s.JsonValue('CONNECTION')
   connection,
-  @_s.JsonValue('APPLICATION')
   application,
 }
 
@@ -1515,41 +1535,45 @@ extension on ConfigurationItemType {
       case ConfigurationItemType.application:
         return 'APPLICATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ConfigurationItemType toConfigurationItemType() {
+    switch (this) {
+      case 'SERVER':
+        return ConfigurationItemType.server;
+      case 'PROCESS':
+        return ConfigurationItemType.process;
+      case 'CONNECTION':
+        return ConfigurationItemType.connection;
+      case 'APPLICATION':
+        return ConfigurationItemType.application;
+    }
+    throw Exception('$this is not known in enum ConfigurationItemType');
   }
 }
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT
 /// assets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationTag {
   /// The configuration ID for the item to tag. You can specify a list of keys and
   /// values.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   /// A type of IT asset to tag.
-  @_s.JsonKey(name: 'configurationType')
-  final ConfigurationItemType configurationType;
+  final ConfigurationItemType? configurationType;
 
   /// A type of tag on which to filter. For example, <i>serverType</i>.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The time the configuration tag was created in Coordinated Universal Time
   /// (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'timeOfCreation')
-  final DateTime timeOfCreation;
+  final DateTime? timeOfCreation;
 
   /// A value on which to filter. For example <i>key = serverType</i> and <i>value
   /// = web server</i>.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ConfigurationTag({
     this.configurationId,
@@ -1558,29 +1582,29 @@ class ConfigurationTag {
     this.timeOfCreation,
     this.value,
   });
-  factory ConfigurationTag.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationTagFromJson(json);
+  factory ConfigurationTag.fromJson(Map<String, dynamic> json) {
+    return ConfigurationTag(
+      configurationId: json['configurationId'] as String?,
+      configurationType:
+          (json['configurationType'] as String?)?.toConfigurationItemType(),
+      key: json['key'] as String?,
+      timeOfCreation: timeStampFromJson(json['timeOfCreation']),
+      value: json['value'] as String?,
+    );
+  }
 }
 
 /// A list of continuous export descriptions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContinuousExportDescription {
   /// The type of data collector used to gather this data (currently only offered
   /// for AGENT).
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The unique ID assigned to this export.
-  @_s.JsonKey(name: 'exportId')
-  final String exportId;
+  final String? exportId;
 
   /// The name of the s3 bucket where the export data parquet files are stored.
-  @_s.JsonKey(name: 's3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// An object which describes how the data is stored.
   ///
@@ -1590,13 +1614,10 @@ class ContinuousExportDescription {
   /// schema.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'schemaStorageConfig')
-  final Map<String, String> schemaStorageConfig;
+  final Map<String, String>? schemaStorageConfig;
 
   /// The timestamp representing when the continuous export was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// Describes the status of the export. Can be one of the following values:
   ///
@@ -1627,8 +1648,7 @@ class ContinuousExportDescription {
   /// exported to the customer bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final ContinuousExportStatus status;
+  final ContinuousExportStatus? status;
 
   /// Contains information about any errors that have occurred. This data type can
   /// have the following values:
@@ -1683,13 +1703,10 @@ class ContinuousExportDescription {
   /// href="https://aws.amazon.com/s3">https://aws.amazon.com/s3</a>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'statusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   /// The timestamp that represents when this continuous export was stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopTime')
-  final DateTime stopTime;
+  final DateTime? stopTime;
 
   ContinuousExportDescription({
     this.dataSource,
@@ -1701,378 +1718,416 @@ class ContinuousExportDescription {
     this.statusDetail,
     this.stopTime,
   });
-  factory ContinuousExportDescription.fromJson(Map<String, dynamic> json) =>
-      _$ContinuousExportDescriptionFromJson(json);
+  factory ContinuousExportDescription.fromJson(Map<String, dynamic> json) {
+    return ContinuousExportDescription(
+      dataSource: (json['dataSource'] as String?)?.toDataSource(),
+      exportId: json['exportId'] as String?,
+      s3Bucket: json['s3Bucket'] as String?,
+      schemaStorageConfig:
+          (json['schemaStorageConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.toContinuousExportStatus(),
+      statusDetail: json['statusDetail'] as String?,
+      stopTime: timeStampFromJson(json['stopTime']),
+    );
+  }
 }
 
 enum ContinuousExportStatus {
-  @_s.JsonValue('START_IN_PROGRESS')
   startInProgress,
-  @_s.JsonValue('START_FAILED')
   startFailed,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('STOP_IN_PROGRESS')
   stopInProgress,
-  @_s.JsonValue('STOP_FAILED')
   stopFailed,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ContinuousExportStatus {
+  String toValue() {
+    switch (this) {
+      case ContinuousExportStatus.startInProgress:
+        return 'START_IN_PROGRESS';
+      case ContinuousExportStatus.startFailed:
+        return 'START_FAILED';
+      case ContinuousExportStatus.active:
+        return 'ACTIVE';
+      case ContinuousExportStatus.error:
+        return 'ERROR';
+      case ContinuousExportStatus.stopInProgress:
+        return 'STOP_IN_PROGRESS';
+      case ContinuousExportStatus.stopFailed:
+        return 'STOP_FAILED';
+      case ContinuousExportStatus.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  ContinuousExportStatus toContinuousExportStatus() {
+    switch (this) {
+      case 'START_IN_PROGRESS':
+        return ContinuousExportStatus.startInProgress;
+      case 'START_FAILED':
+        return ContinuousExportStatus.startFailed;
+      case 'ACTIVE':
+        return ContinuousExportStatus.active;
+      case 'ERROR':
+        return ContinuousExportStatus.error;
+      case 'STOP_IN_PROGRESS':
+        return ContinuousExportStatus.stopInProgress;
+      case 'STOP_FAILED':
+        return ContinuousExportStatus.stopFailed;
+      case 'INACTIVE':
+        return ContinuousExportStatus.inactive;
+    }
+    throw Exception('$this is not known in enum ContinuousExportStatus');
+  }
+}
+
 class CreateApplicationResponse {
   /// Configuration ID of an application to be created.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   CreateApplicationResponse({
     this.configurationId,
   });
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApplicationResponseFromJson(json);
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      configurationId: json['configurationId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTagsResponse {
   CreateTagsResponse();
-  factory CreateTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTagsResponseFromJson(json);
+  factory CreateTagsResponse.fromJson(Map<String, dynamic> _) {
+    return CreateTagsResponse();
+  }
 }
 
 /// Inventory data for installed discovery agents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomerAgentInfo {
   /// Number of active discovery agents.
-  @_s.JsonKey(name: 'activeAgents')
   final int activeAgents;
 
   /// Number of blacklisted discovery agents.
-  @_s.JsonKey(name: 'blackListedAgents')
   final int blackListedAgents;
 
   /// Number of healthy discovery agents
-  @_s.JsonKey(name: 'healthyAgents')
   final int healthyAgents;
 
   /// Number of discovery agents with status SHUTDOWN.
-  @_s.JsonKey(name: 'shutdownAgents')
   final int shutdownAgents;
 
   /// Total number of discovery agents.
-  @_s.JsonKey(name: 'totalAgents')
   final int totalAgents;
 
   /// Number of unhealthy discovery agents.
-  @_s.JsonKey(name: 'unhealthyAgents')
   final int unhealthyAgents;
 
   /// Number of unknown discovery agents.
-  @_s.JsonKey(name: 'unknownAgents')
   final int unknownAgents;
 
   CustomerAgentInfo({
-    @_s.required this.activeAgents,
-    @_s.required this.blackListedAgents,
-    @_s.required this.healthyAgents,
-    @_s.required this.shutdownAgents,
-    @_s.required this.totalAgents,
-    @_s.required this.unhealthyAgents,
-    @_s.required this.unknownAgents,
+    required this.activeAgents,
+    required this.blackListedAgents,
+    required this.healthyAgents,
+    required this.shutdownAgents,
+    required this.totalAgents,
+    required this.unhealthyAgents,
+    required this.unknownAgents,
   });
-  factory CustomerAgentInfo.fromJson(Map<String, dynamic> json) =>
-      _$CustomerAgentInfoFromJson(json);
+  factory CustomerAgentInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerAgentInfo(
+      activeAgents: json['activeAgents'] as int,
+      blackListedAgents: json['blackListedAgents'] as int,
+      healthyAgents: json['healthyAgents'] as int,
+      shutdownAgents: json['shutdownAgents'] as int,
+      totalAgents: json['totalAgents'] as int,
+      unhealthyAgents: json['unhealthyAgents'] as int,
+      unknownAgents: json['unknownAgents'] as int,
+    );
+  }
 }
 
 /// Inventory data for installed discovery connectors.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomerConnectorInfo {
   /// Number of active discovery connectors.
-  @_s.JsonKey(name: 'activeConnectors')
   final int activeConnectors;
 
   /// Number of blacklisted discovery connectors.
-  @_s.JsonKey(name: 'blackListedConnectors')
   final int blackListedConnectors;
 
   /// Number of healthy discovery connectors.
-  @_s.JsonKey(name: 'healthyConnectors')
   final int healthyConnectors;
 
   /// Number of discovery connectors with status SHUTDOWN,
-  @_s.JsonKey(name: 'shutdownConnectors')
   final int shutdownConnectors;
 
   /// Total number of discovery connectors.
-  @_s.JsonKey(name: 'totalConnectors')
   final int totalConnectors;
 
   /// Number of unhealthy discovery connectors.
-  @_s.JsonKey(name: 'unhealthyConnectors')
   final int unhealthyConnectors;
 
   /// Number of unknown discovery connectors.
-  @_s.JsonKey(name: 'unknownConnectors')
   final int unknownConnectors;
 
   CustomerConnectorInfo({
-    @_s.required this.activeConnectors,
-    @_s.required this.blackListedConnectors,
-    @_s.required this.healthyConnectors,
-    @_s.required this.shutdownConnectors,
-    @_s.required this.totalConnectors,
-    @_s.required this.unhealthyConnectors,
-    @_s.required this.unknownConnectors,
+    required this.activeConnectors,
+    required this.blackListedConnectors,
+    required this.healthyConnectors,
+    required this.shutdownConnectors,
+    required this.totalConnectors,
+    required this.unhealthyConnectors,
+    required this.unknownConnectors,
   });
-  factory CustomerConnectorInfo.fromJson(Map<String, dynamic> json) =>
-      _$CustomerConnectorInfoFromJson(json);
+  factory CustomerConnectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerConnectorInfo(
+      activeConnectors: json['activeConnectors'] as int,
+      blackListedConnectors: json['blackListedConnectors'] as int,
+      healthyConnectors: json['healthyConnectors'] as int,
+      shutdownConnectors: json['shutdownConnectors'] as int,
+      totalConnectors: json['totalConnectors'] as int,
+      unhealthyConnectors: json['unhealthyConnectors'] as int,
+      unknownConnectors: json['unknownConnectors'] as int,
+    );
+  }
 }
 
 enum DataSource {
-  @_s.JsonValue('AGENT')
   agent,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DataSource {
+  String toValue() {
+    switch (this) {
+      case DataSource.agent:
+        return 'AGENT';
+    }
+  }
+}
+
+extension on String {
+  DataSource toDataSource() {
+    switch (this) {
+      case 'AGENT':
+        return DataSource.agent;
+    }
+    throw Exception('$this is not known in enum DataSource');
+  }
+}
+
 class DeleteApplicationsResponse {
   DeleteApplicationsResponse();
-  factory DeleteApplicationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApplicationsResponseFromJson(json);
+  factory DeleteApplicationsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTagsResponse {
   DeleteTagsResponse();
-  factory DeleteTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTagsResponseFromJson(json);
+  factory DeleteTagsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTagsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAgentsResponse {
   /// Lists agents or the Connector by ID or lists all agents/Connectors
   /// associated with your user account if you did not specify an agent/Connector
   /// ID. The output includes agent/Connector IDs, IP addresses, media access
   /// control (MAC) addresses, agent/Connector health, host name where the
   /// agent/Connector resides, and the version number of each agent/Connector.
-  @_s.JsonKey(name: 'agentsInfo')
-  final List<AgentInfo> agentsInfo;
+  final List<AgentInfo>? agentsInfo;
 
   /// Token to retrieve the next set of results. For example, if you specified 100
   /// IDs for <code>DescribeAgentsRequest$agentIds</code> but set
   /// <code>DescribeAgentsRequest$maxResults</code> to 10, you received a set of
   /// 10 results along with this token. Use this token in the next query to
   /// retrieve the next set of 10.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAgentsResponse({
     this.agentsInfo,
     this.nextToken,
   });
-  factory DescribeAgentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAgentsResponseFromJson(json);
+  factory DescribeAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAgentsResponse(
+      agentsInfo: (json['agentsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => AgentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConfigurationsResponse {
   /// A key in the response map. The value is an array of data.
-  @_s.JsonKey(name: 'configurations')
-  final List<Map<String, String>> configurations;
+  final List<Map<String, String>>? configurations;
 
   DescribeConfigurationsResponse({
     this.configurations,
   });
-  factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConfigurationsResponseFromJson(json);
+  factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContinuousExportsResponse {
   /// A list of continuous export descriptions.
-  @_s.JsonKey(name: 'descriptions')
-  final List<ContinuousExportDescription> descriptions;
+  final List<ContinuousExportDescription>? descriptions;
 
   /// The token from the previous call to <code>DescribeExportTasks</code>.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeContinuousExportsResponse({
     this.descriptions,
     this.nextToken,
   });
   factory DescribeContinuousExportsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeContinuousExportsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeContinuousExportsResponse(
+      descriptions: (json['descriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ContinuousExportDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeExportConfigurationsResponse {
   /// <p/>
-  @_s.JsonKey(name: 'exportsInfo')
-  final List<ExportInfo> exportsInfo;
+  final List<ExportInfo>? exportsInfo;
 
   /// The token from the previous call to describe-export-tasks.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeExportConfigurationsResponse({
     this.exportsInfo,
     this.nextToken,
   });
   factory DescribeExportConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeExportConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeExportConfigurationsResponse(
+      exportsInfo: (json['exportsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeExportTasksResponse {
   /// Contains one or more sets of export request details. When the status of a
   /// request is <code>SUCCEEDED</code>, the response includes a URL for an Amazon
   /// S3 bucket where you can view the data in a CSV file.
-  @_s.JsonKey(name: 'exportsInfo')
-  final List<ExportInfo> exportsInfo;
+  final List<ExportInfo>? exportsInfo;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeExportTasks</code> request. When the results of a
   /// <code>DescribeExportTasks</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// null when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeExportTasksResponse({
     this.exportsInfo,
     this.nextToken,
   });
-  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeExportTasksResponseFromJson(json);
+  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExportTasksResponse(
+      exportsInfo: (json['exportsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImportTasksResponse {
   /// The token to request the next page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A returned array of import tasks that match any applied filters, up to the
   /// specified number of maximum results.
-  @_s.JsonKey(name: 'tasks')
-  final List<ImportTask> tasks;
+  final List<ImportTask>? tasks;
 
   DescribeImportTasksResponse({
     this.nextToken,
     this.tasks,
   });
-  factory DescribeImportTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeImportTasksResponseFromJson(json);
+  factory DescribeImportTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeImportTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImportTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagsResponse {
   /// The call returns a token. Use this token to get the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Depending on the input, this is a list of configuration items tagged with a
   /// specific tag, or a list of tags for a specific configuration item.
-  @_s.JsonKey(name: 'tags')
-  final List<ConfigurationTag> tags;
+  final List<ConfigurationTag>? tags;
 
   DescribeTagsResponse({
     this.nextToken,
     this.tags,
   });
-  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagsResponseFromJson(json);
+  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResponse(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateConfigurationItemsFromApplicationResponse {
   DisassociateConfigurationItemsFromApplicationResponse();
   factory DisassociateConfigurationItemsFromApplicationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateConfigurationItemsFromApplicationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateConfigurationItemsFromApplicationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportConfigurationsResponse {
   /// A unique identifier that you can use to query the export status.
-  @_s.JsonKey(name: 'exportId')
-  final String exportId;
+  final String? exportId;
 
   ExportConfigurationsResponse({
     this.exportId,
   });
-  factory ExportConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExportConfigurationsResponseFromJson(json);
+  factory ExportConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ExportConfigurationsResponse(
+      exportId: json['exportId'] as String?,
+    );
+  }
 }
 
 enum ExportDataFormat {
-  @_s.JsonValue('CSV')
   csv,
-  @_s.JsonValue('GRAPHML')
   graphml,
 }
 
@@ -2084,7 +2139,18 @@ extension on ExportDataFormat {
       case ExportDataFormat.graphml:
         return 'GRAPHML';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExportDataFormat toExportDataFormat() {
+    switch (this) {
+      case 'CSV':
+        return ExportDataFormat.csv;
+      case 'GRAPHML':
+        return ExportDataFormat.graphml;
+    }
+    throw Exception('$this is not known in enum ExportDataFormat');
   }
 }
 
@@ -2092,19 +2158,12 @@ extension on ExportDataFormat {
 /// be selected for export using the <a
 /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExportFilter {
   /// Supported condition: <code>EQUALS</code>
-  @_s.JsonKey(name: 'condition')
   final String condition;
 
   /// A single <code>ExportFilter</code> name. Supported filters:
   /// <code>agentId</code>.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// A single <code>agentId</code> for a Discovery Agent. An <code>agentId</code>
@@ -2112,89 +2171,116 @@ class ExportFilter {
   /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html">DescribeAgents</a>
   /// action. Typically an ADS <code>agentId</code> is in the form
   /// <code>o-0123456789abcdef0</code>.
-  @_s.JsonKey(name: 'values')
   final List<String> values;
 
   ExportFilter({
-    @_s.required this.condition,
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.condition,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$ExportFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'condition': condition,
+      'name': name,
+      'values': values,
+    };
+  }
 }
 
 /// Information regarding the export status of discovered data. The value is an
 /// array of objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportInfo {
   /// A unique identifier used to query an export.
-  @_s.JsonKey(name: 'exportId')
   final String exportId;
 
   /// The time that the data export was initiated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'exportRequestTime')
   final DateTime exportRequestTime;
 
   /// The status of the data export job.
-  @_s.JsonKey(name: 'exportStatus')
   final ExportStatus exportStatus;
 
   /// A status message provided for API callers.
-  @_s.JsonKey(name: 'statusMessage')
   final String statusMessage;
 
   /// A URL for an Amazon S3 bucket where you can review the exported data. The
   /// URL is displayed only if the export succeeded.
-  @_s.JsonKey(name: 'configurationsDownloadUrl')
-  final String configurationsDownloadUrl;
+  final String? configurationsDownloadUrl;
 
   /// If true, the export of agent information exceeded the size limit for a
   /// single export and the exported data is incomplete for the requested time
   /// range. To address this, select a smaller time range for the export by using
   /// <code>startDate</code> and <code>endDate</code>.
-  @_s.JsonKey(name: 'isTruncated')
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The <code>endTime</code> used in the <code>StartExportTask</code> request.
   /// If no <code>endTime</code> was requested, this result does not appear in
   /// <code>ExportInfo</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'requestedEndTime')
-  final DateTime requestedEndTime;
+  final DateTime? requestedEndTime;
 
   /// The value of <code>startTime</code> parameter in the
   /// <code>StartExportTask</code> request. If no <code>startTime</code> was
   /// requested, this result does not appear in <code>ExportInfo</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'requestedStartTime')
-  final DateTime requestedStartTime;
+  final DateTime? requestedStartTime;
 
   ExportInfo({
-    @_s.required this.exportId,
-    @_s.required this.exportRequestTime,
-    @_s.required this.exportStatus,
-    @_s.required this.statusMessage,
+    required this.exportId,
+    required this.exportRequestTime,
+    required this.exportStatus,
+    required this.statusMessage,
     this.configurationsDownloadUrl,
     this.isTruncated,
     this.requestedEndTime,
     this.requestedStartTime,
   });
-  factory ExportInfo.fromJson(Map<String, dynamic> json) =>
-      _$ExportInfoFromJson(json);
+  factory ExportInfo.fromJson(Map<String, dynamic> json) {
+    return ExportInfo(
+      exportId: json['exportId'] as String,
+      exportRequestTime:
+          nonNullableTimeStampFromJson(json['exportRequestTime'] as Object),
+      exportStatus: (json['exportStatus'] as String).toExportStatus(),
+      statusMessage: json['statusMessage'] as String,
+      configurationsDownloadUrl: json['configurationsDownloadUrl'] as String?,
+      isTruncated: json['isTruncated'] as bool?,
+      requestedEndTime: timeStampFromJson(json['requestedEndTime']),
+      requestedStartTime: timeStampFromJson(json['requestedStartTime']),
+    );
+  }
 }
 
 enum ExportStatus {
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+}
+
+extension on ExportStatus {
+  String toValue() {
+    switch (this) {
+      case ExportStatus.failed:
+        return 'FAILED';
+      case ExportStatus.succeeded:
+        return 'SUCCEEDED';
+      case ExportStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  ExportStatus toExportStatus() {
+    switch (this) {
+      case 'FAILED':
+        return ExportStatus.failed;
+      case 'SUCCEEDED':
+        return ExportStatus.succeeded;
+      case 'IN_PROGRESS':
+        return ExportStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum ExportStatus');
+  }
 }
 
 /// A filter that can use conditional operators.
@@ -2203,11 +2289,6 @@ enum ExportStatus {
 /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html">Querying
 /// Discovered Configuration Items</a> in the <i>AWS Application Discovery
 /// Service User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// A conditional operator. The following operators are valid: EQUALS,
   /// NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the
@@ -2216,56 +2297,51 @@ class Filter {
   /// the values using <i>OR</i>. Calling either <i>DescribeConfigurations</i> or
   /// <i>ListConfigurations</i> returns attributes of matching configuration
   /// items.
-  @_s.JsonKey(name: 'condition')
   final String condition;
 
   /// The name of the filter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// A string value on which to filter. For example, if you choose the
   /// <code>destinationServer.osVersion</code> filter name, you could specify
   /// <code>Ubuntu</code> for the value.
-  @_s.JsonKey(name: 'values')
   final List<String> values;
 
   Filter({
-    @_s.required this.condition,
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.condition,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'condition': condition,
+      'name': name,
+      'values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDiscoverySummaryResponse {
   /// Details about discovered agents, including agent status and health.
-  @_s.JsonKey(name: 'agentSummary')
-  final CustomerAgentInfo agentSummary;
+  final CustomerAgentInfo? agentSummary;
 
   /// The number of applications discovered.
-  @_s.JsonKey(name: 'applications')
-  final int applications;
+  final int? applications;
 
   /// Details about discovered connectors, including connector status and health.
-  @_s.JsonKey(name: 'connectorSummary')
-  final CustomerConnectorInfo connectorSummary;
+  final CustomerConnectorInfo? connectorSummary;
 
   /// The number of servers discovered.
-  @_s.JsonKey(name: 'servers')
-  final int servers;
+  final int? servers;
 
   /// The number of servers mapped to applications.
-  @_s.JsonKey(name: 'serversMappedToApplications')
-  final int serversMappedToApplications;
+  final int? serversMappedToApplications;
 
   /// The number of servers mapped to tags.
-  @_s.JsonKey(name: 'serversMappedtoTags')
-  final int serversMappedtoTags;
+  final int? serversMappedtoTags;
 
   GetDiscoverySummaryResponse({
     this.agentSummary,
@@ -2275,59 +2351,113 @@ class GetDiscoverySummaryResponse {
     this.serversMappedToApplications,
     this.serversMappedtoTags,
   });
-  factory GetDiscoverySummaryResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDiscoverySummaryResponseFromJson(json);
+  factory GetDiscoverySummaryResponse.fromJson(Map<String, dynamic> json) {
+    return GetDiscoverySummaryResponse(
+      agentSummary: json['agentSummary'] != null
+          ? CustomerAgentInfo.fromJson(
+              json['agentSummary'] as Map<String, dynamic>)
+          : null,
+      applications: json['applications'] as int?,
+      connectorSummary: json['connectorSummary'] != null
+          ? CustomerConnectorInfo.fromJson(
+              json['connectorSummary'] as Map<String, dynamic>)
+          : null,
+      servers: json['servers'] as int?,
+      serversMappedToApplications: json['serversMappedToApplications'] as int?,
+      serversMappedtoTags: json['serversMappedtoTags'] as int?,
+    );
+  }
 }
 
 enum ImportStatus {
-  @_s.JsonValue('IMPORT_IN_PROGRESS')
   importInProgress,
-  @_s.JsonValue('IMPORT_COMPLETE')
   importComplete,
-  @_s.JsonValue('IMPORT_COMPLETE_WITH_ERRORS')
   importCompleteWithErrors,
-  @_s.JsonValue('IMPORT_FAILED')
   importFailed,
-  @_s.JsonValue('IMPORT_FAILED_SERVER_LIMIT_EXCEEDED')
   importFailedServerLimitExceeded,
-  @_s.JsonValue('IMPORT_FAILED_RECORD_LIMIT_EXCEEDED')
   importFailedRecordLimitExceeded,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('DELETE_FAILED_LIMIT_EXCEEDED')
   deleteFailedLimitExceeded,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
+}
+
+extension on ImportStatus {
+  String toValue() {
+    switch (this) {
+      case ImportStatus.importInProgress:
+        return 'IMPORT_IN_PROGRESS';
+      case ImportStatus.importComplete:
+        return 'IMPORT_COMPLETE';
+      case ImportStatus.importCompleteWithErrors:
+        return 'IMPORT_COMPLETE_WITH_ERRORS';
+      case ImportStatus.importFailed:
+        return 'IMPORT_FAILED';
+      case ImportStatus.importFailedServerLimitExceeded:
+        return 'IMPORT_FAILED_SERVER_LIMIT_EXCEEDED';
+      case ImportStatus.importFailedRecordLimitExceeded:
+        return 'IMPORT_FAILED_RECORD_LIMIT_EXCEEDED';
+      case ImportStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case ImportStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case ImportStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case ImportStatus.deleteFailedLimitExceeded:
+        return 'DELETE_FAILED_LIMIT_EXCEEDED';
+      case ImportStatus.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ImportStatus toImportStatus() {
+    switch (this) {
+      case 'IMPORT_IN_PROGRESS':
+        return ImportStatus.importInProgress;
+      case 'IMPORT_COMPLETE':
+        return ImportStatus.importComplete;
+      case 'IMPORT_COMPLETE_WITH_ERRORS':
+        return ImportStatus.importCompleteWithErrors;
+      case 'IMPORT_FAILED':
+        return ImportStatus.importFailed;
+      case 'IMPORT_FAILED_SERVER_LIMIT_EXCEEDED':
+        return ImportStatus.importFailedServerLimitExceeded;
+      case 'IMPORT_FAILED_RECORD_LIMIT_EXCEEDED':
+        return ImportStatus.importFailedRecordLimitExceeded;
+      case 'DELETE_IN_PROGRESS':
+        return ImportStatus.deleteInProgress;
+      case 'DELETE_COMPLETE':
+        return ImportStatus.deleteComplete;
+      case 'DELETE_FAILED':
+        return ImportStatus.deleteFailed;
+      case 'DELETE_FAILED_LIMIT_EXCEEDED':
+        return ImportStatus.deleteFailedLimitExceeded;
+      case 'INTERNAL_ERROR':
+        return ImportStatus.internalError;
+    }
+    throw Exception('$this is not known in enum ImportStatus');
+  }
 }
 
 /// An array of information related to the import task request that includes
 /// status information, times, IDs, the Amazon S3 Object URL for the import
 /// file, and more.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportTask {
   /// The total number of application records in the import file that failed to be
   /// imported.
-  @_s.JsonKey(name: 'applicationImportFailure')
-  final int applicationImportFailure;
+  final int? applicationImportFailure;
 
   /// The total number of application records in the import file that were
   /// successfully imported.
-  @_s.JsonKey(name: 'applicationImportSuccess')
-  final int applicationImportSuccess;
+  final int? applicationImportSuccess;
 
   /// A unique token used to prevent the same import request from occurring more
   /// than once. If you didn't provide a token, a token was automatically
   /// generated when the import task request was sent.
-  @_s.JsonKey(name: 'clientRequestToken')
-  final String clientRequestToken;
+  final String? clientRequestToken;
 
   /// A link to a compressed archive folder (in the ZIP format) that contains an
   /// error log and a file of failed records. You can use these two files to
@@ -2342,60 +2472,47 @@ class ImportTask {
   /// records in the failed entries file and then imports that failed entries
   /// file. This prevents you from having to correct and update the larger
   /// original file and attempt importing it again.
-  @_s.JsonKey(name: 'errorsAndFailedEntriesZip')
-  final String errorsAndFailedEntriesZip;
+  final String? errorsAndFailedEntriesZip;
 
   /// The time that the import task request finished, presented in the Unix time
   /// stamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'importCompletionTime')
-  final DateTime importCompletionTime;
+  final DateTime? importCompletionTime;
 
   /// The time that the import task request was deleted, presented in the Unix
   /// time stamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'importDeletedTime')
-  final DateTime importDeletedTime;
+  final DateTime? importDeletedTime;
 
   /// The time that the import task request was made, presented in the Unix time
   /// stamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'importRequestTime')
-  final DateTime importRequestTime;
+  final DateTime? importRequestTime;
 
   /// The unique ID for a specific import task. These IDs aren't globally unique,
   /// but they are unique within an AWS account.
-  @_s.JsonKey(name: 'importTaskId')
-  final String importTaskId;
+  final String? importTaskId;
 
   /// The URL for your import file that you've uploaded to Amazon S3.
-  @_s.JsonKey(name: 'importUrl')
-  final String importUrl;
+  final String? importUrl;
 
   /// A descriptive name for an import task. You can use this name to filter
   /// future requests related to this import task, such as identifying
   /// applications and servers that were included in this import task. We
   /// recommend that you use a meaningful name for each import task.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The total number of server records in the import file that failed to be
   /// imported.
-  @_s.JsonKey(name: 'serverImportFailure')
-  final int serverImportFailure;
+  final int? serverImportFailure;
 
   /// The total number of server records in the import file that were successfully
   /// imported.
-  @_s.JsonKey(name: 'serverImportSuccess')
-  final int serverImportSuccess;
+  final int? serverImportSuccess;
 
   /// The status of the import task. An import can have the status of
   /// <code>IMPORT_COMPLETE</code> and still have some records fail to import from
   /// the overall request. More information can be found in the downloadable
   /// archive defined in the <code>errorsAndFailedEntriesZip</code> field, or in
   /// the Migration Hub management console.
-  @_s.JsonKey(name: 'status')
-  final ImportStatus status;
+  final ImportStatus? status;
 
   ImportTask({
     this.applicationImportFailure,
@@ -2412,8 +2529,23 @@ class ImportTask {
     this.serverImportSuccess,
     this.status,
   });
-  factory ImportTask.fromJson(Map<String, dynamic> json) =>
-      _$ImportTaskFromJson(json);
+  factory ImportTask.fromJson(Map<String, dynamic> json) {
+    return ImportTask(
+      applicationImportFailure: json['applicationImportFailure'] as int?,
+      applicationImportSuccess: json['applicationImportSuccess'] as int?,
+      clientRequestToken: json['clientRequestToken'] as String?,
+      errorsAndFailedEntriesZip: json['errorsAndFailedEntriesZip'] as String?,
+      importCompletionTime: timeStampFromJson(json['importCompletionTime']),
+      importDeletedTime: timeStampFromJson(json['importDeletedTime']),
+      importRequestTime: timeStampFromJson(json['importRequestTime']),
+      importTaskId: json['importTaskId'] as String?,
+      importUrl: json['importUrl'] as String?,
+      name: json['name'] as String?,
+      serverImportFailure: json['serverImportFailure'] as int?,
+      serverImportSuccess: json['serverImportSuccess'] as int?,
+      status: (json['status'] as String?)?.toImportStatus(),
+    );
+  }
 }
 
 /// A name-values pair of elements you can use to filter the results when
@@ -2422,174 +2554,189 @@ class ImportTask {
 /// <note>
 /// When filtering by import status, all other filter values are ignored.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ImportTaskFilter {
   /// The name, status, or import task ID for a specific import task.
-  @_s.JsonKey(name: 'name')
-  final ImportTaskFilterName name;
+  final ImportTaskFilterName? name;
 
   /// An array of strings that you can provide to match against a specific name,
   /// status, or import task ID to filter the results for your import task
   /// queries.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   ImportTaskFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$ImportTaskFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum ImportTaskFilterName {
-  @_s.JsonValue('IMPORT_TASK_ID')
   importTaskId,
-  @_s.JsonValue('STATUS')
   status,
-  @_s.JsonValue('NAME')
   name,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ImportTaskFilterName {
+  String toValue() {
+    switch (this) {
+      case ImportTaskFilterName.importTaskId:
+        return 'IMPORT_TASK_ID';
+      case ImportTaskFilterName.status:
+        return 'STATUS';
+      case ImportTaskFilterName.name:
+        return 'NAME';
+    }
+  }
+}
+
+extension on String {
+  ImportTaskFilterName toImportTaskFilterName() {
+    switch (this) {
+      case 'IMPORT_TASK_ID':
+        return ImportTaskFilterName.importTaskId;
+      case 'STATUS':
+        return ImportTaskFilterName.status;
+      case 'NAME':
+        return ImportTaskFilterName.name;
+    }
+    throw Exception('$this is not known in enum ImportTaskFilterName');
+  }
+}
+
 class ListConfigurationsResponse {
   /// Returns configuration details, including the configuration ID, attribute
   /// names, and attribute values.
-  @_s.JsonKey(name: 'configurations')
-  final List<Map<String, String>> configurations;
+  final List<Map<String, String>>? configurations;
 
   /// Token to retrieve the next set of results. For example, if your call to
   /// ListConfigurations returned 100 items, but you set
   /// <code>ListConfigurationsRequest$maxResults</code> to 10, you received a set
   /// of 10 results along with this token. Use this token in the next query to
   /// retrieve the next set of 10.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationsResponse({
     this.configurations,
     this.nextToken,
   });
-  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListConfigurationsResponseFromJson(json);
+  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServerNeighborsResponse {
   /// List of distinct servers that are one hop away from the given server.
-  @_s.JsonKey(name: 'neighbors')
   final List<NeighborConnectionDetail> neighbors;
 
   /// Count of distinct servers that are one hop away from the given server.
-  @_s.JsonKey(name: 'knownDependencyCount')
-  final int knownDependencyCount;
+  final int? knownDependencyCount;
 
   /// Token to retrieve the next set of results. For example, if you specified 100
   /// IDs for <code>ListServerNeighborsRequest$neighborConfigurationIds</code> but
   /// set <code>ListServerNeighborsRequest$maxResults</code> to 10, you received a
   /// set of 10 results along with this token. Use this token in the next query to
   /// retrieve the next set of 10.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListServerNeighborsResponse({
-    @_s.required this.neighbors,
+    required this.neighbors,
     this.knownDependencyCount,
     this.nextToken,
   });
-  factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListServerNeighborsResponseFromJson(json);
+  factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) {
+    return ListServerNeighborsResponse(
+      neighbors: (json['neighbors'] as List)
+          .whereNotNull()
+          .map((e) =>
+              NeighborConnectionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      knownDependencyCount: json['knownDependencyCount'] as int?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Details about neighboring servers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NeighborConnectionDetail {
   /// The number of open network connections with the neighboring server.
-  @_s.JsonKey(name: 'connectionsCount')
   final int connectionsCount;
 
   /// The ID of the server that accepted the network connection.
-  @_s.JsonKey(name: 'destinationServerId')
   final String destinationServerId;
 
   /// The ID of the server that opened the network connection.
-  @_s.JsonKey(name: 'sourceServerId')
   final String sourceServerId;
 
   /// The destination network port for the connection.
-  @_s.JsonKey(name: 'destinationPort')
-  final int destinationPort;
+  final int? destinationPort;
 
   /// The network protocol used for the connection.
-  @_s.JsonKey(name: 'transportProtocol')
-  final String transportProtocol;
+  final String? transportProtocol;
 
   NeighborConnectionDetail({
-    @_s.required this.connectionsCount,
-    @_s.required this.destinationServerId,
-    @_s.required this.sourceServerId,
+    required this.connectionsCount,
+    required this.destinationServerId,
+    required this.sourceServerId,
     this.destinationPort,
     this.transportProtocol,
   });
-  factory NeighborConnectionDetail.fromJson(Map<String, dynamic> json) =>
-      _$NeighborConnectionDetailFromJson(json);
+  factory NeighborConnectionDetail.fromJson(Map<String, dynamic> json) {
+    return NeighborConnectionDetail(
+      connectionsCount: json['connectionsCount'] as int,
+      destinationServerId: json['destinationServerId'] as String,
+      sourceServerId: json['sourceServerId'] as String,
+      destinationPort: json['destinationPort'] as int?,
+      transportProtocol: json['transportProtocol'] as String?,
+    );
+  }
 }
 
 /// A field and direction for ordered output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OrderByElement {
   /// The field on which to order.
-  @_s.JsonKey(name: 'fieldName')
   final String fieldName;
 
   /// Ordering direction.
-  @_s.JsonKey(name: 'sortOrder')
-  final OrderString sortOrder;
+  final OrderString? sortOrder;
 
   OrderByElement({
-    @_s.required this.fieldName,
+    required this.fieldName,
     this.sortOrder,
   });
-  Map<String, dynamic> toJson() => _$OrderByElementToJson(this);
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final sortOrder = this.sortOrder;
+    return {
+      'fieldName': fieldName,
+      if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartContinuousExportResponse {
   /// The type of data collector used to gather this data (currently only offered
   /// for AGENT).
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The unique ID assigned to this export.
-  @_s.JsonKey(name: 'exportId')
-  final String exportId;
+  final String? exportId;
 
   /// The name of the s3 bucket where the export data parquet files are stored.
-  @_s.JsonKey(name: 's3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// A dictionary which describes how the data is stored.
   ///
@@ -2599,13 +2746,10 @@ class StartContinuousExportResponse {
   /// schema.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'schemaStorageConfig')
-  final Map<String, String> schemaStorageConfig;
+  final Map<String, String>? schemaStorageConfig;
 
   /// The timestamp representing when the continuous export was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   StartContinuousExportResponse({
     this.dataSource,
@@ -2614,199 +2758,218 @@ class StartContinuousExportResponse {
     this.schemaStorageConfig,
     this.startTime,
   });
-  factory StartContinuousExportResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartContinuousExportResponseFromJson(json);
+  factory StartContinuousExportResponse.fromJson(Map<String, dynamic> json) {
+    return StartContinuousExportResponse(
+      dataSource: (json['dataSource'] as String?)?.toDataSource(),
+      exportId: json['exportId'] as String?,
+      s3Bucket: json['s3Bucket'] as String?,
+      schemaStorageConfig:
+          (json['schemaStorageConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDataCollectionByAgentIdsResponse {
   /// Information about agents or the connector that were instructed to start
   /// collecting data. Information includes the agent/connector ID, a description
   /// of the operation performed, and whether the agent/connector configuration
   /// was updated.
-  @_s.JsonKey(name: 'agentsConfigurationStatus')
-  final List<AgentConfigurationStatus> agentsConfigurationStatus;
+  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
 
   StartDataCollectionByAgentIdsResponse({
     this.agentsConfigurationStatus,
   });
   factory StartDataCollectionByAgentIdsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDataCollectionByAgentIdsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartDataCollectionByAgentIdsResponse(
+      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartExportTaskResponse {
   /// A unique identifier used to query the status of an export request.
-  @_s.JsonKey(name: 'exportId')
-  final String exportId;
+  final String? exportId;
 
   StartExportTaskResponse({
     this.exportId,
   });
-  factory StartExportTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartExportTaskResponseFromJson(json);
+  factory StartExportTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartExportTaskResponse(
+      exportId: json['exportId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartImportTaskResponse {
   /// An array of information related to the import task request including status
   /// information, times, IDs, the Amazon S3 Object URL for the import file, and
   /// more.
-  @_s.JsonKey(name: 'task')
-  final ImportTask task;
+  final ImportTask? task;
 
   StartImportTaskResponse({
     this.task,
   });
-  factory StartImportTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartImportTaskResponseFromJson(json);
+  factory StartImportTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartImportTaskResponse(
+      task: json['task'] != null
+          ? ImportTask.fromJson(json['task'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopContinuousExportResponse {
   /// Timestamp that represents when this continuous export started collecting
   /// data.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// Timestamp that represents when this continuous export was stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'stopTime')
-  final DateTime stopTime;
+  final DateTime? stopTime;
 
   StopContinuousExportResponse({
     this.startTime,
     this.stopTime,
   });
-  factory StopContinuousExportResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopContinuousExportResponseFromJson(json);
+  factory StopContinuousExportResponse.fromJson(Map<String, dynamic> json) {
+    return StopContinuousExportResponse(
+      startTime: timeStampFromJson(json['startTime']),
+      stopTime: timeStampFromJson(json['stopTime']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopDataCollectionByAgentIdsResponse {
   /// Information about the agents or connector that were instructed to stop
   /// collecting data. Information includes the agent/connector ID, a description
   /// of the operation performed, and whether the agent/connector configuration
   /// was updated.
-  @_s.JsonKey(name: 'agentsConfigurationStatus')
-  final List<AgentConfigurationStatus> agentsConfigurationStatus;
+  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
 
   StopDataCollectionByAgentIdsResponse({
     this.agentsConfigurationStatus,
   });
   factory StopDataCollectionByAgentIdsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopDataCollectionByAgentIdsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopDataCollectionByAgentIdsResponse(
+      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Metadata that help you categorize IT assets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The type of tag on which to filter.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// A value for a tag key on which to filter.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
 /// The tag filter. Valid names are: <code>tagKey</code>, <code>tagValue</code>,
 /// <code>configurationId</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TagFilter {
   /// A name of the tag filter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Values for the tag filter.
-  @_s.JsonKey(name: 'values')
   final List<String> values;
 
   TagFilter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'name': name,
+      'values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApplicationResponseFromJson(json);
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateApplicationResponse();
+  }
 }
 
 enum OrderString {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
 }
 
+extension on OrderString {
+  String toValue() {
+    switch (this) {
+      case OrderString.asc:
+        return 'ASC';
+      case OrderString.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension on String {
+  OrderString toOrderString() {
+    switch (this) {
+      case 'ASC':
+        return OrderString.asc;
+      case 'DESC':
+        return OrderString.desc;
+    }
+    throw Exception('$this is not known in enum OrderString');
+  }
+}
+
 class AuthorizationErrorException extends _s.GenericAwsException {
-  AuthorizationErrorException({String type, String message})
+  AuthorizationErrorException({String? type, String? message})
       : super(
             type: type, code: 'AuthorizationErrorException', message: message);
 }
 
 class ConflictErrorException extends _s.GenericAwsException {
-  ConflictErrorException({String type, String message})
+  ConflictErrorException({String? type, String? message})
       : super(type: type, code: 'ConflictErrorException', message: message);
 }
 
 class HomeRegionNotSetException extends _s.GenericAwsException {
-  HomeRegionNotSetException({String type, String message})
+  HomeRegionNotSetException({String? type, String? message})
       : super(type: type, code: 'HomeRegionNotSetException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -2814,7 +2977,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -2822,17 +2985,17 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServerInternalErrorException extends _s.GenericAwsException {
-  ServerInternalErrorException({String type, String message})
+  ServerInternalErrorException({String? type, String? message})
       : super(
             type: type, code: 'ServerInternalErrorException', message: message);
 }

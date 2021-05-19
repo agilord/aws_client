@@ -30,7 +30,7 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.data.foo, "abc");
+    expect(output.data?.foo, "abc");
     expect(output.header, "baz");
 /*
 {

@@ -8,7 +8,7 @@ part of 'mediatailor-2018-04-23.dart';
 
 AdMarkerPassthrough _$AdMarkerPassthroughFromJson(Map<String, dynamic> json) {
   return AdMarkerPassthrough(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
@@ -28,7 +28,7 @@ Map<String, dynamic> _$AdMarkerPassthroughToJson(AdMarkerPassthrough instance) {
 AvailSuppression _$AvailSuppressionFromJson(Map<String, dynamic> json) {
   return AvailSuppression(
     mode: _$enumDecodeNullable(_$ModeEnumMap, json['Mode']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -46,36 +46,41 @@ Map<String, dynamic> _$AvailSuppressionToJson(AvailSuppression instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ModeEnumMap = {
@@ -85,8 +90,8 @@ const _$ModeEnumMap = {
 
 Bumper _$BumperFromJson(Map<String, dynamic> json) {
   return Bumper(
-    endUrl: json['EndUrl'] as String,
-    startUrl: json['StartUrl'] as String,
+    endUrl: json['EndUrl'] as String?,
+    startUrl: json['StartUrl'] as String?,
   );
 }
 
@@ -106,8 +111,8 @@ Map<String, dynamic> _$BumperToJson(Bumper instance) {
 
 CdnConfiguration _$CdnConfigurationFromJson(Map<String, dynamic> json) {
   return CdnConfiguration(
-    adSegmentUrlPrefix: json['AdSegmentUrlPrefix'] as String,
-    contentSegmentUrlPrefix: json['ContentSegmentUrlPrefix'] as String,
+    adSegmentUrlPrefix: json['AdSegmentUrlPrefix'] as String?,
+    contentSegmentUrlPrefix: json['ContentSegmentUrlPrefix'] as String?,
   );
 }
 
@@ -127,8 +132,8 @@ Map<String, dynamic> _$CdnConfigurationToJson(CdnConfiguration instance) {
 
 DashConfiguration _$DashConfigurationFromJson(Map<String, dynamic> json) {
   return DashConfiguration(
-    manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String,
-    mpdLocation: json['MpdLocation'] as String,
+    manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
+    mpdLocation: json['MpdLocation'] as String?,
     originManifestType: _$enumDecodeNullable(
         _$OriginManifestTypeEnumMap, json['OriginManifestType']),
   );
@@ -163,7 +168,7 @@ DeletePlaybackConfigurationResponse
 GetPlaybackConfigurationResponse _$GetPlaybackConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return GetPlaybackConfigurationResponse(
-    adDecisionServerUrl: json['AdDecisionServerUrl'] as String,
+    adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
     availSuppression: json['AvailSuppression'] == null
         ? null
         : AvailSuppression.fromJson(
@@ -191,44 +196,42 @@ GetPlaybackConfigurationResponse _$GetPlaybackConfigurationResponseFromJson(
         ? null
         : ManifestProcessingRules.fromJson(
             json['ManifestProcessingRules'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     personalizationThresholdSeconds:
-        json['PersonalizationThresholdSeconds'] as int,
-    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String,
-    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String,
+        json['PersonalizationThresholdSeconds'] as int?,
+    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
     sessionInitializationEndpointPrefix:
-        json['SessionInitializationEndpointPrefix'] as String,
-    slateAdUrl: json['SlateAdUrl'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+        json['SessionInitializationEndpointPrefix'] as String?,
+    slateAdUrl: json['SlateAdUrl'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    transcodeProfileName: json['TranscodeProfileName'] as String,
-    videoContentSourceUrl: json['VideoContentSourceUrl'] as String,
+    transcodeProfileName: json['TranscodeProfileName'] as String?,
+    videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
   );
 }
 
 HlsConfiguration _$HlsConfigurationFromJson(Map<String, dynamic> json) {
   return HlsConfiguration(
-    manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String,
+    manifestEndpointPrefix: json['ManifestEndpointPrefix'] as String?,
   );
 }
 
 ListPlaybackConfigurationsResponse _$ListPlaybackConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPlaybackConfigurationsResponse(
-    items: (json['Items'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PlaybackConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    items: (json['Items'] as List<dynamic>?)
+        ?.map((e) => PlaybackConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -261,7 +264,7 @@ Map<String, dynamic> _$ManifestProcessingRulesToJson(
 PlaybackConfiguration _$PlaybackConfigurationFromJson(
     Map<String, dynamic> json) {
   return PlaybackConfiguration(
-    adDecisionServerUrl: json['AdDecisionServerUrl'] as String,
+    adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
     availSuppression: json['AvailSuppression'] == null
         ? null
         : AvailSuppression.fromJson(
@@ -285,27 +288,27 @@ PlaybackConfiguration _$PlaybackConfigurationFromJson(
         ? null
         : ManifestProcessingRules.fromJson(
             json['ManifestProcessingRules'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     personalizationThresholdSeconds:
-        json['PersonalizationThresholdSeconds'] as int,
-    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String,
-    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String,
+        json['PersonalizationThresholdSeconds'] as int?,
+    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
     sessionInitializationEndpointPrefix:
-        json['SessionInitializationEndpointPrefix'] as String,
-    slateAdUrl: json['SlateAdUrl'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+        json['SessionInitializationEndpointPrefix'] as String?,
+    slateAdUrl: json['SlateAdUrl'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    transcodeProfileName: json['TranscodeProfileName'] as String,
-    videoContentSourceUrl: json['VideoContentSourceUrl'] as String,
+    transcodeProfileName: json['TranscodeProfileName'] as String?,
+    videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
   );
 }
 
 LivePreRollConfiguration _$LivePreRollConfigurationFromJson(
     Map<String, dynamic> json) {
   return LivePreRollConfiguration(
-    adDecisionServerUrl: json['AdDecisionServerUrl'] as String,
-    maxDurationSeconds: json['MaxDurationSeconds'] as int,
+    adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
+    maxDurationSeconds: json['MaxDurationSeconds'] as int?,
   );
 }
 
@@ -327,7 +330,7 @@ Map<String, dynamic> _$LivePreRollConfigurationToJson(
 PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutPlaybackConfigurationResponse(
-    adDecisionServerUrl: json['AdDecisionServerUrl'] as String,
+    adDecisionServerUrl: json['AdDecisionServerUrl'] as String?,
     availSuppression: json['AvailSuppression'] == null
         ? null
         : AvailSuppression.fromJson(
@@ -355,18 +358,18 @@ PutPlaybackConfigurationResponse _$PutPlaybackConfigurationResponseFromJson(
         ? null
         : ManifestProcessingRules.fromJson(
             json['ManifestProcessingRules'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     personalizationThresholdSeconds:
-        json['PersonalizationThresholdSeconds'] as int,
-    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String,
-    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String,
+        json['PersonalizationThresholdSeconds'] as int?,
+    playbackConfigurationArn: json['PlaybackConfigurationArn'] as String?,
+    playbackEndpointPrefix: json['PlaybackEndpointPrefix'] as String?,
     sessionInitializationEndpointPrefix:
-        json['SessionInitializationEndpointPrefix'] as String,
-    slateAdUrl: json['SlateAdUrl'] as String,
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+        json['SessionInitializationEndpointPrefix'] as String?,
+    slateAdUrl: json['SlateAdUrl'] as String?,
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    transcodeProfileName: json['TranscodeProfileName'] as String,
-    videoContentSourceUrl: json['VideoContentSourceUrl'] as String,
+    transcodeProfileName: json['TranscodeProfileName'] as String?,
+    videoContentSourceUrl: json['VideoContentSourceUrl'] as String?,
   );
 }

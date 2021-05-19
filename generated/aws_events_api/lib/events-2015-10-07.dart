@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'events-2015-10-07.g.dart';
 
 /// Amazon EventBridge helps you to respond to state changes in your AWS
 /// resources. When your resources change state, they automatically send events
@@ -53,10 +45,10 @@ part 'events-2015-10-07.g.dart';
 class CloudWatchEvents {
   final _s.JsonProtocol _protocol;
   CloudWatchEvents({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -80,7 +72,7 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the partner event source to activate.
   Future<void> activateEventSource({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -100,7 +92,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.ActivateEventSource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -122,7 +114,7 @@ class CloudWatchEvents {
   /// Parameter [replayName] :
   /// The name of the replay to cancel.
   Future<CancelReplayResponse> cancelReplay({
-    @_s.required String replayName,
+    required String replayName,
   }) async {
     ArgumentError.checkNotNull(replayName, 'replayName');
     _s.validateStringLength(
@@ -186,11 +178,11 @@ class CloudWatchEvents {
   /// The number of days to retain events for. Default value is 0. If set to 0,
   /// events are retained indefinitely
   Future<CreateArchiveResponse> createArchive({
-    @_s.required String archiveName,
-    @_s.required String eventSourceArn,
-    String description,
-    String eventPattern,
-    int retentionDays,
+    required String archiveName,
+    required String eventSourceArn,
+    String? description,
+    String? eventPattern,
+    int? retentionDays,
   }) async {
     ArgumentError.checkNotNull(archiveName, 'archiveName');
     _s.validateStringLength(
@@ -283,9 +275,9 @@ class CloudWatchEvents {
   /// Parameter [tags] :
   /// Tags to associate with the event bus.
   Future<CreateEventBusResponse> createEventBus({
-    @_s.required String name,
-    String eventSourceName,
-    List<Tag> tags,
+    required String name,
+    String? eventSourceName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -379,8 +371,8 @@ class CloudWatchEvents {
   /// partner event bus with a name that matches the name of the partner event
   /// source.
   Future<CreatePartnerEventSourceResponse> createPartnerEventSource({
-    @_s.required String account,
-    @_s.required String name,
+    required String account,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(account, 'account');
     _s.validateStringLength(
@@ -448,7 +440,7 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the partner event source to deactivate.
   Future<void> deactivateEventSource({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -468,7 +460,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeactivateEventSource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -489,7 +481,7 @@ class CloudWatchEvents {
   /// Parameter [archiveName] :
   /// The name of the archive to delete.
   Future<void> deleteArchive({
-    @_s.required String archiveName,
+    required String archiveName,
   }) async {
     ArgumentError.checkNotNull(archiveName, 'archiveName');
     _s.validateStringLength(
@@ -509,7 +501,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeleteArchive'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -519,8 +511,6 @@ class CloudWatchEvents {
         'ArchiveName': archiveName,
       },
     );
-
-    return DeleteArchiveResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified custom event bus or partner event bus. All rules
@@ -533,7 +523,7 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the event bus to delete.
   Future<void> deleteEventBus({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -553,7 +543,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeleteEventBus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -583,8 +573,8 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the event source to delete.
   Future<void> deletePartnerEventSource({
-    @_s.required String account,
-    @_s.required String name,
+    required String account,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(account, 'account');
     _s.validateStringLength(
@@ -618,7 +608,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeletePartnerEventSource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -665,9 +655,9 @@ class CloudWatchEvents {
   /// or <code>ListRules</code> and checking the <code>ManagedBy</code> field of
   /// the response.
   Future<void> deleteRule({
-    @_s.required String name,
-    String eventBusName,
-    bool force,
+    required String name,
+    String? eventBusName,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -698,7 +688,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DeleteRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -721,7 +711,7 @@ class CloudWatchEvents {
   /// Parameter [archiveName] :
   /// The name of the archive to retrieve.
   Future<DescribeArchiveResponse> describeArchive({
-    @_s.required String archiveName,
+    required String archiveName,
   }) async {
     ArgumentError.checkNotNull(archiveName, 'archiveName');
     _s.validateStringLength(
@@ -772,7 +762,7 @@ class CloudWatchEvents {
   /// The name or ARN of the event bus to show details for. If you omit this,
   /// the default event bus is displayed.
   Future<DescribeEventBusResponse> describeEventBus({
-    String name,
+    String? name,
   }) async {
     _s.validateStringLength(
       'name',
@@ -813,7 +803,7 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the partner event source to display the details of.
   Future<DescribeEventSourceResponse> describeEventSource({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -859,7 +849,7 @@ class CloudWatchEvents {
   /// Parameter [name] :
   /// The name of the event source to display.
   Future<DescribePartnerEventSourceResponse> describePartnerEventSource({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -911,7 +901,7 @@ class CloudWatchEvents {
   /// Parameter [replayName] :
   /// The name of the replay to retrieve.
   Future<DescribeReplayResponse> describeReplay({
-    @_s.required String replayName,
+    required String replayName,
   }) async {
     ArgumentError.checkNotNull(replayName, 'replayName');
     _s.validateStringLength(
@@ -960,8 +950,8 @@ class CloudWatchEvents {
   /// The name or ARN of the event bus associated with the rule. If you omit
   /// this, the default event bus is used.
   Future<DescribeRuleResponse> describeRule({
-    @_s.required String name,
-    String eventBusName,
+    required String name,
+    String? eventBusName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1025,8 +1015,8 @@ class CloudWatchEvents {
   /// The name or ARN of the event bus associated with the rule. If you omit
   /// this, the default event bus is used.
   Future<void> disableRule({
-    @_s.required String name,
-    String eventBusName,
+    required String name,
+    String? eventBusName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1057,7 +1047,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.DisableRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1089,8 +1079,8 @@ class CloudWatchEvents {
   /// The name or ARN of the event bus associated with the rule. If you omit
   /// this, the default event bus is used.
   Future<void> enableRule({
-    @_s.required String name,
-    String eventBusName,
+    required String name,
+    String? eventBusName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1121,7 +1111,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.EnableRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1157,11 +1147,11 @@ class CloudWatchEvents {
   /// Parameter [state] :
   /// The state of the archive.
   Future<ListArchivesResponse> listArchives({
-    String eventSourceArn,
-    int limit,
-    String namePrefix,
-    String nextToken,
-    ArchiveState state,
+    String? eventSourceArn,
+    int? limit,
+    String? namePrefix,
+    String? nextToken,
+    ArchiveState? state,
   }) async {
     _s.validateStringLength(
       'eventSourceArn',
@@ -1231,9 +1221,9 @@ class CloudWatchEvents {
   /// Parameter [nextToken] :
   /// The token returned by a previous call to retrieve the next set of results.
   Future<ListEventBusesResponse> listEventBuses({
-    int limit,
-    String namePrefix,
-    String nextToken,
+    int? limit,
+    String? namePrefix,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1297,9 +1287,9 @@ class CloudWatchEvents {
   /// Parameter [nextToken] :
   /// The token returned by a previous call to retrieve the next set of results.
   Future<ListEventSourcesResponse> listEventSources({
-    int limit,
-    String namePrefix,
-    String nextToken,
+    int? limit,
+    String? namePrefix,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1365,9 +1355,9 @@ class CloudWatchEvents {
   /// retrieves the next set of results.
   Future<ListPartnerEventSourceAccountsResponse>
       listPartnerEventSourceAccounts({
-    @_s.required String eventSourceName,
-    int limit,
-    String nextToken,
+    required String eventSourceName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(eventSourceName, 'eventSourceName');
     _s.validateStringLength(
@@ -1435,9 +1425,9 @@ class CloudWatchEvents {
   /// The token returned by a previous call to this operation. Specifying this
   /// retrieves the next set of results.
   Future<ListPartnerEventSourcesResponse> listPartnerEventSources({
-    @_s.required String namePrefix,
-    int limit,
-    String nextToken,
+    required String namePrefix,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(namePrefix, 'namePrefix');
     _s.validateStringLength(
@@ -1506,11 +1496,11 @@ class CloudWatchEvents {
   /// Parameter [state] :
   /// The state of the replay.
   Future<ListReplaysResponse> listReplays({
-    String eventSourceArn,
-    int limit,
-    String namePrefix,
-    String nextToken,
-    ReplayState state,
+    String? eventSourceArn,
+    int? limit,
+    String? namePrefix,
+    String? nextToken,
+    ReplayState? state,
   }) async {
     _s.validateStringLength(
       'eventSourceArn',
@@ -1582,10 +1572,10 @@ class CloudWatchEvents {
   /// Parameter [nextToken] :
   /// The token returned by a previous call to retrieve the next set of results.
   Future<ListRuleNamesByTargetResponse> listRuleNamesByTarget({
-    @_s.required String targetArn,
-    String eventBusName,
-    int limit,
-    String nextToken,
+    required String targetArn,
+    String? eventBusName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(targetArn, 'targetArn');
     _s.validateStringLength(
@@ -1661,10 +1651,10 @@ class CloudWatchEvents {
   /// Parameter [nextToken] :
   /// The token returned by a previous call to retrieve the next set of results.
   Future<ListRulesResponse> listRules({
-    String eventBusName,
-    int limit,
-    String namePrefix,
-    String nextToken,
+    String? eventBusName,
+    int? limit,
+    String? namePrefix,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'eventBusName',
@@ -1730,7 +1720,7 @@ class CloudWatchEvents {
   /// Parameter [resourceARN] :
   /// The ARN of the EventBridge resource for which you want to view tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1776,10 +1766,10 @@ class CloudWatchEvents {
   /// Parameter [nextToken] :
   /// The token returned by a previous call to retrieve the next set of results.
   Future<ListTargetsByRuleResponse> listTargetsByRule({
-    @_s.required String rule,
-    String eventBusName,
-    int limit,
-    String nextToken,
+    required String rule,
+    String? eventBusName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     _s.validateStringLength(
@@ -1849,7 +1839,7 @@ class CloudWatchEvents {
   /// parameters for the entry such as the source and type of the event,
   /// resources associated with the event, and so on.
   Future<PutEventsResponse> putEvents({
-    @_s.required List<PutEventsRequestEntry> entries,
+    required List<PutEventsRequestEntry> entries,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     final headers = <String, String>{
@@ -1879,7 +1869,7 @@ class CloudWatchEvents {
   /// Parameter [entries] :
   /// The list of events to write to the event bus.
   Future<PutPartnerEventsResponse> putPartnerEvents({
-    @_s.required List<PutPartnerEventsRequestEntry> entries,
+    required List<PutPartnerEventsRequestEntry> entries,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     final headers = <String, String>{
@@ -1978,12 +1968,12 @@ class CloudWatchEvents {
   /// external account, specify this <code>StatementId</code> when you run
   /// <a>RemovePermission</a>.
   Future<void> putPermission({
-    String action,
-    Condition condition,
-    String eventBusName,
-    String policy,
-    String principal,
-    String statementId,
+    String? action,
+    Condition? condition,
+    String? eventBusName,
+    String? policy,
+    String? principal,
+    String? statementId,
   }) async {
     _s.validateStringLength(
       'action',
@@ -2033,7 +2023,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.PutPermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2145,14 +2135,14 @@ class CloudWatchEvents {
   /// Parameter [tags] :
   /// The list of key-value pairs to associate with the rule.
   Future<PutRuleResponse> putRule({
-    @_s.required String name,
-    String description,
-    String eventBusName,
-    String eventPattern,
-    String roleArn,
-    String scheduleExpression,
-    RuleState state,
-    List<Tag> tags,
+    required String name,
+    String? description,
+    String? eventBusName,
+    String? eventPattern,
+    String? roleArn,
+    String? scheduleExpression,
+    RuleState? state,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2390,9 +2380,9 @@ class CloudWatchEvents {
   /// The name or ARN of the event bus associated with the rule. If you omit
   /// this, the default event bus is used.
   Future<PutTargetsResponse> putTargets({
-    @_s.required String rule,
-    @_s.required List<Target> targets,
-    String eventBusName,
+    required String rule,
+    required List<Target> targets,
+    String? eventBusName,
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     _s.validateStringLength(
@@ -2462,9 +2452,9 @@ class CloudWatchEvents {
   /// The statement ID corresponding to the account that is no longer allowed to
   /// put events to the default event bus.
   Future<void> removePermission({
-    String eventBusName,
-    bool removeAllPermissions,
-    String statementId,
+    String? eventBusName,
+    bool? removeAllPermissions,
+    String? statementId,
   }) async {
     _s.validateStringLength(
       'eventBusName',
@@ -2492,7 +2482,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.RemovePermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2542,10 +2532,10 @@ class CloudWatchEvents {
   /// or <code>ListRules</code> and checking the <code>ManagedBy</code> field of
   /// the response.
   Future<RemoveTargetsResponse> removeTargets({
-    @_s.required List<String> ids,
-    @_s.required String rule,
-    String eventBusName,
-    bool force,
+    required List<String> ids,
+    required String rule,
+    String? eventBusName,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(ids, 'ids');
     ArgumentError.checkNotNull(rule, 'rule');
@@ -2634,12 +2624,12 @@ class CloudWatchEvents {
   /// Parameter [description] :
   /// A description for the replay to start.
   Future<StartReplayResponse> startReplay({
-    @_s.required ReplayDestination destination,
-    @_s.required DateTime eventEndTime,
-    @_s.required String eventSourceArn,
-    @_s.required DateTime eventStartTime,
-    @_s.required String replayName,
-    String description,
+    required ReplayDestination destination,
+    required DateTime eventEndTime,
+    required String eventSourceArn,
+    required DateTime eventStartTime,
+    required String replayName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(eventEndTime, 'eventEndTime');
@@ -2728,8 +2718,8 @@ class CloudWatchEvents {
   /// Parameter [tags] :
   /// The list of key-value pairs to associate with the resource.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2744,7 +2734,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2755,8 +2745,6 @@ class CloudWatchEvents {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Tests whether the specified event pattern matches the provided event.
@@ -2777,8 +2765,8 @@ class CloudWatchEvents {
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
   /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
   Future<TestEventPatternResponse> testEventPattern({
-    @_s.required String event,
-    @_s.required String eventPattern,
+    required String event,
+    required String eventPattern,
   }) async {
     ArgumentError.checkNotNull(event, 'event');
     ArgumentError.checkNotNull(eventPattern, 'eventPattern');
@@ -2816,8 +2804,8 @@ class CloudWatchEvents {
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2832,7 +2820,7 @@ class CloudWatchEvents {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEvents.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2843,8 +2831,6 @@ class CloudWatchEvents {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified archive.
@@ -2867,10 +2853,10 @@ class CloudWatchEvents {
   /// Parameter [retentionDays] :
   /// The number of days to retain events in the archive.
   Future<UpdateArchiveResponse> updateArchive({
-    @_s.required String archiveName,
-    String description,
-    String eventPattern,
-    int retentionDays,
+    required String archiveName,
+    String? description,
+    String? eventPattern,
+    int? retentionDays,
   }) async {
     ArgumentError.checkNotNull(archiveName, 'archiveName');
     _s.validateStringLength(
@@ -2926,45 +2912,31 @@ class CloudWatchEvents {
 }
 
 /// An <code>Archive</code> object that contains details about an archive.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Archive {
   /// The name of the archive.
-  @_s.JsonKey(name: 'ArchiveName')
-  final String archiveName;
+  final String? archiveName;
 
   /// The time stamp for the time that the archive was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The number of events in the archive.
-  @_s.JsonKey(name: 'EventCount')
-  final int eventCount;
+  final int? eventCount;
 
   /// The ARN of the event bus associated with the archive. Only events from this
   /// event bus are sent to the archive.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   /// The number of days to retain events in the archive before they are deleted.
-  @_s.JsonKey(name: 'RetentionDays')
-  final int retentionDays;
+  final int? retentionDays;
 
   /// The size of the archive, in bytes.
-  @_s.JsonKey(name: 'SizeBytes')
-  final int sizeBytes;
+  final int? sizeBytes;
 
   /// The current state of the archive.
-  @_s.JsonKey(name: 'State')
-  final ArchiveState state;
+  final ArchiveState? state;
 
   /// A description for the reason that the archive is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   Archive({
     this.archiveName,
@@ -2976,22 +2948,26 @@ class Archive {
     this.state,
     this.stateReason,
   });
-  factory Archive.fromJson(Map<String, dynamic> json) =>
-      _$ArchiveFromJson(json);
+  factory Archive.fromJson(Map<String, dynamic> json) {
+    return Archive(
+      archiveName: json['ArchiveName'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      eventCount: json['EventCount'] as int?,
+      eventSourceArn: json['EventSourceArn'] as String?,
+      retentionDays: json['RetentionDays'] as int?,
+      sizeBytes: json['SizeBytes'] as int?,
+      state: (json['State'] as String?)?.toArchiveState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
 enum ArchiveState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
 }
 
@@ -3011,171 +2987,238 @@ extension on ArchiveState {
       case ArchiveState.updateFailed:
         return 'UPDATE_FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ArchiveState toArchiveState() {
+    switch (this) {
+      case 'ENABLED':
+        return ArchiveState.enabled;
+      case 'DISABLED':
+        return ArchiveState.disabled;
+      case 'CREATING':
+        return ArchiveState.creating;
+      case 'UPDATING':
+        return ArchiveState.updating;
+      case 'CREATE_FAILED':
+        return ArchiveState.createFailed;
+      case 'UPDATE_FAILED':
+        return ArchiveState.updateFailed;
+    }
+    throw Exception('$this is not known in enum ArchiveState');
   }
 }
 
 enum AssignPublicIp {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on AssignPublicIp {
+  String toValue() {
+    switch (this) {
+      case AssignPublicIp.enabled:
+        return 'ENABLED';
+      case AssignPublicIp.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  AssignPublicIp toAssignPublicIp() {
+    switch (this) {
+      case 'ENABLED':
+        return AssignPublicIp.enabled;
+      case 'DISABLED':
+        return AssignPublicIp.disabled;
+    }
+    throw Exception('$this is not known in enum AssignPublicIp');
+  }
 }
 
 /// This structure specifies the VPC subnets and security groups for the task,
 /// and whether a public IP address is to be used. This structure is relevant
 /// only for ECS tasks that use the <code>awsvpc</code> network mode.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsVpcConfiguration {
   /// Specifies the subnets associated with the task. These subnets must all be in
   /// the same VPC. You can specify as many as 16 subnets.
-  @_s.JsonKey(name: 'Subnets')
   final List<String> subnets;
 
   /// Specifies whether the task's elastic network interface receives a public IP
   /// address. You can specify <code>ENABLED</code> only when
   /// <code>LaunchType</code> in <code>EcsParameters</code> is set to
   /// <code>FARGATE</code>.
-  @_s.JsonKey(name: 'AssignPublicIp')
-  final AssignPublicIp assignPublicIp;
+  final AssignPublicIp? assignPublicIp;
 
   /// Specifies the security groups associated with the task. These security
   /// groups must all be in the same VPC. You can specify as many as five security
   /// groups. If you do not specify a security group, the default security group
   /// for the VPC is used.
-  @_s.JsonKey(name: 'SecurityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   AwsVpcConfiguration({
-    @_s.required this.subnets,
+    required this.subnets,
     this.assignPublicIp,
     this.securityGroups,
   });
-  factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AwsVpcConfigurationFromJson(json);
+  factory AwsVpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return AwsVpcConfiguration(
+      subnets: (json['Subnets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      assignPublicIp: (json['AssignPublicIp'] as String?)?.toAssignPublicIp(),
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AwsVpcConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    final assignPublicIp = this.assignPublicIp;
+    final securityGroups = this.securityGroups;
+    return {
+      'Subnets': subnets,
+      if (assignPublicIp != null) 'AssignPublicIp': assignPublicIp.toValue(),
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+    };
+  }
 }
 
 /// The array properties for the submitted job, such as the size of the array.
 /// The array size can be between 2 and 10,000. If you specify array properties
 /// for a job, it becomes an array job. This parameter is used only if the
 /// target is an AWS Batch job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchArrayProperties {
   /// The size of the array, if this is an array batch job. Valid values are
   /// integers between 2 and 10,000.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   BatchArrayProperties({
     this.size,
   });
-  factory BatchArrayProperties.fromJson(Map<String, dynamic> json) =>
-      _$BatchArrayPropertiesFromJson(json);
+  factory BatchArrayProperties.fromJson(Map<String, dynamic> json) {
+    return BatchArrayProperties(
+      size: json['Size'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchArrayPropertiesToJson(this);
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    return {
+      if (size != null) 'Size': size,
+    };
+  }
 }
 
 /// The custom parameters to be used when the target is an AWS Batch job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchParameters {
   /// The ARN or name of the job definition to use if the event target is an AWS
   /// Batch job. This job definition must already exist.
-  @_s.JsonKey(name: 'JobDefinition')
   final String jobDefinition;
 
   /// The name to use for this execution of the job, if the target is an AWS Batch
   /// job.
-  @_s.JsonKey(name: 'JobName')
   final String jobName;
 
   /// The array properties for the submitted job, such as the size of the array.
   /// The array size can be between 2 and 10,000. If you specify array properties
   /// for a job, it becomes an array job. This parameter is used only if the
   /// target is an AWS Batch job.
-  @_s.JsonKey(name: 'ArrayProperties')
-  final BatchArrayProperties arrayProperties;
+  final BatchArrayProperties? arrayProperties;
 
   /// The retry strategy to use for failed jobs, if the target is an AWS Batch
   /// job. The retry strategy is the number of times to retry the failed job
   /// execution. Valid values are 1–10. When you specify a retry strategy here, it
   /// overrides the retry strategy defined in the job definition.
-  @_s.JsonKey(name: 'RetryStrategy')
-  final BatchRetryStrategy retryStrategy;
+  final BatchRetryStrategy? retryStrategy;
 
   BatchParameters({
-    @_s.required this.jobDefinition,
-    @_s.required this.jobName,
+    required this.jobDefinition,
+    required this.jobName,
     this.arrayProperties,
     this.retryStrategy,
   });
-  factory BatchParameters.fromJson(Map<String, dynamic> json) =>
-      _$BatchParametersFromJson(json);
+  factory BatchParameters.fromJson(Map<String, dynamic> json) {
+    return BatchParameters(
+      jobDefinition: json['JobDefinition'] as String,
+      jobName: json['JobName'] as String,
+      arrayProperties: json['ArrayProperties'] != null
+          ? BatchArrayProperties.fromJson(
+              json['ArrayProperties'] as Map<String, dynamic>)
+          : null,
+      retryStrategy: json['RetryStrategy'] != null
+          ? BatchRetryStrategy.fromJson(
+              json['RetryStrategy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final jobDefinition = this.jobDefinition;
+    final jobName = this.jobName;
+    final arrayProperties = this.arrayProperties;
+    final retryStrategy = this.retryStrategy;
+    return {
+      'JobDefinition': jobDefinition,
+      'JobName': jobName,
+      if (arrayProperties != null) 'ArrayProperties': arrayProperties,
+      if (retryStrategy != null) 'RetryStrategy': retryStrategy,
+    };
+  }
 }
 
 /// The retry strategy to use for failed jobs, if the target is an AWS Batch
 /// job. If you specify a retry strategy here, it overrides the retry strategy
 /// defined in the job definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchRetryStrategy {
   /// The number of times to attempt to retry, if the job fails. Valid values are
   /// 1–10.
-  @_s.JsonKey(name: 'Attempts')
-  final int attempts;
+  final int? attempts;
 
   BatchRetryStrategy({
     this.attempts,
   });
-  factory BatchRetryStrategy.fromJson(Map<String, dynamic> json) =>
-      _$BatchRetryStrategyFromJson(json);
+  factory BatchRetryStrategy.fromJson(Map<String, dynamic> json) {
+    return BatchRetryStrategy(
+      attempts: json['Attempts'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchRetryStrategyToJson(this);
+  Map<String, dynamic> toJson() {
+    final attempts = this.attempts;
+    return {
+      if (attempts != null) 'Attempts': attempts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelReplayResponse {
   /// The ARN of the replay to cancel.
-  @_s.JsonKey(name: 'ReplayArn')
-  final String replayArn;
+  final String? replayArn;
 
   /// The current state of the replay.
-  @_s.JsonKey(name: 'State')
-  final ReplayState state;
+  final ReplayState? state;
 
   /// The reason that the replay is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   CancelReplayResponse({
     this.replayArn,
     this.state,
     this.stateReason,
   });
-  factory CancelReplayResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelReplayResponseFromJson(json);
+  factory CancelReplayResponse.fromJson(Map<String, dynamic> json) {
+    return CancelReplayResponse(
+      replayArn: json['ReplayArn'] as String?,
+      state: (json['State'] as String?)?.toReplayState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
 /// A JSON string which you can use to limit the event bus permissions you are
@@ -3187,57 +3230,48 @@ class CancelReplayResponse {
 ///
 /// <code>'{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value":
 /// "o-1234567890"}'</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Condition {
   /// Specifies the key for the condition. Currently the only supported key is
   /// <code>aws:PrincipalOrgID</code>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Specifies the type of condition. Currently the only supported value is
   /// <code>StringEquals</code>.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// Specifies the value for the key. Currently, this must be the ID of the
   /// organization.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Condition({
-    @_s.required this.key,
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.key,
+    required this.type,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Type': type,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateArchiveResponse {
   /// The ARN of the archive that was created.
-  @_s.JsonKey(name: 'ArchiveArn')
-  final String archiveArn;
+  final String? archiveArn;
 
   /// The time at which the archive was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The state of the archive that was created.
-  @_s.JsonKey(name: 'State')
-  final ArchiveState state;
+  final ArchiveState? state;
 
   /// The reason that the archive is in the state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   CreateArchiveResponse({
     this.archiveArn,
@@ -3245,127 +3279,107 @@ class CreateArchiveResponse {
     this.state,
     this.stateReason,
   });
-  factory CreateArchiveResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateArchiveResponseFromJson(json);
+  factory CreateArchiveResponse.fromJson(Map<String, dynamic> json) {
+    return CreateArchiveResponse(
+      archiveArn: json['ArchiveArn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      state: (json['State'] as String?)?.toArchiveState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEventBusResponse {
   /// The ARN of the new event bus.
-  @_s.JsonKey(name: 'EventBusArn')
-  final String eventBusArn;
+  final String? eventBusArn;
 
   CreateEventBusResponse({
     this.eventBusArn,
   });
-  factory CreateEventBusResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEventBusResponseFromJson(json);
+  factory CreateEventBusResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEventBusResponse(
+      eventBusArn: json['EventBusArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePartnerEventSourceResponse {
   /// The ARN of the partner event source.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   CreatePartnerEventSourceResponse({
     this.eventSourceArn,
   });
-  factory CreatePartnerEventSourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreatePartnerEventSourceResponseFromJson(json);
+  factory CreatePartnerEventSourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePartnerEventSourceResponse(
+      eventSourceArn: json['EventSourceArn'] as String?,
+    );
+  }
 }
 
 /// A <code>DeadLetterConfig</code> object that contains information about a
 /// dead-letter queue configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeadLetterConfig {
   /// The ARN of the SQS queue specified as the target for the dead-letter queue.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   DeadLetterConfig({
     this.arn,
   });
-  factory DeadLetterConfig.fromJson(Map<String, dynamic> json) =>
-      _$DeadLetterConfigFromJson(json);
+  factory DeadLetterConfig.fromJson(Map<String, dynamic> json) {
+    return DeadLetterConfig(
+      arn: json['Arn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeadLetterConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteArchiveResponse {
   DeleteArchiveResponse();
-  factory DeleteArchiveResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteArchiveResponseFromJson(json);
+  factory DeleteArchiveResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteArchiveResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeArchiveResponse {
   /// The ARN of the archive.
-  @_s.JsonKey(name: 'ArchiveArn')
-  final String archiveArn;
+  final String? archiveArn;
 
   /// The name of the archive.
-  @_s.JsonKey(name: 'ArchiveName')
-  final String archiveName;
+  final String? archiveName;
 
   /// The time at which the archive was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The description of the archive.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The number of events in the archive.
-  @_s.JsonKey(name: 'EventCount')
-  final int eventCount;
+  final int? eventCount;
 
   /// The event pattern used to filter events sent to the archive.
-  @_s.JsonKey(name: 'EventPattern')
-  final String eventPattern;
+  final String? eventPattern;
 
   /// The ARN of the event source associated with the archive.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   /// The number of days to retain events for in the archive.
-  @_s.JsonKey(name: 'RetentionDays')
-  final int retentionDays;
+  final int? retentionDays;
 
   /// The size of the archive in bytes.
-  @_s.JsonKey(name: 'SizeBytes')
-  final int sizeBytes;
+  final int? sizeBytes;
 
   /// The state of the archive.
-  @_s.JsonKey(name: 'State')
-  final ArchiveState state;
+  final ArchiveState? state;
 
   /// The reason that the archive is in the state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   DescribeArchiveResponse({
     this.archiveArn,
@@ -3380,74 +3394,71 @@ class DescribeArchiveResponse {
     this.state,
     this.stateReason,
   });
-  factory DescribeArchiveResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeArchiveResponseFromJson(json);
+  factory DescribeArchiveResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeArchiveResponse(
+      archiveArn: json['ArchiveArn'] as String?,
+      archiveName: json['ArchiveName'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      eventCount: json['EventCount'] as int?,
+      eventPattern: json['EventPattern'] as String?,
+      eventSourceArn: json['EventSourceArn'] as String?,
+      retentionDays: json['RetentionDays'] as int?,
+      sizeBytes: json['SizeBytes'] as int?,
+      state: (json['State'] as String?)?.toArchiveState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventBusResponse {
   /// The Amazon Resource Name (ARN) of the account permitted to write events to
   /// the current account.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the event bus. Currently, this is always <code>default</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The policy that enables the external account to send events to your account.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   DescribeEventBusResponse({
     this.arn,
     this.name,
     this.policy,
   });
-  factory DescribeEventBusResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventBusResponseFromJson(json);
+  factory DescribeEventBusResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventBusResponse(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventSourceResponse {
   /// The ARN of the partner event source.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the SaaS partner that created the event source.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The date and time that the event source was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The date and time that the event source will expire if you do not create a
   /// matching event bus.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationTime')
-  final DateTime expirationTime;
+  final DateTime? expirationTime;
 
   /// The name of the partner event source.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the event source. If it is ACTIVE, you have already created a
   /// matching event bus for this event source, and that event bus is active. If
   /// it is PENDING, either you haven't yet created a matching event bus, or that
   /// event bus is deactivated. If it is DELETED, you have created a matching
   /// event bus, but the event source has since been deleted.
-  @_s.JsonKey(name: 'State')
-  final EventSourceState state;
+  final EventSourceState? state;
 
   DescribeEventSourceResponse({
     this.arn,
@@ -3457,92 +3468,75 @@ class DescribeEventSourceResponse {
     this.name,
     this.state,
   });
-  factory DescribeEventSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventSourceResponseFromJson(json);
+  factory DescribeEventSourceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventSourceResponse(
+      arn: json['Arn'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEventSourceState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePartnerEventSourceResponse {
   /// The ARN of the event source.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the event source.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DescribePartnerEventSourceResponse({
     this.arn,
     this.name,
   });
   factory DescribePartnerEventSourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePartnerEventSourceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePartnerEventSourceResponse(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplayResponse {
   /// The description of the replay.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A <code>ReplayDestination</code> object that contains details about the
   /// replay.
-  @_s.JsonKey(name: 'Destination')
-  final ReplayDestination destination;
+  final ReplayDestination? destination;
 
   /// The time stamp for the last event that was replayed from the archive.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventEndTime')
-  final DateTime eventEndTime;
+  final DateTime? eventEndTime;
 
   /// The time that the event was last replayed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventLastReplayedTime')
-  final DateTime eventLastReplayedTime;
+  final DateTime? eventLastReplayedTime;
 
   /// The ARN of the archive events were replayed from.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   /// The time stamp of the first event that was last replayed from the archive.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventStartTime')
-  final DateTime eventStartTime;
+  final DateTime? eventStartTime;
 
   /// The ARN of the replay.
-  @_s.JsonKey(name: 'ReplayArn')
-  final String replayArn;
+  final String? replayArn;
 
   /// A time stamp for the time that the replay stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplayEndTime')
-  final DateTime replayEndTime;
+  final DateTime? replayEndTime;
 
   /// The name of the replay.
-  @_s.JsonKey(name: 'ReplayName')
-  final String replayName;
+  final String? replayName;
 
   /// A time stamp for the time that the replay started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplayStartTime')
-  final DateTime replayStartTime;
+  final DateTime? replayStartTime;
 
   /// The current state of the replay.
-  @_s.JsonKey(name: 'State')
-  final ReplayState state;
+  final ReplayState? state;
 
   /// The reason that the replay is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   DescribeReplayResponse({
     this.description,
@@ -3558,63 +3552,65 @@ class DescribeReplayResponse {
     this.state,
     this.stateReason,
   });
-  factory DescribeReplayResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeReplayResponseFromJson(json);
+  factory DescribeReplayResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReplayResponse(
+      description: json['Description'] as String?,
+      destination: json['Destination'] != null
+          ? ReplayDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      eventEndTime: timeStampFromJson(json['EventEndTime']),
+      eventLastReplayedTime: timeStampFromJson(json['EventLastReplayedTime']),
+      eventSourceArn: json['EventSourceArn'] as String?,
+      eventStartTime: timeStampFromJson(json['EventStartTime']),
+      replayArn: json['ReplayArn'] as String?,
+      replayEndTime: timeStampFromJson(json['ReplayEndTime']),
+      replayName: json['ReplayName'] as String?,
+      replayStartTime: timeStampFromJson(json['ReplayStartTime']),
+      state: (json['State'] as String?)?.toReplayState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The account ID of the user that created the rule. If you use
   /// <code>PutRule</code> to put a rule on an event bus in another account, the
   /// other account is the owner of the rule, and the rule ARN includes the
   /// account ID for that account. However, the value for <code>CreatedBy</code>
   /// is the account ID as the account that created the rule in the other account.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The description of the rule.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the event bus associated with the rule.
-  @_s.JsonKey(name: 'EventBusName')
-  final String eventBusName;
+  final String? eventBusName;
 
   /// The event pattern. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
   /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
-  @_s.JsonKey(name: 'EventPattern')
-  final String eventPattern;
+  final String? eventPattern;
 
   /// If this is a managed rule, created by an AWS service on your behalf, this
   /// field displays the principal name of the AWS service that created the rule.
-  @_s.JsonKey(name: 'ManagedBy')
-  final String managedBy;
+  final String? managedBy;
 
   /// The name of the rule.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5
   /// minutes)".
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// Specifies whether the rule is enabled or disabled.
-  @_s.JsonKey(name: 'State')
-  final RuleState state;
+  final RuleState? state;
 
   DescribeRuleResponse({
     this.arn,
@@ -3628,26 +3624,31 @@ class DescribeRuleResponse {
     this.scheduleExpression,
     this.state,
   });
-  factory DescribeRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRuleResponseFromJson(json);
+  factory DescribeRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRuleResponse(
+      arn: json['Arn'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      description: json['Description'] as String?,
+      eventBusName: json['EventBusName'] as String?,
+      eventPattern: json['EventPattern'] as String?,
+      managedBy: json['ManagedBy'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      state: (json['State'] as String?)?.toRuleState(),
+    );
+  }
 }
 
 /// The custom parameters to be used when the target is an Amazon ECS task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EcsParameters {
   /// The ARN of the task definition to use if the event target is an Amazon ECS
   /// task.
-  @_s.JsonKey(name: 'TaskDefinitionArn')
   final String taskDefinitionArn;
 
   /// Specifies an ECS task group for the task. The maximum length is 255
   /// characters.
-  @_s.JsonKey(name: 'Group')
-  final String group;
+  final String? group;
 
   /// Specifies the launch type on which your task is running. The launch type
   /// that you specify here must match one of the launch type (compatibilities) of
@@ -3657,8 +3658,7 @@ class EcsParameters {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS-Fargate.html">AWS
   /// Fargate on Amazon ECS</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'LaunchType')
-  final LaunchType launchType;
+  final LaunchType? launchType;
 
   /// Use this structure if the ECS task uses the <code>awsvpc</code> network
   /// mode. This structure specifies the VPC subnets and security groups
@@ -3669,8 +3669,7 @@ class EcsParameters {
   ///
   /// If you specify <code>NetworkConfiguration</code> when the target ECS task
   /// does not use the <code>awsvpc</code> network mode, the task fails.
-  @_s.JsonKey(name: 'NetworkConfiguration')
-  final NetworkConfiguration networkConfiguration;
+  final NetworkConfiguration? networkConfiguration;
 
   /// Specifies the platform version for the task. Specify only the numeric
   /// portion of the platform version, such as <code>1.1.0</code>.
@@ -3681,26 +3680,51 @@ class EcsParameters {
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
   /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
-  @_s.JsonKey(name: 'PlatformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The number of tasks to create based on <code>TaskDefinition</code>. The
   /// default is 1.
-  @_s.JsonKey(name: 'TaskCount')
-  final int taskCount;
+  final int? taskCount;
 
   EcsParameters({
-    @_s.required this.taskDefinitionArn,
+    required this.taskDefinitionArn,
     this.group,
     this.launchType,
     this.networkConfiguration,
     this.platformVersion,
     this.taskCount,
   });
-  factory EcsParameters.fromJson(Map<String, dynamic> json) =>
-      _$EcsParametersFromJson(json);
+  factory EcsParameters.fromJson(Map<String, dynamic> json) {
+    return EcsParameters(
+      taskDefinitionArn: json['TaskDefinitionArn'] as String,
+      group: json['Group'] as String?,
+      launchType: (json['LaunchType'] as String?)?.toLaunchType(),
+      networkConfiguration: json['NetworkConfiguration'] != null
+          ? NetworkConfiguration.fromJson(
+              json['NetworkConfiguration'] as Map<String, dynamic>)
+          : null,
+      platformVersion: json['PlatformVersion'] as String?,
+      taskCount: json['TaskCount'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EcsParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final taskDefinitionArn = this.taskDefinitionArn;
+    final group = this.group;
+    final launchType = this.launchType;
+    final networkConfiguration = this.networkConfiguration;
+    final platformVersion = this.platformVersion;
+    final taskCount = this.taskCount;
+    return {
+      'TaskDefinitionArn': taskDefinitionArn,
+      if (group != null) 'Group': group,
+      if (launchType != null) 'LaunchType': launchType.toValue(),
+      if (networkConfiguration != null)
+        'NetworkConfiguration': networkConfiguration,
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+      if (taskCount != null) 'TaskCount': taskCount,
+    };
+  }
 }
 
 /// An event bus receives events from a source and routes them to rules
@@ -3709,73 +3733,57 @@ class EcsParameters {
 /// services as well as your custom applications and services. A partner event
 /// bus receives events from an event source created by an SaaS partner. These
 /// events come from the partners services or applications.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventBus {
   /// The ARN of the event bus.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the event bus.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The permissions policy of the event bus, describing which other AWS accounts
   /// can write events to this event bus.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   EventBus({
     this.arn,
     this.name,
     this.policy,
   });
-  factory EventBus.fromJson(Map<String, dynamic> json) =>
-      _$EventBusFromJson(json);
+  factory EventBus.fromJson(Map<String, dynamic> json) {
+    return EventBus(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      policy: json['Policy'] as String?,
+    );
+  }
 }
 
 /// A partner event source is created by an SaaS partner. If a customer creates
 /// a partner event bus that matches this event source, that AWS account can
 /// receive events from the partner's applications or services.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventSource {
   /// The ARN of the event source.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the partner that created the event source.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The date and time the event source was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The date and time that the event source will expire, if the AWS account
   /// doesn't create a matching event bus for it.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationTime')
-  final DateTime expirationTime;
+  final DateTime? expirationTime;
 
   /// The name of the event source.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the event source. If it is ACTIVE, you have already created a
   /// matching event bus for this event source, and that event bus is active. If
   /// it is PENDING, either you haven't yet created a matching event bus, or that
   /// event bus is deactivated. If it is DELETED, you have created a matching
   /// event bus, but the event source has since been deleted.
-  @_s.JsonKey(name: 'State')
-  final EventSourceState state;
+  final EventSourceState? state;
 
   EventSource({
     this.arn,
@@ -3785,60 +3793,101 @@ class EventSource {
     this.name,
     this.state,
   });
-  factory EventSource.fromJson(Map<String, dynamic> json) =>
-      _$EventSourceFromJson(json);
+  factory EventSource.fromJson(Map<String, dynamic> json) {
+    return EventSource(
+      arn: json['Arn'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEventSourceState(),
+    );
+  }
 }
 
 enum EventSourceState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on EventSourceState {
+  String toValue() {
+    switch (this) {
+      case EventSourceState.pending:
+        return 'PENDING';
+      case EventSourceState.active:
+        return 'ACTIVE';
+      case EventSourceState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  EventSourceState toEventSourceState() {
+    switch (this) {
+      case 'PENDING':
+        return EventSourceState.pending;
+      case 'ACTIVE':
+        return EventSourceState.active;
+      case 'DELETED':
+        return EventSourceState.deleted;
+    }
+    throw Exception('$this is not known in enum EventSourceState');
+  }
 }
 
 /// These are custom parameter to be used when the target is an API Gateway REST
 /// APIs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpParameters {
   /// The headers that need to be sent as part of request invoking the API Gateway
   /// REST API.
-  @_s.JsonKey(name: 'HeaderParameters')
-  final Map<String, String> headerParameters;
+  final Map<String, String>? headerParameters;
 
   /// The path parameter values to be used to populate API Gateway REST API path
   /// wildcards ("*").
-  @_s.JsonKey(name: 'PathParameterValues')
-  final List<String> pathParameterValues;
+  final List<String>? pathParameterValues;
 
   /// The query string keys/values that need to be sent as part of request
   /// invoking the API Gateway REST API.
-  @_s.JsonKey(name: 'QueryStringParameters')
-  final Map<String, String> queryStringParameters;
+  final Map<String, String>? queryStringParameters;
 
   HttpParameters({
     this.headerParameters,
     this.pathParameterValues,
     this.queryStringParameters,
   });
-  factory HttpParameters.fromJson(Map<String, dynamic> json) =>
-      _$HttpParametersFromJson(json);
+  factory HttpParameters.fromJson(Map<String, dynamic> json) {
+    return HttpParameters(
+      headerParameters: (json['HeaderParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      pathParameterValues: (json['PathParameterValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      queryStringParameters:
+          (json['QueryStringParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HttpParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final headerParameters = this.headerParameters;
+    final pathParameterValues = this.pathParameterValues;
+    final queryStringParameters = this.queryStringParameters;
+    return {
+      if (headerParameters != null) 'HeaderParameters': headerParameters,
+      if (pathParameterValues != null)
+        'PathParameterValues': pathParameterValues,
+      if (queryStringParameters != null)
+        'QueryStringParameters': queryStringParameters,
+    };
+  }
 }
 
 /// Contains the parameters needed for you to provide custom input to a target
 /// based on one or more pieces of data extracted from the event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputTransformer {
   /// Input template where you specify placeholders that will be filled with the
   /// values of the keys from <code>InputPathsMap</code> to customize the data
@@ -3884,7 +3933,6 @@ class InputTransformer {
   /// \"&lt;status&gt;\""</code>
   ///
   /// <code>}</code>
-  @_s.JsonKey(name: 'InputTemplate')
   final String inputTemplate;
 
   /// Map of JSON paths to be extracted from the event. You can then insert these
@@ -3896,17 +3944,28 @@ class InputTransformer {
   /// JSON dot notation, not bracket notation.
   ///
   /// The keys cannot start with "AWS."
-  @_s.JsonKey(name: 'InputPathsMap')
-  final Map<String, String> inputPathsMap;
+  final Map<String, String>? inputPathsMap;
 
   InputTransformer({
-    @_s.required this.inputTemplate,
+    required this.inputTemplate,
     this.inputPathsMap,
   });
-  factory InputTransformer.fromJson(Map<String, dynamic> json) =>
-      _$InputTransformerFromJson(json);
+  factory InputTransformer.fromJson(Map<String, dynamic> json) {
+    return InputTransformer(
+      inputTemplate: json['InputTemplate'] as String,
+      inputPathsMap: (json['InputPathsMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputTransformerToJson(this);
+  Map<String, dynamic> toJson() {
+    final inputTemplate = this.inputTemplate;
+    final inputPathsMap = this.inputPathsMap;
+    return {
+      'InputTemplate': inputTemplate,
+      if (inputPathsMap != null) 'InputPathsMap': inputPathsMap,
+    };
+  }
 }
 
 /// This object enables you to specify a JSON path to extract from the event and
@@ -3914,337 +3973,353 @@ class InputTransformer {
 /// control the shard to which the event goes. If you do not include this
 /// parameter, the default is to use the <code>eventId</code> as the partition
 /// key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisParameters {
   /// The JSON path to be extracted from the event and used as the partition key.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html#partition-key">Amazon
   /// Kinesis Streams Key Concepts</a> in the <i>Amazon Kinesis Streams Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'PartitionKeyPath')
   final String partitionKeyPath;
 
   KinesisParameters({
-    @_s.required this.partitionKeyPath,
+    required this.partitionKeyPath,
   });
-  factory KinesisParameters.fromJson(Map<String, dynamic> json) =>
-      _$KinesisParametersFromJson(json);
+  factory KinesisParameters.fromJson(Map<String, dynamic> json) {
+    return KinesisParameters(
+      partitionKeyPath: json['PartitionKeyPath'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final partitionKeyPath = this.partitionKeyPath;
+    return {
+      'PartitionKeyPath': partitionKeyPath,
+    };
+  }
 }
 
 enum LaunchType {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('FARGATE')
   fargate,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LaunchType {
+  String toValue() {
+    switch (this) {
+      case LaunchType.ec2:
+        return 'EC2';
+      case LaunchType.fargate:
+        return 'FARGATE';
+    }
+  }
+}
+
+extension on String {
+  LaunchType toLaunchType() {
+    switch (this) {
+      case 'EC2':
+        return LaunchType.ec2;
+      case 'FARGATE':
+        return LaunchType.fargate;
+    }
+    throw Exception('$this is not known in enum LaunchType');
+  }
+}
+
 class ListArchivesResponse {
   /// An array of <code>Archive</code> objects that include details about an
   /// archive.
-  @_s.JsonKey(name: 'Archives')
-  final List<Archive> archives;
+  final List<Archive>? archives;
 
   /// The token returned by a previous call to retrieve the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListArchivesResponse({
     this.archives,
     this.nextToken,
   });
-  factory ListArchivesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListArchivesResponseFromJson(json);
+  factory ListArchivesResponse.fromJson(Map<String, dynamic> json) {
+    return ListArchivesResponse(
+      archives: (json['Archives'] as List?)
+          ?.whereNotNull()
+          .map((e) => Archive.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventBusesResponse {
   /// This list of event buses.
-  @_s.JsonKey(name: 'EventBuses')
-  final List<EventBus> eventBuses;
+  final List<EventBus>? eventBuses;
 
   /// A token you can use in a subsequent operation to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventBusesResponse({
     this.eventBuses,
     this.nextToken,
   });
-  factory ListEventBusesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventBusesResponseFromJson(json);
+  factory ListEventBusesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventBusesResponse(
+      eventBuses: (json['EventBuses'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventBus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventSourcesResponse {
   /// The list of event sources.
-  @_s.JsonKey(name: 'EventSources')
-  final List<EventSource> eventSources;
+  final List<EventSource>? eventSources;
 
   /// A token you can use in a subsequent operation to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventSourcesResponse({
     this.eventSources,
     this.nextToken,
   });
-  factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventSourcesResponseFromJson(json);
+  factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventSourcesResponse(
+      eventSources: (json['EventSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPartnerEventSourceAccountsResponse {
   /// A token you can use in a subsequent operation to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of partner event sources returned by the operation.
-  @_s.JsonKey(name: 'PartnerEventSourceAccounts')
-  final List<PartnerEventSourceAccount> partnerEventSourceAccounts;
+  final List<PartnerEventSourceAccount>? partnerEventSourceAccounts;
 
   ListPartnerEventSourceAccountsResponse({
     this.nextToken,
     this.partnerEventSourceAccounts,
   });
   factory ListPartnerEventSourceAccountsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPartnerEventSourceAccountsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPartnerEventSourceAccountsResponse(
+      nextToken: json['NextToken'] as String?,
+      partnerEventSourceAccounts: (json['PartnerEventSourceAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PartnerEventSourceAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPartnerEventSourcesResponse {
   /// A token you can use in a subsequent operation to retrieve the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of partner event sources returned by the operation.
-  @_s.JsonKey(name: 'PartnerEventSources')
-  final List<PartnerEventSource> partnerEventSources;
+  final List<PartnerEventSource>? partnerEventSources;
 
   ListPartnerEventSourcesResponse({
     this.nextToken,
     this.partnerEventSources,
   });
-  factory ListPartnerEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPartnerEventSourcesResponseFromJson(json);
+  factory ListPartnerEventSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPartnerEventSourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      partnerEventSources: (json['PartnerEventSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartnerEventSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReplaysResponse {
   /// The token returned by a previous call to retrieve the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>Replay</code> objects that contain information about the
   /// replay.
-  @_s.JsonKey(name: 'Replays')
-  final List<Replay> replays;
+  final List<Replay>? replays;
 
   ListReplaysResponse({
     this.nextToken,
     this.replays,
   });
-  factory ListReplaysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListReplaysResponseFromJson(json);
+  factory ListReplaysResponse.fromJson(Map<String, dynamic> json) {
+    return ListReplaysResponse(
+      nextToken: json['NextToken'] as String?,
+      replays: (json['Replays'] as List?)
+          ?.whereNotNull()
+          .map((e) => Replay.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRuleNamesByTargetResponse {
   /// Indicates whether there are additional results to retrieve. If there are no
   /// more results, the value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The names of the rules that can invoke the given target.
-  @_s.JsonKey(name: 'RuleNames')
-  final List<String> ruleNames;
+  final List<String>? ruleNames;
 
   ListRuleNamesByTargetResponse({
     this.nextToken,
     this.ruleNames,
   });
-  factory ListRuleNamesByTargetResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRuleNamesByTargetResponseFromJson(json);
+  factory ListRuleNamesByTargetResponse.fromJson(Map<String, dynamic> json) {
+    return ListRuleNamesByTargetResponse(
+      nextToken: json['NextToken'] as String?,
+      ruleNames: (json['RuleNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRulesResponse {
   /// Indicates whether there are additional results to retrieve. If there are no
   /// more results, the value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The rules that match the specified criteria.
-  @_s.JsonKey(name: 'Rules')
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   ListRulesResponse({
     this.nextToken,
     this.rules,
   });
-  factory ListRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRulesResponseFromJson(json);
+  factory ListRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRulesResponse(
+      nextToken: json['NextToken'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The list of tag keys and values associated with the resource you specified
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTargetsByRuleResponse {
   /// Indicates whether there are additional results to retrieve. If there are no
   /// more results, the value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The targets assigned to the rule.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   ListTargetsByRuleResponse({
     this.nextToken,
     this.targets,
   });
-  factory ListTargetsByRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTargetsByRuleResponseFromJson(json);
+  factory ListTargetsByRuleResponse.fromJson(Map<String, dynamic> json) {
+    return ListTargetsByRuleResponse(
+      nextToken: json['NextToken'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// This structure specifies the network configuration for an ECS task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NetworkConfiguration {
   /// Use this structure to specify the VPC subnets and security groups for the
   /// task, and whether a public IP address is to be used. This structure is
   /// relevant only for ECS tasks that use the <code>awsvpc</code> network mode.
-  @_s.JsonKey(name: 'awsvpcConfiguration')
-  final AwsVpcConfiguration awsvpcConfiguration;
+  final AwsVpcConfiguration? awsvpcConfiguration;
 
   NetworkConfiguration({
     this.awsvpcConfiguration,
   });
-  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NetworkConfigurationFromJson(json);
+  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkConfiguration(
+      awsvpcConfiguration: json['awsvpcConfiguration'] != null
+          ? AwsVpcConfiguration.fromJson(
+              json['awsvpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NetworkConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final awsvpcConfiguration = this.awsvpcConfiguration;
+    return {
+      if (awsvpcConfiguration != null)
+        'awsvpcConfiguration': awsvpcConfiguration,
+    };
+  }
 }
 
 /// A partner event source is created by an SaaS partner. If a customer creates
 /// a partner event bus that matches this event source, that AWS account can
 /// receive events from the partner's applications or services.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartnerEventSource {
   /// The ARN of the partner event source.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the partner event source.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   PartnerEventSource({
     this.arn,
     this.name,
   });
-  factory PartnerEventSource.fromJson(Map<String, dynamic> json) =>
-      _$PartnerEventSourceFromJson(json);
+  factory PartnerEventSource.fromJson(Map<String, dynamic> json) {
+    return PartnerEventSource(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// The AWS account that a partner event source has been offered to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartnerEventSourceAccount {
   /// The AWS account ID that the partner event source was offered to.
-  @_s.JsonKey(name: 'Account')
-  final String account;
+  final String? account;
 
   /// The date and time the event source was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The date and time that the event source will expire, if the AWS account
   /// doesn't create a matching event bus for it.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationTime')
-  final DateTime expirationTime;
+  final DateTime? expirationTime;
 
   /// The state of the event source. If it is ACTIVE, you have already created a
   /// matching event bus for this event source, and that event bus is active. If
   /// it is PENDING, either you haven't yet created a matching event bus, or that
   /// event bus is deactivated. If it is DELETED, you have created a matching
   /// event bus, but the event source has since been deleted.
-  @_s.JsonKey(name: 'State')
-  final EventSourceState state;
+  final EventSourceState? state;
 
   PartnerEventSourceAccount({
     this.account,
@@ -4252,47 +4327,41 @@ class PartnerEventSourceAccount {
     this.expirationTime,
     this.state,
   });
-  factory PartnerEventSourceAccount.fromJson(Map<String, dynamic> json) =>
-      _$PartnerEventSourceAccountFromJson(json);
+  factory PartnerEventSourceAccount.fromJson(Map<String, dynamic> json) {
+    return PartnerEventSourceAccount(
+      account: json['Account'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      expirationTime: timeStampFromJson(json['ExpirationTime']),
+      state: (json['State'] as String?)?.toEventSourceState(),
+    );
+  }
 }
 
 /// Represents an event to be submitted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PutEventsRequestEntry {
   /// A valid JSON string. There is no other schema imposed. The JSON string may
   /// contain fields and nested subobjects.
-  @_s.JsonKey(name: 'Detail')
-  final String detail;
+  final String? detail;
 
   /// Free-form string used to decide what fields to expect in the event detail.
-  @_s.JsonKey(name: 'DetailType')
-  final String detailType;
+  final String? detailType;
 
   /// The name or ARN of the event bus to receive the event. Only the rules that
   /// are associated with this event bus are used to match the event. If you omit
   /// this, the default event bus is used.
-  @_s.JsonKey(name: 'EventBusName')
-  final String eventBusName;
+  final String? eventBusName;
 
   /// AWS resources, identified by Amazon Resource Name (ARN), which the event
   /// primarily concerns. Any number, including zero, may be present.
-  @_s.JsonKey(name: 'Resources')
-  final List<String> resources;
+  final List<String>? resources;
 
   /// The source of the event.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The time stamp of the event, per <a
   /// href="https://www.rfc-editor.org/rfc/rfc3339.txt">RFC3339</a>. If no time
   /// stamp is provided, the time stamp of the <a>PutEvents</a> call is used.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Time')
-  final DateTime time;
+  final DateTime? time;
 
   PutEventsRequestEntry({
     this.detail,
@@ -4302,91 +4371,92 @@ class PutEventsRequestEntry {
     this.source,
     this.time,
   });
-  Map<String, dynamic> toJson() => _$PutEventsRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final detail = this.detail;
+    final detailType = this.detailType;
+    final eventBusName = this.eventBusName;
+    final resources = this.resources;
+    final source = this.source;
+    final time = this.time;
+    return {
+      if (detail != null) 'Detail': detail,
+      if (detailType != null) 'DetailType': detailType,
+      if (eventBusName != null) 'EventBusName': eventBusName,
+      if (resources != null) 'Resources': resources,
+      if (source != null) 'Source': source,
+      if (time != null) 'Time': unixTimestampToJson(time),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEventsResponse {
   /// The successfully and unsuccessfully ingested events results. If the
   /// ingestion was successful, the entry has the event ID in it. Otherwise, you
   /// can use the error code and error message to identify the problem with the
   /// entry.
-  @_s.JsonKey(name: 'Entries')
-  final List<PutEventsResultEntry> entries;
+  final List<PutEventsResultEntry>? entries;
 
   /// The number of failed entries.
-  @_s.JsonKey(name: 'FailedEntryCount')
-  final int failedEntryCount;
+  final int? failedEntryCount;
 
   PutEventsResponse({
     this.entries,
     this.failedEntryCount,
   });
-  factory PutEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutEventsResponseFromJson(json);
+  factory PutEventsResponse.fromJson(Map<String, dynamic> json) {
+    return PutEventsResponse(
+      entries: (json['Entries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PutEventsResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedEntryCount: json['FailedEntryCount'] as int?,
+    );
+  }
 }
 
 /// Represents an event that failed to be submitted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEventsResultEntry {
   /// The error code that indicates why the event submission failed.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message that explains why the event submission failed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the event.
-  @_s.JsonKey(name: 'EventId')
-  final String eventId;
+  final String? eventId;
 
   PutEventsResultEntry({
     this.errorCode,
     this.errorMessage,
     this.eventId,
   });
-  factory PutEventsResultEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutEventsResultEntryFromJson(json);
+  factory PutEventsResultEntry.fromJson(Map<String, dynamic> json) {
+    return PutEventsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      eventId: json['EventId'] as String?,
+    );
+  }
 }
 
 /// The details about an event generated by an SaaS partner.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PutPartnerEventsRequestEntry {
   /// A valid JSON string. There is no other schema imposed. The JSON string may
   /// contain fields and nested subobjects.
-  @_s.JsonKey(name: 'Detail')
-  final String detail;
+  final String? detail;
 
   /// A free-form string used to decide what fields to expect in the event detail.
-  @_s.JsonKey(name: 'DetailType')
-  final String detailType;
+  final String? detailType;
 
   /// AWS resources, identified by Amazon Resource Name (ARN), which the event
   /// primarily concerns. Any number, including zero, may be present.
-  @_s.JsonKey(name: 'Resources')
-  final List<String> resources;
+  final List<String>? resources;
 
   /// The event source that is generating the evntry.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The date and time of the event.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Time')
-  final DateTime time;
+  final DateTime? time;
 
   PutPartnerEventsRequestEntry({
     this.detail,
@@ -4395,284 +4465,280 @@ class PutPartnerEventsRequestEntry {
     this.source,
     this.time,
   });
-  Map<String, dynamic> toJson() => _$PutPartnerEventsRequestEntryToJson(this);
+  Map<String, dynamic> toJson() {
+    final detail = this.detail;
+    final detailType = this.detailType;
+    final resources = this.resources;
+    final source = this.source;
+    final time = this.time;
+    return {
+      if (detail != null) 'Detail': detail,
+      if (detailType != null) 'DetailType': detailType,
+      if (resources != null) 'Resources': resources,
+      if (source != null) 'Source': source,
+      if (time != null) 'Time': unixTimestampToJson(time),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPartnerEventsResponse {
   /// The list of events from this operation that were successfully written to the
   /// partner event bus.
-  @_s.JsonKey(name: 'Entries')
-  final List<PutPartnerEventsResultEntry> entries;
+  final List<PutPartnerEventsResultEntry>? entries;
 
   /// The number of events from this operation that could not be written to the
   /// partner event bus.
-  @_s.JsonKey(name: 'FailedEntryCount')
-  final int failedEntryCount;
+  final int? failedEntryCount;
 
   PutPartnerEventsResponse({
     this.entries,
     this.failedEntryCount,
   });
-  factory PutPartnerEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutPartnerEventsResponseFromJson(json);
+  factory PutPartnerEventsResponse.fromJson(Map<String, dynamic> json) {
+    return PutPartnerEventsResponse(
+      entries: (json['Entries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PutPartnerEventsResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedEntryCount: json['FailedEntryCount'] as int?,
+    );
+  }
 }
 
 /// Represents an event that a partner tried to generate, but failed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPartnerEventsResultEntry {
   /// The error code that indicates why the event submission failed.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message that explains why the event submission failed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the event.
-  @_s.JsonKey(name: 'EventId')
-  final String eventId;
+  final String? eventId;
 
   PutPartnerEventsResultEntry({
     this.errorCode,
     this.errorMessage,
     this.eventId,
   });
-  factory PutPartnerEventsResultEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutPartnerEventsResultEntryFromJson(json);
+  factory PutPartnerEventsResultEntry.fromJson(Map<String, dynamic> json) {
+    return PutPartnerEventsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      eventId: json['EventId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
-  @_s.JsonKey(name: 'RuleArn')
-  final String ruleArn;
+  final String? ruleArn;
 
   PutRuleResponse({
     this.ruleArn,
   });
-  factory PutRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutRuleResponseFromJson(json);
+  factory PutRuleResponse.fromJson(Map<String, dynamic> json) {
+    return PutRuleResponse(
+      ruleArn: json['RuleArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutTargetsResponse {
   /// The failed target entries.
-  @_s.JsonKey(name: 'FailedEntries')
-  final List<PutTargetsResultEntry> failedEntries;
+  final List<PutTargetsResultEntry>? failedEntries;
 
   /// The number of failed entries.
-  @_s.JsonKey(name: 'FailedEntryCount')
-  final int failedEntryCount;
+  final int? failedEntryCount;
 
   PutTargetsResponse({
     this.failedEntries,
     this.failedEntryCount,
   });
-  factory PutTargetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutTargetsResponseFromJson(json);
+  factory PutTargetsResponse.fromJson(Map<String, dynamic> json) {
+    return PutTargetsResponse(
+      failedEntries: (json['FailedEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PutTargetsResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedEntryCount: json['FailedEntryCount'] as int?,
+    );
+  }
 }
 
 /// Represents a target that failed to be added to a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutTargetsResultEntry {
   /// The error code that indicates why the target addition failed. If the value
   /// is <code>ConcurrentModificationException</code>, too many requests were made
   /// at the same time.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message that explains why the target addition failed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the target.
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   PutTargetsResultEntry({
     this.errorCode,
     this.errorMessage,
     this.targetId,
   });
-  factory PutTargetsResultEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutTargetsResultEntryFromJson(json);
+  factory PutTargetsResultEntry.fromJson(Map<String, dynamic> json) {
+    return PutTargetsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      targetId: json['TargetId'] as String?,
+    );
+  }
 }
 
 /// These are custom parameters to be used when the target is a Redshift cluster
 /// to invoke the Redshift Data API ExecuteStatement based on EventBridge
 /// events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RedshiftDataParameters {
   /// The name of the database. Required when authenticating using temporary
   /// credentials.
-  @_s.JsonKey(name: 'Database')
   final String database;
 
   /// The SQL statement text to run.
-  @_s.JsonKey(name: 'Sql')
   final String sql;
 
   /// The database user name. Required when authenticating using temporary
   /// credentials.
-  @_s.JsonKey(name: 'DbUser')
-  final String dbUser;
+  final String? dbUser;
 
   /// The name or ARN of the secret that enables access to the database. Required
   /// when authenticating using AWS Secrets Manager.
-  @_s.JsonKey(name: 'SecretManagerArn')
-  final String secretManagerArn;
+  final String? secretManagerArn;
 
   /// The name of the SQL statement. You can name the SQL statement when you
   /// create it to identify the query.
-  @_s.JsonKey(name: 'StatementName')
-  final String statementName;
+  final String? statementName;
 
   /// Indicates whether to send an event back to EventBridge after the SQL
   /// statement runs.
-  @_s.JsonKey(name: 'WithEvent')
-  final bool withEvent;
+  final bool? withEvent;
 
   RedshiftDataParameters({
-    @_s.required this.database,
-    @_s.required this.sql,
+    required this.database,
+    required this.sql,
     this.dbUser,
     this.secretManagerArn,
     this.statementName,
     this.withEvent,
   });
-  factory RedshiftDataParameters.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftDataParametersFromJson(json);
+  factory RedshiftDataParameters.fromJson(Map<String, dynamic> json) {
+    return RedshiftDataParameters(
+      database: json['Database'] as String,
+      sql: json['Sql'] as String,
+      dbUser: json['DbUser'] as String?,
+      secretManagerArn: json['SecretManagerArn'] as String?,
+      statementName: json['StatementName'] as String?,
+      withEvent: json['WithEvent'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RedshiftDataParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final sql = this.sql;
+    final dbUser = this.dbUser;
+    final secretManagerArn = this.secretManagerArn;
+    final statementName = this.statementName;
+    final withEvent = this.withEvent;
+    return {
+      'Database': database,
+      'Sql': sql,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (secretManagerArn != null) 'SecretManagerArn': secretManagerArn,
+      if (statementName != null) 'StatementName': statementName,
+      if (withEvent != null) 'WithEvent': withEvent,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTargetsResponse {
   /// The failed target entries.
-  @_s.JsonKey(name: 'FailedEntries')
-  final List<RemoveTargetsResultEntry> failedEntries;
+  final List<RemoveTargetsResultEntry>? failedEntries;
 
   /// The number of failed entries.
-  @_s.JsonKey(name: 'FailedEntryCount')
-  final int failedEntryCount;
+  final int? failedEntryCount;
 
   RemoveTargetsResponse({
     this.failedEntries,
     this.failedEntryCount,
   });
-  factory RemoveTargetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTargetsResponseFromJson(json);
+  factory RemoveTargetsResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveTargetsResponse(
+      failedEntries: (json['FailedEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RemoveTargetsResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      failedEntryCount: json['FailedEntryCount'] as int?,
+    );
+  }
 }
 
 /// Represents a target that failed to be removed from a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTargetsResultEntry {
   /// The error code that indicates why the target removal failed. If the value is
   /// <code>ConcurrentModificationException</code>, too many requests were made at
   /// the same time.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message that explains why the target removal failed.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the target.
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   RemoveTargetsResultEntry({
     this.errorCode,
     this.errorMessage,
     this.targetId,
   });
-  factory RemoveTargetsResultEntry.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTargetsResultEntryFromJson(json);
+  factory RemoveTargetsResultEntry.fromJson(Map<String, dynamic> json) {
+    return RemoveTargetsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      targetId: json['TargetId'] as String?,
+    );
+  }
 }
 
 /// A <code>Replay</code> object that contains details about a replay.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Replay {
   /// A time stamp for the time to start replaying events. Any event with a
   /// creation time prior to the <code>EventEndTime</code> specified is replayed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventEndTime')
-  final DateTime eventEndTime;
+  final DateTime? eventEndTime;
 
   /// A time stamp for the time that the last event was replayed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventLastReplayedTime')
-  final DateTime eventLastReplayedTime;
+  final DateTime? eventLastReplayedTime;
 
   /// The ARN of the archive to replay event from.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   /// A time stamp for the time to start replaying events. This is determined by
   /// the time in the event as described in <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEventsRequestEntry.html#eventbridge-Type-PutEventsRequestEntry-Time">Time</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventStartTime')
-  final DateTime eventStartTime;
+  final DateTime? eventStartTime;
 
   /// A time stamp for the time that the replay completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplayEndTime')
-  final DateTime replayEndTime;
+  final DateTime? replayEndTime;
 
   /// The name of the replay.
-  @_s.JsonKey(name: 'ReplayName')
-  final String replayName;
+  final String? replayName;
 
   /// A time stamp for the time that the replay started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplayStartTime')
-  final DateTime replayStartTime;
+  final DateTime? replayStartTime;
 
   /// The current state of the replay.
-  @_s.JsonKey(name: 'State')
-  final ReplayState state;
+  final ReplayState? state;
 
   /// A description of why the replay is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   Replay({
     this.eventEndTime,
@@ -4685,48 +4751,61 @@ class Replay {
     this.state,
     this.stateReason,
   });
-  factory Replay.fromJson(Map<String, dynamic> json) => _$ReplayFromJson(json);
+  factory Replay.fromJson(Map<String, dynamic> json) {
+    return Replay(
+      eventEndTime: timeStampFromJson(json['EventEndTime']),
+      eventLastReplayedTime: timeStampFromJson(json['EventLastReplayedTime']),
+      eventSourceArn: json['EventSourceArn'] as String?,
+      eventStartTime: timeStampFromJson(json['EventStartTime']),
+      replayEndTime: timeStampFromJson(json['ReplayEndTime']),
+      replayName: json['ReplayName'] as String?,
+      replayStartTime: timeStampFromJson(json['ReplayStartTime']),
+      state: (json['State'] as String?)?.toReplayState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
 /// A <code>ReplayDestination</code> object that contains details about a
 /// replay.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReplayDestination {
   /// The ARN of the event bus to replay event to. You can replay events only to
   /// the event bus specified to create the archive.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// A list of ARNs for rules to replay events to.
-  @_s.JsonKey(name: 'FilterArns')
-  final List<String> filterArns;
+  final List<String>? filterArns;
 
   ReplayDestination({
-    @_s.required this.arn,
+    required this.arn,
     this.filterArns,
   });
-  factory ReplayDestination.fromJson(Map<String, dynamic> json) =>
-      _$ReplayDestinationFromJson(json);
+  factory ReplayDestination.fromJson(Map<String, dynamic> json) {
+    return ReplayDestination(
+      arn: json['Arn'] as String,
+      filterArns: (json['FilterArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ReplayDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final filterArns = this.filterArns;
+    return {
+      'Arn': arn,
+      if (filterArns != null) 'FilterArns': filterArns,
+    };
+  }
 }
 
 enum ReplayState {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -4746,86 +4825,97 @@ extension on ReplayState {
       case ReplayState.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReplayState toReplayState() {
+    switch (this) {
+      case 'STARTING':
+        return ReplayState.starting;
+      case 'RUNNING':
+        return ReplayState.running;
+      case 'CANCELLING':
+        return ReplayState.cancelling;
+      case 'COMPLETED':
+        return ReplayState.completed;
+      case 'CANCELLED':
+        return ReplayState.cancelled;
+      case 'FAILED':
+        return ReplayState.failed;
+    }
+    throw Exception('$this is not known in enum ReplayState');
   }
 }
 
 /// A <code>RetryPolicy</code> object that includes information about the retry
 /// policy settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RetryPolicy {
   /// The maximum amount of time, in seconds, to continue to make retry attempts.
-  @_s.JsonKey(name: 'MaximumEventAgeInSeconds')
-  final int maximumEventAgeInSeconds;
+  final int? maximumEventAgeInSeconds;
 
   /// The maximum number of retry attempts to make before the request fails. Retry
   /// attempts continue until either the maximum number of attempts is made or
   /// until the duration of the <code>MaximumEventAgeInSeconds</code> is met.
-  @_s.JsonKey(name: 'MaximumRetryAttempts')
-  final int maximumRetryAttempts;
+  final int? maximumRetryAttempts;
 
   RetryPolicy({
     this.maximumEventAgeInSeconds,
     this.maximumRetryAttempts,
   });
-  factory RetryPolicy.fromJson(Map<String, dynamic> json) =>
-      _$RetryPolicyFromJson(json);
+  factory RetryPolicy.fromJson(Map<String, dynamic> json) {
+    return RetryPolicy(
+      maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int?,
+      maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RetryPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final maximumEventAgeInSeconds = this.maximumEventAgeInSeconds;
+    final maximumRetryAttempts = this.maximumRetryAttempts;
+    return {
+      if (maximumEventAgeInSeconds != null)
+        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
+    };
+  }
 }
 
 /// Contains information about a rule in Amazon EventBridge.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Rule {
   /// The Amazon Resource Name (ARN) of the rule.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the rule.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name or ARN of the event bus associated with the rule. If you omit this,
   /// the default event bus is used.
-  @_s.JsonKey(name: 'EventBusName')
-  final String eventBusName;
+  final String? eventBusName;
 
   /// The event pattern of the rule. For more information, see <a
   /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
   /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
-  @_s.JsonKey(name: 'EventPattern')
-  final String eventPattern;
+  final String? eventPattern;
 
   /// If the rule was created on behalf of your account by an AWS service, this
   /// field displays the principal name of the service that created the rule.
-  @_s.JsonKey(name: 'ManagedBy')
-  final String managedBy;
+  final String? managedBy;
 
   /// The name of the rule.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the role that is used for target
   /// invocation.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5
   /// minutes)".
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// The state of the rule.
-  @_s.JsonKey(name: 'State')
-  final RuleState state;
+  final RuleState? state;
 
   Rule({
     this.arn,
@@ -4838,13 +4928,23 @@ class Rule {
     this.scheduleExpression,
     this.state,
   });
-  factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      eventBusName: json['EventBusName'] as String?,
+      eventPattern: json['EventPattern'] as String?,
+      managedBy: json['ManagedBy'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      state: (json['State'] as String?)?.toRuleState(),
+    );
+  }
 }
 
 enum RuleState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -4856,104 +4956,119 @@ extension on RuleState {
       case RuleState.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RuleState toRuleState() {
+    switch (this) {
+      case 'ENABLED':
+        return RuleState.enabled;
+      case 'DISABLED':
+        return RuleState.disabled;
+    }
+    throw Exception('$this is not known in enum RuleState');
   }
 }
 
 /// This parameter contains the criteria (either InstanceIds or a tag) used to
 /// specify which EC2 instances are to be sent the command.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RunCommandParameters {
   /// Currently, we support including only one RunCommandTarget block, which
   /// specifies either an array of InstanceIds or a tag.
-  @_s.JsonKey(name: 'RunCommandTargets')
   final List<RunCommandTarget> runCommandTargets;
 
   RunCommandParameters({
-    @_s.required this.runCommandTargets,
+    required this.runCommandTargets,
   });
-  factory RunCommandParameters.fromJson(Map<String, dynamic> json) =>
-      _$RunCommandParametersFromJson(json);
+  factory RunCommandParameters.fromJson(Map<String, dynamic> json) {
+    return RunCommandParameters(
+      runCommandTargets: (json['RunCommandTargets'] as List)
+          .whereNotNull()
+          .map((e) => RunCommandTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RunCommandParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final runCommandTargets = this.runCommandTargets;
+    return {
+      'RunCommandTargets': runCommandTargets,
+    };
+  }
 }
 
 /// Information about the EC2 instances that are to be sent the command,
 /// specified as key-value pairs. Each <code>RunCommandTarget</code> block can
 /// include only one key, but this key may specify multiple values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RunCommandTarget {
   /// Can be either <code>tag:</code> <i>tag-key</i> or <code>InstanceIds</code>.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// If <code>Key</code> is <code>tag:</code> <i>tag-key</i>, <code>Values</code>
   /// is a list of tag values. If <code>Key</code> is <code>InstanceIds</code>,
   /// <code>Values</code> is a list of Amazon EC2 instance IDs.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   RunCommandTarget({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  factory RunCommandTarget.fromJson(Map<String, dynamic> json) =>
-      _$RunCommandTargetFromJson(json);
+  factory RunCommandTarget.fromJson(Map<String, dynamic> json) {
+    return RunCommandTarget(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RunCommandTargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
 }
 
 /// This structure includes the custom parameter to be used when the target is
 /// an SQS FIFO queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqsParameters {
   /// The FIFO message group ID to use as the target.
-  @_s.JsonKey(name: 'MessageGroupId')
-  final String messageGroupId;
+  final String? messageGroupId;
 
   SqsParameters({
     this.messageGroupId,
   });
-  factory SqsParameters.fromJson(Map<String, dynamic> json) =>
-      _$SqsParametersFromJson(json);
+  factory SqsParameters.fromJson(Map<String, dynamic> json) {
+    return SqsParameters(
+      messageGroupId: json['MessageGroupId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SqsParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final messageGroupId = this.messageGroupId;
+    return {
+      if (messageGroupId != null) 'MessageGroupId': messageGroupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartReplayResponse {
   /// The ARN of the replay.
-  @_s.JsonKey(name: 'ReplayArn')
-  final String replayArn;
+  final String? replayArn;
 
   /// The time at which the replay started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplayStartTime')
-  final DateTime replayStartTime;
+  final DateTime? replayStartTime;
 
   /// The state of the replay.
-  @_s.JsonKey(name: 'State')
-  final ReplayState state;
+  final ReplayState? state;
 
   /// The reason that the replay is in the state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   StartReplayResponse({
     this.replayArn,
@@ -4961,45 +5076,52 @@ class StartReplayResponse {
     this.state,
     this.stateReason,
   });
-  factory StartReplayResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartReplayResponseFromJson(json);
+  factory StartReplayResponse.fromJson(Map<String, dynamic> json) {
+    return StartReplayResponse(
+      replayArn: json['ReplayArn'] as String?,
+      replayStartTime: timeStampFromJson(json['ReplayStartTime']),
+      state: (json['State'] as String?)?.toReplayState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
 /// A key-value pair associated with an AWS resource. In EventBridge, rules and
 /// event buses support tagging.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A string you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for the specified tag key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// Targets are the resources to be invoked when a rule is triggered. For a
@@ -5014,39 +5136,29 @@ class TagResourceResponse {
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html">Sending
 /// and Receiving Events Between AWS Accounts</a> in the <i>Amazon EventBridge
 /// User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Target {
   /// The Amazon Resource Name (ARN) of the target.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The ID of the target.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// If the event target is an AWS Batch job, this contains the job definition,
   /// job name, and other parameters. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/jobs.html">Jobs</a>
   /// in the <i>AWS Batch User Guide</i>.
-  @_s.JsonKey(name: 'BatchParameters')
-  final BatchParameters batchParameters;
+  final BatchParameters? batchParameters;
 
   /// The <code>DeadLetterConfig</code> that defines the target queue to send
   /// dead-letter queue events to.
-  @_s.JsonKey(name: 'DeadLetterConfig')
-  final DeadLetterConfig deadLetterConfig;
+  final DeadLetterConfig? deadLetterConfig;
 
   /// Contains the Amazon ECS task definition and task count to be used, if the
   /// event target is an Amazon ECS task. For more information about Amazon ECS
   /// tasks, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html">Task
   /// Definitions </a> in the <i>Amazon EC2 Container Service Developer Guide</i>.
-  @_s.JsonKey(name: 'EcsParameters')
-  final EcsParameters ecsParameters;
+  final EcsParameters? ecsParameters;
 
   /// Contains the HTTP parameters to use when the target is a API Gateway REST
   /// endpoint.
@@ -5054,34 +5166,29 @@ class Target {
   /// If you specify an API Gateway REST API as a target, you can use this
   /// parameter to specify headers, path parameter, query string keys/values as
   /// part of your target invoking request.
-  @_s.JsonKey(name: 'HttpParameters')
-  final HttpParameters httpParameters;
+  final HttpParameters? httpParameters;
 
   /// Valid JSON text passed to the target. In this case, nothing from the event
   /// itself is passed to the target. For more information, see <a
   /// href="http://www.rfc-editor.org/rfc/rfc7159.txt">The JavaScript Object
   /// Notation (JSON) Data Interchange Format</a>.
-  @_s.JsonKey(name: 'Input')
-  final String input;
+  final String? input;
 
   /// The value of the JSONPath that is used for extracting part of the matched
   /// event when passing it to the target. You must use JSON dot notation, not
   /// bracket notation. For more information about JSON paths, see <a
   /// href="http://goessner.net/articles/JsonPath/">JSONPath</a>.
-  @_s.JsonKey(name: 'InputPath')
-  final String inputPath;
+  final String? inputPath;
 
   /// Settings to enable you to provide custom input to a target based on certain
   /// event data. You can extract one or more key-value pairs from the event and
   /// then use that data to send customized input to the target.
-  @_s.JsonKey(name: 'InputTransformer')
-  final InputTransformer inputTransformer;
+  final InputTransformer? inputTransformer;
 
   /// The custom parameter you can use to control the shard assignment, when the
   /// target is a Kinesis data stream. If you do not include this parameter, the
   /// default is to use the <code>eventId</code> as the partition key.
-  @_s.JsonKey(name: 'KinesisParameters')
-  final KinesisParameters kinesisParameters;
+  final KinesisParameters? kinesisParameters;
 
   /// Contains the Redshift Data API parameters to use when the target is a
   /// Redshift cluster.
@@ -5089,35 +5196,30 @@ class Target {
   /// If you specify a Redshift Cluster as a Target, you can use this to specify
   /// parameters to invoke the Redshift Data API ExecuteStatement based on
   /// EventBridge events.
-  @_s.JsonKey(name: 'RedshiftDataParameters')
-  final RedshiftDataParameters redshiftDataParameters;
+  final RedshiftDataParameters? redshiftDataParameters;
 
   /// The <code>RetryPolicy</code> object that contains the retry policy
   /// configuration to use for the dead-letter queue.
-  @_s.JsonKey(name: 'RetryPolicy')
-  final RetryPolicy retryPolicy;
+  final RetryPolicy? retryPolicy;
 
   /// The Amazon Resource Name (ARN) of the IAM role to be used for this target
   /// when the rule is triggered. If one rule triggers multiple targets, you can
   /// use a different IAM role for each target.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// Parameters used when you are using the rule to invoke Amazon EC2 Run
   /// Command.
-  @_s.JsonKey(name: 'RunCommandParameters')
-  final RunCommandParameters runCommandParameters;
+  final RunCommandParameters? runCommandParameters;
 
   /// Contains the message group ID to use when the target is a FIFO queue.
   ///
   /// If you specify an SQS FIFO queue as a target, the queue must have
   /// content-based deduplication enabled.
-  @_s.JsonKey(name: 'SqsParameters')
-  final SqsParameters sqsParameters;
+  final SqsParameters? sqsParameters;
 
   Target({
-    @_s.required this.arn,
-    @_s.required this.id,
+    required this.arn,
+    required this.id,
     this.batchParameters,
     this.deadLetterConfig,
     this.ecsParameters,
@@ -5132,61 +5234,126 @@ class Target {
     this.runCommandParameters,
     this.sqsParameters,
   });
-  factory Target.fromJson(Map<String, dynamic> json) => _$TargetFromJson(json);
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      arn: json['Arn'] as String,
+      id: json['Id'] as String,
+      batchParameters: json['BatchParameters'] != null
+          ? BatchParameters.fromJson(
+              json['BatchParameters'] as Map<String, dynamic>)
+          : null,
+      deadLetterConfig: json['DeadLetterConfig'] != null
+          ? DeadLetterConfig.fromJson(
+              json['DeadLetterConfig'] as Map<String, dynamic>)
+          : null,
+      ecsParameters: json['EcsParameters'] != null
+          ? EcsParameters.fromJson(
+              json['EcsParameters'] as Map<String, dynamic>)
+          : null,
+      httpParameters: json['HttpParameters'] != null
+          ? HttpParameters.fromJson(
+              json['HttpParameters'] as Map<String, dynamic>)
+          : null,
+      input: json['Input'] as String?,
+      inputPath: json['InputPath'] as String?,
+      inputTransformer: json['InputTransformer'] != null
+          ? InputTransformer.fromJson(
+              json['InputTransformer'] as Map<String, dynamic>)
+          : null,
+      kinesisParameters: json['KinesisParameters'] != null
+          ? KinesisParameters.fromJson(
+              json['KinesisParameters'] as Map<String, dynamic>)
+          : null,
+      redshiftDataParameters: json['RedshiftDataParameters'] != null
+          ? RedshiftDataParameters.fromJson(
+              json['RedshiftDataParameters'] as Map<String, dynamic>)
+          : null,
+      retryPolicy: json['RetryPolicy'] != null
+          ? RetryPolicy.fromJson(json['RetryPolicy'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+      runCommandParameters: json['RunCommandParameters'] != null
+          ? RunCommandParameters.fromJson(
+              json['RunCommandParameters'] as Map<String, dynamic>)
+          : null,
+      sqsParameters: json['SqsParameters'] != null
+          ? SqsParameters.fromJson(
+              json['SqsParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TargetToJson(this);
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final batchParameters = this.batchParameters;
+    final deadLetterConfig = this.deadLetterConfig;
+    final ecsParameters = this.ecsParameters;
+    final httpParameters = this.httpParameters;
+    final input = this.input;
+    final inputPath = this.inputPath;
+    final inputTransformer = this.inputTransformer;
+    final kinesisParameters = this.kinesisParameters;
+    final redshiftDataParameters = this.redshiftDataParameters;
+    final retryPolicy = this.retryPolicy;
+    final roleArn = this.roleArn;
+    final runCommandParameters = this.runCommandParameters;
+    final sqsParameters = this.sqsParameters;
+    return {
+      'Arn': arn,
+      'Id': id,
+      if (batchParameters != null) 'BatchParameters': batchParameters,
+      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+      if (ecsParameters != null) 'EcsParameters': ecsParameters,
+      if (httpParameters != null) 'HttpParameters': httpParameters,
+      if (input != null) 'Input': input,
+      if (inputPath != null) 'InputPath': inputPath,
+      if (inputTransformer != null) 'InputTransformer': inputTransformer,
+      if (kinesisParameters != null) 'KinesisParameters': kinesisParameters,
+      if (redshiftDataParameters != null)
+        'RedshiftDataParameters': redshiftDataParameters,
+      if (retryPolicy != null) 'RetryPolicy': retryPolicy,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (runCommandParameters != null)
+        'RunCommandParameters': runCommandParameters,
+      if (sqsParameters != null) 'SqsParameters': sqsParameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestEventPatternResponse {
   /// Indicates whether the event matches the event pattern.
-  @_s.JsonKey(name: 'Result')
-  final bool result;
+  final bool? result;
 
   TestEventPatternResponse({
     this.result,
   });
-  factory TestEventPatternResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestEventPatternResponseFromJson(json);
+  factory TestEventPatternResponse.fromJson(Map<String, dynamic> json) {
+    return TestEventPatternResponse(
+      result: json['Result'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateArchiveResponse {
   /// The ARN of the archive.
-  @_s.JsonKey(name: 'ArchiveArn')
-  final String archiveArn;
+  final String? archiveArn;
 
   /// The time at which the archive was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The state of the archive.
-  @_s.JsonKey(name: 'State')
-  final ArchiveState state;
+  final ArchiveState? state;
 
   /// The reason that the archive is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   UpdateArchiveResponse({
     this.archiveArn,
@@ -5194,12 +5361,18 @@ class UpdateArchiveResponse {
     this.state,
     this.stateReason,
   });
-  factory UpdateArchiveResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateArchiveResponseFromJson(json);
+  factory UpdateArchiveResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateArchiveResponse(
+      archiveArn: json['ArchiveArn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      state: (json['State'] as String?)?.toArchiveState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -5207,43 +5380,43 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class IllegalStatusException extends _s.GenericAwsException {
-  IllegalStatusException({String type, String message})
+  IllegalStatusException({String? type, String? message})
       : super(type: type, code: 'IllegalStatusException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InvalidEventPatternException extends _s.GenericAwsException {
-  InvalidEventPatternException({String type, String message})
+  InvalidEventPatternException({String? type, String? message})
       : super(
             type: type, code: 'InvalidEventPatternException', message: message);
 }
 
 class InvalidStateException extends _s.GenericAwsException {
-  InvalidStateException({String type, String message})
+  InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ManagedRuleException extends _s.GenericAwsException {
-  ManagedRuleException({String type, String message})
+  ManagedRuleException({String? type, String? message})
       : super(type: type, code: 'ManagedRuleException', message: message);
 }
 
 class OperationDisabledException extends _s.GenericAwsException {
-  OperationDisabledException({String type, String message})
+  OperationDisabledException({String? type, String? message})
       : super(type: type, code: 'OperationDisabledException', message: message);
 }
 
 class PolicyLengthExceededException extends _s.GenericAwsException {
-  PolicyLengthExceededException({String type, String message})
+  PolicyLengthExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'PolicyLengthExceededException',
@@ -5251,7 +5424,7 @@ class PolicyLengthExceededException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -5259,7 +5432,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

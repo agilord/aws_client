@@ -9,12 +9,10 @@ part of 'kafka-2018-11-14.dart';
 BatchAssociateScramSecretResponse _$BatchAssociateScramSecretResponseFromJson(
     Map<String, dynamic> json) {
   return BatchAssociateScramSecretResponse(
-    clusterArn: json['clusterArn'] as String,
-    unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clusterArn: json['clusterArn'] as String?,
+    unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List<dynamic>?)
+        ?.map((e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -25,19 +23,12 @@ BrokerEBSVolumeInfo _$BrokerEBSVolumeInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$BrokerEBSVolumeInfoToJson(BrokerEBSVolumeInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('kafkaBrokerNodeId', instance.kafkaBrokerNodeId);
-  writeNotNull('volumeSizeGB', instance.volumeSizeGB);
-  return val;
-}
+Map<String, dynamic> _$BrokerEBSVolumeInfoToJson(
+        BrokerEBSVolumeInfo instance) =>
+    <String, dynamic>{
+      'kafkaBrokerNodeId': instance.kafkaBrokerNodeId,
+      'volumeSizeGB': instance.volumeSizeGB,
+    };
 
 BrokerLogs _$BrokerLogsFromJson(Map<String, dynamic> json) {
   return BrokerLogs(
@@ -71,13 +62,15 @@ Map<String, dynamic> _$BrokerLogsToJson(BrokerLogs instance) {
 
 BrokerNodeGroupInfo _$BrokerNodeGroupInfoFromJson(Map<String, dynamic> json) {
   return BrokerNodeGroupInfo(
-    clientSubnets:
-        (json['clientSubnets'] as List)?.map((e) => e as String)?.toList(),
+    clientSubnets: (json['clientSubnets'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     instanceType: json['instanceType'] as String,
     brokerAZDistribution: _$enumDecodeNullable(
         _$BrokerAZDistributionEnumMap, json['brokerAZDistribution']),
-    securityGroups:
-        (json['securityGroups'] as List)?.map((e) => e as String)?.toList(),
+    securityGroups: (json['securityGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     storageInfo: json['storageInfo'] == null
         ? null
         : StorageInfo.fromJson(json['storageInfo'] as Map<String, dynamic>),
@@ -85,7 +78,10 @@ BrokerNodeGroupInfo _$BrokerNodeGroupInfoFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$BrokerNodeGroupInfoToJson(BrokerNodeGroupInfo instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'clientSubnets': instance.clientSubnets,
+    'instanceType': instance.instanceType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -93,8 +89,6 @@ Map<String, dynamic> _$BrokerNodeGroupInfoToJson(BrokerNodeGroupInfo instance) {
     }
   }
 
-  writeNotNull('clientSubnets', instance.clientSubnets);
-  writeNotNull('instanceType', instance.instanceType);
   writeNotNull('brokerAZDistribution',
       _$BrokerAZDistributionEnumMap[instance.brokerAZDistribution]);
   writeNotNull('securityGroups', instance.securityGroups);
@@ -102,36 +96,41 @@ Map<String, dynamic> _$BrokerNodeGroupInfoToJson(BrokerNodeGroupInfo instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$BrokerAZDistributionEnumMap = {
@@ -140,23 +139,24 @@ const _$BrokerAZDistributionEnumMap = {
 
 BrokerNodeInfo _$BrokerNodeInfoFromJson(Map<String, dynamic> json) {
   return BrokerNodeInfo(
-    attachedENIId: json['attachedENIId'] as String,
-    brokerId: (json['brokerId'] as num)?.toDouble(),
-    clientSubnet: json['clientSubnet'] as String,
-    clientVpcIpAddress: json['clientVpcIpAddress'] as String,
+    attachedENIId: json['attachedENIId'] as String?,
+    brokerId: (json['brokerId'] as num?)?.toDouble(),
+    clientSubnet: json['clientSubnet'] as String?,
+    clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
     currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] == null
         ? null
         : BrokerSoftwareInfo.fromJson(
             json['currentBrokerSoftwareInfo'] as Map<String, dynamic>),
-    endpoints: (json['endpoints'] as List)?.map((e) => e as String)?.toList(),
+    endpoints:
+        (json['endpoints'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 BrokerSoftwareInfo _$BrokerSoftwareInfoFromJson(Map<String, dynamic> json) {
   return BrokerSoftwareInfo(
-    configurationArn: json['configurationArn'] as String,
-    configurationRevision: json['configurationRevision'] as int,
-    kafkaVersion: json['kafkaVersion'] as String,
+    configurationArn: json['configurationArn'] as String?,
+    configurationRevision: json['configurationRevision'] as int?,
+    kafkaVersion: json['kafkaVersion'] as String?,
   );
 }
 
@@ -189,12 +189,14 @@ Map<String, dynamic> _$ClientAuthenticationToJson(
 CloudWatchLogs _$CloudWatchLogsFromJson(Map<String, dynamic> json) {
   return CloudWatchLogs(
     enabled: json['enabled'] as bool,
-    logGroup: json['logGroup'] as String,
+    logGroup: json['logGroup'] as String?,
   );
 }
 
 Map<String, dynamic> _$CloudWatchLogsToJson(CloudWatchLogs instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -202,14 +204,13 @@ Map<String, dynamic> _$CloudWatchLogsToJson(CloudWatchLogs instance) {
     }
   }
 
-  writeNotNull('enabled', instance.enabled);
   writeNotNull('logGroup', instance.logGroup);
   return val;
 }
 
 ClusterInfo _$ClusterInfoFromJson(Map<String, dynamic> json) {
   return ClusterInfo(
-    activeOperationArn: json['activeOperationArn'] as String,
+    activeOperationArn: json['activeOperationArn'] as String?,
     brokerNodeGroupInfo: json['brokerNodeGroupInfo'] == null
         ? null
         : BrokerNodeGroupInfo.fromJson(
@@ -218,14 +219,14 @@ ClusterInfo _$ClusterInfoFromJson(Map<String, dynamic> json) {
         ? null
         : ClientAuthentication.fromJson(
             json['clientAuthentication'] as Map<String, dynamic>),
-    clusterArn: json['clusterArn'] as String,
-    clusterName: json['clusterName'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterName: json['clusterName'] as String?,
     creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
     currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] == null
         ? null
         : BrokerSoftwareInfo.fromJson(
             json['currentBrokerSoftwareInfo'] as Map<String, dynamic>),
-    currentVersion: json['currentVersion'] as String,
+    currentVersion: json['currentVersion'] as String?,
     encryptionInfo: json['encryptionInfo'] == null
         ? null
         : EncryptionInfo.fromJson(
@@ -235,7 +236,7 @@ ClusterInfo _$ClusterInfoFromJson(Map<String, dynamic> json) {
     loggingInfo: json['loggingInfo'] == null
         ? null
         : LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>),
-    numberOfBrokerNodes: json['numberOfBrokerNodes'] as int,
+    numberOfBrokerNodes: json['numberOfBrokerNodes'] as int?,
     openMonitoring: json['openMonitoring'] == null
         ? null
         : OpenMonitoring.fromJson(
@@ -244,11 +245,11 @@ ClusterInfo _$ClusterInfoFromJson(Map<String, dynamic> json) {
     stateInfo: json['stateInfo'] == null
         ? null
         : StateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    zookeeperConnectString: json['zookeeperConnectString'] as String,
-    zookeeperConnectStringTls: json['zookeeperConnectStringTls'] as String,
+    zookeeperConnectString: json['zookeeperConnectString'] as String?,
+    zookeeperConnectStringTls: json['zookeeperConnectStringTls'] as String?,
   );
 }
 
@@ -272,21 +273,19 @@ const _$ClusterStateEnumMap = {
 
 ClusterOperationInfo _$ClusterOperationInfoFromJson(Map<String, dynamic> json) {
   return ClusterOperationInfo(
-    clientRequestId: json['clientRequestId'] as String,
-    clusterArn: json['clusterArn'] as String,
+    clientRequestId: json['clientRequestId'] as String?,
+    clusterArn: json['clusterArn'] as String?,
     creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
     endTime: const IsoDateTimeConverter().fromJson(json['endTime']),
     errorInfo: json['errorInfo'] == null
         ? null
         : ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>),
-    operationArn: json['operationArn'] as String,
-    operationState: json['operationState'] as String,
-    operationSteps: (json['operationSteps'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClusterOperationStep.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    operationType: json['operationType'] as String,
+    operationArn: json['operationArn'] as String?,
+    operationState: json['operationState'] as String?,
+    operationSteps: (json['operationSteps'] as List<dynamic>?)
+        ?.map((e) => ClusterOperationStep.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    operationType: json['operationType'] as String?,
     sourceClusterInfo: json['sourceClusterInfo'] == null
         ? null
         : MutableClusterInfo.fromJson(
@@ -304,39 +303,39 @@ ClusterOperationStep _$ClusterOperationStepFromJson(Map<String, dynamic> json) {
         ? null
         : ClusterOperationStepInfo.fromJson(
             json['stepInfo'] as Map<String, dynamic>),
-    stepName: json['stepName'] as String,
+    stepName: json['stepName'] as String?,
   );
 }
 
 ClusterOperationStepInfo _$ClusterOperationStepInfoFromJson(
     Map<String, dynamic> json) {
   return ClusterOperationStepInfo(
-    stepStatus: json['stepStatus'] as String,
+    stepStatus: json['stepStatus'] as String?,
   );
 }
 
 CompatibleKafkaVersion _$CompatibleKafkaVersionFromJson(
     Map<String, dynamic> json) {
   return CompatibleKafkaVersion(
-    sourceVersion: json['sourceVersion'] as String,
-    targetVersions:
-        (json['targetVersions'] as List)?.map((e) => e as String)?.toList(),
+    sourceVersion: json['sourceVersion'] as String?,
+    targetVersions: (json['targetVersions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     arn: json['arn'] as String,
-    creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
+    creationTime: DateTime.parse(json['creationTime'] as String),
     description: json['description'] as String,
-    kafkaVersions:
-        (json['kafkaVersions'] as List)?.map((e) => e as String)?.toList(),
-    latestRevision: json['latestRevision'] == null
-        ? null
-        : ConfigurationRevision.fromJson(
-            json['latestRevision'] as Map<String, dynamic>),
+    kafkaVersions: (json['kafkaVersions'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    latestRevision: ConfigurationRevision.fromJson(
+        json['latestRevision'] as Map<String, dynamic>),
     name: json['name'] as String,
-    state: _$enumDecodeNullable(_$ConfigurationStateEnumMap, json['state']),
+    state: _$enumDecode(_$ConfigurationStateEnumMap, json['state']),
   );
 }
 
@@ -353,34 +352,26 @@ ConfigurationInfo _$ConfigurationInfoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ConfigurationInfoToJson(ConfigurationInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('arn', instance.arn);
-  writeNotNull('revision', instance.revision);
-  return val;
-}
+Map<String, dynamic> _$ConfigurationInfoToJson(ConfigurationInfo instance) =>
+    <String, dynamic>{
+      'arn': instance.arn,
+      'revision': instance.revision,
+    };
 
 ConfigurationRevision _$ConfigurationRevisionFromJson(
     Map<String, dynamic> json) {
   return ConfigurationRevision(
-    creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
+    creationTime: DateTime.parse(json['creationTime'] as String),
     revision: json['revision'] as int,
-    description: json['description'] as String,
+    description: json['description'] as String?,
   );
 }
 
 CreateClusterResponse _$CreateClusterResponseFromJson(
     Map<String, dynamic> json) {
   return CreateClusterResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterName: json['clusterName'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterName: json['clusterName'] as String?,
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['state']),
   );
 }
@@ -388,13 +379,13 @@ CreateClusterResponse _$CreateClusterResponseFromJson(
 CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
     latestRevision: json['latestRevision'] == null
         ? null
         : ConfigurationRevision.fromJson(
             json['latestRevision'] as Map<String, dynamic>),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     state: _$enumDecodeNullable(_$ConfigurationStateEnumMap, json['state']),
   );
 }
@@ -402,7 +393,7 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteClusterResponse(
-    clusterArn: json['clusterArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
     state: _$enumDecodeNullable(_$ClusterStateEnumMap, json['state']),
   );
 }
@@ -410,7 +401,7 @@ DeleteClusterResponse _$DeleteClusterResponseFromJson(
 DeleteConfigurationResponse _$DeleteConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     state: _$enumDecodeNullable(_$ConfigurationStateEnumMap, json['state']),
   );
 }
@@ -437,16 +428,17 @@ DescribeClusterResponse _$DescribeClusterResponseFromJson(
 DescribeConfigurationResponse _$DescribeConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
-    description: json['description'] as String,
-    kafkaVersions:
-        (json['kafkaVersions'] as List)?.map((e) => e as String)?.toList(),
+    description: json['description'] as String?,
+    kafkaVersions: (json['kafkaVersions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     latestRevision: json['latestRevision'] == null
         ? null
         : ConfigurationRevision.fromJson(
             json['latestRevision'] as Map<String, dynamic>),
-    name: json['name'] as String,
+    name: json['name'] as String?,
     state: _$enumDecodeNullable(_$ConfigurationStateEnumMap, json['state']),
   );
 }
@@ -454,30 +446,28 @@ DescribeConfigurationResponse _$DescribeConfigurationResponseFromJson(
 DescribeConfigurationRevisionResponse
     _$DescribeConfigurationRevisionResponseFromJson(Map<String, dynamic> json) {
   return DescribeConfigurationRevisionResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const IsoDateTimeConverter().fromJson(json['creationTime']),
-    description: json['description'] as String,
-    revision: json['revision'] as int,
-    serverProperties:
-        const Uint8ListConverter().fromJson(json['serverProperties'] as String),
+    description: json['description'] as String?,
+    revision: json['revision'] as int?,
+    serverProperties: const Uint8ListNullableConverter()
+        .fromJson(json['serverProperties'] as String?),
   );
 }
 
 BatchDisassociateScramSecretResponse
     _$BatchDisassociateScramSecretResponseFromJson(Map<String, dynamic> json) {
   return BatchDisassociateScramSecretResponse(
-    clusterArn: json['clusterArn'] as String,
-    unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clusterArn: json['clusterArn'] as String?,
+    unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List<dynamic>?)
+        ?.map((e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 EBSStorageInfo _$EBSStorageInfoFromJson(Map<String, dynamic> json) {
   return EBSStorageInfo(
-    volumeSize: json['volumeSize'] as int,
+    volumeSize: json['volumeSize'] as int?,
   );
 }
 
@@ -500,24 +490,16 @@ EncryptionAtRest _$EncryptionAtRestFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$EncryptionAtRestToJson(EncryptionAtRest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('dataVolumeKMSKeyId', instance.dataVolumeKMSKeyId);
-  return val;
-}
+Map<String, dynamic> _$EncryptionAtRestToJson(EncryptionAtRest instance) =>
+    <String, dynamic>{
+      'dataVolumeKMSKeyId': instance.dataVolumeKMSKeyId,
+    };
 
 EncryptionInTransit _$EncryptionInTransitFromJson(Map<String, dynamic> json) {
   return EncryptionInTransit(
     clientBroker:
         _$enumDecodeNullable(_$ClientBrokerEnumMap, json['clientBroker']),
-    inCluster: json['inCluster'] as bool,
+    inCluster: json['inCluster'] as bool?,
   );
 }
 
@@ -570,20 +552,22 @@ Map<String, dynamic> _$EncryptionInfoToJson(EncryptionInfo instance) {
 
 ErrorInfo _$ErrorInfoFromJson(Map<String, dynamic> json) {
   return ErrorInfo(
-    errorCode: json['errorCode'] as String,
-    errorString: json['errorString'] as String,
+    errorCode: json['errorCode'] as String?,
+    errorString: json['errorString'] as String?,
   );
 }
 
 Firehose _$FirehoseFromJson(Map<String, dynamic> json) {
   return Firehose(
     enabled: json['enabled'] as bool,
-    deliveryStream: json['deliveryStream'] as String,
+    deliveryStream: json['deliveryStream'] as String?,
   );
 }
 
 Map<String, dynamic> _$FirehoseToJson(Firehose instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -591,7 +575,6 @@ Map<String, dynamic> _$FirehoseToJson(Firehose instance) {
     }
   }
 
-  writeNotNull('enabled', instance.enabled);
   writeNotNull('deliveryStream', instance.deliveryStream);
   return val;
 }
@@ -599,28 +582,26 @@ Map<String, dynamic> _$FirehoseToJson(Firehose instance) {
 GetBootstrapBrokersResponse _$GetBootstrapBrokersResponseFromJson(
     Map<String, dynamic> json) {
   return GetBootstrapBrokersResponse(
-    bootstrapBrokerString: json['bootstrapBrokerString'] as String,
+    bootstrapBrokerString: json['bootstrapBrokerString'] as String?,
     bootstrapBrokerStringSaslScram:
-        json['bootstrapBrokerStringSaslScram'] as String,
-    bootstrapBrokerStringTls: json['bootstrapBrokerStringTls'] as String,
+        json['bootstrapBrokerStringSaslScram'] as String?,
+    bootstrapBrokerStringTls: json['bootstrapBrokerStringTls'] as String?,
   );
 }
 
 GetCompatibleKafkaVersionsResponse _$GetCompatibleKafkaVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return GetCompatibleKafkaVersionsResponse(
-    compatibleKafkaVersions: (json['compatibleKafkaVersions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CompatibleKafkaVersion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    compatibleKafkaVersions: (json['compatibleKafkaVersions'] as List<dynamic>?)
+        ?.map((e) => CompatibleKafkaVersion.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 KafkaVersion _$KafkaVersionFromJson(Map<String, dynamic> json) {
   return KafkaVersion(
     status: _$enumDecodeNullable(_$KafkaVersionStatusEnumMap, json['status']),
-    version: json['version'] as String,
+    version: json['version'] as String?,
   );
 }
 
@@ -632,83 +613,76 @@ const _$KafkaVersionStatusEnumMap = {
 ListClusterOperationsResponse _$ListClusterOperationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListClusterOperationsResponse(
-    clusterOperationInfoList: (json['clusterOperationInfoList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ClusterOperationInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    clusterOperationInfoList: (json['clusterOperationInfoList']
+            as List<dynamic>?)
+        ?.map((e) => ClusterOperationInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListClustersResponse _$ListClustersResponseFromJson(Map<String, dynamic> json) {
   return ListClustersResponse(
-    clusterInfoList: (json['clusterInfoList'] as List)
-        ?.map((e) =>
-            e == null ? null : ClusterInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    clusterInfoList: (json['clusterInfoList'] as List<dynamic>?)
+        ?.map((e) => ClusterInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListConfigurationRevisionsResponse _$ListConfigurationRevisionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListConfigurationRevisionsResponse(
-    nextToken: json['nextToken'] as String,
-    revisions: (json['revisions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfigurationRevision.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    revisions: (json['revisions'] as List<dynamic>?)
+        ?.map((e) => ConfigurationRevision.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListConfigurationsResponse _$ListConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListConfigurationsResponse(
-    configurations: (json['configurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Configuration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    configurations: (json['configurations'] as List<dynamic>?)
+        ?.map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListKafkaVersionsResponse _$ListKafkaVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListKafkaVersionsResponse(
-    kafkaVersions: (json['kafkaVersions'] as List)
-        ?.map((e) =>
-            e == null ? null : KafkaVersion.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    kafkaVersions: (json['kafkaVersions'] as List<dynamic>?)
+        ?.map((e) => KafkaVersion.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListNodesResponse _$ListNodesResponseFromJson(Map<String, dynamic> json) {
   return ListNodesResponse(
-    nextToken: json['nextToken'] as String,
-    nodeInfoList: (json['nodeInfoList'] as List)
-        ?.map((e) =>
-            e == null ? null : NodeInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    nodeInfoList: (json['nodeInfoList'] as List<dynamic>?)
+        ?.map((e) => NodeInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListScramSecretsResponse _$ListScramSecretsResponseFromJson(
     Map<String, dynamic> json) {
   return ListScramSecretsResponse(
-    nextToken: json['nextToken'] as String,
-    secretArnList:
-        (json['secretArnList'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['nextToken'] as String?,
+    secretArnList: (json['secretArnList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -716,43 +690,31 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 LoggingInfo _$LoggingInfoFromJson(Map<String, dynamic> json) {
   return LoggingInfo(
-    brokerLogs: json['brokerLogs'] == null
-        ? null
-        : BrokerLogs.fromJson(json['brokerLogs'] as Map<String, dynamic>),
+    brokerLogs: BrokerLogs.fromJson(json['brokerLogs'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$LoggingInfoToJson(LoggingInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('brokerLogs', instance.brokerLogs?.toJson());
-  return val;
-}
+Map<String, dynamic> _$LoggingInfoToJson(LoggingInfo instance) =>
+    <String, dynamic>{
+      'brokerLogs': instance.brokerLogs.toJson(),
+    };
 
 MutableClusterInfo _$MutableClusterInfoFromJson(Map<String, dynamic> json) {
   return MutableClusterInfo(
-    brokerEBSVolumeInfo: (json['brokerEBSVolumeInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BrokerEBSVolumeInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    brokerEBSVolumeInfo: (json['brokerEBSVolumeInfo'] as List<dynamic>?)
+        ?.map((e) => BrokerEBSVolumeInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
     configurationInfo: json['configurationInfo'] == null
         ? null
         : ConfigurationInfo.fromJson(
             json['configurationInfo'] as Map<String, dynamic>),
     enhancedMonitoring: _$enumDecodeNullable(
         _$EnhancedMonitoringEnumMap, json['enhancedMonitoring']),
-    kafkaVersion: json['kafkaVersion'] as String,
+    kafkaVersion: json['kafkaVersion'] as String?,
     loggingInfo: json['loggingInfo'] == null
         ? null
         : LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>),
-    numberOfBrokerNodes: json['numberOfBrokerNodes'] as int,
+    numberOfBrokerNodes: json['numberOfBrokerNodes'] as int?,
     openMonitoring: json['openMonitoring'] == null
         ? null
         : OpenMonitoring.fromJson(
@@ -766,18 +728,10 @@ NodeExporter _$NodeExporterFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$NodeExporterInfoToJson(NodeExporterInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('enabledInBroker', instance.enabledInBroker);
-  return val;
-}
+Map<String, dynamic> _$NodeExporterInfoToJson(NodeExporterInfo instance) =>
+    <String, dynamic>{
+      'enabledInBroker': instance.enabledInBroker,
+    };
 
 JmxExporter _$JmxExporterFromJson(Map<String, dynamic> json) {
   return JmxExporter(
@@ -785,39 +739,21 @@ JmxExporter _$JmxExporterFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$JmxExporterInfoToJson(JmxExporterInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('enabledInBroker', instance.enabledInBroker);
-  return val;
-}
+Map<String, dynamic> _$JmxExporterInfoToJson(JmxExporterInfo instance) =>
+    <String, dynamic>{
+      'enabledInBroker': instance.enabledInBroker,
+    };
 
 OpenMonitoring _$OpenMonitoringFromJson(Map<String, dynamic> json) {
   return OpenMonitoring(
-    prometheus: json['prometheus'] == null
-        ? null
-        : Prometheus.fromJson(json['prometheus'] as Map<String, dynamic>),
+    prometheus: Prometheus.fromJson(json['prometheus'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$OpenMonitoringInfoToJson(OpenMonitoringInfo instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('prometheus', instance.prometheus?.toJson());
-  return val;
-}
+Map<String, dynamic> _$OpenMonitoringInfoToJson(OpenMonitoringInfo instance) =>
+    <String, dynamic>{
+      'prometheus': instance.prometheus.toJson(),
+    };
 
 Prometheus _$PrometheusFromJson(Map<String, dynamic> json) {
   return Prometheus(
@@ -846,21 +782,23 @@ Map<String, dynamic> _$PrometheusInfoToJson(PrometheusInfo instance) {
 
 RebootBrokerResponse _$RebootBrokerResponseFromJson(Map<String, dynamic> json) {
   return RebootBrokerResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 S3 _$S3FromJson(Map<String, dynamic> json) {
   return S3(
     enabled: json['enabled'] as bool,
-    bucket: json['bucket'] as String,
-    prefix: json['prefix'] as String,
+    bucket: json['bucket'] as String?,
+    prefix: json['prefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$S3ToJson(S3 instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -868,7 +806,6 @@ Map<String, dynamic> _$S3ToJson(S3 instance) {
     }
   }
 
-  writeNotNull('enabled', instance.enabled);
   writeNotNull('bucket', instance.bucket);
   writeNotNull('prefix', instance.prefix);
   return val;
@@ -897,7 +834,7 @@ Map<String, dynamic> _$SaslToJson(Sasl instance) {
 
 Scram _$ScramFromJson(Map<String, dynamic> json) {
   return Scram(
-    enabled: json['enabled'] as bool,
+    enabled: json['enabled'] as bool?,
   );
 }
 
@@ -916,13 +853,13 @@ Map<String, dynamic> _$ScramToJson(Scram instance) {
 
 NodeInfo _$NodeInfoFromJson(Map<String, dynamic> json) {
   return NodeInfo(
-    addedToClusterTime: json['addedToClusterTime'] as String,
+    addedToClusterTime: json['addedToClusterTime'] as String?,
     brokerNodeInfo: json['brokerNodeInfo'] == null
         ? null
         : BrokerNodeInfo.fromJson(
             json['brokerNodeInfo'] as Map<String, dynamic>),
-    instanceType: json['instanceType'] as String,
-    nodeARN: json['nodeARN'] as String,
+    instanceType: json['instanceType'] as String?,
+    nodeARN: json['nodeARN'] as String?,
     nodeType: _$enumDecodeNullable(_$NodeTypeEnumMap, json['nodeType']),
     zookeeperNodeInfo: json['zookeeperNodeInfo'] == null
         ? null
@@ -937,8 +874,8 @@ const _$NodeTypeEnumMap = {
 
 StateInfo _$StateInfoFromJson(Map<String, dynamic> json) {
   return StateInfo(
-    code: json['code'] as String,
-    message: json['message'] as String,
+    code: json['code'] as String?,
+    message: json['message'] as String?,
   );
 }
 
@@ -966,9 +903,10 @@ Map<String, dynamic> _$StorageInfoToJson(StorageInfo instance) {
 
 Tls _$TlsFromJson(Map<String, dynamic> json) {
   return Tls(
-    certificateAuthorityArnList: (json['certificateAuthorityArnList'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    certificateAuthorityArnList:
+        (json['certificateAuthorityArnList'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
   );
 }
 
@@ -989,56 +927,56 @@ Map<String, dynamic> _$TlsToJson(Tls instance) {
 UnprocessedScramSecret _$UnprocessedScramSecretFromJson(
     Map<String, dynamic> json) {
   return UnprocessedScramSecret(
-    errorCode: json['errorCode'] as String,
-    errorMessage: json['errorMessage'] as String,
-    secretArn: json['secretArn'] as String,
+    errorCode: json['errorCode'] as String?,
+    errorMessage: json['errorMessage'] as String?,
+    secretArn: json['secretArn'] as String?,
   );
 }
 
 UpdateBrokerCountResponse _$UpdateBrokerCountResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateBrokerCountResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 UpdateBrokerStorageResponse _$UpdateBrokerStorageResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateBrokerStorageResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 UpdateClusterConfigurationResponse _$UpdateClusterConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterConfigurationResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 UpdateClusterKafkaVersionResponse _$UpdateClusterKafkaVersionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterKafkaVersionResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 UpdateMonitoringResponse _$UpdateMonitoringResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateMonitoringResponse(
-    clusterArn: json['clusterArn'] as String,
-    clusterOperationArn: json['clusterOperationArn'] as String,
+    clusterArn: json['clusterArn'] as String?,
+    clusterOperationArn: json['clusterOperationArn'] as String?,
   );
 }
 
 UpdateConfigurationResponse _$UpdateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateConfigurationResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     latestRevision: json['latestRevision'] == null
         ? null
         : ConfigurationRevision.fromJson(
@@ -1048,10 +986,11 @@ UpdateConfigurationResponse _$UpdateConfigurationResponseFromJson(
 
 ZookeeperNodeInfo _$ZookeeperNodeInfoFromJson(Map<String, dynamic> json) {
   return ZookeeperNodeInfo(
-    attachedENIId: json['attachedENIId'] as String,
-    clientVpcIpAddress: json['clientVpcIpAddress'] as String,
-    endpoints: (json['endpoints'] as List)?.map((e) => e as String)?.toList(),
-    zookeeperId: (json['zookeeperId'] as num)?.toDouble(),
-    zookeeperVersion: json['zookeeperVersion'] as String,
+    attachedENIId: json['attachedENIId'] as String?,
+    clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
+    endpoints:
+        (json['endpoints'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    zookeeperId: (json['zookeeperId'] as num?)?.toDouble(),
+    zookeeperVersion: json['zookeeperVersion'] as String?,
   );
 }

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'fms-2018-01-01.g.dart';
 
 /// This is the <i>AWS Firewall Manager API Reference</i>. This guide is for
 /// developers who need detailed information about the AWS Firewall Manager API
@@ -35,10 +27,10 @@ part 'fms-2018-01-01.g.dart';
 class FMS {
   final _s.JsonProtocol _protocol;
   FMS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,7 +64,7 @@ class FMS {
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
   /// the AWS Accounts in Your Organization</a>.
   Future<void> associateAdminAccount({
-    @_s.required String adminAccount,
+    required String adminAccount,
   }) async {
     ArgumentError.checkNotNull(adminAccount, 'adminAccount');
     _s.validateStringLength(
@@ -92,7 +84,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.AssociateAdminAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -115,7 +107,7 @@ class FMS {
   /// this ID from <code>PutAppsList</code>, <code>ListAppsLists</code>, and
   /// <code>GetAppsList</code>.
   Future<void> deleteAppsList({
-    @_s.required String listId,
+    required String listId,
   }) async {
     ArgumentError.checkNotNull(listId, 'listId');
     _s.validateStringLength(
@@ -135,7 +127,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeleteAppsList'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -159,7 +151,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeleteNotificationChannel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -218,8 +210,8 @@ class FMS {
   /// others are out of scope. If you don't specify tags or accounts, all
   /// resources are in scope.
   Future<void> deletePolicy({
-    @_s.required String policyId,
-    bool deleteAllPolicyResources,
+    required String policyId,
+    bool? deleteAllPolicyResources,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -239,7 +231,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeletePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -264,7 +256,7 @@ class FMS {
   /// this ID from <code>PutProtocolsList</code>,
   /// <code>ListProtocolsLists</code>, and <code>GetProtocolsLost</code>.
   Future<void> deleteProtocolsList({
-    @_s.required String listId,
+    required String listId,
   }) async {
     ArgumentError.checkNotNull(listId, 'listId');
     _s.validateStringLength(
@@ -284,7 +276,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeleteProtocolsList'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -308,7 +300,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DisassociateAdminAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -354,8 +346,8 @@ class FMS {
   /// Specifies whether the list to retrieve is a default list owned by AWS
   /// Firewall Manager.
   Future<GetAppsListResponse> getAppsList({
-    @_s.required String listId,
-    bool defaultList,
+    required String listId,
+    bool? defaultList,
   }) async {
     ArgumentError.checkNotNull(listId, 'listId');
     _s.validateStringLength(
@@ -417,8 +409,8 @@ class FMS {
   /// <code>PolicyId</code> is returned by <code>PutPolicy</code> and by
   /// <code>ListPolicies</code>.
   Future<GetComplianceDetailResponse> getComplianceDetail({
-    @_s.required String memberAccount,
-    @_s.required String policyId,
+    required String memberAccount,
+    required String policyId,
   }) async {
     ArgumentError.checkNotNull(memberAccount, 'memberAccount');
     _s.validateStringLength(
@@ -499,7 +491,7 @@ class FMS {
   /// Parameter [policyId] :
   /// The ID of the AWS Firewall Manager policy that you want the details for.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String policyId,
+    required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -578,12 +570,12 @@ class FMS {
   /// is Unix time in seconds. However, any valid <code>timestamp</code> format
   /// is allowed.
   Future<GetProtectionStatusResponse> getProtectionStatus({
-    @_s.required String policyId,
-    DateTime endTime,
-    int maxResults,
-    String memberAccountId,
-    String nextToken,
-    DateTime startTime,
+    required String policyId,
+    DateTime? endTime,
+    int? maxResults,
+    String? memberAccountId,
+    String? nextToken,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -665,8 +657,8 @@ class FMS {
   /// Specifies whether the list to retrieve is a default list owned by AWS
   /// Firewall Manager.
   Future<GetProtocolsListResponse> getProtocolsList({
-    @_s.required String listId,
-    bool defaultList,
+    required String listId,
+    bool? defaultList,
   }) async {
     ArgumentError.checkNotNull(listId, 'listId');
     _s.validateStringLength(
@@ -727,10 +719,10 @@ class FMS {
   /// <code>AWS::NetworkFirewall::FirewallPolicy</code>, and
   /// <code>AWS::EC2::Subnet</code>.
   Future<GetViolationDetailsResponse> getViolationDetails({
-    @_s.required String memberAccount,
-    @_s.required String policyId,
-    @_s.required String resourceId,
-    @_s.required String resourceType,
+    required String memberAccount,
+    required String policyId,
+    required String resourceId,
+    required String resourceType,
   }) async {
     ArgumentError.checkNotNull(memberAccount, 'memberAccount');
     _s.validateStringLength(
@@ -836,9 +828,9 @@ class FMS {
   /// token returned by the prior request in the request parameters, to retrieve
   /// the next batch of objects.
   Future<ListAppsListsResponse> listAppsLists({
-    @_s.required int maxResults,
-    bool defaultLists,
-    String nextToken,
+    required int maxResults,
+    bool? defaultLists,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -908,9 +900,9 @@ class FMS {
   /// information about another batch of <code>PolicyComplianceStatus</code>
   /// objects.
   Future<ListComplianceStatusResponse> listComplianceStatus({
-    @_s.required String policyId,
-    int maxResults,
-    String nextToken,
+    required String policyId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -988,8 +980,8 @@ class FMS {
   /// value of <code>NextToken</code> from the previous response to get
   /// information about another batch of member account IDs.
   Future<ListMemberAccountsResponse> listMemberAccounts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1052,8 +1044,8 @@ class FMS {
   /// <code>NextToken</code> from the previous response to get information about
   /// another batch of <code>PolicySummary</code> objects.
   Future<ListPoliciesResponse> listPolicies({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1117,9 +1109,9 @@ class FMS {
   /// token returned by the prior request in the request parameters, to retrieve
   /// the next batch of objects.
   Future<ListProtocolsListsResponse> listProtocolsLists({
-    @_s.required int maxResults,
-    bool defaultLists,
-    String nextToken,
+    required int maxResults,
+    bool? defaultLists,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
@@ -1172,7 +1164,7 @@ class FMS {
   /// Firewall Manager resources that support tagging are policies, applications
   /// lists, and protocols lists.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1220,8 +1212,8 @@ class FMS {
   /// Parameter [tagList] :
   /// The tags associated with the resource.
   Future<PutAppsListResponse> putAppsList({
-    @_s.required AppsListData appsList,
-    List<Tag> tagList,
+    required AppsListData appsList,
+    List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(appsList, 'appsList');
     final headers = <String, String>{
@@ -1265,8 +1257,8 @@ class FMS {
   /// The Amazon Resource Name (ARN) of the SNS topic that collects
   /// notifications from AWS Firewall Manager.
   Future<void> putNotificationChannel({
-    @_s.required String snsRoleName,
-    @_s.required String snsTopicArn,
+    required String snsRoleName,
+    required String snsTopicArn,
   }) async {
     ArgumentError.checkNotNull(snsRoleName, 'snsRoleName');
     _s.validateStringLength(
@@ -1300,7 +1292,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutNotificationChannel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1360,8 +1352,8 @@ class FMS {
   /// Parameter [tagList] :
   /// The tags to add to the AWS resource.
   Future<PutPolicyResponse> putPolicy({
-    @_s.required Policy policy,
-    List<Tag> tagList,
+    required Policy policy,
+    List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
@@ -1397,8 +1389,8 @@ class FMS {
   /// Parameter [tagList] :
   /// The tags associated with the resource.
   Future<PutProtocolsListResponse> putProtocolsList({
-    @_s.required ProtocolsListData protocolsList,
-    List<Tag> tagList,
+    required ProtocolsListData protocolsList,
+    List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(protocolsList, 'protocolsList');
     final headers = <String, String>{
@@ -1436,8 +1428,8 @@ class FMS {
   /// Parameter [tagList] :
   /// The tags to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tagList,
+    required String resourceArn,
+    required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1458,7 +1450,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1469,8 +1461,6 @@ class FMS {
         'TagList': tagList,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more tags from an AWS resource.
@@ -1488,8 +1478,8 @@ class FMS {
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1510,7 +1500,7 @@ class FMS {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1521,37 +1511,58 @@ class FMS {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 }
 
 enum AccountRoleStatus {
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('PENDING_DELETION')
   pendingDeletion,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on AccountRoleStatus {
+  String toValue() {
+    switch (this) {
+      case AccountRoleStatus.ready:
+        return 'READY';
+      case AccountRoleStatus.creating:
+        return 'CREATING';
+      case AccountRoleStatus.pendingDeletion:
+        return 'PENDING_DELETION';
+      case AccountRoleStatus.deleting:
+        return 'DELETING';
+      case AccountRoleStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  AccountRoleStatus toAccountRoleStatus() {
+    switch (this) {
+      case 'READY':
+        return AccountRoleStatus.ready;
+      case 'CREATING':
+        return AccountRoleStatus.creating;
+      case 'PENDING_DELETION':
+        return AccountRoleStatus.pendingDeletion;
+      case 'DELETING':
+        return AccountRoleStatus.deleting;
+      case 'DELETED':
+        return AccountRoleStatus.deleted;
+    }
+    throw Exception('$this is not known in enum AccountRoleStatus');
+  }
+}
+
 /// An individual AWS Firewall Manager application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class App {
   /// The application's name.
-  @_s.JsonKey(name: 'AppName')
   final String appName;
 
   /// The application's port number, for example <code>80</code>.
-  @_s.JsonKey(name: 'Port')
   final int port;
 
   /// The IP protocol name or number. The name can be one of <code>tcp</code>,
@@ -1559,97 +1570,124 @@ class App {
   /// see <a
   /// href="https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">Protocol
   /// Numbers</a>.
-  @_s.JsonKey(name: 'Protocol')
   final String protocol;
 
   App({
-    @_s.required this.appName,
-    @_s.required this.port,
-    @_s.required this.protocol,
+    required this.appName,
+    required this.port,
+    required this.protocol,
   });
-  factory App.fromJson(Map<String, dynamic> json) => _$AppFromJson(json);
+  factory App.fromJson(Map<String, dynamic> json) {
+    return App(
+      appName: json['AppName'] as String,
+      port: json['Port'] as int,
+      protocol: json['Protocol'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AppToJson(this);
+  Map<String, dynamic> toJson() {
+    final appName = this.appName;
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      'AppName': appName,
+      'Port': port,
+      'Protocol': protocol,
+    };
+  }
 }
 
 /// An AWS Firewall Manager applications list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AppsListData {
   /// An array of applications in the AWS Firewall Manager applications list.
-  @_s.JsonKey(name: 'AppsList')
   final List<App> appsList;
 
   /// The name of the AWS Firewall Manager applications list.
-  @_s.JsonKey(name: 'ListName')
   final String listName;
 
   /// The time that the AWS Firewall Manager applications list was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The time that the AWS Firewall Manager applications list was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The ID of the AWS Firewall Manager applications list.
-  @_s.JsonKey(name: 'ListId')
-  final String listId;
+  final String? listId;
 
   /// A unique identifier for each update to the list. When you update the list,
   /// the update token must match the token of the current version of the
   /// application list. You can retrieve the update token by getting the list.
-  @_s.JsonKey(name: 'ListUpdateToken')
-  final String listUpdateToken;
+  final String? listUpdateToken;
 
   /// A map of previous version numbers to their corresponding <code>App</code>
   /// object arrays.
-  @_s.JsonKey(name: 'PreviousAppsList')
-  final Map<String, List<App>> previousAppsList;
+  final Map<String, List<App>>? previousAppsList;
 
   AppsListData({
-    @_s.required this.appsList,
-    @_s.required this.listName,
+    required this.appsList,
+    required this.listName,
     this.createTime,
     this.lastUpdateTime,
     this.listId,
     this.listUpdateToken,
     this.previousAppsList,
   });
-  factory AppsListData.fromJson(Map<String, dynamic> json) =>
-      _$AppsListDataFromJson(json);
+  factory AppsListData.fromJson(Map<String, dynamic> json) {
+    return AppsListData(
+      appsList: (json['AppsList'] as List)
+          .whereNotNull()
+          .map((e) => App.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listName: json['ListName'] as String,
+      createTime: timeStampFromJson(json['CreateTime']),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      listId: json['ListId'] as String?,
+      listUpdateToken: json['ListUpdateToken'] as String?,
+      previousAppsList: (json['PreviousAppsList'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => App.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AppsListDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final appsList = this.appsList;
+    final listName = this.listName;
+    final createTime = this.createTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final listId = this.listId;
+    final listUpdateToken = this.listUpdateToken;
+    final previousAppsList = this.previousAppsList;
+    return {
+      'AppsList': appsList,
+      'ListName': listName,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (listId != null) 'ListId': listId,
+      if (listUpdateToken != null) 'ListUpdateToken': listUpdateToken,
+      if (previousAppsList != null) 'PreviousAppsList': previousAppsList,
+    };
+  }
 }
 
 /// Details of the AWS Firewall Manager applications list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AppsListDataSummary {
   /// An array of <code>App</code> objects in the AWS Firewall Manager
   /// applications list.
-  @_s.JsonKey(name: 'AppsList')
-  final List<App> appsList;
+  final List<App>? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
-  @_s.JsonKey(name: 'ListArn')
-  final String listArn;
+  final String? listArn;
 
   /// The ID of the applications list.
-  @_s.JsonKey(name: 'ListId')
-  final String listId;
+  final String? listId;
 
   /// The name of the applications list.
-  @_s.JsonKey(name: 'ListName')
-  final String listName;
+  final String? listName;
 
   AppsListDataSummary({
     this.appsList,
@@ -1657,83 +1695,85 @@ class AppsListDataSummary {
     this.listId,
     this.listName,
   });
-  factory AppsListDataSummary.fromJson(Map<String, dynamic> json) =>
-      _$AppsListDataSummaryFromJson(json);
+  factory AppsListDataSummary.fromJson(Map<String, dynamic> json) {
+    return AppsListDataSummary(
+      appsList: (json['AppsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => App.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listArn: json['ListArn'] as String?,
+      listId: json['ListId'] as String?,
+      listName: json['ListName'] as String?,
+    );
+  }
 }
 
 /// Violations for an EC2 instance resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AwsEc2InstanceViolation {
   /// Violations for network interfaces associated with the EC2 instance.
-  @_s.JsonKey(name: 'AwsEc2NetworkInterfaceViolations')
-  final List<AwsEc2NetworkInterfaceViolation> awsEc2NetworkInterfaceViolations;
+  final List<AwsEc2NetworkInterfaceViolation>? awsEc2NetworkInterfaceViolations;
 
   /// The resource ID of the EC2 instance.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   AwsEc2InstanceViolation({
     this.awsEc2NetworkInterfaceViolations,
     this.violationTarget,
   });
-  factory AwsEc2InstanceViolation.fromJson(Map<String, dynamic> json) =>
-      _$AwsEc2InstanceViolationFromJson(json);
+  factory AwsEc2InstanceViolation.fromJson(Map<String, dynamic> json) {
+    return AwsEc2InstanceViolation(
+      awsEc2NetworkInterfaceViolations:
+          (json['AwsEc2NetworkInterfaceViolations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AwsEc2NetworkInterfaceViolation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// Violations for network interfaces associated with an EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AwsEc2NetworkInterfaceViolation {
   /// List of security groups that violate the rules specified in the master
   /// security group of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'ViolatingSecurityGroups')
-  final List<String> violatingSecurityGroups;
+  final List<String>? violatingSecurityGroups;
 
   /// The resource ID of the network interface.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   AwsEc2NetworkInterfaceViolation({
     this.violatingSecurityGroups,
     this.violationTarget,
   });
-  factory AwsEc2NetworkInterfaceViolation.fromJson(Map<String, dynamic> json) =>
-      _$AwsEc2NetworkInterfaceViolationFromJson(json);
+  factory AwsEc2NetworkInterfaceViolation.fromJson(Map<String, dynamic> json) {
+    return AwsEc2NetworkInterfaceViolation(
+      violatingSecurityGroups: (json['ViolatingSecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// Details of the rule violation in a security group when compared to the
 /// master security group of the AWS Firewall Manager policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AwsVPCSecurityGroupViolation {
   /// List of rules specified in the security group of the AWS Firewall Manager
   /// policy that partially match the <code>ViolationTarget</code> rule.
-  @_s.JsonKey(name: 'PartialMatches')
-  final List<PartialMatch> partialMatches;
+  final List<PartialMatch>? partialMatches;
 
   /// Remediation options for the rule specified in the
   /// <code>ViolationTarget</code>.
-  @_s.JsonKey(name: 'PossibleSecurityGroupRemediationActions')
-  final List<SecurityGroupRemediationAction>
+  final List<SecurityGroupRemediationAction>?
       possibleSecurityGroupRemediationActions;
 
   /// The security group rule that is being evaluated.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   /// A description of the security group that violates the policy.
-  @_s.JsonKey(name: 'ViolationTargetDescription')
-  final String violationTargetDescription;
+  final String? violationTargetDescription;
 
   AwsVPCSecurityGroupViolation({
     this.partialMatches,
@@ -1741,20 +1781,28 @@ class AwsVPCSecurityGroupViolation {
     this.violationTarget,
     this.violationTargetDescription,
   });
-  factory AwsVPCSecurityGroupViolation.fromJson(Map<String, dynamic> json) =>
-      _$AwsVPCSecurityGroupViolationFromJson(json);
+  factory AwsVPCSecurityGroupViolation.fromJson(Map<String, dynamic> json) {
+    return AwsVPCSecurityGroupViolation(
+      partialMatches: (json['PartialMatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => PartialMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      possibleSecurityGroupRemediationActions:
+          (json['PossibleSecurityGroupRemediationActions'] as List?)
+              ?.whereNotNull()
+              .map((e) => SecurityGroupRemediationAction.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      violationTarget: json['ViolationTarget'] as String?,
+      violationTargetDescription: json['ViolationTargetDescription'] as String?,
+    );
+  }
 }
 
 /// Details of the resource that is not protected by the policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComplianceViolator {
   /// The resource ID.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The resource type. This is in the format shown in the <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
@@ -1762,191 +1810,227 @@ class ComplianceViolator {
   /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
   /// <code>AWS::CloudFront::Distribution</code>, or
   /// <code>AWS::NetworkFirewall::FirewallPolicy</code>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The reason that the resource is not protected by the policy.
-  @_s.JsonKey(name: 'ViolationReason')
-  final ViolationReason violationReason;
+  final ViolationReason? violationReason;
 
   ComplianceViolator({
     this.resourceId,
     this.resourceType,
     this.violationReason,
   });
-  factory ComplianceViolator.fromJson(Map<String, dynamic> json) =>
-      _$ComplianceViolatorFromJson(json);
+  factory ComplianceViolator.fromJson(Map<String, dynamic> json) {
+    return ComplianceViolator(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      violationReason:
+          (json['ViolationReason'] as String?)?.toViolationReason(),
+    );
+  }
 }
 
 enum CustomerPolicyScopeIdType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORG_UNIT')
   orgUnit,
 }
 
+extension on CustomerPolicyScopeIdType {
+  String toValue() {
+    switch (this) {
+      case CustomerPolicyScopeIdType.account:
+        return 'ACCOUNT';
+      case CustomerPolicyScopeIdType.orgUnit:
+        return 'ORG_UNIT';
+    }
+  }
+}
+
+extension on String {
+  CustomerPolicyScopeIdType toCustomerPolicyScopeIdType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return CustomerPolicyScopeIdType.account;
+      case 'ORG_UNIT':
+        return CustomerPolicyScopeIdType.orgUnit;
+    }
+    throw Exception('$this is not known in enum CustomerPolicyScopeIdType');
+  }
+}
+
 enum DependentServiceName {
-  @_s.JsonValue('AWSCONFIG')
   awsconfig,
-  @_s.JsonValue('AWSWAF')
   awswaf,
-  @_s.JsonValue('AWSSHIELD_ADVANCED')
   awsshieldAdvanced,
-  @_s.JsonValue('AWSVPC')
   awsvpc,
+}
+
+extension on DependentServiceName {
+  String toValue() {
+    switch (this) {
+      case DependentServiceName.awsconfig:
+        return 'AWSCONFIG';
+      case DependentServiceName.awswaf:
+        return 'AWSWAF';
+      case DependentServiceName.awsshieldAdvanced:
+        return 'AWSSHIELD_ADVANCED';
+      case DependentServiceName.awsvpc:
+        return 'AWSVPC';
+    }
+  }
+}
+
+extension on String {
+  DependentServiceName toDependentServiceName() {
+    switch (this) {
+      case 'AWSCONFIG':
+        return DependentServiceName.awsconfig;
+      case 'AWSWAF':
+        return DependentServiceName.awswaf;
+      case 'AWSSHIELD_ADVANCED':
+        return DependentServiceName.awsshieldAdvanced;
+      case 'AWSVPC':
+        return DependentServiceName.awsvpc;
+    }
+    throw Exception('$this is not known in enum DependentServiceName');
+  }
 }
 
 /// Describes the compliance status for the account. An account is considered
 /// noncompliant if it includes resources that are not protected by the
 /// specified policy or that don't comply with the policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluationResult {
   /// Describes an AWS account's compliance with the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'ComplianceStatus')
-  final PolicyComplianceStatusType complianceStatus;
+  final PolicyComplianceStatusType? complianceStatus;
 
   /// Indicates that over 100 resources are noncompliant with the AWS Firewall
   /// Manager policy.
-  @_s.JsonKey(name: 'EvaluationLimitExceeded')
-  final bool evaluationLimitExceeded;
+  final bool? evaluationLimitExceeded;
 
   /// The number of resources that are noncompliant with the specified policy. For
   /// AWS WAF and Shield Advanced policies, a resource is considered noncompliant
   /// if it is not associated with the policy. For security group policies, a
   /// resource is considered noncompliant if it doesn't comply with the rules of
   /// the policy and remediation is disabled or not possible.
-  @_s.JsonKey(name: 'ViolatorCount')
-  final int violatorCount;
+  final int? violatorCount;
 
   EvaluationResult({
     this.complianceStatus,
     this.evaluationLimitExceeded,
     this.violatorCount,
   });
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationResultFromJson(json);
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      complianceStatus:
+          (json['ComplianceStatus'] as String?)?.toPolicyComplianceStatusType(),
+      evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool?,
+      violatorCount: json['ViolatorCount'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAdminAccountResponse {
   /// The AWS account that is set as the AWS Firewall Manager administrator.
-  @_s.JsonKey(name: 'AdminAccount')
-  final String adminAccount;
+  final String? adminAccount;
 
   /// The status of the AWS account that you set as the AWS Firewall Manager
   /// administrator.
-  @_s.JsonKey(name: 'RoleStatus')
-  final AccountRoleStatus roleStatus;
+  final AccountRoleStatus? roleStatus;
 
   GetAdminAccountResponse({
     this.adminAccount,
     this.roleStatus,
   });
-  factory GetAdminAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAdminAccountResponseFromJson(json);
+  factory GetAdminAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetAdminAccountResponse(
+      adminAccount: json['AdminAccount'] as String?,
+      roleStatus: (json['RoleStatus'] as String?)?.toAccountRoleStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppsListResponse {
   /// Information about the specified AWS Firewall Manager applications list.
-  @_s.JsonKey(name: 'AppsList')
-  final AppsListData appsList;
+  final AppsListData? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
-  @_s.JsonKey(name: 'AppsListArn')
-  final String appsListArn;
+  final String? appsListArn;
 
   GetAppsListResponse({
     this.appsList,
     this.appsListArn,
   });
-  factory GetAppsListResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAppsListResponseFromJson(json);
+  factory GetAppsListResponse.fromJson(Map<String, dynamic> json) {
+    return GetAppsListResponse(
+      appsList: json['AppsList'] != null
+          ? AppsListData.fromJson(json['AppsList'] as Map<String, dynamic>)
+          : null,
+      appsListArn: json['AppsListArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetComplianceDetailResponse {
   /// Information about the resources and the policy that you specified in the
   /// <code>GetComplianceDetail</code> request.
-  @_s.JsonKey(name: 'PolicyComplianceDetail')
-  final PolicyComplianceDetail policyComplianceDetail;
+  final PolicyComplianceDetail? policyComplianceDetail;
 
   GetComplianceDetailResponse({
     this.policyComplianceDetail,
   });
-  factory GetComplianceDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetComplianceDetailResponseFromJson(json);
+  factory GetComplianceDetailResponse.fromJson(Map<String, dynamic> json) {
+    return GetComplianceDetailResponse(
+      policyComplianceDetail: json['PolicyComplianceDetail'] != null
+          ? PolicyComplianceDetail.fromJson(
+              json['PolicyComplianceDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNotificationChannelResponse {
   /// The IAM role that is used by AWS Firewall Manager to record activity to SNS.
-  @_s.JsonKey(name: 'SnsRoleName')
-  final String snsRoleName;
+  final String? snsRoleName;
 
   /// The SNS topic that records AWS Firewall Manager activity.
-  @_s.JsonKey(name: 'SnsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   GetNotificationChannelResponse({
     this.snsRoleName,
     this.snsTopicArn,
   });
-  factory GetNotificationChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetNotificationChannelResponseFromJson(json);
+  factory GetNotificationChannelResponse.fromJson(Map<String, dynamic> json) {
+    return GetNotificationChannelResponse(
+      snsRoleName: json['SnsRoleName'] as String?,
+      snsTopicArn: json['SnsTopicArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPolicyResponse {
   /// Information about the specified AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'Policy')
-  final Policy policy;
+  final Policy? policy;
 
   /// The Amazon Resource Name (ARN) of the specified policy.
-  @_s.JsonKey(name: 'PolicyArn')
-  final String policyArn;
+  final String? policyArn;
 
   GetPolicyResponse({
     this.policy,
     this.policyArn,
   });
-  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPolicyResponseFromJson(json);
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+      policyArn: json['PolicyArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProtectionStatusResponse {
   /// The ID of the AWS Firewall administrator account for this policy.
-  @_s.JsonKey(name: 'AdminAccountId')
-  final String adminAccountId;
+  final String? adminAccountId;
 
   /// Details about the attack, including the following:
   ///
@@ -1968,8 +2052,7 @@ class GetProtectionStatusResponse {
   /// </li>
   /// </ul>
   /// The details are in JSON format.
-  @_s.JsonKey(name: 'Data')
-  final String data;
+  final String? data;
 
   /// If you have more objects than the number that you specified for
   /// <code>MaxResults</code> in the request, the response includes a
@@ -1983,13 +2066,11 @@ class GetProtectionStatusResponse {
   /// However, this feature is not supported by <code>GetProtectionStatus</code>.
   /// You must submit subsequent requests with <code>NextToken</code> using your
   /// own processes.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The service type that is protected by the policy. Currently, this is always
   /// <code>SHIELD_ADVANCED</code>.
-  @_s.JsonKey(name: 'ServiceType')
-  final SecurityServiceType serviceType;
+  final SecurityServiceType? serviceType;
 
   GetProtectionStatusResponse({
     this.adminAccountId,
@@ -1997,79 +2078,80 @@ class GetProtectionStatusResponse {
     this.nextToken,
     this.serviceType,
   });
-  factory GetProtectionStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetProtectionStatusResponseFromJson(json);
+  factory GetProtectionStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetProtectionStatusResponse(
+      adminAccountId: json['AdminAccountId'] as String?,
+      data: json['Data'] as String?,
+      nextToken: json['NextToken'] as String?,
+      serviceType: (json['ServiceType'] as String?)?.toSecurityServiceType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProtocolsListResponse {
   /// Information about the specified AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ProtocolsList')
-  final ProtocolsListData protocolsList;
+  final ProtocolsListData? protocolsList;
 
   /// The Amazon Resource Name (ARN) of the specified protocols list.
-  @_s.JsonKey(name: 'ProtocolsListArn')
-  final String protocolsListArn;
+  final String? protocolsListArn;
 
   GetProtocolsListResponse({
     this.protocolsList,
     this.protocolsListArn,
   });
-  factory GetProtocolsListResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetProtocolsListResponseFromJson(json);
+  factory GetProtocolsListResponse.fromJson(Map<String, dynamic> json) {
+    return GetProtocolsListResponse(
+      protocolsList: json['ProtocolsList'] != null
+          ? ProtocolsListData.fromJson(
+              json['ProtocolsList'] as Map<String, dynamic>)
+          : null,
+      protocolsListArn: json['ProtocolsListArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetViolationDetailsResponse {
   /// Violation detail for a resource.
-  @_s.JsonKey(name: 'ViolationDetail')
-  final ViolationDetail violationDetail;
+  final ViolationDetail? violationDetail;
 
   GetViolationDetailsResponse({
     this.violationDetail,
   });
-  factory GetViolationDetailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetViolationDetailsResponseFromJson(json);
+  factory GetViolationDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return GetViolationDetailsResponse(
+      violationDetail: json['ViolationDetail'] != null
+          ? ViolationDetail.fromJson(
+              json['ViolationDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppsListsResponse {
   /// An array of <code>AppsListDataSummary</code> objects.
-  @_s.JsonKey(name: 'AppsLists')
-  final List<AppsListDataSummary> appsLists;
+  final List<AppsListDataSummary>? appsLists;
 
   /// If you specify a value for <code>MaxResults</code> in your list request, and
   /// you have more objects than the maximum, AWS Firewall Manager returns this
   /// token in the response. You can use this token in subsequent requests to
   /// retrieve the next batch of objects.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAppsListsResponse({
     this.appsLists,
     this.nextToken,
   });
-  factory ListAppsListsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppsListsResponseFromJson(json);
+  factory ListAppsListsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppsListsResponse(
+      appsLists: (json['AppsLists'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppsListDataSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListComplianceStatusResponse {
   /// If you have more <code>PolicyComplianceStatus</code> objects than the number
   /// that you specified for <code>MaxResults</code> in the request, the response
@@ -2078,30 +2160,30 @@ class ListComplianceStatusResponse {
   /// <code>ListComplianceStatus</code> request, and specify the
   /// <code>NextToken</code> value from the response in the <code>NextToken</code>
   /// value in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>PolicyComplianceStatus</code> objects.
-  @_s.JsonKey(name: 'PolicyComplianceStatusList')
-  final List<PolicyComplianceStatus> policyComplianceStatusList;
+  final List<PolicyComplianceStatus>? policyComplianceStatusList;
 
   ListComplianceStatusResponse({
     this.nextToken,
     this.policyComplianceStatusList,
   });
-  factory ListComplianceStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListComplianceStatusResponseFromJson(json);
+  factory ListComplianceStatusResponse.fromJson(Map<String, dynamic> json) {
+    return ListComplianceStatusResponse(
+      nextToken: json['NextToken'] as String?,
+      policyComplianceStatusList: (json['PolicyComplianceStatusList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => PolicyComplianceStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMemberAccountsResponse {
   /// An array of account IDs.
-  @_s.JsonKey(name: 'MemberAccounts')
-  final List<String> memberAccounts;
+  final List<String>? memberAccounts;
 
   /// If you have more member account IDs than the number that you specified for
   /// <code>MaxResults</code> in the request, the response includes a
@@ -2109,22 +2191,23 @@ class ListMemberAccountsResponse {
   /// <code>ListMemberAccounts</code> request, and specify the
   /// <code>NextToken</code> value from the response in the <code>NextToken</code>
   /// value in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMemberAccountsResponse({
     this.memberAccounts,
     this.nextToken,
   });
-  factory ListMemberAccountsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMemberAccountsResponseFromJson(json);
+  factory ListMemberAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMemberAccountsResponse(
+      memberAccounts: (json['MemberAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPoliciesResponse {
   /// If you have more <code>PolicySummary</code> objects than the number that you
   /// specified for <code>MaxResults</code> in the request, the response includes
@@ -2132,92 +2215,88 @@ class ListPoliciesResponse {
   /// objects, submit another <code>ListPolicies</code> request, and specify the
   /// <code>NextToken</code> value from the response in the <code>NextToken</code>
   /// value in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>PolicySummary</code> objects.
-  @_s.JsonKey(name: 'PolicyList')
-  final List<PolicySummary> policyList;
+  final List<PolicySummary>? policyList;
 
   ListPoliciesResponse({
     this.nextToken,
     this.policyList,
   });
-  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPoliciesResponseFromJson(json);
+  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesResponse(
+      nextToken: json['NextToken'] as String?,
+      policyList: (json['PolicyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProtocolsListsResponse {
   /// If you specify a value for <code>MaxResults</code> in your list request, and
   /// you have more objects than the maximum, AWS Firewall Manager returns this
   /// token in the response. You can use this token in subsequent requests to
   /// retrieve the next batch of objects.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>ProtocolsListDataSummary</code> objects.
-  @_s.JsonKey(name: 'ProtocolsLists')
-  final List<ProtocolsListDataSummary> protocolsLists;
+  final List<ProtocolsListDataSummary>? protocolsLists;
 
   ListProtocolsListsResponse({
     this.nextToken,
     this.protocolsLists,
   });
-  factory ListProtocolsListsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProtocolsListsResponseFromJson(json);
+  factory ListProtocolsListsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProtocolsListsResponse(
+      nextToken: json['NextToken'] as String?,
+      protocolsLists: (json['ProtocolsLists'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProtocolsListDataSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   ListTagsForResourceResponse({
     this.tagList,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Violation details for AWS Network Firewall for a subnet that's not
 /// associated to the expected Firewall Manager managed route table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFirewallMissingExpectedRTViolation {
   /// The Availability Zone of a violating subnet.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The resource ID of the current route table that's associated with the
   /// subnet, if one is available.
-  @_s.JsonKey(name: 'CurrentRouteTable')
-  final String currentRouteTable;
+  final String? currentRouteTable;
 
   /// The resource ID of the route table that should be associated with the
   /// subnet.
-  @_s.JsonKey(name: 'ExpectedRouteTable')
-  final String expectedRouteTable;
+  final String? expectedRouteTable;
 
   /// The resource ID of the VPC associated with a violating subnet.
-  @_s.JsonKey(name: 'VPC')
-  final String vpc;
+  final String? vpc;
 
   /// The ID of the AWS Network Firewall or VPC resource that's in violation.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   NetworkFirewallMissingExpectedRTViolation({
     this.availabilityZone,
@@ -2227,33 +2306,31 @@ class NetworkFirewallMissingExpectedRTViolation {
     this.violationTarget,
   });
   factory NetworkFirewallMissingExpectedRTViolation.fromJson(
-          Map<String, dynamic> json) =>
-      _$NetworkFirewallMissingExpectedRTViolationFromJson(json);
+      Map<String, dynamic> json) {
+    return NetworkFirewallMissingExpectedRTViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      currentRouteTable: json['CurrentRouteTable'] as String?,
+      expectedRouteTable: json['ExpectedRouteTable'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// Violation details for AWS Network Firewall for a subnet that doesn't have a
 /// Firewall Manager managed firewall in its VPC.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFirewallMissingFirewallViolation {
   /// The Availability Zone of a violating subnet.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The reason the resource has this violation, if one is available.
-  @_s.JsonKey(name: 'TargetViolationReason')
-  final String targetViolationReason;
+  final String? targetViolationReason;
 
   /// The resource ID of the VPC associated with a violating subnet.
-  @_s.JsonKey(name: 'VPC')
-  final String vpc;
+  final String? vpc;
 
   /// The ID of the AWS Network Firewall or VPC resource that's in violation.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   NetworkFirewallMissingFirewallViolation({
     this.availabilityZone,
@@ -2262,33 +2339,30 @@ class NetworkFirewallMissingFirewallViolation {
     this.violationTarget,
   });
   factory NetworkFirewallMissingFirewallViolation.fromJson(
-          Map<String, dynamic> json) =>
-      _$NetworkFirewallMissingFirewallViolationFromJson(json);
+      Map<String, dynamic> json) {
+    return NetworkFirewallMissingFirewallViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// Violation details for AWS Network Firewall for an Availability Zone that's
 /// missing the expected Firewall Manager managed subnet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFirewallMissingSubnetViolation {
   /// The Availability Zone of a violating subnet.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The reason the resource has this violation, if one is available.
-  @_s.JsonKey(name: 'TargetViolationReason')
-  final String targetViolationReason;
+  final String? targetViolationReason;
 
   /// The resource ID of the VPC associated with a violating subnet.
-  @_s.JsonKey(name: 'VPC')
-  final String vpc;
+  final String? vpc;
 
   /// The ID of the AWS Network Firewall or VPC resource that's in violation.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   NetworkFirewallMissingSubnetViolation({
     this.availabilityZone,
@@ -2297,41 +2371,37 @@ class NetworkFirewallMissingSubnetViolation {
     this.violationTarget,
   });
   factory NetworkFirewallMissingSubnetViolation.fromJson(
-          Map<String, dynamic> json) =>
-      _$NetworkFirewallMissingSubnetViolationFromJson(json);
+      Map<String, dynamic> json) {
+    return NetworkFirewallMissingSubnetViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// The definition of the AWS Network Firewall firewall policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFirewallPolicyDescription {
   /// The stateful rule groups that are used in the Network Firewall firewall
   /// policy.
-  @_s.JsonKey(name: 'StatefulRuleGroups')
-  final List<StatefulRuleGroup> statefulRuleGroups;
+  final List<StatefulRuleGroup>? statefulRuleGroups;
 
   /// Names of custom actions that are available for use in the stateless default
   /// actions settings.
-  @_s.JsonKey(name: 'StatelessCustomActions')
-  final List<String> statelessCustomActions;
+  final List<String>? statelessCustomActions;
 
   /// The actions to take on packets that don't match any of the stateless rule
   /// groups.
-  @_s.JsonKey(name: 'StatelessDefaultActions')
-  final List<String> statelessDefaultActions;
+  final List<String>? statelessDefaultActions;
 
   /// The actions to take on packet fragments that don't match any of the
   /// stateless rule groups.
-  @_s.JsonKey(name: 'StatelessFragmentDefaultActions')
-  final List<String> statelessFragmentDefaultActions;
+  final List<String>? statelessFragmentDefaultActions;
 
   /// The stateless rule groups that are used in the Network Firewall firewall
   /// policy.
-  @_s.JsonKey(name: 'StatelessRuleGroups')
-  final List<StatelessRuleGroup> statelessRuleGroups;
+  final List<StatelessRuleGroup>? statelessRuleGroups;
 
   NetworkFirewallPolicyDescription({
     this.statefulRuleGroups,
@@ -2340,32 +2410,46 @@ class NetworkFirewallPolicyDescription {
     this.statelessFragmentDefaultActions,
     this.statelessRuleGroups,
   });
-  factory NetworkFirewallPolicyDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$NetworkFirewallPolicyDescriptionFromJson(json);
+  factory NetworkFirewallPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return NetworkFirewallPolicyDescription(
+      statefulRuleGroups: (json['StatefulRuleGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => StatefulRuleGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statelessCustomActions: (json['StatelessCustomActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statelessDefaultActions: (json['StatelessDefaultActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statelessFragmentDefaultActions:
+          (json['StatelessFragmentDefaultActions'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      statelessRuleGroups: (json['StatelessRuleGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => StatelessRuleGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Violation details for AWS Network Firewall for a firewall policy that has a
 /// different <a>NetworkFirewallPolicyDescription</a> than is required by the
 /// Firewall Manager policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFirewallPolicyModifiedViolation {
   /// The policy that's currently in use in the individual account.
-  @_s.JsonKey(name: 'CurrentPolicyDescription')
-  final NetworkFirewallPolicyDescription currentPolicyDescription;
+  final NetworkFirewallPolicyDescription? currentPolicyDescription;
 
   /// The policy that should be in use in the individual account in order to be
   /// compliant.
-  @_s.JsonKey(name: 'ExpectedPolicyDescription')
-  final NetworkFirewallPolicyDescription expectedPolicyDescription;
+  final NetworkFirewallPolicyDescription? expectedPolicyDescription;
 
   /// The ID of the AWS Network Firewall or VPC resource that's in violation.
-  @_s.JsonKey(name: 'ViolationTarget')
-  final String violationTarget;
+  final String? violationTarget;
 
   NetworkFirewallPolicyModifiedViolation({
     this.currentPolicyDescription,
@@ -2373,55 +2457,58 @@ class NetworkFirewallPolicyModifiedViolation {
     this.violationTarget,
   });
   factory NetworkFirewallPolicyModifiedViolation.fromJson(
-          Map<String, dynamic> json) =>
-      _$NetworkFirewallPolicyModifiedViolationFromJson(json);
+      Map<String, dynamic> json) {
+    return NetworkFirewallPolicyModifiedViolation(
+      currentPolicyDescription: json['CurrentPolicyDescription'] != null
+          ? NetworkFirewallPolicyDescription.fromJson(
+              json['CurrentPolicyDescription'] as Map<String, dynamic>)
+          : null,
+      expectedPolicyDescription: json['ExpectedPolicyDescription'] != null
+          ? NetworkFirewallPolicyDescription.fromJson(
+              json['ExpectedPolicyDescription'] as Map<String, dynamic>)
+          : null,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
 }
 
 /// The reference rule that partially matches the <code>ViolationTarget</code>
 /// rule and violation reason.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartialMatch {
   /// The reference rule from the master security group of the AWS Firewall
   /// Manager policy.
-  @_s.JsonKey(name: 'Reference')
-  final String reference;
+  final String? reference;
 
   /// The violation reason.
-  @_s.JsonKey(name: 'TargetViolationReasons')
-  final List<String> targetViolationReasons;
+  final List<String>? targetViolationReasons;
 
   PartialMatch({
     this.reference,
     this.targetViolationReasons,
   });
-  factory PartialMatch.fromJson(Map<String, dynamic> json) =>
-      _$PartialMatchFromJson(json);
+  factory PartialMatch.fromJson(Map<String, dynamic> json) {
+    return PartialMatch(
+      reference: json['Reference'] as String?,
+      targetViolationReasons: (json['TargetViolationReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// An AWS Firewall Manager policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Policy {
   /// If set to <code>True</code>, resources with the tags that are specified in
   /// the <code>ResourceTag</code> array are not in scope of the policy. If set to
   /// <code>False</code>, and the <code>ResourceTag</code> array is not null, only
   /// resources with the specified tags are in scope of the policy.
-  @_s.JsonKey(name: 'ExcludeResourceTags')
   final bool excludeResourceTags;
 
   /// The name of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyName')
   final String policyName;
 
   /// Indicates if the policy should be automatically applied to new resources.
-  @_s.JsonKey(name: 'RemediationEnabled')
   final bool remediationEnabled;
 
   /// The type of resource protected by or in scope of the policy. This is in the
@@ -2437,12 +2524,10 @@ class Policy {
   /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
   /// the value is <code>AWS::EC2::SecurityGroup</code>. For an AWS Network
   /// Firewall policy, the value is <code>AWS::EC2::VPC</code>.
-  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   /// Details about the security service that is being used to protect the
   /// resources.
-  @_s.JsonKey(name: 'SecurityServicePolicyData')
   final SecurityServicePolicyData securityServicePolicyData;
 
   /// Specifies the AWS account IDs and AWS Organizations organizational units
@@ -2476,8 +2561,7 @@ class Policy {
   /// “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ExcludeMap')
-  final Map<CustomerPolicyScopeIdType, List<String>> excludeMap;
+  final Map<CustomerPolicyScopeIdType, List<String>>? excludeMap;
 
   /// Specifies the AWS account IDs and AWS Organizations organizational units
   /// (OUs) to include in the policy. Specifying an OU is the equivalent of
@@ -2510,35 +2594,30 @@ class Policy {
   /// “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IncludeMap')
-  final Map<CustomerPolicyScopeIdType, List<String>> includeMap;
+  final Map<CustomerPolicyScopeIdType, List<String>>? includeMap;
 
   /// The ID of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyId')
-  final String policyId;
+  final String? policyId;
 
   /// A unique identifier for each update to the policy. When issuing a
   /// <code>PutPolicy</code> request, the <code>PolicyUpdateToken</code> in the
   /// request must match the <code>PolicyUpdateToken</code> of the current policy
   /// version. To get the <code>PolicyUpdateToken</code> of the current policy
   /// version, use a <code>GetPolicy</code> request.
-  @_s.JsonKey(name: 'PolicyUpdateToken')
-  final String policyUpdateToken;
+  final String? policyUpdateToken;
 
   /// An array of <code>ResourceTag</code> objects.
-  @_s.JsonKey(name: 'ResourceTags')
-  final List<ResourceTag> resourceTags;
+  final List<ResourceTag>? resourceTags;
 
   /// An array of <code>ResourceType</code>.
-  @_s.JsonKey(name: 'ResourceTypeList')
-  final List<String> resourceTypeList;
+  final List<String>? resourceTypeList;
 
   Policy({
-    @_s.required this.excludeResourceTags,
-    @_s.required this.policyName,
-    @_s.required this.remediationEnabled,
-    @_s.required this.resourceType,
-    @_s.required this.securityServicePolicyData,
+    required this.excludeResourceTags,
+    required this.policyName,
+    required this.remediationEnabled,
+    required this.resourceType,
+    required this.securityServicePolicyData,
     this.excludeMap,
     this.includeMap,
     this.policyId,
@@ -2546,55 +2625,94 @@ class Policy {
     this.resourceTags,
     this.resourceTypeList,
   });
-  factory Policy.fromJson(Map<String, dynamic> json) => _$PolicyFromJson(json);
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      excludeResourceTags: json['ExcludeResourceTags'] as bool,
+      policyName: json['PolicyName'] as String,
+      remediationEnabled: json['RemediationEnabled'] as bool,
+      resourceType: json['ResourceType'] as String,
+      securityServicePolicyData: SecurityServicePolicyData.fromJson(
+          json['SecurityServicePolicyData'] as Map<String, dynamic>),
+      excludeMap: (json['ExcludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k.toCustomerPolicyScopeIdType(),
+              (e as List).whereNotNull().map((e) => e as String).toList())),
+      includeMap: (json['IncludeMap'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k.toCustomerPolicyScopeIdType(),
+              (e as List).whereNotNull().map((e) => e as String).toList())),
+      policyId: json['PolicyId'] as String?,
+      policyUpdateToken: json['PolicyUpdateToken'] as String?,
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceTypeList: (json['ResourceTypeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final excludeResourceTags = this.excludeResourceTags;
+    final policyName = this.policyName;
+    final remediationEnabled = this.remediationEnabled;
+    final resourceType = this.resourceType;
+    final securityServicePolicyData = this.securityServicePolicyData;
+    final excludeMap = this.excludeMap;
+    final includeMap = this.includeMap;
+    final policyId = this.policyId;
+    final policyUpdateToken = this.policyUpdateToken;
+    final resourceTags = this.resourceTags;
+    final resourceTypeList = this.resourceTypeList;
+    return {
+      'ExcludeResourceTags': excludeResourceTags,
+      'PolicyName': policyName,
+      'RemediationEnabled': remediationEnabled,
+      'ResourceType': resourceType,
+      'SecurityServicePolicyData': securityServicePolicyData,
+      if (excludeMap != null)
+        'ExcludeMap': excludeMap.map((k, e) => MapEntry(k.toValue(), e)),
+      if (includeMap != null)
+        'IncludeMap': includeMap.map((k, e) => MapEntry(k.toValue(), e)),
+      if (policyId != null) 'PolicyId': policyId,
+      if (policyUpdateToken != null) 'PolicyUpdateToken': policyUpdateToken,
+      if (resourceTags != null) 'ResourceTags': resourceTags,
+      if (resourceTypeList != null) 'ResourceTypeList': resourceTypeList,
+    };
+  }
 }
 
 /// Describes the noncompliant resources in a member account for a specific AWS
 /// Firewall Manager policy. A maximum of 100 entries are displayed. If more
 /// than 100 resources are noncompliant, <code>EvaluationLimitExceeded</code> is
 /// set to <code>True</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyComplianceDetail {
   /// Indicates if over 100 resources are noncompliant with the AWS Firewall
   /// Manager policy.
-  @_s.JsonKey(name: 'EvaluationLimitExceeded')
-  final bool evaluationLimitExceeded;
+  final bool? evaluationLimitExceeded;
 
   /// A timestamp that indicates when the returned information should be
   /// considered out of date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiredAt')
-  final DateTime expiredAt;
+  final DateTime? expiredAt;
 
   /// Details about problems with dependent services, such as AWS WAF or AWS
   /// Config, that are causing a resource to be noncompliant. The details include
   /// the name of the dependent service and the error message received that
   /// indicates the problem with the service.
-  @_s.JsonKey(name: 'IssueInfoMap')
-  final Map<DependentServiceName, String> issueInfoMap;
+  final Map<DependentServiceName, String>? issueInfoMap;
 
   /// The AWS account ID.
-  @_s.JsonKey(name: 'MemberAccount')
-  final String memberAccount;
+  final String? memberAccount;
 
   /// The ID of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyId')
-  final String policyId;
+  final String? policyId;
 
   /// The AWS account that created the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyOwner')
-  final String policyOwner;
+  final String? policyOwner;
 
   /// An array of resources that aren't protected by the AWS WAF or Shield
   /// Advanced policy or that aren't in compliance with the security group policy.
-  @_s.JsonKey(name: 'Violators')
-  final List<ComplianceViolator> violators;
+  final List<ComplianceViolator>? violators;
 
   PolicyComplianceDetail({
     this.evaluationLimitExceeded,
@@ -2605,51 +2723,51 @@ class PolicyComplianceDetail {
     this.policyOwner,
     this.violators,
   });
-  factory PolicyComplianceDetail.fromJson(Map<String, dynamic> json) =>
-      _$PolicyComplianceDetailFromJson(json);
+  factory PolicyComplianceDetail.fromJson(Map<String, dynamic> json) {
+    return PolicyComplianceDetail(
+      evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool?,
+      expiredAt: timeStampFromJson(json['ExpiredAt']),
+      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDependentServiceName(), e as String)),
+      memberAccount: json['MemberAccount'] as String?,
+      policyId: json['PolicyId'] as String?,
+      policyOwner: json['PolicyOwner'] as String?,
+      violators: (json['Violators'] as List?)
+          ?.whereNotNull()
+          .map((e) => ComplianceViolator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Indicates whether the account is compliant with the specified policy. An
 /// account is considered noncompliant if it includes resources that are not
 /// protected by the policy, for AWS WAF and Shield Advanced policies, or that
 /// are noncompliant with the policy, for security group policies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyComplianceStatus {
   /// An array of <code>EvaluationResult</code> objects.
-  @_s.JsonKey(name: 'EvaluationResults')
-  final List<EvaluationResult> evaluationResults;
+  final List<EvaluationResult>? evaluationResults;
 
   /// Details about problems with dependent services, such as AWS WAF or AWS
   /// Config, that are causing a resource to be noncompliant. The details include
   /// the name of the dependent service and the error message received that
   /// indicates the problem with the service.
-  @_s.JsonKey(name: 'IssueInfoMap')
-  final Map<DependentServiceName, String> issueInfoMap;
+  final Map<DependentServiceName, String>? issueInfoMap;
 
   /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The member account ID.
-  @_s.JsonKey(name: 'MemberAccount')
-  final String memberAccount;
+  final String? memberAccount;
 
   /// The ID of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyId')
-  final String policyId;
+  final String? policyId;
 
   /// The name of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyName')
-  final String policyName;
+  final String? policyName;
 
   /// The AWS account that created the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'PolicyOwner')
-  final String policyOwner;
+  final String? policyOwner;
 
   PolicyComplianceStatus({
     this.evaluationResults,
@@ -2660,39 +2778,64 @@ class PolicyComplianceStatus {
     this.policyName,
     this.policyOwner,
   });
-  factory PolicyComplianceStatus.fromJson(Map<String, dynamic> json) =>
-      _$PolicyComplianceStatusFromJson(json);
+  factory PolicyComplianceStatus.fromJson(Map<String, dynamic> json) {
+    return PolicyComplianceStatus(
+      evaluationResults: (json['EvaluationResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDependentServiceName(), e as String)),
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      memberAccount: json['MemberAccount'] as String?,
+      policyId: json['PolicyId'] as String?,
+      policyName: json['PolicyName'] as String?,
+      policyOwner: json['PolicyOwner'] as String?,
+    );
+  }
 }
 
 enum PolicyComplianceStatusType {
-  @_s.JsonValue('COMPLIANT')
   compliant,
-  @_s.JsonValue('NON_COMPLIANT')
   nonCompliant,
 }
 
+extension on PolicyComplianceStatusType {
+  String toValue() {
+    switch (this) {
+      case PolicyComplianceStatusType.compliant:
+        return 'COMPLIANT';
+      case PolicyComplianceStatusType.nonCompliant:
+        return 'NON_COMPLIANT';
+    }
+  }
+}
+
+extension on String {
+  PolicyComplianceStatusType toPolicyComplianceStatusType() {
+    switch (this) {
+      case 'COMPLIANT':
+        return PolicyComplianceStatusType.compliant;
+      case 'NON_COMPLIANT':
+        return PolicyComplianceStatusType.nonCompliant;
+    }
+    throw Exception('$this is not known in enum PolicyComplianceStatusType');
+  }
+}
+
 /// Details of the AWS Firewall Manager policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicySummary {
   /// The Amazon Resource Name (ARN) of the specified policy.
-  @_s.JsonKey(name: 'PolicyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The ID of the specified policy.
-  @_s.JsonKey(name: 'PolicyId')
-  final String policyId;
+  final String? policyId;
 
   /// The name of the specified policy.
-  @_s.JsonKey(name: 'PolicyName')
-  final String policyName;
+  final String? policyName;
 
   /// Indicates if the policy should be automatically applied to new resources.
-  @_s.JsonKey(name: 'RemediationEnabled')
-  final bool remediationEnabled;
+  final bool? remediationEnabled;
 
   /// The type of resource protected by or in scope of the policy. This is in the
   /// format shown in the <a
@@ -2707,14 +2850,12 @@ class PolicySummary {
   /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
   /// the value is <code>AWS::EC2::SecurityGroup</code>. For an AWS Network
   /// Firewall policy, the value is <code>AWS::EC2::VPC</code>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The service that the policy is using to protect the resources. This
   /// specifies the type of policy that is created, either an AWS WAF policy, a
   /// Shield Advanced policy, or a security group policy.
-  @_s.JsonKey(name: 'SecurityServiceType')
-  final SecurityServiceType securityServiceType;
+  final SecurityServiceType? securityServiceType;
 
   PolicySummary({
     this.policyArn,
@@ -2724,86 +2865,106 @@ class PolicySummary {
     this.resourceType,
     this.securityServiceType,
   });
-  factory PolicySummary.fromJson(Map<String, dynamic> json) =>
-      _$PolicySummaryFromJson(json);
+  factory PolicySummary.fromJson(Map<String, dynamic> json) {
+    return PolicySummary(
+      policyArn: json['PolicyArn'] as String?,
+      policyId: json['PolicyId'] as String?,
+      policyName: json['PolicyName'] as String?,
+      remediationEnabled: json['RemediationEnabled'] as bool?,
+      resourceType: json['ResourceType'] as String?,
+      securityServiceType:
+          (json['SecurityServiceType'] as String?)?.toSecurityServiceType(),
+    );
+  }
 }
 
 /// An AWS Firewall Manager protocols list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProtocolsListData {
   /// The name of the AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ListName')
   final String listName;
 
   /// An array of protocols in the AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ProtocolsList')
   final List<String> protocolsList;
 
   /// The time that the AWS Firewall Manager protocols list was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The time that the AWS Firewall Manager protocols list was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The ID of the AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ListId')
-  final String listId;
+  final String? listId;
 
   /// A unique identifier for each update to the list. When you update the list,
   /// the update token must match the token of the current version of the
   /// application list. You can retrieve the update token by getting the list.
-  @_s.JsonKey(name: 'ListUpdateToken')
-  final String listUpdateToken;
+  final String? listUpdateToken;
 
   /// A map of previous version numbers to their corresponding protocol arrays.
-  @_s.JsonKey(name: 'PreviousProtocolsList')
-  final Map<String, List<String>> previousProtocolsList;
+  final Map<String, List<String>>? previousProtocolsList;
 
   ProtocolsListData({
-    @_s.required this.listName,
-    @_s.required this.protocolsList,
+    required this.listName,
+    required this.protocolsList,
     this.createTime,
     this.lastUpdateTime,
     this.listId,
     this.listUpdateToken,
     this.previousProtocolsList,
   });
-  factory ProtocolsListData.fromJson(Map<String, dynamic> json) =>
-      _$ProtocolsListDataFromJson(json);
+  factory ProtocolsListData.fromJson(Map<String, dynamic> json) {
+    return ProtocolsListData(
+      listName: json['ListName'] as String,
+      protocolsList: (json['ProtocolsList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      listId: json['ListId'] as String?,
+      listUpdateToken: json['ListUpdateToken'] as String?,
+      previousProtocolsList: (json['PreviousProtocolsList']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProtocolsListDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final listName = this.listName;
+    final protocolsList = this.protocolsList;
+    final createTime = this.createTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final listId = this.listId;
+    final listUpdateToken = this.listUpdateToken;
+    final previousProtocolsList = this.previousProtocolsList;
+    return {
+      'ListName': listName,
+      'ProtocolsList': protocolsList,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (listId != null) 'ListId': listId,
+      if (listUpdateToken != null) 'ListUpdateToken': listUpdateToken,
+      if (previousProtocolsList != null)
+        'PreviousProtocolsList': previousProtocolsList,
+    };
+  }
 }
 
 /// Details of the AWS Firewall Manager protocols list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProtocolsListDataSummary {
   /// The Amazon Resource Name (ARN) of the specified protocols list.
-  @_s.JsonKey(name: 'ListArn')
-  final String listArn;
+  final String? listArn;
 
   /// The ID of the specified protocols list.
-  @_s.JsonKey(name: 'ListId')
-  final String listId;
+  final String? listId;
 
   /// The name of the specified protocols list.
-  @_s.JsonKey(name: 'ListName')
-  final String listName;
+  final String? listName;
 
   /// An array of protocols in the AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ProtocolsList')
-  final List<String> protocolsList;
+  final List<String>? protocolsList;
 
   ProtocolsListDataSummary({
     this.listArn,
@@ -2811,81 +2972,109 @@ class ProtocolsListDataSummary {
     this.listName,
     this.protocolsList,
   });
-  factory ProtocolsListDataSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProtocolsListDataSummaryFromJson(json);
+  factory ProtocolsListDataSummary.fromJson(Map<String, dynamic> json) {
+    return ProtocolsListDataSummary(
+      listArn: json['ListArn'] as String?,
+      listId: json['ListId'] as String?,
+      listName: json['ListName'] as String?,
+      protocolsList: (json['ProtocolsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAppsListResponse {
   /// The details of the AWS Firewall Manager applications list.
-  @_s.JsonKey(name: 'AppsList')
-  final AppsListData appsList;
+  final AppsListData? appsList;
 
   /// The Amazon Resource Name (ARN) of the applications list.
-  @_s.JsonKey(name: 'AppsListArn')
-  final String appsListArn;
+  final String? appsListArn;
 
   PutAppsListResponse({
     this.appsList,
     this.appsListArn,
   });
-  factory PutAppsListResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutAppsListResponseFromJson(json);
+  factory PutAppsListResponse.fromJson(Map<String, dynamic> json) {
+    return PutAppsListResponse(
+      appsList: json['AppsList'] != null
+          ? AppsListData.fromJson(json['AppsList'] as Map<String, dynamic>)
+          : null,
+      appsListArn: json['AppsListArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPolicyResponse {
   /// The details of the AWS Firewall Manager policy.
-  @_s.JsonKey(name: 'Policy')
-  final Policy policy;
+  final Policy? policy;
 
   /// The Amazon Resource Name (ARN) of the policy.
-  @_s.JsonKey(name: 'PolicyArn')
-  final String policyArn;
+  final String? policyArn;
 
   PutPolicyResponse({
     this.policy,
     this.policyArn,
   });
-  factory PutPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutPolicyResponseFromJson(json);
+  factory PutPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutPolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+      policyArn: json['PolicyArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutProtocolsListResponse {
   /// The details of the AWS Firewall Manager protocols list.
-  @_s.JsonKey(name: 'ProtocolsList')
-  final ProtocolsListData protocolsList;
+  final ProtocolsListData? protocolsList;
 
   /// The Amazon Resource Name (ARN) of the protocols list.
-  @_s.JsonKey(name: 'ProtocolsListArn')
-  final String protocolsListArn;
+  final String? protocolsListArn;
 
   PutProtocolsListResponse({
     this.protocolsList,
     this.protocolsListArn,
   });
-  factory PutProtocolsListResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutProtocolsListResponseFromJson(json);
+  factory PutProtocolsListResponse.fromJson(Map<String, dynamic> json) {
+    return PutProtocolsListResponse(
+      protocolsList: json['ProtocolsList'] != null
+          ? ProtocolsListData.fromJson(
+              json['ProtocolsList'] as Map<String, dynamic>)
+          : null,
+      protocolsListArn: json['ProtocolsListArn'] as String?,
+    );
+  }
 }
 
 enum RemediationActionType {
-  @_s.JsonValue('REMOVE')
   remove,
-  @_s.JsonValue('MODIFY')
   modify,
+}
+
+extension on RemediationActionType {
+  String toValue() {
+    switch (this) {
+      case RemediationActionType.remove:
+        return 'REMOVE';
+      case RemediationActionType.modify:
+        return 'MODIFY';
+    }
+  }
+}
+
+extension on String {
+  RemediationActionType toRemediationActionType() {
+    switch (this) {
+      case 'REMOVE':
+        return RemediationActionType.remove;
+      case 'MODIFY':
+        return RemediationActionType.modify;
+    }
+    throw Exception('$this is not known in enum RemediationActionType');
+  }
 }
 
 /// The resource tags that AWS Firewall Manager uses to determine if a
@@ -2898,65 +3087,58 @@ enum RemediationActionType {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/tag-editor.html">Working
 /// with Tag Editor</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceTag {
   /// The resource tag key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The resource tag value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ResourceTag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory ResourceTag.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagFromJson(json);
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ResourceTagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Violation detail based on resource type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceViolation {
   /// Violation details for an EC2 instance.
-  @_s.JsonKey(name: 'AwsEc2InstanceViolation')
-  final AwsEc2InstanceViolation awsEc2InstanceViolation;
+  final AwsEc2InstanceViolation? awsEc2InstanceViolation;
 
   /// Violation details for network interface.
-  @_s.JsonKey(name: 'AwsEc2NetworkInterfaceViolation')
-  final AwsEc2NetworkInterfaceViolation awsEc2NetworkInterfaceViolation;
+  final AwsEc2NetworkInterfaceViolation? awsEc2NetworkInterfaceViolation;
 
   /// Violation details for security groups.
-  @_s.JsonKey(name: 'AwsVPCSecurityGroupViolation')
-  final AwsVPCSecurityGroupViolation awsVPCSecurityGroupViolation;
+  final AwsVPCSecurityGroupViolation? awsVPCSecurityGroupViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that a subnet
   /// is not associated with the expected Firewall Manager managed route table.
-  @_s.JsonKey(name: 'NetworkFirewallMissingExpectedRTViolation')
-  final NetworkFirewallMissingExpectedRTViolation
+  final NetworkFirewallMissingExpectedRTViolation?
       networkFirewallMissingExpectedRTViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that a subnet
   /// has no Firewall Manager managed firewall in its VPC.
-  @_s.JsonKey(name: 'NetworkFirewallMissingFirewallViolation')
-  final NetworkFirewallMissingFirewallViolation
+  final NetworkFirewallMissingFirewallViolation?
       networkFirewallMissingFirewallViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that an
   /// Availability Zone is missing the expected Firewall Manager managed subnet.
-  @_s.JsonKey(name: 'NetworkFirewallMissingSubnetViolation')
-  final NetworkFirewallMissingSubnetViolation
+  final NetworkFirewallMissingSubnetViolation?
       networkFirewallMissingSubnetViolation;
 
   /// Violation detail for an Network Firewall policy that indicates that a
@@ -2964,8 +3146,7 @@ class ResourceViolation {
   /// makes it noncompliant. For example, the individual account owner might have
   /// deleted a rule group, changed the priority of a stateless rule group, or
   /// changed a policy default action.
-  @_s.JsonKey(name: 'NetworkFirewallPolicyModifiedViolation')
-  final NetworkFirewallPolicyModifiedViolation
+  final NetworkFirewallPolicyModifiedViolation?
       networkFirewallPolicyModifiedViolation;
 
   ResourceViolation({
@@ -2977,34 +3158,65 @@ class ResourceViolation {
     this.networkFirewallMissingSubnetViolation,
     this.networkFirewallPolicyModifiedViolation,
   });
-  factory ResourceViolation.fromJson(Map<String, dynamic> json) =>
-      _$ResourceViolationFromJson(json);
+  factory ResourceViolation.fromJson(Map<String, dynamic> json) {
+    return ResourceViolation(
+      awsEc2InstanceViolation: json['AwsEc2InstanceViolation'] != null
+          ? AwsEc2InstanceViolation.fromJson(
+              json['AwsEc2InstanceViolation'] as Map<String, dynamic>)
+          : null,
+      awsEc2NetworkInterfaceViolation:
+          json['AwsEc2NetworkInterfaceViolation'] != null
+              ? AwsEc2NetworkInterfaceViolation.fromJson(
+                  json['AwsEc2NetworkInterfaceViolation']
+                      as Map<String, dynamic>)
+              : null,
+      awsVPCSecurityGroupViolation: json['AwsVPCSecurityGroupViolation'] != null
+          ? AwsVPCSecurityGroupViolation.fromJson(
+              json['AwsVPCSecurityGroupViolation'] as Map<String, dynamic>)
+          : null,
+      networkFirewallMissingExpectedRTViolation:
+          json['NetworkFirewallMissingExpectedRTViolation'] != null
+              ? NetworkFirewallMissingExpectedRTViolation.fromJson(
+                  json['NetworkFirewallMissingExpectedRTViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallMissingFirewallViolation:
+          json['NetworkFirewallMissingFirewallViolation'] != null
+              ? NetworkFirewallMissingFirewallViolation.fromJson(
+                  json['NetworkFirewallMissingFirewallViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallMissingSubnetViolation:
+          json['NetworkFirewallMissingSubnetViolation'] != null
+              ? NetworkFirewallMissingSubnetViolation.fromJson(
+                  json['NetworkFirewallMissingSubnetViolation']
+                      as Map<String, dynamic>)
+              : null,
+      networkFirewallPolicyModifiedViolation:
+          json['NetworkFirewallPolicyModifiedViolation'] != null
+              ? NetworkFirewallPolicyModifiedViolation.fromJson(
+                  json['NetworkFirewallPolicyModifiedViolation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 }
 
 /// Remediation option for the rule specified in the
 /// <code>ViolationTarget</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityGroupRemediationAction {
   /// Brief description of the action that will be performed.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Indicates if the current action is the default action.
-  @_s.JsonKey(name: 'IsDefaultAction')
-  final bool isDefaultAction;
+  final bool? isDefaultAction;
 
   /// The remediation action that will be performed.
-  @_s.JsonKey(name: 'RemediationActionType')
-  final RemediationActionType remediationActionType;
+  final RemediationActionType? remediationActionType;
 
   /// The final state of the rule specified in the <code>ViolationTarget</code>
   /// after it is remediated.
-  @_s.JsonKey(name: 'RemediationResult')
-  final SecurityGroupRuleDescription remediationResult;
+  final SecurityGroupRuleDescription? remediationResult;
 
   SecurityGroupRemediationAction({
     this.description,
@@ -3012,43 +3224,42 @@ class SecurityGroupRemediationAction {
     this.remediationActionType,
     this.remediationResult,
   });
-  factory SecurityGroupRemediationAction.fromJson(Map<String, dynamic> json) =>
-      _$SecurityGroupRemediationActionFromJson(json);
+  factory SecurityGroupRemediationAction.fromJson(Map<String, dynamic> json) {
+    return SecurityGroupRemediationAction(
+      description: json['Description'] as String?,
+      isDefaultAction: json['IsDefaultAction'] as bool?,
+      remediationActionType:
+          (json['RemediationActionType'] as String?)?.toRemediationActionType(),
+      remediationResult: json['RemediationResult'] != null
+          ? SecurityGroupRuleDescription.fromJson(
+              json['RemediationResult'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes a set of permissions for a security group rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityGroupRuleDescription {
   /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
   /// type number. A value of <code>-1</code> indicates all ICMP/ICMPv6 types.
-  @_s.JsonKey(name: 'FromPort')
-  final int fromPort;
+  final int? fromPort;
 
   /// The IPv4 ranges for the security group rule.
-  @_s.JsonKey(name: 'IPV4Range')
-  final String iPV4Range;
+  final String? iPV4Range;
 
   /// The IPv6 ranges for the security group rule.
-  @_s.JsonKey(name: 'IPV6Range')
-  final String iPV6Range;
+  final String? iPV6Range;
 
   /// The ID of the prefix list for the security group rule.
-  @_s.JsonKey(name: 'PrefixListId')
-  final String prefixListId;
+  final String? prefixListId;
 
   /// The IP protocol name (<code>tcp</code>, <code>udp</code>, <code>icmp</code>,
   /// <code>icmpv6</code>) or number.
-  @_s.JsonKey(name: 'Protocol')
-  final String protocol;
+  final String? protocol;
 
   /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
   /// code. A value of <code>-1</code> indicates all ICMP/ICMPv6 codes.
-  @_s.JsonKey(name: 'ToPort')
-  final int toPort;
+  final int? toPort;
 
   SecurityGroupRuleDescription({
     this.fromPort,
@@ -3058,17 +3269,20 @@ class SecurityGroupRuleDescription {
     this.protocol,
     this.toPort,
   });
-  factory SecurityGroupRuleDescription.fromJson(Map<String, dynamic> json) =>
-      _$SecurityGroupRuleDescriptionFromJson(json);
+  factory SecurityGroupRuleDescription.fromJson(Map<String, dynamic> json) {
+    return SecurityGroupRuleDescription(
+      fromPort: json['FromPort'] as int?,
+      iPV4Range: json['IPV4Range'] as String?,
+      iPV6Range: json['IPV6Range'] as String?,
+      prefixListId: json['PrefixListId'] as String?,
+      protocol: json['Protocol'] as String?,
+      toPort: json['ToPort'] as int?,
+    );
+  }
 }
 
 /// Details about the security service that is being used to protect the
 /// resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SecurityServicePolicyData {
   /// The service that the policy is using to protect the resources. This
   /// specifies the type of policy that is created, either an AWS WAF policy, a
@@ -3076,7 +3290,6 @@ class SecurityServicePolicyData {
   /// policies, Firewall Manager supports one security group for each common
   /// policy and for each content audit policy. This is an adjustable limit that
   /// you can increase by contacting AWS Support.
-  @_s.JsonKey(name: 'Type')
   final SecurityServiceType type;
 
   /// Details about the service that are specific to the service type, in JSON
@@ -3133,88 +3346,128 @@ class SecurityServicePolicyData {
   /// <code>"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ManagedServiceData')
-  final String managedServiceData;
+  final String? managedServiceData;
 
   SecurityServicePolicyData({
-    @_s.required this.type,
+    required this.type,
     this.managedServiceData,
   });
-  factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) =>
-      _$SecurityServicePolicyDataFromJson(json);
+  factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) {
+    return SecurityServicePolicyData(
+      type: (json['Type'] as String).toSecurityServiceType(),
+      managedServiceData: json['ManagedServiceData'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SecurityServicePolicyDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final managedServiceData = this.managedServiceData;
+    return {
+      'Type': type.toValue(),
+      if (managedServiceData != null) 'ManagedServiceData': managedServiceData,
+    };
+  }
 }
 
 enum SecurityServiceType {
-  @_s.JsonValue('WAF')
   waf,
-  @_s.JsonValue('WAFV2')
   wafv2,
-  @_s.JsonValue('SHIELD_ADVANCED')
   shieldAdvanced,
-  @_s.JsonValue('SECURITY_GROUPS_COMMON')
   securityGroupsCommon,
-  @_s.JsonValue('SECURITY_GROUPS_CONTENT_AUDIT')
   securityGroupsContentAudit,
-  @_s.JsonValue('SECURITY_GROUPS_USAGE_AUDIT')
   securityGroupsUsageAudit,
-  @_s.JsonValue('NETWORK_FIREWALL')
   networkFirewall,
+}
+
+extension on SecurityServiceType {
+  String toValue() {
+    switch (this) {
+      case SecurityServiceType.waf:
+        return 'WAF';
+      case SecurityServiceType.wafv2:
+        return 'WAFV2';
+      case SecurityServiceType.shieldAdvanced:
+        return 'SHIELD_ADVANCED';
+      case SecurityServiceType.securityGroupsCommon:
+        return 'SECURITY_GROUPS_COMMON';
+      case SecurityServiceType.securityGroupsContentAudit:
+        return 'SECURITY_GROUPS_CONTENT_AUDIT';
+      case SecurityServiceType.securityGroupsUsageAudit:
+        return 'SECURITY_GROUPS_USAGE_AUDIT';
+      case SecurityServiceType.networkFirewall:
+        return 'NETWORK_FIREWALL';
+    }
+  }
+}
+
+extension on String {
+  SecurityServiceType toSecurityServiceType() {
+    switch (this) {
+      case 'WAF':
+        return SecurityServiceType.waf;
+      case 'WAFV2':
+        return SecurityServiceType.wafv2;
+      case 'SHIELD_ADVANCED':
+        return SecurityServiceType.shieldAdvanced;
+      case 'SECURITY_GROUPS_COMMON':
+        return SecurityServiceType.securityGroupsCommon;
+      case 'SECURITY_GROUPS_CONTENT_AUDIT':
+        return SecurityServiceType.securityGroupsContentAudit;
+      case 'SECURITY_GROUPS_USAGE_AUDIT':
+        return SecurityServiceType.securityGroupsUsageAudit;
+      case 'NETWORK_FIREWALL':
+        return SecurityServiceType.networkFirewall;
+    }
+    throw Exception('$this is not known in enum SecurityServiceType');
+  }
 }
 
 /// AWS Network Firewall stateful rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StatefulRuleGroup {
   /// The resource ID of the rule group.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The name of the rule group.
-  @_s.JsonKey(name: 'RuleGroupName')
-  final String ruleGroupName;
+  final String? ruleGroupName;
 
   StatefulRuleGroup({
     this.resourceId,
     this.ruleGroupName,
   });
-  factory StatefulRuleGroup.fromJson(Map<String, dynamic> json) =>
-      _$StatefulRuleGroupFromJson(json);
+  factory StatefulRuleGroup.fromJson(Map<String, dynamic> json) {
+    return StatefulRuleGroup(
+      resourceId: json['ResourceId'] as String?,
+      ruleGroupName: json['RuleGroupName'] as String?,
+    );
+  }
 }
 
 /// AWS Network Firewall stateless rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StatelessRuleGroup {
   /// The priority of the rule group. AWS Network Firewall evaluates the stateless
   /// rule groups in a firewall policy starting from the lowest priority setting.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The resource ID of the rule group.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The name of the rule group.
-  @_s.JsonKey(name: 'RuleGroupName')
-  final String ruleGroupName;
+  final String? ruleGroupName;
 
   StatelessRuleGroup({
     this.priority,
     this.resourceId,
     this.ruleGroupName,
   });
-  factory StatelessRuleGroup.fromJson(Map<String, dynamic> json) =>
-      _$StatelessRuleGroupFromJson(json);
+  factory StatelessRuleGroup.fromJson(Map<String, dynamic> json) {
+    return StatelessRuleGroup(
+      priority: json['Priority'] as int?,
+      resourceId: json['ResourceId'] as String?,
+      ruleGroupName: json['RuleGroupName'] as String?,
+    );
+  }
 }
 
 /// A collection of key:value pairs associated with an AWS resource. The
@@ -3222,161 +3475,215 @@ class StatelessRuleGroup {
 /// a category (such as "environment") and the tag value represents a specific
 /// value within that category (such as "test," "development," or "production").
 /// You can add up to 50 tags to each AWS resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
   /// case-sensitive.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Part of the key:value pair that defines a tag. You can use a tag value to
   /// describe a specific value within a category, such as "companyA" or
   /// "companyB." Tag values are case-sensitive.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// Violations for a resource based on the specified AWS Firewall Manager policy
 /// and AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ViolationDetail {
   /// The AWS account that the violation details were requested for.
-  @_s.JsonKey(name: 'MemberAccount')
   final String memberAccount;
 
   /// The ID of the AWS Firewall Manager policy that the violation details were
   /// requested for.
-  @_s.JsonKey(name: 'PolicyId')
   final String policyId;
 
   /// The resource ID that the violation details were requested for.
-  @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
   /// The resource type that the violation details were requested for.
-  @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
   /// List of violations for the requested resource.
-  @_s.JsonKey(name: 'ResourceViolations')
   final List<ResourceViolation> resourceViolations;
 
   /// Brief description for the requested resource.
-  @_s.JsonKey(name: 'ResourceDescription')
-  final String resourceDescription;
+  final String? resourceDescription;
 
   /// The <code>ResourceTag</code> objects associated with the resource.
-  @_s.JsonKey(name: 'ResourceTags')
-  final List<Tag> resourceTags;
+  final List<Tag>? resourceTags;
 
   ViolationDetail({
-    @_s.required this.memberAccount,
-    @_s.required this.policyId,
-    @_s.required this.resourceId,
-    @_s.required this.resourceType,
-    @_s.required this.resourceViolations,
+    required this.memberAccount,
+    required this.policyId,
+    required this.resourceId,
+    required this.resourceType,
+    required this.resourceViolations,
     this.resourceDescription,
     this.resourceTags,
   });
-  factory ViolationDetail.fromJson(Map<String, dynamic> json) =>
-      _$ViolationDetailFromJson(json);
+  factory ViolationDetail.fromJson(Map<String, dynamic> json) {
+    return ViolationDetail(
+      memberAccount: json['MemberAccount'] as String,
+      policyId: json['PolicyId'] as String,
+      resourceId: json['ResourceId'] as String,
+      resourceType: json['ResourceType'] as String,
+      resourceViolations: (json['ResourceViolations'] as List)
+          .whereNotNull()
+          .map((e) => ResourceViolation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceDescription: json['ResourceDescription'] as String?,
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum ViolationReason {
-  @_s.JsonValue('WEB_ACL_MISSING_RULE_GROUP')
   webAclMissingRuleGroup,
-  @_s.JsonValue('RESOURCE_MISSING_WEB_ACL')
   resourceMissingWebAcl,
-  @_s.JsonValue('RESOURCE_INCORRECT_WEB_ACL')
   resourceIncorrectWebAcl,
-  @_s.JsonValue('RESOURCE_MISSING_SHIELD_PROTECTION')
   resourceMissingShieldProtection,
-  @_s.JsonValue('RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION')
   resourceMissingWebAclOrShieldProtection,
-  @_s.JsonValue('RESOURCE_MISSING_SECURITY_GROUP')
   resourceMissingSecurityGroup,
-  @_s.JsonValue('RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP')
   resourceViolatesAuditSecurityGroup,
-  @_s.JsonValue('SECURITY_GROUP_UNUSED')
   securityGroupUnused,
-  @_s.JsonValue('SECURITY_GROUP_REDUNDANT')
   securityGroupRedundant,
-  @_s.JsonValue('MISSING_FIREWALL')
   missingFirewall,
-  @_s.JsonValue('MISSING_FIREWALL_SUBNET_IN_AZ')
   missingFirewallSubnetInAz,
-  @_s.JsonValue('MISSING_EXPECTED_ROUTE_TABLE')
   missingExpectedRouteTable,
-  @_s.JsonValue('NETWORK_FIREWALL_POLICY_MODIFIED')
   networkFirewallPolicyModified,
 }
 
+extension on ViolationReason {
+  String toValue() {
+    switch (this) {
+      case ViolationReason.webAclMissingRuleGroup:
+        return 'WEB_ACL_MISSING_RULE_GROUP';
+      case ViolationReason.resourceMissingWebAcl:
+        return 'RESOURCE_MISSING_WEB_ACL';
+      case ViolationReason.resourceIncorrectWebAcl:
+        return 'RESOURCE_INCORRECT_WEB_ACL';
+      case ViolationReason.resourceMissingShieldProtection:
+        return 'RESOURCE_MISSING_SHIELD_PROTECTION';
+      case ViolationReason.resourceMissingWebAclOrShieldProtection:
+        return 'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION';
+      case ViolationReason.resourceMissingSecurityGroup:
+        return 'RESOURCE_MISSING_SECURITY_GROUP';
+      case ViolationReason.resourceViolatesAuditSecurityGroup:
+        return 'RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP';
+      case ViolationReason.securityGroupUnused:
+        return 'SECURITY_GROUP_UNUSED';
+      case ViolationReason.securityGroupRedundant:
+        return 'SECURITY_GROUP_REDUNDANT';
+      case ViolationReason.missingFirewall:
+        return 'MISSING_FIREWALL';
+      case ViolationReason.missingFirewallSubnetInAz:
+        return 'MISSING_FIREWALL_SUBNET_IN_AZ';
+      case ViolationReason.missingExpectedRouteTable:
+        return 'MISSING_EXPECTED_ROUTE_TABLE';
+      case ViolationReason.networkFirewallPolicyModified:
+        return 'NETWORK_FIREWALL_POLICY_MODIFIED';
+    }
+  }
+}
+
+extension on String {
+  ViolationReason toViolationReason() {
+    switch (this) {
+      case 'WEB_ACL_MISSING_RULE_GROUP':
+        return ViolationReason.webAclMissingRuleGroup;
+      case 'RESOURCE_MISSING_WEB_ACL':
+        return ViolationReason.resourceMissingWebAcl;
+      case 'RESOURCE_INCORRECT_WEB_ACL':
+        return ViolationReason.resourceIncorrectWebAcl;
+      case 'RESOURCE_MISSING_SHIELD_PROTECTION':
+        return ViolationReason.resourceMissingShieldProtection;
+      case 'RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION':
+        return ViolationReason.resourceMissingWebAclOrShieldProtection;
+      case 'RESOURCE_MISSING_SECURITY_GROUP':
+        return ViolationReason.resourceMissingSecurityGroup;
+      case 'RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP':
+        return ViolationReason.resourceViolatesAuditSecurityGroup;
+      case 'SECURITY_GROUP_UNUSED':
+        return ViolationReason.securityGroupUnused;
+      case 'SECURITY_GROUP_REDUNDANT':
+        return ViolationReason.securityGroupRedundant;
+      case 'MISSING_FIREWALL':
+        return ViolationReason.missingFirewall;
+      case 'MISSING_FIREWALL_SUBNET_IN_AZ':
+        return ViolationReason.missingFirewallSubnetInAz;
+      case 'MISSING_EXPECTED_ROUTE_TABLE':
+        return ViolationReason.missingExpectedRouteTable;
+      case 'NETWORK_FIREWALL_POLICY_MODIFIED':
+        return ViolationReason.networkFirewallPolicyModified;
+    }
+    throw Exception('$this is not known in enum ViolationReason');
+  }
+}
+
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidTypeException extends _s.GenericAwsException {
-  InvalidTypeException({String type, String message})
+  InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

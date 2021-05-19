@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'appconfig-2019-10-09.g.dart';
 
 /// Use AWS AppConfig, a capability of AWS Systems Manager, to create, manage,
 /// and quickly deploy application configurations. AppConfig supports controlled
@@ -35,10 +27,10 @@ part 'appconfig-2019-10-09.g.dart';
 class AppConfig {
   final _s.RestJsonProtocol _protocol;
   AppConfig({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,9 +62,9 @@ class AppConfig {
   /// your AppConfig resources. Each tag consists of a key and an optional
   /// value, both of which you define.
   Future<Application> createApplication({
-    @_s.required String name,
-    String description,
-    Map<String, String> tags,
+    required String name,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -161,13 +153,13 @@ class AppConfig {
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
   Future<ConfigurationProfile> createConfigurationProfile({
-    @_s.required String applicationId,
-    @_s.required String locationUri,
-    @_s.required String name,
-    String description,
-    String retrievalRoleArn,
-    Map<String, String> tags,
-    List<Validator> validators,
+    required String applicationId,
+    required String locationUri,
+    required String name,
+    String? description,
+    String? retrievalRoleArn,
+    Map<String, String>? tags,
+    List<Validator>? validators,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -290,14 +282,14 @@ class AppConfig {
   /// categorize your AppConfig resources. Each tag consists of a key and an
   /// optional value, both of which you define.
   Future<DeploymentStrategy> createDeploymentStrategy({
-    @_s.required int deploymentDurationInMinutes,
-    @_s.required double growthFactor,
-    @_s.required String name,
-    @_s.required ReplicateTo replicateTo,
-    String description,
-    int finalBakeTimeInMinutes,
-    GrowthType growthType,
-    Map<String, String> tags,
+    required int deploymentDurationInMinutes,
+    required double growthFactor,
+    required String name,
+    required ReplicateTo replicateTo,
+    String? description,
+    int? finalBakeTimeInMinutes,
+    GrowthType? growthType,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(
         deploymentDurationInMinutes, 'deploymentDurationInMinutes');
@@ -341,7 +333,7 @@ class AppConfig {
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
       'GrowthFactor': growthFactor,
       'Name': name,
-      'ReplicateTo': replicateTo?.toValue() ?? '',
+      'ReplicateTo': replicateTo.toValue(),
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
@@ -387,11 +379,11 @@ class AppConfig {
   /// your AppConfig resources. Each tag consists of a key and an optional
   /// value, both of which you define.
   Future<Environment> createEnvironment({
-    @_s.required String applicationId,
-    @_s.required String name,
-    String description,
-    List<Monitor> monitors,
-    Map<String, String> tags,
+    required String applicationId,
+    required String name,
+    String? description,
+    List<Monitor>? monitors,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -463,12 +455,12 @@ class AppConfig {
   /// rapid succession, specify the version of the latest hosted configuration
   /// version.
   Future<HostedConfigurationVersion> createHostedConfigurationVersion({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    @_s.required Uint8List content,
-    @_s.required String contentType,
-    String description,
-    int latestVersionNumber,
+    required String applicationId,
+    required String configurationProfileId,
+    required Uint8List content,
+    required String contentType,
+    String? description,
+    int? latestVersionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -500,11 +492,12 @@ class AppConfig {
       0,
       1024,
     );
-    final headers = <String, String>{};
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    description?.let((v) => headers['Description'] = v.toString());
-    latestVersionNumber
-        ?.let((v) => headers['Latest-Version-Number'] = v.toString());
+    final headers = <String, String>{
+      'Content-Type': contentType.toString(),
+      if (description != null) 'Description': description.toString(),
+      if (latestVersionNumber != null)
+        'Latest-Version-Number': latestVersionNumber.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: content,
       method: 'POST',
@@ -537,7 +530,7 @@ class AppConfig {
   /// Parameter [applicationId] :
   /// The ID of the application to delete.
   Future<void> deleteApplication({
-    @_s.required String applicationId,
+    required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -569,8 +562,8 @@ class AppConfig {
   /// Parameter [configurationProfileId] :
   /// The ID of the configuration profile you want to delete.
   Future<void> deleteConfigurationProfile({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
+    required String applicationId,
+    required String configurationProfileId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -606,7 +599,7 @@ class AppConfig {
   /// Parameter [deploymentStrategyId] :
   /// The ID of the deployment strategy you want to delete.
   Future<void> deleteDeploymentStrategy({
-    @_s.required String deploymentStrategyId,
+    required String deploymentStrategyId,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     _s.validateStringPattern(
@@ -638,8 +631,8 @@ class AppConfig {
   /// Parameter [environmentId] :
   /// The ID of the environment you want to delete.
   Future<void> deleteEnvironment({
-    @_s.required String applicationId,
-    @_s.required String environmentId,
+    required String applicationId,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -680,9 +673,9 @@ class AppConfig {
   /// Parameter [versionNumber] :
   /// The versions number to delete.
   Future<void> deleteHostedConfigurationVersion({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    @_s.required int versionNumber,
+    required String applicationId,
+    required String configurationProfileId,
+    required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -718,7 +711,7 @@ class AppConfig {
   /// Parameter [applicationId] :
   /// The ID of the application you want to get.
   Future<Application> getApplication({
-    @_s.required String applicationId,
+    required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -796,11 +789,11 @@ class AppConfig {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
   /// the Configuration</a> in the <i>AWS AppConfig User Guide</i>.
   Future<Configuration> getConfiguration({
-    @_s.required String application,
-    @_s.required String clientId,
-    @_s.required String configuration,
-    @_s.required String environment,
-    String clientConfigurationVersion,
+    required String application,
+    required String clientId,
+    required String configuration,
+    required String environment,
+    String? clientConfigurationVersion,
   }) async {
     ArgumentError.checkNotNull(application, 'application');
     _s.validateStringLength(
@@ -841,7 +834,7 @@ class AppConfig {
       1024,
     );
     final $query = <String, List<String>>{
-      if (clientId != null) 'client_id': [clientId],
+      'client_id': [clientId],
       if (clientConfigurationVersion != null)
         'client_configuration_version': [clientConfigurationVersion],
     };
@@ -875,8 +868,8 @@ class AppConfig {
   /// Parameter [configurationProfileId] :
   /// The ID of the configuration profile you want to get.
   Future<ConfigurationProfile> getConfigurationProfile({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
+    required String applicationId,
+    required String configurationProfileId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -918,9 +911,9 @@ class AppConfig {
   /// Parameter [environmentId] :
   /// The ID of the environment that includes the deployment you want to get.
   Future<Deployment> getDeployment({
-    @_s.required String applicationId,
-    @_s.required int deploymentNumber,
-    @_s.required String environmentId,
+    required String applicationId,
+    required int deploymentNumber,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -960,7 +953,7 @@ class AppConfig {
   /// Parameter [deploymentStrategyId] :
   /// The ID of the deployment strategy to get.
   Future<DeploymentStrategy> getDeploymentStrategy({
-    @_s.required String deploymentStrategyId,
+    required String deploymentStrategyId,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     _s.validateStringPattern(
@@ -997,8 +990,8 @@ class AppConfig {
   /// Parameter [environmentId] :
   /// The ID of the environment you wnat to get.
   Future<Environment> getEnvironment({
-    @_s.required String applicationId,
-    @_s.required String environmentId,
+    required String applicationId,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1039,9 +1032,9 @@ class AppConfig {
   /// Parameter [versionNumber] :
   /// The version.
   Future<HostedConfigurationVersion> getHostedConfigurationVersion({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    @_s.required int versionNumber,
+    required String applicationId,
+    required String configurationProfileId,
+    required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1093,8 +1086,8 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<Applications> listApplications({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1139,9 +1132,9 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<ConfigurationProfiles> listConfigurationProfiles({
-    @_s.required String applicationId,
-    int maxResults,
-    String nextToken,
+    required String applicationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1190,8 +1183,8 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<DeploymentStrategies> listDeploymentStrategies({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1239,10 +1232,10 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<Deployments> listDeployments({
-    @_s.required String applicationId,
-    @_s.required String environmentId,
-    int maxResults,
-    String nextToken,
+    required String applicationId,
+    required String environmentId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1302,9 +1295,9 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<Environments> listEnvironments({
-    @_s.required String applicationId,
-    int maxResults,
-    String nextToken,
+    required String applicationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1361,10 +1354,10 @@ class AppConfig {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<HostedConfigurationVersions> listHostedConfigurationVersions({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    int maxResults,
-    String nextToken,
+    required String applicationId,
+    required String configurationProfileId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1417,7 +1410,7 @@ class AppConfig {
   /// Parameter [resourceArn] :
   /// The resource ARN.
   Future<ResourceTags> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1472,13 +1465,13 @@ class AppConfig {
   /// your AppConfig resources. Each tag consists of a key and an optional
   /// value, both of which you define.
   Future<Deployment> startDeployment({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    @_s.required String configurationVersion,
-    @_s.required String deploymentStrategyId,
-    @_s.required String environmentId,
-    String description,
-    Map<String, String> tags,
+    required String applicationId,
+    required String configurationProfileId,
+    required String configurationVersion,
+    required String deploymentStrategyId,
+    required String environmentId,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1557,9 +1550,9 @@ class AppConfig {
   /// Parameter [environmentId] :
   /// The environment ID.
   Future<Deployment> stopDeployment({
-    @_s.required String applicationId,
-    @_s.required int deploymentNumber,
-    @_s.required String environmentId,
+    required String applicationId,
+    required int deploymentNumber,
+    required String environmentId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1603,8 +1596,8 @@ class AppConfig {
   /// tag key can be up to 128 characters and must not start with
   /// <code>aws:</code>. The tag value can be up to 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1644,8 +1637,8 @@ class AppConfig {
   /// Parameter [tagKeys] :
   /// The tag keys to delete.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1663,7 +1656,7 @@ class AppConfig {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -1689,9 +1682,9 @@ class AppConfig {
   /// Parameter [name] :
   /// The name of the application.
   Future<Application> updateApplication({
-    @_s.required String applicationId,
-    String description,
-    String name,
+    required String applicationId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1750,12 +1743,12 @@ class AppConfig {
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
   Future<ConfigurationProfile> updateConfigurationProfile({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    String description,
-    String name,
-    String retrievalRoleArn,
-    List<Validator> validators,
+    required String applicationId,
+    required String configurationProfileId,
+    String? description,
+    String? name,
+    String? retrievalRoleArn,
+    List<Validator>? validators,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -1863,12 +1856,12 @@ class AppConfig {
   /// targets, 4% of the targets, 8% of the targets, and continues until the
   /// configuration has been deployed to all targets.
   Future<DeploymentStrategy> updateDeploymentStrategy({
-    @_s.required String deploymentStrategyId,
-    int deploymentDurationInMinutes,
-    String description,
-    int finalBakeTimeInMinutes,
-    double growthFactor,
-    GrowthType growthType,
+    required String deploymentStrategyId,
+    int? deploymentDurationInMinutes,
+    String? description,
+    int? finalBakeTimeInMinutes,
+    double? growthFactor,
+    GrowthType? growthType,
   }) async {
     ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     _s.validateStringPattern(
@@ -1941,11 +1934,11 @@ class AppConfig {
   /// Parameter [name] :
   /// The name of the environment.
   Future<Environment> updateEnvironment({
-    @_s.required String applicationId,
-    @_s.required String environmentId,
-    String description,
-    List<Monitor> monitors,
-    String name,
+    required String applicationId,
+    required String environmentId,
+    String? description,
+    List<Monitor>? monitors,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -2004,9 +1997,9 @@ class AppConfig {
   /// Parameter [configurationVersion] :
   /// The version of the configuration to validate.
   Future<void> validateConfiguration({
-    @_s.required String applicationId,
-    @_s.required String configurationProfileId,
-    @_s.required String configurationVersion,
+    required String applicationId,
+    required String configurationProfileId,
+    required String configurationVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringPattern(
@@ -2032,8 +2025,7 @@ class AppConfig {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (configurationVersion != null)
-        'configuration_version': [configurationVersion],
+      'configuration_version': [configurationVersion],
     };
     await _protocol.send(
       payload: null,
@@ -2046,120 +2038,94 @@ class AppConfig {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Application {
   /// The description of the application.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The application ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The application name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Application({
     this.description,
     this.id,
     this.name,
   });
-  factory Application.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationFromJson(json);
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Applications {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<Application> items;
+  final List<Application>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   Applications({
     this.items,
     this.nextToken,
   });
-  factory Applications.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationsFromJson(json);
+  factory Applications.fromJson(Map<String, dynamic> json) {
+    return Applications(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Configuration {
   /// The configuration version.
-  @_s.JsonKey(name: 'Configuration-Version')
-  final String configurationVersion;
+  final String? configurationVersion;
 
   /// The content of the configuration or the configuration data.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Content')
-  final Uint8List content;
+  final Uint8List? content;
 
   /// A standard MIME type describing the format of the configuration content. For
   /// more information, see <a
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   Configuration({
     this.configurationVersion,
     this.content,
     this.contentType,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationProfile {
   /// The application ID.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The configuration profile description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The configuration profile ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The URI location of the configuration.
-  @_s.JsonKey(name: 'LocationUri')
-  final String locationUri;
+  final String? locationUri;
 
   /// The name of the configuration profile.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ARN of an IAM role with permission to access the configuration at the
   /// specified LocationUri.
-  @_s.JsonKey(name: 'RetrievalRoleArn')
-  final String retrievalRoleArn;
+  final String? retrievalRoleArn;
 
   /// A list of methods for validating the configuration.
-  @_s.JsonKey(name: 'Validators')
-  final List<Validator> validators;
+  final List<Validator>? validators;
 
   ConfigurationProfile({
     this.applicationId,
@@ -2170,36 +2136,38 @@ class ConfigurationProfile {
     this.retrievalRoleArn,
     this.validators,
   });
-  factory ConfigurationProfile.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationProfileFromJson(json);
+  factory ConfigurationProfile.fromJson(Map<String, dynamic> json) {
+    return ConfigurationProfile(
+      applicationId: json['ApplicationId'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      name: json['Name'] as String?,
+      retrievalRoleArn: json['RetrievalRoleArn'] as String?,
+      validators: (json['Validators'] as List?)
+          ?.whereNotNull()
+          .map((e) => Validator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A summary of a configuration profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationProfileSummary {
   /// The application ID.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The ID of the configuration profile.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The URI location of the configuration.
-  @_s.JsonKey(name: 'LocationUri')
-  final String locationUri;
+  final String? locationUri;
 
   /// The name of the configuration profile.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The types of validators in the configuration profile.
-  @_s.JsonKey(name: 'ValidatorTypes')
-  final List<ValidatorType> validatorTypes;
+  final List<ValidatorType>? validatorTypes;
 
   ConfigurationProfileSummary({
     this.applicationId,
@@ -2208,115 +2176,101 @@ class ConfigurationProfileSummary {
     this.name,
     this.validatorTypes,
   });
-  factory ConfigurationProfileSummary.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationProfileSummaryFromJson(json);
+  factory ConfigurationProfileSummary.fromJson(Map<String, dynamic> json) {
+    return ConfigurationProfileSummary(
+      applicationId: json['ApplicationId'] as String?,
+      id: json['Id'] as String?,
+      locationUri: json['LocationUri'] as String?,
+      name: json['Name'] as String?,
+      validatorTypes: (json['ValidatorTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toValidatorType())
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationProfiles {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<ConfigurationProfileSummary> items;
+  final List<ConfigurationProfileSummary>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ConfigurationProfiles({
     this.items,
     this.nextToken,
   });
-  factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationProfilesFromJson(json);
+  factory ConfigurationProfiles.fromJson(Map<String, dynamic> json) {
+    return ConfigurationProfiles(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ConfigurationProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployment {
   /// The ID of the application that was deployed.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The time the deployment completed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// Information about the source location of the configuration.
-  @_s.JsonKey(name: 'ConfigurationLocationUri')
-  final String configurationLocationUri;
+  final String? configurationLocationUri;
 
   /// The name of the configuration.
-  @_s.JsonKey(name: 'ConfigurationName')
-  final String configurationName;
+  final String? configurationName;
 
   /// The ID of the configuration profile that was deployed.
-  @_s.JsonKey(name: 'ConfigurationProfileId')
-  final String configurationProfileId;
+  final String? configurationProfileId;
 
   /// The configuration version that was deployed.
-  @_s.JsonKey(name: 'ConfigurationVersion')
-  final String configurationVersion;
+  final String? configurationVersion;
 
   /// Total amount of time the deployment lasted.
-  @_s.JsonKey(name: 'DeploymentDurationInMinutes')
-  final int deploymentDurationInMinutes;
+  final int? deploymentDurationInMinutes;
 
   /// The sequence number of the deployment.
-  @_s.JsonKey(name: 'DeploymentNumber')
-  final int deploymentNumber;
+  final int? deploymentNumber;
 
   /// The ID of the deployment strategy that was deployed.
-  @_s.JsonKey(name: 'DeploymentStrategyId')
-  final String deploymentStrategyId;
+  final String? deploymentStrategyId;
 
   /// The description of the deployment.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the environment that was deployed.
-  @_s.JsonKey(name: 'EnvironmentId')
-  final String environmentId;
+  final String? environmentId;
 
   /// A list containing all events related to a deployment. The most recent events
   /// are displayed first.
-  @_s.JsonKey(name: 'EventLog')
-  final List<DeploymentEvent> eventLog;
+  final List<DeploymentEvent>? eventLog;
 
   /// The amount of time AppConfig monitored for alarms before considering the
   /// deployment to be complete and no longer eligible for automatic roll back.
-  @_s.JsonKey(name: 'FinalBakeTimeInMinutes')
-  final int finalBakeTimeInMinutes;
+  final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets to receive a deployed configuration during each
   /// interval.
-  @_s.JsonKey(name: 'GrowthFactor')
-  final double growthFactor;
+  final double? growthFactor;
 
   /// The algorithm used to define how percentage grew over time.
-  @_s.JsonKey(name: 'GrowthType')
-  final GrowthType growthType;
+  final GrowthType? growthType;
 
   /// The percentage of targets for which the deployment is available.
-  @_s.JsonKey(name: 'PercentageComplete')
-  final double percentageComplete;
+  final double? percentageComplete;
 
   /// The time the deployment started.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The state of the deployment.
-  @_s.JsonKey(name: 'State')
-  final DeploymentState state;
+  final DeploymentState? state;
 
   Deployment({
     this.applicationId,
@@ -2338,39 +2292,52 @@ class Deployment {
     this.startedAt,
     this.state,
   });
-  factory Deployment.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentFromJson(json);
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      applicationId: json['ApplicationId'] as String?,
+      completedAt: timeStampFromJson(json['CompletedAt']),
+      configurationLocationUri: json['ConfigurationLocationUri'] as String?,
+      configurationName: json['ConfigurationName'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      configurationVersion: json['ConfigurationVersion'] as String?,
+      deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
+      deploymentNumber: json['DeploymentNumber'] as int?,
+      deploymentStrategyId: json['DeploymentStrategyId'] as String?,
+      description: json['Description'] as String?,
+      environmentId: json['EnvironmentId'] as String?,
+      eventLog: (json['EventLog'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
+      growthFactor: json['GrowthFactor'] as double?,
+      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      percentageComplete: json['PercentageComplete'] as double?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      state: (json['State'] as String?)?.toDeploymentState(),
+    );
+  }
 }
 
 /// An object that describes a deployment event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentEvent {
   /// A description of the deployment event. Descriptions include, but are not
   /// limited to, the user account or the CloudWatch alarm ARN that initiated a
   /// rollback, the percentage of hosts that received the deployment, or in the
   /// case of an internal error, a recommendation to attempt a new deployment.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The type of deployment event. Deployment event types include the start,
   /// stop, or completion of a deployment; a percentage update; the start or stop
   /// of a bake period; the start or completion of a rollback.
-  @_s.JsonKey(name: 'EventType')
-  final DeploymentEventType eventType;
+  final DeploymentEventType? eventType;
 
   /// The date and time the event occurred.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'OccurredAt')
-  final DateTime occurredAt;
+  final DateTime? occurredAt;
 
   /// The entity that triggered the deployment event. Events can be triggered by a
   /// user, AWS AppConfig, an Amazon CloudWatch alarm, or an internal error.
-  @_s.JsonKey(name: 'TriggeredBy')
-  final TriggeredBy triggeredBy;
+  final TriggeredBy? triggeredBy;
 
   DeploymentEvent({
     this.description,
@@ -2378,102 +2345,161 @@ class DeploymentEvent {
     this.occurredAt,
     this.triggeredBy,
   });
-  factory DeploymentEvent.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentEventFromJson(json);
+  factory DeploymentEvent.fromJson(Map<String, dynamic> json) {
+    return DeploymentEvent(
+      description: json['Description'] as String?,
+      eventType: (json['EventType'] as String?)?.toDeploymentEventType(),
+      occurredAt: timeStampFromJson(json['OccurredAt']),
+      triggeredBy: (json['TriggeredBy'] as String?)?.toTriggeredBy(),
+    );
+  }
 }
 
 enum DeploymentEventType {
-  @_s.JsonValue('PERCENTAGE_UPDATED')
   percentageUpdated,
-  @_s.JsonValue('ROLLBACK_STARTED')
   rollbackStarted,
-  @_s.JsonValue('ROLLBACK_COMPLETED')
   rollbackCompleted,
-  @_s.JsonValue('BAKE_TIME_STARTED')
   bakeTimeStarted,
-  @_s.JsonValue('DEPLOYMENT_STARTED')
   deploymentStarted,
-  @_s.JsonValue('DEPLOYMENT_COMPLETED')
   deploymentCompleted,
 }
 
+extension on DeploymentEventType {
+  String toValue() {
+    switch (this) {
+      case DeploymentEventType.percentageUpdated:
+        return 'PERCENTAGE_UPDATED';
+      case DeploymentEventType.rollbackStarted:
+        return 'ROLLBACK_STARTED';
+      case DeploymentEventType.rollbackCompleted:
+        return 'ROLLBACK_COMPLETED';
+      case DeploymentEventType.bakeTimeStarted:
+        return 'BAKE_TIME_STARTED';
+      case DeploymentEventType.deploymentStarted:
+        return 'DEPLOYMENT_STARTED';
+      case DeploymentEventType.deploymentCompleted:
+        return 'DEPLOYMENT_COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  DeploymentEventType toDeploymentEventType() {
+    switch (this) {
+      case 'PERCENTAGE_UPDATED':
+        return DeploymentEventType.percentageUpdated;
+      case 'ROLLBACK_STARTED':
+        return DeploymentEventType.rollbackStarted;
+      case 'ROLLBACK_COMPLETED':
+        return DeploymentEventType.rollbackCompleted;
+      case 'BAKE_TIME_STARTED':
+        return DeploymentEventType.bakeTimeStarted;
+      case 'DEPLOYMENT_STARTED':
+        return DeploymentEventType.deploymentStarted;
+      case 'DEPLOYMENT_COMPLETED':
+        return DeploymentEventType.deploymentCompleted;
+    }
+    throw Exception('$this is not known in enum DeploymentEventType');
+  }
+}
+
 enum DeploymentState {
-  @_s.JsonValue('BAKING')
   baking,
-  @_s.JsonValue('VALIDATING')
   validating,
-  @_s.JsonValue('DEPLOYING')
   deploying,
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('ROLLING_BACK')
   rollingBack,
-  @_s.JsonValue('ROLLED_BACK')
   rolledBack,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DeploymentState {
+  String toValue() {
+    switch (this) {
+      case DeploymentState.baking:
+        return 'BAKING';
+      case DeploymentState.validating:
+        return 'VALIDATING';
+      case DeploymentState.deploying:
+        return 'DEPLOYING';
+      case DeploymentState.complete:
+        return 'COMPLETE';
+      case DeploymentState.rollingBack:
+        return 'ROLLING_BACK';
+      case DeploymentState.rolledBack:
+        return 'ROLLED_BACK';
+    }
+  }
+}
+
+extension on String {
+  DeploymentState toDeploymentState() {
+    switch (this) {
+      case 'BAKING':
+        return DeploymentState.baking;
+      case 'VALIDATING':
+        return DeploymentState.validating;
+      case 'DEPLOYING':
+        return DeploymentState.deploying;
+      case 'COMPLETE':
+        return DeploymentState.complete;
+      case 'ROLLING_BACK':
+        return DeploymentState.rollingBack;
+      case 'ROLLED_BACK':
+        return DeploymentState.rolledBack;
+    }
+    throw Exception('$this is not known in enum DeploymentState');
+  }
+}
+
 class DeploymentStrategies {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<DeploymentStrategy> items;
+  final List<DeploymentStrategy>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DeploymentStrategies({
     this.items,
     this.nextToken,
   });
-  factory DeploymentStrategies.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentStrategiesFromJson(json);
+  factory DeploymentStrategies.fromJson(Map<String, dynamic> json) {
+    return DeploymentStrategies(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentStrategy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentStrategy {
   /// Total amount of time the deployment lasted.
-  @_s.JsonKey(name: 'DeploymentDurationInMinutes')
-  final int deploymentDurationInMinutes;
+  final int? deploymentDurationInMinutes;
 
   /// The description of the deployment strategy.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The amount of time AppConfig monitored for alarms before considering the
   /// deployment to be complete and no longer eligible for automatic roll back.
-  @_s.JsonKey(name: 'FinalBakeTimeInMinutes')
-  final int finalBakeTimeInMinutes;
+  final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets that received a deployed configuration during each
   /// interval.
-  @_s.JsonKey(name: 'GrowthFactor')
-  final double growthFactor;
+  final double? growthFactor;
 
   /// The algorithm used to define how percentage grew over time.
-  @_s.JsonKey(name: 'GrowthType')
-  final GrowthType growthType;
+  final GrowthType? growthType;
 
   /// The deployment strategy ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the deployment strategy.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Save the deployment strategy to a Systems Manager (SSM) document.
-  @_s.JsonKey(name: 'ReplicateTo')
-  final ReplicateTo replicateTo;
+  final ReplicateTo? replicateTo;
 
   DeploymentStrategy({
     this.deploymentDurationInMinutes,
@@ -2485,64 +2511,56 @@ class DeploymentStrategy {
     this.name,
     this.replicateTo,
   });
-  factory DeploymentStrategy.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentStrategyFromJson(json);
+  factory DeploymentStrategy.fromJson(Map<String, dynamic> json) {
+    return DeploymentStrategy(
+      deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
+      description: json['Description'] as String?,
+      finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
+      growthFactor: json['GrowthFactor'] as double?,
+      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      replicateTo: (json['ReplicateTo'] as String?)?.toReplicateTo(),
+    );
+  }
 }
 
 /// Information about the deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentSummary {
   /// Time the deployment completed.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// The name of the configuration.
-  @_s.JsonKey(name: 'ConfigurationName')
-  final String configurationName;
+  final String? configurationName;
 
   /// The version of the configuration.
-  @_s.JsonKey(name: 'ConfigurationVersion')
-  final String configurationVersion;
+  final String? configurationVersion;
 
   /// Total amount of time the deployment lasted.
-  @_s.JsonKey(name: 'DeploymentDurationInMinutes')
-  final int deploymentDurationInMinutes;
+  final int? deploymentDurationInMinutes;
 
   /// The sequence number of the deployment.
-  @_s.JsonKey(name: 'DeploymentNumber')
-  final int deploymentNumber;
+  final int? deploymentNumber;
 
   /// The amount of time AppConfig monitors for alarms before considering the
   /// deployment to be complete and no longer eligible for automatic roll back.
-  @_s.JsonKey(name: 'FinalBakeTimeInMinutes')
-  final int finalBakeTimeInMinutes;
+  final int? finalBakeTimeInMinutes;
 
   /// The percentage of targets to receive a deployed configuration during each
   /// interval.
-  @_s.JsonKey(name: 'GrowthFactor')
-  final double growthFactor;
+  final double? growthFactor;
 
   /// The algorithm used to define how percentage grows over time.
-  @_s.JsonKey(name: 'GrowthType')
-  final GrowthType growthType;
+  final GrowthType? growthType;
 
   /// The percentage of targets for which the deployment is available.
-  @_s.JsonKey(name: 'PercentageComplete')
-  final double percentageComplete;
+  final double? percentageComplete;
 
   /// Time the deployment started.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'StartedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The state of the deployment.
-  @_s.JsonKey(name: 'State')
-  final DeploymentState state;
+  final DeploymentState? state;
 
   DeploymentSummary({
     this.completedAt,
@@ -2557,64 +2575,66 @@ class DeploymentSummary {
     this.startedAt,
     this.state,
   });
-  factory DeploymentSummary.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentSummaryFromJson(json);
+  factory DeploymentSummary.fromJson(Map<String, dynamic> json) {
+    return DeploymentSummary(
+      completedAt: timeStampFromJson(json['CompletedAt']),
+      configurationName: json['ConfigurationName'] as String?,
+      configurationVersion: json['ConfigurationVersion'] as String?,
+      deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int?,
+      deploymentNumber: json['DeploymentNumber'] as int?,
+      finalBakeTimeInMinutes: json['FinalBakeTimeInMinutes'] as int?,
+      growthFactor: json['GrowthFactor'] as double?,
+      growthType: (json['GrowthType'] as String?)?.toGrowthType(),
+      percentageComplete: json['PercentageComplete'] as double?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      state: (json['State'] as String?)?.toDeploymentState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployments {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<DeploymentSummary> items;
+  final List<DeploymentSummary>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   Deployments({
     this.items,
     this.nextToken,
   });
-  factory Deployments.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentsFromJson(json);
+  factory Deployments.fromJson(Map<String, dynamic> json) {
+    return Deployments(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Environment {
   /// The application ID.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The description of the environment.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The environment ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Amazon CloudWatch alarms monitored during the deployment.
-  @_s.JsonKey(name: 'Monitors')
-  final List<Monitor> monitors;
+  final List<Monitor>? monitors;
 
   /// The name of the environment.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the environment. An environment can be in one of the following
   /// states: <code>READY_FOR_DEPLOYMENT</code>, <code>DEPLOYING</code>,
   /// <code>ROLLING_BACK</code>, or <code>ROLLED_BACK</code>
-  @_s.JsonKey(name: 'State')
-  final EnvironmentState state;
+  final EnvironmentState? state;
 
   Environment({
     this.applicationId,
@@ -2624,48 +2644,84 @@ class Environment {
     this.name,
     this.state,
   });
-  factory Environment.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentFromJson(json);
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
+      applicationId: json['ApplicationId'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      monitors: (json['Monitors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Monitor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEnvironmentState(),
+    );
+  }
 }
 
 enum EnvironmentState {
-  @_s.JsonValue('READY_FOR_DEPLOYMENT')
   readyForDeployment,
-  @_s.JsonValue('DEPLOYING')
   deploying,
-  @_s.JsonValue('ROLLING_BACK')
   rollingBack,
-  @_s.JsonValue('ROLLED_BACK')
   rolledBack,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EnvironmentState {
+  String toValue() {
+    switch (this) {
+      case EnvironmentState.readyForDeployment:
+        return 'READY_FOR_DEPLOYMENT';
+      case EnvironmentState.deploying:
+        return 'DEPLOYING';
+      case EnvironmentState.rollingBack:
+        return 'ROLLING_BACK';
+      case EnvironmentState.rolledBack:
+        return 'ROLLED_BACK';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentState toEnvironmentState() {
+    switch (this) {
+      case 'READY_FOR_DEPLOYMENT':
+        return EnvironmentState.readyForDeployment;
+      case 'DEPLOYING':
+        return EnvironmentState.deploying;
+      case 'ROLLING_BACK':
+        return EnvironmentState.rollingBack;
+      case 'ROLLED_BACK':
+        return EnvironmentState.rolledBack;
+    }
+    throw Exception('$this is not known in enum EnvironmentState');
+  }
+}
+
 class Environments {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<Environment> items;
+  final List<Environment>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   Environments({
     this.items,
     this.nextToken,
   });
-  factory Environments.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentsFromJson(json);
+  factory Environments.fromJson(Map<String, dynamic> json) {
+    return Environments(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 enum GrowthType {
-  @_s.JsonValue('LINEAR')
   linear,
-  @_s.JsonValue('EXPONENTIAL')
   exponential,
 }
 
@@ -2677,42 +2733,41 @@ extension on GrowthType {
       case GrowthType.exponential:
         return 'EXPONENTIAL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  GrowthType toGrowthType() {
+    switch (this) {
+      case 'LINEAR':
+        return GrowthType.linear;
+      case 'EXPONENTIAL':
+        return GrowthType.exponential;
+    }
+    throw Exception('$this is not known in enum GrowthType');
+  }
+}
+
 class HostedConfigurationVersion {
   /// The application ID.
-  @_s.JsonKey(name: 'Application-Id')
-  final String applicationId;
+  final String? applicationId;
 
   /// The configuration profile ID.
-  @_s.JsonKey(name: 'Configuration-Profile-Id')
-  final String configurationProfileId;
+  final String? configurationProfileId;
 
   /// The content of the configuration or the configuration data.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Content')
-  final Uint8List content;
+  final Uint8List? content;
 
   /// A standard MIME type describing the format of the configuration content. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// A description of the configuration.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The configuration version.
-  @_s.JsonKey(name: 'Version-Number')
-  final int versionNumber;
+  final int? versionNumber;
 
   HostedConfigurationVersion({
     this.applicationId,
@@ -2722,38 +2777,26 @@ class HostedConfigurationVersion {
     this.description,
     this.versionNumber,
   });
-  factory HostedConfigurationVersion.fromJson(Map<String, dynamic> json) =>
-      _$HostedConfigurationVersionFromJson(json);
 }
 
 /// Information about the configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HostedConfigurationVersionSummary {
   /// The application ID.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The configuration profile ID.
-  @_s.JsonKey(name: 'ConfigurationProfileId')
-  final String configurationProfileId;
+  final String? configurationProfileId;
 
   /// A standard MIME type describing the format of the configuration content. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>.
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// A description of the configuration.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The configuration version.
-  @_s.JsonKey(name: 'VersionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   HostedConfigurationVersionSummary({
     this.applicationId,
@@ -2763,62 +2806,72 @@ class HostedConfigurationVersionSummary {
     this.versionNumber,
   });
   factory HostedConfigurationVersionSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$HostedConfigurationVersionSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return HostedConfigurationVersionSummary(
+      applicationId: json['ApplicationId'] as String?,
+      configurationProfileId: json['ConfigurationProfileId'] as String?,
+      contentType: json['ContentType'] as String?,
+      description: json['Description'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HostedConfigurationVersions {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'Items')
-  final List<HostedConfigurationVersionSummary> items;
+  final List<HostedConfigurationVersionSummary>? items;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   HostedConfigurationVersions({
     this.items,
     this.nextToken,
   });
-  factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) =>
-      _$HostedConfigurationVersionsFromJson(json);
+  factory HostedConfigurationVersions.fromJson(Map<String, dynamic> json) {
+    return HostedConfigurationVersions(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => HostedConfigurationVersionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Amazon CloudWatch alarms to monitor during the deployment process.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Monitor {
   /// ARN of the Amazon CloudWatch alarm.
-  @_s.JsonKey(name: 'AlarmArn')
-  final String alarmArn;
+  final String? alarmArn;
 
   /// ARN of an IAM role for AppConfig to monitor <code>AlarmArn</code>.
-  @_s.JsonKey(name: 'AlarmRoleArn')
-  final String alarmRoleArn;
+  final String? alarmRoleArn;
 
   Monitor({
     this.alarmArn,
     this.alarmRoleArn,
   });
-  factory Monitor.fromJson(Map<String, dynamic> json) =>
-      _$MonitorFromJson(json);
+  factory Monitor.fromJson(Map<String, dynamic> json) {
+    return Monitor(
+      alarmArn: json['AlarmArn'] as String?,
+      alarmRoleArn: json['AlarmRoleArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MonitorToJson(this);
+  Map<String, dynamic> toJson() {
+    final alarmArn = this.alarmArn;
+    final alarmRoleArn = this.alarmRoleArn;
+    return {
+      if (alarmArn != null) 'AlarmArn': alarmArn,
+      if (alarmRoleArn != null) 'AlarmRoleArn': alarmRoleArn,
+    };
+  }
 }
 
 enum ReplicateTo {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('SSM_DOCUMENT')
   ssmDocument,
 }
 
@@ -2830,38 +2883,74 @@ extension on ReplicateTo {
       case ReplicateTo.ssmDocument:
         return 'SSM_DOCUMENT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ReplicateTo toReplicateTo() {
+    switch (this) {
+      case 'NONE':
+        return ReplicateTo.none;
+      case 'SSM_DOCUMENT':
+        return ReplicateTo.ssmDocument;
+    }
+    throw Exception('$this is not known in enum ReplicateTo');
+  }
+}
+
 class ResourceTags {
   /// Metadata to assign to AppConfig resources. Tags help organize and categorize
   /// your AppConfig resources. Each tag consists of a key and an optional value,
   /// both of which you define.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ResourceTags({
     this.tags,
   });
-  factory ResourceTags.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagsFromJson(json);
+  factory ResourceTags.fromJson(Map<String, dynamic> json) {
+    return ResourceTags(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum TriggeredBy {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('APPCONFIG')
   appconfig,
-  @_s.JsonValue('CLOUDWATCH_ALARM')
   cloudwatchAlarm,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
+}
+
+extension on TriggeredBy {
+  String toValue() {
+    switch (this) {
+      case TriggeredBy.user:
+        return 'USER';
+      case TriggeredBy.appconfig:
+        return 'APPCONFIG';
+      case TriggeredBy.cloudwatchAlarm:
+        return 'CLOUDWATCH_ALARM';
+      case TriggeredBy.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  TriggeredBy toTriggeredBy() {
+    switch (this) {
+      case 'USER':
+        return TriggeredBy.user;
+      case 'APPCONFIG':
+        return TriggeredBy.appconfig;
+      case 'CLOUDWATCH_ALARM':
+        return TriggeredBy.cloudwatchAlarm;
+      case 'INTERNAL_ERROR':
+        return TriggeredBy.internalError;
+    }
+    throw Exception('$this is not known in enum TriggeredBy');
+  }
 }
 
 /// A validator provides a syntactic or semantic check to ensure the
@@ -2869,66 +2958,91 @@ enum TriggeredBy {
 /// application configuration data, you provide a schema or a Lambda function
 /// that runs against the configuration. The configuration deployment or update
 /// can only proceed when the configuration data is valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Validator {
   /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS
   /// Lambda function.
-  @_s.JsonKey(name: 'Content')
   final String content;
 
   /// AppConfig supports validators of type <code>JSON_SCHEMA</code> and
   /// <code>LAMBDA</code>
-  @_s.JsonKey(name: 'Type')
   final ValidatorType type;
 
   Validator({
-    @_s.required this.content,
-    @_s.required this.type,
+    required this.content,
+    required this.type,
   });
-  factory Validator.fromJson(Map<String, dynamic> json) =>
-      _$ValidatorFromJson(json);
+  factory Validator.fromJson(Map<String, dynamic> json) {
+    return Validator(
+      content: json['Content'] as String,
+      type: (json['Type'] as String).toValidatorType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ValidatorToJson(this);
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final type = this.type;
+    return {
+      'Content': content,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum ValidatorType {
-  @_s.JsonValue('JSON_SCHEMA')
   jsonSchema,
-  @_s.JsonValue('LAMBDA')
   lambda,
 }
 
+extension on ValidatorType {
+  String toValue() {
+    switch (this) {
+      case ValidatorType.jsonSchema:
+        return 'JSON_SCHEMA';
+      case ValidatorType.lambda:
+        return 'LAMBDA';
+    }
+  }
+}
+
+extension on String {
+  ValidatorType toValidatorType() {
+    switch (this) {
+      case 'JSON_SCHEMA':
+        return ValidatorType.jsonSchema;
+      case 'LAMBDA':
+        return ValidatorType.lambda;
+    }
+    throw Exception('$this is not known in enum ValidatorType');
+  }
+}
+
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class PayloadTooLargeException extends _s.GenericAwsException {
-  PayloadTooLargeException({String type, String message})
+  PayloadTooLargeException({String? type, String? message})
       : super(type: type, code: 'PayloadTooLargeException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',

@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'personalize-runtime-2018-05-22.g.dart';
 
 /// <p/>
 class PersonalizeRuntime {
   final _s.RestJsonProtocol _protocol;
   PersonalizeRuntime({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -98,12 +90,12 @@ class PersonalizeRuntime {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
   /// Recommendations</a>.
   Future<GetPersonalizedRankingResponse> getPersonalizedRanking({
-    @_s.required String campaignArn,
-    @_s.required List<String> inputList,
-    @_s.required String userId,
-    Map<String, String> context,
-    String filterArn,
-    Map<String, String> filterValues,
+    required String campaignArn,
+    required List<String> inputList,
+    required String userId,
+    Map<String, String>? context,
+    String? filterArn,
+    Map<String, String>? filterValues,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -224,13 +216,13 @@ class PersonalizeRuntime {
   ///
   /// Required for <code>USER_PERSONALIZATION</code> recipe type.
   Future<GetRecommendationsResponse> getRecommendations({
-    @_s.required String campaignArn,
-    Map<String, String> context,
-    String filterArn,
-    Map<String, String> filterValues,
-    String itemId,
-    int numResults,
-    String userId,
+    required String campaignArn,
+    Map<String, String>? context,
+    String? filterArn,
+    Map<String, String>? filterValues,
+    String? itemId,
+    int? numResults,
+    String? userId,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -294,86 +286,83 @@ class PersonalizeRuntime {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPersonalizedRankingResponse {
   /// A list of items in order of most likely interest to the user. The maximum is
   /// 500.
-  @_s.JsonKey(name: 'personalizedRanking')
-  final List<PredictedItem> personalizedRanking;
+  final List<PredictedItem>? personalizedRanking;
 
   /// The ID of the recommendation.
-  @_s.JsonKey(name: 'recommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   GetPersonalizedRankingResponse({
     this.personalizedRanking,
     this.recommendationId,
   });
-  factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPersonalizedRankingResponseFromJson(json);
+  factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) {
+    return GetPersonalizedRankingResponse(
+      personalizedRanking: (json['personalizedRanking'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recommendationId: json['recommendationId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecommendationsResponse {
   /// A list of recommendations sorted in ascending order by prediction score.
   /// There can be a maximum of 500 items in the list.
-  @_s.JsonKey(name: 'itemList')
-  final List<PredictedItem> itemList;
+  final List<PredictedItem>? itemList;
 
   /// The ID of the recommendation.
-  @_s.JsonKey(name: 'recommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   GetRecommendationsResponse({
     this.itemList,
     this.recommendationId,
   });
-  factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRecommendationsResponseFromJson(json);
+  factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetRecommendationsResponse(
+      itemList: (json['itemList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictedItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recommendationId: json['recommendationId'] as String?,
+    );
+  }
 }
 
 /// An object that identifies an item.
 ///
 /// The and APIs return a list of <code>PredictedItem</code>s.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictedItem {
   /// The recommended item ID.
-  @_s.JsonKey(name: 'itemId')
-  final String itemId;
+  final String? itemId;
 
   /// A numeric representation of the model's certainty that the item will be the
   /// next user selection. For more information on scoring logic, see
   /// <a>how-scores-work</a>.
-  @_s.JsonKey(name: 'score')
-  final double score;
+  final double? score;
 
   PredictedItem({
     this.itemId,
     this.score,
   });
-  factory PredictedItem.fromJson(Map<String, dynamic> json) =>
-      _$PredictedItemFromJson(json);
+  factory PredictedItem.fromJson(Map<String, dynamic> json) {
+    return PredictedItem(
+      itemId: json['itemId'] as String?,
+      score: json['score'] as double?,
+    );
+  }
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

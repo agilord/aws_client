@@ -9,38 +9,37 @@ part of 'mediaconnect-2018-11-14.dart';
 AddFlowOutputsResponse _$AddFlowOutputsResponseFromJson(
     Map<String, dynamic> json) {
   return AddFlowOutputsResponse(
-    flowArn: json['flowArn'] as String,
-    outputs: (json['outputs'] as List)
-        ?.map((e) =>
-            e == null ? null : Output.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    flowArn: json['flowArn'] as String?,
+    outputs: (json['outputs'] as List<dynamic>?)
+        ?.map((e) => Output.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 AddFlowSourcesResponse _$AddFlowSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return AddFlowSourcesResponse(
-    flowArn: json['flowArn'] as String,
-    sources: (json['sources'] as List)
-        ?.map((e) =>
-            e == null ? null : Source.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    flowArn: json['flowArn'] as String?,
+    sources: (json['sources'] as List<dynamic>?)
+        ?.map((e) => Source.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 AddFlowVpcInterfacesResponse _$AddFlowVpcInterfacesResponseFromJson(
     Map<String, dynamic> json) {
   return AddFlowVpcInterfacesResponse(
-    flowArn: json['flowArn'] as String,
-    vpcInterfaces: (json['vpcInterfaces'] as List)
-        ?.map((e) =>
-            e == null ? null : VpcInterface.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    flowArn: json['flowArn'] as String?,
+    vpcInterfaces: (json['vpcInterfaces'] as List<dynamic>?)
+        ?.map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$AddOutputRequestToJson(AddOutputRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'protocol': _$ProtocolEnumMap[instance.protocol],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -48,7 +47,6 @@ Map<String, dynamic> _$AddOutputRequestToJson(AddOutputRequest instance) {
     }
   }
 
-  writeNotNull('protocol', _$ProtocolEnumMap[instance.protocol]);
   writeNotNull('cidrAllowList', instance.cidrAllowList);
   writeNotNull('description', instance.description);
   writeNotNull('destination', instance.destination);
@@ -82,41 +80,46 @@ CreateFlowResponse _$CreateFlowResponseFromJson(Map<String, dynamic> json) {
 
 DeleteFlowResponse _$DeleteFlowResponseFromJson(Map<String, dynamic> json) {
   return DeleteFlowResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$StatusEnumMap = {
@@ -160,21 +163,24 @@ DescribeReservationResponse _$DescribeReservationResponseFromJson(
 
 Encryption _$EncryptionFromJson(Map<String, dynamic> json) {
   return Encryption(
-    algorithm: _$enumDecodeNullable(_$AlgorithmEnumMap, json['algorithm']),
+    algorithm: _$enumDecode(_$AlgorithmEnumMap, json['algorithm']),
     roleArn: json['roleArn'] as String,
     constantInitializationVector:
-        json['constantInitializationVector'] as String,
-    deviceId: json['deviceId'] as String,
+        json['constantInitializationVector'] as String?,
+    deviceId: json['deviceId'] as String?,
     keyType: _$enumDecodeNullable(_$KeyTypeEnumMap, json['keyType']),
-    region: json['region'] as String,
-    resourceId: json['resourceId'] as String,
-    secretArn: json['secretArn'] as String,
-    url: json['url'] as String,
+    region: json['region'] as String?,
+    resourceId: json['resourceId'] as String?,
+    secretArn: json['secretArn'] as String?,
+    url: json['url'] as String?,
   );
 }
 
 Map<String, dynamic> _$EncryptionToJson(Encryption instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'algorithm': _$AlgorithmEnumMap[instance.algorithm],
+    'roleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -182,8 +188,6 @@ Map<String, dynamic> _$EncryptionToJson(Encryption instance) {
     }
   }
 
-  writeNotNull('algorithm', _$AlgorithmEnumMap[instance.algorithm]);
-  writeNotNull('roleArn', instance.roleArn);
   writeNotNull(
       'constantInitializationVector', instance.constantInitializationVector);
   writeNotNull('deviceId', instance.deviceId);
@@ -211,10 +215,10 @@ Entitlement _$EntitlementFromJson(Map<String, dynamic> json) {
     entitlementArn: json['entitlementArn'] as String,
     name: json['name'] as String,
     subscribers:
-        (json['subscribers'] as List)?.map((e) => e as String)?.toList(),
+        (json['subscribers'] as List<dynamic>).map((e) => e as String).toList(),
     dataTransferSubscriberFeePercent:
-        json['dataTransferSubscriberFeePercent'] as int,
-    description: json['description'] as String,
+        json['dataTransferSubscriberFeePercent'] as int?,
+    description: json['description'] as String?,
     encryption: json['encryption'] == null
         ? null
         : Encryption.fromJson(json['encryption'] as Map<String, dynamic>),
@@ -230,7 +234,7 @@ const _$EntitlementStatusEnumMap = {
 
 FailoverConfig _$FailoverConfigFromJson(Map<String, dynamic> json) {
   return FailoverConfig(
-    recoveryWindow: json['recoveryWindow'] as int,
+    recoveryWindow: json['recoveryWindow'] as int?,
     state: _$enumDecodeNullable(_$StateEnumMap, json['state']),
   );
 }
@@ -257,40 +261,36 @@ const _$StateEnumMap = {
 Flow _$FlowFromJson(Map<String, dynamic> json) {
   return Flow(
     availabilityZone: json['availabilityZone'] as String,
-    entitlements: (json['entitlements'] as List)
-        ?.map((e) =>
-            e == null ? null : Entitlement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    entitlements: (json['entitlements'] as List<dynamic>)
+        .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+        .toList(),
     flowArn: json['flowArn'] as String,
     name: json['name'] as String,
-    outputs: (json['outputs'] as List)
-        ?.map((e) =>
-            e == null ? null : Output.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    source: json['source'] == null
-        ? null
-        : Source.fromJson(json['source'] as Map<String, dynamic>),
-    status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
-    description: json['description'] as String,
-    egressIp: json['egressIp'] as String,
+    outputs: (json['outputs'] as List<dynamic>)
+        .map((e) => Output.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    source: Source.fromJson(json['source'] as Map<String, dynamic>),
+    status: _$enumDecode(_$StatusEnumMap, json['status']),
+    description: json['description'] as String?,
+    egressIp: json['egressIp'] as String?,
     sourceFailoverConfig: json['sourceFailoverConfig'] == null
         ? null
         : FailoverConfig.fromJson(
             json['sourceFailoverConfig'] as Map<String, dynamic>),
-    sources: (json['sources'] as List)
-        ?.map((e) =>
-            e == null ? null : Source.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    vpcInterfaces: (json['vpcInterfaces'] as List)
-        ?.map((e) =>
-            e == null ? null : VpcInterface.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    sources: (json['sources'] as List<dynamic>?)
+        ?.map((e) => Source.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    vpcInterfaces: (json['vpcInterfaces'] as List<dynamic>?)
+        ?.map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$GrantEntitlementRequestToJson(
     GrantEntitlementRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'subscribers': instance.subscribers,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -298,7 +298,6 @@ Map<String, dynamic> _$GrantEntitlementRequestToJson(
     }
   }
 
-  writeNotNull('subscribers', instance.subscribers);
   writeNotNull('dataTransferSubscriberFeePercent',
       instance.dataTransferSubscriberFeePercent);
   writeNotNull('description', instance.description);
@@ -312,62 +311,56 @@ Map<String, dynamic> _$GrantEntitlementRequestToJson(
 GrantFlowEntitlementsResponse _$GrantFlowEntitlementsResponseFromJson(
     Map<String, dynamic> json) {
   return GrantFlowEntitlementsResponse(
-    entitlements: (json['entitlements'] as List)
-        ?.map((e) =>
-            e == null ? null : Entitlement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    flowArn: json['flowArn'] as String,
+    entitlements: (json['entitlements'] as List<dynamic>?)
+        ?.map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    flowArn: json['flowArn'] as String?,
   );
 }
 
 ListEntitlementsResponse _$ListEntitlementsResponseFromJson(
     Map<String, dynamic> json) {
   return ListEntitlementsResponse(
-    entitlements: (json['entitlements'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ListedEntitlement.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    entitlements: (json['entitlements'] as List<dynamic>?)
+        ?.map((e) => ListedEntitlement.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListFlowsResponse _$ListFlowsResponseFromJson(Map<String, dynamic> json) {
   return ListFlowsResponse(
-    flows: (json['flows'] as List)
-        ?.map((e) =>
-            e == null ? null : ListedFlow.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    flows: (json['flows'] as List<dynamic>?)
+        ?.map((e) => ListedFlow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListOfferingsResponse _$ListOfferingsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOfferingsResponse(
-    nextToken: json['nextToken'] as String,
-    offerings: (json['offerings'] as List)
-        ?.map((e) =>
-            e == null ? null : Offering.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    offerings: (json['offerings'] as List<dynamic>?)
+        ?.map((e) => Offering.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListReservationsResponse _$ListReservationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListReservationsResponse(
-    nextToken: json['nextToken'] as String,
-    reservations: (json['reservations'] as List)
-        ?.map((e) =>
-            e == null ? null : Reservation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    reservations: (json['reservations'] as List<dynamic>?)
+        ?.map((e) => Reservation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -378,7 +371,7 @@ ListedEntitlement _$ListedEntitlementFromJson(Map<String, dynamic> json) {
     entitlementArn: json['entitlementArn'] as String,
     entitlementName: json['entitlementName'] as String,
     dataTransferSubscriberFeePercent:
-        json['dataTransferSubscriberFeePercent'] as int,
+        json['dataTransferSubscriberFeePercent'] as int?,
   );
 }
 
@@ -388,8 +381,8 @@ ListedFlow _$ListedFlowFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     flowArn: json['flowArn'] as String,
     name: json['name'] as String,
-    sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['sourceType']),
-    status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
+    sourceType: _$enumDecode(_$SourceTypeEnumMap, json['sourceType']),
+    status: _$enumDecode(_$StatusEnumMap, json['status']),
   );
 }
 
@@ -400,7 +393,7 @@ const _$SourceTypeEnumMap = {
 
 Messages _$MessagesFromJson(Map<String, dynamic> json) {
   return Messages(
-    errors: (json['errors'] as List)?.map((e) => e as String)?.toList(),
+    errors: (json['errors'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
@@ -408,16 +401,13 @@ Offering _$OfferingFromJson(Map<String, dynamic> json) {
   return Offering(
     currencyCode: json['currencyCode'] as String,
     duration: json['duration'] as int,
-    durationUnits:
-        _$enumDecodeNullable(_$DurationUnitsEnumMap, json['durationUnits']),
+    durationUnits: _$enumDecode(_$DurationUnitsEnumMap, json['durationUnits']),
     offeringArn: json['offeringArn'] as String,
     offeringDescription: json['offeringDescription'] as String,
     pricePerUnit: json['pricePerUnit'] as String,
-    priceUnits: _$enumDecodeNullable(_$PriceUnitsEnumMap, json['priceUnits']),
-    resourceSpecification: json['resourceSpecification'] == null
-        ? null
-        : ResourceSpecification.fromJson(
-            json['resourceSpecification'] as Map<String, dynamic>),
+    priceUnits: _$enumDecode(_$PriceUnitsEnumMap, json['priceUnits']),
+    resourceSpecification: ResourceSpecification.fromJson(
+        json['resourceSpecification'] as Map<String, dynamic>),
   );
 }
 
@@ -434,15 +424,15 @@ Output _$OutputFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     outputArn: json['outputArn'] as String,
     dataTransferSubscriberFeePercent:
-        json['dataTransferSubscriberFeePercent'] as int,
-    description: json['description'] as String,
-    destination: json['destination'] as String,
+        json['dataTransferSubscriberFeePercent'] as int?,
+    description: json['description'] as String?,
+    destination: json['destination'] as String?,
     encryption: json['encryption'] == null
         ? null
         : Encryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    entitlementArn: json['entitlementArn'] as String,
-    mediaLiveInputArn: json['mediaLiveInputArn'] as String,
-    port: json['port'] as int,
+    entitlementArn: json['entitlementArn'] as String?,
+    mediaLiveInputArn: json['mediaLiveInputArn'] as String?,
+    port: json['port'] as int?,
     transport: json['transport'] == null
         ? null
         : Transport.fromJson(json['transport'] as Map<String, dynamic>),
@@ -465,28 +455,28 @@ PurchaseOfferingResponse _$PurchaseOfferingResponseFromJson(
 RemoveFlowOutputResponse _$RemoveFlowOutputResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveFlowOutputResponse(
-    flowArn: json['flowArn'] as String,
-    outputArn: json['outputArn'] as String,
+    flowArn: json['flowArn'] as String?,
+    outputArn: json['outputArn'] as String?,
   );
 }
 
 RemoveFlowSourceResponse _$RemoveFlowSourceResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveFlowSourceResponse(
-    flowArn: json['flowArn'] as String,
-    sourceArn: json['sourceArn'] as String,
+    flowArn: json['flowArn'] as String?,
+    sourceArn: json['sourceArn'] as String?,
   );
 }
 
 RemoveFlowVpcInterfaceResponse _$RemoveFlowVpcInterfaceResponseFromJson(
     Map<String, dynamic> json) {
   return RemoveFlowVpcInterfaceResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     nonDeletedNetworkInterfaceIds:
-        (json['nonDeletedNetworkInterfaceIds'] as List)
+        (json['nonDeletedNetworkInterfaceIds'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    vpcInterfaceName: json['vpcInterfaceName'] as String,
+            .toList(),
+    vpcInterfaceName: json['vpcInterfaceName'] as String?,
   );
 }
 
@@ -494,21 +484,18 @@ Reservation _$ReservationFromJson(Map<String, dynamic> json) {
   return Reservation(
     currencyCode: json['currencyCode'] as String,
     duration: json['duration'] as int,
-    durationUnits:
-        _$enumDecodeNullable(_$DurationUnitsEnumMap, json['durationUnits']),
+    durationUnits: _$enumDecode(_$DurationUnitsEnumMap, json['durationUnits']),
     end: json['end'] as String,
     offeringArn: json['offeringArn'] as String,
     offeringDescription: json['offeringDescription'] as String,
     pricePerUnit: json['pricePerUnit'] as String,
-    priceUnits: _$enumDecodeNullable(_$PriceUnitsEnumMap, json['priceUnits']),
+    priceUnits: _$enumDecode(_$PriceUnitsEnumMap, json['priceUnits']),
     reservationArn: json['reservationArn'] as String,
     reservationName: json['reservationName'] as String,
-    reservationState: _$enumDecodeNullable(
-        _$ReservationStateEnumMap, json['reservationState']),
-    resourceSpecification: json['resourceSpecification'] == null
-        ? null
-        : ResourceSpecification.fromJson(
-            json['resourceSpecification'] as Map<String, dynamic>),
+    reservationState:
+        _$enumDecode(_$ReservationStateEnumMap, json['reservationState']),
+    resourceSpecification: ResourceSpecification.fromJson(
+        json['resourceSpecification'] as Map<String, dynamic>),
     start: json['start'] as String,
   );
 }
@@ -523,9 +510,8 @@ const _$ReservationStateEnumMap = {
 ResourceSpecification _$ResourceSpecificationFromJson(
     Map<String, dynamic> json) {
   return ResourceSpecification(
-    resourceType:
-        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
-    reservedBitrate: json['reservedBitrate'] as int,
+    resourceType: _$enumDecode(_$ResourceTypeEnumMap, json['resourceType']),
+    reservedBitrate: json['reservedBitrate'] as int?,
   );
 }
 
@@ -536,8 +522,8 @@ const _$ResourceTypeEnumMap = {
 RevokeFlowEntitlementResponse _$RevokeFlowEntitlementResponseFromJson(
     Map<String, dynamic> json) {
   return RevokeFlowEntitlementResponse(
-    entitlementArn: json['entitlementArn'] as String,
-    flowArn: json['flowArn'] as String,
+    entitlementArn: json['entitlementArn'] as String?,
+    flowArn: json['flowArn'] as String?,
   );
 }
 
@@ -569,46 +555,47 @@ Source _$SourceFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     sourceArn: json['sourceArn'] as String,
     dataTransferSubscriberFeePercent:
-        json['dataTransferSubscriberFeePercent'] as int,
+        json['dataTransferSubscriberFeePercent'] as int?,
     decryption: json['decryption'] == null
         ? null
         : Encryption.fromJson(json['decryption'] as Map<String, dynamic>),
-    description: json['description'] as String,
-    entitlementArn: json['entitlementArn'] as String,
-    ingestIp: json['ingestIp'] as String,
-    ingestPort: json['ingestPort'] as int,
+    description: json['description'] as String?,
+    entitlementArn: json['entitlementArn'] as String?,
+    ingestIp: json['ingestIp'] as String?,
+    ingestPort: json['ingestPort'] as int?,
     transport: json['transport'] == null
         ? null
         : Transport.fromJson(json['transport'] as Map<String, dynamic>),
-    vpcInterfaceName: json['vpcInterfaceName'] as String,
-    whitelistCidr: json['whitelistCidr'] as String,
+    vpcInterfaceName: json['vpcInterfaceName'] as String?,
+    whitelistCidr: json['whitelistCidr'] as String?,
   );
 }
 
 StartFlowResponse _$StartFlowResponseFromJson(Map<String, dynamic> json) {
   return StartFlowResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
   );
 }
 
 StopFlowResponse _$StopFlowResponseFromJson(Map<String, dynamic> json) {
   return StopFlowResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
   );
 }
 
 Transport _$TransportFromJson(Map<String, dynamic> json) {
   return Transport(
-    protocol: _$enumDecodeNullable(_$ProtocolEnumMap, json['protocol']),
-    cidrAllowList:
-        (json['cidrAllowList'] as List)?.map((e) => e as String)?.toList(),
-    maxBitrate: json['maxBitrate'] as int,
-    maxLatency: json['maxLatency'] as int,
-    remoteId: json['remoteId'] as String,
-    smoothingLatency: json['smoothingLatency'] as int,
-    streamId: json['streamId'] as String,
+    protocol: _$enumDecode(_$ProtocolEnumMap, json['protocol']),
+    cidrAllowList: (json['cidrAllowList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    maxBitrate: json['maxBitrate'] as int?,
+    maxLatency: json['maxLatency'] as int?,
+    remoteId: json['remoteId'] as String?,
+    smoothingLatency: json['smoothingLatency'] as int?,
+    streamId: json['streamId'] as String?,
   );
 }
 
@@ -655,14 +642,14 @@ UpdateFlowEntitlementResponse _$UpdateFlowEntitlementResponseFromJson(
     entitlement: json['entitlement'] == null
         ? null
         : Entitlement.fromJson(json['entitlement'] as Map<String, dynamic>),
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
   );
 }
 
 UpdateFlowOutputResponse _$UpdateFlowOutputResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateFlowOutputResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     output: json['output'] == null
         ? null
         : Output.fromJson(json['output'] as Map<String, dynamic>),
@@ -680,7 +667,7 @@ UpdateFlowResponse _$UpdateFlowResponseFromJson(Map<String, dynamic> json) {
 UpdateFlowSourceResponse _$UpdateFlowSourceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateFlowSourceResponse(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
     source: json['source'] == null
         ? null
         : Source.fromJson(json['source'] as Map<String, dynamic>),
@@ -690,12 +677,13 @@ UpdateFlowSourceResponse _$UpdateFlowSourceResponseFromJson(
 VpcInterface _$VpcInterfaceFromJson(Map<String, dynamic> json) {
   return VpcInterface(
     name: json['name'] as String,
-    networkInterfaceIds: (json['networkInterfaceIds'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    networkInterfaceIds: (json['networkInterfaceIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     roleArn: json['roleArn'] as String,
-    securityGroupIds:
-        (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['securityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     subnetId: json['subnetId'] as String,
   );
 }
@@ -703,7 +691,7 @@ VpcInterface _$VpcInterfaceFromJson(Map<String, dynamic> json) {
 VpcInterfaceAttachment _$VpcInterfaceAttachmentFromJson(
     Map<String, dynamic> json) {
   return VpcInterfaceAttachment(
-    vpcInterfaceName: json['vpcInterfaceName'] as String,
+    vpcInterfaceName: json['vpcInterfaceName'] as String?,
   );
 }
 
@@ -721,18 +709,11 @@ Map<String, dynamic> _$VpcInterfaceAttachmentToJson(
   return val;
 }
 
-Map<String, dynamic> _$VpcInterfaceRequestToJson(VpcInterfaceRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('name', instance.name);
-  writeNotNull('roleArn', instance.roleArn);
-  writeNotNull('securityGroupIds', instance.securityGroupIds);
-  writeNotNull('subnetId', instance.subnetId);
-  return val;
-}
+Map<String, dynamic> _$VpcInterfaceRequestToJson(
+        VpcInterfaceRequest instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'roleArn': instance.roleArn,
+      'securityGroupIds': instance.securityGroupIds,
+      'subnetId': instance.subnetId,
+    };

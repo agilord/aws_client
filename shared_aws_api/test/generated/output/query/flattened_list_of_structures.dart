@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'flattened_list_of_structures.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class FlattenedListOfStructures {
   final Map<String, _s.Shape> shapes;
 
   FlattenedListOfStructures({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,7 +56,7 @@ class FlattenedListOfStructures {
 }
 
 class OutputShape {
-  final List<StructureShape> list;
+  final List<StructureShape>? list;
 
   OutputShape({
     this.list,
@@ -78,9 +72,9 @@ class OutputShape {
 }
 
 class StructureShape {
-  final String bar;
-  final String baz;
-  final String foo;
+  final String? bar;
+  final String? baz;
+  final String? foo;
 
   StructureShape({
     this.bar,

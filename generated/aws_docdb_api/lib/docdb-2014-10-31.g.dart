@@ -21,19 +21,10 @@ Map<String, dynamic> _$CloudwatchLogsExportConfigurationToJson(
   return val;
 }
 
-Map<String, dynamic> _$FilterToJson(Filter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+Map<String, dynamic> _$FilterToJson(Filter instance) => <String, dynamic>{
+      'Name': instance.name,
+      'Values': instance.values,
+    };
 
 Map<String, dynamic> _$ParameterToJson(Parameter instance) {
   final val = <String, dynamic>{};

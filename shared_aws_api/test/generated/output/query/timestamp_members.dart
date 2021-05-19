@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'timestamp_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class TimestampMembers {
   final Map<String, _s.Shape> shapes;
 
   TimestampMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,10 +55,10 @@ class TimestampMembers {
 }
 
 class OutputShape {
-  final TimeContainer structMember;
-  final DateTime timeArg;
-  final DateTime timeCustom;
-  final DateTime timeFormat;
+  final TimeContainer? structMember;
+  final DateTime? timeArg;
+  final DateTime? timeCustom;
+  final DateTime? timeFormat;
 
   OutputShape({
     this.structMember,
@@ -87,8 +81,8 @@ class OutputShape {
 }
 
 class TimeContainer {
-  final DateTime bar;
-  final DateTime foo;
+  final DateTime? bar;
+  final DateTime? foo;
 
   TimeContainer({
     this.bar,

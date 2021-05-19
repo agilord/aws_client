@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'appstream-2016-12-01.g.dart';
 
 /// This is the <i>Amazon AppStream 2.0 API Reference</i>. This documentation
 /// provides descriptions and syntax for each of the actions and data types in
@@ -44,10 +36,10 @@ part 'appstream-2016-12-01.g.dart';
 class AppStream {
   final _s.JsonProtocol _protocol;
   AppStream({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,8 +66,8 @@ class AppStream {
   /// Parameter [stackName] :
   /// The name of the stack.
   Future<void> associateFleet({
-    @_s.required String fleetName,
-    @_s.required String stackName,
+    required String fleetName,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -97,7 +89,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.AssociateFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -108,8 +100,6 @@ class AppStream {
         'StackName': stackName,
       },
     );
-
-    return AssociateFleetResult.fromJson(jsonResponse.body);
   }
 
   /// Associates the specified users with the specified stacks. Users in a user
@@ -122,7 +112,7 @@ class AppStream {
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
   Future<BatchAssociateUserStackResult> batchAssociateUserStack({
-    @_s.required List<UserStackAssociation> userStackAssociations,
+    required List<UserStackAssociation> userStackAssociations,
   }) async {
     ArgumentError.checkNotNull(userStackAssociations, 'userStackAssociations');
     final headers = <String, String>{
@@ -151,7 +141,7 @@ class AppStream {
   /// Parameter [userStackAssociations] :
   /// The list of UserStackAssociation objects.
   Future<BatchDisassociateUserStackResult> batchDisassociateUserStack({
-    @_s.required List<UserStackAssociation> userStackAssociations,
+    required List<UserStackAssociation> userStackAssociations,
   }) async {
     ArgumentError.checkNotNull(userStackAssociations, 'userStackAssociations');
     final headers = <String, String>{
@@ -196,10 +186,10 @@ class AppStream {
   /// The description that the image will have when it is copied to the
   /// destination.
   Future<CopyImageResponse> copyImage({
-    @_s.required String destinationImageName,
-    @_s.required String destinationRegion,
-    @_s.required String sourceImageName,
-    String destinationImageDescription,
+    required String destinationImageName,
+    required String destinationRegion,
+    required String sourceImageName,
+    String? destinationImageDescription,
   }) async {
     ArgumentError.checkNotNull(destinationImageName, 'destinationImageName');
     _s.validateStringPattern(
@@ -272,9 +262,9 @@ class AppStream {
   /// The credentials for the service account used by the fleet or image builder
   /// to connect to the directory.
   Future<CreateDirectoryConfigResult> createDirectoryConfig({
-    @_s.required String directoryName,
-    @_s.required List<String> organizationalUnitDistinguishedNames,
-    ServiceAccountCredentials serviceAccountCredentials,
+    required String directoryName,
+    required List<String> organizationalUnitDistinguishedNames,
+    ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
     ArgumentError.checkNotNull(directoryName, 'directoryName');
     ArgumentError.checkNotNull(organizationalUnitDistinguishedNames,
@@ -545,23 +535,23 @@ class AppStream {
   /// Parameter [vpcConfig] :
   /// The VPC configuration for the fleet.
   Future<CreateFleetResult> createFleet({
-    @_s.required ComputeCapacity computeCapacity,
-    @_s.required String instanceType,
-    @_s.required String name,
-    String description,
-    int disconnectTimeoutInSeconds,
-    String displayName,
-    DomainJoinInfo domainJoinInfo,
-    bool enableDefaultInternetAccess,
-    FleetType fleetType,
-    String iamRoleArn,
-    int idleDisconnectTimeoutInSeconds,
-    String imageArn,
-    String imageName,
-    int maxUserDurationInSeconds,
-    StreamView streamView,
-    Map<String, String> tags,
-    VpcConfig vpcConfig,
+    required ComputeCapacity computeCapacity,
+    required String instanceType,
+    required String name,
+    String? description,
+    int? disconnectTimeoutInSeconds,
+    String? displayName,
+    DomainJoinInfo? domainJoinInfo,
+    bool? enableDefaultInternetAccess,
+    FleetType? fleetType,
+    String? iamRoleArn,
+    int? idleDisconnectTimeoutInSeconds,
+    String? imageArn,
+    String? imageName,
+    int? maxUserDurationInSeconds,
+    StreamView? streamView,
+    Map<String, String>? tags,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(computeCapacity, 'computeCapacity');
     ArgumentError.checkNotNull(instanceType, 'instanceType');
@@ -832,19 +822,19 @@ class AppStream {
   /// The VPC configuration for the image builder. You can specify only one
   /// subnet.
   Future<CreateImageBuilderResult> createImageBuilder({
-    @_s.required String instanceType,
-    @_s.required String name,
-    List<AccessEndpoint> accessEndpoints,
-    String appstreamAgentVersion,
-    String description,
-    String displayName,
-    DomainJoinInfo domainJoinInfo,
-    bool enableDefaultInternetAccess,
-    String iamRoleArn,
-    String imageArn,
-    String imageName,
-    Map<String, String> tags,
-    VpcConfig vpcConfig,
+    required String instanceType,
+    required String name,
+    List<AccessEndpoint>? accessEndpoints,
+    String? appstreamAgentVersion,
+    String? description,
+    String? displayName,
+    DomainJoinInfo? domainJoinInfo,
+    bool? enableDefaultInternetAccess,
+    String? iamRoleArn,
+    String? imageArn,
+    String? imageName,
+    Map<String, String>? tags,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(instanceType, 'instanceType');
     _s.validateStringLength(
@@ -939,8 +929,8 @@ class AppStream {
   /// The time that the streaming URL will be valid, in seconds. Specify a value
   /// between 1 and 604800 seconds. The default is 3600 seconds.
   Future<CreateImageBuilderStreamingURLResult> createImageBuilderStreamingURL({
-    @_s.required String name,
-    int validity,
+    required String name,
+    int? validity,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1036,17 +1026,17 @@ class AppStream {
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default, these actions are enabled.
   Future<CreateStackResult> createStack({
-    @_s.required String name,
-    List<AccessEndpoint> accessEndpoints,
-    ApplicationSettings applicationSettings,
-    String description,
-    String displayName,
-    List<String> embedHostDomains,
-    String feedbackURL,
-    String redirectURL,
-    List<StorageConnector> storageConnectors,
-    Map<String, String> tags,
-    List<UserSetting> userSettings,
+    required String name,
+    List<AccessEndpoint>? accessEndpoints,
+    ApplicationSettings? applicationSettings,
+    String? description,
+    String? displayName,
+    List<String>? embedHostDomains,
+    String? feedbackURL,
+    String? redirectURL,
+    List<StorageConnector>? storageConnectors,
+    Map<String, String>? tags,
+    List<UserSetting>? userSettings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1139,12 +1129,12 @@ class AppStream {
   /// The time that the streaming URL will be valid, in seconds. Specify a value
   /// between 1 and 604800 seconds. The default is 60 seconds.
   Future<CreateStreamingURLResult> createStreamingURL({
-    @_s.required String fleetName,
-    @_s.required String stackName,
-    @_s.required String userId,
-    String applicationId,
-    String sessionContext,
-    int validity,
+    required String fleetName,
+    required String stackName,
+    required String userId,
+    String? applicationId,
+    String? sessionContext,
+    int? validity,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -1270,11 +1260,11 @@ class AppStream {
   /// welcome email.
   /// </note>
   Future<void> createUser({
-    @_s.required AuthenticationType authenticationType,
-    @_s.required String userName,
-    String firstName,
-    String lastName,
-    MessageAction messageAction,
+    required AuthenticationType authenticationType,
+    required String userName,
+    String? firstName,
+    String? lastName,
+    MessageAction? messageAction,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -1317,22 +1307,20 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue() ?? '',
+        'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
         if (firstName != null) 'FirstName': firstName,
         if (lastName != null) 'LastName': lastName,
         if (messageAction != null) 'MessageAction': messageAction.toValue(),
       },
     );
-
-    return CreateUserResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified Directory Config object from AppStream 2.0. This
@@ -1345,14 +1333,14 @@ class AppStream {
   /// Parameter [directoryName] :
   /// The name of the directory configuration.
   Future<void> deleteDirectoryConfig({
-    @_s.required String directoryName,
+    required String directoryName,
   }) async {
     ArgumentError.checkNotNull(directoryName, 'directoryName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteDirectoryConfig'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1362,8 +1350,6 @@ class AppStream {
         'DirectoryName': directoryName,
       },
     );
-
-    return DeleteDirectoryConfigResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified fleet.
@@ -1375,7 +1361,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the fleet.
   Future<void> deleteFleet({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1389,7 +1375,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1399,8 +1385,6 @@ class AppStream {
         'Name': name,
       },
     );
-
-    return DeleteFleetResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified image. You cannot delete an image when it is in use.
@@ -1415,7 +1399,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the image.
   Future<DeleteImageResult> deleteImage({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1451,7 +1435,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the image builder.
   Future<DeleteImageBuilderResult> deleteImageBuilder({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1492,8 +1476,8 @@ class AppStream {
   /// The 12-digit identifier of the AWS account for which to delete image
   /// permissions.
   Future<void> deleteImagePermissions({
-    @_s.required String name,
-    @_s.required String sharedAccountId,
+    required String name,
+    required String sharedAccountId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1513,7 +1497,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImagePermissions'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1524,8 +1508,6 @@ class AppStream {
         'SharedAccountId': sharedAccountId,
       },
     );
-
-    return DeleteImagePermissionsResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified stack. After the stack is deleted, the application
@@ -1540,7 +1522,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the stack.
   Future<void> deleteStack({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1554,7 +1536,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteStack'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1564,8 +1546,6 @@ class AppStream {
         'Name': name,
       },
     );
-
-    return DeleteStackResult.fromJson(jsonResponse.body);
   }
 
   /// Disables usage report generation.
@@ -1577,15 +1557,13 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteUsageReportSubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DeleteUsageReportSubscriptionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a user from the user pool.
@@ -1601,8 +1579,8 @@ class AppStream {
   /// Users' email addresses are case-sensitive.
   /// </note>
   Future<void> deleteUser({
-    @_s.required AuthenticationType authenticationType,
-    @_s.required String userName,
+    required AuthenticationType authenticationType,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -1623,19 +1601,17 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue() ?? '',
+        'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
       },
     );
-
-    return DeleteUserResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes one or more specified Directory Config
@@ -1659,9 +1635,9 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeDirectoryConfigsResult> describeDirectoryConfigs({
-    List<String> directoryNames,
-    int maxResults,
-    String nextToken,
+    List<String>? directoryNames,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1701,8 +1677,8 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeFleetsResult> describeFleets({
-    List<String> names,
-    String nextToken,
+    List<String>? names,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1745,9 +1721,9 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeImageBuildersResult> describeImageBuilders({
-    int maxResults,
-    List<String> names,
-    String nextToken,
+    int? maxResults,
+    List<String>? names,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1795,10 +1771,10 @@ class AppStream {
   /// The 12-digit identifier of one or more AWS accounts with which the image
   /// is shared.
   Future<DescribeImagePermissionsResult> describeImagePermissions({
-    @_s.required String name,
-    int maxResults,
-    String nextToken,
-    List<String> sharedAwsAccountIds,
+    required String name,
+    int? maxResults,
+    String? nextToken,
+    List<String>? sharedAwsAccountIds,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -1864,11 +1840,11 @@ class AppStream {
   /// Parameter [type] :
   /// The type of image (public, private, or shared) to describe.
   Future<DescribeImagesResult> describeImages({
-    List<String> arns,
-    int maxResults,
-    List<String> names,
-    String nextToken,
-    VisibilityType type,
+    List<String>? arns,
+    int? maxResults,
+    List<String>? names,
+    String? nextToken,
+    VisibilityType? type,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1936,12 +1912,12 @@ class AppStream {
   /// The user identifier (ID). If you specify a user ID, you must also specify
   /// the authentication type.
   Future<DescribeSessionsResult> describeSessions({
-    @_s.required String fleetName,
-    @_s.required String stackName,
-    AuthenticationType authenticationType,
-    int limit,
-    String nextToken,
-    String userId,
+    required String fleetName,
+    required String stackName,
+    AuthenticationType? authenticationType,
+    int? limit,
+    String? nextToken,
+    String? userId,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -2007,8 +1983,8 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeStacksResult> describeStacks({
-    List<String> names,
-    String nextToken,
+    List<String>? names,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2048,8 +2024,8 @@ class AppStream {
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeUsageReportSubscriptionsResult>
       describeUsageReportSubscriptions({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -2112,11 +2088,11 @@ class AppStream {
   /// Users' email addresses are case-sensitive.
   /// </note>
   Future<DescribeUserStackAssociationsResult> describeUserStackAssociations({
-    AuthenticationType authenticationType,
-    int maxResults,
-    String nextToken,
-    String stackName,
-    String userName,
+    AuthenticationType? authenticationType,
+    int? maxResults,
+    String? nextToken,
+    String? stackName,
+    String? userName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2187,9 +2163,9 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<DescribeUsersResult> describeUsers({
-    @_s.required AuthenticationType authenticationType,
-    int maxResults,
-    String nextToken,
+    required AuthenticationType authenticationType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     _s.validateStringLength(
@@ -2209,7 +2185,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue() ?? '',
+        'AuthenticationType': authenticationType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2233,8 +2209,8 @@ class AppStream {
   /// Users' email addresses are case-sensitive.
   /// </note>
   Future<void> disableUser({
-    @_s.required AuthenticationType authenticationType,
-    @_s.required String userName,
+    required AuthenticationType authenticationType,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -2255,19 +2231,17 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DisableUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue() ?? '',
+        'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
       },
     );
-
-    return DisableUserResult.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified fleet from the specified stack.
@@ -2283,8 +2257,8 @@ class AppStream {
   /// Parameter [stackName] :
   /// The name of the stack.
   Future<void> disassociateFleet({
-    @_s.required String fleetName,
-    @_s.required String stackName,
+    required String fleetName,
+    required String stackName,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -2306,7 +2280,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DisassociateFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2317,8 +2291,6 @@ class AppStream {
         'StackName': stackName,
       },
     );
-
-    return DisassociateFleetResult.fromJson(jsonResponse.body);
   }
 
   /// Enables a user in the user pool. After being enabled, users can sign in to
@@ -2340,8 +2312,8 @@ class AppStream {
   /// not exist" error message displays.
   /// </note>
   Future<void> enableUser({
-    @_s.required AuthenticationType authenticationType,
-    @_s.required String userName,
+    required AuthenticationType authenticationType,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -2362,19 +2334,17 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.EnableUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue() ?? '',
+        'AuthenticationType': authenticationType.toValue(),
         'UserName': userName,
       },
     );
-
-    return EnableUserResult.fromJson(jsonResponse.body);
   }
 
   /// Immediately stops the specified streaming session.
@@ -2382,7 +2352,7 @@ class AppStream {
   /// Parameter [sessionId] :
   /// The identifier of the streaming session.
   Future<void> expireSession({
-    @_s.required String sessionId,
+    required String sessionId,
   }) async {
     ArgumentError.checkNotNull(sessionId, 'sessionId');
     _s.validateStringLength(
@@ -2396,7 +2366,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ExpireSession'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2406,8 +2376,6 @@ class AppStream {
         'SessionId': sessionId,
       },
     );
-
-    return ExpireSessionResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the name of the fleet that is associated with the specified
@@ -2420,8 +2388,8 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<ListAssociatedFleetsResult> listAssociatedFleets({
-    @_s.required String stackName,
-    String nextToken,
+    required String stackName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -2466,8 +2434,8 @@ class AppStream {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
   Future<ListAssociatedStacksResult> listAssociatedStacks({
-    @_s.required String fleetName,
-    String nextToken,
+    required String fleetName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -2515,7 +2483,7 @@ class AppStream {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -2556,7 +2524,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the fleet.
   Future<void> startFleet({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2570,7 +2538,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StartFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2580,8 +2548,6 @@ class AppStream {
         'Name': name,
       },
     );
-
-    return StartFleetResult.fromJson(jsonResponse.body);
   }
 
   /// Starts the specified image builder.
@@ -2599,8 +2565,8 @@ class AppStream {
   /// The version of the AppStream 2.0 agent to use for this image builder. To
   /// use the latest version of the AppStream 2.0 agent, specify [LATEST].
   Future<StartImageBuilderResult> startImageBuilder({
-    @_s.required String name,
-    String appstreamAgentVersion,
+    required String name,
+    String? appstreamAgentVersion,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2644,7 +2610,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the fleet.
   Future<void> stopFleet({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2658,7 +2624,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StopFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2668,8 +2634,6 @@ class AppStream {
         'Name': name,
       },
     );
-
-    return StopFleetResult.fromJson(jsonResponse.body);
   }
 
   /// Stops the specified image builder.
@@ -2681,7 +2645,7 @@ class AppStream {
   /// Parameter [name] :
   /// The name of the image builder.
   Future<StopImageBuilderResult> stopImageBuilder({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2744,8 +2708,8 @@ class AppStream {
   ///
   /// _ . : / = + \ - @
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -2759,7 +2723,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2770,8 +2734,6 @@ class AppStream {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates one or more specified tags from the specified AppStream 2.0
@@ -2793,8 +2755,8 @@ class AppStream {
   /// Parameter [tagKeys] :
   /// The tag keys for the tags to disassociate.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -2808,7 +2770,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2819,8 +2781,6 @@ class AppStream {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified Directory Config object in AppStream 2.0. This
@@ -2843,9 +2803,9 @@ class AppStream {
   /// The credentials for the service account used by the fleet or image builder
   /// to connect to the directory.
   Future<UpdateDirectoryConfigResult> updateDirectoryConfig({
-    @_s.required String directoryName,
-    List<String> organizationalUnitDistinguishedNames,
-    ServiceAccountCredentials serviceAccountCredentials,
+    required String directoryName,
+    List<String>? organizationalUnitDistinguishedNames,
+    ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
     ArgumentError.checkNotNull(directoryName, 'directoryName');
     final headers = <String, String>{
@@ -3099,23 +3059,23 @@ class AppStream {
   /// Parameter [vpcConfig] :
   /// The VPC configuration for the fleet.
   Future<UpdateFleetResult> updateFleet({
-    List<FleetAttribute> attributesToDelete,
-    ComputeCapacity computeCapacity,
-    bool deleteVpcConfig,
-    String description,
-    int disconnectTimeoutInSeconds,
-    String displayName,
-    DomainJoinInfo domainJoinInfo,
-    bool enableDefaultInternetAccess,
-    String iamRoleArn,
-    int idleDisconnectTimeoutInSeconds,
-    String imageArn,
-    String imageName,
-    String instanceType,
-    int maxUserDurationInSeconds,
-    String name,
-    StreamView streamView,
-    VpcConfig vpcConfig,
+    List<FleetAttribute>? attributesToDelete,
+    ComputeCapacity? computeCapacity,
+    bool? deleteVpcConfig,
+    String? description,
+    int? disconnectTimeoutInSeconds,
+    String? displayName,
+    DomainJoinInfo? domainJoinInfo,
+    bool? enableDefaultInternetAccess,
+    String? iamRoleArn,
+    int? idleDisconnectTimeoutInSeconds,
+    String? imageArn,
+    String? imageName,
+    String? instanceType,
+    int? maxUserDurationInSeconds,
+    String? name,
+    StreamView? streamView,
+    VpcConfig? vpcConfig,
   }) async {
     _s.validateStringLength(
       'description',
@@ -3170,7 +3130,7 @@ class AppStream {
       payload: {
         if (attributesToDelete != null)
           'AttributesToDelete':
-              attributesToDelete.map((e) => e?.toValue() ?? '').toList(),
+              attributesToDelete.map((e) => e.toValue()).toList(),
         if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
         if (deleteVpcConfig != null) 'DeleteVpcConfig': deleteVpcConfig,
         if (description != null) 'Description': description,
@@ -3213,9 +3173,9 @@ class AppStream {
   /// The 12-digit identifier of the AWS account for which you want add or
   /// update image permissions.
   Future<void> updateImagePermissions({
-    @_s.required ImagePermissions imagePermissions,
-    @_s.required String name,
-    @_s.required String sharedAccountId,
+    required ImagePermissions imagePermissions,
+    required String name,
+    required String sharedAccountId,
   }) async {
     ArgumentError.checkNotNull(imagePermissions, 'imagePermissions');
     ArgumentError.checkNotNull(name, 'name');
@@ -3236,7 +3196,7 @@ class AppStream {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateImagePermissions'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3248,8 +3208,6 @@ class AppStream {
         'SharedAccountId': sharedAccountId,
       },
     );
-
-    return UpdateImagePermissionsResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified fields for the specified stack.
@@ -3309,18 +3267,18 @@ class AppStream {
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default, these actions are enabled.
   Future<UpdateStackResult> updateStack({
-    @_s.required String name,
-    List<AccessEndpoint> accessEndpoints,
-    ApplicationSettings applicationSettings,
-    List<StackAttribute> attributesToDelete,
-    bool deleteStorageConnectors,
-    String description,
-    String displayName,
-    List<String> embedHostDomains,
-    String feedbackURL,
-    String redirectURL,
-    List<StorageConnector> storageConnectors,
-    List<UserSetting> userSettings,
+    required String name,
+    List<AccessEndpoint>? accessEndpoints,
+    ApplicationSettings? applicationSettings,
+    List<StackAttribute>? attributesToDelete,
+    bool? deleteStorageConnectors,
+    String? description,
+    String? displayName,
+    List<String>? embedHostDomains,
+    String? feedbackURL,
+    String? redirectURL,
+    List<StorageConnector>? storageConnectors,
+    List<UserSetting>? userSettings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3371,7 +3329,7 @@ class AppStream {
           'ApplicationSettings': applicationSettings,
         if (attributesToDelete != null)
           'AttributesToDelete':
-              attributesToDelete.map((e) => e?.toValue() ?? '').toList(),
+              attributesToDelete.map((e) => e.toValue()).toList(),
         if (deleteStorageConnectors != null)
           'DeleteStorageConnectors': deleteStorageConnectors,
         if (description != null) 'Description': description,
@@ -3394,82 +3352,122 @@ class AppStream {
 /// stack, users of the stack can connect to AppStream 2.0 only through that
 /// endpoint. When you specify an interface endpoint for an image builder,
 /// administrators can connect to the image builder only through that endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessEndpoint {
   /// The type of interface endpoint.
-  @_s.JsonKey(name: 'EndpointType')
   final AccessEndpointType endpointType;
 
   /// The identifier (ID) of the VPC in which the interface endpoint is used.
-  @_s.JsonKey(name: 'VpceId')
-  final String vpceId;
+  final String? vpceId;
 
   AccessEndpoint({
-    @_s.required this.endpointType,
+    required this.endpointType,
     this.vpceId,
   });
-  factory AccessEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$AccessEndpointFromJson(json);
+  factory AccessEndpoint.fromJson(Map<String, dynamic> json) {
+    return AccessEndpoint(
+      endpointType: (json['EndpointType'] as String).toAccessEndpointType(),
+      vpceId: json['VpceId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessEndpointToJson(this);
+  Map<String, dynamic> toJson() {
+    final endpointType = this.endpointType;
+    final vpceId = this.vpceId;
+    return {
+      'EndpointType': endpointType.toValue(),
+      if (vpceId != null) 'VpceId': vpceId,
+    };
+  }
 }
 
 enum AccessEndpointType {
-  @_s.JsonValue('STREAMING')
   streaming,
 }
 
+extension on AccessEndpointType {
+  String toValue() {
+    switch (this) {
+      case AccessEndpointType.streaming:
+        return 'STREAMING';
+    }
+  }
+}
+
+extension on String {
+  AccessEndpointType toAccessEndpointType() {
+    switch (this) {
+      case 'STREAMING':
+        return AccessEndpointType.streaming;
+    }
+    throw Exception('$this is not known in enum AccessEndpointType');
+  }
+}
+
 enum Action {
-  @_s.JsonValue('CLIPBOARD_COPY_FROM_LOCAL_DEVICE')
   clipboardCopyFromLocalDevice,
-  @_s.JsonValue('CLIPBOARD_COPY_TO_LOCAL_DEVICE')
   clipboardCopyToLocalDevice,
-  @_s.JsonValue('FILE_UPLOAD')
   fileUpload,
-  @_s.JsonValue('FILE_DOWNLOAD')
   fileDownload,
-  @_s.JsonValue('PRINTING_TO_LOCAL_DEVICE')
   printingToLocalDevice,
 }
 
+extension on Action {
+  String toValue() {
+    switch (this) {
+      case Action.clipboardCopyFromLocalDevice:
+        return 'CLIPBOARD_COPY_FROM_LOCAL_DEVICE';
+      case Action.clipboardCopyToLocalDevice:
+        return 'CLIPBOARD_COPY_TO_LOCAL_DEVICE';
+      case Action.fileUpload:
+        return 'FILE_UPLOAD';
+      case Action.fileDownload:
+        return 'FILE_DOWNLOAD';
+      case Action.printingToLocalDevice:
+        return 'PRINTING_TO_LOCAL_DEVICE';
+    }
+  }
+}
+
+extension on String {
+  Action toAction() {
+    switch (this) {
+      case 'CLIPBOARD_COPY_FROM_LOCAL_DEVICE':
+        return Action.clipboardCopyFromLocalDevice;
+      case 'CLIPBOARD_COPY_TO_LOCAL_DEVICE':
+        return Action.clipboardCopyToLocalDevice;
+      case 'FILE_UPLOAD':
+        return Action.fileUpload;
+      case 'FILE_DOWNLOAD':
+        return Action.fileDownload;
+      case 'PRINTING_TO_LOCAL_DEVICE':
+        return Action.printingToLocalDevice;
+    }
+    throw Exception('$this is not known in enum Action');
+  }
+}
+
 /// Describes an application in the application catalog.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Application {
   /// The application name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// If there is a problem, the application can be disabled after image creation.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The URL for the application icon. This URL might be time-limited.
-  @_s.JsonKey(name: 'IconURL')
-  final String iconURL;
+  final String? iconURL;
 
   /// The arguments that are passed to the application at launch.
-  @_s.JsonKey(name: 'LaunchParameters')
-  final String launchParameters;
+  final String? launchParameters;
 
   /// The path to the application executable in the instance.
-  @_s.JsonKey(name: 'LaunchPath')
-  final String launchPath;
+  final String? launchPath;
 
   /// Additional attributes that describe the application.
-  @_s.JsonKey(name: 'Metadata')
-  final Map<String, String> metadata;
+  final Map<String, String>? metadata;
 
   /// The name of the application.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Application({
     this.displayName,
@@ -3480,86 +3478,86 @@ class Application {
     this.metadata,
     this.name,
   });
-  factory Application.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationFromJson(json);
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      displayName: json['DisplayName'] as String?,
+      enabled: json['Enabled'] as bool?,
+      iconURL: json['IconURL'] as String?,
+      launchParameters: json['LaunchParameters'] as String?,
+      launchPath: json['LaunchPath'] as String?,
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// The persistent application settings for users of a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationSettings {
   /// Enables or disables persistent application settings for users during their
   /// streaming sessions.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The path prefix for the S3 bucket where users’ persistent application
   /// settings are stored. You can allow the same persistent application settings
   /// to be used across multiple stacks by specifying the same settings group for
   /// each stack.
-  @_s.JsonKey(name: 'SettingsGroup')
-  final String settingsGroup;
+  final String? settingsGroup;
 
   ApplicationSettings({
-    @_s.required this.enabled,
+    required this.enabled,
     this.settingsGroup,
   });
-  Map<String, dynamic> toJson() => _$ApplicationSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final settingsGroup = this.settingsGroup;
+    return {
+      'Enabled': enabled,
+      if (settingsGroup != null) 'SettingsGroup': settingsGroup,
+    };
+  }
 }
 
 /// Describes the persistent application settings for users of a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationSettingsResponse {
   /// Specifies whether persistent application settings are enabled for users
   /// during their streaming sessions.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The S3 bucket where users’ persistent application settings are stored. When
   /// persistent application settings are enabled for the first time for an
   /// account in an AWS Region, an S3 bucket is created. The bucket is unique to
   /// the AWS account and the Region.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The path prefix for the S3 bucket where users’ persistent application
   /// settings are stored.
-  @_s.JsonKey(name: 'SettingsGroup')
-  final String settingsGroup;
+  final String? settingsGroup;
 
   ApplicationSettingsResponse({
     this.enabled,
     this.s3BucketName,
     this.settingsGroup,
   });
-  factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationSettingsResponseFromJson(json);
+  factory ApplicationSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return ApplicationSettingsResponse(
+      enabled: json['Enabled'] as bool?,
+      s3BucketName: json['S3BucketName'] as String?,
+      settingsGroup: json['SettingsGroup'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateFleetResult {
   AssociateFleetResult();
-  factory AssociateFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$AssociateFleetResultFromJson(json);
+  factory AssociateFleetResult.fromJson(Map<String, dynamic> _) {
+    return AssociateFleetResult();
+  }
 }
 
 enum AuthenticationType {
-  @_s.JsonValue('API')
   api,
-  @_s.JsonValue('SAML')
   saml,
-  @_s.JsonValue('USERPOOL')
   userpool,
 }
 
@@ -3573,233 +3571,224 @@ extension on AuthenticationType {
       case AuthenticationType.userpool:
         return 'USERPOOL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  AuthenticationType toAuthenticationType() {
+    switch (this) {
+      case 'API':
+        return AuthenticationType.api;
+      case 'SAML':
+        return AuthenticationType.saml;
+      case 'USERPOOL':
+        return AuthenticationType.userpool;
+    }
+    throw Exception('$this is not known in enum AuthenticationType');
+  }
+}
+
 class BatchAssociateUserStackResult {
   /// The list of UserStackAssociationError objects.
-  @_s.JsonKey(name: 'errors')
-  final List<UserStackAssociationError> errors;
+  final List<UserStackAssociationError>? errors;
 
   BatchAssociateUserStackResult({
     this.errors,
   });
-  factory BatchAssociateUserStackResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchAssociateUserStackResultFromJson(json);
+  factory BatchAssociateUserStackResult.fromJson(Map<String, dynamic> json) {
+    return BatchAssociateUserStackResult(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UserStackAssociationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDisassociateUserStackResult {
   /// The list of UserStackAssociationError objects.
-  @_s.JsonKey(name: 'errors')
-  final List<UserStackAssociationError> errors;
+  final List<UserStackAssociationError>? errors;
 
   BatchDisassociateUserStackResult({
     this.errors,
   });
-  factory BatchDisassociateUserStackResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDisassociateUserStackResultFromJson(json);
+  factory BatchDisassociateUserStackResult.fromJson(Map<String, dynamic> json) {
+    return BatchDisassociateUserStackResult(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UserStackAssociationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes the capacity for a fleet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ComputeCapacity {
   /// The desired number of streaming instances.
-  @_s.JsonKey(name: 'DesiredInstances')
   final int desiredInstances;
 
   ComputeCapacity({
-    @_s.required this.desiredInstances,
+    required this.desiredInstances,
   });
-  Map<String, dynamic> toJson() => _$ComputeCapacityToJson(this);
+  Map<String, dynamic> toJson() {
+    final desiredInstances = this.desiredInstances;
+    return {
+      'DesiredInstances': desiredInstances,
+    };
+  }
 }
 
 /// Describes the capacity status for a fleet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComputeCapacityStatus {
   /// The desired number of streaming instances.
-  @_s.JsonKey(name: 'Desired')
   final int desired;
 
   /// The number of currently available instances that can be used to stream
   /// sessions.
-  @_s.JsonKey(name: 'Available')
-  final int available;
+  final int? available;
 
   /// The number of instances in use for streaming.
-  @_s.JsonKey(name: 'InUse')
-  final int inUse;
+  final int? inUse;
 
   /// The total number of simultaneous streaming instances that are running.
-  @_s.JsonKey(name: 'Running')
-  final int running;
+  final int? running;
 
   ComputeCapacityStatus({
-    @_s.required this.desired,
+    required this.desired,
     this.available,
     this.inUse,
     this.running,
   });
-  factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) =>
-      _$ComputeCapacityStatusFromJson(json);
+  factory ComputeCapacityStatus.fromJson(Map<String, dynamic> json) {
+    return ComputeCapacityStatus(
+      desired: json['Desired'] as int,
+      available: json['Available'] as int?,
+      inUse: json['InUse'] as int?,
+      running: json['Running'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CopyImageResponse {
   /// The name of the destination image.
-  @_s.JsonKey(name: 'DestinationImageName')
-  final String destinationImageName;
+  final String? destinationImageName;
 
   CopyImageResponse({
     this.destinationImageName,
   });
-  factory CopyImageResponse.fromJson(Map<String, dynamic> json) =>
-      _$CopyImageResponseFromJson(json);
+  factory CopyImageResponse.fromJson(Map<String, dynamic> json) {
+    return CopyImageResponse(
+      destinationImageName: json['DestinationImageName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDirectoryConfigResult {
   /// Information about the directory configuration.
-  @_s.JsonKey(name: 'DirectoryConfig')
-  final DirectoryConfig directoryConfig;
+  final DirectoryConfig? directoryConfig;
 
   CreateDirectoryConfigResult({
     this.directoryConfig,
   });
-  factory CreateDirectoryConfigResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDirectoryConfigResultFromJson(json);
+  factory CreateDirectoryConfigResult.fromJson(Map<String, dynamic> json) {
+    return CreateDirectoryConfigResult(
+      directoryConfig: json['DirectoryConfig'] != null
+          ? DirectoryConfig.fromJson(
+              json['DirectoryConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFleetResult {
   /// Information about the fleet.
-  @_s.JsonKey(name: 'Fleet')
-  final Fleet fleet;
+  final Fleet? fleet;
 
   CreateFleetResult({
     this.fleet,
   });
-  factory CreateFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateFleetResultFromJson(json);
+  factory CreateFleetResult.fromJson(Map<String, dynamic> json) {
+    return CreateFleetResult(
+      fleet: json['Fleet'] != null
+          ? Fleet.fromJson(json['Fleet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateImageBuilderResult {
   /// Information about the image builder.
-  @_s.JsonKey(name: 'ImageBuilder')
-  final ImageBuilder imageBuilder;
+  final ImageBuilder? imageBuilder;
 
   CreateImageBuilderResult({
     this.imageBuilder,
   });
-  factory CreateImageBuilderResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateImageBuilderResultFromJson(json);
+  factory CreateImageBuilderResult.fromJson(Map<String, dynamic> json) {
+    return CreateImageBuilderResult(
+      imageBuilder: json['ImageBuilder'] != null
+          ? ImageBuilder.fromJson(json['ImageBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateImageBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Expires')
-  final DateTime expires;
+  final DateTime? expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
-  @_s.JsonKey(name: 'StreamingURL')
-  final String streamingURL;
+  final String? streamingURL;
 
   CreateImageBuilderStreamingURLResult({
     this.expires,
     this.streamingURL,
   });
   factory CreateImageBuilderStreamingURLResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateImageBuilderStreamingURLResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateImageBuilderStreamingURLResult(
+      expires: timeStampFromJson(json['Expires']),
+      streamingURL: json['StreamingURL'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStackResult {
   /// Information about the stack.
-  @_s.JsonKey(name: 'Stack')
-  final Stack stack;
+  final Stack? stack;
 
   CreateStackResult({
     this.stack,
   });
-  factory CreateStackResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateStackResultFromJson(json);
+  factory CreateStackResult.fromJson(Map<String, dynamic> json) {
+    return CreateStackResult(
+      stack: json['Stack'] != null
+          ? Stack.fromJson(json['Stack'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Expires')
-  final DateTime expires;
+  final DateTime? expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
-  @_s.JsonKey(name: 'StreamingURL')
-  final String streamingURL;
+  final String? streamingURL;
 
   CreateStreamingURLResult({
     this.expires,
     this.streamingURL,
   });
-  factory CreateStreamingURLResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateStreamingURLResultFromJson(json);
+  factory CreateStreamingURLResult.fromJson(Map<String, dynamic> json) {
+    return CreateStreamingURLResult(
+      expires: timeStampFromJson(json['Expires']),
+      streamingURL: json['StreamingURL'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUsageReportSubscriptionResult {
   /// The Amazon S3 bucket where generated reports are stored.
   ///
@@ -3810,492 +3799,453 @@ class CreateUsageReportSubscriptionResult {
   /// store your usage reports. If you haven't already enabled on-instance session
   /// scripts, when you enable usage reports, AppStream 2.0 creates a new S3
   /// bucket.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The schedule for generating usage reports.
-  @_s.JsonKey(name: 'Schedule')
-  final UsageReportSchedule schedule;
+  final UsageReportSchedule? schedule;
 
   CreateUsageReportSubscriptionResult({
     this.s3BucketName,
     this.schedule,
   });
   factory CreateUsageReportSubscriptionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateUsageReportSubscriptionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateUsageReportSubscriptionResult(
+      s3BucketName: json['S3BucketName'] as String?,
+      schedule: (json['Schedule'] as String?)?.toUsageReportSchedule(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResult {
   CreateUserResult();
-  factory CreateUserResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResultFromJson(json);
+  factory CreateUserResult.fromJson(Map<String, dynamic> _) {
+    return CreateUserResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectoryConfigResult {
   DeleteDirectoryConfigResult();
-  factory DeleteDirectoryConfigResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDirectoryConfigResultFromJson(json);
+  factory DeleteDirectoryConfigResult.fromJson(Map<String, dynamic> _) {
+    return DeleteDirectoryConfigResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFleetResult {
   DeleteFleetResult();
-  factory DeleteFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFleetResultFromJson(json);
+  factory DeleteFleetResult.fromJson(Map<String, dynamic> _) {
+    return DeleteFleetResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteImageBuilderResult {
   /// Information about the image builder.
-  @_s.JsonKey(name: 'ImageBuilder')
-  final ImageBuilder imageBuilder;
+  final ImageBuilder? imageBuilder;
 
   DeleteImageBuilderResult({
     this.imageBuilder,
   });
-  factory DeleteImageBuilderResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteImageBuilderResultFromJson(json);
+  factory DeleteImageBuilderResult.fromJson(Map<String, dynamic> json) {
+    return DeleteImageBuilderResult(
+      imageBuilder: json['ImageBuilder'] != null
+          ? ImageBuilder.fromJson(json['ImageBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteImagePermissionsResult {
   DeleteImagePermissionsResult();
-  factory DeleteImagePermissionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteImagePermissionsResultFromJson(json);
+  factory DeleteImagePermissionsResult.fromJson(Map<String, dynamic> _) {
+    return DeleteImagePermissionsResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteImageResult {
   /// Information about the image.
-  @_s.JsonKey(name: 'Image')
-  final Image image;
+  final Image? image;
 
   DeleteImageResult({
     this.image,
   });
-  factory DeleteImageResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteImageResultFromJson(json);
+  factory DeleteImageResult.fromJson(Map<String, dynamic> json) {
+    return DeleteImageResult(
+      image: json['Image'] != null
+          ? Image.fromJson(json['Image'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteStackResult {
   DeleteStackResult();
-  factory DeleteStackResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteStackResultFromJson(json);
+  factory DeleteStackResult.fromJson(Map<String, dynamic> _) {
+    return DeleteStackResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUsageReportSubscriptionResult {
   DeleteUsageReportSubscriptionResult();
-  factory DeleteUsageReportSubscriptionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteUsageReportSubscriptionResultFromJson(json);
+  factory DeleteUsageReportSubscriptionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteUsageReportSubscriptionResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUserResult {
   DeleteUserResult();
-  factory DeleteUserResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserResultFromJson(json);
+  factory DeleteUserResult.fromJson(Map<String, dynamic> _) {
+    return DeleteUserResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectoryConfigsResult {
   /// Information about the directory configurations. Note that although the
   /// response syntax in this topic includes the account password, this password
   /// is not returned in the actual response.
-  @_s.JsonKey(name: 'DirectoryConfigs')
-  final List<DirectoryConfig> directoryConfigs;
+  final List<DirectoryConfig>? directoryConfigs;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectoryConfigsResult({
     this.directoryConfigs,
     this.nextToken,
   });
-  factory DescribeDirectoryConfigsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDirectoryConfigsResultFromJson(json);
+  factory DescribeDirectoryConfigsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDirectoryConfigsResult(
+      directoryConfigs: (json['DirectoryConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => DirectoryConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFleetsResult {
   /// Information about the fleets.
-  @_s.JsonKey(name: 'Fleets')
-  final List<Fleet> fleets;
+  final List<Fleet>? fleets;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeFleetsResult({
     this.fleets,
     this.nextToken,
   });
-  factory DescribeFleetsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFleetsResultFromJson(json);
+  factory DescribeFleetsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeFleetsResult(
+      fleets: (json['Fleets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Fleet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImageBuildersResult {
   /// Information about the image builders.
-  @_s.JsonKey(name: 'ImageBuilders')
-  final List<ImageBuilder> imageBuilders;
+  final List<ImageBuilder>? imageBuilders;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeImageBuildersResult({
     this.imageBuilders,
     this.nextToken,
   });
-  factory DescribeImageBuildersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeImageBuildersResultFromJson(json);
+  factory DescribeImageBuildersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeImageBuildersResult(
+      imageBuilders: (json['ImageBuilders'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageBuilder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImagePermissionsResult {
   /// The name of the private image.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The permissions for a private image that you own.
-  @_s.JsonKey(name: 'SharedImagePermissionsList')
-  final List<SharedImagePermissions> sharedImagePermissionsList;
+  final List<SharedImagePermissions>? sharedImagePermissionsList;
 
   DescribeImagePermissionsResult({
     this.name,
     this.nextToken,
     this.sharedImagePermissionsList,
   });
-  factory DescribeImagePermissionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeImagePermissionsResultFromJson(json);
+  factory DescribeImagePermissionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeImagePermissionsResult(
+      name: json['Name'] as String?,
+      nextToken: json['NextToken'] as String?,
+      sharedImagePermissionsList: (json['SharedImagePermissionsList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SharedImagePermissions.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImagesResult {
   /// Information about the images.
-  @_s.JsonKey(name: 'Images')
-  final List<Image> images;
+  final List<Image>? images;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeImagesResult({
     this.images,
     this.nextToken,
   });
-  factory DescribeImagesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeImagesResultFromJson(json);
+  factory DescribeImagesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeImagesResult(
+      images: (json['Images'] as List?)
+          ?.whereNotNull()
+          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSessionsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the streaming sessions.
-  @_s.JsonKey(name: 'Sessions')
-  final List<Session> sessions;
+  final List<Session>? sessions;
 
   DescribeSessionsResult({
     this.nextToken,
     this.sessions,
   });
-  factory DescribeSessionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSessionsResultFromJson(json);
+  factory DescribeSessionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSessionsResult(
+      nextToken: json['NextToken'] as String?,
+      sessions: (json['Sessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Session.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStacksResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the stacks.
-  @_s.JsonKey(name: 'Stacks')
-  final List<Stack> stacks;
+  final List<Stack>? stacks;
 
   DescribeStacksResult({
     this.nextToken,
     this.stacks,
   });
-  factory DescribeStacksResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStacksResultFromJson(json);
+  factory DescribeStacksResult.fromJson(Map<String, dynamic> json) {
+    return DescribeStacksResult(
+      nextToken: json['NextToken'] as String?,
+      stacks: (json['Stacks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Stack.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUsageReportSubscriptionsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the usage report subscription.
-  @_s.JsonKey(name: 'UsageReportSubscriptions')
-  final List<UsageReportSubscription> usageReportSubscriptions;
+  final List<UsageReportSubscription>? usageReportSubscriptions;
 
   DescribeUsageReportSubscriptionsResult({
     this.nextToken,
     this.usageReportSubscriptions,
   });
   factory DescribeUsageReportSubscriptionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeUsageReportSubscriptionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeUsageReportSubscriptionsResult(
+      nextToken: json['NextToken'] as String?,
+      usageReportSubscriptions: (json['UsageReportSubscriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UsageReportSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserStackAssociationsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The UserStackAssociation objects.
-  @_s.JsonKey(name: 'UserStackAssociations')
-  final List<UserStackAssociation> userStackAssociations;
+  final List<UserStackAssociation>? userStackAssociations;
 
   DescribeUserStackAssociationsResult({
     this.nextToken,
     this.userStackAssociations,
   });
   factory DescribeUserStackAssociationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeUserStackAssociationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeUserStackAssociationsResult(
+      nextToken: json['NextToken'] as String?,
+      userStackAssociations: (json['UserStackAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserStackAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUsersResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about users in the user pool.
-  @_s.JsonKey(name: 'Users')
-  final List<User> users;
+  final List<User>? users;
 
   DescribeUsersResult({
     this.nextToken,
     this.users,
   });
-  factory DescribeUsersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUsersResultFromJson(json);
+  factory DescribeUsersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeUsersResult(
+      nextToken: json['NextToken'] as String?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes the configuration information required to join fleets and image
 /// builders to Microsoft Active Directory domains.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectoryConfig {
   /// The fully qualified name of the directory (for example, corp.example.com).
-  @_s.JsonKey(name: 'DirectoryName')
   final String directoryName;
 
   /// The time the directory configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The distinguished names of the organizational units for computer accounts.
-  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedNames')
-  final List<String> organizationalUnitDistinguishedNames;
+  final List<String>? organizationalUnitDistinguishedNames;
 
   /// The credentials for the service account used by the fleet or image builder
   /// to connect to the directory.
-  @_s.JsonKey(name: 'ServiceAccountCredentials')
-  final ServiceAccountCredentials serviceAccountCredentials;
+  final ServiceAccountCredentials? serviceAccountCredentials;
 
   DirectoryConfig({
-    @_s.required this.directoryName,
+    required this.directoryName,
     this.createdTime,
     this.organizationalUnitDistinguishedNames,
     this.serviceAccountCredentials,
   });
-  factory DirectoryConfig.fromJson(Map<String, dynamic> json) =>
-      _$DirectoryConfigFromJson(json);
+  factory DirectoryConfig.fromJson(Map<String, dynamic> json) {
+    return DirectoryConfig(
+      directoryName: json['DirectoryName'] as String,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      organizationalUnitDistinguishedNames:
+          (json['OrganizationalUnitDistinguishedNames'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      serviceAccountCredentials: json['ServiceAccountCredentials'] != null
+          ? ServiceAccountCredentials.fromJson(
+              json['ServiceAccountCredentials'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableUserResult {
   DisableUserResult();
-  factory DisableUserResult.fromJson(Map<String, dynamic> json) =>
-      _$DisableUserResultFromJson(json);
+  factory DisableUserResult.fromJson(Map<String, dynamic> _) {
+    return DisableUserResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateFleetResult {
   DisassociateFleetResult();
-  factory DisassociateFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateFleetResultFromJson(json);
+  factory DisassociateFleetResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateFleetResult();
+  }
 }
 
 /// Describes the configuration information required to join fleets and image
 /// builders to Microsoft Active Directory domains.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DomainJoinInfo {
   /// The fully qualified name of the directory (for example, corp.example.com).
-  @_s.JsonKey(name: 'DirectoryName')
-  final String directoryName;
+  final String? directoryName;
 
   /// The distinguished name of the organizational unit for computer accounts.
-  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedName')
-  final String organizationalUnitDistinguishedName;
+  final String? organizationalUnitDistinguishedName;
 
   DomainJoinInfo({
     this.directoryName,
     this.organizationalUnitDistinguishedName,
   });
-  factory DomainJoinInfo.fromJson(Map<String, dynamic> json) =>
-      _$DomainJoinInfoFromJson(json);
+  factory DomainJoinInfo.fromJson(Map<String, dynamic> json) {
+    return DomainJoinInfo(
+      directoryName: json['DirectoryName'] as String?,
+      organizationalUnitDistinguishedName:
+          json['OrganizationalUnitDistinguishedName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DomainJoinInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final directoryName = this.directoryName;
+    final organizationalUnitDistinguishedName =
+        this.organizationalUnitDistinguishedName;
+    return {
+      if (directoryName != null) 'DirectoryName': directoryName,
+      if (organizationalUnitDistinguishedName != null)
+        'OrganizationalUnitDistinguishedName':
+            organizationalUnitDistinguishedName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableUserResult {
   EnableUserResult();
-  factory EnableUserResult.fromJson(Map<String, dynamic> json) =>
-      _$EnableUserResultFromJson(json);
+  factory EnableUserResult.fromJson(Map<String, dynamic> _) {
+    return EnableUserResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExpireSessionResult {
   ExpireSessionResult();
-  factory ExpireSessionResult.fromJson(Map<String, dynamic> json) =>
-      _$ExpireSessionResultFromJson(json);
+  factory ExpireSessionResult.fromJson(Map<String, dynamic> _) {
+    return ExpireSessionResult();
+  }
 }
 
 /// Describes a fleet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Fleet {
   /// The Amazon Resource Name (ARN) for the fleet.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The capacity status for the fleet.
-  @_s.JsonKey(name: 'ComputeCapacityStatus')
   final ComputeCapacityStatus computeCapacityStatus;
 
   /// The instance type to use when launching fleet instances. The following
@@ -4399,25 +4349,19 @@ class Fleet {
   /// stream.graphics-pro.16xlarge
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
   /// The name of the fleet.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The current state for the fleet.
-  @_s.JsonKey(name: 'State')
   final FleetState state;
 
   /// The time the fleet was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description to display.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The amount of time that a streaming session remains active after users
   /// disconnect. If they try to reconnect to the streaming session after a
@@ -4426,25 +4370,20 @@ class Fleet {
   /// session with a new streaming instance.
   ///
   /// Specify a value between 60 and 360000.
-  @_s.JsonKey(name: 'DisconnectTimeoutInSeconds')
-  final int disconnectTimeoutInSeconds;
+  final int? disconnectTimeoutInSeconds;
 
   /// The fleet name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The name of the directory and organizational unit (OU) to use to join the
   /// fleet to a Microsoft Active Directory domain.
-  @_s.JsonKey(name: 'DomainJoinInfo')
-  final DomainJoinInfo domainJoinInfo;
+  final DomainJoinInfo? domainJoinInfo;
 
   /// Indicates whether default internet access is enabled for the fleet.
-  @_s.JsonKey(name: 'EnableDefaultInternetAccess')
-  final bool enableDefaultInternetAccess;
+  final bool? enableDefaultInternetAccess;
 
   /// The fleet errors.
-  @_s.JsonKey(name: 'FleetErrors')
-  final List<FleetError> fleetErrors;
+  final List<FleetError>? fleetErrors;
 
   /// The fleet type.
   /// <dl> <dt>ALWAYS_ON</dt> <dd>
@@ -4455,8 +4394,7 @@ class Fleet {
   /// one to two minutes. You are charged for instance streaming when users are
   /// connected and a small hourly fee for instances that are not streaming apps.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'FleetType')
-  final FleetType fleetType;
+  final FleetType? fleetType;
 
   /// The ARN of the IAM role that is applied to the fleet. To assume a role, the
   /// fleet instance calls the AWS Security Token Service (STS)
@@ -4470,8 +4408,7 @@ class Fleet {
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
   /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
   /// Administration Guide</i>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The amount of time that users can be idle (inactive) before they are
   /// disconnected from their streaming session and the
@@ -4497,16 +4434,13 @@ class Fleet {
   /// different minutes, the value is rounded up. For example, if you specify a
   /// value of 90, users are disconnected after 2 minutes of inactivity.
   /// </note>
-  @_s.JsonKey(name: 'IdleDisconnectTimeoutInSeconds')
-  final int idleDisconnectTimeoutInSeconds;
+  final int? idleDisconnectTimeoutInSeconds;
 
   /// The ARN for the public, private, or shared image.
-  @_s.JsonKey(name: 'ImageArn')
-  final String imageArn;
+  final String? imageArn;
 
   /// The name of the image used to create the fleet.
-  @_s.JsonKey(name: 'ImageName')
-  final String imageName;
+  final String? imageName;
 
   /// The maximum amount of time that a streaming session can remain active, in
   /// seconds. If users are still connected to a streaming instance five minutes
@@ -4515,8 +4449,7 @@ class Fleet {
   /// terminated and replaced by a new instance.
   ///
   /// Specify a value between 600 and 360000.
-  @_s.JsonKey(name: 'MaxUserDurationInSeconds')
-  final int maxUserDurationInSeconds;
+  final int? maxUserDurationInSeconds;
 
   /// The AppStream 2.0 view that is displayed to your users when they stream from
   /// the fleet. When <code>APP</code> is specified, only the windows of
@@ -4525,19 +4458,17 @@ class Fleet {
   /// displays.
   ///
   /// The default value is <code>APP</code>.
-  @_s.JsonKey(name: 'StreamView')
-  final StreamView streamView;
+  final StreamView? streamView;
 
   /// The VPC configuration for the fleet.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   Fleet({
-    @_s.required this.arn,
-    @_s.required this.computeCapacityStatus,
-    @_s.required this.instanceType,
-    @_s.required this.name,
-    @_s.required this.state,
+    required this.arn,
+    required this.computeCapacityStatus,
+    required this.instanceType,
+    required this.name,
+    required this.state,
     this.createdTime,
     this.description,
     this.disconnectTimeoutInSeconds,
@@ -4554,18 +4485,47 @@ class Fleet {
     this.streamView,
     this.vpcConfig,
   });
-  factory Fleet.fromJson(Map<String, dynamic> json) => _$FleetFromJson(json);
+  factory Fleet.fromJson(Map<String, dynamic> json) {
+    return Fleet(
+      arn: json['Arn'] as String,
+      computeCapacityStatus: ComputeCapacityStatus.fromJson(
+          json['ComputeCapacityStatus'] as Map<String, dynamic>),
+      instanceType: json['InstanceType'] as String,
+      name: json['Name'] as String,
+      state: (json['State'] as String).toFleetState(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int?,
+      displayName: json['DisplayName'] as String?,
+      domainJoinInfo: json['DomainJoinInfo'] != null
+          ? DomainJoinInfo.fromJson(
+              json['DomainJoinInfo'] as Map<String, dynamic>)
+          : null,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      fleetErrors: (json['FleetErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => FleetError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fleetType: (json['FleetType'] as String?)?.toFleetType(),
+      iamRoleArn: json['IamRoleArn'] as String?,
+      idleDisconnectTimeoutInSeconds:
+          json['IdleDisconnectTimeoutInSeconds'] as int?,
+      imageArn: json['ImageArn'] as String?,
+      imageName: json['ImageName'] as String?,
+      maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
+      streamView: (json['StreamView'] as String?)?.toStreamView(),
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The fleet attribute.
 enum FleetAttribute {
-  @_s.JsonValue('VPC_CONFIGURATION')
   vpcConfiguration,
-  @_s.JsonValue('VPC_CONFIGURATION_SECURITY_GROUP_IDS')
   vpcConfigurationSecurityGroupIds,
-  @_s.JsonValue('DOMAIN_JOIN_INFO')
   domainJoinInfo,
-  @_s.JsonValue('IAM_ROLE_ARN')
   iamRoleArn,
 }
 
@@ -4581,107 +4541,243 @@ extension on FleetAttribute {
       case FleetAttribute.iamRoleArn:
         return 'IAM_ROLE_ARN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FleetAttribute toFleetAttribute() {
+    switch (this) {
+      case 'VPC_CONFIGURATION':
+        return FleetAttribute.vpcConfiguration;
+      case 'VPC_CONFIGURATION_SECURITY_GROUP_IDS':
+        return FleetAttribute.vpcConfigurationSecurityGroupIds;
+      case 'DOMAIN_JOIN_INFO':
+        return FleetAttribute.domainJoinInfo;
+      case 'IAM_ROLE_ARN':
+        return FleetAttribute.iamRoleArn;
+    }
+    throw Exception('$this is not known in enum FleetAttribute');
   }
 }
 
 /// Describes a fleet error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FleetError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final FleetErrorCode errorCode;
+  final FleetErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   FleetError({
     this.errorCode,
     this.errorMessage,
   });
-  factory FleetError.fromJson(Map<String, dynamic> json) =>
-      _$FleetErrorFromJson(json);
+  factory FleetError.fromJson(Map<String, dynamic> json) {
+    return FleetError(
+      errorCode: (json['ErrorCode'] as String?)?.toFleetErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
 enum FleetErrorCode {
-  @_s.JsonValue('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION')
   iamServiceRoleMissingEniDescribeAction,
-  @_s.JsonValue('IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION')
   iamServiceRoleMissingEniCreateAction,
-  @_s.JsonValue('IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION')
   iamServiceRoleMissingEniDeleteAction,
-  @_s.JsonValue('NETWORK_INTERFACE_LIMIT_EXCEEDED')
   networkInterfaceLimitExceeded,
-  @_s.JsonValue('INTERNAL_SERVICE_ERROR')
   internalServiceError,
-  @_s.JsonValue('IAM_SERVICE_ROLE_IS_MISSING')
   iamServiceRoleIsMissing,
-  @_s.JsonValue('MACHINE_ROLE_IS_MISSING')
   machineRoleIsMissing,
-  @_s.JsonValue('STS_DISABLED_IN_REGION')
   stsDisabledInRegion,
-  @_s.JsonValue('SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES')
   subnetHasInsufficientIpAddresses,
-  @_s.JsonValue('IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION')
   iamServiceRoleMissingDescribeSubnetAction,
-  @_s.JsonValue('SUBNET_NOT_FOUND')
   subnetNotFound,
-  @_s.JsonValue('IMAGE_NOT_FOUND')
   imageNotFound,
-  @_s.JsonValue('INVALID_SUBNET_CONFIGURATION')
   invalidSubnetConfiguration,
-  @_s.JsonValue('SECURITY_GROUPS_NOT_FOUND')
   securityGroupsNotFound,
-  @_s.JsonValue('IGW_NOT_ATTACHED')
   igwNotAttached,
-  @_s.JsonValue('IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION')
   iamServiceRoleMissingDescribeSecurityGroupsAction,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_FILE_NOT_FOUND')
   domainJoinErrorFileNotFound,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_ACCESS_DENIED')
   domainJoinErrorAccessDenied,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_LOGON_FAILURE')
   domainJoinErrorLogonFailure,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_INVALID_PARAMETER')
   domainJoinErrorInvalidParameter,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_MORE_DATA')
   domainJoinErrorMoreData,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN')
   domainJoinErrorNoSuchDomain,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_NOT_SUPPORTED')
   domainJoinErrorNotSupported,
-  @_s.JsonValue('DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME')
   domainJoinNerrInvalidWorkgroupName,
-  @_s.JsonValue('DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED')
   domainJoinNerrWorkstationNotStarted,
-  @_s.JsonValue('DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED')
   domainJoinErrorDsMachineAccountQuotaExceeded,
-  @_s.JsonValue('DOMAIN_JOIN_NERR_PASSWORD_EXPIRED')
   domainJoinNerrPasswordExpired,
-  @_s.JsonValue('DOMAIN_JOIN_INTERNAL_SERVICE_ERROR')
   domainJoinInternalServiceError,
 }
 
+extension on FleetErrorCode {
+  String toValue() {
+    switch (this) {
+      case FleetErrorCode.iamServiceRoleMissingEniDescribeAction:
+        return 'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION';
+      case FleetErrorCode.iamServiceRoleMissingEniCreateAction:
+        return 'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION';
+      case FleetErrorCode.iamServiceRoleMissingEniDeleteAction:
+        return 'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION';
+      case FleetErrorCode.networkInterfaceLimitExceeded:
+        return 'NETWORK_INTERFACE_LIMIT_EXCEEDED';
+      case FleetErrorCode.internalServiceError:
+        return 'INTERNAL_SERVICE_ERROR';
+      case FleetErrorCode.iamServiceRoleIsMissing:
+        return 'IAM_SERVICE_ROLE_IS_MISSING';
+      case FleetErrorCode.machineRoleIsMissing:
+        return 'MACHINE_ROLE_IS_MISSING';
+      case FleetErrorCode.stsDisabledInRegion:
+        return 'STS_DISABLED_IN_REGION';
+      case FleetErrorCode.subnetHasInsufficientIpAddresses:
+        return 'SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES';
+      case FleetErrorCode.iamServiceRoleMissingDescribeSubnetAction:
+        return 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION';
+      case FleetErrorCode.subnetNotFound:
+        return 'SUBNET_NOT_FOUND';
+      case FleetErrorCode.imageNotFound:
+        return 'IMAGE_NOT_FOUND';
+      case FleetErrorCode.invalidSubnetConfiguration:
+        return 'INVALID_SUBNET_CONFIGURATION';
+      case FleetErrorCode.securityGroupsNotFound:
+        return 'SECURITY_GROUPS_NOT_FOUND';
+      case FleetErrorCode.igwNotAttached:
+        return 'IGW_NOT_ATTACHED';
+      case FleetErrorCode.iamServiceRoleMissingDescribeSecurityGroupsAction:
+        return 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION';
+      case FleetErrorCode.domainJoinErrorFileNotFound:
+        return 'DOMAIN_JOIN_ERROR_FILE_NOT_FOUND';
+      case FleetErrorCode.domainJoinErrorAccessDenied:
+        return 'DOMAIN_JOIN_ERROR_ACCESS_DENIED';
+      case FleetErrorCode.domainJoinErrorLogonFailure:
+        return 'DOMAIN_JOIN_ERROR_LOGON_FAILURE';
+      case FleetErrorCode.domainJoinErrorInvalidParameter:
+        return 'DOMAIN_JOIN_ERROR_INVALID_PARAMETER';
+      case FleetErrorCode.domainJoinErrorMoreData:
+        return 'DOMAIN_JOIN_ERROR_MORE_DATA';
+      case FleetErrorCode.domainJoinErrorNoSuchDomain:
+        return 'DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN';
+      case FleetErrorCode.domainJoinErrorNotSupported:
+        return 'DOMAIN_JOIN_ERROR_NOT_SUPPORTED';
+      case FleetErrorCode.domainJoinNerrInvalidWorkgroupName:
+        return 'DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME';
+      case FleetErrorCode.domainJoinNerrWorkstationNotStarted:
+        return 'DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED';
+      case FleetErrorCode.domainJoinErrorDsMachineAccountQuotaExceeded:
+        return 'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED';
+      case FleetErrorCode.domainJoinNerrPasswordExpired:
+        return 'DOMAIN_JOIN_NERR_PASSWORD_EXPIRED';
+      case FleetErrorCode.domainJoinInternalServiceError:
+        return 'DOMAIN_JOIN_INTERNAL_SERVICE_ERROR';
+    }
+  }
+}
+
+extension on String {
+  FleetErrorCode toFleetErrorCode() {
+    switch (this) {
+      case 'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION':
+        return FleetErrorCode.iamServiceRoleMissingEniDescribeAction;
+      case 'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION':
+        return FleetErrorCode.iamServiceRoleMissingEniCreateAction;
+      case 'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION':
+        return FleetErrorCode.iamServiceRoleMissingEniDeleteAction;
+      case 'NETWORK_INTERFACE_LIMIT_EXCEEDED':
+        return FleetErrorCode.networkInterfaceLimitExceeded;
+      case 'INTERNAL_SERVICE_ERROR':
+        return FleetErrorCode.internalServiceError;
+      case 'IAM_SERVICE_ROLE_IS_MISSING':
+        return FleetErrorCode.iamServiceRoleIsMissing;
+      case 'MACHINE_ROLE_IS_MISSING':
+        return FleetErrorCode.machineRoleIsMissing;
+      case 'STS_DISABLED_IN_REGION':
+        return FleetErrorCode.stsDisabledInRegion;
+      case 'SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES':
+        return FleetErrorCode.subnetHasInsufficientIpAddresses;
+      case 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION':
+        return FleetErrorCode.iamServiceRoleMissingDescribeSubnetAction;
+      case 'SUBNET_NOT_FOUND':
+        return FleetErrorCode.subnetNotFound;
+      case 'IMAGE_NOT_FOUND':
+        return FleetErrorCode.imageNotFound;
+      case 'INVALID_SUBNET_CONFIGURATION':
+        return FleetErrorCode.invalidSubnetConfiguration;
+      case 'SECURITY_GROUPS_NOT_FOUND':
+        return FleetErrorCode.securityGroupsNotFound;
+      case 'IGW_NOT_ATTACHED':
+        return FleetErrorCode.igwNotAttached;
+      case 'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION':
+        return FleetErrorCode.iamServiceRoleMissingDescribeSecurityGroupsAction;
+      case 'DOMAIN_JOIN_ERROR_FILE_NOT_FOUND':
+        return FleetErrorCode.domainJoinErrorFileNotFound;
+      case 'DOMAIN_JOIN_ERROR_ACCESS_DENIED':
+        return FleetErrorCode.domainJoinErrorAccessDenied;
+      case 'DOMAIN_JOIN_ERROR_LOGON_FAILURE':
+        return FleetErrorCode.domainJoinErrorLogonFailure;
+      case 'DOMAIN_JOIN_ERROR_INVALID_PARAMETER':
+        return FleetErrorCode.domainJoinErrorInvalidParameter;
+      case 'DOMAIN_JOIN_ERROR_MORE_DATA':
+        return FleetErrorCode.domainJoinErrorMoreData;
+      case 'DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN':
+        return FleetErrorCode.domainJoinErrorNoSuchDomain;
+      case 'DOMAIN_JOIN_ERROR_NOT_SUPPORTED':
+        return FleetErrorCode.domainJoinErrorNotSupported;
+      case 'DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME':
+        return FleetErrorCode.domainJoinNerrInvalidWorkgroupName;
+      case 'DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED':
+        return FleetErrorCode.domainJoinNerrWorkstationNotStarted;
+      case 'DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED':
+        return FleetErrorCode.domainJoinErrorDsMachineAccountQuotaExceeded;
+      case 'DOMAIN_JOIN_NERR_PASSWORD_EXPIRED':
+        return FleetErrorCode.domainJoinNerrPasswordExpired;
+      case 'DOMAIN_JOIN_INTERNAL_SERVICE_ERROR':
+        return FleetErrorCode.domainJoinInternalServiceError;
+    }
+    throw Exception('$this is not known in enum FleetErrorCode');
+  }
+}
+
 enum FleetState {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
+extension on FleetState {
+  String toValue() {
+    switch (this) {
+      case FleetState.starting:
+        return 'STARTING';
+      case FleetState.running:
+        return 'RUNNING';
+      case FleetState.stopping:
+        return 'STOPPING';
+      case FleetState.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  FleetState toFleetState() {
+    switch (this) {
+      case 'STARTING':
+        return FleetState.starting;
+      case 'RUNNING':
+        return FleetState.running;
+      case 'STOPPING':
+        return FleetState.stopping;
+      case 'STOPPED':
+        return FleetState.stopped;
+    }
+    throw Exception('$this is not known in enum FleetState');
+  }
+}
+
 enum FleetType {
-  @_s.JsonValue('ALWAYS_ON')
   alwaysOn,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -4693,91 +4789,79 @@ extension on FleetType {
       case FleetType.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FleetType toFleetType() {
+    switch (this) {
+      case 'ALWAYS_ON':
+        return FleetType.alwaysOn;
+      case 'ON_DEMAND':
+        return FleetType.onDemand;
+    }
+    throw Exception('$this is not known in enum FleetType');
   }
 }
 
 /// Describes an image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Image {
   /// The name of the image.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The applications associated with the image.
-  @_s.JsonKey(name: 'Applications')
-  final List<Application> applications;
+  final List<Application>? applications;
 
   /// The version of the AppStream 2.0 agent to use for instances that are
   /// launched from this image.
-  @_s.JsonKey(name: 'AppstreamAgentVersion')
-  final String appstreamAgentVersion;
+  final String? appstreamAgentVersion;
 
   /// The ARN of the image.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The ARN of the image from which this image was created.
-  @_s.JsonKey(name: 'BaseImageArn')
-  final String baseImageArn;
+  final String? baseImageArn;
 
   /// The time the image was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description to display.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The image name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The name of the image builder that was used to create the private image. If
   /// the image is shared, this value is null.
-  @_s.JsonKey(name: 'ImageBuilderName')
-  final String imageBuilderName;
+  final String? imageBuilderName;
 
   /// Indicates whether an image builder can be launched from this image.
-  @_s.JsonKey(name: 'ImageBuilderSupported')
-  final bool imageBuilderSupported;
+  final bool? imageBuilderSupported;
 
   /// The permissions to provide to the destination AWS account for the specified
   /// image.
-  @_s.JsonKey(name: 'ImagePermissions')
-  final ImagePermissions imagePermissions;
+  final ImagePermissions? imagePermissions;
 
   /// The operating system platform of the image.
-  @_s.JsonKey(name: 'Platform')
-  final PlatformType platform;
+  final PlatformType? platform;
 
   /// The release date of the public base image. For private images, this date is
   /// the release date of the base image from which the image was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PublicBaseImageReleasedDate')
-  final DateTime publicBaseImageReleasedDate;
+  final DateTime? publicBaseImageReleasedDate;
 
   /// The image starts in the <code>PENDING</code> state. If image creation
   /// succeeds, the state is <code>AVAILABLE</code>. If image creation fails, the
   /// state is <code>FAILED</code>.
-  @_s.JsonKey(name: 'State')
-  final ImageState state;
+  final ImageState? state;
 
   /// The reason why the last state change occurred.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final ImageStateChangeReason stateChangeReason;
+  final ImageStateChangeReason? stateChangeReason;
 
   /// Indicates whether the image is public or private.
-  @_s.JsonKey(name: 'Visibility')
-  final VisibilityType visibility;
+  final VisibilityType? visibility;
 
   Image({
-    @_s.required this.name,
+    required this.name,
     this.applications,
     this.appstreamAgentVersion,
     this.arn,
@@ -4794,56 +4878,70 @@ class Image {
     this.stateChangeReason,
     this.visibility,
   });
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      name: json['Name'] as String,
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+      arn: json['Arn'] as String?,
+      baseImageArn: json['BaseImageArn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      imageBuilderName: json['ImageBuilderName'] as String?,
+      imageBuilderSupported: json['ImageBuilderSupported'] as bool?,
+      imagePermissions: json['ImagePermissions'] != null
+          ? ImagePermissions.fromJson(
+              json['ImagePermissions'] as Map<String, dynamic>)
+          : null,
+      platform: (json['Platform'] as String?)?.toPlatformType(),
+      publicBaseImageReleasedDate:
+          timeStampFromJson(json['PublicBaseImageReleasedDate']),
+      state: (json['State'] as String?)?.toImageState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? ImageStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      visibility: (json['Visibility'] as String?)?.toVisibilityType(),
+    );
+  }
 }
 
 /// Describes a virtual machine that is used to create an image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageBuilder {
   /// The name of the image builder.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The list of virtual private cloud (VPC) interface endpoint objects.
   /// Administrators can connect to the image builder only through the specified
   /// endpoints.
-  @_s.JsonKey(name: 'AccessEndpoints')
-  final List<AccessEndpoint> accessEndpoints;
+  final List<AccessEndpoint>? accessEndpoints;
 
   /// The version of the AppStream 2.0 agent that is currently being used by the
   /// image builder.
-  @_s.JsonKey(name: 'AppstreamAgentVersion')
-  final String appstreamAgentVersion;
+  final String? appstreamAgentVersion;
 
   /// The ARN for the image builder.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time stamp when the image builder was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description to display.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The image builder name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The name of the directory and organizational unit (OU) to use to join the
   /// image builder to a Microsoft Active Directory domain.
-  @_s.JsonKey(name: 'DomainJoinInfo')
-  final DomainJoinInfo domainJoinInfo;
+  final DomainJoinInfo? domainJoinInfo;
 
   /// Enables or disables default internet access for the image builder.
-  @_s.JsonKey(name: 'EnableDefaultInternetAccess')
-  final bool enableDefaultInternetAccess;
+  final bool? enableDefaultInternetAccess;
 
   /// The ARN of the IAM role that is applied to the image builder. To assume a
   /// role, the image builder calls the AWS Security Token Service (STS)
@@ -4857,16 +4955,13 @@ class ImageBuilder {
   /// an IAM Role to Grant Permissions to Applications and Scripts Running on
   /// AppStream 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0
   /// Administration Guide</i>.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The ARN of the image from which this builder was created.
-  @_s.JsonKey(name: 'ImageArn')
-  final String imageArn;
+  final String? imageArn;
 
   /// The image builder errors.
-  @_s.JsonKey(name: 'ImageBuilderErrors')
-  final List<ResourceError> imageBuilderErrors;
+  final List<ResourceError>? imageBuilderErrors;
 
   /// The instance type for the image builder. The following instance types are
   /// available:
@@ -4969,29 +5064,23 @@ class ImageBuilder {
   /// stream.graphics-pro.16xlarge
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
-  @_s.JsonKey(name: 'NetworkAccessConfiguration')
-  final NetworkAccessConfiguration networkAccessConfiguration;
+  final String? instanceType;
+  final NetworkAccessConfiguration? networkAccessConfiguration;
 
   /// The operating system platform of the image builder.
-  @_s.JsonKey(name: 'Platform')
-  final PlatformType platform;
+  final PlatformType? platform;
 
   /// The state of the image builder.
-  @_s.JsonKey(name: 'State')
-  final ImageBuilderState state;
+  final ImageBuilderState? state;
 
   /// The reason why the last state change occurred.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final ImageBuilderStateChangeReason stateChangeReason;
+  final ImageBuilderStateChangeReason? stateChangeReason;
 
   /// The VPC configuration of the image builder.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   ImageBuilder({
-    @_s.required this.name,
+    required this.name,
     this.accessEndpoints,
     this.appstreamAgentVersion,
     this.arn,
@@ -5010,224 +5099,371 @@ class ImageBuilder {
     this.stateChangeReason,
     this.vpcConfig,
   });
-  factory ImageBuilder.fromJson(Map<String, dynamic> json) =>
-      _$ImageBuilderFromJson(json);
+  factory ImageBuilder.fromJson(Map<String, dynamic> json) {
+    return ImageBuilder(
+      name: json['Name'] as String,
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appstreamAgentVersion: json['AppstreamAgentVersion'] as String?,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      domainJoinInfo: json['DomainJoinInfo'] != null
+          ? DomainJoinInfo.fromJson(
+              json['DomainJoinInfo'] as Map<String, dynamic>)
+          : null,
+      enableDefaultInternetAccess: json['EnableDefaultInternetAccess'] as bool?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      imageArn: json['ImageArn'] as String?,
+      imageBuilderErrors: (json['ImageBuilderErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceType: json['InstanceType'] as String?,
+      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
+          ? NetworkAccessConfiguration.fromJson(
+              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
+          : null,
+      platform: (json['Platform'] as String?)?.toPlatformType(),
+      state: (json['State'] as String?)?.toImageBuilderState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? ImageBuilderStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum ImageBuilderState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('UPDATING_AGENT')
   updatingAgent,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('REBOOTING')
   rebooting,
-  @_s.JsonValue('SNAPSHOTTING')
   snapshotting,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ImageBuilderState {
+  String toValue() {
+    switch (this) {
+      case ImageBuilderState.pending:
+        return 'PENDING';
+      case ImageBuilderState.updatingAgent:
+        return 'UPDATING_AGENT';
+      case ImageBuilderState.running:
+        return 'RUNNING';
+      case ImageBuilderState.stopping:
+        return 'STOPPING';
+      case ImageBuilderState.stopped:
+        return 'STOPPED';
+      case ImageBuilderState.rebooting:
+        return 'REBOOTING';
+      case ImageBuilderState.snapshotting:
+        return 'SNAPSHOTTING';
+      case ImageBuilderState.deleting:
+        return 'DELETING';
+      case ImageBuilderState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ImageBuilderState toImageBuilderState() {
+    switch (this) {
+      case 'PENDING':
+        return ImageBuilderState.pending;
+      case 'UPDATING_AGENT':
+        return ImageBuilderState.updatingAgent;
+      case 'RUNNING':
+        return ImageBuilderState.running;
+      case 'STOPPING':
+        return ImageBuilderState.stopping;
+      case 'STOPPED':
+        return ImageBuilderState.stopped;
+      case 'REBOOTING':
+        return ImageBuilderState.rebooting;
+      case 'SNAPSHOTTING':
+        return ImageBuilderState.snapshotting;
+      case 'DELETING':
+        return ImageBuilderState.deleting;
+      case 'FAILED':
+        return ImageBuilderState.failed;
+    }
+    throw Exception('$this is not known in enum ImageBuilderState');
+  }
+}
+
 /// Describes the reason why the last image builder state change occurred.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageBuilderStateChangeReason {
   /// The state change reason code.
-  @_s.JsonKey(name: 'Code')
-  final ImageBuilderStateChangeReasonCode code;
+  final ImageBuilderStateChangeReasonCode? code;
 
   /// The state change reason message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ImageBuilderStateChangeReason({
     this.code,
     this.message,
   });
-  factory ImageBuilderStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$ImageBuilderStateChangeReasonFromJson(json);
+  factory ImageBuilderStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return ImageBuilderStateChangeReason(
+      code: (json['Code'] as String?)?.toImageBuilderStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum ImageBuilderStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('IMAGE_UNAVAILABLE')
   imageUnavailable,
 }
 
+extension on ImageBuilderStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case ImageBuilderStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case ImageBuilderStateChangeReasonCode.imageUnavailable:
+        return 'IMAGE_UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  ImageBuilderStateChangeReasonCode toImageBuilderStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return ImageBuilderStateChangeReasonCode.internalError;
+      case 'IMAGE_UNAVAILABLE':
+        return ImageBuilderStateChangeReasonCode.imageUnavailable;
+    }
+    throw Exception(
+        '$this is not known in enum ImageBuilderStateChangeReasonCode');
+  }
+}
+
 /// Describes the permissions for an image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImagePermissions {
   /// Indicates whether the image can be used for a fleet.
-  @_s.JsonKey(name: 'allowFleet')
-  final bool allowFleet;
+  final bool? allowFleet;
 
   /// Indicates whether the image can be used for an image builder.
-  @_s.JsonKey(name: 'allowImageBuilder')
-  final bool allowImageBuilder;
+  final bool? allowImageBuilder;
 
   ImagePermissions({
     this.allowFleet,
     this.allowImageBuilder,
   });
-  factory ImagePermissions.fromJson(Map<String, dynamic> json) =>
-      _$ImagePermissionsFromJson(json);
+  factory ImagePermissions.fromJson(Map<String, dynamic> json) {
+    return ImagePermissions(
+      allowFleet: json['allowFleet'] as bool?,
+      allowImageBuilder: json['allowImageBuilder'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ImagePermissionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowFleet = this.allowFleet;
+    final allowImageBuilder = this.allowImageBuilder;
+    return {
+      if (allowFleet != null) 'allowFleet': allowFleet,
+      if (allowImageBuilder != null) 'allowImageBuilder': allowImageBuilder,
+    };
+  }
 }
 
 enum ImageState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COPYING')
   copying,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ImageState {
+  String toValue() {
+    switch (this) {
+      case ImageState.pending:
+        return 'PENDING';
+      case ImageState.available:
+        return 'AVAILABLE';
+      case ImageState.failed:
+        return 'FAILED';
+      case ImageState.copying:
+        return 'COPYING';
+      case ImageState.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ImageState toImageState() {
+    switch (this) {
+      case 'PENDING':
+        return ImageState.pending;
+      case 'AVAILABLE':
+        return ImageState.available;
+      case 'FAILED':
+        return ImageState.failed;
+      case 'COPYING':
+        return ImageState.copying;
+      case 'DELETING':
+        return ImageState.deleting;
+    }
+    throw Exception('$this is not known in enum ImageState');
+  }
+}
+
 /// Describes the reason why the last image state change occurred.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageStateChangeReason {
   /// The state change reason code.
-  @_s.JsonKey(name: 'Code')
-  final ImageStateChangeReasonCode code;
+  final ImageStateChangeReasonCode? code;
 
   /// The state change reason message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ImageStateChangeReason({
     this.code,
     this.message,
   });
-  factory ImageStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$ImageStateChangeReasonFromJson(json);
+  factory ImageStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return ImageStateChangeReason(
+      code: (json['Code'] as String?)?.toImageStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum ImageStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('IMAGE_BUILDER_NOT_AVAILABLE')
   imageBuilderNotAvailable,
-  @_s.JsonValue('IMAGE_COPY_FAILURE')
   imageCopyFailure,
 }
 
+extension on ImageStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case ImageStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case ImageStateChangeReasonCode.imageBuilderNotAvailable:
+        return 'IMAGE_BUILDER_NOT_AVAILABLE';
+      case ImageStateChangeReasonCode.imageCopyFailure:
+        return 'IMAGE_COPY_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  ImageStateChangeReasonCode toImageStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return ImageStateChangeReasonCode.internalError;
+      case 'IMAGE_BUILDER_NOT_AVAILABLE':
+        return ImageStateChangeReasonCode.imageBuilderNotAvailable;
+      case 'IMAGE_COPY_FAILURE':
+        return ImageStateChangeReasonCode.imageCopyFailure;
+    }
+    throw Exception('$this is not known in enum ImageStateChangeReasonCode');
+  }
+}
+
 /// Describes the error that is returned when a usage report can't be generated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LastReportGenerationExecutionError {
   /// The error code for the error that is returned when a usage report can't be
   /// generated.
-  @_s.JsonKey(name: 'ErrorCode')
-  final UsageReportExecutionErrorCode errorCode;
+  final UsageReportExecutionErrorCode? errorCode;
 
   /// The error message for the error that is returned when a usage report can't
   /// be generated.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   LastReportGenerationExecutionError({
     this.errorCode,
     this.errorMessage,
   });
   factory LastReportGenerationExecutionError.fromJson(
-          Map<String, dynamic> json) =>
-      _$LastReportGenerationExecutionErrorFromJson(json);
+      Map<String, dynamic> json) {
+    return LastReportGenerationExecutionError(
+      errorCode:
+          (json['ErrorCode'] as String?)?.toUsageReportExecutionErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssociatedFleetsResult {
   /// The name of the fleet.
-  @_s.JsonKey(name: 'Names')
-  final List<String> names;
+  final List<String>? names;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociatedFleetsResult({
     this.names,
     this.nextToken,
   });
-  factory ListAssociatedFleetsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListAssociatedFleetsResultFromJson(json);
+  factory ListAssociatedFleetsResult.fromJson(Map<String, dynamic> json) {
+    return ListAssociatedFleetsResult(
+      names: (json['Names'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssociatedStacksResult {
   /// The name of the stack.
-  @_s.JsonKey(name: 'Names')
-  final List<String> names;
+  final List<String>? names;
 
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociatedStacksResult({
     this.names,
     this.nextToken,
   });
-  factory ListAssociatedStacksResult.fromJson(Map<String, dynamic> json) =>
-      _$ListAssociatedStacksResultFromJson(json);
+  factory ListAssociatedStacksResult.fromJson(Map<String, dynamic> json) {
+    return ListAssociatedStacksResult(
+      names: (json['Names'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The information about the tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum MessageAction {
-  @_s.JsonValue('SUPPRESS')
   suppress,
-  @_s.JsonValue('RESEND')
   resend,
 }
 
@@ -5239,145 +5475,186 @@ extension on MessageAction {
       case MessageAction.resend:
         return 'RESEND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MessageAction toMessageAction() {
+    switch (this) {
+      case 'SUPPRESS':
+        return MessageAction.suppress;
+      case 'RESEND':
+        return MessageAction.resend;
+    }
+    throw Exception('$this is not known in enum MessageAction');
   }
 }
 
 /// Describes the network details of the fleet or image builder instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkAccessConfiguration {
   /// The resource identifier of the elastic network interface that is attached to
   /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
   /// identifier.
-  @_s.JsonKey(name: 'EniId')
-  final String eniId;
+  final String? eniId;
 
   /// The private IP address of the elastic network interface that is attached to
   /// instances in your VPC.
-  @_s.JsonKey(name: 'EniPrivateIpAddress')
-  final String eniPrivateIpAddress;
+  final String? eniPrivateIpAddress;
 
   NetworkAccessConfiguration({
     this.eniId,
     this.eniPrivateIpAddress,
   });
-  factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NetworkAccessConfigurationFromJson(json);
+  factory NetworkAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkAccessConfiguration(
+      eniId: json['EniId'] as String?,
+      eniPrivateIpAddress: json['EniPrivateIpAddress'] as String?,
+    );
+  }
 }
 
 enum Permission {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on Permission {
+  String toValue() {
+    switch (this) {
+      case Permission.enabled:
+        return 'ENABLED';
+      case Permission.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  Permission toPermission() {
+    switch (this) {
+      case 'ENABLED':
+        return Permission.enabled;
+      case 'DISABLED':
+        return Permission.disabled;
+    }
+    throw Exception('$this is not known in enum Permission');
+  }
+}
+
 enum PlatformType {
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('WINDOWS_SERVER_2016')
   windowsServer_2016,
-  @_s.JsonValue('WINDOWS_SERVER_2019')
   windowsServer_2019,
 }
 
+extension on PlatformType {
+  String toValue() {
+    switch (this) {
+      case PlatformType.windows:
+        return 'WINDOWS';
+      case PlatformType.windowsServer_2016:
+        return 'WINDOWS_SERVER_2016';
+      case PlatformType.windowsServer_2019:
+        return 'WINDOWS_SERVER_2019';
+    }
+  }
+}
+
+extension on String {
+  PlatformType toPlatformType() {
+    switch (this) {
+      case 'WINDOWS':
+        return PlatformType.windows;
+      case 'WINDOWS_SERVER_2016':
+        return PlatformType.windowsServer_2016;
+      case 'WINDOWS_SERVER_2019':
+        return PlatformType.windowsServer_2019;
+    }
+    throw Exception('$this is not known in enum PlatformType');
+  }
+}
+
 /// Describes a resource error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final FleetErrorCode errorCode;
+  final FleetErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The time the error occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ErrorTimestamp')
-  final DateTime errorTimestamp;
+  final DateTime? errorTimestamp;
 
   ResourceError({
     this.errorCode,
     this.errorMessage,
     this.errorTimestamp,
   });
-  factory ResourceError.fromJson(Map<String, dynamic> json) =>
-      _$ResourceErrorFromJson(json);
+  factory ResourceError.fromJson(Map<String, dynamic> json) {
+    return ResourceError(
+      errorCode: (json['ErrorCode'] as String?)?.toFleetErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      errorTimestamp: timeStampFromJson(json['ErrorTimestamp']),
+    );
+  }
 }
 
 /// Describes the credentials for the service account used by the fleet or image
 /// builder to connect to the directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceAccountCredentials {
   /// The user name of the account. This account must have the following
   /// privileges: create computer objects, join computers to the domain, and
   /// change/reset the password on descendant computer objects for the
   /// organizational units specified.
-  @_s.JsonKey(name: 'AccountName')
   final String accountName;
 
   /// The password for the account.
-  @_s.JsonKey(name: 'AccountPassword')
   final String accountPassword;
 
   ServiceAccountCredentials({
-    @_s.required this.accountName,
-    @_s.required this.accountPassword,
+    required this.accountName,
+    required this.accountPassword,
   });
-  factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) =>
-      _$ServiceAccountCredentialsFromJson(json);
+  factory ServiceAccountCredentials.fromJson(Map<String, dynamic> json) {
+    return ServiceAccountCredentials(
+      accountName: json['AccountName'] as String,
+      accountPassword: json['AccountPassword'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ServiceAccountCredentialsToJson(this);
+  Map<String, dynamic> toJson() {
+    final accountName = this.accountName;
+    final accountPassword = this.accountPassword;
+    return {
+      'AccountName': accountName,
+      'AccountPassword': accountPassword,
+    };
+  }
 }
 
 /// Describes a streaming session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Session {
   /// The name of the fleet for the streaming session.
-  @_s.JsonKey(name: 'FleetName')
   final String fleetName;
 
   /// The identifier of the streaming session.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The name of the stack for the streaming session.
-  @_s.JsonKey(name: 'StackName')
   final String stackName;
 
   /// The current state of the streaming session.
-  @_s.JsonKey(name: 'State')
   final SessionState state;
 
   /// The identifier of the user for whom the session was created.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   /// The authentication method. The user is authenticated using a streaming URL
   /// (<code>API</code>) or SAML 2.0 federation (<code>SAML</code>).
-  @_s.JsonKey(name: 'AuthenticationType')
-  final AuthenticationType authenticationType;
+  final AuthenticationType? authenticationType;
 
   /// Specifies whether a user is connected to the streaming session.
-  @_s.JsonKey(name: 'ConnectionState')
-  final SessionConnectionState connectionState;
+  final SessionConnectionState? connectionState;
 
   /// The time when the streaming session is set to expire. This time is based on
   /// the <code>MaxUserDurationinSeconds</code> value, which determines the
@@ -5388,143 +5665,179 @@ class Session {
   /// his or her session. If the <code>DisconnectTimeOutInSeconds</code> elapses,
   /// or the user chooses to end his or her session, the streaming instance is
   /// terminated and the streaming session ends.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'MaxExpirationTime')
-  final DateTime maxExpirationTime;
+  final DateTime? maxExpirationTime;
 
   /// The network details for the streaming session.
-  @_s.JsonKey(name: 'NetworkAccessConfiguration')
-  final NetworkAccessConfiguration networkAccessConfiguration;
+  final NetworkAccessConfiguration? networkAccessConfiguration;
 
   /// The time when a streaming instance is dedicated for the user.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   Session({
-    @_s.required this.fleetName,
-    @_s.required this.id,
-    @_s.required this.stackName,
-    @_s.required this.state,
-    @_s.required this.userId,
+    required this.fleetName,
+    required this.id,
+    required this.stackName,
+    required this.state,
+    required this.userId,
     this.authenticationType,
     this.connectionState,
     this.maxExpirationTime,
     this.networkAccessConfiguration,
     this.startTime,
   });
-  factory Session.fromJson(Map<String, dynamic> json) =>
-      _$SessionFromJson(json);
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      fleetName: json['FleetName'] as String,
+      id: json['Id'] as String,
+      stackName: json['StackName'] as String,
+      state: (json['State'] as String).toSessionState(),
+      userId: json['UserId'] as String,
+      authenticationType:
+          (json['AuthenticationType'] as String?)?.toAuthenticationType(),
+      connectionState:
+          (json['ConnectionState'] as String?)?.toSessionConnectionState(),
+      maxExpirationTime: timeStampFromJson(json['MaxExpirationTime']),
+      networkAccessConfiguration: json['NetworkAccessConfiguration'] != null
+          ? NetworkAccessConfiguration.fromJson(
+              json['NetworkAccessConfiguration'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
 }
 
 enum SessionConnectionState {
-  @_s.JsonValue('CONNECTED')
   connected,
-  @_s.JsonValue('NOT_CONNECTED')
   notConnected,
+}
+
+extension on SessionConnectionState {
+  String toValue() {
+    switch (this) {
+      case SessionConnectionState.connected:
+        return 'CONNECTED';
+      case SessionConnectionState.notConnected:
+        return 'NOT_CONNECTED';
+    }
+  }
+}
+
+extension on String {
+  SessionConnectionState toSessionConnectionState() {
+    switch (this) {
+      case 'CONNECTED':
+        return SessionConnectionState.connected;
+      case 'NOT_CONNECTED':
+        return SessionConnectionState.notConnected;
+    }
+    throw Exception('$this is not known in enum SessionConnectionState');
+  }
 }
 
 /// Possible values for the state of a streaming session.
 enum SessionState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('EXPIRED')
   expired,
+}
+
+extension on SessionState {
+  String toValue() {
+    switch (this) {
+      case SessionState.active:
+        return 'ACTIVE';
+      case SessionState.pending:
+        return 'PENDING';
+      case SessionState.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  SessionState toSessionState() {
+    switch (this) {
+      case 'ACTIVE':
+        return SessionState.active;
+      case 'PENDING':
+        return SessionState.pending;
+      case 'EXPIRED':
+        return SessionState.expired;
+    }
+    throw Exception('$this is not known in enum SessionState');
+  }
 }
 
 /// Describes the permissions that are available to the specified AWS account
 /// for a shared image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SharedImagePermissions {
   /// Describes the permissions for a shared image.
-  @_s.JsonKey(name: 'imagePermissions')
   final ImagePermissions imagePermissions;
 
   /// The 12-digit identifier of the AWS account with which the image is shared.
-  @_s.JsonKey(name: 'sharedAccountId')
   final String sharedAccountId;
 
   SharedImagePermissions({
-    @_s.required this.imagePermissions,
-    @_s.required this.sharedAccountId,
+    required this.imagePermissions,
+    required this.sharedAccountId,
   });
-  factory SharedImagePermissions.fromJson(Map<String, dynamic> json) =>
-      _$SharedImagePermissionsFromJson(json);
+  factory SharedImagePermissions.fromJson(Map<String, dynamic> json) {
+    return SharedImagePermissions(
+      imagePermissions: ImagePermissions.fromJson(
+          json['imagePermissions'] as Map<String, dynamic>),
+      sharedAccountId: json['sharedAccountId'] as String,
+    );
+  }
 }
 
 /// Describes a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Stack {
   /// The name of the stack.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The list of virtual private cloud (VPC) interface endpoint objects. Users of
   /// the stack can connect to AppStream 2.0 only through the specified endpoints.
-  @_s.JsonKey(name: 'AccessEndpoints')
-  final List<AccessEndpoint> accessEndpoints;
+  final List<AccessEndpoint>? accessEndpoints;
 
   /// The persistent application settings for users of the stack.
-  @_s.JsonKey(name: 'ApplicationSettings')
-  final ApplicationSettingsResponse applicationSettings;
+  final ApplicationSettingsResponse? applicationSettings;
 
   /// The ARN of the stack.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time the stack was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description to display.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The stack name to display.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The domains where AppStream 2.0 streaming sessions can be embedded in an
   /// iframe. You must approve the domains that you want to host embedded
   /// AppStream 2.0 streaming sessions.
-  @_s.JsonKey(name: 'EmbedHostDomains')
-  final List<String> embedHostDomains;
+  final List<String>? embedHostDomains;
 
   /// The URL that users are redirected to after they click the Send Feedback
   /// link. If no URL is specified, no Send Feedback link is displayed.
-  @_s.JsonKey(name: 'FeedbackURL')
-  final String feedbackURL;
+  final String? feedbackURL;
 
   /// The URL that users are redirected to after their streaming session ends.
-  @_s.JsonKey(name: 'RedirectURL')
-  final String redirectURL;
+  final String? redirectURL;
 
   /// The errors for the stack.
-  @_s.JsonKey(name: 'StackErrors')
-  final List<StackError> stackErrors;
+  final List<StackError>? stackErrors;
 
   /// The storage connectors to enable.
-  @_s.JsonKey(name: 'StorageConnectors')
-  final List<StorageConnector> storageConnectors;
+  final List<StorageConnector>? storageConnectors;
 
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default these actions are enabled.
-  @_s.JsonKey(name: 'UserSettings')
-  final List<UserSetting> userSettings;
+  final List<UserSetting>? userSettings;
 
   Stack({
-    @_s.required this.name,
+    required this.name,
     this.accessEndpoints,
     this.applicationSettings,
     this.arn,
@@ -5538,31 +5851,54 @@ class Stack {
     this.storageConnectors,
     this.userSettings,
   });
-  factory Stack.fromJson(Map<String, dynamic> json) => _$StackFromJson(json);
+  factory Stack.fromJson(Map<String, dynamic> json) {
+    return Stack(
+      name: json['Name'] as String,
+      accessEndpoints: (json['AccessEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      applicationSettings: json['ApplicationSettings'] != null
+          ? ApplicationSettingsResponse.fromJson(
+              json['ApplicationSettings'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      embedHostDomains: (json['EmbedHostDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      feedbackURL: json['FeedbackURL'] as String?,
+      redirectURL: json['RedirectURL'] as String?,
+      stackErrors: (json['StackErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => StackError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      storageConnectors: (json['StorageConnectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userSettings: (json['UserSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum StackAttribute {
-  @_s.JsonValue('STORAGE_CONNECTORS')
   storageConnectors,
-  @_s.JsonValue('STORAGE_CONNECTOR_HOMEFOLDERS')
   storageConnectorHomefolders,
-  @_s.JsonValue('STORAGE_CONNECTOR_GOOGLE_DRIVE')
   storageConnectorGoogleDrive,
-  @_s.JsonValue('STORAGE_CONNECTOR_ONE_DRIVE')
   storageConnectorOneDrive,
-  @_s.JsonValue('REDIRECT_URL')
   redirectUrl,
-  @_s.JsonValue('FEEDBACK_URL')
   feedbackUrl,
-  @_s.JsonValue('THEME_NAME')
   themeName,
-  @_s.JsonValue('USER_SETTINGS')
   userSettings,
-  @_s.JsonValue('EMBED_HOST_DOMAINS')
   embedHostDomains,
-  @_s.JsonValue('IAM_ROLE_ARN')
   iamRoleArn,
-  @_s.JsonValue('ACCESS_ENDPOINTS')
   accessEndpoints,
 }
 
@@ -5592,140 +5928,208 @@ extension on StackAttribute {
       case StackAttribute.accessEndpoints:
         return 'ACCESS_ENDPOINTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StackAttribute toStackAttribute() {
+    switch (this) {
+      case 'STORAGE_CONNECTORS':
+        return StackAttribute.storageConnectors;
+      case 'STORAGE_CONNECTOR_HOMEFOLDERS':
+        return StackAttribute.storageConnectorHomefolders;
+      case 'STORAGE_CONNECTOR_GOOGLE_DRIVE':
+        return StackAttribute.storageConnectorGoogleDrive;
+      case 'STORAGE_CONNECTOR_ONE_DRIVE':
+        return StackAttribute.storageConnectorOneDrive;
+      case 'REDIRECT_URL':
+        return StackAttribute.redirectUrl;
+      case 'FEEDBACK_URL':
+        return StackAttribute.feedbackUrl;
+      case 'THEME_NAME':
+        return StackAttribute.themeName;
+      case 'USER_SETTINGS':
+        return StackAttribute.userSettings;
+      case 'EMBED_HOST_DOMAINS':
+        return StackAttribute.embedHostDomains;
+      case 'IAM_ROLE_ARN':
+        return StackAttribute.iamRoleArn;
+      case 'ACCESS_ENDPOINTS':
+        return StackAttribute.accessEndpoints;
+    }
+    throw Exception('$this is not known in enum StackAttribute');
   }
 }
 
 /// Describes a stack error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StackError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final StackErrorCode errorCode;
+  final StackErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   StackError({
     this.errorCode,
     this.errorMessage,
   });
-  factory StackError.fromJson(Map<String, dynamic> json) =>
-      _$StackErrorFromJson(json);
+  factory StackError.fromJson(Map<String, dynamic> json) {
+    return StackError(
+      errorCode: (json['ErrorCode'] as String?)?.toStackErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
 }
 
 enum StackErrorCode {
-  @_s.JsonValue('STORAGE_CONNECTOR_ERROR')
   storageConnectorError,
-  @_s.JsonValue('INTERNAL_SERVICE_ERROR')
   internalServiceError,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class StartFleetResult {
-  StartFleetResult();
-  factory StartFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$StartFleetResultFromJson(json);
+extension on StackErrorCode {
+  String toValue() {
+    switch (this) {
+      case StackErrorCode.storageConnectorError:
+        return 'STORAGE_CONNECTOR_ERROR';
+      case StackErrorCode.internalServiceError:
+        return 'INTERNAL_SERVICE_ERROR';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  StackErrorCode toStackErrorCode() {
+    switch (this) {
+      case 'STORAGE_CONNECTOR_ERROR':
+        return StackErrorCode.storageConnectorError;
+      case 'INTERNAL_SERVICE_ERROR':
+        return StackErrorCode.internalServiceError;
+    }
+    throw Exception('$this is not known in enum StackErrorCode');
+  }
+}
+
+class StartFleetResult {
+  StartFleetResult();
+  factory StartFleetResult.fromJson(Map<String, dynamic> _) {
+    return StartFleetResult();
+  }
+}
+
 class StartImageBuilderResult {
   /// Information about the image builder.
-  @_s.JsonKey(name: 'ImageBuilder')
-  final ImageBuilder imageBuilder;
+  final ImageBuilder? imageBuilder;
 
   StartImageBuilderResult({
     this.imageBuilder,
   });
-  factory StartImageBuilderResult.fromJson(Map<String, dynamic> json) =>
-      _$StartImageBuilderResultFromJson(json);
+  factory StartImageBuilderResult.fromJson(Map<String, dynamic> json) {
+    return StartImageBuilderResult(
+      imageBuilder: json['ImageBuilder'] != null
+          ? ImageBuilder.fromJson(json['ImageBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopFleetResult {
   StopFleetResult();
-  factory StopFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$StopFleetResultFromJson(json);
+  factory StopFleetResult.fromJson(Map<String, dynamic> _) {
+    return StopFleetResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopImageBuilderResult {
   /// Information about the image builder.
-  @_s.JsonKey(name: 'ImageBuilder')
-  final ImageBuilder imageBuilder;
+  final ImageBuilder? imageBuilder;
 
   StopImageBuilderResult({
     this.imageBuilder,
   });
-  factory StopImageBuilderResult.fromJson(Map<String, dynamic> json) =>
-      _$StopImageBuilderResultFromJson(json);
+  factory StopImageBuilderResult.fromJson(Map<String, dynamic> json) {
+    return StopImageBuilderResult(
+      imageBuilder: json['ImageBuilder'] != null
+          ? ImageBuilder.fromJson(json['ImageBuilder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Describes a connector that enables persistent storage for users.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StorageConnector {
   /// The type of storage connector.
-  @_s.JsonKey(name: 'ConnectorType')
   final StorageConnectorType connectorType;
 
   /// The names of the domains for the account.
-  @_s.JsonKey(name: 'Domains')
-  final List<String> domains;
+  final List<String>? domains;
 
   /// The ARN of the storage connector.
-  @_s.JsonKey(name: 'ResourceIdentifier')
-  final String resourceIdentifier;
+  final String? resourceIdentifier;
 
   StorageConnector({
-    @_s.required this.connectorType,
+    required this.connectorType,
     this.domains,
     this.resourceIdentifier,
   });
-  factory StorageConnector.fromJson(Map<String, dynamic> json) =>
-      _$StorageConnectorFromJson(json);
+  factory StorageConnector.fromJson(Map<String, dynamic> json) {
+    return StorageConnector(
+      connectorType: (json['ConnectorType'] as String).toStorageConnectorType(),
+      domains: (json['Domains'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StorageConnectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final connectorType = this.connectorType;
+    final domains = this.domains;
+    final resourceIdentifier = this.resourceIdentifier;
+    return {
+      'ConnectorType': connectorType.toValue(),
+      if (domains != null) 'Domains': domains,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+    };
+  }
 }
 
 /// The type of storage connector.
 enum StorageConnectorType {
-  @_s.JsonValue('HOMEFOLDERS')
   homefolders,
-  @_s.JsonValue('GOOGLE_DRIVE')
   googleDrive,
-  @_s.JsonValue('ONE_DRIVE')
   oneDrive,
 }
 
+extension on StorageConnectorType {
+  String toValue() {
+    switch (this) {
+      case StorageConnectorType.homefolders:
+        return 'HOMEFOLDERS';
+      case StorageConnectorType.googleDrive:
+        return 'GOOGLE_DRIVE';
+      case StorageConnectorType.oneDrive:
+        return 'ONE_DRIVE';
+    }
+  }
+}
+
+extension on String {
+  StorageConnectorType toStorageConnectorType() {
+    switch (this) {
+      case 'HOMEFOLDERS':
+        return StorageConnectorType.homefolders;
+      case 'GOOGLE_DRIVE':
+        return StorageConnectorType.googleDrive;
+      case 'ONE_DRIVE':
+        return StorageConnectorType.oneDrive;
+    }
+    throw Exception('$this is not known in enum StorageConnectorType');
+  }
+}
+
 enum StreamView {
-  @_s.JsonValue('APP')
   app,
-  @_s.JsonValue('DESKTOP')
   desktop,
 }
 
@@ -5737,119 +6141,151 @@ extension on StreamView {
       case StreamView.desktop:
         return 'DESKTOP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  StreamView toStreamView() {
+    switch (this) {
+      case 'APP':
+        return StreamView.app;
+      case 'DESKTOP':
+        return StreamView.desktop;
+    }
+    throw Exception('$this is not known in enum StreamView');
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDirectoryConfigResult {
   /// Information about the Directory Config object.
-  @_s.JsonKey(name: 'DirectoryConfig')
-  final DirectoryConfig directoryConfig;
+  final DirectoryConfig? directoryConfig;
 
   UpdateDirectoryConfigResult({
     this.directoryConfig,
   });
-  factory UpdateDirectoryConfigResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDirectoryConfigResultFromJson(json);
+  factory UpdateDirectoryConfigResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDirectoryConfigResult(
+      directoryConfig: json['DirectoryConfig'] != null
+          ? DirectoryConfig.fromJson(
+              json['DirectoryConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFleetResult {
   /// Information about the fleet.
-  @_s.JsonKey(name: 'Fleet')
-  final Fleet fleet;
+  final Fleet? fleet;
 
   UpdateFleetResult({
     this.fleet,
   });
-  factory UpdateFleetResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFleetResultFromJson(json);
+  factory UpdateFleetResult.fromJson(Map<String, dynamic> json) {
+    return UpdateFleetResult(
+      fleet: json['Fleet'] != null
+          ? Fleet.fromJson(json['Fleet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateImagePermissionsResult {
   UpdateImagePermissionsResult();
-  factory UpdateImagePermissionsResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateImagePermissionsResultFromJson(json);
+  factory UpdateImagePermissionsResult.fromJson(Map<String, dynamic> _) {
+    return UpdateImagePermissionsResult();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateStackResult {
   /// Information about the stack.
-  @_s.JsonKey(name: 'Stack')
-  final Stack stack;
+  final Stack? stack;
 
   UpdateStackResult({
     this.stack,
   });
-  factory UpdateStackResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateStackResultFromJson(json);
+  factory UpdateStackResult.fromJson(Map<String, dynamic> json) {
+    return UpdateStackResult(
+      stack: json['Stack'] != null
+          ? Stack.fromJson(json['Stack'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum UsageReportExecutionErrorCode {
-  @_s.JsonValue('RESOURCE_NOT_FOUND')
   resourceNotFound,
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('INTERNAL_SERVICE_ERROR')
   internalServiceError,
 }
 
+extension on UsageReportExecutionErrorCode {
+  String toValue() {
+    switch (this) {
+      case UsageReportExecutionErrorCode.resourceNotFound:
+        return 'RESOURCE_NOT_FOUND';
+      case UsageReportExecutionErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case UsageReportExecutionErrorCode.internalServiceError:
+        return 'INTERNAL_SERVICE_ERROR';
+    }
+  }
+}
+
+extension on String {
+  UsageReportExecutionErrorCode toUsageReportExecutionErrorCode() {
+    switch (this) {
+      case 'RESOURCE_NOT_FOUND':
+        return UsageReportExecutionErrorCode.resourceNotFound;
+      case 'ACCESS_DENIED':
+        return UsageReportExecutionErrorCode.accessDenied;
+      case 'INTERNAL_SERVICE_ERROR':
+        return UsageReportExecutionErrorCode.internalServiceError;
+    }
+    throw Exception('$this is not known in enum UsageReportExecutionErrorCode');
+  }
+}
+
 enum UsageReportSchedule {
-  @_s.JsonValue('DAILY')
   daily,
 }
 
+extension on UsageReportSchedule {
+  String toValue() {
+    switch (this) {
+      case UsageReportSchedule.daily:
+        return 'DAILY';
+    }
+  }
+}
+
+extension on String {
+  UsageReportSchedule toUsageReportSchedule() {
+    switch (this) {
+      case 'DAILY':
+        return UsageReportSchedule.daily;
+    }
+    throw Exception('$this is not known in enum UsageReportSchedule');
+  }
+}
+
 /// Describes information about the usage report subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageReportSubscription {
   /// The time when the last usage report was generated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastGeneratedReportDate')
-  final DateTime lastGeneratedReportDate;
+  final DateTime? lastGeneratedReportDate;
 
   /// The Amazon S3 bucket where generated reports are stored.
   ///
@@ -5860,16 +6296,13 @@ class UsageReportSubscription {
   /// store your usage reports. If you haven't already enabled on-instance session
   /// scripts, when you enable usage reports, AppStream 2.0 creates a new S3
   /// bucket.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The schedule for generating usage reports.
-  @_s.JsonKey(name: 'Schedule')
-  final UsageReportSchedule schedule;
+  final UsageReportSchedule? schedule;
 
   /// The errors that were returned if usage reports couldn't be generated.
-  @_s.JsonKey(name: 'SubscriptionErrors')
-  final List<LastReportGenerationExecutionError> subscriptionErrors;
+  final List<LastReportGenerationExecutionError>? subscriptionErrors;
 
   UsageReportSubscription({
     this.lastGeneratedReportDate,
@@ -5877,41 +6310,40 @@ class UsageReportSubscription {
     this.schedule,
     this.subscriptionErrors,
   });
-  factory UsageReportSubscription.fromJson(Map<String, dynamic> json) =>
-      _$UsageReportSubscriptionFromJson(json);
+  factory UsageReportSubscription.fromJson(Map<String, dynamic> json) {
+    return UsageReportSubscription(
+      lastGeneratedReportDate:
+          timeStampFromJson(json['LastGeneratedReportDate']),
+      s3BucketName: json['S3BucketName'] as String?,
+      schedule: (json['Schedule'] as String?)?.toUsageReportSchedule(),
+      subscriptionErrors: (json['SubscriptionErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => LastReportGenerationExecutionError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes a user in the user pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The authentication type for the user.
-  @_s.JsonKey(name: 'AuthenticationType')
   final AuthenticationType authenticationType;
 
   /// The ARN of the user.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time the user was created in the user pool.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// Specifies whether the user in the user pool is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The first name, or given name, of the user.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// The last name, or surname, of the user.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   /// The status of the user in the user pool. The status can be one of the
   /// following:
@@ -5933,18 +6365,16 @@ class User {
   /// UNKNOWN – The user status is not known.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The email address of the user.
   /// <note>
   /// Users' email addresses are case-sensitive.
   /// </note>
-  @_s.JsonKey(name: 'UserName')
-  final String userName;
+  final String? userName;
 
   User({
-    @_s.required this.authenticationType,
+    required this.authenticationType,
     this.arn,
     this.createdTime,
     this.enabled,
@@ -5953,122 +6383,173 @@ class User {
     this.status,
     this.userName,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      authenticationType:
+          (json['AuthenticationType'] as String).toAuthenticationType(),
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      enabled: json['Enabled'] as bool?,
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+      status: json['Status'] as String?,
+      userName: json['UserName'] as String?,
+    );
+  }
 }
 
 /// Describes an action and whether the action is enabled or disabled for users
 /// during their streaming sessions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserSetting {
   /// The action that is enabled or disabled.
-  @_s.JsonKey(name: 'Action')
   final Action action;
 
   /// Indicates whether the action is enabled or disabled.
-  @_s.JsonKey(name: 'Permission')
   final Permission permission;
 
   UserSetting({
-    @_s.required this.action,
-    @_s.required this.permission,
+    required this.action,
+    required this.permission,
   });
-  factory UserSetting.fromJson(Map<String, dynamic> json) =>
-      _$UserSettingFromJson(json);
+  factory UserSetting.fromJson(Map<String, dynamic> json) {
+    return UserSetting(
+      action: (json['Action'] as String).toAction(),
+      permission: (json['Permission'] as String).toPermission(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final permission = this.permission;
+    return {
+      'Action': action.toValue(),
+      'Permission': permission.toValue(),
+    };
+  }
 }
 
 /// Describes a user in the user pool and the associated stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserStackAssociation {
   /// The authentication type for the user.
-  @_s.JsonKey(name: 'AuthenticationType')
   final AuthenticationType authenticationType;
 
   /// The name of the stack that is associated with the user.
-  @_s.JsonKey(name: 'StackName')
   final String stackName;
 
   /// The email address of the user who is associated with the stack.
   /// <note>
   /// Users' email addresses are case-sensitive.
   /// </note>
-  @_s.JsonKey(name: 'UserName')
   final String userName;
 
   /// Specifies whether a welcome email is sent to a user after the user is
   /// created in the user pool.
-  @_s.JsonKey(name: 'SendEmailNotification')
-  final bool sendEmailNotification;
+  final bool? sendEmailNotification;
 
   UserStackAssociation({
-    @_s.required this.authenticationType,
-    @_s.required this.stackName,
-    @_s.required this.userName,
+    required this.authenticationType,
+    required this.stackName,
+    required this.userName,
     this.sendEmailNotification,
   });
-  factory UserStackAssociation.fromJson(Map<String, dynamic> json) =>
-      _$UserStackAssociationFromJson(json);
+  factory UserStackAssociation.fromJson(Map<String, dynamic> json) {
+    return UserStackAssociation(
+      authenticationType:
+          (json['AuthenticationType'] as String).toAuthenticationType(),
+      stackName: json['StackName'] as String,
+      userName: json['UserName'] as String,
+      sendEmailNotification: json['SendEmailNotification'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserStackAssociationToJson(this);
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final stackName = this.stackName;
+    final userName = this.userName;
+    final sendEmailNotification = this.sendEmailNotification;
+    return {
+      'AuthenticationType': authenticationType.toValue(),
+      'StackName': stackName,
+      'UserName': userName,
+      if (sendEmailNotification != null)
+        'SendEmailNotification': sendEmailNotification,
+    };
+  }
 }
 
 /// Describes the error that is returned when a user can’t be associated with or
 /// disassociated from a stack.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserStackAssociationError {
   /// The error code for the error that is returned when a user can’t be
   /// associated with or disassociated from a stack.
-  @_s.JsonKey(name: 'ErrorCode')
-  final UserStackAssociationErrorCode errorCode;
+  final UserStackAssociationErrorCode? errorCode;
 
   /// The error message for the error that is returned when a user can’t be
   /// associated with or disassociated from a stack.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Information about the user and associated stack.
-  @_s.JsonKey(name: 'UserStackAssociation')
-  final UserStackAssociation userStackAssociation;
+  final UserStackAssociation? userStackAssociation;
 
   UserStackAssociationError({
     this.errorCode,
     this.errorMessage,
     this.userStackAssociation,
   });
-  factory UserStackAssociationError.fromJson(Map<String, dynamic> json) =>
-      _$UserStackAssociationErrorFromJson(json);
+  factory UserStackAssociationError.fromJson(Map<String, dynamic> json) {
+    return UserStackAssociationError(
+      errorCode:
+          (json['ErrorCode'] as String?)?.toUserStackAssociationErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      userStackAssociation: json['UserStackAssociation'] != null
+          ? UserStackAssociation.fromJson(
+              json['UserStackAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum UserStackAssociationErrorCode {
-  @_s.JsonValue('STACK_NOT_FOUND')
   stackNotFound,
-  @_s.JsonValue('USER_NAME_NOT_FOUND')
   userNameNotFound,
-  @_s.JsonValue('DIRECTORY_NOT_FOUND')
   directoryNotFound,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
 }
 
+extension on UserStackAssociationErrorCode {
+  String toValue() {
+    switch (this) {
+      case UserStackAssociationErrorCode.stackNotFound:
+        return 'STACK_NOT_FOUND';
+      case UserStackAssociationErrorCode.userNameNotFound:
+        return 'USER_NAME_NOT_FOUND';
+      case UserStackAssociationErrorCode.directoryNotFound:
+        return 'DIRECTORY_NOT_FOUND';
+      case UserStackAssociationErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+    }
+  }
+}
+
+extension on String {
+  UserStackAssociationErrorCode toUserStackAssociationErrorCode() {
+    switch (this) {
+      case 'STACK_NOT_FOUND':
+        return UserStackAssociationErrorCode.stackNotFound;
+      case 'USER_NAME_NOT_FOUND':
+        return UserStackAssociationErrorCode.userNameNotFound;
+      case 'DIRECTORY_NOT_FOUND':
+        return UserStackAssociationErrorCode.directoryNotFound;
+      case 'INTERNAL_ERROR':
+        return UserStackAssociationErrorCode.internalError;
+    }
+    throw Exception('$this is not known in enum UserStackAssociationErrorCode');
+  }
+}
+
 enum VisibilityType {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
-  @_s.JsonValue('SHARED')
   shared,
 }
 
@@ -6082,39 +6563,62 @@ extension on VisibilityType {
       case VisibilityType.shared:
         return 'SHARED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VisibilityType toVisibilityType() {
+    switch (this) {
+      case 'PUBLIC':
+        return VisibilityType.public;
+      case 'PRIVATE':
+        return VisibilityType.private;
+      case 'SHARED':
+        return VisibilityType.shared;
+    }
+    throw Exception('$this is not known in enum VisibilityType');
   }
 }
 
 /// Describes VPC configuration information for fleets and image builders.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VpcConfig {
   /// The identifiers of the security groups for the fleet or image builder.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The identifiers of the subnets to which a network interface is attached from
   /// the fleet instance or image builder instance. Fleet instances use one or
   /// more subnets. Image builder instances use one subnet.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   VpcConfig({
     this.securityGroupIds,
     this.subnetIds,
   });
-  factory VpcConfig.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigFromJson(json);
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VpcConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -6122,12 +6626,12 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class IncompatibleImageException extends _s.GenericAwsException {
-  IncompatibleImageException({String type, String message})
+  IncompatibleImageException({String? type, String? message})
       : super(type: type, code: 'IncompatibleImageException', message: message);
 }
 
 class InvalidAccountStatusException extends _s.GenericAwsException {
-  InvalidAccountStatusException({String type, String message})
+  InvalidAccountStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAccountStatusException',
@@ -6135,7 +6639,7 @@ class InvalidAccountStatusException extends _s.GenericAwsException {
 }
 
 class InvalidParameterCombinationException extends _s.GenericAwsException {
-  InvalidParameterCombinationException({String type, String message})
+  InvalidParameterCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterCombinationException',
@@ -6143,17 +6647,17 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidRoleException extends _s.GenericAwsException {
-  InvalidRoleException({String type, String message})
+  InvalidRoleException({String? type, String? message})
       : super(type: type, code: 'InvalidRoleException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -6161,7 +6665,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class RequestLimitExceededException extends _s.GenericAwsException {
-  RequestLimitExceededException({String type, String message})
+  RequestLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'RequestLimitExceededException',
@@ -6169,7 +6673,7 @@ class RequestLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -6177,12 +6681,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotAvailableException extends _s.GenericAwsException {
-  ResourceNotAvailableException({String type, String message})
+  ResourceNotAvailableException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceNotAvailableException',
@@ -6190,7 +6694,7 @@ class ResourceNotAvailableException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

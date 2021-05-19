@@ -25,14 +25,12 @@ DeleteSiteOutput _$DeleteSiteOutputFromJson(Map<String, dynamic> json) {
 GetOutpostInstanceTypesOutput _$GetOutpostInstanceTypesOutputFromJson(
     Map<String, dynamic> json) {
   return GetOutpostInstanceTypesOutput(
-    instanceTypes: (json['InstanceTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceTypeItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
-    outpostArn: json['OutpostArn'] as String,
-    outpostId: json['OutpostId'] as String,
+    instanceTypes: (json['InstanceTypes'] as List<dynamic>?)
+        ?.map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    outpostArn: json['OutpostArn'] as String?,
+    outpostId: json['OutpostId'] as String?,
   );
 }
 
@@ -46,34 +44,32 @@ GetOutpostOutput _$GetOutpostOutputFromJson(Map<String, dynamic> json) {
 
 InstanceTypeItem _$InstanceTypeItemFromJson(Map<String, dynamic> json) {
   return InstanceTypeItem(
-    instanceType: json['InstanceType'] as String,
+    instanceType: json['InstanceType'] as String?,
   );
 }
 
 ListOutpostsOutput _$ListOutpostsOutputFromJson(Map<String, dynamic> json) {
   return ListOutpostsOutput(
-    nextToken: json['NextToken'] as String,
-    outposts: (json['Outposts'] as List)
-        ?.map((e) =>
-            e == null ? null : Outpost.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    outposts: (json['Outposts'] as List<dynamic>?)
+        ?.map((e) => Outpost.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSitesOutput _$ListSitesOutputFromJson(Map<String, dynamic> json) {
   return ListSitesOutput(
-    nextToken: json['NextToken'] as String,
-    sites: (json['Sites'] as List)
-        ?.map(
-            (e) => e == null ? null : Site.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sites: (json['Sites'] as List<dynamic>?)
+        ?.map((e) => Site.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -81,16 +77,16 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 Outpost _$OutpostFromJson(Map<String, dynamic> json) {
   return Outpost(
-    availabilityZone: json['AvailabilityZone'] as String,
-    availabilityZoneId: json['AvailabilityZoneId'] as String,
-    description: json['Description'] as String,
-    lifeCycleStatus: json['LifeCycleStatus'] as String,
-    name: json['Name'] as String,
-    outpostArn: json['OutpostArn'] as String,
-    outpostId: json['OutpostId'] as String,
-    ownerId: json['OwnerId'] as String,
-    siteId: json['SiteId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    availabilityZone: json['AvailabilityZone'] as String?,
+    availabilityZoneId: json['AvailabilityZoneId'] as String?,
+    description: json['Description'] as String?,
+    lifeCycleStatus: json['LifeCycleStatus'] as String?,
+    name: json['Name'] as String?,
+    outpostArn: json['OutpostArn'] as String?,
+    outpostId: json['OutpostId'] as String?,
+    ownerId: json['OwnerId'] as String?,
+    siteId: json['SiteId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -98,11 +94,11 @@ Outpost _$OutpostFromJson(Map<String, dynamic> json) {
 
 Site _$SiteFromJson(Map<String, dynamic> json) {
   return Site(
-    accountId: json['AccountId'] as String,
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    siteId: json['SiteId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    accountId: json['AccountId'] as String?,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    siteId: json['SiteId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );

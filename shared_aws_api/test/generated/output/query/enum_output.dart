@@ -10,17 +10,11 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'enum_output.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -31,9 +25,9 @@ class EnumOutput {
   final Map<String, _s.Shape> shapes;
 
   EnumOutput({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,8 +55,8 @@ class EnumOutput {
 }
 
 class OutputShape {
-  final EC2EnumType fooEnum;
-  final List<EC2EnumType> listEnums;
+  final EC2EnumType? fooEnum;
+  final List<EC2EnumType>? listEnums;
 
   OutputShape({
     this.fooEnum,
@@ -80,10 +74,19 @@ class OutputShape {
 }
 
 enum EC2EnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
+}
+
+extension on EC2EnumType {
+  String toValue() {
+    switch (this) {
+      case EC2EnumType.foo:
+        return 'foo';
+      case EC2EnumType.bar:
+        return 'bar';
+    }
+  }
 }
 
 extension on String {
@@ -94,7 +97,7 @@ extension on String {
       case 'bar':
         return EC2EnumType.bar;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EC2EnumType');
   }
 }
 

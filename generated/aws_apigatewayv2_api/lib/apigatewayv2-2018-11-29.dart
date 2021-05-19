@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'apigatewayv2-2018-11-29.g.dart';
 
 /// Amazon API Gateway V2
 class ApiGatewayV2 {
   final _s.RestJsonProtocol _protocol;
   ApiGatewayV2({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -121,25 +113,25 @@ class ApiGatewayV2 {
   /// Parameter [version] :
   /// A version identifier for the API.
   Future<CreateApiResponse> createApi({
-    @_s.required String name,
-    @_s.required ProtocolType protocolType,
-    String apiKeySelectionExpression,
-    Cors corsConfiguration,
-    String credentialsArn,
-    String description,
-    bool disableExecuteApiEndpoint,
-    bool disableSchemaValidation,
-    String routeKey,
-    String routeSelectionExpression,
-    Map<String, String> tags,
-    String target,
-    String version,
+    required String name,
+    required ProtocolType protocolType,
+    String? apiKeySelectionExpression,
+    Cors? corsConfiguration,
+    String? credentialsArn,
+    String? description,
+    bool? disableExecuteApiEndpoint,
+    bool? disableSchemaValidation,
+    String? routeKey,
+    String? routeSelectionExpression,
+    Map<String, String>? tags,
+    String? target,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(protocolType, 'protocolType');
     final $payload = <String, dynamic>{
       'name': name,
-      'protocolType': protocolType?.toValue() ?? '',
+      'protocolType': protocolType.toValue(),
       if (apiKeySelectionExpression != null)
         'apiKeySelectionExpression': apiKeySelectionExpression,
       if (corsConfiguration != null) 'corsConfiguration': corsConfiguration,
@@ -184,10 +176,10 @@ class ApiGatewayV2 {
   /// Parameter [apiMappingKey] :
   /// The API mapping key.
   Future<CreateApiMappingResponse> createApiMapping({
-    @_s.required String apiId,
-    @_s.required String domainName,
-    @_s.required String stage,
-    String apiMappingKey,
+    required String apiId,
+    required String domainName,
+    required String stage,
+    String? apiMappingKey,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -299,17 +291,17 @@ class ApiGatewayV2 {
   /// Represents the configuration of a JWT authorizer. Required for the JWT
   /// authorizer type. Supported only for HTTP APIs.
   Future<CreateAuthorizerResponse> createAuthorizer({
-    @_s.required String apiId,
-    @_s.required AuthorizerType authorizerType,
-    @_s.required List<String> identitySource,
-    @_s.required String name,
-    String authorizerCredentialsArn,
-    String authorizerPayloadFormatVersion,
-    int authorizerResultTtlInSeconds,
-    String authorizerUri,
-    bool enableSimpleResponses,
-    String identityValidationExpression,
-    JWTConfiguration jwtConfiguration,
+    required String apiId,
+    required AuthorizerType authorizerType,
+    required List<String> identitySource,
+    required String name,
+    String? authorizerCredentialsArn,
+    String? authorizerPayloadFormatVersion,
+    int? authorizerResultTtlInSeconds,
+    String? authorizerUri,
+    bool? enableSimpleResponses,
+    String? identityValidationExpression,
+    JWTConfiguration? jwtConfiguration,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerType, 'authorizerType');
@@ -322,7 +314,7 @@ class ApiGatewayV2 {
       3600,
     );
     final $payload = <String, dynamic>{
-      'authorizerType': authorizerType?.toValue() ?? '',
+      'authorizerType': authorizerType.toValue(),
       'identitySource': identitySource,
       'name': name,
       if (authorizerCredentialsArn != null)
@@ -363,9 +355,9 @@ class ApiGatewayV2 {
   /// Parameter [stageName] :
   /// The name of the Stage resource for the Deployment resource to create.
   Future<CreateDeploymentResponse> createDeployment({
-    @_s.required String apiId,
-    String description,
-    String stageName,
+    required String apiId,
+    String? description,
+    String? stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
@@ -401,10 +393,10 @@ class ApiGatewayV2 {
   /// Parameter [tags] :
   /// The collection of tags associated with a domain name.
   Future<CreateDomainNameResponse> createDomainName({
-    @_s.required String domainName,
-    List<DomainNameConfiguration> domainNameConfigurations,
-    MutualTlsAuthenticationInput mutualTlsAuthentication,
-    Map<String, String> tags,
+    required String domainName,
+    List<DomainNameConfiguration>? domainNameConfigurations,
+    MutualTlsAuthenticationInput? mutualTlsAuthentication,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
@@ -605,24 +597,24 @@ class ApiGatewayV2 {
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
   Future<CreateIntegrationResult> createIntegration({
-    @_s.required String apiId,
-    @_s.required IntegrationType integrationType,
-    String connectionId,
-    ConnectionType connectionType,
-    ContentHandlingStrategy contentHandlingStrategy,
-    String credentialsArn,
-    String description,
-    String integrationMethod,
-    String integrationSubtype,
-    String integrationUri,
-    PassthroughBehavior passthroughBehavior,
-    String payloadFormatVersion,
-    Map<String, String> requestParameters,
-    Map<String, String> requestTemplates,
-    Map<String, Map<String, String>> responseParameters,
-    String templateSelectionExpression,
-    int timeoutInMillis,
-    TlsConfigInput tlsConfig,
+    required String apiId,
+    required IntegrationType integrationType,
+    String? connectionId,
+    ConnectionType? connectionType,
+    ContentHandlingStrategy? contentHandlingStrategy,
+    String? credentialsArn,
+    String? description,
+    String? integrationMethod,
+    String? integrationSubtype,
+    String? integrationUri,
+    PassthroughBehavior? passthroughBehavior,
+    String? payloadFormatVersion,
+    Map<String, String>? requestParameters,
+    Map<String, String>? requestTemplates,
+    Map<String, Map<String, String>>? responseParameters,
+    String? templateSelectionExpression,
+    int? timeoutInMillis,
+    TlsConfigInput? tlsConfig,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationType, 'integrationType');
@@ -633,7 +625,7 @@ class ApiGatewayV2 {
       30000,
     );
     final $payload = <String, dynamic>{
-      'integrationType': integrationType?.toValue() ?? '',
+      'integrationType': integrationType.toValue(),
       if (connectionId != null) 'connectionId': connectionId,
       if (connectionType != null) 'connectionType': connectionType.toValue(),
       if (contentHandlingStrategy != null)
@@ -718,13 +710,13 @@ class ApiGatewayV2 {
   /// The template selection expression for the integration response. Supported
   /// only for WebSocket APIs.
   Future<CreateIntegrationResponseResponse> createIntegrationResponse({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    @_s.required String integrationResponseKey,
-    ContentHandlingStrategy contentHandlingStrategy,
-    Map<String, String> responseParameters,
-    Map<String, String> responseTemplates,
-    String templateSelectionExpression,
+    required String apiId,
+    required String integrationId,
+    required String integrationResponseKey,
+    ContentHandlingStrategy? contentHandlingStrategy,
+    Map<String, String>? responseParameters,
+    Map<String, String>? responseTemplates,
+    String? templateSelectionExpression,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -772,11 +764,11 @@ class ApiGatewayV2 {
   /// Parameter [description] :
   /// The description of the model.
   Future<CreateModelResponse> createModel({
-    @_s.required String apiId,
-    @_s.required String name,
-    @_s.required String schema,
-    String contentType,
-    String description,
+    required String apiId,
+    required String name,
+    required String schema,
+    String? contentType,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(name, 'name');
@@ -848,18 +840,18 @@ class ApiGatewayV2 {
   /// Parameter [target] :
   /// The target for the route.
   Future<CreateRouteResult> createRoute({
-    @_s.required String apiId,
-    @_s.required String routeKey,
-    bool apiKeyRequired,
-    List<String> authorizationScopes,
-    AuthorizationType authorizationType,
-    String authorizerId,
-    String modelSelectionExpression,
-    String operationName,
-    Map<String, String> requestModels,
-    Map<String, ParameterConstraints> requestParameters,
-    String routeResponseSelectionExpression,
-    String target,
+    required String apiId,
+    required String routeKey,
+    bool? apiKeyRequired,
+    List<String>? authorizationScopes,
+    AuthorizationType? authorizationType,
+    String? authorizerId,
+    String? modelSelectionExpression,
+    String? operationName,
+    Map<String, String>? requestModels,
+    Map<String, ParameterConstraints>? requestParameters,
+    String? routeResponseSelectionExpression,
+    String? target,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeKey, 'routeKey');
@@ -915,12 +907,12 @@ class ApiGatewayV2 {
   /// Parameter [responseParameters] :
   /// The route response parameters.
   Future<CreateRouteResponseResponse> createRouteResponse({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    @_s.required String routeResponseKey,
-    String modelSelectionExpression,
-    Map<String, String> responseModels,
-    Map<String, ParameterConstraints> responseParameters,
+    required String apiId,
+    required String routeId,
+    required String routeResponseKey,
+    String? modelSelectionExpression,
+    Map<String, String>? responseModels,
+    Map<String, ParameterConstraints>? responseParameters,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -987,17 +979,17 @@ class ApiGatewayV2 {
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
   Future<CreateStageResponse> createStage({
-    @_s.required String apiId,
-    @_s.required String stageName,
-    AccessLogSettings accessLogSettings,
-    bool autoDeploy,
-    String clientCertificateId,
-    RouteSettings defaultRouteSettings,
-    String deploymentId,
-    String description,
-    Map<String, RouteSettings> routeSettings,
-    Map<String, String> stageVariables,
-    Map<String, String> tags,
+    required String apiId,
+    required String stageName,
+    AccessLogSettings? accessLogSettings,
+    bool? autoDeploy,
+    String? clientCertificateId,
+    RouteSettings? defaultRouteSettings,
+    String? deploymentId,
+    String? description,
+    Map<String, RouteSettings>? routeSettings,
+    Map<String, String>? stageVariables,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -1041,10 +1033,10 @@ class ApiGatewayV2 {
   /// Parameter [tags] :
   /// A list of tags.
   Future<CreateVpcLinkResponse> createVpcLink({
-    @_s.required String name,
-    @_s.required List<String> subnetIds,
-    List<String> securityGroupIds,
-    Map<String, String> tags,
+    required String name,
+    required List<String> subnetIds,
+    List<String>? securityGroupIds,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -1076,8 +1068,8 @@ class ApiGatewayV2 {
   /// The stage name. Stage names can only contain alphanumeric characters,
   /// hyphens, and underscores. Maximum length is 128 characters.
   Future<void> deleteAccessLogSettings({
-    @_s.required String apiId,
-    @_s.required String stageName,
+    required String apiId,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -1098,7 +1090,7 @@ class ApiGatewayV2 {
   /// Parameter [apiId] :
   /// The API identifier.
   Future<void> deleteApi({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     await _protocol.send(
@@ -1121,8 +1113,8 @@ class ApiGatewayV2 {
   /// Parameter [domainName] :
   /// The domain name.
   Future<void> deleteApiMapping({
-    @_s.required String apiMappingId,
-    @_s.required String domainName,
+    required String apiMappingId,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1146,8 +1138,8 @@ class ApiGatewayV2 {
   /// Parameter [authorizerId] :
   /// The authorizer identifier.
   Future<void> deleteAuthorizer({
-    @_s.required String apiId,
-    @_s.required String authorizerId,
+    required String apiId,
+    required String authorizerId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
@@ -1168,7 +1160,7 @@ class ApiGatewayV2 {
   /// Parameter [apiId] :
   /// The API identifier.
   Future<void> deleteCorsConfiguration({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     await _protocol.send(
@@ -1190,8 +1182,8 @@ class ApiGatewayV2 {
   /// Parameter [deploymentId] :
   /// The deployment ID.
   Future<void> deleteDeployment({
-    @_s.required String apiId,
-    @_s.required String deploymentId,
+    required String apiId,
+    required String deploymentId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
@@ -1212,7 +1204,7 @@ class ApiGatewayV2 {
   /// Parameter [domainName] :
   /// The domain name.
   Future<void> deleteDomainName({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     await _protocol.send(
@@ -1234,8 +1226,8 @@ class ApiGatewayV2 {
   /// Parameter [integrationId] :
   /// The integration ID.
   Future<void> deleteIntegration({
-    @_s.required String apiId,
-    @_s.required String integrationId,
+    required String apiId,
+    required String integrationId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -1262,9 +1254,9 @@ class ApiGatewayV2 {
   /// Parameter [integrationResponseId] :
   /// The integration response ID.
   Future<void> deleteIntegrationResponse({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    @_s.required String integrationResponseId,
+    required String apiId,
+    required String integrationId,
+    required String integrationResponseId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -1289,8 +1281,8 @@ class ApiGatewayV2 {
   /// Parameter [modelId] :
   /// The model ID.
   Future<void> deleteModel({
-    @_s.required String apiId,
-    @_s.required String modelId,
+    required String apiId,
+    required String modelId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -1314,8 +1306,8 @@ class ApiGatewayV2 {
   /// Parameter [routeId] :
   /// The route ID.
   Future<void> deleteRoute({
-    @_s.required String apiId,
-    @_s.required String routeId,
+    required String apiId,
+    required String routeId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -1342,9 +1334,9 @@ class ApiGatewayV2 {
   /// Parameter [routeId] :
   /// The route ID.
   Future<void> deleteRouteRequestParameter({
-    @_s.required String apiId,
-    @_s.required String requestParameterKey,
-    @_s.required String routeId,
+    required String apiId,
+    required String requestParameterKey,
+    required String routeId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(requestParameterKey, 'requestParameterKey');
@@ -1372,9 +1364,9 @@ class ApiGatewayV2 {
   /// Parameter [routeResponseId] :
   /// The route response ID.
   Future<void> deleteRouteResponse({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    @_s.required String routeResponseId,
+    required String apiId,
+    required String routeId,
+    required String routeResponseId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -1403,9 +1395,9 @@ class ApiGatewayV2 {
   /// The stage name. Stage names can only contain alphanumeric characters,
   /// hyphens, and underscores. Maximum length is 128 characters.
   Future<void> deleteRouteSettings({
-    @_s.required String apiId,
-    @_s.required String routeKey,
-    @_s.required String stageName,
+    required String apiId,
+    required String routeKey,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeKey, 'routeKey');
@@ -1431,8 +1423,8 @@ class ApiGatewayV2 {
   /// The stage name. Stage names can only contain alphanumeric characters,
   /// hyphens, and underscores. Maximum length is 128 characters.
   Future<void> deleteStage({
-    @_s.required String apiId,
-    @_s.required String stageName,
+    required String apiId,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -1453,7 +1445,7 @@ class ApiGatewayV2 {
   /// Parameter [vpcLinkId] :
   /// The ID of the VPC link.
   Future<void> deleteVpcLink({
-    @_s.required String vpcLinkId,
+    required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final response = await _protocol.send(
@@ -1462,7 +1454,6 @@ class ApiGatewayV2 {
       requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVpcLinkResponse.fromJson(response);
   }
 
   ///
@@ -1495,18 +1486,18 @@ class ApiGatewayV2 {
   /// The name of the API stage to export. If you don't specify this property, a
   /// representation of the latest API configuration is exported.
   Future<ExportApiResponse> exportApi({
-    @_s.required String apiId,
-    @_s.required String outputType,
-    @_s.required String specification,
-    String exportVersion,
-    bool includeExtensions,
-    String stageName,
+    required String apiId,
+    required String outputType,
+    required String specification,
+    String? exportVersion,
+    bool? includeExtensions,
+    String? stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(outputType, 'outputType');
     ArgumentError.checkNotNull(specification, 'specification');
     final $query = <String, List<String>>{
-      if (outputType != null) 'outputType': [outputType],
+      'outputType': [outputType],
       if (exportVersion != null) 'exportVersion': [exportVersion],
       if (includeExtensions != null)
         'includeExtensions': [includeExtensions.toString()],
@@ -1539,8 +1530,8 @@ class ApiGatewayV2 {
   /// hyphens, and underscores, or be $default. Maximum length is 128
   /// characters.
   Future<void> resetAuthorizersCache({
-    @_s.required String apiId,
-    @_s.required String stageName,
+    required String apiId,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -1561,7 +1552,7 @@ class ApiGatewayV2 {
   /// Parameter [apiId] :
   /// The API identifier.
   Future<GetApiResponse> getApi({
-    @_s.required String apiId,
+    required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
@@ -1585,8 +1576,8 @@ class ApiGatewayV2 {
   /// Parameter [domainName] :
   /// The domain name.
   Future<GetApiMappingResponse> getApiMapping({
-    @_s.required String apiMappingId,
-    @_s.required String domainName,
+    required String apiMappingId,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1616,9 +1607,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetApiMappingsResponse> getApiMappings({
-    @_s.required String domainName,
-    String maxResults,
-    String nextToken,
+    required String domainName,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $query = <String, List<String>>{
@@ -1649,8 +1640,8 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetApisResponse> getApis({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
@@ -1677,8 +1668,8 @@ class ApiGatewayV2 {
   /// Parameter [authorizerId] :
   /// The authorizer identifier.
   Future<GetAuthorizerResponse> getAuthorizer({
-    @_s.required String apiId,
-    @_s.required String authorizerId,
+    required String apiId,
+    required String authorizerId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
@@ -1708,9 +1699,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetAuthorizersResponse> getAuthorizers({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -1738,8 +1729,8 @@ class ApiGatewayV2 {
   /// Parameter [deploymentId] :
   /// The deployment ID.
   Future<GetDeploymentResponse> getDeployment({
-    @_s.required String apiId,
-    @_s.required String deploymentId,
+    required String apiId,
+    required String deploymentId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
@@ -1769,9 +1760,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetDeploymentsResponse> getDeployments({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -1796,7 +1787,7 @@ class ApiGatewayV2 {
   /// Parameter [domainName] :
   /// The domain name.
   Future<GetDomainNameResponse> getDomainName({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
@@ -1821,8 +1812,8 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetDomainNamesResponse> getDomainNames({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
@@ -1849,8 +1840,8 @@ class ApiGatewayV2 {
   /// Parameter [integrationId] :
   /// The integration ID.
   Future<GetIntegrationResult> getIntegration({
-    @_s.required String apiId,
-    @_s.required String integrationId,
+    required String apiId,
+    required String integrationId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -1878,9 +1869,9 @@ class ApiGatewayV2 {
   /// Parameter [integrationResponseId] :
   /// The integration response ID.
   Future<GetIntegrationResponseResponse> getIntegrationResponse({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    @_s.required String integrationResponseId,
+    required String apiId,
+    required String integrationId,
+    required String integrationResponseId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -1914,10 +1905,10 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetIntegrationResponsesResponse> getIntegrationResponses({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    required String integrationId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -1952,9 +1943,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetIntegrationsResponse> getIntegrations({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -1982,8 +1973,8 @@ class ApiGatewayV2 {
   /// Parameter [modelId] :
   /// The model ID.
   Future<GetModelResponse> getModel({
-    @_s.required String apiId,
-    @_s.required String modelId,
+    required String apiId,
+    required String modelId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -2008,8 +1999,8 @@ class ApiGatewayV2 {
   /// Parameter [modelId] :
   /// The model ID.
   Future<GetModelTemplateResponse> getModelTemplate({
-    @_s.required String apiId,
-    @_s.required String modelId,
+    required String apiId,
+    required String modelId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -2039,9 +2030,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetModelsResponse> getModels({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -2069,8 +2060,8 @@ class ApiGatewayV2 {
   /// Parameter [routeId] :
   /// The route ID.
   Future<GetRouteResult> getRoute({
-    @_s.required String apiId,
-    @_s.required String routeId,
+    required String apiId,
+    required String routeId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -2098,9 +2089,9 @@ class ApiGatewayV2 {
   /// Parameter [routeResponseId] :
   /// The route response ID.
   Future<GetRouteResponseResponse> getRouteResponse({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    @_s.required String routeResponseId,
+    required String apiId,
+    required String routeId,
+    required String routeResponseId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -2134,10 +2125,10 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetRouteResponsesResponse> getRouteResponses({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    required String routeId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -2172,9 +2163,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetRoutesResponse> getRoutes({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -2203,8 +2194,8 @@ class ApiGatewayV2 {
   /// The stage name. Stage names can only contain alphanumeric characters,
   /// hyphens, and underscores. Maximum length is 128 characters.
   Future<GetStageResponse> getStage({
-    @_s.required String apiId,
-    @_s.required String stageName,
+    required String apiId,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -2234,9 +2225,9 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetStagesResponse> getStages({
-    @_s.required String apiId,
-    String maxResults,
-    String nextToken,
+    required String apiId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
@@ -2263,7 +2254,7 @@ class ApiGatewayV2 {
   /// Parameter [resourceArn] :
   /// The resource ARN for the tag.
   Future<GetTagsResponse> getTags({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -2283,7 +2274,7 @@ class ApiGatewayV2 {
   /// Parameter [vpcLinkId] :
   /// The ID of the VPC link.
   Future<GetVpcLinkResponse> getVpcLink({
-    @_s.required String vpcLinkId,
+    required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final response = await _protocol.send(
@@ -2307,8 +2298,8 @@ class ApiGatewayV2 {
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
   Future<GetVpcLinksResponse> getVpcLinks({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
@@ -2346,9 +2337,9 @@ class ApiGatewayV2 {
   /// encountered. By default, API creation continues if a warning is
   /// encountered.
   Future<ImportApiResponse> importApi({
-    @_s.required String body,
-    String basepath,
-    bool failOnWarnings,
+    required String body,
+    String? basepath,
+    bool? failOnWarnings,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     final $query = <String, List<String>>{
@@ -2393,10 +2384,10 @@ class ApiGatewayV2 {
   /// encountered. By default, API creation continues if a warning is
   /// encountered.
   Future<ReimportApiResponse> reimportApi({
-    @_s.required String apiId,
-    @_s.required String body,
-    String basepath,
-    bool failOnWarnings,
+    required String apiId,
+    required String body,
+    String? basepath,
+    bool? failOnWarnings,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(body, 'body');
@@ -2431,8 +2422,8 @@ class ApiGatewayV2 {
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    Map<String, String> tags,
+    required String resourceArn,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
@@ -2444,7 +2435,6 @@ class ApiGatewayV2 {
       requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Deletes a Tag.
@@ -2460,13 +2450,13 @@ class ApiGatewayV2 {
   /// Parameter [tagKeys] :
   /// The Tag keys to delete
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -2547,18 +2537,18 @@ class ApiGatewayV2 {
   /// Parameter [version] :
   /// A version identifier for the API.
   Future<UpdateApiResponse> updateApi({
-    @_s.required String apiId,
-    String apiKeySelectionExpression,
-    Cors corsConfiguration,
-    String credentialsArn,
-    String description,
-    bool disableExecuteApiEndpoint,
-    bool disableSchemaValidation,
-    String name,
-    String routeKey,
-    String routeSelectionExpression,
-    String target,
-    String version,
+    required String apiId,
+    String? apiKeySelectionExpression,
+    Cors? corsConfiguration,
+    String? credentialsArn,
+    String? description,
+    bool? disableExecuteApiEndpoint,
+    bool? disableSchemaValidation,
+    String? name,
+    String? routeKey,
+    String? routeSelectionExpression,
+    String? target,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
@@ -2609,11 +2599,11 @@ class ApiGatewayV2 {
   /// Parameter [stage] :
   /// The API stage.
   Future<UpdateApiMappingResponse> updateApiMapping({
-    @_s.required String apiId,
-    @_s.required String apiMappingId,
-    @_s.required String domainName,
-    String apiMappingKey,
-    String stage,
+    required String apiId,
+    required String apiMappingId,
+    required String domainName,
+    String? apiMappingKey,
+    String? stage,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
@@ -2727,18 +2717,18 @@ class ApiGatewayV2 {
   /// Parameter [name] :
   /// The name of the authorizer.
   Future<UpdateAuthorizerResponse> updateAuthorizer({
-    @_s.required String apiId,
-    @_s.required String authorizerId,
-    String authorizerCredentialsArn,
-    String authorizerPayloadFormatVersion,
-    int authorizerResultTtlInSeconds,
-    AuthorizerType authorizerType,
-    String authorizerUri,
-    bool enableSimpleResponses,
-    List<String> identitySource,
-    String identityValidationExpression,
-    JWTConfiguration jwtConfiguration,
-    String name,
+    required String apiId,
+    required String authorizerId,
+    String? authorizerCredentialsArn,
+    String? authorizerPayloadFormatVersion,
+    int? authorizerResultTtlInSeconds,
+    AuthorizerType? authorizerType,
+    String? authorizerUri,
+    bool? enableSimpleResponses,
+    List<String>? identitySource,
+    String? identityValidationExpression,
+    JWTConfiguration? jwtConfiguration,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
@@ -2791,9 +2781,9 @@ class ApiGatewayV2 {
   /// Parameter [description] :
   /// The description for the deployment resource.
   Future<UpdateDeploymentResponse> updateDeployment({
-    @_s.required String apiId,
-    @_s.required String deploymentId,
-    String description,
+    required String apiId,
+    required String deploymentId,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
@@ -2826,9 +2816,9 @@ class ApiGatewayV2 {
   /// Parameter [mutualTlsAuthentication] :
   /// The mutual TLS authentication configuration for a custom domain name.
   Future<UpdateDomainNameResponse> updateDomainName({
-    @_s.required String domainName,
-    List<DomainNameConfiguration> domainNameConfigurations,
-    MutualTlsAuthenticationInput mutualTlsAuthentication,
+    required String domainName,
+    List<DomainNameConfiguration>? domainNameConfigurations,
+    MutualTlsAuthenticationInput? mutualTlsAuthentication,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
@@ -3030,25 +3020,25 @@ class ApiGatewayV2 {
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
   Future<UpdateIntegrationResult> updateIntegration({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    String connectionId,
-    ConnectionType connectionType,
-    ContentHandlingStrategy contentHandlingStrategy,
-    String credentialsArn,
-    String description,
-    String integrationMethod,
-    String integrationSubtype,
-    IntegrationType integrationType,
-    String integrationUri,
-    PassthroughBehavior passthroughBehavior,
-    String payloadFormatVersion,
-    Map<String, String> requestParameters,
-    Map<String, String> requestTemplates,
-    Map<String, Map<String, String>> responseParameters,
-    String templateSelectionExpression,
-    int timeoutInMillis,
-    TlsConfigInput tlsConfig,
+    required String apiId,
+    required String integrationId,
+    String? connectionId,
+    ConnectionType? connectionType,
+    ContentHandlingStrategy? contentHandlingStrategy,
+    String? credentialsArn,
+    String? description,
+    String? integrationMethod,
+    String? integrationSubtype,
+    IntegrationType? integrationType,
+    String? integrationUri,
+    PassthroughBehavior? passthroughBehavior,
+    String? payloadFormatVersion,
+    Map<String, String>? requestParameters,
+    Map<String, String>? requestTemplates,
+    Map<String, Map<String, String>>? responseParameters,
+    String? templateSelectionExpression,
+    int? timeoutInMillis,
+    TlsConfigInput? tlsConfig,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -3152,14 +3142,14 @@ class ApiGatewayV2 {
   /// The template selection expression for the integration response. Supported
   /// only for WebSocket APIs.
   Future<UpdateIntegrationResponseResponse> updateIntegrationResponse({
-    @_s.required String apiId,
-    @_s.required String integrationId,
-    @_s.required String integrationResponseId,
-    ContentHandlingStrategy contentHandlingStrategy,
-    String integrationResponseKey,
-    Map<String, String> responseParameters,
-    Map<String, String> responseTemplates,
-    String templateSelectionExpression,
+    required String apiId,
+    required String integrationId,
+    required String integrationResponseId,
+    ContentHandlingStrategy? contentHandlingStrategy,
+    String? integrationResponseKey,
+    Map<String, String>? responseParameters,
+    Map<String, String>? responseTemplates,
+    String? templateSelectionExpression,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
@@ -3210,12 +3200,12 @@ class ApiGatewayV2 {
   /// The schema for the model. For application/json models, this should be JSON
   /// schema draft 4 model.
   Future<UpdateModelResponse> updateModel({
-    @_s.required String apiId,
-    @_s.required String modelId,
-    String contentType,
-    String description,
-    String name,
-    String schema,
+    required String apiId,
+    required String modelId,
+    String? contentType,
+    String? description,
+    String? name,
+    String? schema,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -3290,19 +3280,19 @@ class ApiGatewayV2 {
   /// Parameter [target] :
   /// The target for the route.
   Future<UpdateRouteResult> updateRoute({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    bool apiKeyRequired,
-    List<String> authorizationScopes,
-    AuthorizationType authorizationType,
-    String authorizerId,
-    String modelSelectionExpression,
-    String operationName,
-    Map<String, String> requestModels,
-    Map<String, ParameterConstraints> requestParameters,
-    String routeKey,
-    String routeResponseSelectionExpression,
-    String target,
+    required String apiId,
+    required String routeId,
+    bool? apiKeyRequired,
+    List<String>? authorizationScopes,
+    AuthorizationType? authorizationType,
+    String? authorizerId,
+    String? modelSelectionExpression,
+    String? operationName,
+    Map<String, String>? requestModels,
+    Map<String, ParameterConstraints>? requestParameters,
+    String? routeKey,
+    String? routeResponseSelectionExpression,
+    String? target,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -3362,13 +3352,13 @@ class ApiGatewayV2 {
   /// Parameter [routeResponseKey] :
   /// The route response key.
   Future<UpdateRouteResponseResponse> updateRouteResponse({
-    @_s.required String apiId,
-    @_s.required String routeId,
-    @_s.required String routeResponseId,
-    String modelSelectionExpression,
-    Map<String, String> responseModels,
-    Map<String, ParameterConstraints> responseParameters,
-    String routeResponseKey,
+    required String apiId,
+    required String routeId,
+    required String routeResponseId,
+    String? modelSelectionExpression,
+    Map<String, String>? responseModels,
+    Map<String, ParameterConstraints>? responseParameters,
+    String? routeResponseKey,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
@@ -3433,16 +3423,16 @@ class ApiGatewayV2 {
   /// have alphanumeric and underscore characters, and the values must match
   /// [A-Za-z0-9-._~:/?#&amp;=,]+.
   Future<UpdateStageResponse> updateStage({
-    @_s.required String apiId,
-    @_s.required String stageName,
-    AccessLogSettings accessLogSettings,
-    bool autoDeploy,
-    String clientCertificateId,
-    RouteSettings defaultRouteSettings,
-    String deploymentId,
-    String description,
-    Map<String, RouteSettings> routeSettings,
-    Map<String, String> stageVariables,
+    required String apiId,
+    required String stageName,
+    AccessLogSettings? accessLogSettings,
+    bool? autoDeploy,
+    String? clientCertificateId,
+    RouteSettings? defaultRouteSettings,
+    String? deploymentId,
+    String? description,
+    Map<String, RouteSettings>? routeSettings,
+    Map<String, String>? stageVariables,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -3480,8 +3470,8 @@ class ApiGatewayV2 {
   /// Parameter [name] :
   /// The name of the VPC link.
   Future<UpdateVpcLinkResponse> updateVpcLink({
-    @_s.required String vpcLinkId,
-    String name,
+    required String vpcLinkId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final $payload = <String, dynamic>{
@@ -3498,124 +3488,106 @@ class ApiGatewayV2 {
 }
 
 /// Settings for logging access in a stage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessLogSettings {
   /// The ARN of the CloudWatch Logs log group to receive access logs.
-  @_s.JsonKey(name: 'destinationArn')
-  final String destinationArn;
+  final String? destinationArn;
 
   /// A single line format of the access logs of data, as specified by selected
   /// $context variables. The format must include at least $context.requestId.
-  @_s.JsonKey(name: 'format')
-  final String format;
+  final String? format;
 
   AccessLogSettings({
     this.destinationArn,
     this.format,
   });
-  factory AccessLogSettings.fromJson(Map<String, dynamic> json) =>
-      _$AccessLogSettingsFromJson(json);
+  factory AccessLogSettings.fromJson(Map<String, dynamic> json) {
+    return AccessLogSettings(
+      destinationArn: json['destinationArn'] as String?,
+      format: json['format'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AccessLogSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final destinationArn = this.destinationArn;
+    final format = this.format;
+    return {
+      if (destinationArn != null) 'destinationArn': destinationArn,
+      if (format != null) 'format': format,
+    };
+  }
 }
 
 /// Represents an API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Api {
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
   final ProtocolType protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
   final String routeSelectionExpression;
 
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   Api({
-    @_s.required this.name,
-    @_s.required this.protocolType,
-    @_s.required this.routeSelectionExpression,
+    required this.name,
+    required this.protocolType,
+    required this.routeSelectionExpression,
     this.apiEndpoint,
     this.apiGatewayManaged,
     this.apiId,
@@ -3630,40 +3602,65 @@ class Api {
     this.version,
     this.warnings,
   });
-  factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
+  factory Api.fromJson(Map<String, dynamic> json) {
+    return Api(
+      name: json['name'] as String,
+      protocolType: (json['protocolType'] as String).toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String,
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Represents an API mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApiMapping {
   /// The API identifier.
-  @_s.JsonKey(name: 'apiId')
   final String apiId;
 
   /// The API stage.
-  @_s.JsonKey(name: 'stage')
   final String stage;
 
   /// The API mapping identifier.
-  @_s.JsonKey(name: 'apiMappingId')
-  final String apiMappingId;
+  final String? apiMappingId;
 
   /// The API mapping key.
-  @_s.JsonKey(name: 'apiMappingKey')
-  final String apiMappingKey;
+  final String? apiMappingKey;
 
   ApiMapping({
-    @_s.required this.apiId,
-    @_s.required this.stage,
+    required this.apiId,
+    required this.stage,
     this.apiMappingId,
     this.apiMappingKey,
   });
-  factory ApiMapping.fromJson(Map<String, dynamic> json) =>
-      _$ApiMappingFromJson(json);
+  factory ApiMapping.fromJson(Map<String, dynamic> json) {
+    return ApiMapping(
+      apiId: json['apiId'] as String,
+      stage: json['stage'] as String,
+      apiMappingId: json['apiMappingId'] as String?,
+      apiMappingKey: json['apiMappingKey'] as String?,
+    );
+  }
 }
 
 /// The authorization type. For WebSocket APIs, valid values are NONE for open
@@ -3672,13 +3669,9 @@ class ApiMapping {
 /// using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for
 /// using a Lambda authorizer.
 enum AuthorizationType {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('AWS_IAM')
   awsIam,
-  @_s.JsonValue('CUSTOM')
   custom,
-  @_s.JsonValue('JWT')
   jwt,
 }
 
@@ -3694,19 +3687,28 @@ extension on AuthorizationType {
       case AuthorizationType.jwt:
         return 'JWT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthorizationType toAuthorizationType() {
+    switch (this) {
+      case 'NONE':
+        return AuthorizationType.none;
+      case 'AWS_IAM':
+        return AuthorizationType.awsIam;
+      case 'CUSTOM':
+        return AuthorizationType.custom;
+      case 'JWT':
+        return AuthorizationType.jwt;
+    }
+    throw Exception('$this is not known in enum AuthorizationType');
   }
 }
 
 /// Represents an authorizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Authorizer {
   /// The name of the authorizer.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
@@ -3714,33 +3716,28 @@ class Authorizer {
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
   /// Lambda function, don't specify this parameter. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerCredentialsArn')
-  final String authorizerCredentialsArn;
+  final String? authorizerCredentialsArn;
 
   /// The authorizer identifier.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
   /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
   /// To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>.
-  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
-  final String authorizerPayloadFormatVersion;
+  final String? authorizerPayloadFormatVersion;
 
   /// The time to live (TTL) for cached authorizer results, in seconds. If it
   /// equals 0, authorization caching is disabled. If it is greater than 0, API
   /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
   /// Supported only for HTTP API Lambda authorizers.
-  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
-  final int authorizerResultTtlInSeconds;
+  final int? authorizerResultTtlInSeconds;
 
   /// The authorizer type. Specify REQUEST for a Lambda function using incoming
   /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
   /// HTTP APIs).
-  @_s.JsonKey(name: 'authorizerType')
-  final AuthorizerType authorizerType;
+  final AuthorizerType? authorizerType;
 
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
@@ -3753,16 +3750,14 @@ class Authorizer {
   /// /. For Lambda functions, this is usually of the form
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerUri')
-  final String authorizerUri;
+  final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
   /// If enabled, the Lambda authorizer can return a boolean value instead of an
   /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>
-  @_s.JsonKey(name: 'enableSimpleResponses')
-  final bool enableSimpleResponses;
+  final bool? enableSimpleResponses;
 
   /// The identity source for which authorization is requested.
   ///
@@ -3788,20 +3783,17 @@ class Authorizer {
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
   /// $request.header.Authorization.
-  @_s.JsonKey(name: 'identitySource')
-  final List<String> identitySource;
+  final List<String>? identitySource;
 
   /// The validation expression does not apply to the REQUEST authorizer.
-  @_s.JsonKey(name: 'identityValidationExpression')
-  final String identityValidationExpression;
+  final String? identityValidationExpression;
 
   /// Represents the configuration of a JWT authorizer. Required for the JWT
   /// authorizer type. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'jwtConfiguration')
-  final JWTConfiguration jwtConfiguration;
+  final JWTConfiguration? jwtConfiguration;
 
   Authorizer({
-    @_s.required this.name,
+    required this.name,
     this.authorizerCredentialsArn,
     this.authorizerId,
     this.authorizerPayloadFormatVersion,
@@ -3813,17 +3805,37 @@ class Authorizer {
     this.identityValidationExpression,
     this.jwtConfiguration,
   });
-  factory Authorizer.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizerFromJson(json);
+  factory Authorizer.fromJson(Map<String, dynamic> json) {
+    return Authorizer(
+      name: json['name'] as String,
+      authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
+      authorizerId: json['authorizerId'] as String?,
+      authorizerPayloadFormatVersion:
+          json['authorizerPayloadFormatVersion'] as String?,
+      authorizerResultTtlInSeconds:
+          json['authorizerResultTtlInSeconds'] as int?,
+      authorizerType: (json['authorizerType'] as String?)?.toAuthorizerType(),
+      authorizerUri: json['authorizerUri'] as String?,
+      enableSimpleResponses: json['enableSimpleResponses'] as bool?,
+      identitySource: (json['identitySource'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identityValidationExpression:
+          json['identityValidationExpression'] as String?,
+      jwtConfiguration: json['jwtConfiguration'] != null
+          ? JWTConfiguration.fromJson(
+              json['jwtConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The authorizer type. Specify REQUEST for a Lambda function using incoming
 /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
 /// HTTP APIs).
 enum AuthorizerType {
-  @_s.JsonValue('REQUEST')
   request,
-  @_s.JsonValue('JWT')
   jwt,
 }
 
@@ -3835,15 +3847,24 @@ extension on AuthorizerType {
       case AuthorizerType.jwt:
         return 'JWT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthorizerType toAuthorizerType() {
+    switch (this) {
+      case 'REQUEST':
+        return AuthorizerType.request;
+      case 'JWT':
+        return AuthorizerType.jwt;
+    }
+    throw Exception('$this is not known in enum AuthorizerType');
   }
 }
 
 /// Represents a connection type.
 enum ConnectionType {
-  @_s.JsonValue('INTERNET')
   internet,
-  @_s.JsonValue('VPC_LINK')
   vpcLink,
 }
 
@@ -3855,16 +3876,25 @@ extension on ConnectionType {
       case ConnectionType.vpcLink:
         return 'VPC_LINK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ConnectionType toConnectionType() {
+    switch (this) {
+      case 'INTERNET':
+        return ConnectionType.internet;
+      case 'VPC_LINK':
+        return ConnectionType.vpcLink;
+    }
+    throw Exception('$this is not known in enum ConnectionType');
   }
 }
 
 /// Specifies how to handle response payload content type conversions. Supported
 /// only for WebSocket APIs.
 enum ContentHandlingStrategy {
-  @_s.JsonValue('CONVERT_TO_BINARY')
   convertToBinary,
-  @_s.JsonValue('CONVERT_TO_TEXT')
   convertToText,
 }
 
@@ -3876,45 +3906,45 @@ extension on ContentHandlingStrategy {
       case ContentHandlingStrategy.convertToText:
         return 'CONVERT_TO_TEXT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContentHandlingStrategy toContentHandlingStrategy() {
+    switch (this) {
+      case 'CONVERT_TO_BINARY':
+        return ContentHandlingStrategy.convertToBinary;
+      case 'CONVERT_TO_TEXT':
+        return ContentHandlingStrategy.convertToText;
+    }
+    throw Exception('$this is not known in enum ContentHandlingStrategy');
   }
 }
 
 /// Represents a CORS configuration. Supported only for HTTP APIs. See <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html">Configuring
 /// CORS</a> for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Cors {
   /// Specifies whether credentials are included in the CORS request. Supported
   /// only for HTTP APIs.
-  @_s.JsonKey(name: 'allowCredentials')
-  final bool allowCredentials;
+  final bool? allowCredentials;
 
   /// Represents a collection of allowed headers. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'allowHeaders')
-  final List<String> allowHeaders;
+  final List<String>? allowHeaders;
 
   /// Represents a collection of allowed HTTP methods. Supported only for HTTP
   /// APIs.
-  @_s.JsonKey(name: 'allowMethods')
-  final List<String> allowMethods;
+  final List<String>? allowMethods;
 
   /// Represents a collection of allowed origins. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'allowOrigins')
-  final List<String> allowOrigins;
+  final List<String>? allowOrigins;
 
   /// Represents a collection of exposed headers. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'exposeHeaders')
-  final List<String> exposeHeaders;
+  final List<String>? exposeHeaders;
 
   /// The number of seconds that the browser should cache preflight request
   /// results. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'maxAge')
-  final int maxAge;
+  final int? maxAge;
 
   Cors({
     this.allowCredentials,
@@ -3924,32 +3954,59 @@ class Cors {
     this.exposeHeaders,
     this.maxAge,
   });
-  factory Cors.fromJson(Map<String, dynamic> json) => _$CorsFromJson(json);
+  factory Cors.fromJson(Map<String, dynamic> json) {
+    return Cors(
+      allowCredentials: json['allowCredentials'] as bool?,
+      allowHeaders: (json['allowHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowMethods: (json['allowMethods'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowOrigins: (json['allowOrigins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      exposeHeaders: (json['exposeHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maxAge: json['maxAge'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CorsToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowCredentials = this.allowCredentials;
+    final allowHeaders = this.allowHeaders;
+    final allowMethods = this.allowMethods;
+    final allowOrigins = this.allowOrigins;
+    final exposeHeaders = this.exposeHeaders;
+    final maxAge = this.maxAge;
+    return {
+      if (allowCredentials != null) 'allowCredentials': allowCredentials,
+      if (allowHeaders != null) 'allowHeaders': allowHeaders,
+      if (allowMethods != null) 'allowMethods': allowMethods,
+      if (allowOrigins != null) 'allowOrigins': allowOrigins,
+      if (exposeHeaders != null) 'exposeHeaders': exposeHeaders,
+      if (maxAge != null) 'maxAge': maxAge,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApiMappingResponse {
   /// The API identifier.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// The API mapping identifier.
-  @_s.JsonKey(name: 'apiMappingId')
-  final String apiMappingId;
+  final String? apiMappingId;
 
   /// The API mapping key.
-  @_s.JsonKey(name: 'apiMappingKey')
-  final String apiMappingKey;
+  final String? apiMappingKey;
 
   /// The API stage.
-  @_s.JsonKey(name: 'stage')
-  final String stage;
+  final String? stage;
 
   CreateApiMappingResponse({
     this.apiId,
@@ -3957,97 +4014,81 @@ class CreateApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
-  factory CreateApiMappingResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApiMappingResponseFromJson(json);
+  factory CreateApiMappingResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApiMappingResponse(
+      apiId: json['apiId'] as String?,
+      apiMappingId: json['apiMappingId'] as String?,
+      apiMappingKey: json['apiMappingKey'] as String?,
+      stage: json['stage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
-  final ProtocolType protocolType;
+  final ProtocolType? protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
-  final String routeSelectionExpression;
+  final String? routeSelectionExpression;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   CreateApiResponse({
     this.apiEndpoint,
@@ -4067,48 +4108,65 @@ class CreateApiResponse {
     this.version,
     this.warnings,
   });
-  factory CreateApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApiResponseFromJson(json);
+  factory CreateApiResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApiResponse(
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      protocolType: (json['protocolType'] as String?)?.toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
   /// Lambda function, don't specify this parameter. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerCredentialsArn')
-  final String authorizerCredentialsArn;
+  final String? authorizerCredentialsArn;
 
   /// The authorizer identifier.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
   /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
   /// To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>.
-  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
-  final String authorizerPayloadFormatVersion;
+  final String? authorizerPayloadFormatVersion;
 
   /// The time to live (TTL) for cached authorizer results, in seconds. If it
   /// equals 0, authorization caching is disabled. If it is greater than 0, API
   /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
   /// Supported only for HTTP API Lambda authorizers.
-  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
-  final int authorizerResultTtlInSeconds;
+  final int? authorizerResultTtlInSeconds;
 
   /// The authorizer type. Specify REQUEST for a Lambda function using incoming
   /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
   /// HTTP APIs).
-  @_s.JsonKey(name: 'authorizerType')
-  final AuthorizerType authorizerType;
+  final AuthorizerType? authorizerType;
 
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
@@ -4121,16 +4179,14 @@ class CreateAuthorizerResponse {
   /// /. For Lambda functions, this is usually of the form
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerUri')
-  final String authorizerUri;
+  final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
   /// If enabled, the Lambda authorizer can return a boolean value instead of an
   /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>
-  @_s.JsonKey(name: 'enableSimpleResponses')
-  final bool enableSimpleResponses;
+  final bool? enableSimpleResponses;
 
   /// The identity source for which authorization is requested.
   ///
@@ -4156,21 +4212,17 @@ class CreateAuthorizerResponse {
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
   /// $request.header.Authorization.
-  @_s.JsonKey(name: 'identitySource')
-  final List<String> identitySource;
+  final List<String>? identitySource;
 
   /// The validation expression does not apply to the REQUEST authorizer.
-  @_s.JsonKey(name: 'identityValidationExpression')
-  final String identityValidationExpression;
+  final String? identityValidationExpression;
 
   /// Represents the configuration of a JWT authorizer. Required for the JWT
   /// authorizer type. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'jwtConfiguration')
-  final JWTConfiguration jwtConfiguration;
+  final JWTConfiguration? jwtConfiguration;
 
   /// The name of the authorizer.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   CreateAuthorizerResponse({
     this.authorizerCredentialsArn,
@@ -4185,40 +4237,50 @@ class CreateAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
-  factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAuthorizerResponseFromJson(json);
+  factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAuthorizerResponse(
+      authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
+      authorizerId: json['authorizerId'] as String?,
+      authorizerPayloadFormatVersion:
+          json['authorizerPayloadFormatVersion'] as String?,
+      authorizerResultTtlInSeconds:
+          json['authorizerResultTtlInSeconds'] as int?,
+      authorizerType: (json['authorizerType'] as String?)?.toAuthorizerType(),
+      authorizerUri: json['authorizerUri'] as String?,
+      enableSimpleResponses: json['enableSimpleResponses'] as bool?,
+      identitySource: (json['identitySource'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identityValidationExpression:
+          json['identityValidationExpression'] as String?,
+      jwtConfiguration: json['jwtConfiguration'] != null
+          ? JWTConfiguration.fromJson(
+              json['jwtConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
-  @_s.JsonKey(name: 'autoDeployed')
-  final bool autoDeployed;
+  final bool? autoDeployed;
 
   /// The date and time when the Deployment resource was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for the deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
-  @_s.JsonKey(name: 'deploymentStatus')
-  final DeploymentStatus deploymentStatus;
+  final DeploymentStatus? deploymentStatus;
 
   /// May contain additional feedback on the status of an API deployment.
-  @_s.JsonKey(name: 'deploymentStatusMessage')
-  final String deploymentStatusMessage;
+  final String? deploymentStatusMessage;
 
   /// The description for the deployment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   CreateDeploymentResponse({
     this.autoDeployed,
@@ -4228,35 +4290,34 @@ class CreateDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
-  factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentResponseFromJson(json);
+  factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentResponse(
+      autoDeployed: json['autoDeployed'] as bool?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentStatus:
+          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDomainNameResponse {
   /// The API mapping selection expression.
-  @_s.JsonKey(name: 'apiMappingSelectionExpression')
-  final String apiMappingSelectionExpression;
+  final String? apiMappingSelectionExpression;
 
   /// The name of the DomainName resource.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The domain name configurations.
-  @_s.JsonKey(name: 'domainNameConfigurations')
-  final List<DomainNameConfiguration> domainNameConfigurations;
+  final List<DomainNameConfiguration>? domainNameConfigurations;
 
   /// The mutual TLS authentication configuration for a custom domain name.
-  @_s.JsonKey(name: 'mutualTlsAuthentication')
-  final MutualTlsAuthentication mutualTlsAuthentication;
+  final MutualTlsAuthentication? mutualTlsAuthentication;
 
   /// The collection of tags associated with a domain name.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateDomainNameResponse({
     this.apiMappingSelectionExpression,
@@ -4265,33 +4326,41 @@ class CreateDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
-  factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDomainNameResponseFromJson(json);
+  factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDomainNameResponse(
+      apiMappingSelectionExpression:
+          json['apiMappingSelectionExpression'] as String?,
+      domainName: json['domainName'] as String?,
+      domainNameConfigurations: (json['domainNameConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
+          ? MutualTlsAuthentication.fromJson(
+              json['mutualTlsAuthentication'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
   /// Gateway. You can update a managed integration, but you can't delete it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The ID of the VPC link for a private integration. Supported only for HTTP
   /// APIs.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The type of the network connection to the integration endpoint. Specify
   /// INTERNET for connections through the public routable internet or VPC_LINK
   /// for private connections between API Gateway and resources in a VPC. The
   /// default value is INTERNET.
-  @_s.JsonKey(name: 'connectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -4306,8 +4375,7 @@ class CreateIntegrationResult {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// Specifies the credentials required for the integration, if any. For AWS
   /// integrations, three options are available. To specify an IAM Role for API
@@ -4315,34 +4383,28 @@ class CreateIntegrationResult {
   /// that the caller's identity be passed through from the request, specify the
   /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
   /// AWS services, specify null.
-  @_s.JsonKey(name: 'credentialsArn')
-  final String credentialsArn;
+  final String? credentialsArn;
 
   /// Represents the description of an integration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Represents the identifier of an integration.
-  @_s.JsonKey(name: 'integrationId')
-  final String integrationId;
+  final String? integrationId;
 
   /// Specifies the integration's HTTP method type.
-  @_s.JsonKey(name: 'integrationMethod')
-  final String integrationMethod;
+  final String? integrationMethod;
 
   /// The integration response selection expression for the integration. Supported
   /// only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-integration-response-selection-expressions">Integration
   /// Response Selection Expressions</a>.
-  @_s.JsonKey(name: 'integrationResponseSelectionExpression')
-  final String integrationResponseSelectionExpression;
+  final String? integrationResponseSelectionExpression;
 
   /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
   /// service action to invoke. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
   /// subtype reference</a>.
-  @_s.JsonKey(name: 'integrationSubtype')
-  final String integrationSubtype;
+  final String? integrationSubtype;
 
   /// The integration type of an integration. One of the following:
   ///
@@ -4367,8 +4429,7 @@ class CreateIntegrationResult {
   /// MOCK: for integrating the route or method request with API Gateway as a
   /// "loopback" endpoint without invoking any backend. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'integrationType')
-  final IntegrationType integrationType;
+  final IntegrationType? integrationType;
 
   /// For a Lambda integration, specify the URI of a Lambda function.
   ///
@@ -4382,8 +4443,7 @@ class CreateIntegrationResult {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
   /// For private integrations, all resources must be owned by the same AWS
   /// account.
-  @_s.JsonKey(name: 'integrationUri')
-  final String integrationUri;
+  final String? integrationUri;
 
   /// Specifies the pass-through behavior for incoming requests based on the
   /// Content-Type header in the request, and the available mapping templates
@@ -4401,13 +4461,11 @@ class CreateIntegrationResult {
   /// types mapped to templates. However, if there is at least one content type
   /// defined, unmapped content types will be rejected with the same HTTP 415
   /// Unsupported Media Type response.
-  @_s.JsonKey(name: 'passthroughBehavior')
-  final PassthroughBehavior passthroughBehavior;
+  final PassthroughBehavior? passthroughBehavior;
 
   /// Specifies the format of the payload sent to an integration. Required for
   /// HTTP APIs.
-  @_s.JsonKey(name: 'payloadFormatVersion')
-  final String payloadFormatVersion;
+  final String? payloadFormatVersion;
 
   /// For WebSocket APIs, a key-value map specifying request parameters that are
   /// passed from the method request to the backend. The key is an integration
@@ -4439,15 +4497,13 @@ class CreateIntegrationResult {
   /// that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, String> requestParameters;
+  final Map<String, String>? requestParameters;
 
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestTemplates')
-  final Map<String, String> requestTemplates;
+  final Map<String, String>? requestTemplates;
 
   /// Supported only for HTTP APIs. You use response parameters to transform the
   /// HTTP response from a backend integration before returning the response to
@@ -4460,25 +4516,21 @@ class CreateIntegrationResult {
   /// context variables that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, Map<String, String>> responseParameters;
+  final Map<String, Map<String, String>>? responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
   /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
   /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
-  @_s.JsonKey(name: 'timeoutInMillis')
-  final int timeoutInMillis;
+  final int? timeoutInMillis;
 
   /// The TLS configuration for a private integration. If you specify a TLS
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'tlsConfig')
-  final TlsConfig tlsConfig;
+  final TlsConfig? tlsConfig;
 
   CreateIntegrationResult({
     this.apiGatewayManaged,
@@ -4502,15 +4554,45 @@ class CreateIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
-  factory CreateIntegrationResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateIntegrationResultFromJson(json);
+  factory CreateIntegrationResult.fromJson(Map<String, dynamic> json) {
+    return CreateIntegrationResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      connectionId: json['connectionId'] as String?,
+      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      credentialsArn: json['credentialsArn'] as String?,
+      description: json['description'] as String?,
+      integrationId: json['integrationId'] as String?,
+      integrationMethod: json['integrationMethod'] as String?,
+      integrationResponseSelectionExpression:
+          json['integrationResponseSelectionExpression'] as String?,
+      integrationSubtype: json['integrationSubtype'] as String?,
+      integrationType:
+          (json['integrationType'] as String?)?.toIntegrationType(),
+      integrationUri: json['integrationUri'] as String?,
+      passthroughBehavior:
+          (json['passthroughBehavior'] as String?)?.toPassthroughBehavior(),
+      payloadFormatVersion: json['payloadFormatVersion'] as String?,
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+      timeoutInMillis: json['timeoutInMillis'] as int?,
+      tlsConfig: json['tlsConfig'] != null
+          ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -4525,16 +4607,13 @@ class CreateIntegrationResponseResponse {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// The integration response ID.
-  @_s.JsonKey(name: 'integrationResponseId')
-  final String integrationResponseId;
+  final String? integrationResponseId;
 
   /// The integration response key.
-  @_s.JsonKey(name: 'integrationResponseKey')
-  final String integrationResponseKey;
+  final String? integrationResponseKey;
 
   /// A key-value map specifying response parameters that are passed to the method
   /// response from the backend. The key is a method response header parameter
@@ -4547,19 +4626,16 @@ class CreateIntegrationResponseResponse {
   /// integration.response.body.{JSON-expression}, where name is a valid and
   /// unique response header name and JSON-expression is a valid JSON expression
   /// without the $ prefix.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, String> responseParameters;
+  final Map<String, String>? responseParameters;
 
   /// The collection of response templates for the integration response as a
   /// string-to-string map of key-value pairs. Response templates are represented
   /// as a key/value map, with a content-type as the key and a template as the
   /// value.
-  @_s.JsonKey(name: 'responseTemplates')
-  final Map<String, String> responseTemplates;
+  final Map<String, String>? responseTemplates;
 
   /// The template selection expressions for the integration response.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   CreateIntegrationResponseResponse({
     this.contentHandlingStrategy,
@@ -4570,36 +4646,38 @@ class CreateIntegrationResponseResponse {
     this.templateSelectionExpression,
   });
   factory CreateIntegrationResponseResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateIntegrationResponseResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateIntegrationResponseResponse(
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      integrationResponseId: json['integrationResponseId'] as String?,
+      integrationResponseKey: json['integrationResponseKey'] as String?,
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateModelResponse {
   /// The content-type for the model, for example, "application/json".
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   /// The description of the model.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The model identifier.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The name of the model. Must be alphanumeric.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The schema for the model. For application/json models, this should be JSON
   /// schema draft 4 model.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   CreateModelResponse({
     this.contentType,
@@ -4608,26 +4686,26 @@ class CreateModelResponse {
     this.name,
     this.schema,
   });
-  factory CreateModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateModelResponseFromJson(json);
+  factory CreateModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelResponse(
+      contentType: json['contentType'] as String?,
+      description: json['description'] as String?,
+      modelId: json['modelId'] as String?,
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
   /// modify the $default route key.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether an API key is required for this route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'apiKeyRequired')
-  final bool apiKeyRequired;
+  final bool? apiKeyRequired;
 
   /// A list of authorization scopes configured on a route. The scopes are used
   /// with a JWT authorizer to authorize the method invocation. The authorization
@@ -4637,56 +4715,45 @@ class CreateRouteResult {
   /// invocation is not authorized. When the route scope is configured, the client
   /// must provide an access token instead of an identity token for authorization
   /// purposes.
-  @_s.JsonKey(name: 'authorizationScopes')
-  final List<String> authorizationScopes;
+  final List<String>? authorizationScopes;
 
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
   /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
   /// permissions, and CUSTOM for using a Lambda authorizer.
-  @_s.JsonKey(name: 'authorizationType')
-  final AuthorizationType authorizationType;
+  final AuthorizationType? authorizationType;
 
   /// The identifier of the Authorizer resource to be associated with this route.
   /// The authorizer identifier is generated by API Gateway when you created the
   /// authorizer.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// The model selection expression for the route. Supported only for WebSocket
   /// APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// The operation name for the route.
-  @_s.JsonKey(name: 'operationName')
-  final String operationName;
+  final String? operationName;
 
   /// The request models for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestModels')
-  final Map<String, String> requestModels;
+  final Map<String, String>? requestModels;
 
   /// The request parameters for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, ParameterConstraints> requestParameters;
+  final Map<String, ParameterConstraints>? requestParameters;
 
   /// The route ID.
-  @_s.JsonKey(name: 'routeId')
-  final String routeId;
+  final String? routeId;
 
   /// The route key for the route.
-  @_s.JsonKey(name: 'routeKey')
-  final String routeKey;
+  final String? routeKey;
 
   /// The route response selection expression for the route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'routeResponseSelectionExpression')
-  final String routeResponseSelectionExpression;
+  final String? routeResponseSelectionExpression;
 
   /// The target for the route.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   CreateRouteResult({
     this.apiGatewayManaged,
@@ -4703,36 +4770,49 @@ class CreateRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
-  factory CreateRouteResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateRouteResultFromJson(json);
+  factory CreateRouteResult.fromJson(Map<String, dynamic> json) {
+    return CreateRouteResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiKeyRequired: json['apiKeyRequired'] as bool?,
+      authorizationScopes: (json['authorizationScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      authorizationType:
+          (json['authorizationType'] as String?)?.toAuthorizationType(),
+      authorizerId: json['authorizerId'] as String?,
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      operationName: json['operationName'] as String?,
+      requestModels: (json['requestModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeId: json['routeId'] as String?,
+      routeKey: json['routeKey'] as String?,
+      routeResponseSelectionExpression:
+          json['routeResponseSelectionExpression'] as String?,
+      target: json['target'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// Represents the response models of a route response.
-  @_s.JsonKey(name: 'responseModels')
-  final Map<String, String> responseModels;
+  final Map<String, String>? responseModels;
 
   /// Represents the response parameters of a route response.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, ParameterConstraints> responseParameters;
+  final Map<String, ParameterConstraints>? responseParameters;
 
   /// Represents the identifier of a route response.
-  @_s.JsonKey(name: 'routeResponseId')
-  final String routeResponseId;
+  final String? routeResponseId;
 
   /// Represents the route response key of a route response.
-  @_s.JsonKey(name: 'routeResponseKey')
-  final String routeResponseKey;
+  final String? routeResponseKey;
 
   CreateRouteResponseResponse({
     this.modelSelectionExpression,
@@ -4741,82 +4821,71 @@ class CreateRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
-  factory CreateRouteResponseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRouteResponseResponseFromJson(json);
+  factory CreateRouteResponseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRouteResponseResponse(
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      responseModels: (json['responseModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeResponseId: json['routeResponseId'] as String?,
+      routeResponseKey: json['routeResponseKey'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStageResponse {
   /// Settings for logging access in this stage.
-  @_s.JsonKey(name: 'accessLogSettings')
-  final AccessLogSettings accessLogSettings;
+  final AccessLogSettings? accessLogSettings;
 
   /// Specifies whether a stage is managed by API Gateway. If you created an API
   /// using quick create, the $default stage is managed by API Gateway. You can't
   /// modify the $default stage.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether updates to an API automatically trigger a new deployment.
   /// The default value is false.
-  @_s.JsonKey(name: 'autoDeploy')
-  final bool autoDeploy;
+  final bool? autoDeploy;
 
   /// The identifier of a client certificate for a Stage. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'clientCertificateId')
-  final String clientCertificateId;
+  final String? clientCertificateId;
 
   /// The timestamp when the stage was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Default route settings for the stage.
-  @_s.JsonKey(name: 'defaultRouteSettings')
-  final RouteSettings defaultRouteSettings;
+  final RouteSettings? defaultRouteSettings;
 
   /// The identifier of the Deployment that the Stage is associated with. Can't be
   /// updated if autoDeploy is enabled.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The description of the stage.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Describes the status of the last deployment of a stage. Supported only for
   /// stages with autoDeploy enabled.
-  @_s.JsonKey(name: 'lastDeploymentStatusMessage')
-  final String lastDeploymentStatusMessage;
+  final String? lastDeploymentStatusMessage;
 
   /// The timestamp when the stage was last updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDate')
-  final DateTime lastUpdatedDate;
+  final DateTime? lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
-  @_s.JsonKey(name: 'routeSettings')
-  final Map<String, RouteSettings> routeSettings;
+  final Map<String, RouteSettings>? routeSettings;
 
   /// The name of the stage.
-  @_s.JsonKey(name: 'stageName')
-  final String stageName;
+  final String? stageName;
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
   /// [A-Za-z0-9-._~:/?#&amp;=,]+.
-  @_s.JsonKey(name: 'stageVariables')
-  final Map<String, String> stageVariables;
+  final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateStageResponse({
     this.accessLogSettings,
@@ -4834,52 +4903,64 @@ class CreateStageResponse {
     this.stageVariables,
     this.tags,
   });
-  factory CreateStageResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateStageResponseFromJson(json);
+  factory CreateStageResponse.fromJson(Map<String, dynamic> json) {
+    return CreateStageResponse(
+      accessLogSettings: json['accessLogSettings'] != null
+          ? AccessLogSettings.fromJson(
+              json['accessLogSettings'] as Map<String, dynamic>)
+          : null,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      autoDeploy: json['autoDeploy'] as bool?,
+      clientCertificateId: json['clientCertificateId'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      defaultRouteSettings: json['defaultRouteSettings'] != null
+          ? RouteSettings.fromJson(
+              json['defaultRouteSettings'] as Map<String, dynamic>)
+          : null,
+      deploymentId: json['deploymentId'] as String?,
+      description: json['description'] as String?,
+      lastDeploymentStatusMessage:
+          json['lastDeploymentStatusMessage'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      routeSettings: (json['routeSettings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RouteSettings.fromJson(e as Map<String, dynamic>))),
+      stageName: json['stageName'] as String?,
+      stageVariables: (json['stageVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The name of the VPC link.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of security group IDs for the VPC link.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of subnet IDs to include in the VPC link.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// Tags for the VPC link.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The ID of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkId')
-  final String vpcLinkId;
+  final String? vpcLinkId;
 
   /// The status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatus')
-  final VpcLinkStatus vpcLinkStatus;
+  final VpcLinkStatus? vpcLinkStatus;
 
   /// A message summarizing the cause of the status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatusMessage')
-  final String vpcLinkStatusMessage;
+  final String? vpcLinkStatusMessage;
 
   /// The version of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkVersion')
-  final VpcLinkVersion vpcLinkVersion;
+  final VpcLinkVersion? vpcLinkVersion;
 
   CreateVpcLinkResponse({
     this.createdDate,
@@ -4892,54 +4973,56 @@ class CreateVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
-  factory CreateVpcLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateVpcLinkResponseFromJson(json);
+  factory CreateVpcLinkResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVpcLinkResponse(
+      createdDate: timeStampFromJson(json['createdDate']),
+      name: json['name'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vpcLinkId: json['vpcLinkId'] as String?,
+      vpcLinkStatus: (json['vpcLinkStatus'] as String?)?.toVpcLinkStatus(),
+      vpcLinkStatusMessage: json['vpcLinkStatusMessage'] as String?,
+      vpcLinkVersion: (json['vpcLinkVersion'] as String?)?.toVpcLinkVersion(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVpcLinkResponse {
   DeleteVpcLinkResponse();
-  factory DeleteVpcLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVpcLinkResponseFromJson(json);
+  factory DeleteVpcLinkResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteVpcLinkResponse();
+  }
 }
 
 /// An immutable representation of an API that can be called by users. A
 /// Deployment must be associated with a Stage for it to be callable over the
 /// internet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployment {
   /// Specifies whether a deployment was automatically released.
-  @_s.JsonKey(name: 'autoDeployed')
-  final bool autoDeployed;
+  final bool? autoDeployed;
 
   /// The date and time when the Deployment resource was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for the deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
-  @_s.JsonKey(name: 'deploymentStatus')
-  final DeploymentStatus deploymentStatus;
+  final DeploymentStatus? deploymentStatus;
 
   /// May contain additional feedback on the status of an API deployment.
-  @_s.JsonKey(name: 'deploymentStatusMessage')
-  final String deploymentStatusMessage;
+  final String? deploymentStatusMessage;
 
   /// The description for the deployment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   Deployment({
     this.autoDeployed,
@@ -4949,109 +5032,133 @@ class Deployment {
     this.deploymentStatusMessage,
     this.description,
   });
-  factory Deployment.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentFromJson(json);
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      autoDeployed: json['autoDeployed'] as bool?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentStatus:
+          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
 }
 
 /// Represents a deployment status.
 enum DeploymentStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DEPLOYED')
   deployed,
 }
 
+extension on DeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case DeploymentStatus.pending:
+        return 'PENDING';
+      case DeploymentStatus.failed:
+        return 'FAILED';
+      case DeploymentStatus.deployed:
+        return 'DEPLOYED';
+    }
+  }
+}
+
+extension on String {
+  DeploymentStatus toDeploymentStatus() {
+    switch (this) {
+      case 'PENDING':
+        return DeploymentStatus.pending;
+      case 'FAILED':
+        return DeploymentStatus.failed;
+      case 'DEPLOYED':
+        return DeploymentStatus.deployed;
+    }
+    throw Exception('$this is not known in enum DeploymentStatus');
+  }
+}
+
 /// Represents a domain name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainName {
   /// The name of the DomainName resource.
-  @_s.JsonKey(name: 'domainName')
   final String domainName;
 
   /// The API mapping selection expression.
-  @_s.JsonKey(name: 'apiMappingSelectionExpression')
-  final String apiMappingSelectionExpression;
+  final String? apiMappingSelectionExpression;
 
   /// The domain name configurations.
-  @_s.JsonKey(name: 'domainNameConfigurations')
-  final List<DomainNameConfiguration> domainNameConfigurations;
+  final List<DomainNameConfiguration>? domainNameConfigurations;
 
   /// The mutual TLS authentication configuration for a custom domain name.
-  @_s.JsonKey(name: 'mutualTlsAuthentication')
-  final MutualTlsAuthentication mutualTlsAuthentication;
+  final MutualTlsAuthentication? mutualTlsAuthentication;
 
   /// The collection of tags associated with a domain name.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DomainName({
-    @_s.required this.domainName,
+    required this.domainName,
     this.apiMappingSelectionExpression,
     this.domainNameConfigurations,
     this.mutualTlsAuthentication,
     this.tags,
   });
-  factory DomainName.fromJson(Map<String, dynamic> json) =>
-      _$DomainNameFromJson(json);
+  factory DomainName.fromJson(Map<String, dynamic> json) {
+    return DomainName(
+      domainName: json['domainName'] as String,
+      apiMappingSelectionExpression:
+          json['apiMappingSelectionExpression'] as String?,
+      domainNameConfigurations: (json['domainNameConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
+          ? MutualTlsAuthentication.fromJson(
+              json['mutualTlsAuthentication'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// The domain name configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DomainNameConfiguration {
   /// A domain name for the API.
-  @_s.JsonKey(name: 'apiGatewayDomainName')
-  final String apiGatewayDomainName;
+  final String? apiGatewayDomainName;
 
   /// An AWS-managed certificate that will be used by the edge-optimized endpoint
   /// for this domain name. AWS Certificate Manager is the only supported source.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The user-friendly name of the certificate that will be used by the
   /// edge-optimized endpoint for this domain name.
-  @_s.JsonKey(name: 'certificateName')
-  final String certificateName;
+  final String? certificateName;
 
   /// The timestamp when the certificate that was used by edge-optimized endpoint
   /// for this domain name was uploaded.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'certificateUploadDate')
-  final DateTime certificateUploadDate;
+  final DateTime? certificateUploadDate;
 
   /// The status of the domain name migration. The valid values are AVAILABLE and
   /// UPDATING. If the status is UPDATING, the domain cannot be modified further
   /// until the existing operation is complete. If it is AVAILABLE, the domain can
   /// be updated.
-  @_s.JsonKey(name: 'domainNameStatus')
-  final DomainNameStatus domainNameStatus;
+  final DomainNameStatus? domainNameStatus;
 
   /// An optional text message containing detailed information about status of the
   /// domain name migration.
-  @_s.JsonKey(name: 'domainNameStatusMessage')
-  final String domainNameStatusMessage;
+  final String? domainNameStatusMessage;
 
   /// The endpoint type.
-  @_s.JsonKey(name: 'endpointType')
-  final EndpointType endpointType;
+  final EndpointType? endpointType;
 
   /// The Amazon Route 53 Hosted Zone ID of the endpoint.
-  @_s.JsonKey(name: 'hostedZoneId')
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   /// The Transport Layer Security (TLS) version of the security policy for this
   /// domain name. The valid values are TLS_1_0 and TLS_1_2.
-  @_s.JsonKey(name: 'securityPolicy')
-  final SecurityPolicy securityPolicy;
+  final SecurityPolicy? securityPolicy;
 
   DomainNameConfiguration({
     this.apiGatewayDomainName,
@@ -5064,10 +5171,47 @@ class DomainNameConfiguration {
     this.hostedZoneId,
     this.securityPolicy,
   });
-  factory DomainNameConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DomainNameConfigurationFromJson(json);
+  factory DomainNameConfiguration.fromJson(Map<String, dynamic> json) {
+    return DomainNameConfiguration(
+      apiGatewayDomainName: json['apiGatewayDomainName'] as String?,
+      certificateArn: json['certificateArn'] as String?,
+      certificateName: json['certificateName'] as String?,
+      certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
+      domainNameStatus:
+          (json['domainNameStatus'] as String?)?.toDomainNameStatus(),
+      domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
+      endpointType: (json['endpointType'] as String?)?.toEndpointType(),
+      hostedZoneId: json['hostedZoneId'] as String?,
+      securityPolicy: (json['securityPolicy'] as String?)?.toSecurityPolicy(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DomainNameConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final apiGatewayDomainName = this.apiGatewayDomainName;
+    final certificateArn = this.certificateArn;
+    final certificateName = this.certificateName;
+    final certificateUploadDate = this.certificateUploadDate;
+    final domainNameStatus = this.domainNameStatus;
+    final domainNameStatusMessage = this.domainNameStatusMessage;
+    final endpointType = this.endpointType;
+    final hostedZoneId = this.hostedZoneId;
+    final securityPolicy = this.securityPolicy;
+    return {
+      if (apiGatewayDomainName != null)
+        'apiGatewayDomainName': apiGatewayDomainName,
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateName != null) 'certificateName': certificateName,
+      if (certificateUploadDate != null)
+        'certificateUploadDate': iso8601ToJson(certificateUploadDate),
+      if (domainNameStatus != null)
+        'domainNameStatus': domainNameStatus.toValue(),
+      if (domainNameStatusMessage != null)
+        'domainNameStatusMessage': domainNameStatusMessage,
+      if (endpointType != null) 'endpointType': endpointType.toValue(),
+      if (hostedZoneId != null) 'hostedZoneId': hostedZoneId,
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
+    };
+  }
 }
 
 /// The status of the domain name migration. The valid values are AVAILABLE and
@@ -5075,58 +5219,82 @@ class DomainNameConfiguration {
 /// until the existing operation is complete. If it is AVAILABLE, the domain can
 /// be updated.
 enum DomainNameStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('UPDATING')
   updating,
+}
+
+extension on DomainNameStatus {
+  String toValue() {
+    switch (this) {
+      case DomainNameStatus.available:
+        return 'AVAILABLE';
+      case DomainNameStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  DomainNameStatus toDomainNameStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return DomainNameStatus.available;
+      case 'UPDATING':
+        return DomainNameStatus.updating;
+    }
+    throw Exception('$this is not known in enum DomainNameStatus');
+  }
 }
 
 /// Represents an endpoint type.
 enum EndpointType {
-  @_s.JsonValue('REGIONAL')
   regional,
-  @_s.JsonValue('EDGE')
   edge,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EndpointType {
+  String toValue() {
+    switch (this) {
+      case EndpointType.regional:
+        return 'REGIONAL';
+      case EndpointType.edge:
+        return 'EDGE';
+    }
+  }
+}
+
+extension on String {
+  EndpointType toEndpointType() {
+    switch (this) {
+      case 'REGIONAL':
+        return EndpointType.regional;
+      case 'EDGE':
+        return EndpointType.edge;
+    }
+    throw Exception('$this is not known in enum EndpointType');
+  }
+}
+
 class ExportApiResponse {
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'body')
-  final Uint8List body;
+  final Uint8List? body;
 
   ExportApiResponse({
     this.body,
   });
-  factory ExportApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExportApiResponseFromJson(json);
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApiMappingResponse {
   /// The API identifier.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// The API mapping identifier.
-  @_s.JsonKey(name: 'apiMappingId')
-  final String apiMappingId;
+  final String? apiMappingId;
 
   /// The API mapping key.
-  @_s.JsonKey(name: 'apiMappingKey')
-  final String apiMappingKey;
+  final String? apiMappingKey;
 
   /// The API stage.
-  @_s.JsonKey(name: 'stage')
-  final String stage;
+  final String? stage;
 
   GetApiMappingResponse({
     this.apiId,
@@ -5134,120 +5302,104 @@ class GetApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
-  factory GetApiMappingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApiMappingResponseFromJson(json);
+  factory GetApiMappingResponse.fromJson(Map<String, dynamic> json) {
+    return GetApiMappingResponse(
+      apiId: json['apiId'] as String?,
+      apiMappingId: json['apiMappingId'] as String?,
+      apiMappingKey: json['apiMappingKey'] as String?,
+      stage: json['stage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApiMappingsResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<ApiMapping> items;
+  final List<ApiMapping>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetApiMappingsResponse({
     this.items,
     this.nextToken,
   });
-  factory GetApiMappingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApiMappingsResponseFromJson(json);
+  factory GetApiMappingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetApiMappingsResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApiMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
-  final ProtocolType protocolType;
+  final ProtocolType? protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
-  final String routeSelectionExpression;
+  final String? routeSelectionExpression;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   GetApiResponse({
     this.apiEndpoint,
@@ -5267,71 +5419,88 @@ class GetApiResponse {
     this.version,
     this.warnings,
   });
-  factory GetApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApiResponseFromJson(json);
+  factory GetApiResponse.fromJson(Map<String, dynamic> json) {
+    return GetApiResponse(
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      protocolType: (json['protocolType'] as String?)?.toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApisResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Api> items;
+  final List<Api>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetApisResponse({
     this.items,
     this.nextToken,
   });
-  factory GetApisResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApisResponseFromJson(json);
+  factory GetApisResponse.fromJson(Map<String, dynamic> json) {
+    return GetApisResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Api.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
   /// Lambda function, don't specify this parameter. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerCredentialsArn')
-  final String authorizerCredentialsArn;
+  final String? authorizerCredentialsArn;
 
   /// The authorizer identifier.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
   /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
   /// To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>.
-  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
-  final String authorizerPayloadFormatVersion;
+  final String? authorizerPayloadFormatVersion;
 
   /// The time to live (TTL) for cached authorizer results, in seconds. If it
   /// equals 0, authorization caching is disabled. If it is greater than 0, API
   /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
   /// Supported only for HTTP API Lambda authorizers.
-  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
-  final int authorizerResultTtlInSeconds;
+  final int? authorizerResultTtlInSeconds;
 
   /// The authorizer type. Specify REQUEST for a Lambda function using incoming
   /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
   /// HTTP APIs).
-  @_s.JsonKey(name: 'authorizerType')
-  final AuthorizerType authorizerType;
+  final AuthorizerType? authorizerType;
 
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
@@ -5344,16 +5513,14 @@ class GetAuthorizerResponse {
   /// /. For Lambda functions, this is usually of the form
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerUri')
-  final String authorizerUri;
+  final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
   /// If enabled, the Lambda authorizer can return a boolean value instead of an
   /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>
-  @_s.JsonKey(name: 'enableSimpleResponses')
-  final bool enableSimpleResponses;
+  final bool? enableSimpleResponses;
 
   /// The identity source for which authorization is requested.
   ///
@@ -5379,21 +5546,17 @@ class GetAuthorizerResponse {
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
   /// $request.header.Authorization.
-  @_s.JsonKey(name: 'identitySource')
-  final List<String> identitySource;
+  final List<String>? identitySource;
 
   /// The validation expression does not apply to the REQUEST authorizer.
-  @_s.JsonKey(name: 'identityValidationExpression')
-  final String identityValidationExpression;
+  final String? identityValidationExpression;
 
   /// Represents the configuration of a JWT authorizer. Required for the JWT
   /// authorizer type. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'jwtConfiguration')
-  final JWTConfiguration jwtConfiguration;
+  final JWTConfiguration? jwtConfiguration;
 
   /// The name of the authorizer.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   GetAuthorizerResponse({
     this.authorizerCredentialsArn,
@@ -5408,63 +5571,73 @@ class GetAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
-  factory GetAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAuthorizerResponseFromJson(json);
+  factory GetAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return GetAuthorizerResponse(
+      authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
+      authorizerId: json['authorizerId'] as String?,
+      authorizerPayloadFormatVersion:
+          json['authorizerPayloadFormatVersion'] as String?,
+      authorizerResultTtlInSeconds:
+          json['authorizerResultTtlInSeconds'] as int?,
+      authorizerType: (json['authorizerType'] as String?)?.toAuthorizerType(),
+      authorizerUri: json['authorizerUri'] as String?,
+      enableSimpleResponses: json['enableSimpleResponses'] as bool?,
+      identitySource: (json['identitySource'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identityValidationExpression:
+          json['identityValidationExpression'] as String?,
+      jwtConfiguration: json['jwtConfiguration'] != null
+          ? JWTConfiguration.fromJson(
+              json['jwtConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAuthorizersResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Authorizer> items;
+  final List<Authorizer>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetAuthorizersResponse({
     this.items,
     this.nextToken,
   });
-  factory GetAuthorizersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAuthorizersResponseFromJson(json);
+  factory GetAuthorizersResponse.fromJson(Map<String, dynamic> json) {
+    return GetAuthorizersResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
-  @_s.JsonKey(name: 'autoDeployed')
-  final bool autoDeployed;
+  final bool? autoDeployed;
 
   /// The date and time when the Deployment resource was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for the deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
-  @_s.JsonKey(name: 'deploymentStatus')
-  final DeploymentStatus deploymentStatus;
+  final DeploymentStatus? deploymentStatus;
 
   /// May contain additional feedback on the status of an API deployment.
-  @_s.JsonKey(name: 'deploymentStatusMessage')
-  final String deploymentStatusMessage;
+  final String? deploymentStatusMessage;
 
   /// The description for the deployment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   GetDeploymentResponse({
     this.autoDeployed,
@@ -5474,58 +5647,57 @@ class GetDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
-  factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentResponseFromJson(json);
+  factory GetDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentResponse(
+      autoDeployed: json['autoDeployed'] as bool?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentStatus:
+          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentsResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Deployment> items;
+  final List<Deployment>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDeploymentsResponse({
     this.items,
     this.nextToken,
   });
-  factory GetDeploymentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentsResponseFromJson(json);
+  factory GetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentsResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainNameResponse {
   /// The API mapping selection expression.
-  @_s.JsonKey(name: 'apiMappingSelectionExpression')
-  final String apiMappingSelectionExpression;
+  final String? apiMappingSelectionExpression;
 
   /// The name of the DomainName resource.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The domain name configurations.
-  @_s.JsonKey(name: 'domainNameConfigurations')
-  final List<DomainNameConfiguration> domainNameConfigurations;
+  final List<DomainNameConfiguration>? domainNameConfigurations;
 
   /// The mutual TLS authentication configuration for a custom domain name.
-  @_s.JsonKey(name: 'mutualTlsAuthentication')
-  final MutualTlsAuthentication mutualTlsAuthentication;
+  final MutualTlsAuthentication? mutualTlsAuthentication;
 
   /// The collection of tags associated with a domain name.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetDomainNameResponse({
     this.apiMappingSelectionExpression,
@@ -5534,56 +5706,64 @@ class GetDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
-  factory GetDomainNameResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDomainNameResponseFromJson(json);
+  factory GetDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainNameResponse(
+      apiMappingSelectionExpression:
+          json['apiMappingSelectionExpression'] as String?,
+      domainName: json['domainName'] as String?,
+      domainNameConfigurations: (json['domainNameConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
+          ? MutualTlsAuthentication.fromJson(
+              json['mutualTlsAuthentication'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainNamesResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<DomainName> items;
+  final List<DomainName>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDomainNamesResponse({
     this.items,
     this.nextToken,
   });
-  factory GetDomainNamesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDomainNamesResponseFromJson(json);
+  factory GetDomainNamesResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainNamesResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainName.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
   /// Gateway. You can update a managed integration, but you can't delete it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The ID of the VPC link for a private integration. Supported only for HTTP
   /// APIs.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The type of the network connection to the integration endpoint. Specify
   /// INTERNET for connections through the public routable internet or VPC_LINK
   /// for private connections between API Gateway and resources in a VPC. The
   /// default value is INTERNET.
-  @_s.JsonKey(name: 'connectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -5598,8 +5778,7 @@ class GetIntegrationResult {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// Specifies the credentials required for the integration, if any. For AWS
   /// integrations, three options are available. To specify an IAM Role for API
@@ -5607,34 +5786,28 @@ class GetIntegrationResult {
   /// that the caller's identity be passed through from the request, specify the
   /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
   /// AWS services, specify null.
-  @_s.JsonKey(name: 'credentialsArn')
-  final String credentialsArn;
+  final String? credentialsArn;
 
   /// Represents the description of an integration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Represents the identifier of an integration.
-  @_s.JsonKey(name: 'integrationId')
-  final String integrationId;
+  final String? integrationId;
 
   /// Specifies the integration's HTTP method type.
-  @_s.JsonKey(name: 'integrationMethod')
-  final String integrationMethod;
+  final String? integrationMethod;
 
   /// The integration response selection expression for the integration. Supported
   /// only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-integration-response-selection-expressions">Integration
   /// Response Selection Expressions</a>.
-  @_s.JsonKey(name: 'integrationResponseSelectionExpression')
-  final String integrationResponseSelectionExpression;
+  final String? integrationResponseSelectionExpression;
 
   /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
   /// service action to invoke. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
   /// subtype reference</a>.
-  @_s.JsonKey(name: 'integrationSubtype')
-  final String integrationSubtype;
+  final String? integrationSubtype;
 
   /// The integration type of an integration. One of the following:
   ///
@@ -5659,8 +5832,7 @@ class GetIntegrationResult {
   /// MOCK: for integrating the route or method request with API Gateway as a
   /// "loopback" endpoint without invoking any backend. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'integrationType')
-  final IntegrationType integrationType;
+  final IntegrationType? integrationType;
 
   /// For a Lambda integration, specify the URI of a Lambda function.
   ///
@@ -5674,8 +5846,7 @@ class GetIntegrationResult {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
   /// For private integrations, all resources must be owned by the same AWS
   /// account.
-  @_s.JsonKey(name: 'integrationUri')
-  final String integrationUri;
+  final String? integrationUri;
 
   /// Specifies the pass-through behavior for incoming requests based on the
   /// Content-Type header in the request, and the available mapping templates
@@ -5693,13 +5864,11 @@ class GetIntegrationResult {
   /// types mapped to templates. However, if there is at least one content type
   /// defined, unmapped content types will be rejected with the same HTTP 415
   /// Unsupported Media Type response.
-  @_s.JsonKey(name: 'passthroughBehavior')
-  final PassthroughBehavior passthroughBehavior;
+  final PassthroughBehavior? passthroughBehavior;
 
   /// Specifies the format of the payload sent to an integration. Required for
   /// HTTP APIs.
-  @_s.JsonKey(name: 'payloadFormatVersion')
-  final String payloadFormatVersion;
+  final String? payloadFormatVersion;
 
   /// For WebSocket APIs, a key-value map specifying request parameters that are
   /// passed from the method request to the backend. The key is an integration
@@ -5731,15 +5900,13 @@ class GetIntegrationResult {
   /// that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, String> requestParameters;
+  final Map<String, String>? requestParameters;
 
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestTemplates')
-  final Map<String, String> requestTemplates;
+  final Map<String, String>? requestTemplates;
 
   /// Supported only for HTTP APIs. You use response parameters to transform the
   /// HTTP response from a backend integration before returning the response to
@@ -5752,25 +5919,21 @@ class GetIntegrationResult {
   /// context variables that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, Map<String, String>> responseParameters;
+  final Map<String, Map<String, String>>? responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
   /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
   /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
-  @_s.JsonKey(name: 'timeoutInMillis')
-  final int timeoutInMillis;
+  final int? timeoutInMillis;
 
   /// The TLS configuration for a private integration. If you specify a TLS
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'tlsConfig')
-  final TlsConfig tlsConfig;
+  final TlsConfig? tlsConfig;
 
   GetIntegrationResult({
     this.apiGatewayManaged,
@@ -5794,15 +5957,45 @@ class GetIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
-  factory GetIntegrationResult.fromJson(Map<String, dynamic> json) =>
-      _$GetIntegrationResultFromJson(json);
+  factory GetIntegrationResult.fromJson(Map<String, dynamic> json) {
+    return GetIntegrationResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      connectionId: json['connectionId'] as String?,
+      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      credentialsArn: json['credentialsArn'] as String?,
+      description: json['description'] as String?,
+      integrationId: json['integrationId'] as String?,
+      integrationMethod: json['integrationMethod'] as String?,
+      integrationResponseSelectionExpression:
+          json['integrationResponseSelectionExpression'] as String?,
+      integrationSubtype: json['integrationSubtype'] as String?,
+      integrationType:
+          (json['integrationType'] as String?)?.toIntegrationType(),
+      integrationUri: json['integrationUri'] as String?,
+      passthroughBehavior:
+          (json['passthroughBehavior'] as String?)?.toPassthroughBehavior(),
+      payloadFormatVersion: json['payloadFormatVersion'] as String?,
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+      timeoutInMillis: json['timeoutInMillis'] as int?,
+      tlsConfig: json['tlsConfig'] != null
+          ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -5817,16 +6010,13 @@ class GetIntegrationResponseResponse {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// The integration response ID.
-  @_s.JsonKey(name: 'integrationResponseId')
-  final String integrationResponseId;
+  final String? integrationResponseId;
 
   /// The integration response key.
-  @_s.JsonKey(name: 'integrationResponseKey')
-  final String integrationResponseKey;
+  final String? integrationResponseKey;
 
   /// A key-value map specifying response parameters that are passed to the method
   /// response from the backend. The key is a method response header parameter
@@ -5839,19 +6029,16 @@ class GetIntegrationResponseResponse {
   /// integration.response.body.{JSON-expression}, where name is a valid and
   /// unique response header name and JSON-expression is a valid JSON expression
   /// without the $ prefix.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, String> responseParameters;
+  final Map<String, String>? responseParameters;
 
   /// The collection of response templates for the integration response as a
   /// string-to-string map of key-value pairs. Response templates are represented
   /// as a key/value map, with a content-type as the key and a template as the
   /// value.
-  @_s.JsonKey(name: 'responseTemplates')
-  final Map<String, String> responseTemplates;
+  final Map<String, String>? responseTemplates;
 
   /// The template selection expressions for the integration response.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   GetIntegrationResponseResponse({
     this.contentHandlingStrategy,
@@ -5861,82 +6048,84 @@ class GetIntegrationResponseResponse {
     this.responseTemplates,
     this.templateSelectionExpression,
   });
-  factory GetIntegrationResponseResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIntegrationResponseResponseFromJson(json);
+  factory GetIntegrationResponseResponse.fromJson(Map<String, dynamic> json) {
+    return GetIntegrationResponseResponse(
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      integrationResponseId: json['integrationResponseId'] as String?,
+      integrationResponseKey: json['integrationResponseKey'] as String?,
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIntegrationResponsesResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<IntegrationResponse> items;
+  final List<IntegrationResponse>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetIntegrationResponsesResponse({
     this.items,
     this.nextToken,
   });
-  factory GetIntegrationResponsesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIntegrationResponsesResponseFromJson(json);
+  factory GetIntegrationResponsesResponse.fromJson(Map<String, dynamic> json) {
+    return GetIntegrationResponsesResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => IntegrationResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIntegrationsResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Integration> items;
+  final List<Integration>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetIntegrationsResponse({
     this.items,
     this.nextToken,
   });
-  factory GetIntegrationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIntegrationsResponseFromJson(json);
+  factory GetIntegrationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetIntegrationsResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Integration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetModelResponse {
   /// The content-type for the model, for example, "application/json".
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   /// The description of the model.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The model identifier.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The name of the model. Must be alphanumeric.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The schema for the model. For application/json models, this should be JSON
   /// schema draft 4 model.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   GetModelResponse({
     this.contentType,
@@ -5945,66 +6134,63 @@ class GetModelResponse {
     this.name,
     this.schema,
   });
-  factory GetModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetModelResponseFromJson(json);
+  factory GetModelResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelResponse(
+      contentType: json['contentType'] as String?,
+      description: json['description'] as String?,
+      modelId: json['modelId'] as String?,
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetModelTemplateResponse {
   /// The template value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   GetModelTemplateResponse({
     this.value,
   });
-  factory GetModelTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetModelTemplateResponseFromJson(json);
+  factory GetModelTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelTemplateResponse(
+      value: json['value'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetModelsResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Model> items;
+  final List<Model>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetModelsResponse({
     this.items,
     this.nextToken,
   });
-  factory GetModelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetModelsResponseFromJson(json);
+  factory GetModelsResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelsResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Model.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
   /// modify the $default route key.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether an API key is required for this route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'apiKeyRequired')
-  final bool apiKeyRequired;
+  final bool? apiKeyRequired;
 
   /// A list of authorization scopes configured on a route. The scopes are used
   /// with a JWT authorizer to authorize the method invocation. The authorization
@@ -6014,56 +6200,45 @@ class GetRouteResult {
   /// invocation is not authorized. When the route scope is configured, the client
   /// must provide an access token instead of an identity token for authorization
   /// purposes.
-  @_s.JsonKey(name: 'authorizationScopes')
-  final List<String> authorizationScopes;
+  final List<String>? authorizationScopes;
 
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
   /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
   /// permissions, and CUSTOM for using a Lambda authorizer.
-  @_s.JsonKey(name: 'authorizationType')
-  final AuthorizationType authorizationType;
+  final AuthorizationType? authorizationType;
 
   /// The identifier of the Authorizer resource to be associated with this route.
   /// The authorizer identifier is generated by API Gateway when you created the
   /// authorizer.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// The model selection expression for the route. Supported only for WebSocket
   /// APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// The operation name for the route.
-  @_s.JsonKey(name: 'operationName')
-  final String operationName;
+  final String? operationName;
 
   /// The request models for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestModels')
-  final Map<String, String> requestModels;
+  final Map<String, String>? requestModels;
 
   /// The request parameters for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, ParameterConstraints> requestParameters;
+  final Map<String, ParameterConstraints>? requestParameters;
 
   /// The route ID.
-  @_s.JsonKey(name: 'routeId')
-  final String routeId;
+  final String? routeId;
 
   /// The route key for the route.
-  @_s.JsonKey(name: 'routeKey')
-  final String routeKey;
+  final String? routeKey;
 
   /// The route response selection expression for the route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'routeResponseSelectionExpression')
-  final String routeResponseSelectionExpression;
+  final String? routeResponseSelectionExpression;
 
   /// The target for the route.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   GetRouteResult({
     this.apiGatewayManaged,
@@ -6080,36 +6255,49 @@ class GetRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
-  factory GetRouteResult.fromJson(Map<String, dynamic> json) =>
-      _$GetRouteResultFromJson(json);
+  factory GetRouteResult.fromJson(Map<String, dynamic> json) {
+    return GetRouteResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiKeyRequired: json['apiKeyRequired'] as bool?,
+      authorizationScopes: (json['authorizationScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      authorizationType:
+          (json['authorizationType'] as String?)?.toAuthorizationType(),
+      authorizerId: json['authorizerId'] as String?,
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      operationName: json['operationName'] as String?,
+      requestModels: (json['requestModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeId: json['routeId'] as String?,
+      routeKey: json['routeKey'] as String?,
+      routeResponseSelectionExpression:
+          json['routeResponseSelectionExpression'] as String?,
+      target: json['target'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// Represents the response models of a route response.
-  @_s.JsonKey(name: 'responseModels')
-  final Map<String, String> responseModels;
+  final Map<String, String>? responseModels;
 
   /// Represents the response parameters of a route response.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, ParameterConstraints> responseParameters;
+  final Map<String, ParameterConstraints>? responseParameters;
 
   /// Represents the identifier of a route response.
-  @_s.JsonKey(name: 'routeResponseId')
-  final String routeResponseId;
+  final String? routeResponseId;
 
   /// Represents the route response key of a route response.
-  @_s.JsonKey(name: 'routeResponseKey')
-  final String routeResponseKey;
+  final String? routeResponseKey;
 
   GetRouteResponseResponse({
     this.modelSelectionExpression,
@@ -6118,128 +6306,117 @@ class GetRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
-  factory GetRouteResponseResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRouteResponseResponseFromJson(json);
+  factory GetRouteResponseResponse.fromJson(Map<String, dynamic> json) {
+    return GetRouteResponseResponse(
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      responseModels: (json['responseModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeResponseId: json['routeResponseId'] as String?,
+      routeResponseKey: json['routeResponseKey'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRouteResponsesResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<RouteResponse> items;
+  final List<RouteResponse>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetRouteResponsesResponse({
     this.items,
     this.nextToken,
   });
-  factory GetRouteResponsesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRouteResponsesResponseFromJson(json);
+  factory GetRouteResponsesResponse.fromJson(Map<String, dynamic> json) {
+    return GetRouteResponsesResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => RouteResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRoutesResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Route> items;
+  final List<Route>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetRoutesResponse({
     this.items,
     this.nextToken,
   });
-  factory GetRoutesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoutesResponseFromJson(json);
+  factory GetRoutesResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoutesResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetStageResponse {
   /// Settings for logging access in this stage.
-  @_s.JsonKey(name: 'accessLogSettings')
-  final AccessLogSettings accessLogSettings;
+  final AccessLogSettings? accessLogSettings;
 
   /// Specifies whether a stage is managed by API Gateway. If you created an API
   /// using quick create, the $default stage is managed by API Gateway. You can't
   /// modify the $default stage.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether updates to an API automatically trigger a new deployment.
   /// The default value is false.
-  @_s.JsonKey(name: 'autoDeploy')
-  final bool autoDeploy;
+  final bool? autoDeploy;
 
   /// The identifier of a client certificate for a Stage. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'clientCertificateId')
-  final String clientCertificateId;
+  final String? clientCertificateId;
 
   /// The timestamp when the stage was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Default route settings for the stage.
-  @_s.JsonKey(name: 'defaultRouteSettings')
-  final RouteSettings defaultRouteSettings;
+  final RouteSettings? defaultRouteSettings;
 
   /// The identifier of the Deployment that the Stage is associated with. Can't be
   /// updated if autoDeploy is enabled.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The description of the stage.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Describes the status of the last deployment of a stage. Supported only for
   /// stages with autoDeploy enabled.
-  @_s.JsonKey(name: 'lastDeploymentStatusMessage')
-  final String lastDeploymentStatusMessage;
+  final String? lastDeploymentStatusMessage;
 
   /// The timestamp when the stage was last updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDate')
-  final DateTime lastUpdatedDate;
+  final DateTime? lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
-  @_s.JsonKey(name: 'routeSettings')
-  final Map<String, RouteSettings> routeSettings;
+  final Map<String, RouteSettings>? routeSettings;
 
   /// The name of the stage.
-  @_s.JsonKey(name: 'stageName')
-  final String stageName;
+  final String? stageName;
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
   /// [A-Za-z0-9-._~:/?#&amp;=,]+.
-  @_s.JsonKey(name: 'stageVariables')
-  final Map<String, String> stageVariables;
+  final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetStageResponse({
     this.accessLogSettings,
@@ -6257,91 +6434,101 @@ class GetStageResponse {
     this.stageVariables,
     this.tags,
   });
-  factory GetStageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetStageResponseFromJson(json);
+  factory GetStageResponse.fromJson(Map<String, dynamic> json) {
+    return GetStageResponse(
+      accessLogSettings: json['accessLogSettings'] != null
+          ? AccessLogSettings.fromJson(
+              json['accessLogSettings'] as Map<String, dynamic>)
+          : null,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      autoDeploy: json['autoDeploy'] as bool?,
+      clientCertificateId: json['clientCertificateId'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      defaultRouteSettings: json['defaultRouteSettings'] != null
+          ? RouteSettings.fromJson(
+              json['defaultRouteSettings'] as Map<String, dynamic>)
+          : null,
+      deploymentId: json['deploymentId'] as String?,
+      description: json['description'] as String?,
+      lastDeploymentStatusMessage:
+          json['lastDeploymentStatusMessage'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      routeSettings: (json['routeSettings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RouteSettings.fromJson(e as Map<String, dynamic>))),
+      stageName: json['stageName'] as String?,
+      stageVariables: (json['stageVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetStagesResponse {
   /// The elements from this collection.
-  @_s.JsonKey(name: 'items')
-  final List<Stage> items;
+  final List<Stage>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetStagesResponse({
     this.items,
     this.nextToken,
   });
-  factory GetStagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetStagesResponseFromJson(json);
+  factory GetStagesResponse.fromJson(Map<String, dynamic> json) {
+    return GetStagesResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Stage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagsResponse {
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetTagsResponse({
     this.tags,
   });
-  factory GetTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTagsResponseFromJson(json);
+  factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
+    return GetTagsResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVpcLinkResponse {
   /// The timestamp when the VPC link was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The name of the VPC link.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of security group IDs for the VPC link.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of subnet IDs to include in the VPC link.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// Tags for the VPC link.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The ID of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkId')
-  final String vpcLinkId;
+  final String? vpcLinkId;
 
   /// The status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatus')
-  final VpcLinkStatus vpcLinkStatus;
+  final VpcLinkStatus? vpcLinkStatus;
 
   /// A message summarizing the cause of the status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatusMessage')
-  final String vpcLinkStatusMessage;
+  final String? vpcLinkStatusMessage;
 
   /// The version of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkVersion')
-  final VpcLinkVersion vpcLinkVersion;
+  final VpcLinkVersion? vpcLinkVersion;
 
   GetVpcLinkResponse({
     this.createdDate,
@@ -6354,120 +6541,116 @@ class GetVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
-  factory GetVpcLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVpcLinkResponseFromJson(json);
+  factory GetVpcLinkResponse.fromJson(Map<String, dynamic> json) {
+    return GetVpcLinkResponse(
+      createdDate: timeStampFromJson(json['createdDate']),
+      name: json['name'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vpcLinkId: json['vpcLinkId'] as String?,
+      vpcLinkStatus: (json['vpcLinkStatus'] as String?)?.toVpcLinkStatus(),
+      vpcLinkStatusMessage: json['vpcLinkStatusMessage'] as String?,
+      vpcLinkVersion: (json['vpcLinkVersion'] as String?)?.toVpcLinkVersion(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVpcLinksResponse {
   /// A collection of VPC links.
-  @_s.JsonKey(name: 'items')
-  final List<VpcLink> items;
+  final List<VpcLink>? items;
 
   /// The next page of elements from this collection. Not valid for the last
   /// element of the collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetVpcLinksResponse({
     this.items,
     this.nextToken,
   });
-  factory GetVpcLinksResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVpcLinksResponseFromJson(json);
+  factory GetVpcLinksResponse.fromJson(Map<String, dynamic> json) {
+    return GetVpcLinksResponse(
+      items: (json['items'] as List?)
+          ?.whereNotNull()
+          .map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
-  final ProtocolType protocolType;
+  final ProtocolType? protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
-  final String routeSelectionExpression;
+  final String? routeSelectionExpression;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   ImportApiResponse({
     this.apiEndpoint,
@@ -6487,34 +6670,53 @@ class ImportApiResponse {
     this.version,
     this.warnings,
   });
-  factory ImportApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportApiResponseFromJson(json);
+  factory ImportApiResponse.fromJson(Map<String, dynamic> json) {
+    return ImportApiResponse(
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      protocolType: (json['protocolType'] as String?)?.toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Represents an integration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Integration {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
   /// Gateway. You can update a managed integration, but you can't delete it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The ID of the VPC link for a private integration. Supported only for HTTP
   /// APIs.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The type of the network connection to the integration endpoint. Specify
   /// INTERNET for connections through the public routable internet or VPC_LINK
   /// for private connections between API Gateway and resources in a VPC. The
   /// default value is INTERNET.
-  @_s.JsonKey(name: 'connectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -6529,8 +6731,7 @@ class Integration {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// Specifies the credentials required for the integration, if any. For AWS
   /// integrations, three options are available. To specify an IAM Role for API
@@ -6538,34 +6739,28 @@ class Integration {
   /// that the caller's identity be passed through from the request, specify the
   /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
   /// AWS services, specify null.
-  @_s.JsonKey(name: 'credentialsArn')
-  final String credentialsArn;
+  final String? credentialsArn;
 
   /// Represents the description of an integration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Represents the identifier of an integration.
-  @_s.JsonKey(name: 'integrationId')
-  final String integrationId;
+  final String? integrationId;
 
   /// Specifies the integration's HTTP method type.
-  @_s.JsonKey(name: 'integrationMethod')
-  final String integrationMethod;
+  final String? integrationMethod;
 
   /// The integration response selection expression for the integration. Supported
   /// only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-integration-response-selection-expressions">Integration
   /// Response Selection Expressions</a>.
-  @_s.JsonKey(name: 'integrationResponseSelectionExpression')
-  final String integrationResponseSelectionExpression;
+  final String? integrationResponseSelectionExpression;
 
   /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
   /// service action to invoke. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
   /// subtype reference</a>.
-  @_s.JsonKey(name: 'integrationSubtype')
-  final String integrationSubtype;
+  final String? integrationSubtype;
 
   /// The integration type of an integration. One of the following:
   ///
@@ -6590,8 +6785,7 @@ class Integration {
   /// MOCK: for integrating the route or method request with API Gateway as a
   /// "loopback" endpoint without invoking any backend. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'integrationType')
-  final IntegrationType integrationType;
+  final IntegrationType? integrationType;
 
   /// For a Lambda integration, specify the URI of a Lambda function.
   ///
@@ -6605,8 +6799,7 @@ class Integration {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
   /// For private integrations, all resources must be owned by the same AWS
   /// account.
-  @_s.JsonKey(name: 'integrationUri')
-  final String integrationUri;
+  final String? integrationUri;
 
   /// Specifies the pass-through behavior for incoming requests based on the
   /// Content-Type header in the request, and the available mapping templates
@@ -6624,13 +6817,11 @@ class Integration {
   /// types mapped to templates. However, if there is at least one content type
   /// defined, unmapped content types will be rejected with the same HTTP 415
   /// Unsupported Media Type response.
-  @_s.JsonKey(name: 'passthroughBehavior')
-  final PassthroughBehavior passthroughBehavior;
+  final PassthroughBehavior? passthroughBehavior;
 
   /// Specifies the format of the payload sent to an integration. Required for
   /// HTTP APIs.
-  @_s.JsonKey(name: 'payloadFormatVersion')
-  final String payloadFormatVersion;
+  final String? payloadFormatVersion;
 
   /// For WebSocket APIs, a key-value map specifying request parameters that are
   /// passed from the method request to the backend. The key is an integration
@@ -6662,15 +6853,13 @@ class Integration {
   /// that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, String> requestParameters;
+  final Map<String, String>? requestParameters;
 
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestTemplates')
-  final Map<String, String> requestTemplates;
+  final Map<String, String>? requestTemplates;
 
   /// Supported only for HTTP APIs. You use response parameters to transform the
   /// HTTP response from a backend integration before returning the response to
@@ -6683,25 +6872,21 @@ class Integration {
   /// context variables that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, Map<String, String>> responseParameters;
+  final Map<String, Map<String, String>>? responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
   /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
   /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
-  @_s.JsonKey(name: 'timeoutInMillis')
-  final int timeoutInMillis;
+  final int? timeoutInMillis;
 
   /// The TLS configuration for a private integration. If you specify a TLS
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'tlsConfig')
-  final TlsConfig tlsConfig;
+  final TlsConfig? tlsConfig;
 
   Integration({
     this.apiGatewayManaged,
@@ -6725,19 +6910,48 @@ class Integration {
     this.timeoutInMillis,
     this.tlsConfig,
   });
-  factory Integration.fromJson(Map<String, dynamic> json) =>
-      _$IntegrationFromJson(json);
+  factory Integration.fromJson(Map<String, dynamic> json) {
+    return Integration(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      connectionId: json['connectionId'] as String?,
+      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      credentialsArn: json['credentialsArn'] as String?,
+      description: json['description'] as String?,
+      integrationId: json['integrationId'] as String?,
+      integrationMethod: json['integrationMethod'] as String?,
+      integrationResponseSelectionExpression:
+          json['integrationResponseSelectionExpression'] as String?,
+      integrationSubtype: json['integrationSubtype'] as String?,
+      integrationType:
+          (json['integrationType'] as String?)?.toIntegrationType(),
+      integrationUri: json['integrationUri'] as String?,
+      passthroughBehavior:
+          (json['passthroughBehavior'] as String?)?.toPassthroughBehavior(),
+      payloadFormatVersion: json['payloadFormatVersion'] as String?,
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+      timeoutInMillis: json['timeoutInMillis'] as int?,
+      tlsConfig: json['tlsConfig'] != null
+          ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Represents an integration response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IntegrationResponse {
   /// The integration response key.
-  @_s.JsonKey(name: 'integrationResponseKey')
   final String integrationResponseKey;
 
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
@@ -6753,12 +6967,10 @@ class IntegrationResponse {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// The integration response ID.
-  @_s.JsonKey(name: 'integrationResponseId')
-  final String integrationResponseId;
+  final String? integrationResponseId;
 
   /// A key-value map specifying response parameters that are passed to the method
   /// response from the backend. The key is a method response header parameter
@@ -6771,43 +6983,47 @@ class IntegrationResponse {
   /// integration.response.body.{JSON-expression}, where name is a valid and
   /// unique response header name and JSON-expression is a valid JSON expression
   /// without the $ prefix.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, String> responseParameters;
+  final Map<String, String>? responseParameters;
 
   /// The collection of response templates for the integration response as a
   /// string-to-string map of key-value pairs. Response templates are represented
   /// as a key/value map, with a content-type as the key and a template as the
   /// value.
-  @_s.JsonKey(name: 'responseTemplates')
-  final Map<String, String> responseTemplates;
+  final Map<String, String>? responseTemplates;
 
   /// The template selection expressions for the integration response.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   IntegrationResponse({
-    @_s.required this.integrationResponseKey,
+    required this.integrationResponseKey,
     this.contentHandlingStrategy,
     this.integrationResponseId,
     this.responseParameters,
     this.responseTemplates,
     this.templateSelectionExpression,
   });
-  factory IntegrationResponse.fromJson(Map<String, dynamic> json) =>
-      _$IntegrationResponseFromJson(json);
+  factory IntegrationResponse.fromJson(Map<String, dynamic> json) {
+    return IntegrationResponse(
+      integrationResponseKey: json['integrationResponseKey'] as String,
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      integrationResponseId: json['integrationResponseId'] as String?,
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+    );
+  }
 }
 
 /// Represents an API method integration type.
 enum IntegrationType {
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('HTTP')
   http,
-  @_s.JsonValue('MOCK')
   mock,
-  @_s.JsonValue('HTTP_PROXY')
   httpProxy,
-  @_s.JsonValue('AWS_PROXY')
   awsProxy,
 }
 
@@ -6825,98 +7041,139 @@ extension on IntegrationType {
       case IntegrationType.awsProxy:
         return 'AWS_PROXY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IntegrationType toIntegrationType() {
+    switch (this) {
+      case 'AWS':
+        return IntegrationType.aws;
+      case 'HTTP':
+        return IntegrationType.http;
+      case 'MOCK':
+        return IntegrationType.mock;
+      case 'HTTP_PROXY':
+        return IntegrationType.httpProxy;
+      case 'AWS_PROXY':
+        return IntegrationType.awsProxy;
+    }
+    throw Exception('$this is not known in enum IntegrationType');
   }
 }
 
 /// Represents the configuration of a JWT authorizer. Required for the JWT
 /// authorizer type. Supported only for HTTP APIs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JWTConfiguration {
   /// A list of the intended recipients of the JWT. A valid JWT must provide an
   /// aud that matches at least one entry in this list. See <a
   /// href="https://tools.ietf.org/html/rfc7519#section-4.1.3">RFC 7519</a>.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'audience')
-  final List<String> audience;
+  final List<String>? audience;
 
   /// The base domain of the identity provider that issues JSON Web Tokens. For
   /// example, an Amazon Cognito user pool has the following format:
   /// https://cognito-idp.<replaceable>{region}</replaceable>.amazonaws.com/<replaceable>{userPoolId}</replaceable>
   /// . Required for the JWT authorizer type. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'issuer')
-  final String issuer;
+  final String? issuer;
 
   JWTConfiguration({
     this.audience,
     this.issuer,
   });
-  factory JWTConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$JWTConfigurationFromJson(json);
+  factory JWTConfiguration.fromJson(Map<String, dynamic> json) {
+    return JWTConfiguration(
+      audience: (json['audience'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      issuer: json['issuer'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JWTConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final audience = this.audience;
+    final issuer = this.issuer;
+    return {
+      if (audience != null) 'audience': audience,
+      if (issuer != null) 'issuer': issuer,
+    };
+  }
 }
 
 /// The logging level.
 enum LoggingLevel {
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('OFF')
   off,
+}
+
+extension on LoggingLevel {
+  String toValue() {
+    switch (this) {
+      case LoggingLevel.error:
+        return 'ERROR';
+      case LoggingLevel.info:
+        return 'INFO';
+      case LoggingLevel.off:
+        return 'OFF';
+    }
+  }
+}
+
+extension on String {
+  LoggingLevel toLoggingLevel() {
+    switch (this) {
+      case 'ERROR':
+        return LoggingLevel.error;
+      case 'INFO':
+        return LoggingLevel.info;
+      case 'OFF':
+        return LoggingLevel.off;
+    }
+    throw Exception('$this is not known in enum LoggingLevel');
+  }
 }
 
 /// Represents a data model for an API. Supported only for WebSocket APIs. See
 /// <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html">Create
 /// Models and Mapping Templates for Request and Response Mappings</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Model {
   /// The name of the model. Must be alphanumeric.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The content-type for the model, for example, "application/json".
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   /// The description of the model.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The model identifier.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The schema for the model. For application/json models, this should be JSON
   /// schema draft 4 model.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   Model({
-    @_s.required this.name,
+    required this.name,
     this.contentType,
     this.description,
     this.modelId,
     this.schema,
   });
-  factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
+      name: json['name'] as String,
+      contentType: json['contentType'] as String?,
+      description: json['description'] as String?,
+      modelId: json['modelId'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MutualTlsAuthentication {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example,
@@ -6925,36 +7182,36 @@ class MutualTlsAuthentication {
   /// authorities. To update the truststore, upload a new version to S3, and then
   /// update your custom domain name to use the new version. To update the
   /// truststore, you must have permissions to access the S3 object.
-  @_s.JsonKey(name: 'truststoreUri')
-  final String truststoreUri;
+  final String? truststoreUri;
 
   /// The version of the S3 object that contains your truststore. To specify a
   /// version, you must have versioning enabled for the S3 bucket.
-  @_s.JsonKey(name: 'truststoreVersion')
-  final String truststoreVersion;
+  final String? truststoreVersion;
 
   /// A list of warnings that API Gateway returns while processing your
   /// truststore. Invalid certificates produce warnings. Mutual TLS is still
   /// enabled, but some clients might not be able to access your API. To resolve
   /// warnings, upload a new truststore to S3, and then update you domain name to
   /// use the new version.
-  @_s.JsonKey(name: 'truststoreWarnings')
-  final List<String> truststoreWarnings;
+  final List<String>? truststoreWarnings;
 
   MutualTlsAuthentication({
     this.truststoreUri,
     this.truststoreVersion,
     this.truststoreWarnings,
   });
-  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) =>
-      _$MutualTlsAuthenticationFromJson(json);
+  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) {
+    return MutualTlsAuthentication(
+      truststoreUri: json['truststoreUri'] as String?,
+      truststoreVersion: json['truststoreVersion'] as String?,
+      truststoreWarnings: (json['truststoreWarnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MutualTlsAuthenticationInput {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example,
@@ -6963,50 +7220,54 @@ class MutualTlsAuthenticationInput {
   /// authorities. To update the truststore, upload a new version to S3, and then
   /// update your custom domain name to use the new version. To update the
   /// truststore, you must have permissions to access the S3 object.
-  @_s.JsonKey(name: 'truststoreUri')
-  final String truststoreUri;
+  final String? truststoreUri;
 
   /// The version of the S3 object that contains your truststore. To specify a
   /// version, you must have versioning enabled for the S3 bucket.
-  @_s.JsonKey(name: 'truststoreVersion')
-  final String truststoreVersion;
+  final String? truststoreVersion;
 
   MutualTlsAuthenticationInput({
     this.truststoreUri,
     this.truststoreVersion,
   });
-  Map<String, dynamic> toJson() => _$MutualTlsAuthenticationInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final truststoreUri = this.truststoreUri;
+    final truststoreVersion = this.truststoreVersion;
+    return {
+      if (truststoreUri != null) 'truststoreUri': truststoreUri,
+      if (truststoreVersion != null) 'truststoreVersion': truststoreVersion,
+    };
+  }
 }
 
 /// Validation constraints imposed on parameters of a request (path, query
 /// string, headers).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterConstraints {
   /// Whether or not the parameter is required.
-  @_s.JsonKey(name: 'required')
-  final bool required;
+  final bool? required;
 
   ParameterConstraints({
     this.required,
   });
-  factory ParameterConstraints.fromJson(Map<String, dynamic> json) =>
-      _$ParameterConstraintsFromJson(json);
+  factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
+    return ParameterConstraints(
+      required: json['required'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ParameterConstraintsToJson(this);
+  Map<String, dynamic> toJson() {
+    final required = this.required;
+    return {
+      if (required != null) 'required': required,
+    };
+  }
 }
 
 /// Represents passthrough behavior for an integration response. Supported only
 /// for WebSocket APIs.
 enum PassthroughBehavior {
-  @_s.JsonValue('WHEN_NO_MATCH')
   whenNoMatch,
-  @_s.JsonValue('NEVER')
   never,
-  @_s.JsonValue('WHEN_NO_TEMPLATES')
   whenNoTemplates,
 }
 
@@ -7020,15 +7281,26 @@ extension on PassthroughBehavior {
       case PassthroughBehavior.whenNoTemplates:
         return 'WHEN_NO_TEMPLATES';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PassthroughBehavior toPassthroughBehavior() {
+    switch (this) {
+      case 'WHEN_NO_MATCH':
+        return PassthroughBehavior.whenNoMatch;
+      case 'NEVER':
+        return PassthroughBehavior.never;
+      case 'WHEN_NO_TEMPLATES':
+        return PassthroughBehavior.whenNoTemplates;
+    }
+    throw Exception('$this is not known in enum PassthroughBehavior');
   }
 }
 
 /// Represents a protocol type.
 enum ProtocolType {
-  @_s.JsonValue('WEBSOCKET')
   websocket,
-  @_s.JsonValue('HTTP')
   http,
 }
 
@@ -7040,97 +7312,86 @@ extension on ProtocolType {
       case ProtocolType.http:
         return 'HTTP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ProtocolType toProtocolType() {
+    switch (this) {
+      case 'WEBSOCKET':
+        return ProtocolType.websocket;
+      case 'HTTP':
+        return ProtocolType.http;
+    }
+    throw Exception('$this is not known in enum ProtocolType');
+  }
+}
+
 class ReimportApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
-  final ProtocolType protocolType;
+  final ProtocolType? protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
-  final String routeSelectionExpression;
+  final String? routeSelectionExpression;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   ReimportApiResponse({
     this.apiEndpoint,
@@ -7150,31 +7411,50 @@ class ReimportApiResponse {
     this.version,
     this.warnings,
   });
-  factory ReimportApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReimportApiResponseFromJson(json);
+  factory ReimportApiResponse.fromJson(Map<String, dynamic> json) {
+    return ReimportApiResponse(
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      protocolType: (json['protocolType'] as String?)?.toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Represents a route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Route {
   /// The route key for the route.
-  @_s.JsonKey(name: 'routeKey')
   final String routeKey;
 
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
   /// modify the $default route key.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether an API key is required for this route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'apiKeyRequired')
-  final bool apiKeyRequired;
+  final bool? apiKeyRequired;
 
   /// A list of authorization scopes configured on a route. The scopes are used
   /// with a JWT authorizer to authorize the method invocation. The authorization
@@ -7184,55 +7464,45 @@ class Route {
   /// invocation is not authorized. When the route scope is configured, the client
   /// must provide an access token instead of an identity token for authorization
   /// purposes.
-  @_s.JsonKey(name: 'authorizationScopes')
-  final List<String> authorizationScopes;
+  final List<String>? authorizationScopes;
 
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
   /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
   /// permissions, and CUSTOM for using a Lambda authorizer.
-  @_s.JsonKey(name: 'authorizationType')
-  final AuthorizationType authorizationType;
+  final AuthorizationType? authorizationType;
 
   /// The identifier of the Authorizer resource to be associated with this route.
   /// The authorizer identifier is generated by API Gateway when you created the
   /// authorizer.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// The model selection expression for the route. Supported only for WebSocket
   /// APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// The operation name for the route.
-  @_s.JsonKey(name: 'operationName')
-  final String operationName;
+  final String? operationName;
 
   /// The request models for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestModels')
-  final Map<String, String> requestModels;
+  final Map<String, String>? requestModels;
 
   /// The request parameters for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, ParameterConstraints> requestParameters;
+  final Map<String, ParameterConstraints>? requestParameters;
 
   /// The route ID.
-  @_s.JsonKey(name: 'routeId')
-  final String routeId;
+  final String? routeId;
 
   /// The route response selection expression for the route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'routeResponseSelectionExpression')
-  final String routeResponseSelectionExpression;
+  final String? routeResponseSelectionExpression;
 
   /// The target for the route.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   Route({
-    @_s.required this.routeKey,
+    required this.routeKey,
     this.apiGatewayManaged,
     this.apiKeyRequired,
     this.authorizationScopes,
@@ -7246,78 +7516,92 @@ class Route {
     this.routeResponseSelectionExpression,
     this.target,
   });
-  factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+  factory Route.fromJson(Map<String, dynamic> json) {
+    return Route(
+      routeKey: json['routeKey'] as String,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiKeyRequired: json['apiKeyRequired'] as bool?,
+      authorizationScopes: (json['authorizationScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      authorizationType:
+          (json['authorizationType'] as String?)?.toAuthorizationType(),
+      authorizerId: json['authorizerId'] as String?,
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      operationName: json['operationName'] as String?,
+      requestModels: (json['requestModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeId: json['routeId'] as String?,
+      routeResponseSelectionExpression:
+          json['routeResponseSelectionExpression'] as String?,
+      target: json['target'] as String?,
+    );
+  }
 }
 
 /// Represents a route response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteResponse {
   /// Represents the route response key of a route response.
-  @_s.JsonKey(name: 'routeResponseKey')
   final String routeResponseKey;
 
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// Represents the response models of a route response.
-  @_s.JsonKey(name: 'responseModels')
-  final Map<String, String> responseModels;
+  final Map<String, String>? responseModels;
 
   /// Represents the response parameters of a route response.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, ParameterConstraints> responseParameters;
+  final Map<String, ParameterConstraints>? responseParameters;
 
   /// Represents the identifier of a route response.
-  @_s.JsonKey(name: 'routeResponseId')
-  final String routeResponseId;
+  final String? routeResponseId;
 
   RouteResponse({
-    @_s.required this.routeResponseKey,
+    required this.routeResponseKey,
     this.modelSelectionExpression,
     this.responseModels,
     this.responseParameters,
     this.routeResponseId,
   });
-  factory RouteResponse.fromJson(Map<String, dynamic> json) =>
-      _$RouteResponseFromJson(json);
+  factory RouteResponse.fromJson(Map<String, dynamic> json) {
+    return RouteResponse(
+      routeResponseKey: json['routeResponseKey'] as String,
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      responseModels: (json['responseModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeResponseId: json['routeResponseId'] as String?,
+    );
+  }
 }
 
 /// Represents a collection of route settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RouteSettings {
   /// Specifies whether (true) or not (false) data trace logging is enabled for
   /// this route. This property affects the log entries pushed to Amazon
   /// CloudWatch Logs. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'dataTraceEnabled')
-  final bool dataTraceEnabled;
+  final bool? dataTraceEnabled;
 
   /// Specifies whether detailed metrics are enabled.
-  @_s.JsonKey(name: 'detailedMetricsEnabled')
-  final bool detailedMetricsEnabled;
+  final bool? detailedMetricsEnabled;
 
   /// Specifies the logging level for this route: INFO, ERROR, or OFF. This
   /// property affects the log entries pushed to Amazon CloudWatch Logs. Supported
   /// only for WebSocket APIs.
-  @_s.JsonKey(name: 'loggingLevel')
-  final LoggingLevel loggingLevel;
+  final LoggingLevel? loggingLevel;
 
   /// Specifies the throttling burst limit.
-  @_s.JsonKey(name: 'throttlingBurstLimit')
-  final int throttlingBurstLimit;
+  final int? throttlingBurstLimit;
 
   /// Specifies the throttling rate limit.
-  @_s.JsonKey(name: 'throttlingRateLimit')
-  final double throttlingRateLimit;
+  final double? throttlingRateLimit;
 
   RouteSettings({
     this.dataTraceEnabled,
@@ -7326,97 +7610,120 @@ class RouteSettings {
     this.throttlingBurstLimit,
     this.throttlingRateLimit,
   });
-  factory RouteSettings.fromJson(Map<String, dynamic> json) =>
-      _$RouteSettingsFromJson(json);
+  factory RouteSettings.fromJson(Map<String, dynamic> json) {
+    return RouteSettings(
+      dataTraceEnabled: json['dataTraceEnabled'] as bool?,
+      detailedMetricsEnabled: json['detailedMetricsEnabled'] as bool?,
+      loggingLevel: (json['loggingLevel'] as String?)?.toLoggingLevel(),
+      throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
+      throttlingRateLimit: json['throttlingRateLimit'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RouteSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataTraceEnabled = this.dataTraceEnabled;
+    final detailedMetricsEnabled = this.detailedMetricsEnabled;
+    final loggingLevel = this.loggingLevel;
+    final throttlingBurstLimit = this.throttlingBurstLimit;
+    final throttlingRateLimit = this.throttlingRateLimit;
+    return {
+      if (dataTraceEnabled != null) 'dataTraceEnabled': dataTraceEnabled,
+      if (detailedMetricsEnabled != null)
+        'detailedMetricsEnabled': detailedMetricsEnabled,
+      if (loggingLevel != null) 'loggingLevel': loggingLevel.toValue(),
+      if (throttlingBurstLimit != null)
+        'throttlingBurstLimit': throttlingBurstLimit,
+      if (throttlingRateLimit != null)
+        'throttlingRateLimit': throttlingRateLimit,
+    };
+  }
 }
 
 /// The Transport Layer Security (TLS) version of the security policy for this
 /// domain name. The valid values are TLS_1_0 and TLS_1_2.
 enum SecurityPolicy {
-  @_s.JsonValue('TLS_1_0')
   tls_1_0,
-  @_s.JsonValue('TLS_1_2')
   tls_1_2,
 }
 
+extension on SecurityPolicy {
+  String toValue() {
+    switch (this) {
+      case SecurityPolicy.tls_1_0:
+        return 'TLS_1_0';
+      case SecurityPolicy.tls_1_2:
+        return 'TLS_1_2';
+    }
+  }
+}
+
+extension on String {
+  SecurityPolicy toSecurityPolicy() {
+    switch (this) {
+      case 'TLS_1_0':
+        return SecurityPolicy.tls_1_0;
+      case 'TLS_1_2':
+        return SecurityPolicy.tls_1_2;
+    }
+    throw Exception('$this is not known in enum SecurityPolicy');
+  }
+}
+
 /// Represents an API stage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Stage {
   /// The name of the stage.
-  @_s.JsonKey(name: 'stageName')
   final String stageName;
 
   /// Settings for logging access in this stage.
-  @_s.JsonKey(name: 'accessLogSettings')
-  final AccessLogSettings accessLogSettings;
+  final AccessLogSettings? accessLogSettings;
 
   /// Specifies whether a stage is managed by API Gateway. If you created an API
   /// using quick create, the $default stage is managed by API Gateway. You can't
   /// modify the $default stage.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether updates to an API automatically trigger a new deployment.
   /// The default value is false.
-  @_s.JsonKey(name: 'autoDeploy')
-  final bool autoDeploy;
+  final bool? autoDeploy;
 
   /// The identifier of a client certificate for a Stage. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'clientCertificateId')
-  final String clientCertificateId;
+  final String? clientCertificateId;
 
   /// The timestamp when the stage was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Default route settings for the stage.
-  @_s.JsonKey(name: 'defaultRouteSettings')
-  final RouteSettings defaultRouteSettings;
+  final RouteSettings? defaultRouteSettings;
 
   /// The identifier of the Deployment that the Stage is associated with. Can't be
   /// updated if autoDeploy is enabled.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The description of the stage.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Describes the status of the last deployment of a stage. Supported only for
   /// stages with autoDeploy enabled.
-  @_s.JsonKey(name: 'lastDeploymentStatusMessage')
-  final String lastDeploymentStatusMessage;
+  final String? lastDeploymentStatusMessage;
 
   /// The timestamp when the stage was last updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDate')
-  final DateTime lastUpdatedDate;
+  final DateTime? lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
-  @_s.JsonKey(name: 'routeSettings')
-  final Map<String, RouteSettings> routeSettings;
+  final Map<String, RouteSettings>? routeSettings;
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
   /// [A-Za-z0-9-._~:/?#&amp;=,]+.
-  @_s.JsonKey(name: 'stageVariables')
-  final Map<String, String> stageVariables;
+  final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Stage({
-    @_s.required this.stageName,
+    required this.stageName,
     this.accessLogSettings,
     this.apiGatewayManaged,
     this.autoDeploy,
@@ -7431,84 +7738,95 @@ class Stage {
     this.stageVariables,
     this.tags,
   });
-  factory Stage.fromJson(Map<String, dynamic> json) => _$StageFromJson(json);
+  factory Stage.fromJson(Map<String, dynamic> json) {
+    return Stage(
+      stageName: json['stageName'] as String,
+      accessLogSettings: json['accessLogSettings'] != null
+          ? AccessLogSettings.fromJson(
+              json['accessLogSettings'] as Map<String, dynamic>)
+          : null,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      autoDeploy: json['autoDeploy'] as bool?,
+      clientCertificateId: json['clientCertificateId'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      defaultRouteSettings: json['defaultRouteSettings'] != null
+          ? RouteSettings.fromJson(
+              json['defaultRouteSettings'] as Map<String, dynamic>)
+          : null,
+      deploymentId: json['deploymentId'] as String?,
+      description: json['description'] as String?,
+      lastDeploymentStatusMessage:
+          json['lastDeploymentStatusMessage'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      routeSettings: (json['routeSettings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RouteSettings.fromJson(e as Map<String, dynamic>))),
+      stageVariables: (json['stageVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// The TLS configuration for a private integration. If you specify a TLS
 /// configuration, private integration traffic uses the HTTPS protocol.
 /// Supported only for HTTP APIs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TlsConfig {
   /// If you specify a server name, API Gateway uses it to verify the hostname on
   /// the integration's certificate. The server name is also included in the TLS
   /// handshake to support Server Name Indication (SNI) or virtual hosting.
-  @_s.JsonKey(name: 'serverNameToVerify')
-  final String serverNameToVerify;
+  final String? serverNameToVerify;
 
   TlsConfig({
     this.serverNameToVerify,
   });
-  factory TlsConfig.fromJson(Map<String, dynamic> json) =>
-      _$TlsConfigFromJson(json);
+  factory TlsConfig.fromJson(Map<String, dynamic> json) {
+    return TlsConfig(
+      serverNameToVerify: json['serverNameToVerify'] as String?,
+    );
+  }
 }
 
 /// The TLS configuration for a private integration. If you specify a TLS
 /// configuration, private integration traffic uses the HTTPS protocol.
 /// Supported only for HTTP APIs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TlsConfigInput {
   /// If you specify a server name, API Gateway uses it to verify the hostname on
   /// the integration's certificate. The server name is also included in the TLS
   /// handshake to support Server Name Indication (SNI) or virtual hosting.
-  @_s.JsonKey(name: 'serverNameToVerify')
-  final String serverNameToVerify;
+  final String? serverNameToVerify;
 
   TlsConfigInput({
     this.serverNameToVerify,
   });
-  Map<String, dynamic> toJson() => _$TlsConfigInputToJson(this);
+  Map<String, dynamic> toJson() {
+    final serverNameToVerify = this.serverNameToVerify;
+    return {
+      if (serverNameToVerify != null) 'serverNameToVerify': serverNameToVerify,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApiMappingResponse {
   /// The API identifier.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// The API mapping identifier.
-  @_s.JsonKey(name: 'apiMappingId')
-  final String apiMappingId;
+  final String? apiMappingId;
 
   /// The API mapping key.
-  @_s.JsonKey(name: 'apiMappingKey')
-  final String apiMappingKey;
+  final String? apiMappingKey;
 
   /// The API stage.
-  @_s.JsonKey(name: 'stage')
-  final String stage;
+  final String? stage;
 
   UpdateApiMappingResponse({
     this.apiId,
@@ -7516,97 +7834,81 @@ class UpdateApiMappingResponse {
     this.apiMappingKey,
     this.stage,
   });
-  factory UpdateApiMappingResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApiMappingResponseFromJson(json);
+  factory UpdateApiMappingResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApiMappingResponse(
+      apiId: json['apiId'] as String?,
+      apiMappingId: json['apiMappingId'] as String?,
+      apiMappingKey: json['apiMappingKey'] as String?,
+      stage: json['stage'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
   /// a deployed API stage.
-  @_s.JsonKey(name: 'apiEndpoint')
-  final String apiEndpoint;
+  final String? apiEndpoint;
 
   /// Specifies whether an API is managed by API Gateway. You can't update or
   /// delete a managed API by using API Gateway. A managed API can be deleted only
   /// through the tooling or service that created it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The API ID.
-  @_s.JsonKey(name: 'apiId')
-  final String apiId;
+  final String? apiId;
 
   /// An API key selection expression. Supported only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-apikey-selection-expressions">API
   /// Key Selection Expressions</a>.
-  @_s.JsonKey(name: 'apiKeySelectionExpression')
-  final String apiKeySelectionExpression;
+  final String? apiKeySelectionExpression;
 
   /// A CORS configuration. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'corsConfiguration')
-  final Cors corsConfiguration;
+  final Cors? corsConfiguration;
 
   /// The timestamp when the API was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The description of the API.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies whether clients can invoke your API by using the default
   /// execute-api endpoint. By default, clients can invoke your API with the
   /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
   /// require that clients use a custom domain name to invoke your API, disable
   /// the default endpoint.
-  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
-  final bool disableExecuteApiEndpoint;
+  final bool? disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'disableSchemaValidation')
-  final bool disableSchemaValidation;
+  final bool? disableSchemaValidation;
 
   /// The validation information during API import. This may include particular
   /// properties of your OpenAPI definition which are ignored during import.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'importInfo')
-  final List<String> importInfo;
+  final List<String>? importInfo;
 
   /// The name of the API.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The API protocol.
-  @_s.JsonKey(name: 'protocolType')
-  final ProtocolType protocolType;
+  final ProtocolType? protocolType;
 
   /// The route selection expression for the API. For HTTP APIs, the
   /// routeSelectionExpression must be ${request.method} ${request.path}. If not
   /// provided, this will be the default for HTTP APIs. This property is required
   /// for WebSocket APIs.
-  @_s.JsonKey(name: 'routeSelectionExpression')
-  final String routeSelectionExpression;
+  final String? routeSelectionExpression;
 
   /// A collection of tags associated with the API.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A version identifier for the API.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The warning messages reported when failonwarnings is turned on during API
   /// import.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   UpdateApiResponse({
     this.apiEndpoint,
@@ -7626,48 +7928,65 @@ class UpdateApiResponse {
     this.version,
     this.warnings,
   });
-  factory UpdateApiResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApiResponseFromJson(json);
+  factory UpdateApiResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApiResponse(
+      apiEndpoint: json['apiEndpoint'] as String?,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiId: json['apiId'] as String?,
+      apiKeySelectionExpression: json['apiKeySelectionExpression'] as String?,
+      corsConfiguration: json['corsConfiguration'] != null
+          ? Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>)
+          : null,
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      disableSchemaValidation: json['disableSchemaValidation'] as bool?,
+      importInfo: (json['importInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      protocolType: (json['protocolType'] as String?)?.toProtocolType(),
+      routeSelectionExpression: json['routeSelectionExpression'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
   /// Lambda function, don't specify this parameter. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerCredentialsArn')
-  final String authorizerCredentialsArn;
+  final String? authorizerCredentialsArn;
 
   /// The authorizer identifier.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
   /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
   /// To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>.
-  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
-  final String authorizerPayloadFormatVersion;
+  final String? authorizerPayloadFormatVersion;
 
   /// The time to live (TTL) for cached authorizer results, in seconds. If it
   /// equals 0, authorization caching is disabled. If it is greater than 0, API
   /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
   /// Supported only for HTTP API Lambda authorizers.
-  @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
-  final int authorizerResultTtlInSeconds;
+  final int? authorizerResultTtlInSeconds;
 
   /// The authorizer type. Specify REQUEST for a Lambda function using incoming
   /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
   /// HTTP APIs).
-  @_s.JsonKey(name: 'authorizerType')
-  final AuthorizerType authorizerType;
+  final AuthorizerType? authorizerType;
 
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
@@ -7680,16 +7999,14 @@ class UpdateAuthorizerResponse {
   /// /. For Lambda functions, this is usually of the form
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
   /// authorizers.
-  @_s.JsonKey(name: 'authorizerUri')
-  final String authorizerUri;
+  final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
   /// If enabled, the Lambda authorizer can return a boolean value instead of an
   /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
   /// with AWS Lambda authorizers for HTTP APIs</a>
-  @_s.JsonKey(name: 'enableSimpleResponses')
-  final bool enableSimpleResponses;
+  final bool? enableSimpleResponses;
 
   /// The identity source for which authorization is requested.
   ///
@@ -7715,21 +8032,17 @@ class UpdateAuthorizerResponse {
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
   /// $request.header.Authorization.
-  @_s.JsonKey(name: 'identitySource')
-  final List<String> identitySource;
+  final List<String>? identitySource;
 
   /// The validation expression does not apply to the REQUEST authorizer.
-  @_s.JsonKey(name: 'identityValidationExpression')
-  final String identityValidationExpression;
+  final String? identityValidationExpression;
 
   /// Represents the configuration of a JWT authorizer. Required for the JWT
   /// authorizer type. Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'jwtConfiguration')
-  final JWTConfiguration jwtConfiguration;
+  final JWTConfiguration? jwtConfiguration;
 
   /// The name of the authorizer.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   UpdateAuthorizerResponse({
     this.authorizerCredentialsArn,
@@ -7744,40 +8057,50 @@ class UpdateAuthorizerResponse {
     this.jwtConfiguration,
     this.name,
   });
-  factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAuthorizerResponseFromJson(json);
+  factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAuthorizerResponse(
+      authorizerCredentialsArn: json['authorizerCredentialsArn'] as String?,
+      authorizerId: json['authorizerId'] as String?,
+      authorizerPayloadFormatVersion:
+          json['authorizerPayloadFormatVersion'] as String?,
+      authorizerResultTtlInSeconds:
+          json['authorizerResultTtlInSeconds'] as int?,
+      authorizerType: (json['authorizerType'] as String?)?.toAuthorizerType(),
+      authorizerUri: json['authorizerUri'] as String?,
+      enableSimpleResponses: json['enableSimpleResponses'] as bool?,
+      identitySource: (json['identitySource'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identityValidationExpression:
+          json['identityValidationExpression'] as String?,
+      jwtConfiguration: json['jwtConfiguration'] != null
+          ? JWTConfiguration.fromJson(
+              json['jwtConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
-  @_s.JsonKey(name: 'autoDeployed')
-  final bool autoDeployed;
+  final bool? autoDeployed;
 
   /// The date and time when the Deployment resource was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The identifier for the deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The status of the deployment: PENDING, FAILED, or SUCCEEDED.
-  @_s.JsonKey(name: 'deploymentStatus')
-  final DeploymentStatus deploymentStatus;
+  final DeploymentStatus? deploymentStatus;
 
   /// May contain additional feedback on the status of an API deployment.
-  @_s.JsonKey(name: 'deploymentStatusMessage')
-  final String deploymentStatusMessage;
+  final String? deploymentStatusMessage;
 
   /// The description for the deployment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   UpdateDeploymentResponse({
     this.autoDeployed,
@@ -7787,35 +8110,34 @@ class UpdateDeploymentResponse {
     this.deploymentStatusMessage,
     this.description,
   });
-  factory UpdateDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeploymentResponseFromJson(json);
+  factory UpdateDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDeploymentResponse(
+      autoDeployed: json['autoDeployed'] as bool?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      deploymentId: json['deploymentId'] as String?,
+      deploymentStatus:
+          (json['deploymentStatus'] as String?)?.toDeploymentStatus(),
+      deploymentStatusMessage: json['deploymentStatusMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainNameResponse {
   /// The API mapping selection expression.
-  @_s.JsonKey(name: 'apiMappingSelectionExpression')
-  final String apiMappingSelectionExpression;
+  final String? apiMappingSelectionExpression;
 
   /// The name of the DomainName resource.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The domain name configurations.
-  @_s.JsonKey(name: 'domainNameConfigurations')
-  final List<DomainNameConfiguration> domainNameConfigurations;
+  final List<DomainNameConfiguration>? domainNameConfigurations;
 
   /// The mutual TLS authentication configuration for a custom domain name.
-  @_s.JsonKey(name: 'mutualTlsAuthentication')
-  final MutualTlsAuthentication mutualTlsAuthentication;
+  final MutualTlsAuthentication? mutualTlsAuthentication;
 
   /// The collection of tags associated with a domain name.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   UpdateDomainNameResponse({
     this.apiMappingSelectionExpression,
@@ -7824,33 +8146,41 @@ class UpdateDomainNameResponse {
     this.mutualTlsAuthentication,
     this.tags,
   });
-  factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDomainNameResponseFromJson(json);
+  factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainNameResponse(
+      apiMappingSelectionExpression:
+          json['apiMappingSelectionExpression'] as String?,
+      domainName: json['domainName'] as String?,
+      domainNameConfigurations: (json['domainNameConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
+          ? MutualTlsAuthentication.fromJson(
+              json['mutualTlsAuthentication'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
   /// Gateway. You can update a managed integration, but you can't delete it.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// The ID of the VPC link for a private integration. Supported only for HTTP
   /// APIs.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The type of the network connection to the integration endpoint. Specify
   /// INTERNET for connections through the public routable internet or VPC_LINK
   /// for private connections between API Gateway and resources in a VPC. The
   /// default value is INTERNET.
-  @_s.JsonKey(name: 'connectionType')
-  final ConnectionType connectionType;
+  final ConnectionType? connectionType;
 
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -7865,8 +8195,7 @@ class UpdateIntegrationResult {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// Specifies the credentials required for the integration, if any. For AWS
   /// integrations, three options are available. To specify an IAM Role for API
@@ -7874,34 +8203,28 @@ class UpdateIntegrationResult {
   /// that the caller's identity be passed through from the request, specify the
   /// string arn:aws:iam::*:user/*. To use resource-based permissions on supported
   /// AWS services, specify null.
-  @_s.JsonKey(name: 'credentialsArn')
-  final String credentialsArn;
+  final String? credentialsArn;
 
   /// Represents the description of an integration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Represents the identifier of an integration.
-  @_s.JsonKey(name: 'integrationId')
-  final String integrationId;
+  final String? integrationId;
 
   /// Specifies the integration's HTTP method type.
-  @_s.JsonKey(name: 'integrationMethod')
-  final String integrationMethod;
+  final String? integrationMethod;
 
   /// The integration response selection expression for the integration. Supported
   /// only for WebSocket APIs. See <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-websocket-api-selection-expressions.html#apigateway-websocket-api-integration-response-selection-expressions">Integration
   /// Response Selection Expressions</a>.
-  @_s.JsonKey(name: 'integrationResponseSelectionExpression')
-  final String integrationResponseSelectionExpression;
+  final String? integrationResponseSelectionExpression;
 
   /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
   /// service action to invoke. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
   /// subtype reference</a>.
-  @_s.JsonKey(name: 'integrationSubtype')
-  final String integrationSubtype;
+  final String? integrationSubtype;
 
   /// The integration type of an integration. One of the following:
   ///
@@ -7926,8 +8249,7 @@ class UpdateIntegrationResult {
   /// MOCK: for integrating the route or method request with API Gateway as a
   /// "loopback" endpoint without invoking any backend. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'integrationType')
-  final IntegrationType integrationType;
+  final IntegrationType? integrationType;
 
   /// For a Lambda integration, specify the URI of a Lambda function.
   ///
@@ -7941,8 +8263,7 @@ class UpdateIntegrationResult {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>.
   /// For private integrations, all resources must be owned by the same AWS
   /// account.
-  @_s.JsonKey(name: 'integrationUri')
-  final String integrationUri;
+  final String? integrationUri;
 
   /// Specifies the pass-through behavior for incoming requests based on the
   /// Content-Type header in the request, and the available mapping templates
@@ -7960,13 +8281,11 @@ class UpdateIntegrationResult {
   /// types mapped to templates. However, if there is at least one content type
   /// defined, unmapped content types will be rejected with the same HTTP 415
   /// Unsupported Media Type response.
-  @_s.JsonKey(name: 'passthroughBehavior')
-  final PassthroughBehavior passthroughBehavior;
+  final PassthroughBehavior? passthroughBehavior;
 
   /// Specifies the format of the payload sent to an integration. Required for
   /// HTTP APIs.
-  @_s.JsonKey(name: 'payloadFormatVersion')
-  final String payloadFormatVersion;
+  final String? payloadFormatVersion;
 
   /// For WebSocket APIs, a key-value map specifying request parameters that are
   /// passed from the method request to the backend. The key is an integration
@@ -7998,15 +8317,13 @@ class UpdateIntegrationResult {
   /// that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, String> requestParameters;
+  final Map<String, String>? requestParameters;
 
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestTemplates')
-  final Map<String, String> requestTemplates;
+  final Map<String, String>? requestTemplates;
 
   /// Supported only for HTTP APIs. You use response parameters to transform the
   /// HTTP response from a backend integration before returning the response to
@@ -8019,25 +8336,21 @@ class UpdateIntegrationResult {
   /// context variables that are evaluated at runtime. To learn more, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
   /// API requests and responses</a>.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, Map<String, String>> responseParameters;
+  final Map<String, Map<String, String>>? responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   /// Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and
   /// between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29
   /// seconds for WebSocket APIs and 30 seconds for HTTP APIs.
-  @_s.JsonKey(name: 'timeoutInMillis')
-  final int timeoutInMillis;
+  final int? timeoutInMillis;
 
   /// The TLS configuration for a private integration. If you specify a TLS
   /// configuration, private integration traffic uses the HTTPS protocol.
   /// Supported only for HTTP APIs.
-  @_s.JsonKey(name: 'tlsConfig')
-  final TlsConfig tlsConfig;
+  final TlsConfig? tlsConfig;
 
   UpdateIntegrationResult({
     this.apiGatewayManaged,
@@ -8061,15 +8374,45 @@ class UpdateIntegrationResult {
     this.timeoutInMillis,
     this.tlsConfig,
   });
-  factory UpdateIntegrationResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateIntegrationResultFromJson(json);
+  factory UpdateIntegrationResult.fromJson(Map<String, dynamic> json) {
+    return UpdateIntegrationResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      connectionId: json['connectionId'] as String?,
+      connectionType: (json['connectionType'] as String?)?.toConnectionType(),
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      credentialsArn: json['credentialsArn'] as String?,
+      description: json['description'] as String?,
+      integrationId: json['integrationId'] as String?,
+      integrationMethod: json['integrationMethod'] as String?,
+      integrationResponseSelectionExpression:
+          json['integrationResponseSelectionExpression'] as String?,
+      integrationSubtype: json['integrationSubtype'] as String?,
+      integrationType:
+          (json['integrationType'] as String?)?.toIntegrationType(),
+      integrationUri: json['integrationUri'] as String?,
+      passthroughBehavior:
+          (json['passthroughBehavior'] as String?)?.toPassthroughBehavior(),
+      payloadFormatVersion: json['payloadFormatVersion'] as String?,
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+      timeoutInMillis: json['timeoutInMillis'] as int?,
+      tlsConfig: json['tlsConfig'] != null
+          ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -8084,16 +8427,13 @@ class UpdateIntegrationResponseResponse {
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the route response or method response
   /// without modification.
-  @_s.JsonKey(name: 'contentHandlingStrategy')
-  final ContentHandlingStrategy contentHandlingStrategy;
+  final ContentHandlingStrategy? contentHandlingStrategy;
 
   /// The integration response ID.
-  @_s.JsonKey(name: 'integrationResponseId')
-  final String integrationResponseId;
+  final String? integrationResponseId;
 
   /// The integration response key.
-  @_s.JsonKey(name: 'integrationResponseKey')
-  final String integrationResponseKey;
+  final String? integrationResponseKey;
 
   /// A key-value map specifying response parameters that are passed to the method
   /// response from the backend. The key is a method response header parameter
@@ -8106,19 +8446,16 @@ class UpdateIntegrationResponseResponse {
   /// integration.response.body.{JSON-expression}, where name is a valid and
   /// unique response header name and JSON-expression is a valid JSON expression
   /// without the $ prefix.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, String> responseParameters;
+  final Map<String, String>? responseParameters;
 
   /// The collection of response templates for the integration response as a
   /// string-to-string map of key-value pairs. Response templates are represented
   /// as a key/value map, with a content-type as the key and a template as the
   /// value.
-  @_s.JsonKey(name: 'responseTemplates')
-  final Map<String, String> responseTemplates;
+  final Map<String, String>? responseTemplates;
 
   /// The template selection expressions for the integration response.
-  @_s.JsonKey(name: 'templateSelectionExpression')
-  final String templateSelectionExpression;
+  final String? templateSelectionExpression;
 
   UpdateIntegrationResponseResponse({
     this.contentHandlingStrategy,
@@ -8129,36 +8466,38 @@ class UpdateIntegrationResponseResponse {
     this.templateSelectionExpression,
   });
   factory UpdateIntegrationResponseResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateIntegrationResponseResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateIntegrationResponseResponse(
+      contentHandlingStrategy: (json['contentHandlingStrategy'] as String?)
+          ?.toContentHandlingStrategy(),
+      integrationResponseId: json['integrationResponseId'] as String?,
+      integrationResponseKey: json['integrationResponseKey'] as String?,
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseTemplates: (json['responseTemplates'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      templateSelectionExpression:
+          json['templateSelectionExpression'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateModelResponse {
   /// The content-type for the model, for example, "application/json".
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   /// The description of the model.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The model identifier.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The name of the model. Must be alphanumeric.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The schema for the model. For application/json models, this should be JSON
   /// schema draft 4 model.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   UpdateModelResponse({
     this.contentType,
@@ -8167,26 +8506,26 @@ class UpdateModelResponse {
     this.name,
     this.schema,
   });
-  factory UpdateModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateModelResponseFromJson(json);
+  factory UpdateModelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateModelResponse(
+      contentType: json['contentType'] as String?,
+      description: json['description'] as String?,
+      modelId: json['modelId'] as String?,
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
   /// modify the $default route key.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether an API key is required for this route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'apiKeyRequired')
-  final bool apiKeyRequired;
+  final bool? apiKeyRequired;
 
   /// A list of authorization scopes configured on a route. The scopes are used
   /// with a JWT authorizer to authorize the method invocation. The authorization
@@ -8196,56 +8535,45 @@ class UpdateRouteResult {
   /// invocation is not authorized. When the route scope is configured, the client
   /// must provide an access token instead of an identity token for authorization
   /// purposes.
-  @_s.JsonKey(name: 'authorizationScopes')
-  final List<String> authorizationScopes;
+  final List<String>? authorizationScopes;
 
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
   /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
   /// permissions, and CUSTOM for using a Lambda authorizer.
-  @_s.JsonKey(name: 'authorizationType')
-  final AuthorizationType authorizationType;
+  final AuthorizationType? authorizationType;
 
   /// The identifier of the Authorizer resource to be associated with this route.
   /// The authorizer identifier is generated by API Gateway when you created the
   /// authorizer.
-  @_s.JsonKey(name: 'authorizerId')
-  final String authorizerId;
+  final String? authorizerId;
 
   /// The model selection expression for the route. Supported only for WebSocket
   /// APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// The operation name for the route.
-  @_s.JsonKey(name: 'operationName')
-  final String operationName;
+  final String? operationName;
 
   /// The request models for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestModels')
-  final Map<String, String> requestModels;
+  final Map<String, String>? requestModels;
 
   /// The request parameters for the route. Supported only for WebSocket APIs.
-  @_s.JsonKey(name: 'requestParameters')
-  final Map<String, ParameterConstraints> requestParameters;
+  final Map<String, ParameterConstraints>? requestParameters;
 
   /// The route ID.
-  @_s.JsonKey(name: 'routeId')
-  final String routeId;
+  final String? routeId;
 
   /// The route key for the route.
-  @_s.JsonKey(name: 'routeKey')
-  final String routeKey;
+  final String? routeKey;
 
   /// The route response selection expression for the route. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'routeResponseSelectionExpression')
-  final String routeResponseSelectionExpression;
+  final String? routeResponseSelectionExpression;
 
   /// The target for the route.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   UpdateRouteResult({
     this.apiGatewayManaged,
@@ -8262,36 +8590,49 @@ class UpdateRouteResult {
     this.routeResponseSelectionExpression,
     this.target,
   });
-  factory UpdateRouteResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRouteResultFromJson(json);
+  factory UpdateRouteResult.fromJson(Map<String, dynamic> json) {
+    return UpdateRouteResult(
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      apiKeyRequired: json['apiKeyRequired'] as bool?,
+      authorizationScopes: (json['authorizationScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      authorizationType:
+          (json['authorizationType'] as String?)?.toAuthorizationType(),
+      authorizerId: json['authorizerId'] as String?,
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      operationName: json['operationName'] as String?,
+      requestModels: (json['requestModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeId: json['routeId'] as String?,
+      routeKey: json['routeKey'] as String?,
+      routeResponseSelectionExpression:
+          json['routeResponseSelectionExpression'] as String?,
+      target: json['target'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
-  @_s.JsonKey(name: 'modelSelectionExpression')
-  final String modelSelectionExpression;
+  final String? modelSelectionExpression;
 
   /// Represents the response models of a route response.
-  @_s.JsonKey(name: 'responseModels')
-  final Map<String, String> responseModels;
+  final Map<String, String>? responseModels;
 
   /// Represents the response parameters of a route response.
-  @_s.JsonKey(name: 'responseParameters')
-  final Map<String, ParameterConstraints> responseParameters;
+  final Map<String, ParameterConstraints>? responseParameters;
 
   /// Represents the identifier of a route response.
-  @_s.JsonKey(name: 'routeResponseId')
-  final String routeResponseId;
+  final String? routeResponseId;
 
   /// Represents the route response key of a route response.
-  @_s.JsonKey(name: 'routeResponseKey')
-  final String routeResponseKey;
+  final String? routeResponseKey;
 
   UpdateRouteResponseResponse({
     this.modelSelectionExpression,
@@ -8300,82 +8641,71 @@ class UpdateRouteResponseResponse {
     this.routeResponseId,
     this.routeResponseKey,
   });
-  factory UpdateRouteResponseResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRouteResponseResponseFromJson(json);
+  factory UpdateRouteResponseResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRouteResponseResponse(
+      modelSelectionExpression: json['modelSelectionExpression'] as String?,
+      responseModels: (json['responseModels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      responseParameters: (json['responseParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, ParameterConstraints.fromJson(e as Map<String, dynamic>))),
+      routeResponseId: json['routeResponseId'] as String?,
+      routeResponseKey: json['routeResponseKey'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateStageResponse {
   /// Settings for logging access in this stage.
-  @_s.JsonKey(name: 'accessLogSettings')
-  final AccessLogSettings accessLogSettings;
+  final AccessLogSettings? accessLogSettings;
 
   /// Specifies whether a stage is managed by API Gateway. If you created an API
   /// using quick create, the $default stage is managed by API Gateway. You can't
   /// modify the $default stage.
-  @_s.JsonKey(name: 'apiGatewayManaged')
-  final bool apiGatewayManaged;
+  final bool? apiGatewayManaged;
 
   /// Specifies whether updates to an API automatically trigger a new deployment.
   /// The default value is false.
-  @_s.JsonKey(name: 'autoDeploy')
-  final bool autoDeploy;
+  final bool? autoDeploy;
 
   /// The identifier of a client certificate for a Stage. Supported only for
   /// WebSocket APIs.
-  @_s.JsonKey(name: 'clientCertificateId')
-  final String clientCertificateId;
+  final String? clientCertificateId;
 
   /// The timestamp when the stage was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Default route settings for the stage.
-  @_s.JsonKey(name: 'defaultRouteSettings')
-  final RouteSettings defaultRouteSettings;
+  final RouteSettings? defaultRouteSettings;
 
   /// The identifier of the Deployment that the Stage is associated with. Can't be
   /// updated if autoDeploy is enabled.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The description of the stage.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Describes the status of the last deployment of a stage. Supported only for
   /// stages with autoDeploy enabled.
-  @_s.JsonKey(name: 'lastDeploymentStatusMessage')
-  final String lastDeploymentStatusMessage;
+  final String? lastDeploymentStatusMessage;
 
   /// The timestamp when the stage was last updated.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedDate')
-  final DateTime lastUpdatedDate;
+  final DateTime? lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
-  @_s.JsonKey(name: 'routeSettings')
-  final Map<String, RouteSettings> routeSettings;
+  final Map<String, RouteSettings>? routeSettings;
 
   /// The name of the stage.
-  @_s.JsonKey(name: 'stageName')
-  final String stageName;
+  final String? stageName;
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
   /// [A-Za-z0-9-._~:/?#&amp;=,]+.
-  @_s.JsonKey(name: 'stageVariables')
-  final Map<String, String> stageVariables;
+  final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
   /// resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   UpdateStageResponse({
     this.accessLogSettings,
@@ -8393,52 +8723,64 @@ class UpdateStageResponse {
     this.stageVariables,
     this.tags,
   });
-  factory UpdateStageResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateStageResponseFromJson(json);
+  factory UpdateStageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateStageResponse(
+      accessLogSettings: json['accessLogSettings'] != null
+          ? AccessLogSettings.fromJson(
+              json['accessLogSettings'] as Map<String, dynamic>)
+          : null,
+      apiGatewayManaged: json['apiGatewayManaged'] as bool?,
+      autoDeploy: json['autoDeploy'] as bool?,
+      clientCertificateId: json['clientCertificateId'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      defaultRouteSettings: json['defaultRouteSettings'] != null
+          ? RouteSettings.fromJson(
+              json['defaultRouteSettings'] as Map<String, dynamic>)
+          : null,
+      deploymentId: json['deploymentId'] as String?,
+      description: json['description'] as String?,
+      lastDeploymentStatusMessage:
+          json['lastDeploymentStatusMessage'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      routeSettings: (json['routeSettings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RouteSettings.fromJson(e as Map<String, dynamic>))),
+      stageName: json['stageName'] as String?,
+      stageVariables: (json['stageVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The name of the VPC link.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of security group IDs for the VPC link.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of subnet IDs to include in the VPC link.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// Tags for the VPC link.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The ID of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkId')
-  final String vpcLinkId;
+  final String? vpcLinkId;
 
   /// The status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatus')
-  final VpcLinkStatus vpcLinkStatus;
+  final VpcLinkStatus? vpcLinkStatus;
 
   /// A message summarizing the cause of the status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatusMessage')
-  final String vpcLinkStatusMessage;
+  final String? vpcLinkStatusMessage;
 
   /// The version of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkVersion')
-  final VpcLinkVersion vpcLinkVersion;
+  final VpcLinkVersion? vpcLinkVersion;
 
   UpdateVpcLinkResponse({
     this.createdDate,
@@ -8451,111 +8793,180 @@ class UpdateVpcLinkResponse {
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
-  factory UpdateVpcLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVpcLinkResponseFromJson(json);
+  factory UpdateVpcLinkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVpcLinkResponse(
+      createdDate: timeStampFromJson(json['createdDate']),
+      name: json['name'] as String?,
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vpcLinkId: json['vpcLinkId'] as String?,
+      vpcLinkStatus: (json['vpcLinkStatus'] as String?)?.toVpcLinkStatus(),
+      vpcLinkStatusMessage: json['vpcLinkStatusMessage'] as String?,
+      vpcLinkVersion: (json['vpcLinkVersion'] as String?)?.toVpcLinkVersion(),
+    );
+  }
 }
 
 /// Represents a VPC link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcLink {
   /// The name of the VPC link.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// A list of security group IDs for the VPC link.
-  @_s.JsonKey(name: 'securityGroupIds')
   final List<String> securityGroupIds;
 
   /// A list of subnet IDs to include in the VPC link.
-  @_s.JsonKey(name: 'subnetIds')
   final List<String> subnetIds;
 
   /// The ID of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkId')
   final String vpcLinkId;
 
   /// The timestamp when the VPC link was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// Tags for the VPC link.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatus')
-  final VpcLinkStatus vpcLinkStatus;
+  final VpcLinkStatus? vpcLinkStatus;
 
   /// A message summarizing the cause of the status of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkStatusMessage')
-  final String vpcLinkStatusMessage;
+  final String? vpcLinkStatusMessage;
 
   /// The version of the VPC link.
-  @_s.JsonKey(name: 'vpcLinkVersion')
-  final VpcLinkVersion vpcLinkVersion;
+  final VpcLinkVersion? vpcLinkVersion;
 
   VpcLink({
-    @_s.required this.name,
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcLinkId,
+    required this.name,
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcLinkId,
     this.createdDate,
     this.tags,
     this.vpcLinkStatus,
     this.vpcLinkStatusMessage,
     this.vpcLinkVersion,
   });
-  factory VpcLink.fromJson(Map<String, dynamic> json) =>
-      _$VpcLinkFromJson(json);
+  factory VpcLink.fromJson(Map<String, dynamic> json) {
+    return VpcLink(
+      name: json['name'] as String,
+      securityGroupIds: (json['securityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcLinkId: json['vpcLinkId'] as String,
+      createdDate: timeStampFromJson(json['createdDate']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      vpcLinkStatus: (json['vpcLinkStatus'] as String?)?.toVpcLinkStatus(),
+      vpcLinkStatusMessage: json['vpcLinkStatusMessage'] as String?,
+      vpcLinkVersion: (json['vpcLinkVersion'] as String?)?.toVpcLinkVersion(),
+    );
+  }
 }
 
 /// The status of the VPC link.
 enum VpcLinkStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+extension on VpcLinkStatus {
+  String toValue() {
+    switch (this) {
+      case VpcLinkStatus.pending:
+        return 'PENDING';
+      case VpcLinkStatus.available:
+        return 'AVAILABLE';
+      case VpcLinkStatus.deleting:
+        return 'DELETING';
+      case VpcLinkStatus.failed:
+        return 'FAILED';
+      case VpcLinkStatus.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  VpcLinkStatus toVpcLinkStatus() {
+    switch (this) {
+      case 'PENDING':
+        return VpcLinkStatus.pending;
+      case 'AVAILABLE':
+        return VpcLinkStatus.available;
+      case 'DELETING':
+        return VpcLinkStatus.deleting;
+      case 'FAILED':
+        return VpcLinkStatus.failed;
+      case 'INACTIVE':
+        return VpcLinkStatus.inactive;
+    }
+    throw Exception('$this is not known in enum VpcLinkStatus');
+  }
 }
 
 /// The version of the VPC link.
 enum VpcLinkVersion {
-  @_s.JsonValue('V2')
   v2,
 }
 
+extension on VpcLinkVersion {
+  String toValue() {
+    switch (this) {
+      case VpcLinkVersion.v2:
+        return 'V2';
+    }
+  }
+}
+
+extension on String {
+  VpcLinkVersion toVpcLinkVersion() {
+    switch (this) {
+      case 'V2':
+        return VpcLinkVersion.v2;
+    }
+    throw Exception('$this is not known in enum VpcLinkVersion');
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

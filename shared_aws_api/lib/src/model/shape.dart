@@ -1,13 +1,14 @@
+import '../scoping_extensions.dart';
 import 'descriptor.dart';
 
 class Shape {
-  final String type;
-  final Map<String, Member> members;
-  final Descriptor member;
-  final Descriptor key;
-  final Descriptor value;
-  final String locationName;
-  final String timestampFormat;
+  final String? type;
+  final Map<String, Member>? members;
+  final Descriptor? member;
+  final Descriptor? key;
+  final Descriptor? value;
+  final String? locationName;
+  final String? timestampFormat;
   final bool flattened;
 
   Shape(
@@ -22,38 +23,27 @@ class Shape {
   );
 
   factory Shape.fromJson(Map<String, dynamic> json) => Shape(
-        json['type'] as String,
-        json['key'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['key'] as Map)?.cast<String, dynamic>()),
-        json['value'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['value'] as Map)?.cast<String, dynamic>()),
-        json['member'] == null
-            ? null
-            : Descriptor.fromJson(
-                (json['member'] as Map)?.cast<String, dynamic>()),
-        json['flattened'] as bool ?? false,
-        (json['members'] as Map)?.cast<String, dynamic>()?.map(
+        json['type'] as String?,
+        (json['key'] as Map?)
+            ?.let((e) => Descriptor.fromJson(e.cast<String, dynamic>())),
+        (json['value'] as Map?)
+            ?.let((e) => Descriptor.fromJson(e.cast<String, dynamic>())),
+        (json['member'] as Map?)
+            ?.let((e) => Descriptor.fromJson(e.cast<String, dynamic>())),
+        json['flattened'] as bool? ?? false,
+        (json['members'] as Map?)?.cast<String, Object>().map(
               (k, e) => MapEntry(
-                  k,
-                  e == null
-                      ? null
-                      : Member.fromJson((e as Map)?.cast<String, dynamic>())),
+                  k, Member.fromJson((e as Map).cast<String, dynamic>())),
             ),
-        json['locationName'] as String,
-        json['timestampFormat'] as String,
+        json['locationName'] as String?,
+        json['timestampFormat'] as String?,
       );
 
   Map<String, dynamic> toJson() {
     final val = <String, dynamic>{};
 
     void writeNotNull(String key, dynamic value) {
-      if (value != null) {
-        val[key] = value;
-      }
+      value?.let((e) => val[key] = value);
     }
 
     writeNotNull('type', type);
@@ -69,7 +59,7 @@ class Shape {
 }
 
 class Member {
-  final String shape;
+  final String? shape;
   final bool flattened;
 
   Member(
@@ -78,8 +68,8 @@ class Member {
   );
 
   factory Member.fromJson(Map<String, dynamic> json) => Member(
-        json['shape'] as String,
-        json['flattened'] as bool ?? false,
+        json['shape'] as String?,
+        json['flattened'] as bool? ?? false,
       );
 
   Map<String, dynamic> toJson() {

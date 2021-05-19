@@ -38,72 +38,58 @@ ApplicationDetail _$ApplicationDetailFromJson(Map<String, dynamic> json) {
   return ApplicationDetail(
     applicationARN: json['ApplicationARN'] as String,
     applicationName: json['ApplicationName'] as String,
-    applicationStatus: _$enumDecodeNullable(
-        _$ApplicationStatusEnumMap, json['ApplicationStatus']),
+    applicationStatus:
+        _$enumDecode(_$ApplicationStatusEnumMap, json['ApplicationStatus']),
     applicationVersionId: json['ApplicationVersionId'] as int,
-    applicationCode: json['ApplicationCode'] as String,
-    applicationDescription: json['ApplicationDescription'] as String,
+    applicationCode: json['ApplicationCode'] as String?,
+    applicationDescription: json['ApplicationDescription'] as String?,
     cloudWatchLoggingOptionDescriptions:
-        (json['CloudWatchLoggingOptionDescriptions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : CloudWatchLoggingOptionDescription.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['CloudWatchLoggingOptionDescriptions'] as List<dynamic>?)
+            ?.map((e) => CloudWatchLoggingOptionDescription.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
     createTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
-    inputDescriptions: (json['InputDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputDescriptions: (json['InputDescriptions'] as List<dynamic>?)
+        ?.map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     lastUpdateTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdateTimestamp']),
-    outputDescriptions: (json['OutputDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    referenceDataSourceDescriptions:
-        (json['ReferenceDataSourceDescriptions'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ReferenceDataSourceDescription.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    outputDescriptions: (json['OutputDescriptions'] as List<dynamic>?)
+        ?.map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    referenceDataSourceDescriptions: (json['ReferenceDataSourceDescriptions']
+            as List<dynamic>?)
+        ?.map((e) =>
+            ReferenceDataSourceDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$ApplicationStatusEnumMap = {
@@ -119,8 +105,8 @@ ApplicationSummary _$ApplicationSummaryFromJson(Map<String, dynamic> json) {
   return ApplicationSummary(
     applicationARN: json['ApplicationARN'] as String,
     applicationName: json['ApplicationName'] as String,
-    applicationStatus: _$enumDecodeNullable(
-        _$ApplicationStatusEnumMap, json['ApplicationStatus']),
+    applicationStatus:
+        _$enumDecode(_$ApplicationStatusEnumMap, json['ApplicationStatus']),
   );
 }
 
@@ -134,17 +120,14 @@ Map<String, dynamic> _$ApplicationUpdateToJson(ApplicationUpdate instance) {
   }
 
   writeNotNull('ApplicationCodeUpdate', instance.applicationCodeUpdate);
+  writeNotNull('CloudWatchLoggingOptionUpdates',
+      instance.cloudWatchLoggingOptionUpdates?.map((e) => e.toJson()).toList());
   writeNotNull(
-      'CloudWatchLoggingOptionUpdates',
-      instance.cloudWatchLoggingOptionUpdates
-          ?.map((e) => e?.toJson())
-          ?.toList());
+      'InputUpdates', instance.inputUpdates?.map((e) => e.toJson()).toList());
   writeNotNull(
-      'InputUpdates', instance.inputUpdates?.map((e) => e?.toJson())?.toList());
-  writeNotNull('OutputUpdates',
-      instance.outputUpdates?.map((e) => e?.toJson())?.toList());
+      'OutputUpdates', instance.outputUpdates?.map((e) => e.toJson()).toList());
   writeNotNull('ReferenceDataSourceUpdates',
-      instance.referenceDataSourceUpdates?.map((e) => e?.toJson())?.toList());
+      instance.referenceDataSourceUpdates?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -156,47 +139,33 @@ CSVMappingParameters _$CSVMappingParametersFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CSVMappingParametersToJson(
-    CSVMappingParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RecordColumnDelimiter', instance.recordColumnDelimiter);
-  writeNotNull('RecordRowDelimiter', instance.recordRowDelimiter);
-  return val;
-}
+        CSVMappingParameters instance) =>
+    <String, dynamic>{
+      'RecordColumnDelimiter': instance.recordColumnDelimiter,
+      'RecordRowDelimiter': instance.recordRowDelimiter,
+    };
 
 Map<String, dynamic> _$CloudWatchLoggingOptionToJson(
-    CloudWatchLoggingOption instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LogStreamARN', instance.logStreamARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        CloudWatchLoggingOption instance) =>
+    <String, dynamic>{
+      'LogStreamARN': instance.logStreamARN,
+      'RoleARN': instance.roleARN,
+    };
 
 CloudWatchLoggingOptionDescription _$CloudWatchLoggingOptionDescriptionFromJson(
     Map<String, dynamic> json) {
   return CloudWatchLoggingOptionDescription(
     logStreamARN: json['LogStreamARN'] as String,
     roleARN: json['RoleARN'] as String,
-    cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String,
+    cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String?,
   );
 }
 
 Map<String, dynamic> _$CloudWatchLoggingOptionUpdateToJson(
     CloudWatchLoggingOptionUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'CloudWatchLoggingOptionId': instance.cloudWatchLoggingOptionId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -204,7 +173,6 @@ Map<String, dynamic> _$CloudWatchLoggingOptionUpdateToJson(
     }
   }
 
-  writeNotNull('CloudWatchLoggingOptionId', instance.cloudWatchLoggingOptionId);
   writeNotNull('LogStreamARNUpdate', instance.logStreamARNUpdate);
   writeNotNull('RoleARNUpdate', instance.roleARNUpdate);
   return val;
@@ -213,10 +181,8 @@ Map<String, dynamic> _$CloudWatchLoggingOptionUpdateToJson(
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
-    applicationSummary: json['ApplicationSummary'] == null
-        ? null
-        : ApplicationSummary.fromJson(
-            json['ApplicationSummary'] as Map<String, dynamic>),
+    applicationSummary: ApplicationSummary.fromJson(
+        json['ApplicationSummary'] as Map<String, dynamic>),
   );
 }
 
@@ -251,33 +217,22 @@ DeleteApplicationResponse _$DeleteApplicationResponseFromJson(
 DescribeApplicationResponse _$DescribeApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeApplicationResponse(
-    applicationDetail: json['ApplicationDetail'] == null
-        ? null
-        : ApplicationDetail.fromJson(
-            json['ApplicationDetail'] as Map<String, dynamic>),
+    applicationDetail: ApplicationDetail.fromJson(
+        json['ApplicationDetail'] as Map<String, dynamic>),
   );
 }
 
 DestinationSchema _$DestinationSchemaFromJson(Map<String, dynamic> json) {
   return DestinationSchema(
-    recordFormatType: _$enumDecodeNullable(
-        _$RecordFormatTypeEnumMap, json['RecordFormatType']),
+    recordFormatType:
+        _$enumDecode(_$RecordFormatTypeEnumMap, json['RecordFormatType']),
   );
 }
 
-Map<String, dynamic> _$DestinationSchemaToJson(DestinationSchema instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'RecordFormatType', _$RecordFormatTypeEnumMap[instance.recordFormatType]);
-  return val;
-}
+Map<String, dynamic> _$DestinationSchemaToJson(DestinationSchema instance) =>
+    <String, dynamic>{
+      'RecordFormatType': _$RecordFormatTypeEnumMap[instance.recordFormatType],
+    };
 
 const _$RecordFormatTypeEnumMap = {
   RecordFormatType.json: 'JSON',
@@ -290,19 +245,23 @@ DiscoverInputSchemaResponse _$DiscoverInputSchemaResponseFromJson(
     inputSchema: json['InputSchema'] == null
         ? null
         : SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>),
-    parsedInputRecords: (json['ParsedInputRecords'] as List)
-        ?.map((e) => (e as List)?.map((e) => e as String)?.toList())
-        ?.toList(),
-    processedInputRecords: (json['ProcessedInputRecords'] as List)
+    parsedInputRecords: (json['ParsedInputRecords'] as List<dynamic>?)
+        ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
+        .toList(),
+    processedInputRecords: (json['ProcessedInputRecords'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    rawInputRecords:
-        (json['RawInputRecords'] as List)?.map((e) => e as String)?.toList(),
+        .toList(),
+    rawInputRecords: (json['RawInputRecords'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$InputToJson(Input instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InputSchema': instance.inputSchema.toJson(),
+    'NamePrefix': instance.namePrefix,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -310,8 +269,6 @@ Map<String, dynamic> _$InputToJson(Input instance) {
     }
   }
 
-  writeNotNull('InputSchema', instance.inputSchema?.toJson());
-  writeNotNull('NamePrefix', instance.namePrefix);
   writeNotNull('InputParallelism', instance.inputParallelism?.toJson());
   writeNotNull('InputProcessingConfiguration',
       instance.inputProcessingConfiguration?.toJson());
@@ -320,26 +277,19 @@ Map<String, dynamic> _$InputToJson(Input instance) {
   return val;
 }
 
-Map<String, dynamic> _$InputConfigurationToJson(InputConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('InputStartingPositionConfiguration',
-      instance.inputStartingPositionConfiguration?.toJson());
-  return val;
-}
+Map<String, dynamic> _$InputConfigurationToJson(InputConfiguration instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'InputStartingPositionConfiguration':
+          instance.inputStartingPositionConfiguration.toJson(),
+    };
 
 InputDescription _$InputDescriptionFromJson(Map<String, dynamic> json) {
   return InputDescription(
-    inAppStreamNames:
-        (json['InAppStreamNames'] as List)?.map((e) => e as String)?.toList(),
-    inputId: json['InputId'] as String,
+    inAppStreamNames: (json['InAppStreamNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    inputId: json['InputId'] as String?,
     inputParallelism: json['InputParallelism'] == null
         ? null
         : InputParallelism.fromJson(
@@ -369,30 +319,22 @@ InputDescription _$InputDescriptionFromJson(Map<String, dynamic> json) {
             ? null
             : KinesisStreamsInputDescription.fromJson(
                 json['KinesisStreamsInputDescription'] as Map<String, dynamic>),
-    namePrefix: json['NamePrefix'] as String,
+    namePrefix: json['NamePrefix'] as String?,
   );
 }
 
 Map<String, dynamic> _$InputLambdaProcessorToJson(
-    InputLambdaProcessor instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        InputLambdaProcessor instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 InputLambdaProcessorDescription _$InputLambdaProcessorDescriptionFromJson(
     Map<String, dynamic> json) {
   return InputLambdaProcessorDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -413,7 +355,7 @@ Map<String, dynamic> _$InputLambdaProcessorUpdateToJson(
 
 InputParallelism _$InputParallelismFromJson(Map<String, dynamic> json) {
   return InputParallelism(
-    count: json['Count'] as int,
+    count: json['Count'] as int?,
   );
 }
 
@@ -445,18 +387,10 @@ Map<String, dynamic> _$InputParallelismUpdateToJson(
 }
 
 Map<String, dynamic> _$InputProcessingConfigurationToJson(
-    InputProcessingConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('InputLambdaProcessor', instance.inputLambdaProcessor?.toJson());
-  return val;
-}
+        InputProcessingConfiguration instance) =>
+    <String, dynamic>{
+      'InputLambdaProcessor': instance.inputLambdaProcessor.toJson(),
+    };
 
 InputProcessingConfigurationDescription
     _$InputProcessingConfigurationDescriptionFromJson(
@@ -471,19 +405,11 @@ InputProcessingConfigurationDescription
 }
 
 Map<String, dynamic> _$InputProcessingConfigurationUpdateToJson(
-    InputProcessingConfigurationUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('InputLambdaProcessorUpdate',
-      instance.inputLambdaProcessorUpdate?.toJson());
-  return val;
-}
+        InputProcessingConfigurationUpdate instance) =>
+    <String, dynamic>{
+      'InputLambdaProcessorUpdate':
+          instance.inputLambdaProcessorUpdate.toJson(),
+    };
 
 Map<String, dynamic> _$InputSchemaUpdateToJson(InputSchemaUpdate instance) {
   final val = <String, dynamic>{};
@@ -495,7 +421,7 @@ Map<String, dynamic> _$InputSchemaUpdateToJson(InputSchemaUpdate instance) {
   }
 
   writeNotNull('RecordColumnUpdates',
-      instance.recordColumnUpdates?.map((e) => e?.toJson())?.toList());
+      instance.recordColumnUpdates?.map((e) => e.toJson()).toList());
   writeNotNull('RecordEncodingUpdate', instance.recordEncodingUpdate);
   writeNotNull('RecordFormatUpdate', instance.recordFormatUpdate?.toJson());
   return val;
@@ -524,6 +450,17 @@ Map<String, dynamic> _$InputStartingPositionConfigurationToJson(
   return val;
 }
 
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
 const _$InputStartingPositionEnumMap = {
   InputStartingPosition.now: 'NOW',
   InputStartingPosition.trimHorizon: 'TRIM_HORIZON',
@@ -531,7 +468,9 @@ const _$InputStartingPositionEnumMap = {
 };
 
 Map<String, dynamic> _$InputUpdateToJson(InputUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InputId': instance.inputId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -539,7 +478,6 @@ Map<String, dynamic> _$InputUpdateToJson(InputUpdate instance) {
     }
   }
 
-  writeNotNull('InputId', instance.inputId);
   writeNotNull(
       'InputParallelismUpdate', instance.inputParallelismUpdate?.toJson());
   writeNotNull('InputProcessingConfigurationUpdate',
@@ -561,39 +499,23 @@ JSONMappingParameters _$JSONMappingParametersFromJson(
 }
 
 Map<String, dynamic> _$JSONMappingParametersToJson(
-    JSONMappingParameters instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RecordRowPath', instance.recordRowPath);
-  return val;
-}
+        JSONMappingParameters instance) =>
+    <String, dynamic>{
+      'RecordRowPath': instance.recordRowPath,
+    };
 
 Map<String, dynamic> _$KinesisFirehoseInputToJson(
-    KinesisFirehoseInput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        KinesisFirehoseInput instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 KinesisFirehoseInputDescription _$KinesisFirehoseInputDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisFirehoseInputDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -613,25 +535,17 @@ Map<String, dynamic> _$KinesisFirehoseInputUpdateToJson(
 }
 
 Map<String, dynamic> _$KinesisFirehoseOutputToJson(
-    KinesisFirehoseOutput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        KinesisFirehoseOutput instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 KinesisFirehoseOutputDescription _$KinesisFirehoseOutputDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisFirehoseOutputDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -650,25 +564,18 @@ Map<String, dynamic> _$KinesisFirehoseOutputUpdateToJson(
   return val;
 }
 
-Map<String, dynamic> _$KinesisStreamsInputToJson(KinesisStreamsInput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+Map<String, dynamic> _$KinesisStreamsInputToJson(
+        KinesisStreamsInput instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 KinesisStreamsInputDescription _$KinesisStreamsInputDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisStreamsInputDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -688,25 +595,17 @@ Map<String, dynamic> _$KinesisStreamsInputUpdateToJson(
 }
 
 Map<String, dynamic> _$KinesisStreamsOutputToJson(
-    KinesisStreamsOutput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        KinesisStreamsOutput instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 KinesisStreamsOutputDescription _$KinesisStreamsOutputDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisStreamsOutputDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -725,25 +624,17 @@ Map<String, dynamic> _$KinesisStreamsOutputUpdateToJson(
   return val;
 }
 
-Map<String, dynamic> _$LambdaOutputToJson(LambdaOutput instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ResourceARN', instance.resourceARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+Map<String, dynamic> _$LambdaOutputToJson(LambdaOutput instance) =>
+    <String, dynamic>{
+      'ResourceARN': instance.resourceARN,
+      'RoleARN': instance.roleARN,
+    };
 
 LambdaOutputDescription _$LambdaOutputDescriptionFromJson(
     Map<String, dynamic> json) {
   return LambdaOutputDescription(
-    resourceARN: json['ResourceARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    resourceARN: json['ResourceARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
@@ -764,11 +655,9 @@ Map<String, dynamic> _$LambdaOutputUpdateToJson(LambdaOutputUpdate instance) {
 ListApplicationsResponse _$ListApplicationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListApplicationsResponse(
-    applicationSummaries: (json['ApplicationSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ApplicationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    applicationSummaries: (json['ApplicationSummaries'] as List<dynamic>)
+        .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
     hasMoreApplications: json['HasMoreApplications'] as bool,
   );
 }
@@ -776,9 +665,9 @@ ListApplicationsResponse _$ListApplicationsResponseFromJson(
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -811,7 +700,10 @@ Map<String, dynamic> _$MappingParametersToJson(MappingParameters instance) {
 }
 
 Map<String, dynamic> _$OutputToJson(Output instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DestinationSchema': instance.destinationSchema.toJson(),
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -819,8 +711,6 @@ Map<String, dynamic> _$OutputToJson(Output instance) {
     }
   }
 
-  writeNotNull('DestinationSchema', instance.destinationSchema?.toJson());
-  writeNotNull('Name', instance.name);
   writeNotNull(
       'KinesisFirehoseOutput', instance.kinesisFirehoseOutput?.toJson());
   writeNotNull('KinesisStreamsOutput', instance.kinesisStreamsOutput?.toJson());
@@ -849,13 +739,15 @@ OutputDescription _$OutputDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : LambdaOutputDescription.fromJson(
             json['LambdaOutputDescription'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    outputId: json['OutputId'] as String,
+    name: json['Name'] as String?,
+    outputId: json['OutputId'] as String?,
   );
 }
 
 Map<String, dynamic> _$OutputUpdateToJson(OutputUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OutputId': instance.outputId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -863,7 +755,6 @@ Map<String, dynamic> _$OutputUpdateToJson(OutputUpdate instance) {
     }
   }
 
-  writeNotNull('OutputId', instance.outputId);
   writeNotNull(
       'DestinationSchemaUpdate', instance.destinationSchemaUpdate?.toJson());
   writeNotNull('KinesisFirehoseOutputUpdate',
@@ -879,12 +770,15 @@ RecordColumn _$RecordColumnFromJson(Map<String, dynamic> json) {
   return RecordColumn(
     name: json['Name'] as String,
     sqlType: json['SqlType'] as String,
-    mapping: json['Mapping'] as String,
+    mapping: json['Mapping'] as String?,
   );
 }
 
 Map<String, dynamic> _$RecordColumnToJson(RecordColumn instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'SqlType': instance.sqlType,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -892,16 +786,14 @@ Map<String, dynamic> _$RecordColumnToJson(RecordColumn instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('SqlType', instance.sqlType);
   writeNotNull('Mapping', instance.mapping);
   return val;
 }
 
 RecordFormat _$RecordFormatFromJson(Map<String, dynamic> json) {
   return RecordFormat(
-    recordFormatType: _$enumDecodeNullable(
-        _$RecordFormatTypeEnumMap, json['RecordFormatType']),
+    recordFormatType:
+        _$enumDecode(_$RecordFormatTypeEnumMap, json['RecordFormatType']),
     mappingParameters: json['MappingParameters'] == null
         ? null
         : MappingParameters.fromJson(
@@ -910,7 +802,9 @@ RecordFormat _$RecordFormatFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$RecordFormatToJson(RecordFormat instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RecordFormatType': _$RecordFormatTypeEnumMap[instance.recordFormatType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -918,14 +812,15 @@ Map<String, dynamic> _$RecordFormatToJson(RecordFormat instance) {
     }
   }
 
-  writeNotNull(
-      'RecordFormatType', _$RecordFormatTypeEnumMap[instance.recordFormatType]);
   writeNotNull('MappingParameters', instance.mappingParameters?.toJson());
   return val;
 }
 
 Map<String, dynamic> _$ReferenceDataSourceToJson(ReferenceDataSource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ReferenceSchema': instance.referenceSchema.toJson(),
+    'TableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -933,8 +828,6 @@ Map<String, dynamic> _$ReferenceDataSourceToJson(ReferenceDataSource instance) {
     }
   }
 
-  writeNotNull('ReferenceSchema', instance.referenceSchema?.toJson());
-  writeNotNull('TableName', instance.tableName);
   writeNotNull(
       'S3ReferenceDataSource', instance.s3ReferenceDataSource?.toJson());
   return val;
@@ -944,12 +837,8 @@ ReferenceDataSourceDescription _$ReferenceDataSourceDescriptionFromJson(
     Map<String, dynamic> json) {
   return ReferenceDataSourceDescription(
     referenceId: json['ReferenceId'] as String,
-    s3ReferenceDataSourceDescription:
-        json['S3ReferenceDataSourceDescription'] == null
-            ? null
-            : S3ReferenceDataSourceDescription.fromJson(
-                json['S3ReferenceDataSourceDescription']
-                    as Map<String, dynamic>),
+    s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription.fromJson(
+        json['S3ReferenceDataSourceDescription'] as Map<String, dynamic>),
     tableName: json['TableName'] as String,
     referenceSchema: json['ReferenceSchema'] == null
         ? null
@@ -960,7 +849,9 @@ ReferenceDataSourceDescription _$ReferenceDataSourceDescriptionFromJson(
 
 Map<String, dynamic> _$ReferenceDataSourceUpdateToJson(
     ReferenceDataSourceUpdate instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ReferenceId': instance.referenceId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -968,7 +859,6 @@ Map<String, dynamic> _$ReferenceDataSourceUpdateToJson(
     }
   }
 
-  writeNotNull('ReferenceId', instance.referenceId);
   writeNotNull(
       'ReferenceSchemaUpdate', instance.referenceSchemaUpdate?.toJson());
   writeNotNull('S3ReferenceDataSourceUpdate',
@@ -977,36 +867,20 @@ Map<String, dynamic> _$ReferenceDataSourceUpdateToJson(
   return val;
 }
 
-Map<String, dynamic> _$S3ConfigurationToJson(S3Configuration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BucketARN', instance.bucketARN);
-  writeNotNull('FileKey', instance.fileKey);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+Map<String, dynamic> _$S3ConfigurationToJson(S3Configuration instance) =>
+    <String, dynamic>{
+      'BucketARN': instance.bucketARN,
+      'FileKey': instance.fileKey,
+      'RoleARN': instance.roleARN,
+    };
 
 Map<String, dynamic> _$S3ReferenceDataSourceToJson(
-    S3ReferenceDataSource instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('BucketARN', instance.bucketARN);
-  writeNotNull('FileKey', instance.fileKey);
-  writeNotNull('ReferenceRoleARN', instance.referenceRoleARN);
-  return val;
-}
+        S3ReferenceDataSource instance) =>
+    <String, dynamic>{
+      'BucketARN': instance.bucketARN,
+      'FileKey': instance.fileKey,
+      'ReferenceRoleARN': instance.referenceRoleARN,
+    };
 
 S3ReferenceDataSourceDescription _$S3ReferenceDataSourceDescriptionFromJson(
     Map<String, dynamic> json) {
@@ -1035,19 +909,20 @@ Map<String, dynamic> _$S3ReferenceDataSourceUpdateToJson(
 
 SourceSchema _$SourceSchemaFromJson(Map<String, dynamic> json) {
   return SourceSchema(
-    recordColumns: (json['RecordColumns'] as List)
-        ?.map((e) =>
-            e == null ? null : RecordColumn.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    recordFormat: json['RecordFormat'] == null
-        ? null
-        : RecordFormat.fromJson(json['RecordFormat'] as Map<String, dynamic>),
-    recordEncoding: json['RecordEncoding'] as String,
+    recordColumns: (json['RecordColumns'] as List<dynamic>)
+        .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    recordFormat:
+        RecordFormat.fromJson(json['RecordFormat'] as Map<String, dynamic>),
+    recordEncoding: json['RecordEncoding'] as String?,
   );
 }
 
 Map<String, dynamic> _$SourceSchemaToJson(SourceSchema instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'RecordColumns': instance.recordColumns.map((e) => e.toJson()).toList(),
+    'RecordFormat': instance.recordFormat.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1055,9 +930,6 @@ Map<String, dynamic> _$SourceSchemaToJson(SourceSchema instance) {
     }
   }
 
-  writeNotNull('RecordColumns',
-      instance.recordColumns?.map((e) => e?.toJson())?.toList());
-  writeNotNull('RecordFormat', instance.recordFormat?.toJson());
   writeNotNull('RecordEncoding', instance.recordEncoding);
   return val;
 }
@@ -1075,12 +947,14 @@ StopApplicationResponse _$StopApplicationResponseFromJson(
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1088,7 +962,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }

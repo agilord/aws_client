@@ -17,10 +17,10 @@ void main() {
       expect(
           request.body,
           equalsXml(
-              r'''<InputShape><FooEnum>foo</FooEnum><ListEnums><member>foo</member><member></member><member>bar</member></ListEnums></InputShape>'''));
+              r'''<InputShape><FooEnum>foo</FooEnum><ListEnums><member>foo</member><member>bar</member></ListEnums></InputShape>'''));
       expect(request.headers['x-amz-enum'], 'baz');
-      expect(request.url,
-          equalsPathAndQuery('/Enum/bar?ListEnums=0&ListEnums=&ListEnums=1'));
+      expect(
+          request.url, equalsPathAndQuery('/Enum/bar?ListEnums=0&ListEnums=1'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -34,11 +34,11 @@ void main() {
     );
 
     await service.operationName0(
+      uRIFooEnum: EnumType.bar,
       fooEnum: EnumType.foo,
       headerEnum: EnumType.baz,
-      listEnums: [EnumType.foo, null, EnumType.bar],
-      uRIFooEnum: EnumType.bar,
-      uRIListEnums: [EnumType.$0, null, EnumType.$1],
+      listEnums: [EnumType.foo, EnumType.bar],
+      uRIListEnums: [EnumType.$0, EnumType.$1],
     );
 /*
 {
@@ -74,9 +74,13 @@ void main() {
       ),
     );
 
-    await service.operationName1();
+    await service.operationName1(
+      uRIFooEnum: EnumType.bar,
+    );
 /*
-{}
+{
+  "URIFooEnum": "bar"
+}
 */
   });
 }

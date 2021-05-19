@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'json_value_trait.g.dart';
 
 /// JSON value trait
 class JSONValueTrait {
   final _s.RestJsonProtocol _protocol;
   JSONValueTrait({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -89,27 +81,16 @@ class JSONValueTrait {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'BodyField')
-  final Object bodyField;
-  @_s.JsonKey(name: 'BodyListField')
-  final List<Object> bodyListField;
-  @Base64JsonConverter()
-  @_s.JsonKey(name: 'X-Amz-Foo')
-  final Object headerField;
+  final Object? bodyField;
+  final List<Object>? bodyListField;
+  final Object? headerField;
 
   OutputShape({
     this.bodyField,
     this.bodyListField,
     this.headerField,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

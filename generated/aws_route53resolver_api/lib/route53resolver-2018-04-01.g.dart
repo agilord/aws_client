@@ -184,7 +184,7 @@ GetResolverQueryLogConfigPolicyResponse
         Map<String, dynamic> json) {
   return GetResolverQueryLogConfigPolicyResponse(
     resolverQueryLogConfigPolicy:
-        json['ResolverQueryLogConfigPolicy'] as String,
+        json['ResolverQueryLogConfigPolicy'] as String?,
   );
 }
 
@@ -211,7 +211,7 @@ GetResolverRuleAssociationResponse _$GetResolverRuleAssociationResponseFromJson(
 GetResolverRulePolicyResponse _$GetResolverRulePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetResolverRulePolicyResponse(
-    resolverRulePolicy: json['ResolverRulePolicy'] as String,
+    resolverRulePolicy: json['ResolverRulePolicy'] as String?,
   );
 }
 
@@ -225,7 +225,9 @@ GetResolverRuleResponse _$GetResolverRuleResponseFromJson(
 }
 
 Map<String, dynamic> _$IpAddressRequestToJson(IpAddressRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SubnetId': instance.subnetId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -233,53 +235,57 @@ Map<String, dynamic> _$IpAddressRequestToJson(IpAddressRequest instance) {
     }
   }
 
-  writeNotNull('SubnetId', instance.subnetId);
   writeNotNull('Ip', instance.ip);
   return val;
 }
 
 IpAddressResponse _$IpAddressResponseFromJson(Map<String, dynamic> json) {
   return IpAddressResponse(
-    creationTime: json['CreationTime'] as String,
-    ip: json['Ip'] as String,
-    ipId: json['IpId'] as String,
-    modificationTime: json['ModificationTime'] as String,
+    creationTime: json['CreationTime'] as String?,
+    ip: json['Ip'] as String?,
+    ipId: json['IpId'] as String?,
+    modificationTime: json['ModificationTime'] as String?,
     status: _$enumDecodeNullable(_$IpAddressStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    subnetId: json['SubnetId'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    subnetId: json['SubnetId'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$IpAddressStatusEnumMap = {
@@ -313,12 +319,10 @@ Map<String, dynamic> _$IpAddressUpdateToJson(IpAddressUpdate instance) {
 ListResolverDnssecConfigsResponse _$ListResolverDnssecConfigsResponseFromJson(
     Map<String, dynamic> json) {
   return ListResolverDnssecConfigsResponse(
-    nextToken: json['NextToken'] as String,
-    resolverDnssecConfigs: (json['ResolverDnssecConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResolverDnssecConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    resolverDnssecConfigs: (json['ResolverDnssecConfigs'] as List<dynamic>?)
+        ?.map((e) => ResolverDnssecConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -326,26 +330,22 @@ ListResolverEndpointIpAddressesResponse
     _$ListResolverEndpointIpAddressesResponseFromJson(
         Map<String, dynamic> json) {
   return ListResolverEndpointIpAddressesResponse(
-    ipAddresses: (json['IpAddresses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IpAddressResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    maxResults: json['MaxResults'] as int,
-    nextToken: json['NextToken'] as String,
+    ipAddresses: (json['IpAddresses'] as List<dynamic>?)
+        ?.map((e) => IpAddressResponse.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    maxResults: json['MaxResults'] as int?,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListResolverEndpointsResponse _$ListResolverEndpointsResponseFromJson(
     Map<String, dynamic> json) {
   return ListResolverEndpointsResponse(
-    maxResults: json['MaxResults'] as int,
-    nextToken: json['NextToken'] as String,
-    resolverEndpoints: (json['ResolverEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResolverEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    maxResults: json['MaxResults'] as int?,
+    nextToken: json['NextToken'] as String?,
+    resolverEndpoints: (json['ResolverEndpoints'] as List<dynamic>?)
+        ?.map((e) => ResolverEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -353,65 +353,60 @@ ListResolverQueryLogConfigAssociationsResponse
     _$ListResolverQueryLogConfigAssociationsResponseFromJson(
         Map<String, dynamic> json) {
   return ListResolverQueryLogConfigAssociationsResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     resolverQueryLogConfigAssociations:
-        (json['ResolverQueryLogConfigAssociations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : ResolverQueryLogConfigAssociation.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    totalCount: json['TotalCount'] as int,
-    totalFilteredCount: json['TotalFilteredCount'] as int,
+        (json['ResolverQueryLogConfigAssociations'] as List<dynamic>?)
+            ?.map((e) => ResolverQueryLogConfigAssociation.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    totalCount: json['TotalCount'] as int?,
+    totalFilteredCount: json['TotalFilteredCount'] as int?,
   );
 }
 
 ListResolverQueryLogConfigsResponse
     _$ListResolverQueryLogConfigsResponseFromJson(Map<String, dynamic> json) {
   return ListResolverQueryLogConfigsResponse(
-    nextToken: json['NextToken'] as String,
-    resolverQueryLogConfigs: (json['ResolverQueryLogConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResolverQueryLogConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalCount: json['TotalCount'] as int,
-    totalFilteredCount: json['TotalFilteredCount'] as int,
+    nextToken: json['NextToken'] as String?,
+    resolverQueryLogConfigs: (json['ResolverQueryLogConfigs'] as List<dynamic>?)
+        ?.map((e) => ResolverQueryLogConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['TotalCount'] as int?,
+    totalFilteredCount: json['TotalFilteredCount'] as int?,
   );
 }
 
 ListResolverRuleAssociationsResponse
     _$ListResolverRuleAssociationsResponseFromJson(Map<String, dynamic> json) {
   return ListResolverRuleAssociationsResponse(
-    maxResults: json['MaxResults'] as int,
-    nextToken: json['NextToken'] as String,
-    resolverRuleAssociations: (json['ResolverRuleAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResolverRuleAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    maxResults: json['MaxResults'] as int?,
+    nextToken: json['NextToken'] as String?,
+    resolverRuleAssociations: (json['ResolverRuleAssociations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResolverRuleAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResolverRulesResponse _$ListResolverRulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResolverRulesResponse(
-    maxResults: json['MaxResults'] as int,
-    nextToken: json['NextToken'] as String,
-    resolverRules: (json['ResolverRules'] as List)
-        ?.map((e) =>
-            e == null ? null : ResolverRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    maxResults: json['MaxResults'] as int?,
+    nextToken: json['NextToken'] as String?,
+    resolverRules: (json['ResolverRules'] as List<dynamic>?)
+        ?.map((e) => ResolverRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -419,22 +414,22 @@ PutResolverQueryLogConfigPolicyResponse
     _$PutResolverQueryLogConfigPolicyResponseFromJson(
         Map<String, dynamic> json) {
   return PutResolverQueryLogConfigPolicyResponse(
-    returnValue: json['ReturnValue'] as bool,
+    returnValue: json['ReturnValue'] as bool?,
   );
 }
 
 PutResolverRulePolicyResponse _$PutResolverRulePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutResolverRulePolicyResponse(
-    returnValue: json['ReturnValue'] as bool,
+    returnValue: json['ReturnValue'] as bool?,
   );
 }
 
 ResolverDnssecConfig _$ResolverDnssecConfigFromJson(Map<String, dynamic> json) {
   return ResolverDnssecConfig(
-    id: json['Id'] as String,
-    ownerId: json['OwnerId'] as String,
-    resourceId: json['ResourceId'] as String,
+    id: json['Id'] as String?,
+    ownerId: json['OwnerId'] as String?,
+    resourceId: json['ResourceId'] as String?,
     validationStatus: _$enumDecodeNullable(
         _$ResolverDNSSECValidationStatusEnumMap, json['ValidationStatus']),
   );
@@ -449,21 +444,22 @@ const _$ResolverDNSSECValidationStatusEnumMap = {
 
 ResolverEndpoint _$ResolverEndpointFromJson(Map<String, dynamic> json) {
   return ResolverEndpoint(
-    arn: json['Arn'] as String,
-    creationTime: json['CreationTime'] as String,
-    creatorRequestId: json['CreatorRequestId'] as String,
+    arn: json['Arn'] as String?,
+    creationTime: json['CreationTime'] as String?,
+    creatorRequestId: json['CreatorRequestId'] as String?,
     direction: _$enumDecodeNullable(
         _$ResolverEndpointDirectionEnumMap, json['Direction']),
-    hostVPCId: json['HostVPCId'] as String,
-    id: json['Id'] as String,
-    ipAddressCount: json['IpAddressCount'] as int,
-    modificationTime: json['ModificationTime'] as String,
-    name: json['Name'] as String,
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
+    hostVPCId: json['HostVPCId'] as String?,
+    id: json['Id'] as String?,
+    ipAddressCount: json['IpAddressCount'] as int?,
+    modificationTime: json['ModificationTime'] as String?,
+    name: json['Name'] as String?,
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     status:
         _$enumDecodeNullable(_$ResolverEndpointStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
+    statusMessage: json['StatusMessage'] as String?,
   );
 }
 
@@ -484,14 +480,14 @@ const _$ResolverEndpointStatusEnumMap = {
 ResolverQueryLogConfig _$ResolverQueryLogConfigFromJson(
     Map<String, dynamic> json) {
   return ResolverQueryLogConfig(
-    arn: json['Arn'] as String,
-    associationCount: json['AssociationCount'] as int,
-    creationTime: json['CreationTime'] as String,
-    creatorRequestId: json['CreatorRequestId'] as String,
-    destinationArn: json['DestinationArn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    ownerId: json['OwnerId'] as String,
+    arn: json['Arn'] as String?,
+    associationCount: json['AssociationCount'] as int?,
+    creationTime: json['CreationTime'] as String?,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    destinationArn: json['DestinationArn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    ownerId: json['OwnerId'] as String?,
     shareStatus:
         _$enumDecodeNullable(_$ShareStatusEnumMap, json['ShareStatus']),
     status: _$enumDecodeNullable(
@@ -515,13 +511,13 @@ const _$ResolverQueryLogConfigStatusEnumMap = {
 ResolverQueryLogConfigAssociation _$ResolverQueryLogConfigAssociationFromJson(
     Map<String, dynamic> json) {
   return ResolverQueryLogConfigAssociation(
-    creationTime: json['CreationTime'] as String,
+    creationTime: json['CreationTime'] as String?,
     error: _$enumDecodeNullable(
         _$ResolverQueryLogConfigAssociationErrorEnumMap, json['Error']),
-    errorMessage: json['ErrorMessage'] as String,
-    id: json['Id'] as String,
-    resolverQueryLogConfigId: json['ResolverQueryLogConfigId'] as String,
-    resourceId: json['ResourceId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    id: json['Id'] as String?,
+    resolverQueryLogConfigId: json['ResolverQueryLogConfigId'] as String?,
+    resourceId: json['ResourceId'] as String?,
     status: _$enumDecodeNullable(
         _$ResolverQueryLogConfigAssociationStatusEnumMap, json['Status']),
   );
@@ -546,25 +542,23 @@ const _$ResolverQueryLogConfigAssociationStatusEnumMap = {
 
 ResolverRule _$ResolverRuleFromJson(Map<String, dynamic> json) {
   return ResolverRule(
-    arn: json['Arn'] as String,
-    creationTime: json['CreationTime'] as String,
-    creatorRequestId: json['CreatorRequestId'] as String,
-    domainName: json['DomainName'] as String,
-    id: json['Id'] as String,
-    modificationTime: json['ModificationTime'] as String,
-    name: json['Name'] as String,
-    ownerId: json['OwnerId'] as String,
-    resolverEndpointId: json['ResolverEndpointId'] as String,
+    arn: json['Arn'] as String?,
+    creationTime: json['CreationTime'] as String?,
+    creatorRequestId: json['CreatorRequestId'] as String?,
+    domainName: json['DomainName'] as String?,
+    id: json['Id'] as String?,
+    modificationTime: json['ModificationTime'] as String?,
+    name: json['Name'] as String?,
+    ownerId: json['OwnerId'] as String?,
+    resolverEndpointId: json['ResolverEndpointId'] as String?,
     ruleType: _$enumDecodeNullable(_$RuleTypeOptionEnumMap, json['RuleType']),
     shareStatus:
         _$enumDecodeNullable(_$ShareStatusEnumMap, json['ShareStatus']),
     status: _$enumDecodeNullable(_$ResolverRuleStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    targetIps: (json['TargetIps'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TargetAddress.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    statusMessage: json['StatusMessage'] as String?,
+    targetIps: (json['TargetIps'] as List<dynamic>?)
+        ?.map((e) => TargetAddress.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -584,13 +578,13 @@ const _$ResolverRuleStatusEnumMap = {
 ResolverRuleAssociation _$ResolverRuleAssociationFromJson(
     Map<String, dynamic> json) {
   return ResolverRuleAssociation(
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    resolverRuleId: json['ResolverRuleId'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    resolverRuleId: json['ResolverRuleId'] as String?,
     status: _$enumDecodeNullable(
         _$ResolverRuleAssociationStatusEnumMap, json['Status']),
-    statusMessage: json['StatusMessage'] as String,
-    vPCId: json['VPCId'] as String,
+    statusMessage: json['StatusMessage'] as String?,
+    vPCId: json['VPCId'] as String?,
   );
 }
 
@@ -614,7 +608,7 @@ Map<String, dynamic> _$ResolverRuleConfigToJson(ResolverRuleConfig instance) {
   writeNotNull('Name', instance.name);
   writeNotNull('ResolverEndpointId', instance.resolverEndpointId);
   writeNotNull(
-      'TargetIps', instance.targetIps?.map((e) => e?.toJson())?.toList());
+      'TargetIps', instance.targetIps?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -625,19 +619,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -646,12 +631,14 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 TargetAddress _$TargetAddressFromJson(Map<String, dynamic> json) {
   return TargetAddress(
     ip: json['Ip'] as String,
-    port: json['Port'] as int,
+    port: json['Port'] as int?,
   );
 }
 
 Map<String, dynamic> _$TargetAddressToJson(TargetAddress instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Ip': instance.ip,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -659,7 +646,6 @@ Map<String, dynamic> _$TargetAddressToJson(TargetAddress instance) {
     }
   }
 
-  writeNotNull('Ip', instance.ip);
   writeNotNull('Port', instance.port);
   return val;
 }

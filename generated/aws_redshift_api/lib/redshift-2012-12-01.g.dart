@@ -8,7 +8,9 @@ part of 'redshift-2012-12-01.dart';
 
 Map<String, dynamic> _$DeleteClusterSnapshotMessageToJson(
     DeleteClusterSnapshotMessage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SnapshotIdentifier': instance.snapshotIdentifier,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -16,7 +18,6 @@ Map<String, dynamic> _$DeleteClusterSnapshotMessageToJson(
     }
   }
 
-  writeNotNull('SnapshotIdentifier', instance.snapshotIdentifier);
   writeNotNull('SnapshotClusterIdentifier', instance.snapshotClusterIdentifier);
   return val;
 }
@@ -82,22 +83,17 @@ const _$ParameterApplyTypeEnumMap = {
   ParameterApplyType.dynamic: 'dynamic',
 };
 
-Map<String, dynamic> _$PauseClusterMessageToJson(PauseClusterMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ClusterIdentifier', instance.clusterIdentifier);
-  return val;
-}
+Map<String, dynamic> _$PauseClusterMessageToJson(
+        PauseClusterMessage instance) =>
+    <String, dynamic>{
+      'ClusterIdentifier': instance.clusterIdentifier,
+    };
 
 Map<String, dynamic> _$ResizeClusterMessageToJson(
     ResizeClusterMessage instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ClusterIdentifier': instance.clusterIdentifier,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -105,7 +101,6 @@ Map<String, dynamic> _$ResizeClusterMessageToJson(
     }
   }
 
-  writeNotNull('ClusterIdentifier', instance.clusterIdentifier);
   writeNotNull('Classic', instance.classic);
   writeNotNull('ClusterType', instance.clusterType);
   writeNotNull('NodeType', instance.nodeType);
@@ -114,33 +109,17 @@ Map<String, dynamic> _$ResizeClusterMessageToJson(
 }
 
 Map<String, dynamic> _$ResumeClusterMessageToJson(
-    ResumeClusterMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ClusterIdentifier', instance.clusterIdentifier);
-  return val;
-}
+        ResumeClusterMessage instance) =>
+    <String, dynamic>{
+      'ClusterIdentifier': instance.clusterIdentifier,
+    };
 
 Map<String, dynamic> _$ScheduledActionFilterToJson(
-    ScheduledActionFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$ScheduledActionFilterNameEnumMap[instance.name]);
-  writeNotNull('Values', instance.values);
-  return val;
-}
+        ScheduledActionFilter instance) =>
+    <String, dynamic>{
+      'Name': _$ScheduledActionFilterNameEnumMap[instance.name],
+      'Values': instance.values,
+    };
 
 const _$ScheduledActionFilterNameEnumMap = {
   ScheduledActionFilterName.clusterIdentifier: 'cluster-identifier',
@@ -164,7 +143,9 @@ Map<String, dynamic> _$ScheduledActionTypeToJson(ScheduledActionType instance) {
 
 Map<String, dynamic> _$SnapshotSortingEntityToJson(
     SnapshotSortingEntity instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Attribute': _$SnapshotAttributeToSortByEnumMap[instance.attribute],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -172,8 +153,6 @@ Map<String, dynamic> _$SnapshotSortingEntityToJson(
     }
   }
 
-  writeNotNull(
-      'Attribute', _$SnapshotAttributeToSortByEnumMap[instance.attribute]);
   writeNotNull('SortOrder', _$SortByOrderEnumMap[instance.sortOrder]);
   return val;
 }

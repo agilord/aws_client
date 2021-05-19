@@ -9,9 +9,9 @@ part of 'runtime.sagemaker-2017-05-13.dart';
 InvokeEndpointOutput _$InvokeEndpointOutputFromJson(Map<String, dynamic> json) {
   return InvokeEndpointOutput(
     body: const Uint8ListConverter().fromJson(json['Body'] as String),
-    contentType: json['Content-Type'] as String,
-    customAttributes: json['X-Amzn-SageMaker-Custom-Attributes'] as String,
+    contentType: json['Content-Type'] as String?,
+    customAttributes: json['X-Amzn-SageMaker-Custom-Attributes'] as String?,
     invokedProductionVariant:
-        json['x-Amzn-Invoked-Production-Variant'] as String,
+        json['x-Amzn-Invoked-Production-Variant'] as String?,
   );
 }

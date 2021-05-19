@@ -12,12 +12,11 @@ class DownloadCommand extends Command {
   Config config;
 
   DownloadCommand([this.config]) {
-    argParser
-      ..addOption(
-        'config-file',
-        help: 'Configuration file describing package generation.',
-        defaultsTo: 'config.yaml',
-      );
+    argParser.addOption(
+      'config-file',
+      help: 'Configuration file describing package generation.',
+      defaultsTo: 'config.yaml',
+    );
   }
 
   @override

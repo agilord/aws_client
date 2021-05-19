@@ -15,14 +15,14 @@ AlreadyStreamedException _$AlreadyStreamedExceptionFromJson(
 
 BulkPublishResponse _$BulkPublishResponseFromJson(Map<String, dynamic> json) {
   return BulkPublishResponse(
-    identityPoolId: json['IdentityPoolId'] as String,
+    identityPoolId: json['IdentityPoolId'] as String?,
   );
 }
 
 CognitoStreams _$CognitoStreamsFromJson(Map<String, dynamic> json) {
   return CognitoStreams(
-    roleArn: json['RoleArn'] as String,
-    streamName: json['StreamName'] as String,
+    roleArn: json['RoleArn'] as String?,
+    streamName: json['StreamName'] as String?,
     streamingStatus:
         _$enumDecodeNullable(_$StreamingStatusEnumMap, json['StreamingStatus']),
   );
@@ -44,36 +44,41 @@ Map<String, dynamic> _$CognitoStreamsToJson(CognitoStreams instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$StreamingStatusEnumMap = {
@@ -91,13 +96,13 @@ ConcurrentModificationException _$ConcurrentModificationExceptionFromJson(
 Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   return Dataset(
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    dataStorage: json['DataStorage'] as int,
-    datasetName: json['DatasetName'] as String,
-    identityId: json['IdentityId'] as String,
-    lastModifiedBy: json['LastModifiedBy'] as String,
+    dataStorage: json['DataStorage'] as int?,
+    datasetName: json['DatasetName'] as String?,
+    identityId: json['IdentityId'] as String?,
+    lastModifiedBy: json['LastModifiedBy'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    numRecords: json['NumRecords'] as int,
+    numRecords: json['NumRecords'] as int?,
   );
 }
 
@@ -154,8 +159,8 @@ GetBulkPublishDetailsResponse _$GetBulkPublishDetailsResponseFromJson(
         const UnixDateTimeConverter().fromJson(json['BulkPublishStartTime']),
     bulkPublishStatus: _$enumDecodeNullable(
         _$BulkPublishStatusEnumMap, json['BulkPublishStatus']),
-    failureMessage: json['FailureMessage'] as String,
-    identityPoolId: json['IdentityPoolId'] as String,
+    failureMessage: json['FailureMessage'] as String?,
+    identityPoolId: json['IdentityPoolId'] as String?,
   );
 }
 
@@ -169,7 +174,7 @@ const _$BulkPublishStatusEnumMap = {
 GetCognitoEventsResponse _$GetCognitoEventsResponseFromJson(
     Map<String, dynamic> json) {
   return GetCognitoEventsResponse(
-    events: (json['Events'] as Map<String, dynamic>)?.map(
+    events: (json['Events'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -182,7 +187,7 @@ GetIdentityPoolConfigurationResponse
         ? null
         : CognitoStreams.fromJson(
             json['CognitoStreams'] as Map<String, dynamic>),
-    identityPoolId: json['IdentityPoolId'] as String,
+    identityPoolId: json['IdentityPoolId'] as String?,
     pushSync: json['PushSync'] == null
         ? null
         : PushSync.fromJson(json['PushSync'] as Map<String, dynamic>),
@@ -191,20 +196,20 @@ GetIdentityPoolConfigurationResponse
 
 IdentityPoolUsage _$IdentityPoolUsageFromJson(Map<String, dynamic> json) {
   return IdentityPoolUsage(
-    dataStorage: json['DataStorage'] as int,
-    identityPoolId: json['IdentityPoolId'] as String,
+    dataStorage: json['DataStorage'] as int?,
+    identityPoolId: json['IdentityPoolId'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    syncSessionsCount: json['SyncSessionsCount'] as int,
+    syncSessionsCount: json['SyncSessionsCount'] as int?,
   );
 }
 
 IdentityUsage _$IdentityUsageFromJson(Map<String, dynamic> json) {
   return IdentityUsage(
-    dataStorage: json['DataStorage'] as int,
-    datasetCount: json['DatasetCount'] as int,
-    identityId: json['IdentityId'] as String,
-    identityPoolId: json['IdentityPoolId'] as String,
+    dataStorage: json['DataStorage'] as int?,
+    datasetCount: json['DatasetCount'] as int?,
+    identityId: json['IdentityId'] as String?,
+    identityPoolId: json['IdentityPoolId'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
   );
@@ -254,45 +259,42 @@ LimitExceededException _$LimitExceededExceptionFromJson(
 
 ListDatasetsResponse _$ListDatasetsResponseFromJson(Map<String, dynamic> json) {
   return ListDatasetsResponse(
-    count: json['Count'] as int,
-    datasets: (json['Datasets'] as List)
-        ?.map((e) =>
-            e == null ? null : Dataset.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    count: json['Count'] as int?,
+    datasets: (json['Datasets'] as List<dynamic>?)
+        ?.map((e) => Dataset.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIdentityPoolUsageResponse _$ListIdentityPoolUsageResponseFromJson(
     Map<String, dynamic> json) {
   return ListIdentityPoolUsageResponse(
-    count: json['Count'] as int,
-    identityPoolUsages: (json['IdentityPoolUsages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IdentityPoolUsage.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    maxResults: json['MaxResults'] as int,
-    nextToken: json['NextToken'] as String,
+    count: json['Count'] as int?,
+    identityPoolUsages: (json['IdentityPoolUsages'] as List<dynamic>?)
+        ?.map((e) => IdentityPoolUsage.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    maxResults: json['MaxResults'] as int?,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListRecordsResponse _$ListRecordsResponseFromJson(Map<String, dynamic> json) {
   return ListRecordsResponse(
-    count: json['Count'] as int,
+    count: json['Count'] as int?,
     datasetDeletedAfterRequestedSyncCount:
-        json['DatasetDeletedAfterRequestedSyncCount'] as bool,
-    datasetExists: json['DatasetExists'] as bool,
-    datasetSyncCount: json['DatasetSyncCount'] as int,
-    lastModifiedBy: json['LastModifiedBy'] as String,
-    mergedDatasetNames:
-        (json['MergedDatasetNames'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
-    records: (json['Records'] as List)
-        ?.map((e) =>
-            e == null ? null : Record.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    syncSessionToken: json['SyncSessionToken'] as String,
+        json['DatasetDeletedAfterRequestedSyncCount'] as bool?,
+    datasetExists: json['DatasetExists'] as bool?,
+    datasetSyncCount: json['DatasetSyncCount'] as int?,
+    lastModifiedBy: json['LastModifiedBy'] as String?,
+    mergedDatasetNames: (json['MergedDatasetNames'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
+    records: (json['Records'] as List<dynamic>?)
+        ?.map((e) => Record.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    syncSessionToken: json['SyncSessionToken'] as String?,
   );
 }
 
@@ -305,9 +307,10 @@ NotAuthorizedException _$NotAuthorizedExceptionFromJson(
 
 PushSync _$PushSyncFromJson(Map<String, dynamic> json) {
   return PushSync(
-    applicationArns:
-        (json['ApplicationArns'] as List)?.map((e) => e as String)?.toList(),
-    roleArn: json['RoleArn'] as String,
+    applicationArns: (json['ApplicationArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    roleArn: json['RoleArn'] as String?,
   );
 }
 
@@ -329,17 +332,21 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
   return Record(
     deviceLastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['DeviceLastModifiedDate']),
-    key: json['Key'] as String,
-    lastModifiedBy: json['LastModifiedBy'] as String,
+    key: json['Key'] as String?,
+    lastModifiedBy: json['LastModifiedBy'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    syncCount: json['SyncCount'] as int,
-    value: json['Value'] as String,
+    syncCount: json['SyncCount'] as int?,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$RecordPatchToJson(RecordPatch instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+    'Op': _$OperationEnumMap[instance.op],
+    'SyncCount': instance.syncCount,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -347,9 +354,6 @@ Map<String, dynamic> _$RecordPatchToJson(RecordPatch instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
-  writeNotNull('Op', _$OperationEnumMap[instance.op]);
-  writeNotNull('SyncCount', instance.syncCount);
   writeNotNull('DeviceLastModifiedDate',
       const UnixDateTimeConverter().toJson(instance.deviceLastModifiedDate));
   writeNotNull('Value', instance.value);
@@ -364,7 +368,7 @@ const _$OperationEnumMap = {
 RegisterDeviceResponse _$RegisterDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return RegisterDeviceResponse(
-    deviceId: json['DeviceId'] as String,
+    deviceId: json['DeviceId'] as String?,
   );
 }
 
@@ -389,7 +393,7 @@ SetIdentityPoolConfigurationResponse
         ? null
         : CognitoStreams.fromJson(
             json['CognitoStreams'] as Map<String, dynamic>),
-    identityPoolId: json['IdentityPoolId'] as String,
+    identityPoolId: json['IdentityPoolId'] as String?,
     pushSync: json['PushSync'] == null
         ? null
         : PushSync.fromJson(json['PushSync'] as Map<String, dynamic>),
@@ -416,9 +420,8 @@ UnsubscribeFromDatasetResponse _$UnsubscribeFromDatasetResponseFromJson(
 UpdateRecordsResponse _$UpdateRecordsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRecordsResponse(
-    records: (json['Records'] as List)
-        ?.map((e) =>
-            e == null ? null : Record.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    records: (json['Records'] as List<dynamic>?)
+        ?.map((e) => Record.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }

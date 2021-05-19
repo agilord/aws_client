@@ -17,47 +17,50 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
     defaultLicense:
         _$enumDecodeNullable(_$LicenseEnumMap, json['DefaultLicense']),
-    signinDelegateGroups: (json['SigninDelegateGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SigninDelegateGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    supportedLicenses: (json['SupportedLicenses'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$LicenseEnumMap, e))
-        ?.toList(),
+    signinDelegateGroups: (json['SigninDelegateGroups'] as List<dynamic>?)
+        ?.map((e) => SigninDelegateGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    supportedLicenses: (json['SupportedLicenses'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$LicenseEnumMap, e))
+        .toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AccountTypeEnumMap = {
@@ -76,8 +79,8 @@ const _$LicenseEnumMap = {
 
 AccountSettings _$AccountSettingsFromJson(Map<String, dynamic> json) {
   return AccountSettings(
-    disableRemoteControl: json['DisableRemoteControl'] as bool,
-    enableDialOut: json['EnableDialOut'] as bool,
+    disableRemoteControl: json['DisableRemoteControl'] as bool?,
+    enableDialOut: json['EnableDialOut'] as bool?,
   );
 }
 
@@ -98,8 +101,8 @@ Map<String, dynamic> _$AccountSettingsToJson(AccountSettings instance) {
 AlexaForBusinessMetadata _$AlexaForBusinessMetadataFromJson(
     Map<String, dynamic> json) {
   return AlexaForBusinessMetadata(
-    alexaForBusinessRoomArn: json['AlexaForBusinessRoomArn'] as String,
-    isAlexaForBusinessEnabled: json['IsAlexaForBusinessEnabled'] as bool,
+    alexaForBusinessRoomArn: json['AlexaForBusinessRoomArn'] as String?,
+    isAlexaForBusinessEnabled: json['IsAlexaForBusinessEnabled'] as bool?,
   );
 }
 
@@ -120,13 +123,13 @@ Map<String, dynamic> _$AlexaForBusinessMetadataToJson(
 
 AppInstance _$AppInstanceFromJson(Map<String, dynamic> json) {
   return AppInstance(
-    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    metadata: json['Metadata'] as String,
-    name: json['Name'] as String,
+    metadata: json['Metadata'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -135,7 +138,7 @@ AppInstanceAdmin _$AppInstanceAdminFromJson(Map<String, dynamic> json) {
     admin: json['Admin'] == null
         ? null
         : Identity.fromJson(json['Admin'] as Map<String, dynamic>),
-    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
   );
@@ -178,27 +181,19 @@ Map<String, dynamic> _$AppInstanceRetentionSettingsToJson(
 AppInstanceStreamingConfiguration _$AppInstanceStreamingConfigurationFromJson(
     Map<String, dynamic> json) {
   return AppInstanceStreamingConfiguration(
-    appInstanceDataType: _$enumDecodeNullable(
-        _$AppInstanceDataTypeEnumMap, json['AppInstanceDataType']),
+    appInstanceDataType:
+        _$enumDecode(_$AppInstanceDataTypeEnumMap, json['AppInstanceDataType']),
     resourceArn: json['ResourceArn'] as String,
   );
 }
 
 Map<String, dynamic> _$AppInstanceStreamingConfigurationToJson(
-    AppInstanceStreamingConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AppInstanceDataType',
-      _$AppInstanceDataTypeEnumMap[instance.appInstanceDataType]);
-  writeNotNull('ResourceArn', instance.resourceArn);
-  return val;
-}
+        AppInstanceStreamingConfiguration instance) =>
+    <String, dynamic>{
+      'AppInstanceDataType':
+          _$AppInstanceDataTypeEnumMap[instance.appInstanceDataType],
+      'ResourceArn': instance.resourceArn,
+    };
 
 const _$AppInstanceDataTypeEnumMap = {
   AppInstanceDataType.channel: 'Channel',
@@ -207,21 +202,21 @@ const _$AppInstanceDataTypeEnumMap = {
 
 AppInstanceSummary _$AppInstanceSummaryFromJson(Map<String, dynamic> json) {
   return AppInstanceSummary(
-    appInstanceArn: json['AppInstanceArn'] as String,
-    metadata: json['Metadata'] as String,
-    name: json['Name'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
+    metadata: json['Metadata'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 AppInstanceUser _$AppInstanceUserFromJson(Map<String, dynamic> json) {
   return AppInstanceUser(
-    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+    appInstanceUserArn: json['AppInstanceUserArn'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    metadata: json['Metadata'] as String,
-    name: json['Name'] as String,
+    metadata: json['Metadata'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -242,9 +237,9 @@ const _$ChannelMembershipTypeEnumMap = {
 AppInstanceUserSummary _$AppInstanceUserSummaryFromJson(
     Map<String, dynamic> json) {
   return AppInstanceUserSummary(
-    appInstanceUserArn: json['AppInstanceUserArn'] as String,
-    metadata: json['Metadata'] as String,
-    name: json['Name'] as String,
+    appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+    metadata: json['Metadata'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -257,11 +252,9 @@ AssociatePhoneNumbersWithVoiceConnectorGroupResponse
     _$AssociatePhoneNumbersWithVoiceConnectorGroupResponseFromJson(
         Map<String, dynamic> json) {
   return AssociatePhoneNumbersWithVoiceConnectorGroupResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -269,11 +262,9 @@ AssociatePhoneNumbersWithVoiceConnectorResponse
     _$AssociatePhoneNumbersWithVoiceConnectorResponseFromJson(
         Map<String, dynamic> json) {
   return AssociatePhoneNumbersWithVoiceConnectorResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -285,102 +276,91 @@ AssociateSigninDelegateGroupsWithAccountResponse
 
 Attendee _$AttendeeFromJson(Map<String, dynamic> json) {
   return Attendee(
-    attendeeId: json['AttendeeId'] as String,
-    externalUserId: json['ExternalUserId'] as String,
-    joinToken: json['JoinToken'] as String,
+    attendeeId: json['AttendeeId'] as String?,
+    externalUserId: json['ExternalUserId'] as String?,
+    joinToken: json['JoinToken'] as String?,
   );
 }
 
 BatchCreateAttendeeResponse _$BatchCreateAttendeeResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateAttendeeResponse(
-    attendees: (json['Attendees'] as List)
-        ?.map((e) =>
-            e == null ? null : Attendee.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    errors: (json['Errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CreateAttendeeError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attendees: (json['Attendees'] as List<dynamic>?)
+        ?.map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchCreateRoomMembershipResponse _$BatchCreateRoomMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return BatchCreateRoomMembershipResponse(
-    errors: (json['Errors'] as List)
-        ?.map((e) =>
-            e == null ? null : MemberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => MemberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchDeletePhoneNumberResponse _$BatchDeletePhoneNumberResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDeletePhoneNumberResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchSuspendUserResponse _$BatchSuspendUserResponseFromJson(
     Map<String, dynamic> json) {
   return BatchSuspendUserResponse(
-    userErrors: (json['UserErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : UserError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    userErrors: (json['UserErrors'] as List<dynamic>?)
+        ?.map((e) => UserError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchUnsuspendUserResponse _$BatchUnsuspendUserResponseFromJson(
     Map<String, dynamic> json) {
   return BatchUnsuspendUserResponse(
-    userErrors: (json['UserErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : UserError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    userErrors: (json['UserErrors'] as List<dynamic>?)
+        ?.map((e) => UserError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchUpdatePhoneNumberResponse _$BatchUpdatePhoneNumberResponseFromJson(
     Map<String, dynamic> json) {
   return BatchUpdatePhoneNumberResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchUpdateUserResponse _$BatchUpdateUserResponseFromJson(
     Map<String, dynamic> json) {
   return BatchUpdateUserResponse(
-    userErrors: (json['UserErrors'] as List)
-        ?.map((e) =>
-            e == null ? null : UserError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    userErrors: (json['UserErrors'] as List<dynamic>?)
+        ?.map((e) => UserError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Bot _$BotFromJson(Map<String, dynamic> json) {
   return Bot(
-    botEmail: json['BotEmail'] as String,
-    botId: json['BotId'] as String,
+    botEmail: json['BotEmail'] as String?,
+    botId: json['BotId'] as String?,
     botType: _$enumDecodeNullable(_$BotTypeEnumMap, json['BotType']),
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    disabled: json['Disabled'] as bool,
-    displayName: json['DisplayName'] as String,
-    securityToken: json['SecurityToken'] as String,
+    disabled: json['Disabled'] as bool?,
+    displayName: json['DisplayName'] as String?,
+    securityToken: json['SecurityToken'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
-    userId: json['UserId'] as String,
+    userId: json['UserId'] as String?,
   );
 }
 
@@ -391,7 +371,7 @@ const _$BotTypeEnumMap = {
 BusinessCallingSettings _$BusinessCallingSettingsFromJson(
     Map<String, dynamic> json) {
   return BusinessCallingSettings(
-    cdrBucket: json['CdrBucket'] as String,
+    cdrBucket: json['CdrBucket'] as String?,
   );
 }
 
@@ -411,7 +391,7 @@ Map<String, dynamic> _$BusinessCallingSettingsToJson(
 
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     createdBy: json['CreatedBy'] == null
         ? null
         : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
@@ -421,9 +401,9 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['LastMessageTimestamp']),
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    metadata: json['Metadata'] as String,
+    metadata: json['Metadata'] as String?,
     mode: _$enumDecodeNullable(_$ChannelModeEnumMap, json['Mode']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     privacy: _$enumDecodeNullable(_$ChannelPrivacyEnumMap, json['Privacy']),
   );
 }
@@ -440,7 +420,7 @@ const _$ChannelPrivacyEnumMap = {
 
 ChannelBan _$ChannelBanFromJson(Map<String, dynamic> json) {
   return ChannelBan(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     createdBy: json['CreatedBy'] == null
         ? null
         : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
@@ -462,7 +442,7 @@ ChannelBanSummary _$ChannelBanSummaryFromJson(Map<String, dynamic> json) {
 
 ChannelMembership _$ChannelMembershipFromJson(Map<String, dynamic> json) {
   return ChannelMembership(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     invitedBy: json['InvitedBy'] == null
@@ -505,19 +485,19 @@ ChannelMembershipSummary _$ChannelMembershipSummaryFromJson(
 
 ChannelMessage _$ChannelMessageFromJson(Map<String, dynamic> json) {
   return ChannelMessage(
-    channelArn: json['ChannelArn'] as String,
-    content: json['Content'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    content: json['Content'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     lastEditedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastEditedTimestamp']),
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    messageId: json['MessageId'] as String,
-    metadata: json['Metadata'] as String,
+    messageId: json['MessageId'] as String?,
+    metadata: json['Metadata'] as String?,
     persistence: _$enumDecodeNullable(
         _$ChannelMessagePersistenceTypeEnumMap, json['Persistence']),
-    redacted: json['Redacted'] as bool,
+    redacted: json['Redacted'] as bool?,
     sender: json['Sender'] == null
         ? null
         : Identity.fromJson(json['Sender'] as Map<String, dynamic>),
@@ -538,16 +518,16 @@ const _$ChannelMessageTypeEnumMap = {
 ChannelMessageSummary _$ChannelMessageSummaryFromJson(
     Map<String, dynamic> json) {
   return ChannelMessageSummary(
-    content: json['Content'] as String,
+    content: json['Content'] as String?,
     createdTimestamp:
         const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     lastEditedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastEditedTimestamp']),
     lastUpdatedTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
-    messageId: json['MessageId'] as String,
-    metadata: json['Metadata'] as String,
-    redacted: json['Redacted'] as bool,
+    messageId: json['MessageId'] as String?,
+    metadata: json['Metadata'] as String?,
+    redacted: json['Redacted'] as bool?,
     sender: json['Sender'] == null
         ? null
         : Identity.fromJson(json['Sender'] as Map<String, dynamic>),
@@ -568,7 +548,7 @@ ChannelModeratedByAppInstanceUserSummary
 
 ChannelModerator _$ChannelModeratorFromJson(Map<String, dynamic> json) {
   return ChannelModerator(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     createdBy: json['CreatedBy'] == null
         ? null
         : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
@@ -592,7 +572,7 @@ ChannelModeratorSummary _$ChannelModeratorSummaryFromJson(
 ChannelRetentionSettings _$ChannelRetentionSettingsFromJson(
     Map<String, dynamic> json) {
   return ChannelRetentionSettings(
-    retentionDays: json['RetentionDays'] as int,
+    retentionDays: json['RetentionDays'] as int?,
   );
 }
 
@@ -612,12 +592,12 @@ Map<String, dynamic> _$ChannelRetentionSettingsToJson(
 
 ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
   return ChannelSummary(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     lastMessageTimestamp:
         const UnixDateTimeConverter().fromJson(json['LastMessageTimestamp']),
-    metadata: json['Metadata'] as String,
+    metadata: json['Metadata'] as String?,
     mode: _$enumDecodeNullable(_$ChannelModeEnumMap, json['Mode']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     privacy: _$enumDecodeNullable(_$ChannelPrivacyEnumMap, json['Privacy']),
   );
 }
@@ -625,7 +605,7 @@ ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
 ConversationRetentionSettings _$ConversationRetentionSettingsFromJson(
     Map<String, dynamic> json) {
   return ConversationRetentionSettings(
-    retentionDays: json['RetentionDays'] as int,
+    retentionDays: json['RetentionDays'] as int?,
   );
 }
 
@@ -658,35 +638,37 @@ CreateAppInstanceAdminResponse _$CreateAppInstanceAdminResponseFromJson(
     appInstanceAdmin: json['AppInstanceAdmin'] == null
         ? null
         : Identity.fromJson(json['AppInstanceAdmin'] as Map<String, dynamic>),
-    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
   );
 }
 
 CreateAppInstanceResponse _$CreateAppInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAppInstanceResponse(
-    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
   );
 }
 
 CreateAppInstanceUserResponse _$CreateAppInstanceUserResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAppInstanceUserResponse(
-    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+    appInstanceUserArn: json['AppInstanceUserArn'] as String?,
   );
 }
 
 CreateAttendeeError _$CreateAttendeeErrorFromJson(Map<String, dynamic> json) {
   return CreateAttendeeError(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    externalUserId: json['ExternalUserId'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    externalUserId: json['ExternalUserId'] as String?,
   );
 }
 
 Map<String, dynamic> _$CreateAttendeeRequestItemToJson(
     CreateAttendeeRequestItem instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ExternalUserId': instance.externalUserId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -694,8 +676,7 @@ Map<String, dynamic> _$CreateAttendeeRequestItemToJson(
     }
   }
 
-  writeNotNull('ExternalUserId', instance.externalUserId);
-  writeNotNull('Tags', instance.tags?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Tags', instance.tags?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -719,7 +700,7 @@ CreateBotResponse _$CreateBotResponseFromJson(Map<String, dynamic> json) {
 CreateChannelBanResponse _$CreateChannelBanResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelBanResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     member: json['Member'] == null
         ? null
         : Identity.fromJson(json['Member'] as Map<String, dynamic>),
@@ -729,7 +710,7 @@ CreateChannelBanResponse _$CreateChannelBanResponseFromJson(
 CreateChannelMembershipResponse _$CreateChannelMembershipResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelMembershipResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     member: json['Member'] == null
         ? null
         : Identity.fromJson(json['Member'] as Map<String, dynamic>),
@@ -739,7 +720,7 @@ CreateChannelMembershipResponse _$CreateChannelMembershipResponseFromJson(
 CreateChannelModeratorResponse _$CreateChannelModeratorResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelModeratorResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
     channelModerator: json['ChannelModerator'] == null
         ? null
         : Identity.fromJson(json['ChannelModerator'] as Map<String, dynamic>),
@@ -749,14 +730,14 @@ CreateChannelModeratorResponse _$CreateChannelModeratorResponseFromJson(
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
   );
 }
 
 CreateMeetingDialOutResponse _$CreateMeetingDialOutResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMeetingDialOutResponse(
-    transactionId: json['TransactionId'] as String,
+    transactionId: json['TransactionId'] as String?,
   );
 }
 
@@ -772,15 +753,12 @@ CreateMeetingResponse _$CreateMeetingResponseFromJson(
 CreateMeetingWithAttendeesResponse _$CreateMeetingWithAttendeesResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMeetingWithAttendeesResponse(
-    attendees: (json['Attendees'] as List)
-        ?.map((e) =>
-            e == null ? null : Attendee.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    errors: (json['Errors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CreateAttendeeError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attendees: (json['Attendees'] as List<dynamic>?)
+        ?.map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    errors: (json['Errors'] as List<dynamic>?)
+        ?.map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
+        .toList(),
     meeting: json['Meeting'] == null
         ? null
         : Meeting.fromJson(json['Meeting'] as Map<String, dynamic>),
@@ -900,13 +878,16 @@ DNISEmergencyCallingConfiguration _$DNISEmergencyCallingConfigurationFromJson(
   return DNISEmergencyCallingConfiguration(
     callingCountry: json['CallingCountry'] as String,
     emergencyPhoneNumber: json['EmergencyPhoneNumber'] as String,
-    testPhoneNumber: json['TestPhoneNumber'] as String,
+    testPhoneNumber: json['TestPhoneNumber'] as String?,
   );
 }
 
 Map<String, dynamic> _$DNISEmergencyCallingConfigurationToJson(
     DNISEmergencyCallingConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'CallingCountry': instance.callingCountry,
+    'EmergencyPhoneNumber': instance.emergencyPhoneNumber,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -914,8 +895,6 @@ Map<String, dynamic> _$DNISEmergencyCallingConfigurationToJson(
     }
   }
 
-  writeNotNull('CallingCountry', instance.callingCountry);
-  writeNotNull('EmergencyPhoneNumber', instance.emergencyPhoneNumber);
   writeNotNull('TestPhoneNumber', instance.testPhoneNumber);
   return val;
 }
@@ -1024,11 +1003,9 @@ DisassociatePhoneNumbersFromVoiceConnectorGroupResponse
     _$DisassociatePhoneNumbersFromVoiceConnectorGroupResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociatePhoneNumbersFromVoiceConnectorGroupResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1036,11 +1013,9 @@ DisassociatePhoneNumbersFromVoiceConnectorResponse
     _$DisassociatePhoneNumbersFromVoiceConnectorResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociatePhoneNumbersFromVoiceConnectorResponse(
-    phoneNumberErrors: (json['PhoneNumberErrors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberError.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    phoneNumberErrors: (json['PhoneNumberErrors'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1053,12 +1028,10 @@ DisassociateSigninDelegateGroupsFromAccountResponse
 EmergencyCallingConfiguration _$EmergencyCallingConfigurationFromJson(
     Map<String, dynamic> json) {
   return EmergencyCallingConfiguration(
-    dnis: (json['DNIS'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DNISEmergencyCallingConfiguration.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    dnis: (json['DNIS'] as List<dynamic>?)
+        ?.map((e) => DNISEmergencyCallingConfiguration.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1072,15 +1045,15 @@ Map<String, dynamic> _$EmergencyCallingConfigurationToJson(
     }
   }
 
-  writeNotNull('DNIS', instance.dnis?.map((e) => e?.toJson())?.toList());
+  writeNotNull('DNIS', instance.dnis?.map((e) => e.toJson()).toList());
   return val;
 }
 
 EventsConfiguration _$EventsConfigurationFromJson(Map<String, dynamic> json) {
   return EventsConfiguration(
-    botId: json['BotId'] as String,
-    lambdaFunctionArn: json['LambdaFunctionArn'] as String,
-    outboundEventsHTTPSEndpoint: json['OutboundEventsHTTPSEndpoint'] as String,
+    botId: json['BotId'] as String?,
+    lambdaFunctionArn: json['LambdaFunctionArn'] as String?,
+    outboundEventsHTTPSEndpoint: json['OutboundEventsHTTPSEndpoint'] as String?,
   );
 }
 
@@ -1091,19 +1064,11 @@ GeoMatchParams _$GeoMatchParamsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$GeoMatchParamsToJson(GeoMatchParams instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AreaCode', instance.areaCode);
-  writeNotNull('Country', instance.country);
-  return val;
-}
+Map<String, dynamic> _$GeoMatchParamsToJson(GeoMatchParams instance) =>
+    <String, dynamic>{
+      'AreaCode': instance.areaCode,
+      'Country': instance.country,
+    };
 
 GetAccountResponse _$GetAccountResponseFromJson(Map<String, dynamic> json) {
   return GetAccountResponse(
@@ -1141,12 +1106,10 @@ GetAppInstanceStreamingConfigurationsResponse
         Map<String, dynamic> json) {
   return GetAppInstanceStreamingConfigurationsResponse(
     appInstanceStreamingConfigurations:
-        (json['AppInstanceStreamingConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AppInstanceStreamingConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['AppInstanceStreamingConfigurations'] as List<dynamic>?)
+            ?.map((e) => AppInstanceStreamingConfiguration.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -1240,7 +1203,7 @@ GetPhoneNumberResponse _$GetPhoneNumberResponseFromJson(
 GetPhoneNumberSettingsResponse _$GetPhoneNumberSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return GetPhoneNumberSettingsResponse(
-    callingName: json['CallingName'] as String,
+    callingName: json['CallingName'] as String?,
     callingNameUpdatedTimestamp: const IsoDateTimeConverter()
         .fromJson(json['CallingNameUpdatedTimestamp']),
   );
@@ -1416,17 +1379,17 @@ GetVoiceConnectorTerminationResponse
 
 Identity _$IdentityFromJson(Map<String, dynamic> json) {
   return Identity(
-    arn: json['Arn'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 Invite _$InviteFromJson(Map<String, dynamic> json) {
   return Invite(
-    emailAddress: json['EmailAddress'] as String,
+    emailAddress: json['EmailAddress'] as String?,
     emailStatus:
         _$enumDecodeNullable(_$EmailStatusEnumMap, json['EmailStatus']),
-    inviteId: json['InviteId'] as String,
+    inviteId: json['InviteId'] as String?,
     status: _$enumDecodeNullable(_$InviteStatusEnumMap, json['Status']),
   );
 }
@@ -1445,100 +1408,90 @@ const _$InviteStatusEnumMap = {
 
 InviteUsersResponse _$InviteUsersResponseFromJson(Map<String, dynamic> json) {
   return InviteUsersResponse(
-    invites: (json['Invites'] as List)
-        ?.map((e) =>
-            e == null ? null : Invite.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    invites: (json['Invites'] as List<dynamic>?)
+        ?.map((e) => Invite.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListAccountsResponse _$ListAccountsResponseFromJson(Map<String, dynamic> json) {
   return ListAccountsResponse(
-    accounts: (json['Accounts'] as List)
-        ?.map((e) =>
-            e == null ? null : Account.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    accounts: (json['Accounts'] as List<dynamic>?)
+        ?.map((e) => Account.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAppInstanceAdminsResponse _$ListAppInstanceAdminsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAppInstanceAdminsResponse(
-    appInstanceAdmins: (json['AppInstanceAdmins'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AppInstanceAdminSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    appInstanceArn: json['AppInstanceArn'] as String,
-    nextToken: json['NextToken'] as String,
+    appInstanceAdmins: (json['AppInstanceAdmins'] as List<dynamic>?)
+        ?.map(
+            (e) => AppInstanceAdminSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    appInstanceArn: json['AppInstanceArn'] as String?,
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAppInstanceUsersResponse _$ListAppInstanceUsersResponseFromJson(
     Map<String, dynamic> json) {
   return ListAppInstanceUsersResponse(
-    appInstanceArn: json['AppInstanceArn'] as String,
-    appInstanceUsers: (json['AppInstanceUsers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AppInstanceUserSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
+    appInstanceUsers: (json['AppInstanceUsers'] as List<dynamic>?)
+        ?.map((e) => AppInstanceUserSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAppInstancesResponse _$ListAppInstancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAppInstancesResponse(
-    appInstances: (json['AppInstances'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AppInstanceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    appInstances: (json['AppInstances'] as List<dynamic>?)
+        ?.map((e) => AppInstanceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListAttendeeTagsResponse _$ListAttendeeTagsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAttendeeTagsResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListAttendeesResponse _$ListAttendeesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAttendeesResponse(
-    attendees: (json['Attendees'] as List)
-        ?.map((e) =>
-            e == null ? null : Attendee.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attendees: (json['Attendees'] as List<dynamic>?)
+        ?.map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListBotsResponse _$ListBotsResponseFromJson(Map<String, dynamic> json) {
   return ListBotsResponse(
-    bots: (json['Bots'] as List)
-        ?.map((e) => e == null ? null : Bot.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    bots: (json['Bots'] as List<dynamic>?)
+        ?.map((e) => Bot.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChannelBansResponse _$ListChannelBansResponseFromJson(
     Map<String, dynamic> json) {
   return ListChannelBansResponse(
-    channelArn: json['ChannelArn'] as String,
-    channelBans: (json['ChannelBans'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelBanSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    channelBans: (json['ChannelBans'] as List<dynamic>?)
+        ?.map((e) => ChannelBanSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1546,52 +1499,46 @@ ListChannelMembershipsForAppInstanceUserResponse
     _$ListChannelMembershipsForAppInstanceUserResponseFromJson(
         Map<String, dynamic> json) {
   return ListChannelMembershipsForAppInstanceUserResponse(
-    channelMemberships: (json['ChannelMemberships'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelMembershipForAppInstanceUserSummary.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channelMemberships: (json['ChannelMemberships'] as List<dynamic>?)
+        ?.map((e) => ChannelMembershipForAppInstanceUserSummary.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChannelMembershipsResponse _$ListChannelMembershipsResponseFromJson(
     Map<String, dynamic> json) {
   return ListChannelMembershipsResponse(
-    channelArn: json['ChannelArn'] as String,
-    channelMemberships: (json['ChannelMemberships'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelMembershipSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    channelMemberships: (json['ChannelMemberships'] as List<dynamic>?)
+        ?.map(
+            (e) => ChannelMembershipSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChannelMessagesResponse _$ListChannelMessagesResponseFromJson(
     Map<String, dynamic> json) {
   return ListChannelMessagesResponse(
-    channelArn: json['ChannelArn'] as String,
-    channelMessages: (json['ChannelMessages'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelMessageSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    channelMessages: (json['ChannelMessages'] as List<dynamic>?)
+        ?.map((e) => ChannelMessageSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChannelModeratorsResponse _$ListChannelModeratorsResponseFromJson(
     Map<String, dynamic> json) {
   return ListChannelModeratorsResponse(
-    channelArn: json['ChannelArn'] as String,
-    channelModerators: (json['ChannelModerators'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelModeratorSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    channelModerators: (json['ChannelModerators'] as List<dynamic>?)
+        ?.map(
+            (e) => ChannelModeratorSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -1599,152 +1546,134 @@ ListChannelsModeratedByAppInstanceUserResponse
     _$ListChannelsModeratedByAppInstanceUserResponseFromJson(
         Map<String, dynamic> json) {
   return ListChannelsModeratedByAppInstanceUserResponse(
-    channels: (json['Channels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelModeratedByAppInstanceUserSummary.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channels: (json['Channels'] as List<dynamic>?)
+        ?.map((e) => ChannelModeratedByAppInstanceUserSummary.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
   return ListChannelsResponse(
-    channels: (json['Channels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    channels: (json['Channels'] as List<dynamic>?)
+        ?.map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListMeetingTagsResponse _$ListMeetingTagsResponseFromJson(
     Map<String, dynamic> json) {
   return ListMeetingTagsResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListMeetingsResponse _$ListMeetingsResponseFromJson(Map<String, dynamic> json) {
   return ListMeetingsResponse(
-    meetings: (json['Meetings'] as List)
-        ?.map((e) =>
-            e == null ? null : Meeting.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    meetings: (json['Meetings'] as List<dynamic>?)
+        ?.map((e) => Meeting.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListPhoneNumberOrdersResponse _$ListPhoneNumberOrdersResponseFromJson(
     Map<String, dynamic> json) {
   return ListPhoneNumberOrdersResponse(
-    nextToken: json['NextToken'] as String,
-    phoneNumberOrders: (json['PhoneNumberOrders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberOrder.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    phoneNumberOrders: (json['PhoneNumberOrders'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberOrder.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPhoneNumbersResponse _$ListPhoneNumbersResponseFromJson(
     Map<String, dynamic> json) {
   return ListPhoneNumbersResponse(
-    nextToken: json['NextToken'] as String,
-    phoneNumbers: (json['PhoneNumbers'] as List)
-        ?.map((e) =>
-            e == null ? null : PhoneNumber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    phoneNumbers: (json['PhoneNumbers'] as List<dynamic>?)
+        ?.map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListProxySessionsResponse _$ListProxySessionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListProxySessionsResponse(
-    nextToken: json['NextToken'] as String,
-    proxySessions: (json['ProxySessions'] as List)
-        ?.map((e) =>
-            e == null ? null : ProxySession.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    proxySessions: (json['ProxySessions'] as List<dynamic>?)
+        ?.map((e) => ProxySession.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRoomMembershipsResponse _$ListRoomMembershipsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRoomMembershipsResponse(
-    nextToken: json['NextToken'] as String,
-    roomMemberships: (json['RoomMemberships'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RoomMembership.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    roomMemberships: (json['RoomMemberships'] as List<dynamic>?)
+        ?.map((e) => RoomMembership.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRoomsResponse _$ListRoomsResponseFromJson(Map<String, dynamic> json) {
   return ListRoomsResponse(
-    nextToken: json['NextToken'] as String,
-    rooms: (json['Rooms'] as List)
-        ?.map(
-            (e) => e == null ? null : Room.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    rooms: (json['Rooms'] as List<dynamic>?)
+        ?.map((e) => Room.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSipMediaApplicationsResponse _$ListSipMediaApplicationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSipMediaApplicationsResponse(
-    nextToken: json['NextToken'] as String,
-    sipMediaApplications: (json['SipMediaApplications'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SipMediaApplication.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sipMediaApplications: (json['SipMediaApplications'] as List<dynamic>?)
+        ?.map((e) => SipMediaApplication.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSipRulesResponse _$ListSipRulesResponseFromJson(Map<String, dynamic> json) {
   return ListSipRulesResponse(
-    nextToken: json['NextToken'] as String,
-    sipRules: (json['SipRules'] as List)
-        ?.map((e) =>
-            e == null ? null : SipRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sipRules: (json['SipRules'] as List<dynamic>?)
+        ?.map((e) => SipRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   return ListUsersResponse(
-    nextToken: json['NextToken'] as String,
-    users: (json['Users'] as List)
-        ?.map(
-            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListVoiceConnectorGroupsResponse _$ListVoiceConnectorGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListVoiceConnectorGroupsResponse(
-    nextToken: json['NextToken'] as String,
-    voiceConnectorGroups: (json['VoiceConnectorGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VoiceConnectorGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    voiceConnectorGroups: (json['VoiceConnectorGroups'] as List<dynamic>?)
+        ?.map((e) => VoiceConnectorGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1752,25 +1681,24 @@ ListVoiceConnectorTerminationCredentialsResponse
     _$ListVoiceConnectorTerminationCredentialsResponseFromJson(
         Map<String, dynamic> json) {
   return ListVoiceConnectorTerminationCredentialsResponse(
-    usernames: (json['Usernames'] as List)?.map((e) => e as String)?.toList(),
+    usernames:
+        (json['Usernames'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ListVoiceConnectorsResponse _$ListVoiceConnectorsResponseFromJson(
     Map<String, dynamic> json) {
   return ListVoiceConnectorsResponse(
-    nextToken: json['NextToken'] as String,
-    voiceConnectors: (json['VoiceConnectors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VoiceConnector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    voiceConnectors: (json['VoiceConnectors'] as List<dynamic>?)
+        ?.map((e) => VoiceConnector.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoggingConfiguration _$LoggingConfigurationFromJson(Map<String, dynamic> json) {
   return LoggingConfiguration(
-    enableSIPLogs: json['EnableSIPLogs'] as bool,
+    enableSIPLogs: json['EnableSIPLogs'] as bool?,
   );
 }
 
@@ -1794,25 +1722,25 @@ LogoutUserResponse _$LogoutUserResponseFromJson(Map<String, dynamic> json) {
 
 MediaPlacement _$MediaPlacementFromJson(Map<String, dynamic> json) {
   return MediaPlacement(
-    audioFallbackUrl: json['AudioFallbackUrl'] as String,
-    audioHostUrl: json['AudioHostUrl'] as String,
-    screenDataUrl: json['ScreenDataUrl'] as String,
-    screenSharingUrl: json['ScreenSharingUrl'] as String,
-    screenViewingUrl: json['ScreenViewingUrl'] as String,
-    signalingUrl: json['SignalingUrl'] as String,
-    turnControlUrl: json['TurnControlUrl'] as String,
+    audioFallbackUrl: json['AudioFallbackUrl'] as String?,
+    audioHostUrl: json['AudioHostUrl'] as String?,
+    screenDataUrl: json['ScreenDataUrl'] as String?,
+    screenSharingUrl: json['ScreenSharingUrl'] as String?,
+    screenViewingUrl: json['ScreenViewingUrl'] as String?,
+    signalingUrl: json['SignalingUrl'] as String?,
+    turnControlUrl: json['TurnControlUrl'] as String?,
   );
 }
 
 Meeting _$MeetingFromJson(Map<String, dynamic> json) {
   return Meeting(
-    externalMeetingId: json['ExternalMeetingId'] as String,
+    externalMeetingId: json['ExternalMeetingId'] as String?,
     mediaPlacement: json['MediaPlacement'] == null
         ? null
         : MediaPlacement.fromJson(
             json['MediaPlacement'] as Map<String, dynamic>),
-    mediaRegion: json['MediaRegion'] as String,
-    meetingId: json['MeetingId'] as String,
+    mediaRegion: json['MediaRegion'] as String?,
+    meetingId: json['MeetingId'] as String?,
   );
 }
 
@@ -1833,10 +1761,10 @@ Map<String, dynamic> _$MeetingNotificationConfigurationToJson(
 
 Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
-    accountId: json['AccountId'] as String,
-    email: json['Email'] as String,
-    fullName: json['FullName'] as String,
-    memberId: json['MemberId'] as String,
+    accountId: json['AccountId'] as String?,
+    email: json['Email'] as String?,
+    fullName: json['FullName'] as String?,
+    memberId: json['MemberId'] as String?,
     memberType: _$enumDecodeNullable(_$MemberTypeEnumMap, json['MemberType']),
   );
 }
@@ -1850,8 +1778,8 @@ const _$MemberTypeEnumMap = {
 MemberError _$MemberErrorFromJson(Map<String, dynamic> json) {
   return MemberError(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    memberId: json['MemberId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    memberId: json['MemberId'] as String?,
   );
 }
 
@@ -1896,13 +1824,13 @@ const _$RoomMembershipRoleEnumMap = {
 MessagingSessionEndpoint _$MessagingSessionEndpointFromJson(
     Map<String, dynamic> json) {
   return MessagingSessionEndpoint(
-    url: json['Url'] as String,
+    url: json['Url'] as String?,
   );
 }
 
 OrderedPhoneNumber _$OrderedPhoneNumberFromJson(Map<String, dynamic> json) {
   return OrderedPhoneNumber(
-    e164PhoneNumber: json['E164PhoneNumber'] as String,
+    e164PhoneNumber: json['E164PhoneNumber'] as String?,
     status:
         _$enumDecodeNullable(_$OrderedPhoneNumberStatusEnumMap, json['Status']),
   );
@@ -1916,12 +1844,10 @@ const _$OrderedPhoneNumberStatusEnumMap = {
 
 Origination _$OriginationFromJson(Map<String, dynamic> json) {
   return Origination(
-    disabled: json['Disabled'] as bool,
-    routes: (json['Routes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OriginationRoute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    disabled: json['Disabled'] as bool?,
+    routes: (json['Routes'] as List<dynamic>?)
+        ?.map((e) => OriginationRoute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1935,18 +1861,18 @@ Map<String, dynamic> _$OriginationToJson(Origination instance) {
   }
 
   writeNotNull('Disabled', instance.disabled);
-  writeNotNull('Routes', instance.routes?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Routes', instance.routes?.map((e) => e.toJson()).toList());
   return val;
 }
 
 OriginationRoute _$OriginationRouteFromJson(Map<String, dynamic> json) {
   return OriginationRoute(
-    host: json['Host'] as String,
-    port: json['Port'] as int,
-    priority: json['Priority'] as int,
+    host: json['Host'] as String?,
+    port: json['Port'] as int?,
+    priority: json['Priority'] as int?,
     protocol: _$enumDecodeNullable(
         _$OriginationRouteProtocolEnumMap, json['Protocol']),
-    weight: json['Weight'] as int,
+    weight: json['Weight'] as int?,
   );
 }
 
@@ -1975,19 +1901,17 @@ const _$OriginationRouteProtocolEnumMap = {
 
 Participant _$ParticipantFromJson(Map<String, dynamic> json) {
   return Participant(
-    phoneNumber: json['PhoneNumber'] as String,
-    proxyPhoneNumber: json['ProxyPhoneNumber'] as String,
+    phoneNumber: json['PhoneNumber'] as String?,
+    proxyPhoneNumber: json['ProxyPhoneNumber'] as String?,
   );
 }
 
 PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
   return PhoneNumber(
-    associations: (json['Associations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    callingName: json['CallingName'] as String,
+    associations: (json['Associations'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    callingName: json['CallingName'] as String?,
     callingNameStatus: _$enumDecodeNullable(
         _$CallingNameStatusEnumMap, json['CallingNameStatus']),
     capabilities: json['Capabilities'] == null
@@ -1998,8 +1922,8 @@ PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
     deletionTimestamp:
         const IsoDateTimeConverter().fromJson(json['DeletionTimestamp']),
-    e164PhoneNumber: json['E164PhoneNumber'] as String,
-    phoneNumberId: json['PhoneNumberId'] as String,
+    e164PhoneNumber: json['E164PhoneNumber'] as String?,
+    phoneNumberId: json['PhoneNumberId'] as String?,
     productType: _$enumDecodeNullable(
         _$PhoneNumberProductTypeEnumMap, json['ProductType']),
     status: _$enumDecodeNullable(_$PhoneNumberStatusEnumMap, json['Status']),
@@ -2044,7 +1968,7 @@ PhoneNumberAssociation _$PhoneNumberAssociationFromJson(
         const IsoDateTimeConverter().fromJson(json['AssociatedTimestamp']),
     name:
         _$enumDecodeNullable(_$PhoneNumberAssociationNameEnumMap, json['Name']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
@@ -2059,20 +1983,20 @@ const _$PhoneNumberAssociationNameEnumMap = {
 PhoneNumberCapabilities _$PhoneNumberCapabilitiesFromJson(
     Map<String, dynamic> json) {
   return PhoneNumberCapabilities(
-    inboundCall: json['InboundCall'] as bool,
-    inboundMMS: json['InboundMMS'] as bool,
-    inboundSMS: json['InboundSMS'] as bool,
-    outboundCall: json['OutboundCall'] as bool,
-    outboundMMS: json['OutboundMMS'] as bool,
-    outboundSMS: json['OutboundSMS'] as bool,
+    inboundCall: json['InboundCall'] as bool?,
+    inboundMMS: json['InboundMMS'] as bool?,
+    inboundSMS: json['InboundSMS'] as bool?,
+    outboundCall: json['OutboundCall'] as bool?,
+    outboundMMS: json['OutboundMMS'] as bool?,
+    outboundSMS: json['OutboundSMS'] as bool?,
   );
 }
 
 PhoneNumberError _$PhoneNumberErrorFromJson(Map<String, dynamic> json) {
   return PhoneNumberError(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    phoneNumberId: json['PhoneNumberId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    phoneNumberId: json['PhoneNumberId'] as String?,
   );
 }
 
@@ -2080,12 +2004,10 @@ PhoneNumberOrder _$PhoneNumberOrderFromJson(Map<String, dynamic> json) {
   return PhoneNumberOrder(
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    phoneNumberOrderId: json['PhoneNumberOrderId'] as String,
+    orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List<dynamic>?)
+        ?.map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
     productType: _$enumDecodeNullable(
         _$PhoneNumberProductTypeEnumMap, json['ProductType']),
     status:
@@ -2104,43 +2026,42 @@ const _$PhoneNumberOrderStatusEnumMap = {
 
 Proxy _$ProxyFromJson(Map<String, dynamic> json) {
   return Proxy(
-    defaultSessionExpiryMinutes: json['DefaultSessionExpiryMinutes'] as int,
-    disabled: json['Disabled'] as bool,
-    fallBackPhoneNumber: json['FallBackPhoneNumber'] as String,
-    phoneNumberCountries: (json['PhoneNumberCountries'] as List)
+    defaultSessionExpiryMinutes: json['DefaultSessionExpiryMinutes'] as int?,
+    disabled: json['Disabled'] as bool?,
+    fallBackPhoneNumber: json['FallBackPhoneNumber'] as String?,
+    phoneNumberCountries: (json['PhoneNumberCountries'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
   );
 }
 
 ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
   return ProxySession(
-    capabilities: (json['Capabilities'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$CapabilityEnumMap, e))
-        ?.toList(),
+    capabilities: (json['Capabilities'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$CapabilityEnumMap, e))
+        .toList(),
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
     endedTimestamp:
         const IsoDateTimeConverter().fromJson(json['EndedTimestamp']),
-    expiryMinutes: json['ExpiryMinutes'] as int,
+    expiryMinutes: json['ExpiryMinutes'] as int?,
     geoMatchLevel:
         _$enumDecodeNullable(_$GeoMatchLevelEnumMap, json['GeoMatchLevel']),
     geoMatchParams: json['GeoMatchParams'] == null
         ? null
         : GeoMatchParams.fromJson(
             json['GeoMatchParams'] as Map<String, dynamic>),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     numberSelectionBehavior: _$enumDecodeNullable(
         _$NumberSelectionBehaviorEnumMap, json['NumberSelectionBehavior']),
-    participants: (json['Participants'] as List)
-        ?.map((e) =>
-            e == null ? null : Participant.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    proxySessionId: json['ProxySessionId'] as String,
+    participants: (json['Participants'] as List<dynamic>?)
+        ?.map((e) => Participant.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    proxySessionId: json['ProxySessionId'] as String?,
     status: _$enumDecodeNullable(_$ProxySessionStatusEnumMap, json['Status']),
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
-    voiceConnectorId: json['VoiceConnectorId'] as String,
+    voiceConnectorId: json['VoiceConnectorId'] as String?,
   );
 }
 
@@ -2183,12 +2104,10 @@ PutAppInstanceStreamingConfigurationsResponse
         Map<String, dynamic> json) {
   return PutAppInstanceStreamingConfigurationsResponse(
     appInstanceStreamingConfigurations:
-        (json['AppInstanceStreamingConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : AppInstanceStreamingConfiguration.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['AppInstanceStreamingConfigurations'] as List<dynamic>?)
+            ?.map((e) => AppInstanceStreamingConfiguration.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
@@ -2290,8 +2209,8 @@ PutVoiceConnectorTerminationResponse
 RedactChannelMessageResponse _$RedactChannelMessageResponseFromJson(
     Map<String, dynamic> json) {
   return RedactChannelMessageResponse(
-    channelArn: json['ChannelArn'] as String,
-    messageId: json['MessageId'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    messageId: json['MessageId'] as String?,
   );
 }
 
@@ -2363,12 +2282,12 @@ Map<String, dynamic> _$RetentionSettingsToJson(RetentionSettings instance) {
 
 Room _$RoomFromJson(Map<String, dynamic> json) {
   return Room(
-    accountId: json['AccountId'] as String,
-    createdBy: json['CreatedBy'] as String,
+    accountId: json['AccountId'] as String?,
+    createdBy: json['CreatedBy'] as String?,
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    name: json['Name'] as String,
-    roomId: json['RoomId'] as String,
+    name: json['Name'] as String?,
+    roomId: json['RoomId'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
   );
@@ -2376,12 +2295,12 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
 
 RoomMembership _$RoomMembershipFromJson(Map<String, dynamic> json) {
   return RoomMembership(
-    invitedBy: json['InvitedBy'] as String,
+    invitedBy: json['InvitedBy'] as String?,
     member: json['Member'] == null
         ? null
         : Member.fromJson(json['Member'] as Map<String, dynamic>),
     role: _$enumDecodeNullable(_$RoomMembershipRoleEnumMap, json['Role']),
-    roomId: json['RoomId'] as String,
+    roomId: json['RoomId'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
   );
@@ -2390,7 +2309,7 @@ RoomMembership _$RoomMembershipFromJson(Map<String, dynamic> json) {
 RoomRetentionSettings _$RoomRetentionSettingsFromJson(
     Map<String, dynamic> json) {
   return RoomRetentionSettings(
-    retentionDays: json['RetentionDays'] as int,
+    retentionDays: json['RetentionDays'] as int?,
   );
 }
 
@@ -2411,22 +2330,23 @@ Map<String, dynamic> _$RoomRetentionSettingsToJson(
 SearchAvailablePhoneNumbersResponse
     _$SearchAvailablePhoneNumbersResponseFromJson(Map<String, dynamic> json) {
   return SearchAvailablePhoneNumbersResponse(
-    e164PhoneNumbers:
-        (json['E164PhoneNumbers'] as List)?.map((e) => e as String)?.toList(),
+    e164PhoneNumbers: (json['E164PhoneNumbers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 SendChannelMessageResponse _$SendChannelMessageResponseFromJson(
     Map<String, dynamic> json) {
   return SendChannelMessageResponse(
-    channelArn: json['ChannelArn'] as String,
-    messageId: json['MessageId'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    messageId: json['MessageId'] as String?,
   );
 }
 
 SigninDelegateGroup _$SigninDelegateGroupFromJson(Map<String, dynamic> json) {
   return SigninDelegateGroup(
-    groupName: json['GroupName'] as String,
+    groupName: json['GroupName'] as String?,
   );
 }
 
@@ -2445,16 +2365,15 @@ Map<String, dynamic> _$SigninDelegateGroupToJson(SigninDelegateGroup instance) {
 
 SipMediaApplication _$SipMediaApplicationFromJson(Map<String, dynamic> json) {
   return SipMediaApplication(
-    awsRegion: json['AwsRegion'] as String,
+    awsRegion: json['AwsRegion'] as String?,
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    endpoints: (json['Endpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
-    sipMediaApplicationId: json['SipMediaApplicationId'] as String,
+    endpoints: (json['Endpoints'] as List<dynamic>?)
+        ?.map((e) =>
+            SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
+    sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
   );
@@ -2463,14 +2382,14 @@ SipMediaApplication _$SipMediaApplicationFromJson(Map<String, dynamic> json) {
 SipMediaApplicationCall _$SipMediaApplicationCallFromJson(
     Map<String, dynamic> json) {
   return SipMediaApplicationCall(
-    transactionId: json['TransactionId'] as String,
+    transactionId: json['TransactionId'] as String?,
   );
 }
 
 SipMediaApplicationEndpoint _$SipMediaApplicationEndpointFromJson(
     Map<String, dynamic> json) {
   return SipMediaApplicationEndpoint(
-    lambdaArn: json['LambdaArn'] as String,
+    lambdaArn: json['LambdaArn'] as String?,
   );
 }
 
@@ -2493,7 +2412,7 @@ SipMediaApplicationLoggingConfiguration
         Map<String, dynamic> json) {
   return SipMediaApplicationLoggingConfiguration(
     enableSipMediaApplicationMessageLogs:
-        json['EnableSipMediaApplicationMessageLogs'] as bool,
+        json['EnableSipMediaApplicationMessageLogs'] as bool?,
   );
 }
 
@@ -2516,17 +2435,16 @@ SipRule _$SipRuleFromJson(Map<String, dynamic> json) {
   return SipRule(
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    disabled: json['Disabled'] as bool,
-    name: json['Name'] as String,
-    sipRuleId: json['SipRuleId'] as String,
-    targetApplications: (json['TargetApplications'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    disabled: json['Disabled'] as bool?,
+    name: json['Name'] as String?,
+    sipRuleId: json['SipRuleId'] as String?,
+    targetApplications: (json['TargetApplications'] as List<dynamic>?)
+        ?.map(
+            (e) => SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
+        .toList(),
     triggerType:
         _$enumDecodeNullable(_$SipRuleTriggerTypeEnumMap, json['TriggerType']),
-    triggerValue: json['TriggerValue'] as String,
+    triggerValue: json['TriggerValue'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
   );
@@ -2540,9 +2458,9 @@ const _$SipRuleTriggerTypeEnumMap = {
 SipRuleTargetApplication _$SipRuleTargetApplicationFromJson(
     Map<String, dynamic> json) {
   return SipRuleTargetApplication(
-    awsRegion: json['AwsRegion'] as String,
-    priority: json['Priority'] as int,
-    sipMediaApplicationId: json['SipMediaApplicationId'] as String,
+    awsRegion: json['AwsRegion'] as String?,
+    priority: json['Priority'] as int?,
+    sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
   );
 }
 
@@ -2566,18 +2484,20 @@ StreamingConfiguration _$StreamingConfigurationFromJson(
     Map<String, dynamic> json) {
   return StreamingConfiguration(
     dataRetentionInHours: json['DataRetentionInHours'] as int,
-    disabled: json['Disabled'] as bool,
-    streamingNotificationTargets: (json['StreamingNotificationTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    disabled: json['Disabled'] as bool?,
+    streamingNotificationTargets:
+        (json['StreamingNotificationTargets'] as List<dynamic>?)
+            ?.map((e) =>
+                StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$StreamingConfigurationToJson(
     StreamingConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataRetentionInHours': instance.dataRetentionInHours,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2585,35 +2505,26 @@ Map<String, dynamic> _$StreamingConfigurationToJson(
     }
   }
 
-  writeNotNull('DataRetentionInHours', instance.dataRetentionInHours);
   writeNotNull('Disabled', instance.disabled);
   writeNotNull('StreamingNotificationTargets',
-      instance.streamingNotificationTargets?.map((e) => e?.toJson())?.toList());
+      instance.streamingNotificationTargets?.map((e) => e.toJson()).toList());
   return val;
 }
 
 StreamingNotificationTarget _$StreamingNotificationTargetFromJson(
     Map<String, dynamic> json) {
   return StreamingNotificationTarget(
-    notificationTarget: _$enumDecodeNullable(
-        _$NotificationTargetEnumMap, json['NotificationTarget']),
+    notificationTarget:
+        _$enumDecode(_$NotificationTargetEnumMap, json['NotificationTarget']),
   );
 }
 
 Map<String, dynamic> _$StreamingNotificationTargetToJson(
-    StreamingNotificationTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('NotificationTarget',
-      _$NotificationTargetEnumMap[instance.notificationTarget]);
-  return val;
-}
+        StreamingNotificationTarget instance) =>
+    <String, dynamic>{
+      'NotificationTarget':
+          _$NotificationTargetEnumMap[instance.notificationTarget],
+    };
 
 const _$NotificationTargetEnumMap = {
   NotificationTarget.eventBridge: 'EventBridge',
@@ -2628,19 +2539,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TelephonySettings _$TelephonySettingsFromJson(Map<String, dynamic> json) {
   return TelephonySettings(
@@ -2650,30 +2552,24 @@ TelephonySettings _$TelephonySettingsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TelephonySettingsToJson(TelephonySettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('InboundCalling', instance.inboundCalling);
-  writeNotNull('OutboundCalling', instance.outboundCalling);
-  writeNotNull('SMS', instance.sms);
-  return val;
-}
+Map<String, dynamic> _$TelephonySettingsToJson(TelephonySettings instance) =>
+    <String, dynamic>{
+      'InboundCalling': instance.inboundCalling,
+      'OutboundCalling': instance.outboundCalling,
+      'SMS': instance.sms,
+    };
 
 Termination _$TerminationFromJson(Map<String, dynamic> json) {
   return Termination(
-    callingRegions:
-        (json['CallingRegions'] as List)?.map((e) => e as String)?.toList(),
-    cidrAllowedList:
-        (json['CidrAllowedList'] as List)?.map((e) => e as String)?.toList(),
-    cpsLimit: json['CpsLimit'] as int,
-    defaultPhoneNumber: json['DefaultPhoneNumber'] as String,
-    disabled: json['Disabled'] as bool,
+    callingRegions: (json['CallingRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    cidrAllowedList: (json['CidrAllowedList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    cpsLimit: json['CpsLimit'] as int?,
+    defaultPhoneNumber: json['DefaultPhoneNumber'] as String?,
+    disabled: json['Disabled'] as bool?,
   );
 }
 
@@ -2696,7 +2592,7 @@ Map<String, dynamic> _$TerminationToJson(Termination instance) {
 
 TerminationHealth _$TerminationHealthFromJson(Map<String, dynamic> json) {
   return TerminationHealth(
-    source: json['Source'] as String,
+    source: json['Source'] as String?,
     timestamp: const IsoDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
@@ -2718,14 +2614,14 @@ UpdateAccountSettingsResponse _$UpdateAccountSettingsResponseFromJson(
 UpdateAppInstanceResponse _$UpdateAppInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAppInstanceResponse(
-    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceArn: json['AppInstanceArn'] as String?,
   );
 }
 
 UpdateAppInstanceUserResponse _$UpdateAppInstanceUserResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateAppInstanceUserResponse(
-    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+    appInstanceUserArn: json['AppInstanceUserArn'] as String?,
   );
 }
 
@@ -2740,28 +2636,30 @@ UpdateBotResponse _$UpdateBotResponseFromJson(Map<String, dynamic> json) {
 UpdateChannelMessageResponse _$UpdateChannelMessageResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateChannelMessageResponse(
-    channelArn: json['ChannelArn'] as String,
-    messageId: json['MessageId'] as String,
+    channelArn: json['ChannelArn'] as String?,
+    messageId: json['MessageId'] as String?,
   );
 }
 
 UpdateChannelReadMarkerResponse _$UpdateChannelReadMarkerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateChannelReadMarkerResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
   );
 }
 
 UpdateChannelResponse _$UpdateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateChannelResponse(
-    channelArn: json['ChannelArn'] as String,
+    channelArn: json['ChannelArn'] as String?,
   );
 }
 
 Map<String, dynamic> _$UpdatePhoneNumberRequestItemToJson(
     UpdatePhoneNumberRequestItem instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PhoneNumberId': instance.phoneNumberId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2769,7 +2667,6 @@ Map<String, dynamic> _$UpdatePhoneNumberRequestItemToJson(
     }
   }
 
-  writeNotNull('PhoneNumberId', instance.phoneNumberId);
   writeNotNull('CallingName', instance.callingName);
   writeNotNull(
       'ProductType', _$PhoneNumberProductTypeEnumMap[instance.productType]);
@@ -2833,7 +2730,9 @@ UpdateSipRuleResponse _$UpdateSipRuleResponseFromJson(
 
 Map<String, dynamic> _$UpdateUserRequestItemToJson(
     UpdateUserRequestItem instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'UserId': instance.userId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2841,7 +2740,6 @@ Map<String, dynamic> _$UpdateUserRequestItemToJson(
     }
   }
 
-  writeNotNull('UserId', instance.userId);
   writeNotNull(
       'AlexaForBusinessMetadata', instance.alexaForBusinessMetadata?.toJson());
   writeNotNull('LicenseType', _$LicenseEnumMap[instance.licenseType]);
@@ -2885,17 +2783,17 @@ UpdateVoiceConnectorResponse _$UpdateVoiceConnectorResponseFromJson(
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     userId: json['UserId'] as String,
-    accountId: json['AccountId'] as String,
+    accountId: json['AccountId'] as String?,
     alexaForBusinessMetadata: json['AlexaForBusinessMetadata'] == null
         ? null
         : AlexaForBusinessMetadata.fromJson(
             json['AlexaForBusinessMetadata'] as Map<String, dynamic>),
-    displayName: json['DisplayName'] as String,
+    displayName: json['DisplayName'] as String?,
     invitedOn: const IsoDateTimeConverter().fromJson(json['InvitedOn']),
     licenseType: _$enumDecodeNullable(_$LicenseEnumMap, json['LicenseType']),
-    personalPIN: json['PersonalPIN'] as String,
-    primaryEmail: json['PrimaryEmail'] as String,
-    primaryProvisionedNumber: json['PrimaryProvisionedNumber'] as String,
+    personalPIN: json['PersonalPIN'] as String?,
+    primaryEmail: json['PrimaryEmail'] as String?,
+    primaryProvisionedNumber: json['PrimaryProvisionedNumber'] as String?,
     registeredOn: const IsoDateTimeConverter().fromJson(json['RegisteredOn']),
     userInvitationStatus: _$enumDecodeNullable(
         _$InviteStatusEnumMap, json['UserInvitationStatus']),
@@ -2914,31 +2812,22 @@ const _$RegistrationStatusEnumMap = {
 UserError _$UserErrorFromJson(Map<String, dynamic> json) {
   return UserError(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    userId: json['UserId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    userId: json['UserId'] as String?,
   );
 }
 
 UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) {
   return UserSettings(
-    telephony: json['Telephony'] == null
-        ? null
-        : TelephonySettings.fromJson(json['Telephony'] as Map<String, dynamic>),
+    telephony:
+        TelephonySettings.fromJson(json['Telephony'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$UserSettingsToJson(UserSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Telephony', instance.telephony?.toJson());
-  return val;
-}
+Map<String, dynamic> _$UserSettingsToJson(UserSettings instance) =>
+    <String, dynamic>{
+      'Telephony': instance.telephony.toJson(),
+    };
 
 VoiceConnector _$VoiceConnectorFromJson(Map<String, dynamic> json) {
   return VoiceConnector(
@@ -2946,12 +2835,12 @@ VoiceConnector _$VoiceConnectorFromJson(Map<String, dynamic> json) {
         _$VoiceConnectorAwsRegionEnumMap, json['AwsRegion']),
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    name: json['Name'] as String,
-    outboundHostName: json['OutboundHostName'] as String,
-    requireEncryption: json['RequireEncryption'] as bool,
+    name: json['Name'] as String?,
+    outboundHostName: json['OutboundHostName'] as String?,
+    requireEncryption: json['RequireEncryption'] as bool?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
-    voiceConnectorId: json['VoiceConnectorId'] as String,
+    voiceConnectorId: json['VoiceConnectorId'] as String?,
   );
 }
 
@@ -2964,15 +2853,13 @@ VoiceConnectorGroup _$VoiceConnectorGroupFromJson(Map<String, dynamic> json) {
   return VoiceConnectorGroup(
     createdTimestamp:
         const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     updatedTimestamp:
         const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
-    voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String,
-    voiceConnectorItems: (json['VoiceConnectorItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VoiceConnectorItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String?,
+    voiceConnectorItems: (json['VoiceConnectorItems'] as List<dynamic>?)
+        ?.map((e) => VoiceConnectorItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2983,24 +2870,16 @@ VoiceConnectorItem _$VoiceConnectorItemFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$VoiceConnectorItemToJson(VoiceConnectorItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('VoiceConnectorId', instance.voiceConnectorId);
-  return val;
-}
+Map<String, dynamic> _$VoiceConnectorItemToJson(VoiceConnectorItem instance) =>
+    <String, dynamic>{
+      'Priority': instance.priority,
+      'VoiceConnectorId': instance.voiceConnectorId,
+    };
 
 VoiceConnectorSettings _$VoiceConnectorSettingsFromJson(
     Map<String, dynamic> json) {
   return VoiceConnectorSettings(
-    cdrBucket: json['CdrBucket'] as String,
+    cdrBucket: json['CdrBucket'] as String?,
   );
 }
 

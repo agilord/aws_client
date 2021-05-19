@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mediapackage-vod-2018-11-07.g.dart';
 
 /// AWS Elemental MediaPackage VOD
 class MediaPackageVod {
   final _s.RestJsonProtocol _protocol;
   MediaPackageVod({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -69,12 +61,12 @@ class MediaPackageVod {
   /// Parameter [resourceId] :
   /// The resource ID to include in SPEKE key requests.
   Future<CreateAssetResponse> createAsset({
-    @_s.required String id,
-    @_s.required String packagingGroupId,
-    @_s.required String sourceArn,
-    @_s.required String sourceRoleArn,
-    String resourceId,
-    Map<String, String> tags,
+    required String id,
+    required String packagingGroupId,
+    required String sourceArn,
+    required String sourceRoleArn,
+    String? resourceId,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
@@ -112,13 +104,13 @@ class MediaPackageVod {
   /// Parameter [packagingGroupId] :
   /// The ID of a PackagingGroup.
   Future<CreatePackagingConfigurationResponse> createPackagingConfiguration({
-    @_s.required String id,
-    @_s.required String packagingGroupId,
-    CmafPackage cmafPackage,
-    DashPackage dashPackage,
-    HlsPackage hlsPackage,
-    MssPackage mssPackage,
-    Map<String, String> tags,
+    required String id,
+    required String packagingGroupId,
+    CmafPackage? cmafPackage,
+    DashPackage? dashPackage,
+    HlsPackage? hlsPackage,
+    MssPackage? mssPackage,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
@@ -152,9 +144,9 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of the PackagingGroup.
   Future<CreatePackagingGroupResponse> createPackagingGroup({
-    @_s.required String id,
-    Authorization authorization,
-    Map<String, String> tags,
+    required String id,
+    Authorization? authorization,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
@@ -183,7 +175,7 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD Asset resource to delete.
   Future<void> deleteAsset({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -192,7 +184,6 @@ class MediaPackageVod {
       requestUri: '/assets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAssetResponse.fromJson(response);
   }
 
   /// Deletes a MediaPackage VOD PackagingConfiguration resource.
@@ -207,7 +198,7 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
   Future<void> deletePackagingConfiguration({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -216,7 +207,6 @@ class MediaPackageVod {
       requestUri: '/packaging_configurations/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePackagingConfigurationResponse.fromJson(response);
   }
 
   /// Deletes a MediaPackage VOD PackagingGroup resource.
@@ -231,7 +221,7 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
   Future<void> deletePackagingGroup({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -240,7 +230,6 @@ class MediaPackageVod {
       requestUri: '/packaging_groups/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePackagingGroupResponse.fromJson(response);
   }
 
   /// Returns a description of a MediaPackage VOD Asset resource.
@@ -255,7 +244,7 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of an MediaPackage VOD Asset resource.
   Future<DescribeAssetResponse> describeAsset({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -281,7 +270,7 @@ class MediaPackageVod {
   /// The ID of a MediaPackage VOD PackagingConfiguration resource.
   Future<DescribePackagingConfigurationResponse>
       describePackagingConfiguration({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -305,7 +294,7 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingGroup resource.
   Future<DescribePackagingGroupResponse> describePackagingGroup({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
@@ -335,9 +324,9 @@ class MediaPackageVod {
   /// Parameter [packagingGroupId] :
   /// Returns Assets associated with the specified PackagingGroup.
   Future<ListAssetsResponse> listAssets({
-    int maxResults,
-    String nextToken,
-    String packagingGroupId,
+    int? maxResults,
+    String? nextToken,
+    String? packagingGroupId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -379,9 +368,9 @@ class MediaPackageVod {
   /// Returns MediaPackage VOD PackagingConfigurations associated with the
   /// specified PackagingGroup.
   Future<ListPackagingConfigurationsResponse> listPackagingConfigurations({
-    int maxResults,
-    String nextToken,
-    String packagingGroupId,
+    int? maxResults,
+    String? nextToken,
+    String? packagingGroupId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -419,8 +408,8 @@ class MediaPackageVod {
   /// Parameter [nextToken] :
   /// A token used to resume pagination from the end of a previous request.
   Future<ListPackagingGroupsResponse> listPackagingGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -448,7 +437,7 @@ class MediaPackageVod {
   /// The Amazon Resource Name (ARN) for the resource. You can get this from the
   /// response to any request to the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -470,8 +459,8 @@ class MediaPackageVod {
   /// Parameter [tags] :
   /// A collection of tags associated with a resource
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -496,13 +485,13 @@ class MediaPackageVod {
   /// Parameter [tagKeys] :
   /// A comma-separated list of the tag keys to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -526,8 +515,8 @@ class MediaPackageVod {
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingGroup resource.
   Future<UpdatePackagingGroupResponse> updatePackagingGroup({
-    @_s.required String id,
-    Authorization authorization,
+    required String id,
+    Authorization? authorization,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
@@ -544,50 +533,61 @@ class MediaPackageVod {
 }
 
 enum AdMarkers {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('SCTE35_ENHANCED')
   scte35Enhanced,
-  @_s.JsonValue('PASSTHROUGH')
   passthrough,
 }
 
+extension on AdMarkers {
+  String toValue() {
+    switch (this) {
+      case AdMarkers.none:
+        return 'NONE';
+      case AdMarkers.scte35Enhanced:
+        return 'SCTE35_ENHANCED';
+      case AdMarkers.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension on String {
+  AdMarkers toAdMarkers() {
+    switch (this) {
+      case 'NONE':
+        return AdMarkers.none;
+      case 'SCTE35_ENHANCED':
+        return AdMarkers.scte35Enhanced;
+      case 'PASSTHROUGH':
+        return AdMarkers.passthrough;
+    }
+    throw Exception('$this is not known in enum AdMarkers');
+  }
+}
+
 /// A MediaPackage VOD Asset resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssetShallow {
   /// The ARN of the Asset.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time the Asset was initially submitted for Ingest.
-  @_s.JsonKey(name: 'createdAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The unique identifier for the Asset.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The ID of the PackagingGroup for the Asset.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
+  final String? packagingGroupId;
 
   /// The resource ID to include in SPEKE key requests.
-  @_s.JsonKey(name: 'resourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// ARN of the source object in S3.
-  @_s.JsonKey(name: 'sourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The IAM role ARN used to access the source S3 bucket.
-  @_s.JsonKey(name: 'sourceRoleArn')
-  final String sourceRoleArn;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? sourceRoleArn;
+  final Map<String, String>? tags;
 
   AssetShallow({
     this.arn,
@@ -599,124 +599,140 @@ class AssetShallow {
     this.sourceRoleArn,
     this.tags,
   });
-  factory AssetShallow.fromJson(Map<String, dynamic> json) =>
-      _$AssetShallowFromJson(json);
+  factory AssetShallow.fromJson(Map<String, dynamic> json) {
+    return AssetShallow(
+      arn: json['arn'] as String?,
+      createdAt: json['createdAt'] as String?,
+      id: json['id'] as String?,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      sourceArn: json['sourceArn'] as String?,
+      sourceRoleArn: json['sourceRoleArn'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// CDN Authorization credentials
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Authorization {
   /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is
   /// used for CDN authorization.
-  @_s.JsonKey(name: 'cdnIdentifierSecret')
   final String cdnIdentifierSecret;
 
   /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to
   /// communicate with AWS Secrets Manager.
-  @_s.JsonKey(name: 'secretsRoleArn')
   final String secretsRoleArn;
 
   Authorization({
-    @_s.required this.cdnIdentifierSecret,
-    @_s.required this.secretsRoleArn,
+    required this.cdnIdentifierSecret,
+    required this.secretsRoleArn,
   });
-  factory Authorization.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizationFromJson(json);
+  factory Authorization.fromJson(Map<String, dynamic> json) {
+    return Authorization(
+      cdnIdentifierSecret: json['cdnIdentifierSecret'] as String,
+      secretsRoleArn: json['secretsRoleArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$AuthorizationToJson(this);
+  Map<String, dynamic> toJson() {
+    final cdnIdentifierSecret = this.cdnIdentifierSecret;
+    final secretsRoleArn = this.secretsRoleArn;
+    return {
+      'cdnIdentifierSecret': cdnIdentifierSecret,
+      'secretsRoleArn': secretsRoleArn,
+    };
+  }
 }
 
 /// A CMAF encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CmafEncryption {
-  @_s.JsonKey(name: 'spekeKeyProvider')
   final SpekeKeyProvider spekeKeyProvider;
 
   CmafEncryption({
-    @_s.required this.spekeKeyProvider,
+    required this.spekeKeyProvider,
   });
-  factory CmafEncryption.fromJson(Map<String, dynamic> json) =>
-      _$CmafEncryptionFromJson(json);
+  factory CmafEncryption.fromJson(Map<String, dynamic> json) {
+    return CmafEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          json['spekeKeyProvider'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CmafEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+    };
+  }
 }
 
 /// A CMAF packaging configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CmafPackage {
   /// A list of HLS manifest configurations.
-  @_s.JsonKey(name: 'hlsManifests')
   final List<HlsManifest> hlsManifests;
-  @_s.JsonKey(name: 'encryption')
-  final CmafEncryption encryption;
+  final CmafEncryption? encryption;
 
   /// Duration (in seconds) of each fragment. Actual fragments will be
   /// rounded to the nearest multiple of the source fragment duration.
-  @_s.JsonKey(name: 'segmentDurationSeconds')
-  final int segmentDurationSeconds;
+  final int? segmentDurationSeconds;
 
   CmafPackage({
-    @_s.required this.hlsManifests,
+    required this.hlsManifests,
     this.encryption,
     this.segmentDurationSeconds,
   });
-  factory CmafPackage.fromJson(Map<String, dynamic> json) =>
-      _$CmafPackageFromJson(json);
+  factory CmafPackage.fromJson(Map<String, dynamic> json) {
+    return CmafPackage(
+      hlsManifests: (json['hlsManifests'] as List)
+          .whereNotNull()
+          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? CmafEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CmafPackageToJson(this);
+  Map<String, dynamic> toJson() {
+    final hlsManifests = this.hlsManifests;
+    final encryption = this.encryption;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    return {
+      'hlsManifests': hlsManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAssetResponse {
   /// The ARN of the Asset.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time the Asset was initially submitted for Ingest.
-  @_s.JsonKey(name: 'createdAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The list of egress endpoints available for the Asset.
-  @_s.JsonKey(name: 'egressEndpoints')
-  final List<EgressEndpoint> egressEndpoints;
+  final List<EgressEndpoint>? egressEndpoints;
 
   /// The unique identifier for the Asset.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The ID of the PackagingGroup for the Asset.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
+  final String? packagingGroupId;
 
   /// The resource ID to include in SPEKE key requests.
-  @_s.JsonKey(name: 'resourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// ARN of the source object in S3.
-  @_s.JsonKey(name: 'sourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The IAM role_arn used to access the source S3 bucket.
-  @_s.JsonKey(name: 'sourceRoleArn')
-  final String sourceRoleArn;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? sourceRoleArn;
+  final Map<String, String>? tags;
 
   CreateAssetResponse({
     this.arn,
@@ -729,37 +745,39 @@ class CreateAssetResponse {
     this.sourceRoleArn,
     this.tags,
   });
-  factory CreateAssetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssetResponseFromJson(json);
+  factory CreateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssetResponse(
+      arn: json['arn'] as String?,
+      createdAt: json['createdAt'] as String?,
+      egressEndpoints: (json['egressEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      sourceArn: json['sourceArn'] as String?,
+      sourceRoleArn: json['sourceRoleArn'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePackagingConfigurationResponse {
   /// The ARN of the PackagingConfiguration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'cmafPackage')
-  final CmafPackage cmafPackage;
-  @_s.JsonKey(name: 'dashPackage')
-  final DashPackage dashPackage;
-  @_s.JsonKey(name: 'hlsPackage')
-  final HlsPackage hlsPackage;
+  final String? arn;
+  final CmafPackage? cmafPackage;
+  final DashPackage? dashPackage;
+  final HlsPackage? hlsPackage;
 
   /// The ID of the PackagingConfiguration.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'mssPackage')
-  final MssPackage mssPackage;
+  final String? id;
+  final MssPackage? mssPackage;
 
   /// The ID of a PackagingGroup.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? packagingGroupId;
+  final Map<String, String>? tags;
 
   CreatePackagingConfigurationResponse({
     this.arn,
@@ -772,31 +790,40 @@ class CreatePackagingConfigurationResponse {
     this.tags,
   });
   factory CreatePackagingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreatePackagingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreatePackagingConfigurationResponse(
+      arn: json['arn'] as String?,
+      cmafPackage: json['cmafPackage'] != null
+          ? CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>)
+          : null,
+      dashPackage: json['dashPackage'] != null
+          ? DashPackage.fromJson(json['dashPackage'] as Map<String, dynamic>)
+          : null,
+      hlsPackage: json['hlsPackage'] != null
+          ? HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      mssPackage: json['mssPackage'] != null
+          ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
+          : null,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'authorization')
-  final Authorization authorization;
+  final String? arn;
+  final Authorization? authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID of the PackagingGroup.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? id;
+  final Map<String, String>? tags;
 
   CreatePackagingGroupResponse({
     this.arn,
@@ -805,58 +832,62 @@ class CreatePackagingGroupResponse {
     this.id,
     this.tags,
   });
-  factory CreatePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePackagingGroupResponseFromJson(json);
+  factory CreatePackagingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePackagingGroupResponse(
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      domainName: json['domainName'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DashEncryption {
-  @_s.JsonKey(name: 'spekeKeyProvider')
   final SpekeKeyProvider spekeKeyProvider;
 
   DashEncryption({
-    @_s.required this.spekeKeyProvider,
+    required this.spekeKeyProvider,
   });
-  factory DashEncryption.fromJson(Map<String, dynamic> json) =>
-      _$DashEncryptionFromJson(json);
+  factory DashEncryption.fromJson(Map<String, dynamic> json) {
+    return DashEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          json['spekeKeyProvider'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DashEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+    };
+  }
 }
 
 /// A DASH manifest configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DashManifest {
   /// Determines the position of some tags in the Media Presentation Description
   /// (MPD).  When set to FULL, elements like SegmentTemplate and
   /// ContentProtection are included in each Representation.  When set to COMPACT,
   /// duplicate elements are combined and presented at the AdaptationSet level.
-  @_s.JsonKey(name: 'manifestLayout')
-  final ManifestLayout manifestLayout;
+  final ManifestLayout? manifestLayout;
 
   /// An optional string to include in the name of the manifest.
-  @_s.JsonKey(name: 'manifestName')
-  final String manifestName;
+  final String? manifestName;
 
   /// Minimum duration (in seconds) that a player will buffer media before
   /// starting the presentation.
-  @_s.JsonKey(name: 'minBufferTimeSeconds')
-  final int minBufferTimeSeconds;
+  final int? minBufferTimeSeconds;
 
   /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to
   /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
-  @_s.JsonKey(name: 'profile')
-  final Profile profile;
-  @_s.JsonKey(name: 'streamSelection')
-  final StreamSelection streamSelection;
+  final Profile? profile;
+  final StreamSelection? streamSelection;
 
   DashManifest({
     this.manifestLayout,
@@ -865,24 +896,41 @@ class DashManifest {
     this.profile,
     this.streamSelection,
   });
-  factory DashManifest.fromJson(Map<String, dynamic> json) =>
-      _$DashManifestFromJson(json);
+  factory DashManifest.fromJson(Map<String, dynamic> json) {
+    return DashManifest(
+      manifestLayout: (json['manifestLayout'] as String?)?.toManifestLayout(),
+      manifestName: json['manifestName'] as String?,
+      minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
+      profile: (json['profile'] as String?)?.toProfile(),
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DashManifestToJson(this);
+  Map<String, dynamic> toJson() {
+    final manifestLayout = this.manifestLayout;
+    final manifestName = this.manifestName;
+    final minBufferTimeSeconds = this.minBufferTimeSeconds;
+    final profile = this.profile;
+    final streamSelection = this.streamSelection;
+    return {
+      if (manifestLayout != null) 'manifestLayout': manifestLayout.toValue(),
+      if (manifestName != null) 'manifestName': manifestName,
+      if (minBufferTimeSeconds != null)
+        'minBufferTimeSeconds': minBufferTimeSeconds,
+      if (profile != null) 'profile': profile.toValue(),
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
 }
 
 /// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DashPackage {
   /// A list of DASH manifest configurations.
-  @_s.JsonKey(name: 'dashManifests')
   final List<DashManifest> dashManifests;
-  @_s.JsonKey(name: 'encryption')
-  final DashEncryption encryption;
+  final DashEncryption? encryption;
 
   /// A list of triggers that controls when the outgoing Dynamic Adaptive
   /// Streaming over HTTP (DASH)
@@ -891,13 +939,11 @@ class DashPackage {
   /// be partitioned into more than one period. If the list contains "ADS", new
   /// periods will be created where
   /// the Asset contains SCTE-35 ad markers.
-  @_s.JsonKey(name: 'periodTriggers')
-  final List<PeriodTriggersElement> periodTriggers;
+  final List<PeriodTriggersElement>? periodTriggers;
 
   /// Duration (in seconds) of each segment. Actual segments will be
   /// rounded to the nearest multiple of the source segment duration.
-  @_s.JsonKey(name: 'segmentDurationSeconds')
-  final int segmentDurationSeconds;
+  final int? segmentDurationSeconds;
 
   /// Determines the type of SegmentTemplate included in the Media Presentation
   /// Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is
@@ -905,95 +951,100 @@ class DashPackage {
   /// TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate,
   /// with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is
   /// included in each SegmentTemplate, with $Number$ media URLs.
-  @_s.JsonKey(name: 'segmentTemplateFormat')
-  final SegmentTemplateFormat segmentTemplateFormat;
+  final SegmentTemplateFormat? segmentTemplateFormat;
 
   DashPackage({
-    @_s.required this.dashManifests,
+    required this.dashManifests,
     this.encryption,
     this.periodTriggers,
     this.segmentDurationSeconds,
     this.segmentTemplateFormat,
   });
-  factory DashPackage.fromJson(Map<String, dynamic> json) =>
-      _$DashPackageFromJson(json);
+  factory DashPackage.fromJson(Map<String, dynamic> json) {
+    return DashPackage(
+      dashManifests: (json['dashManifests'] as List)
+          .whereNotNull()
+          .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      periodTriggers: (json['periodTriggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPeriodTriggersElement())
+          .toList(),
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+      segmentTemplateFormat:
+          (json['segmentTemplateFormat'] as String?)?.toSegmentTemplateFormat(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DashPackageToJson(this);
+  Map<String, dynamic> toJson() {
+    final dashManifests = this.dashManifests;
+    final encryption = this.encryption;
+    final periodTriggers = this.periodTriggers;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    final segmentTemplateFormat = this.segmentTemplateFormat;
+    return {
+      'dashManifests': dashManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (periodTriggers != null)
+        'periodTriggers': periodTriggers.map((e) => e.toValue()).toList(),
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+      if (segmentTemplateFormat != null)
+        'segmentTemplateFormat': segmentTemplateFormat.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAssetResponse {
   DeleteAssetResponse();
-  factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAssetResponseFromJson(json);
+  factory DeleteAssetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAssetResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePackagingConfigurationResponse {
   DeletePackagingConfigurationResponse();
   factory DeletePackagingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeletePackagingConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeletePackagingConfigurationResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePackagingGroupResponse {
   DeletePackagingGroupResponse();
-  factory DeletePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePackagingGroupResponseFromJson(json);
+  factory DeletePackagingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePackagingGroupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssetResponse {
   /// The ARN of the Asset.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time the Asset was initially submitted for Ingest.
-  @_s.JsonKey(name: 'createdAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The list of egress endpoints available for the Asset.
-  @_s.JsonKey(name: 'egressEndpoints')
-  final List<EgressEndpoint> egressEndpoints;
+  final List<EgressEndpoint>? egressEndpoints;
 
   /// The unique identifier for the Asset.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The ID of the PackagingGroup for the Asset.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
+  final String? packagingGroupId;
 
   /// The resource ID to include in SPEKE key requests.
-  @_s.JsonKey(name: 'resourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// ARN of the source object in S3.
-  @_s.JsonKey(name: 'sourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The IAM role_arn used to access the source S3 bucket.
-  @_s.JsonKey(name: 'sourceRoleArn')
-  final String sourceRoleArn;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? sourceRoleArn;
+  final Map<String, String>? tags;
 
   DescribeAssetResponse({
     this.arn,
@@ -1006,37 +1057,39 @@ class DescribeAssetResponse {
     this.sourceRoleArn,
     this.tags,
   });
-  factory DescribeAssetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAssetResponseFromJson(json);
+  factory DescribeAssetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAssetResponse(
+      arn: json['arn'] as String?,
+      createdAt: json['createdAt'] as String?,
+      egressEndpoints: (json['egressEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => EgressEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      sourceArn: json['sourceArn'] as String?,
+      sourceRoleArn: json['sourceRoleArn'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePackagingConfigurationResponse {
   /// The ARN of the PackagingConfiguration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'cmafPackage')
-  final CmafPackage cmafPackage;
-  @_s.JsonKey(name: 'dashPackage')
-  final DashPackage dashPackage;
-  @_s.JsonKey(name: 'hlsPackage')
-  final HlsPackage hlsPackage;
+  final String? arn;
+  final CmafPackage? cmafPackage;
+  final DashPackage? dashPackage;
+  final HlsPackage? hlsPackage;
 
   /// The ID of the PackagingConfiguration.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'mssPackage')
-  final MssPackage mssPackage;
+  final String? id;
+  final MssPackage? mssPackage;
 
   /// The ID of a PackagingGroup.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? packagingGroupId;
+  final Map<String, String>? tags;
 
   DescribePackagingConfigurationResponse({
     this.arn,
@@ -1049,31 +1102,40 @@ class DescribePackagingConfigurationResponse {
     this.tags,
   });
   factory DescribePackagingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePackagingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePackagingConfigurationResponse(
+      arn: json['arn'] as String?,
+      cmafPackage: json['cmafPackage'] != null
+          ? CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>)
+          : null,
+      dashPackage: json['dashPackage'] != null
+          ? DashPackage.fromJson(json['dashPackage'] as Map<String, dynamic>)
+          : null,
+      hlsPackage: json['hlsPackage'] != null
+          ? HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      mssPackage: json['mssPackage'] != null
+          ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
+          : null,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'authorization')
-  final Authorization authorization;
+  final String? arn;
+  final Authorization? authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID of the PackagingGroup.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? id;
+  final Map<String, String>? tags;
 
   DescribePackagingGroupResponse({
     this.arn,
@@ -1082,76 +1144,111 @@ class DescribePackagingGroupResponse {
     this.id,
     this.tags,
   });
-  factory DescribePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePackagingGroupResponseFromJson(json);
+  factory DescribePackagingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePackagingGroupResponse(
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      domainName: json['domainName'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// The endpoint URL used to access an Asset using one PackagingConfiguration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EgressEndpoint {
   /// The ID of the PackagingConfiguration being applied to the Asset.
-  @_s.JsonKey(name: 'packagingConfigurationId')
-  final String packagingConfigurationId;
+  final String? packagingConfigurationId;
 
   /// The URL of the parent manifest for the repackaged Asset.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   EgressEndpoint({
     this.packagingConfigurationId,
     this.url,
   });
-  factory EgressEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$EgressEndpointFromJson(json);
+  factory EgressEndpoint.fromJson(Map<String, dynamic> json) {
+    return EgressEndpoint(
+      packagingConfigurationId: json['packagingConfigurationId'] as String?,
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum EncryptionMethod {
-  @_s.JsonValue('AES_128')
   aes_128,
-  @_s.JsonValue('SAMPLE_AES')
   sampleAes,
 }
 
+extension on EncryptionMethod {
+  String toValue() {
+    switch (this) {
+      case EncryptionMethod.aes_128:
+        return 'AES_128';
+      case EncryptionMethod.sampleAes:
+        return 'SAMPLE_AES';
+    }
+  }
+}
+
+extension on String {
+  EncryptionMethod toEncryptionMethod() {
+    switch (this) {
+      case 'AES_128':
+        return EncryptionMethod.aes_128;
+      case 'SAMPLE_AES':
+        return EncryptionMethod.sampleAes;
+    }
+    throw Exception('$this is not known in enum EncryptionMethod');
+  }
+}
+
 /// An HTTP Live Streaming (HLS) encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HlsEncryption {
-  @_s.JsonKey(name: 'spekeKeyProvider')
   final SpekeKeyProvider spekeKeyProvider;
 
   /// A constant initialization vector for encryption (optional).
   /// When not specified the initialization vector will be periodically rotated.
-  @_s.JsonKey(name: 'constantInitializationVector')
-  final String constantInitializationVector;
+  final String? constantInitializationVector;
 
   /// The encryption method to use.
-  @_s.JsonKey(name: 'encryptionMethod')
-  final EncryptionMethod encryptionMethod;
+  final EncryptionMethod? encryptionMethod;
 
   HlsEncryption({
-    @_s.required this.spekeKeyProvider,
+    required this.spekeKeyProvider,
     this.constantInitializationVector,
     this.encryptionMethod,
   });
-  factory HlsEncryption.fromJson(Map<String, dynamic> json) =>
-      _$HlsEncryptionFromJson(json);
+  factory HlsEncryption.fromJson(Map<String, dynamic> json) {
+    return HlsEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          json['spekeKeyProvider'] as Map<String, dynamic>),
+      constantInitializationVector:
+          json['constantInitializationVector'] as String?,
+      encryptionMethod:
+          (json['encryptionMethod'] as String?)?.toEncryptionMethod(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HlsEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    final constantInitializationVector = this.constantInitializationVector;
+    final encryptionMethod = this.encryptionMethod;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+      if (constantInitializationVector != null)
+        'constantInitializationVector': constantInitializationVector,
+      if (encryptionMethod != null)
+        'encryptionMethod': encryptionMethod.toValue(),
+    };
+  }
 }
 
 /// An HTTP Live Streaming (HLS) manifest configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HlsManifest {
   /// This setting controls how ad markers are included in the packaged
   /// OriginEndpoint.
@@ -1161,16 +1258,13 @@ class HlsManifest {
   /// manifest.
   /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
   /// messages in the input source.
-  @_s.JsonKey(name: 'adMarkers')
-  final AdMarkers adMarkers;
+  final AdMarkers? adMarkers;
 
   /// When enabled, an I-Frame only stream will be included in the output.
-  @_s.JsonKey(name: 'includeIframeOnlyStream')
-  final bool includeIframeOnlyStream;
+  final bool? includeIframeOnlyStream;
 
   /// An optional string to include in the name of the manifest.
-  @_s.JsonKey(name: 'manifestName')
-  final String manifestName;
+  final String? manifestName;
 
   /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
   /// inserted into manifests. Additionally, when an interval is specified
@@ -1182,14 +1276,11 @@ class HlsManifest {
   /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming
   /// (HLS) input,
   /// it will be passed through to HLS output.
-  @_s.JsonKey(name: 'programDateTimeIntervalSeconds')
-  final int programDateTimeIntervalSeconds;
+  final int? programDateTimeIntervalSeconds;
 
   /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
-  @_s.JsonKey(name: 'repeatExtXKey')
-  final bool repeatExtXKey;
-  @_s.JsonKey(name: 'streamSelection')
-  final StreamSelection streamSelection;
+  final bool? repeatExtXKey;
+  final StreamSelection? streamSelection;
 
   HlsManifest({
     this.adMarkers,
@@ -1199,239 +1290,312 @@ class HlsManifest {
     this.repeatExtXKey,
     this.streamSelection,
   });
-  factory HlsManifest.fromJson(Map<String, dynamic> json) =>
-      _$HlsManifestFromJson(json);
+  factory HlsManifest.fromJson(Map<String, dynamic> json) {
+    return HlsManifest(
+      adMarkers: (json['adMarkers'] as String?)?.toAdMarkers(),
+      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
+      manifestName: json['manifestName'] as String?,
+      programDateTimeIntervalSeconds:
+          json['programDateTimeIntervalSeconds'] as int?,
+      repeatExtXKey: json['repeatExtXKey'] as bool?,
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HlsManifestToJson(this);
+  Map<String, dynamic> toJson() {
+    final adMarkers = this.adMarkers;
+    final includeIframeOnlyStream = this.includeIframeOnlyStream;
+    final manifestName = this.manifestName;
+    final programDateTimeIntervalSeconds = this.programDateTimeIntervalSeconds;
+    final repeatExtXKey = this.repeatExtXKey;
+    final streamSelection = this.streamSelection;
+    return {
+      if (adMarkers != null) 'adMarkers': adMarkers.toValue(),
+      if (includeIframeOnlyStream != null)
+        'includeIframeOnlyStream': includeIframeOnlyStream,
+      if (manifestName != null) 'manifestName': manifestName,
+      if (programDateTimeIntervalSeconds != null)
+        'programDateTimeIntervalSeconds': programDateTimeIntervalSeconds,
+      if (repeatExtXKey != null) 'repeatExtXKey': repeatExtXKey,
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
 }
 
 /// An HTTP Live Streaming (HLS) packaging configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HlsPackage {
   /// A list of HLS manifest configurations.
-  @_s.JsonKey(name: 'hlsManifests')
   final List<HlsManifest> hlsManifests;
-  @_s.JsonKey(name: 'encryption')
-  final HlsEncryption encryption;
+  final HlsEncryption? encryption;
 
   /// Duration (in seconds) of each fragment. Actual fragments will be
   /// rounded to the nearest multiple of the source fragment duration.
-  @_s.JsonKey(name: 'segmentDurationSeconds')
-  final int segmentDurationSeconds;
+  final int? segmentDurationSeconds;
 
   /// When enabled, audio streams will be placed in rendition groups in the
   /// output.
-  @_s.JsonKey(name: 'useAudioRenditionGroup')
-  final bool useAudioRenditionGroup;
+  final bool? useAudioRenditionGroup;
 
   HlsPackage({
-    @_s.required this.hlsManifests,
+    required this.hlsManifests,
     this.encryption,
     this.segmentDurationSeconds,
     this.useAudioRenditionGroup,
   });
-  factory HlsPackage.fromJson(Map<String, dynamic> json) =>
-      _$HlsPackageFromJson(json);
+  factory HlsPackage.fromJson(Map<String, dynamic> json) {
+    return HlsPackage(
+      hlsManifests: (json['hlsManifests'] as List)
+          .whereNotNull()
+          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+      useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HlsPackageToJson(this);
+  Map<String, dynamic> toJson() {
+    final hlsManifests = this.hlsManifests;
+    final encryption = this.encryption;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    final useAudioRenditionGroup = this.useAudioRenditionGroup;
+    return {
+      'hlsManifests': hlsManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+      if (useAudioRenditionGroup != null)
+        'useAudioRenditionGroup': useAudioRenditionGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssetsResponse {
   /// A list of MediaPackage VOD Asset resources.
-  @_s.JsonKey(name: 'assets')
-  final List<AssetShallow> assets;
+  final List<AssetShallow>? assets;
 
   /// A token that can be used to resume pagination from the end of the
   /// collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssetsResponse({
     this.assets,
     this.nextToken,
   });
-  factory ListAssetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAssetsResponseFromJson(json);
+  factory ListAssetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssetsResponse(
+      assets: (json['assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetShallow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackagingConfigurationsResponse {
   /// A token that can be used to resume pagination from the end of the
   /// collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of MediaPackage VOD PackagingConfiguration resources.
-  @_s.JsonKey(name: 'packagingConfigurations')
-  final List<PackagingConfiguration> packagingConfigurations;
+  final List<PackagingConfiguration>? packagingConfigurations;
 
   ListPackagingConfigurationsResponse({
     this.nextToken,
     this.packagingConfigurations,
   });
   factory ListPackagingConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPackagingConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPackagingConfigurationsResponse(
+      nextToken: json['nextToken'] as String?,
+      packagingConfigurations: (json['packagingConfigurations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => PackagingConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackagingGroupsResponse {
   /// A token that can be used to resume pagination from the end of the
   /// collection.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of MediaPackage VOD PackagingGroup resources.
-  @_s.JsonKey(name: 'packagingGroups')
-  final List<PackagingGroup> packagingGroups;
+  final List<PackagingGroup>? packagingGroups;
 
   ListPackagingGroupsResponse({
     this.nextToken,
     this.packagingGroups,
   });
-  factory ListPackagingGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPackagingGroupsResponseFromJson(json);
+  factory ListPackagingGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPackagingGroupsResponse(
+      nextToken: json['nextToken'] as String?,
+      packagingGroups: (json['packagingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackagingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A collection of tags associated with a resource
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum ManifestLayout {
-  @_s.JsonValue('FULL')
   full,
-  @_s.JsonValue('COMPACT')
   compact,
 }
 
+extension on ManifestLayout {
+  String toValue() {
+    switch (this) {
+      case ManifestLayout.full:
+        return 'FULL';
+      case ManifestLayout.compact:
+        return 'COMPACT';
+    }
+  }
+}
+
+extension on String {
+  ManifestLayout toManifestLayout() {
+    switch (this) {
+      case 'FULL':
+        return ManifestLayout.full;
+      case 'COMPACT':
+        return ManifestLayout.compact;
+    }
+    throw Exception('$this is not known in enum ManifestLayout');
+  }
+}
+
 /// A Microsoft Smooth Streaming (MSS) encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MssEncryption {
-  @_s.JsonKey(name: 'spekeKeyProvider')
   final SpekeKeyProvider spekeKeyProvider;
 
   MssEncryption({
-    @_s.required this.spekeKeyProvider,
+    required this.spekeKeyProvider,
   });
-  factory MssEncryption.fromJson(Map<String, dynamic> json) =>
-      _$MssEncryptionFromJson(json);
+  factory MssEncryption.fromJson(Map<String, dynamic> json) {
+    return MssEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          json['spekeKeyProvider'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MssEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+    };
+  }
 }
 
 /// A Microsoft Smooth Streaming (MSS) manifest configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MssManifest {
   /// An optional string to include in the name of the manifest.
-  @_s.JsonKey(name: 'manifestName')
-  final String manifestName;
-  @_s.JsonKey(name: 'streamSelection')
-  final StreamSelection streamSelection;
+  final String? manifestName;
+  final StreamSelection? streamSelection;
 
   MssManifest({
     this.manifestName,
     this.streamSelection,
   });
-  factory MssManifest.fromJson(Map<String, dynamic> json) =>
-      _$MssManifestFromJson(json);
+  factory MssManifest.fromJson(Map<String, dynamic> json) {
+    return MssManifest(
+      manifestName: json['manifestName'] as String?,
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MssManifestToJson(this);
+  Map<String, dynamic> toJson() {
+    final manifestName = this.manifestName;
+    final streamSelection = this.streamSelection;
+    return {
+      if (manifestName != null) 'manifestName': manifestName,
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
 }
 
 /// A Microsoft Smooth Streaming (MSS) PackagingConfiguration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MssPackage {
   /// A list of MSS manifest configurations.
-  @_s.JsonKey(name: 'mssManifests')
   final List<MssManifest> mssManifests;
-  @_s.JsonKey(name: 'encryption')
-  final MssEncryption encryption;
+  final MssEncryption? encryption;
 
   /// The duration (in seconds) of each segment.
-  @_s.JsonKey(name: 'segmentDurationSeconds')
-  final int segmentDurationSeconds;
+  final int? segmentDurationSeconds;
 
   MssPackage({
-    @_s.required this.mssManifests,
+    required this.mssManifests,
     this.encryption,
     this.segmentDurationSeconds,
   });
-  factory MssPackage.fromJson(Map<String, dynamic> json) =>
-      _$MssPackageFromJson(json);
+  factory MssPackage.fromJson(Map<String, dynamic> json) {
+    return MssPackage(
+      mssManifests: (json['mssManifests'] as List)
+          .whereNotNull()
+          .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? MssEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MssPackageToJson(this);
+  Map<String, dynamic> toJson() {
+    final mssManifests = this.mssManifests;
+    final encryption = this.encryption;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    return {
+      'mssManifests': mssManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+    };
+  }
 }
 
 /// A MediaPackage VOD PackagingConfiguration resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackagingConfiguration {
   /// The ARN of the PackagingConfiguration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'cmafPackage')
-  final CmafPackage cmafPackage;
-  @_s.JsonKey(name: 'dashPackage')
-  final DashPackage dashPackage;
-  @_s.JsonKey(name: 'hlsPackage')
-  final HlsPackage hlsPackage;
+  final String? arn;
+  final CmafPackage? cmafPackage;
+  final DashPackage? dashPackage;
+  final HlsPackage? hlsPackage;
 
   /// The ID of the PackagingConfiguration.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'mssPackage')
-  final MssPackage mssPackage;
+  final String? id;
+  final MssPackage? mssPackage;
 
   /// The ID of a PackagingGroup.
-  @_s.JsonKey(name: 'packagingGroupId')
-  final String packagingGroupId;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? packagingGroupId;
+  final Map<String, String>? tags;
 
   PackagingConfiguration({
     this.arn,
@@ -1443,32 +1607,41 @@ class PackagingConfiguration {
     this.packagingGroupId,
     this.tags,
   });
-  factory PackagingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$PackagingConfigurationFromJson(json);
+  factory PackagingConfiguration.fromJson(Map<String, dynamic> json) {
+    return PackagingConfiguration(
+      arn: json['arn'] as String?,
+      cmafPackage: json['cmafPackage'] != null
+          ? CmafPackage.fromJson(json['cmafPackage'] as Map<String, dynamic>)
+          : null,
+      dashPackage: json['dashPackage'] != null
+          ? DashPackage.fromJson(json['dashPackage'] as Map<String, dynamic>)
+          : null,
+      hlsPackage: json['hlsPackage'] != null
+          ? HlsPackage.fromJson(json['hlsPackage'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      mssPackage: json['mssPackage'] != null
+          ? MssPackage.fromJson(json['mssPackage'] as Map<String, dynamic>)
+          : null,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// A MediaPackage VOD PackagingGroup resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackagingGroup {
   /// The ARN of the PackagingGroup.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'authorization')
-  final Authorization authorization;
+  final String? arn;
+  final Authorization? authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID of the PackagingGroup.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? id;
+  final Map<String, String>? tags;
 
   PackagingGroup({
     this.arn,
@@ -1477,118 +1650,205 @@ class PackagingGroup {
     this.id,
     this.tags,
   });
-  factory PackagingGroup.fromJson(Map<String, dynamic> json) =>
-      _$PackagingGroupFromJson(json);
+  factory PackagingGroup.fromJson(Map<String, dynamic> json) {
+    return PackagingGroup(
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      domainName: json['domainName'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum Profile {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('HBBTV_1_5')
   hbbtv_1_5,
 }
 
+extension on Profile {
+  String toValue() {
+    switch (this) {
+      case Profile.none:
+        return 'NONE';
+      case Profile.hbbtv_1_5:
+        return 'HBBTV_1_5';
+    }
+  }
+}
+
+extension on String {
+  Profile toProfile() {
+    switch (this) {
+      case 'NONE':
+        return Profile.none;
+      case 'HBBTV_1_5':
+        return Profile.hbbtv_1_5;
+    }
+    throw Exception('$this is not known in enum Profile');
+  }
+}
+
 enum SegmentTemplateFormat {
-  @_s.JsonValue('NUMBER_WITH_TIMELINE')
   numberWithTimeline,
-  @_s.JsonValue('TIME_WITH_TIMELINE')
   timeWithTimeline,
-  @_s.JsonValue('NUMBER_WITH_DURATION')
   numberWithDuration,
+}
+
+extension on SegmentTemplateFormat {
+  String toValue() {
+    switch (this) {
+      case SegmentTemplateFormat.numberWithTimeline:
+        return 'NUMBER_WITH_TIMELINE';
+      case SegmentTemplateFormat.timeWithTimeline:
+        return 'TIME_WITH_TIMELINE';
+      case SegmentTemplateFormat.numberWithDuration:
+        return 'NUMBER_WITH_DURATION';
+    }
+  }
+}
+
+extension on String {
+  SegmentTemplateFormat toSegmentTemplateFormat() {
+    switch (this) {
+      case 'NUMBER_WITH_TIMELINE':
+        return SegmentTemplateFormat.numberWithTimeline;
+      case 'TIME_WITH_TIMELINE':
+        return SegmentTemplateFormat.timeWithTimeline;
+      case 'NUMBER_WITH_DURATION':
+        return SegmentTemplateFormat.numberWithDuration;
+    }
+    throw Exception('$this is not known in enum SegmentTemplateFormat');
+  }
 }
 
 /// A configuration for accessing an external Secure Packager and Encoder Key
 /// Exchange (SPEKE) service that will provide encryption keys.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SpekeKeyProvider {
   /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
   /// MediaPackage will assume when accessing the key provider service.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The system IDs to include in key requests.
-  @_s.JsonKey(name: 'systemIds')
   final List<String> systemIds;
 
   /// The URL of the external key provider service.
-  @_s.JsonKey(name: 'url')
   final String url;
 
   SpekeKeyProvider({
-    @_s.required this.roleArn,
-    @_s.required this.systemIds,
-    @_s.required this.url,
+    required this.roleArn,
+    required this.systemIds,
+    required this.url,
   });
-  factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) =>
-      _$SpekeKeyProviderFromJson(json);
+  factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
+    return SpekeKeyProvider(
+      roleArn: json['roleArn'] as String,
+      systemIds: (json['systemIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      url: json['url'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SpekeKeyProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final systemIds = this.systemIds;
+    final url = this.url;
+    return {
+      'roleArn': roleArn,
+      'systemIds': systemIds,
+      'url': url,
+    };
+  }
 }
 
 enum StreamOrder {
-  @_s.JsonValue('ORIGINAL')
   original,
-  @_s.JsonValue('VIDEO_BITRATE_ASCENDING')
   videoBitrateAscending,
-  @_s.JsonValue('VIDEO_BITRATE_DESCENDING')
   videoBitrateDescending,
 }
 
+extension on StreamOrder {
+  String toValue() {
+    switch (this) {
+      case StreamOrder.original:
+        return 'ORIGINAL';
+      case StreamOrder.videoBitrateAscending:
+        return 'VIDEO_BITRATE_ASCENDING';
+      case StreamOrder.videoBitrateDescending:
+        return 'VIDEO_BITRATE_DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  StreamOrder toStreamOrder() {
+    switch (this) {
+      case 'ORIGINAL':
+        return StreamOrder.original;
+      case 'VIDEO_BITRATE_ASCENDING':
+        return StreamOrder.videoBitrateAscending;
+      case 'VIDEO_BITRATE_DESCENDING':
+        return StreamOrder.videoBitrateDescending;
+    }
+    throw Exception('$this is not known in enum StreamOrder');
+  }
+}
+
 /// A StreamSelection configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamSelection {
   /// The maximum video bitrate (bps) to include in output.
-  @_s.JsonKey(name: 'maxVideoBitsPerSecond')
-  final int maxVideoBitsPerSecond;
+  final int? maxVideoBitsPerSecond;
 
   /// The minimum video bitrate (bps) to include in output.
-  @_s.JsonKey(name: 'minVideoBitsPerSecond')
-  final int minVideoBitsPerSecond;
+  final int? minVideoBitsPerSecond;
 
   /// A directive that determines the order of streams in the output.
-  @_s.JsonKey(name: 'streamOrder')
-  final StreamOrder streamOrder;
+  final StreamOrder? streamOrder;
 
   StreamSelection({
     this.maxVideoBitsPerSecond,
     this.minVideoBitsPerSecond,
     this.streamOrder,
   });
-  factory StreamSelection.fromJson(Map<String, dynamic> json) =>
-      _$StreamSelectionFromJson(json);
+  factory StreamSelection.fromJson(Map<String, dynamic> json) {
+    return StreamSelection(
+      maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int?,
+      minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int?,
+      streamOrder: (json['streamOrder'] as String?)?.toStreamOrder(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$StreamSelectionToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxVideoBitsPerSecond = this.maxVideoBitsPerSecond;
+    final minVideoBitsPerSecond = this.minVideoBitsPerSecond;
+    final streamOrder = this.streamOrder;
+    return {
+      if (maxVideoBitsPerSecond != null)
+        'maxVideoBitsPerSecond': maxVideoBitsPerSecond,
+      if (minVideoBitsPerSecond != null)
+        'minVideoBitsPerSecond': minVideoBitsPerSecond,
+      if (streamOrder != null) 'streamOrder': streamOrder.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
-  @_s.JsonKey(name: 'authorization')
-  final Authorization authorization;
+  final String? arn;
+  final Authorization? authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID of the PackagingGroup.
-  @_s.JsonKey(name: 'id')
-  final String id;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? id;
+  final Map<String, String>? tags;
 
   UpdatePackagingGroupResponse({
     this.arn,
@@ -1597,44 +1857,73 @@ class UpdatePackagingGroupResponse {
     this.id,
     this.tags,
   });
-  factory UpdatePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePackagingGroupResponseFromJson(json);
+  factory UpdatePackagingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePackagingGroupResponse(
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      domainName: json['domainName'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum PeriodTriggersElement {
-  @_s.JsonValue('ADS')
   ads,
 }
 
+extension on PeriodTriggersElement {
+  String toValue() {
+    switch (this) {
+      case PeriodTriggersElement.ads:
+        return 'ADS';
+    }
+  }
+}
+
+extension on String {
+  PeriodTriggersElement toPeriodTriggersElement() {
+    switch (this) {
+      case 'ADS':
+        return PeriodTriggersElement.ads;
+    }
+    throw Exception('$this is not known in enum PeriodTriggersElement');
+  }
+}
+
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnprocessableEntityException extends _s.GenericAwsException {
-  UnprocessableEntityException({String type, String message})
+  UnprocessableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnprocessableEntityException', message: message);
 }

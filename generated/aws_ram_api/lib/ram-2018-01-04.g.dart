@@ -9,7 +9,7 @@ part of 'ram-2018-01-04.dart';
 AcceptResourceShareInvitationResponse
     _$AcceptResourceShareInvitationResponseFromJson(Map<String, dynamic> json) {
   return AcceptResourceShareInvitationResponse(
-    clientToken: json['clientToken'] as String,
+    clientToken: json['clientToken'] as String?,
     resourceShareInvitation: json['resourceShareInvitation'] == null
         ? null
         : ResourceShareInvitation.fromJson(
@@ -21,27 +21,27 @@ AssociateResourceSharePermissionResponse
     _$AssociateResourceSharePermissionResponseFromJson(
         Map<String, dynamic> json) {
   return AssociateResourceSharePermissionResponse(
-    clientToken: json['clientToken'] as String,
-    returnValue: json['returnValue'] as bool,
+    clientToken: json['clientToken'] as String?,
+    returnValue: json['returnValue'] as bool?,
   );
 }
 
 AssociateResourceShareResponse _$AssociateResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateResourceShareResponse(
-    clientToken: json['clientToken'] as String,
-    resourceShareAssociations: (json['resourceShareAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clientToken: json['clientToken'] as String?,
+    resourceShareAssociations: (json['resourceShareAssociations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 CreateResourceShareResponse _$CreateResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceShareResponse(
-    clientToken: json['clientToken'] as String,
+    clientToken: json['clientToken'] as String?,
     resourceShare: json['resourceShare'] == null
         ? null
         : ResourceShare.fromJson(json['resourceShare'] as Map<String, dynamic>),
@@ -51,8 +51,8 @@ CreateResourceShareResponse _$CreateResourceShareResponseFromJson(
 DeleteResourceShareResponse _$DeleteResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResourceShareResponse(
-    clientToken: json['clientToken'] as String,
-    returnValue: json['returnValue'] as bool,
+    clientToken: json['clientToken'] as String?,
+    returnValue: json['returnValue'] as bool?,
   );
 }
 
@@ -60,20 +60,20 @@ DisassociateResourceSharePermissionResponse
     _$DisassociateResourceSharePermissionResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociateResourceSharePermissionResponse(
-    clientToken: json['clientToken'] as String,
-    returnValue: json['returnValue'] as bool,
+    clientToken: json['clientToken'] as String?,
+    returnValue: json['returnValue'] as bool?,
   );
 }
 
 DisassociateResourceShareResponse _$DisassociateResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return DisassociateResourceShareResponse(
-    clientToken: json['clientToken'] as String,
-    resourceShareAssociations: (json['resourceShareAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    clientToken: json['clientToken'] as String?,
+    resourceShareAssociations: (json['resourceShareAssociations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -81,7 +81,7 @@ EnableSharingWithAwsOrganizationResponse
     _$EnableSharingWithAwsOrganizationResponseFromJson(
         Map<String, dynamic> json) {
   return EnableSharingWithAwsOrganizationResponse(
-    returnValue: json['returnValue'] as bool,
+    returnValue: json['returnValue'] as bool?,
   );
 }
 
@@ -98,44 +98,43 @@ GetPermissionResponse _$GetPermissionResponseFromJson(
 GetResourcePoliciesResponse _$GetResourcePoliciesResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourcePoliciesResponse(
-    nextToken: json['nextToken'] as String,
-    policies: (json['policies'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['nextToken'] as String?,
+    policies:
+        (json['policies'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 GetResourceShareAssociationsResponse
     _$GetResourceShareAssociationsResponseFromJson(Map<String, dynamic> json) {
   return GetResourceShareAssociationsResponse(
-    nextToken: json['nextToken'] as String,
-    resourceShareAssociations: (json['resourceShareAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resourceShareAssociations: (json['resourceShareAssociations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetResourceShareInvitationsResponse
     _$GetResourceShareInvitationsResponseFromJson(Map<String, dynamic> json) {
   return GetResourceShareInvitationsResponse(
-    nextToken: json['nextToken'] as String,
-    resourceShareInvitations: (json['resourceShareInvitations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShareInvitation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resourceShareInvitations: (json['resourceShareInvitations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResourceShareInvitation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 GetResourceSharesResponse _$GetResourceSharesResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourceSharesResponse(
-    nextToken: json['nextToken'] as String,
-    resourceShares: (json['resourceShares'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShare.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resourceShares: (json['resourceShares'] as List<dynamic>?)
+        ?.map((e) => ResourceShare.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -143,82 +142,74 @@ ListPendingInvitationResourcesResponse
     _$ListPendingInvitationResourcesResponseFromJson(
         Map<String, dynamic> json) {
   return ListPendingInvitationResourcesResponse(
-    nextToken: json['nextToken'] as String,
-    resources: (json['resources'] as List)
-        ?.map((e) =>
-            e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resources: (json['resources'] as List<dynamic>?)
+        ?.map((e) => Resource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPermissionsResponse _$ListPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPermissionsResponse(
-    nextToken: json['nextToken'] as String,
-    permissions: (json['permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceSharePermissionSummary.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    permissions: (json['permissions'] as List<dynamic>?)
+        ?.map((e) =>
+            ResourceSharePermissionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPrincipalsResponse _$ListPrincipalsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPrincipalsResponse(
-    nextToken: json['nextToken'] as String,
-    principals: (json['principals'] as List)
-        ?.map((e) =>
-            e == null ? null : Principal.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    principals: (json['principals'] as List<dynamic>?)
+        ?.map((e) => Principal.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourceSharePermissionsResponse
     _$ListResourceSharePermissionsResponseFromJson(Map<String, dynamic> json) {
   return ListResourceSharePermissionsResponse(
-    nextToken: json['nextToken'] as String,
-    permissions: (json['permissions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceSharePermissionSummary.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    permissions: (json['permissions'] as List<dynamic>?)
+        ?.map((e) =>
+            ResourceSharePermissionSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourceTypesResponse _$ListResourceTypesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceTypesResponse(
-    nextToken: json['nextToken'] as String,
-    resourceTypes: (json['resourceTypes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ServiceNameAndResourceType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resourceTypes: (json['resourceTypes'] as List<dynamic>?)
+        ?.map((e) =>
+            ServiceNameAndResourceType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesResponse(
-    nextToken: json['nextToken'] as String,
-    resources: (json['resources'] as List)
-        ?.map((e) =>
-            e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    resources: (json['resources'] as List<dynamic>?)
+        ?.map((e) => Resource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   return Principal(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    external: json['external'] as bool,
-    id: json['id'] as String,
+    external: json['external'] as bool?,
+    id: json['id'] as String?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    resourceShareArn: json['resourceShareArn'] as String,
+    resourceShareArn: json['resourceShareArn'] as String?,
   );
 }
 
@@ -226,14 +217,14 @@ PromoteResourceShareCreatedFromPolicyResponse
     _$PromoteResourceShareCreatedFromPolicyResponseFromJson(
         Map<String, dynamic> json) {
   return PromoteResourceShareCreatedFromPolicyResponse(
-    returnValue: json['returnValue'] as bool,
+    returnValue: json['returnValue'] as bool?,
   );
 }
 
 RejectResourceShareInvitationResponse
     _$RejectResourceShareInvitationResponseFromJson(Map<String, dynamic> json) {
   return RejectResourceShareInvitationResponse(
-    clientToken: json['clientToken'] as String,
+    clientToken: json['clientToken'] as String?,
     resourceShareInvitation: json['resourceShareInvitation'] == null
         ? null
         : ResourceShareInvitation.fromJson(
@@ -243,48 +234,53 @@ RejectResourceShareInvitationResponse
 
 Resource _$ResourceFromJson(Map<String, dynamic> json) {
   return Resource(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    resourceGroupArn: json['resourceGroupArn'] as String,
-    resourceShareArn: json['resourceShareArn'] as String,
+    resourceGroupArn: json['resourceGroupArn'] as String?,
+    resourceShareArn: json['resourceShareArn'] as String?,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
-    type: json['type'] as String,
+    statusMessage: json['statusMessage'] as String?,
+    type: json['type'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ResourceStatusEnumMap = {
@@ -297,20 +293,20 @@ const _$ResourceStatusEnumMap = {
 
 ResourceShare _$ResourceShareFromJson(Map<String, dynamic> json) {
   return ResourceShare(
-    allowExternalPrincipals: json['allowExternalPrincipals'] as bool,
+    allowExternalPrincipals: json['allowExternalPrincipals'] as bool?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     featureSet: _$enumDecodeNullable(
         _$ResourceShareFeatureSetEnumMap, json['featureSet']),
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    name: json['name'] as String,
-    owningAccountId: json['owningAccountId'] as String,
-    resourceShareArn: json['resourceShareArn'] as String,
+    name: json['name'] as String?,
+    owningAccountId: json['owningAccountId'] as String?,
+    resourceShareArn: json['resourceShareArn'] as String?,
     status: _$enumDecodeNullable(_$ResourceShareStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    statusMessage: json['statusMessage'] as String?,
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -331,18 +327,18 @@ const _$ResourceShareStatusEnumMap = {
 ResourceShareAssociation _$ResourceShareAssociationFromJson(
     Map<String, dynamic> json) {
   return ResourceShareAssociation(
-    associatedEntity: json['associatedEntity'] as String,
+    associatedEntity: json['associatedEntity'] as String?,
     associationType: _$enumDecodeNullable(
         _$ResourceShareAssociationTypeEnumMap, json['associationType']),
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    external: json['external'] as bool,
+    external: json['external'] as bool?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    resourceShareArn: json['resourceShareArn'] as String,
-    resourceShareName: json['resourceShareName'] as String,
+    resourceShareArn: json['resourceShareArn'] as String?,
+    resourceShareName: json['resourceShareName'] as String?,
     status: _$enumDecodeNullable(
         _$ResourceShareAssociationStatusEnumMap, json['status']),
-    statusMessage: json['statusMessage'] as String,
+    statusMessage: json['statusMessage'] as String?,
   );
 }
 
@@ -364,16 +360,16 @@ ResourceShareInvitation _$ResourceShareInvitationFromJson(
   return ResourceShareInvitation(
     invitationTimestamp:
         const UnixDateTimeConverter().fromJson(json['invitationTimestamp']),
-    receiverAccountId: json['receiverAccountId'] as String,
-    resourceShareArn: json['resourceShareArn'] as String,
-    resourceShareAssociations: (json['resourceShareAssociations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    resourceShareInvitationArn: json['resourceShareInvitationArn'] as String,
-    resourceShareName: json['resourceShareName'] as String,
-    senderAccountId: json['senderAccountId'] as String,
+    receiverAccountId: json['receiverAccountId'] as String?,
+    resourceShareArn: json['resourceShareArn'] as String?,
+    resourceShareAssociations: (json['resourceShareAssociations']
+            as List<dynamic>?)
+        ?.map(
+            (e) => ResourceShareAssociation.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    resourceShareInvitationArn: json['resourceShareInvitationArn'] as String?,
+    resourceShareName: json['resourceShareName'] as String?,
+    senderAccountId: json['senderAccountId'] as String?,
     status: _$enumDecodeNullable(
         _$ResourceShareInvitationStatusEnumMap, json['status']),
   );
@@ -389,45 +385,45 @@ const _$ResourceShareInvitationStatusEnumMap = {
 ResourceSharePermissionDetail _$ResourceSharePermissionDetailFromJson(
     Map<String, dynamic> json) {
   return ResourceSharePermissionDetail(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    defaultVersion: json['defaultVersion'] as bool,
+    defaultVersion: json['defaultVersion'] as bool?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    name: json['name'] as String,
-    permission: json['permission'] as String,
-    resourceType: json['resourceType'] as String,
-    version: json['version'] as String,
+    name: json['name'] as String?,
+    permission: json['permission'] as String?,
+    resourceType: json['resourceType'] as String?,
+    version: json['version'] as String?,
   );
 }
 
 ResourceSharePermissionSummary _$ResourceSharePermissionSummaryFromJson(
     Map<String, dynamic> json) {
   return ResourceSharePermissionSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    defaultVersion: json['defaultVersion'] as bool,
+    defaultVersion: json['defaultVersion'] as bool?,
     lastUpdatedTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
-    name: json['name'] as String,
-    resourceType: json['resourceType'] as String,
-    status: json['status'] as String,
-    version: json['version'] as String,
+    name: json['name'] as String?,
+    resourceType: json['resourceType'] as String?,
+    status: json['status'] as String?,
+    version: json['version'] as String?,
   );
 }
 
 ServiceNameAndResourceType _$ServiceNameAndResourceTypeFromJson(
     Map<String, dynamic> json) {
   return ServiceNameAndResourceType(
-    resourceType: json['resourceType'] as String,
-    serviceName: json['serviceName'] as String,
+    resourceType: json['resourceType'] as String?,
+    serviceName: json['serviceName'] as String?,
   );
 }
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
-    key: json['key'] as String,
-    value: json['value'] as String,
+    key: json['key'] as String?,
+    value: json['value'] as String?,
   );
 }
 
@@ -471,7 +467,7 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 UpdateResourceShareResponse _$UpdateResourceShareResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateResourceShareResponse(
-    clientToken: json['clientToken'] as String,
+    clientToken: json['clientToken'] as String?,
     resourceShare: json['resourceShare'] == null
         ? null
         : ResourceShare.fromJson(json['resourceShare'] as Map<String, dynamic>),

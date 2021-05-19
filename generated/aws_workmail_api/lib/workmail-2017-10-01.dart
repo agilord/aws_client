@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'workmail-2017-10-01.g.dart';
 
 /// Amazon WorkMail is a secure, managed business email and calendaring service
 /// with support for existing desktop and mobile email clients. You can access
@@ -68,10 +60,10 @@ part 'workmail-2017-10-01.g.dart';
 class WorkMail {
   final _s.JsonProtocol _protocol;
   WorkMail({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -99,9 +91,9 @@ class WorkMail {
   /// Parameter [resourceId] :
   /// The resource for which members (users or groups) are associated.
   Future<void> associateDelegateToResource({
-    @_s.required String entityId,
-    @_s.required String organizationId,
-    @_s.required String resourceId,
+    required String entityId,
+    required String organizationId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -143,7 +135,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.AssociateDelegateToResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -155,8 +147,6 @@ class WorkMail {
         'ResourceId': resourceId,
       },
     );
-
-    return AssociateDelegateToResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds a member (user or group) to the group's set.
@@ -179,9 +169,9 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization under which the group exists.
   Future<void> associateMemberToGroup({
-    @_s.required String groupId,
-    @_s.required String memberId,
-    @_s.required String organizationId,
+    required String groupId,
+    required String memberId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -217,7 +207,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.AssociateMemberToGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -229,8 +219,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return AssociateMemberToGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Cancels a mailbox export job.
@@ -244,33 +232,19 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   /// May throw [EntityNotFoundException].
   ///
-  /// Parameter [clientToken] :
-  /// The idempotency token for the client request.
-  ///
   /// Parameter [jobId] :
   /// The job ID.
   ///
   /// Parameter [organizationId] :
   /// The organization ID.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
   Future<void> cancelMailboxExportJob({
-    @_s.required String clientToken,
-    @_s.required String jobId,
-    @_s.required String organizationId,
+    required String jobId,
+    required String organizationId,
+    String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[\x21-\x7e]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
@@ -299,24 +273,33 @@ class WorkMail {
       r'''^m-[0-9a-f]{32}$''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CancelMailboxExportJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'JobId': jobId,
         'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       },
     );
-
-    return CancelMailboxExportJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds an alias to the set of a given member (user or group) of Amazon
@@ -341,9 +324,9 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization under which the member (user or group) exists.
   Future<void> createAlias({
-    @_s.required String alias,
-    @_s.required String entityId,
-    @_s.required String organizationId,
+    required String alias,
+    required String entityId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
     _s.validateStringLength(
@@ -385,7 +368,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.CreateAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -397,8 +380,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return CreateAliasResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a group that can be used in Amazon WorkMail by calling the
@@ -419,8 +400,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization under which the group is to be created.
   Future<CreateGroupResponse> createGroup({
-    @_s.required String name,
-    @_s.required String organizationId,
+    required String name,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -520,12 +501,12 @@ class WorkMail {
   /// The Amazon Resource Name (ARN) of a customer managed master key from AWS
   /// KMS.
   Future<CreateOrganizationResponse> createOrganization({
-    @_s.required String alias,
-    String clientToken,
-    String directoryId,
-    List<Domain> domains,
-    bool enableInteroperability,
-    String kmsKeyArn,
+    required String alias,
+    String? clientToken,
+    String? directoryId,
+    List<Domain>? domains,
+    bool? enableInteroperability,
+    String? kmsKeyArn,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
     _s.validateStringLength(
@@ -619,9 +600,9 @@ class WorkMail {
   /// The type of the new resource. The available types are
   /// <code>equipment</code> and <code>room</code>.
   Future<CreateResourceResponse> createResource({
-    @_s.required String name,
-    @_s.required String organizationId,
-    @_s.required ResourceType type,
+    required String name,
+    required String organizationId,
+    required ResourceType type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -665,7 +646,7 @@ class WorkMail {
       payload: {
         'Name': name,
         'OrganizationId': organizationId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
       },
     );
 
@@ -698,10 +679,10 @@ class WorkMail {
   /// Parameter [password] :
   /// The password for the new user.
   Future<CreateUserResponse> createUser({
-    @_s.required String displayName,
-    @_s.required String name,
-    @_s.required String organizationId,
-    @_s.required String password,
+    required String displayName,
+    required String name,
+    required String organizationId,
+    required String password,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
     _s.validateStringLength(
@@ -785,8 +766,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization.
   Future<void> deleteAccessControlRule({
-    @_s.required String name,
-    @_s.required String organizationId,
+    required String name,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -820,7 +801,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteAccessControlRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -831,8 +812,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeleteAccessControlRuleResponse.fromJson(jsonResponse.body);
   }
 
   /// Remove one or more specified aliases from a set of aliases for a given
@@ -856,9 +835,9 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the user exists.
   Future<void> deleteAlias({
-    @_s.required String alias,
-    @_s.required String entityId,
-    @_s.required String organizationId,
+    required String alias,
+    required String entityId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(alias, 'alias');
     _s.validateStringLength(
@@ -900,7 +879,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -912,8 +891,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeleteAliasResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a group from Amazon WorkMail.
@@ -932,8 +909,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization that contains the group.
   Future<void> deleteGroup({
-    @_s.required String groupId,
-    @_s.required String organizationId,
+    required String groupId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -961,7 +938,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -972,8 +949,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeleteGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes permissions granted to a member (user or group).
@@ -995,9 +970,9 @@ class WorkMail {
   /// The identifier of the organization under which the member (user or group)
   /// exists.
   Future<void> deleteMailboxPermissions({
-    @_s.required String entityId,
-    @_s.required String granteeId,
-    @_s.required String organizationId,
+    required String entityId,
+    required String granteeId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -1033,7 +1008,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteMailboxPermissions'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1045,8 +1020,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeleteMailboxPermissionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes an Amazon WorkMail organization and all underlying AWS resources
@@ -1069,9 +1042,9 @@ class WorkMail {
   /// Parameter [clientToken] :
   /// The idempotency token associated with the request.
   Future<DeleteOrganizationResponse> deleteOrganization({
-    @_s.required bool deleteDirectory,
-    @_s.required String organizationId,
-    String clientToken,
+    required bool deleteDirectory,
+    required String organizationId,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(deleteDirectory, 'deleteDirectory');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
@@ -1133,8 +1106,8 @@ class WorkMail {
   /// Parameter [resourceId] :
   /// The identifier of the resource to be deleted.
   Future<void> deleteResource({
-    @_s.required String organizationId,
-    @_s.required String resourceId,
+    required String organizationId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1168,7 +1141,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1179,8 +1152,6 @@ class WorkMail {
         'ResourceId': resourceId,
       },
     );
-
-    return DeleteResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified retention policy from the specified organization.
@@ -1195,8 +1166,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization ID.
   Future<void> deleteRetentionPolicy({
-    @_s.required String id,
-    @_s.required String organizationId,
+    required String id,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1230,7 +1201,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteRetentionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1241,8 +1212,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeleteRetentionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a user from Amazon WorkMail and all subsequent systems. Before you
@@ -1266,8 +1235,8 @@ class WorkMail {
   /// Parameter [userId] :
   /// The identifier of the user to be deleted.
   Future<void> deleteUser({
-    @_s.required String organizationId,
-    @_s.required String userId,
+    required String organizationId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1295,7 +1264,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeleteUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1306,8 +1275,6 @@ class WorkMail {
         'UserId': userId,
       },
     );
-
-    return DeleteUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Mark a user, group, or resource as no longer used in Amazon WorkMail. This
@@ -1328,8 +1295,8 @@ class WorkMail {
   /// The identifier for the organization under which the Amazon WorkMail entity
   /// exists.
   Future<void> deregisterFromWorkMail({
-    @_s.required String entityId,
-    @_s.required String organizationId,
+    required String entityId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -1357,7 +1324,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DeregisterFromWorkMail'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1368,8 +1335,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DeregisterFromWorkMailResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the data available for the group.
@@ -1385,8 +1350,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the group exists.
   Future<DescribeGroupResponse> describeGroup({
-    @_s.required String groupId,
-    @_s.required String organizationId,
+    required String groupId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -1442,8 +1407,8 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization ID.
   Future<DescribeMailboxExportJobResponse> describeMailboxExportJob({
-    @_s.required String jobId,
-    @_s.required String organizationId,
+    required String jobId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1501,7 +1466,7 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization to be described.
   Future<DescribeOrganizationResponse> describeOrganization({
-    @_s.required String organizationId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1549,8 +1514,8 @@ class WorkMail {
   /// Parameter [resourceId] :
   /// The identifier of the resource to be described.
   Future<DescribeResourceResponse> describeResource({
-    @_s.required String organizationId,
-    @_s.required String resourceId,
+    required String organizationId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1612,8 +1577,8 @@ class WorkMail {
   /// Parameter [userId] :
   /// The identifier for the user to be described.
   Future<DescribeUserResponse> describeUser({
-    @_s.required String organizationId,
-    @_s.required String userId,
+    required String organizationId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1675,9 +1640,9 @@ class WorkMail {
   /// The identifier of the resource from which delegates' set members are
   /// removed.
   Future<void> disassociateDelegateFromResource({
-    @_s.required String entityId,
-    @_s.required String organizationId,
-    @_s.required String resourceId,
+    required String entityId,
+    required String organizationId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -1719,7 +1684,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DisassociateDelegateFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1731,8 +1696,6 @@ class WorkMail {
         'ResourceId': resourceId,
       },
     );
-
-    return DisassociateDelegateFromResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a member from a group.
@@ -1755,9 +1718,9 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization under which the group exists.
   Future<void> disassociateMemberFromGroup({
-    @_s.required String groupId,
-    @_s.required String memberId,
-    @_s.required String organizationId,
+    required String groupId,
+    required String memberId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -1793,7 +1756,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.DisassociateMemberFromGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1805,8 +1768,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return DisassociateMemberFromGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the effects of an organization's access control rules as they apply
@@ -1831,10 +1792,10 @@ class WorkMail {
   /// Parameter [userId] :
   /// The user ID.
   Future<GetAccessControlEffectResponse> getAccessControlEffect({
-    @_s.required String action,
-    @_s.required String ipAddress,
-    @_s.required String organizationId,
-    @_s.required String userId,
+    required String action,
+    required String ipAddress,
+    required String organizationId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
     _s.validateStringLength(
@@ -1917,7 +1878,7 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization ID.
   Future<GetDefaultRetentionPolicyResponse> getDefaultRetentionPolicy({
-    @_s.required String organizationId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1964,8 +1925,8 @@ class WorkMail {
   /// Parameter [userId] :
   /// The identifier for the user whose mailbox details are being requested.
   Future<GetMailboxDetailsResponse> getMailboxDetails({
-    @_s.required String organizationId,
-    @_s.required String userId,
+    required String organizationId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2016,7 +1977,7 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The identifier for the organization.
   Future<ListAccessControlRulesResponse> listAccessControlRules({
-    @_s.required String organizationId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2072,10 +2033,10 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListAliasesResponse> listAliases({
-    @_s.required String entityId,
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String entityId,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -2160,10 +2121,10 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListGroupMembersResponse> listGroupMembers({
-    @_s.required String groupId,
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String groupId,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -2242,9 +2203,9 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListGroupsResponse> listGroups({
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2313,9 +2274,9 @@ class WorkMail {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListMailboxExportJobsResponse> listMailboxExportJobs({
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2391,10 +2352,10 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListMailboxPermissionsResponse> listMailboxPermissions({
-    @_s.required String entityId,
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String entityId,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -2467,8 +2428,8 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListOrganizationsResponse> listOrganizations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2529,10 +2490,10 @@ class WorkMail {
   /// The token used to paginate through the delegates associated with a
   /// resource.
   Future<ListResourceDelegatesResponse> listResourceDelegates({
-    @_s.required String organizationId,
-    @_s.required String resourceId,
-    int maxResults,
-    String nextToken,
+    required String organizationId,
+    required String resourceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2610,9 +2571,9 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListResourcesResponse> listResources({
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2672,7 +2633,7 @@ class WorkMail {
   /// Parameter [resourceARN] :
   /// The resource ARN.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2716,9 +2677,9 @@ class WorkMail {
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
   Future<ListUsersResponse> listUsers({
-    @_s.required String organizationId,
-    int maxResults,
-    String nextToken,
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -2818,16 +2779,16 @@ class WorkMail {
   /// Parameter [userIds] :
   /// User IDs to include in the rule.
   Future<void> putAccessControlRule({
-    @_s.required String description,
-    @_s.required AccessControlRuleEffect effect,
-    @_s.required String name,
-    @_s.required String organizationId,
-    List<String> actions,
-    List<String> ipRanges,
-    List<String> notActions,
-    List<String> notIpRanges,
-    List<String> notUserIds,
-    List<String> userIds,
+    required String description,
+    required AccessControlRuleEffect effect,
+    required String name,
+    required String organizationId,
+    List<String>? actions,
+    List<String>? ipRanges,
+    List<String>? notActions,
+    List<String>? notIpRanges,
+    List<String>? notUserIds,
+    List<String>? userIds,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -2876,7 +2837,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutAccessControlRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2884,7 +2845,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Description': description,
-        'Effect': effect?.toValue() ?? '',
+        'Effect': effect.toValue(),
         'Name': name,
         'OrganizationId': organizationId,
         if (actions != null) 'Actions': actions,
@@ -2895,8 +2856,6 @@ class WorkMail {
         if (userIds != null) 'UserIds': userIds,
       },
     );
-
-    return PutAccessControlRuleResponse.fromJson(jsonResponse.body);
   }
 
   /// Sets permissions for a user, group, or resource. This replaces any
@@ -2929,10 +2888,10 @@ class WorkMail {
   /// mailbox, irrespective of other folder-level permissions set on the
   /// mailbox.
   Future<void> putMailboxPermissions({
-    @_s.required String entityId,
-    @_s.required String granteeId,
-    @_s.required String organizationId,
-    @_s.required List<PermissionType> permissionValues,
+    required String entityId,
+    required String granteeId,
+    required String organizationId,
+    required List<PermissionType> permissionValues,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -2969,7 +2928,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutMailboxPermissions'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2979,12 +2938,9 @@ class WorkMail {
         'EntityId': entityId,
         'GranteeId': granteeId,
         'OrganizationId': organizationId,
-        'PermissionValues':
-            permissionValues?.map((e) => e?.toValue() ?? '')?.toList(),
+        'PermissionValues': permissionValues.map((e) => e.toValue()).toList(),
       },
     );
-
-    return PutMailboxPermissionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Puts a retention policy to the specified organization.
@@ -3009,11 +2965,11 @@ class WorkMail {
   /// Parameter [id] :
   /// The retention policy ID.
   Future<void> putRetentionPolicy({
-    @_s.required List<FolderConfiguration> folderConfigurations,
-    @_s.required String name,
-    @_s.required String organizationId,
-    String description,
-    String id,
+    required List<FolderConfiguration> folderConfigurations,
+    required String name,
+    required String organizationId,
+    String? description,
+    String? id,
   }) async {
     ArgumentError.checkNotNull(folderConfigurations, 'folderConfigurations');
     ArgumentError.checkNotNull(name, 'name');
@@ -3070,7 +3026,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.PutRetentionPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3084,8 +3040,6 @@ class WorkMail {
         if (id != null) 'Id': id,
       },
     );
-
-    return PutRetentionPolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Registers an existing and disabled user, group, or resource for Amazon
@@ -3122,9 +3076,9 @@ class WorkMail {
   /// The identifier for the organization under which the user, group, or
   /// resource exists.
   Future<void> registerToWorkMail({
-    @_s.required String email,
-    @_s.required String entityId,
-    @_s.required String organizationId,
+    required String email,
+    required String entityId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(email, 'email');
     _s.validateStringLength(
@@ -3166,7 +3120,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.RegisterToWorkMail'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3178,8 +3132,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return RegisterToWorkMailResponse.fromJson(jsonResponse.body);
   }
 
   /// Allows the administrator to reset the password for a user.
@@ -3204,9 +3156,9 @@ class WorkMail {
   /// Parameter [userId] :
   /// The identifier of the user for whom the password is reset.
   Future<void> resetPassword({
-    @_s.required String organizationId,
-    @_s.required String password,
-    @_s.required String userId,
+    required String organizationId,
+    required String password,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -3248,7 +3200,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.ResetPassword'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3260,8 +3212,6 @@ class WorkMail {
         'UserId': userId,
       },
     );
-
-    return ResetPasswordResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts a mailbox export job to export MIME-format email messages and
@@ -3275,9 +3225,6 @@ class WorkMail {
   /// May throw [OrganizationStateException].
   /// May throw [EntityNotFoundException].
   /// May throw [LimitExceededException].
-  ///
-  /// Parameter [clientToken] :
-  /// The idempotency token for the client request.
   ///
   /// Parameter [entityId] :
   /// The identifier of the user or resource associated with the mailbox.
@@ -3299,32 +3246,21 @@ class WorkMail {
   /// Parameter [s3Prefix] :
   /// The S3 bucket prefix.
   ///
+  /// Parameter [clientToken] :
+  /// The idempotency token for the client request.
+  ///
   /// Parameter [description] :
   /// The mailbox export job description.
   Future<StartMailboxExportJobResponse> startMailboxExportJob({
-    @_s.required String clientToken,
-    @_s.required String entityId,
-    @_s.required String kmsKeyArn,
-    @_s.required String organizationId,
-    @_s.required String roleArn,
-    @_s.required String s3BucketName,
-    @_s.required String s3Prefix,
-    String description,
+    required String entityId,
+    required String kmsKeyArn,
+    required String organizationId,
+    required String roleArn,
+    required String s3BucketName,
+    required String s3Prefix,
+    String? clientToken,
+    String? description,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[\x21-\x7e]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
       'entityId',
@@ -3398,6 +3334,17 @@ class WorkMail {
       isRequired: true,
     );
     _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'clientToken',
+      clientToken,
+      r'''[\x21-\x7e]+''',
+    );
+    _s.validateStringLength(
       'description',
       description,
       0,
@@ -3419,13 +3366,13 @@ class WorkMail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'EntityId': entityId,
         'KmsKeyArn': kmsKeyArn,
         'OrganizationId': organizationId,
         'RoleArn': roleArn,
         'S3BucketName': s3BucketName,
         'S3Prefix': s3Prefix,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -3446,8 +3393,8 @@ class WorkMail {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -3462,7 +3409,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3473,8 +3420,6 @@ class WorkMail {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Untags the specified tags from the specified Amazon WorkMail organization
@@ -3488,8 +3433,8 @@ class WorkMail {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -3504,7 +3449,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3515,8 +3460,6 @@ class WorkMail {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a user's current mailbox quota for a specified organization and
@@ -3538,9 +3481,9 @@ class WorkMail {
   /// Parameter [userId] :
   /// The identifer for the user for whom to update the mailbox quota.
   Future<void> updateMailboxQuota({
-    @_s.required int mailboxQuota,
-    @_s.required String organizationId,
-    @_s.required String userId,
+    required int mailboxQuota,
+    required String organizationId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(mailboxQuota, 'mailboxQuota');
     _s.validateNumRange(
@@ -3576,7 +3519,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateMailboxQuota'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3588,8 +3531,6 @@ class WorkMail {
         'UserId': userId,
       },
     );
-
-    return UpdateMailboxQuotaResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the primary email for a user, group, or resource. The current
@@ -3619,9 +3560,9 @@ class WorkMail {
   /// Parameter [organizationId] :
   /// The organization that contains the user, group, or resource to update.
   Future<void> updatePrimaryEmailAddress({
-    @_s.required String email,
-    @_s.required String entityId,
-    @_s.required String organizationId,
+    required String email,
+    required String entityId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(email, 'email');
     _s.validateStringLength(
@@ -3663,7 +3604,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdatePrimaryEmailAddress'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3675,8 +3616,6 @@ class WorkMail {
         'OrganizationId': organizationId,
       },
     );
-
-    return UpdatePrimaryEmailAddressResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates data for the resource. To have the latest information, it must be
@@ -3708,10 +3647,10 @@ class WorkMail {
   /// Parameter [name] :
   /// The name of the resource to be updated.
   Future<void> updateResource({
-    @_s.required String organizationId,
-    @_s.required String resourceId,
-    BookingOptions bookingOptions,
-    String name,
+    required String organizationId,
+    required String resourceId,
+    BookingOptions? bookingOptions,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -3756,7 +3695,7 @@ class WorkMail {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkMailService.UpdateResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3769,69 +3708,49 @@ class WorkMail {
         if (name != null) 'Name': name,
       },
     );
-
-    return UpdateResourceResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// A rule that controls access to an Amazon WorkMail organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessControlRule {
   /// Access protocol actions to include in the rule. Valid values include
   /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
   /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
   /// <code>WebMail</code>.
-  @_s.JsonKey(name: 'Actions')
-  final List<String> actions;
+  final List<String>? actions;
 
   /// The date that the rule was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DateCreated')
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date that the rule was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DateModified')
-  final DateTime dateModified;
+  final DateTime? dateModified;
 
   /// The rule description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The rule effect.
-  @_s.JsonKey(name: 'Effect')
-  final AccessControlRuleEffect effect;
+  final AccessControlRuleEffect? effect;
 
   /// IPv4 CIDR ranges to include in the rule.
-  @_s.JsonKey(name: 'IpRanges')
-  final List<String> ipRanges;
+  final List<String>? ipRanges;
 
   /// The rule name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Access protocol actions to exclude from the rule. Valid values include
   /// <code>ActiveSync</code>, <code>AutoDiscover</code>, <code>EWS</code>,
   /// <code>IMAP</code>, <code>SMTP</code>, <code>WindowsOutlook</code>, and
   /// <code>WebMail</code>.
-  @_s.JsonKey(name: 'NotActions')
-  final List<String> notActions;
+  final List<String>? notActions;
 
   /// IPv4 CIDR ranges to exclude from the rule.
-  @_s.JsonKey(name: 'NotIpRanges')
-  final List<String> notIpRanges;
+  final List<String>? notIpRanges;
 
   /// User IDs to exclude from the rule.
-  @_s.JsonKey(name: 'NotUserIds')
-  final List<String> notUserIds;
+  final List<String>? notUserIds;
 
   /// User IDs to include in the rule.
-  @_s.JsonKey(name: 'UserIds')
-  final List<String> userIds;
+  final List<String>? userIds;
 
   AccessControlRule({
     this.actions,
@@ -3846,14 +3765,43 @@ class AccessControlRule {
     this.notUserIds,
     this.userIds,
   });
-  factory AccessControlRule.fromJson(Map<String, dynamic> json) =>
-      _$AccessControlRuleFromJson(json);
+  factory AccessControlRule.fromJson(Map<String, dynamic> json) {
+    return AccessControlRule(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      description: json['Description'] as String?,
+      effect: (json['Effect'] as String?)?.toAccessControlRuleEffect(),
+      ipRanges: (json['IpRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      notActions: (json['NotActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notIpRanges: (json['NotIpRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notUserIds: (json['NotUserIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      userIds: (json['UserIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum AccessControlRuleEffect {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
 }
 
@@ -3865,324 +3813,264 @@ extension on AccessControlRuleEffect {
       case AccessControlRuleEffect.deny:
         return 'DENY';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class AssociateDelegateToResourceResponse {
-  AssociateDelegateToResourceResponse();
-  factory AssociateDelegateToResourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateDelegateToResourceResponseFromJson(json);
+extension on String {
+  AccessControlRuleEffect toAccessControlRuleEffect() {
+    switch (this) {
+      case 'ALLOW':
+        return AccessControlRuleEffect.allow;
+      case 'DENY':
+        return AccessControlRuleEffect.deny;
+    }
+    throw Exception('$this is not known in enum AccessControlRuleEffect');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class AssociateDelegateToResourceResponse {
+  AssociateDelegateToResourceResponse();
+  factory AssociateDelegateToResourceResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateDelegateToResourceResponse();
+  }
+}
+
 class AssociateMemberToGroupResponse {
   AssociateMemberToGroupResponse();
-  factory AssociateMemberToGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateMemberToGroupResponseFromJson(json);
+  factory AssociateMemberToGroupResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateMemberToGroupResponse();
+  }
 }
 
 /// At least one delegate must be associated to the resource to disable
 /// automatic replies from the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BookingOptions {
   /// The resource's ability to automatically reply to requests. If disabled,
   /// delegates must be associated to the resource.
-  @_s.JsonKey(name: 'AutoAcceptRequests')
-  final bool autoAcceptRequests;
+  final bool? autoAcceptRequests;
 
   /// The resource's ability to automatically decline any conflicting requests.
-  @_s.JsonKey(name: 'AutoDeclineConflictingRequests')
-  final bool autoDeclineConflictingRequests;
+  final bool? autoDeclineConflictingRequests;
 
   /// The resource's ability to automatically decline any recurring requests.
-  @_s.JsonKey(name: 'AutoDeclineRecurringRequests')
-  final bool autoDeclineRecurringRequests;
+  final bool? autoDeclineRecurringRequests;
 
   BookingOptions({
     this.autoAcceptRequests,
     this.autoDeclineConflictingRequests,
     this.autoDeclineRecurringRequests,
   });
-  factory BookingOptions.fromJson(Map<String, dynamic> json) =>
-      _$BookingOptionsFromJson(json);
+  factory BookingOptions.fromJson(Map<String, dynamic> json) {
+    return BookingOptions(
+      autoAcceptRequests: json['AutoAcceptRequests'] as bool?,
+      autoDeclineConflictingRequests:
+          json['AutoDeclineConflictingRequests'] as bool?,
+      autoDeclineRecurringRequests:
+          json['AutoDeclineRecurringRequests'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BookingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoAcceptRequests = this.autoAcceptRequests;
+    final autoDeclineConflictingRequests = this.autoDeclineConflictingRequests;
+    final autoDeclineRecurringRequests = this.autoDeclineRecurringRequests;
+    return {
+      if (autoAcceptRequests != null) 'AutoAcceptRequests': autoAcceptRequests,
+      if (autoDeclineConflictingRequests != null)
+        'AutoDeclineConflictingRequests': autoDeclineConflictingRequests,
+      if (autoDeclineRecurringRequests != null)
+        'AutoDeclineRecurringRequests': autoDeclineRecurringRequests,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelMailboxExportJobResponse {
   CancelMailboxExportJobResponse();
-  factory CancelMailboxExportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelMailboxExportJobResponseFromJson(json);
+  factory CancelMailboxExportJobResponse.fromJson(Map<String, dynamic> _) {
+    return CancelMailboxExportJobResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAliasResponse {
   CreateAliasResponse();
-  factory CreateAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAliasResponseFromJson(json);
+  factory CreateAliasResponse.fromJson(Map<String, dynamic> _) {
+    return CreateAliasResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupResponse {
   /// The identifier of the group.
-  @_s.JsonKey(name: 'GroupId')
-  final String groupId;
+  final String? groupId;
 
   CreateGroupResponse({
     this.groupId,
   });
-  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGroupResponseFromJson(json);
+  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupResponse(
+      groupId: json['GroupId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOrganizationResponse {
   /// The organization ID.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   CreateOrganizationResponse({
     this.organizationId,
   });
-  factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateOrganizationResponseFromJson(json);
+  factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOrganizationResponse(
+      organizationId: json['OrganizationId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceResponse {
   /// The identifier of the new resource.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   CreateResourceResponse({
     this.resourceId,
   });
-  factory CreateResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateResourceResponseFromJson(json);
+  factory CreateResourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResourceResponse(
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
   /// The identifier for the new user.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   CreateUserResponse({
     this.userId,
   });
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      userId: json['UserId'] as String?,
+    );
+  }
 }
 
 /// The name of the attribute, which is one of the values defined in the
 /// UserAttribute enumeration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Delegate {
   /// The identifier for the user or group associated as the resource's delegate.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The type of the delegate: user or group.
-  @_s.JsonKey(name: 'Type')
   final MemberType type;
 
   Delegate({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  factory Delegate.fromJson(Map<String, dynamic> json) =>
-      _$DelegateFromJson(json);
+  factory Delegate.fromJson(Map<String, dynamic> json) {
+    return Delegate(
+      id: json['Id'] as String,
+      type: (json['Type'] as String).toMemberType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAccessControlRuleResponse {
   DeleteAccessControlRuleResponse();
-  factory DeleteAccessControlRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAccessControlRuleResponseFromJson(json);
+  factory DeleteAccessControlRuleResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAccessControlRuleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAliasResponse {
   DeleteAliasResponse();
-  factory DeleteAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAliasResponseFromJson(json);
+  factory DeleteAliasResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAliasResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGroupResponse {
   DeleteGroupResponse();
-  factory DeleteGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGroupResponseFromJson(json);
+  factory DeleteGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGroupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMailboxPermissionsResponse {
   DeleteMailboxPermissionsResponse();
-  factory DeleteMailboxPermissionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteMailboxPermissionsResponseFromJson(json);
+  factory DeleteMailboxPermissionsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteMailboxPermissionsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOrganizationResponse {
   /// The organization ID.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   /// The state of the organization.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   DeleteOrganizationResponse({
     this.organizationId,
     this.state,
   });
-  factory DeleteOrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOrganizationResponseFromJson(json);
+  factory DeleteOrganizationResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteOrganizationResponse(
+      organizationId: json['OrganizationId'] as String?,
+      state: json['State'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourceResponse {
   DeleteResourceResponse();
-  factory DeleteResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourceResponseFromJson(json);
+  factory DeleteResourceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRetentionPolicyResponse {
   DeleteRetentionPolicyResponse();
-  factory DeleteRetentionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRetentionPolicyResponseFromJson(json);
+  factory DeleteRetentionPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteRetentionPolicyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUserResponse {
   DeleteUserResponse();
-  factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserResponseFromJson(json);
+  factory DeleteUserResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterFromWorkMailResponse {
   DeregisterFromWorkMailResponse();
-  factory DeregisterFromWorkMailResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeregisterFromWorkMailResponseFromJson(json);
+  factory DeregisterFromWorkMailResponse.fromJson(Map<String, dynamic> _) {
+    return DeregisterFromWorkMailResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGroupResponse {
   /// The date and time when a user was deregistered from WorkMail, in UNIX epoch
   /// time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The email of the described group.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date and time when a user was registered to WorkMail, in UNIX epoch time
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The identifier of the described group.
-  @_s.JsonKey(name: 'GroupId')
-  final String groupId;
+  final String? groupId;
 
   /// The name of the described group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the user: enabled (registered to Amazon WorkMail) or disabled
   /// (deregistered or never registered to WorkMail).
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   DescribeGroupResponse({
     this.disabledDate,
@@ -4192,68 +4080,57 @@ class DescribeGroupResponse {
     this.name,
     this.state,
   });
-  factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGroupResponseFromJson(json);
+  factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGroupResponse(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      groupId: json['GroupId'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMailboxExportJobResponse {
   /// The mailbox export job description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The mailbox export job end timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The identifier of the user or resource associated with the mailbox.
-  @_s.JsonKey(name: 'EntityId')
-  final String entityId;
+  final String? entityId;
 
   /// Error information for failed mailbox export jobs.
-  @_s.JsonKey(name: 'ErrorInfo')
-  final String errorInfo;
+  final String? errorInfo;
 
   /// The estimated progress of the mailbox export job, in percentage points.
-  @_s.JsonKey(name: 'EstimatedProgress')
-  final int estimatedProgress;
+  final int? estimatedProgress;
 
   /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   /// (AWS KMS) key that encrypts the exported mailbox content.
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   /// The ARN of the AWS Identity and Access Management (IAM) role that grants
   /// write permission to the Amazon Simple Storage Service (Amazon S3) bucket.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The path to the S3 bucket and file that the mailbox export job is exporting
   /// to.
-  @_s.JsonKey(name: 'S3Path')
-  final String s3Path;
+  final String? s3Path;
 
   /// The S3 bucket prefix.
-  @_s.JsonKey(name: 'S3Prefix')
-  final String s3Prefix;
+  final String? s3Prefix;
 
   /// The mailbox export job start timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the mailbox export job.
-  @_s.JsonKey(name: 'State')
-  final MailboxExportJobState state;
+  final MailboxExportJobState? state;
 
   DescribeMailboxExportJobResponse({
     this.description,
@@ -4269,56 +4146,54 @@ class DescribeMailboxExportJobResponse {
     this.startTime,
     this.state,
   });
-  factory DescribeMailboxExportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMailboxExportJobResponseFromJson(json);
+  factory DescribeMailboxExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMailboxExportJobResponse(
+      description: json['Description'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      entityId: json['EntityId'] as String?,
+      errorInfo: json['ErrorInfo'] as String?,
+      estimatedProgress: json['EstimatedProgress'] as int?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3Path: json['S3Path'] as String?,
+      s3Prefix: json['S3Prefix'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toMailboxExportJobState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOrganizationResponse {
   /// The Amazon Resource Name (ARN) of the organization.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The alias for an organization.
-  @_s.JsonKey(name: 'Alias')
-  final String alias;
+  final String? alias;
 
   /// The date at which the organization became usable in the WorkMail context, in
   /// UNIX epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedDate')
-  final DateTime completedDate;
+  final DateTime? completedDate;
 
   /// The default mail domain associated with the organization.
-  @_s.JsonKey(name: 'DefaultMailDomain')
-  final String defaultMailDomain;
+  final String? defaultMailDomain;
 
   /// The identifier for the directory associated with an Amazon WorkMail
   /// organization.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The type of directory associated with the WorkMail organization.
-  @_s.JsonKey(name: 'DirectoryType')
-  final String directoryType;
+  final String? directoryType;
 
   /// (Optional) The error message indicating if unexpected behavior was
   /// encountered with regards to the organization.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier of an organization.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   /// The state of an organization.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   DescribeOrganizationResponse({
     this.arn,
@@ -4331,52 +4206,48 @@ class DescribeOrganizationResponse {
     this.organizationId,
     this.state,
   });
-  factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeOrganizationResponseFromJson(json);
+  factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOrganizationResponse(
+      arn: json['ARN'] as String?,
+      alias: json['Alias'] as String?,
+      completedDate: timeStampFromJson(json['CompletedDate']),
+      defaultMailDomain: json['DefaultMailDomain'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      directoryType: json['DirectoryType'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      organizationId: json['OrganizationId'] as String?,
+      state: json['State'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourceResponse {
   /// The booking options for the described resource.
-  @_s.JsonKey(name: 'BookingOptions')
-  final BookingOptions bookingOptions;
+  final BookingOptions? bookingOptions;
 
   /// The date and time when a resource was disabled from WorkMail, in UNIX epoch
   /// time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The email of the described resource.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date and time when a resource was enabled for WorkMail, in UNIX epoch
   /// time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The name of the described resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The identifier of the described resource.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The state of the resource: enabled (registered to Amazon WorkMail), disabled
   /// (deregistered or never registered to WorkMail), or deleted.
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   /// The type of the described resource.
-  @_s.JsonKey(name: 'Type')
-  final ResourceType type;
+  final ResourceType? type;
 
   DescribeResourceResponse({
     this.bookingOptions,
@@ -4388,48 +4259,47 @@ class DescribeResourceResponse {
     this.state,
     this.type,
   });
-  factory DescribeResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeResourceResponseFromJson(json);
+  factory DescribeResourceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourceResponse(
+      bookingOptions: json['BookingOptions'] != null
+          ? BookingOptions.fromJson(
+              json['BookingOptions'] as Map<String, dynamic>)
+          : null,
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      name: json['Name'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+      type: (json['Type'] as String?)?.toResourceType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserResponse {
   /// The date and time at which the user was disabled for Amazon WorkMail usage,
   /// in UNIX epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The display name of the user.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The email of the user.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date and time at which the user was enabled for Amazon WorkMail usage,
   /// in UNIX epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The name for the user.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of a user: enabled (registered to Amazon WorkMail) or disabled
   /// (deregistered or never registered to WorkMail).
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   /// The identifier for the described user.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   /// In certain cases, other entities are modeled as users. If interoperability
   /// is enabled, resources are imported into Amazon WorkMail as users. Because
@@ -4437,8 +4307,7 @@ class DescribeUserResponse {
   /// administrators can distinguish between an unregistered user (account is
   /// disabled and has a user role) and the directory administrators. The values
   /// are USER, RESOURCE, and SYSTEM_USER.
-  @_s.JsonKey(name: 'UserRole')
-  final UserRole userRole;
+  final UserRole? userRole;
 
   DescribeUserResponse({
     this.disabledDate,
@@ -4450,32 +4319,33 @@ class DescribeUserResponse {
     this.userId,
     this.userRole,
   });
-  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserResponseFromJson(json);
+  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserResponse(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      displayName: json['DisplayName'] as String?,
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+      userId: json['UserId'] as String?,
+      userRole: (json['UserRole'] as String?)?.toUserRole(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDelegateFromResourceResponse {
   DisassociateDelegateFromResourceResponse();
   factory DisassociateDelegateFromResourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateDelegateFromResourceResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateDelegateFromResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateMemberFromGroupResponse {
   DisassociateMemberFromGroupResponse();
-  factory DisassociateMemberFromGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateMemberFromGroupResponseFromJson(json);
+  factory DisassociateMemberFromGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateMemberFromGroupResponse();
+  }
 }
 
 /// The domain to associate with an Amazon WorkMail organization.
@@ -4485,125 +4355,176 @@ class DisassociateMemberFromGroupResponse {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html">Adding
 /// a domain</a> in the <i>Amazon WorkMail Administrator Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Domain {
   /// The fully qualified domain name.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The hosted zone ID for a domain hosted in Route 53. Required when
   /// configuring a domain hosted in Route 53.
-  @_s.JsonKey(name: 'HostedZoneId')
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   Domain({
     this.domainName,
     this.hostedZoneId,
   });
-  Map<String, dynamic> toJson() => _$DomainToJson(this);
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+    };
+  }
 }
 
 enum EntityState {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on EntityState {
+  String toValue() {
+    switch (this) {
+      case EntityState.enabled:
+        return 'ENABLED';
+      case EntityState.disabled:
+        return 'DISABLED';
+      case EntityState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  EntityState toEntityState() {
+    switch (this) {
+      case 'ENABLED':
+        return EntityState.enabled;
+      case 'DISABLED':
+        return EntityState.disabled;
+      case 'DELETED':
+        return EntityState.deleted;
+    }
+    throw Exception('$this is not known in enum EntityState');
+  }
 }
 
 /// The configuration applied to an organization's folders by its retention
 /// policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FolderConfiguration {
   /// The action to take on the folder contents at the end of the folder
   /// configuration period.
-  @_s.JsonKey(name: 'Action')
   final RetentionAction action;
 
   /// The folder name.
-  @_s.JsonKey(name: 'Name')
   final FolderName name;
 
   /// The period of time at which the folder configuration action is applied.
-  @_s.JsonKey(name: 'Period')
-  final int period;
+  final int? period;
 
   FolderConfiguration({
-    @_s.required this.action,
-    @_s.required this.name,
+    required this.action,
+    required this.name,
     this.period,
   });
-  factory FolderConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FolderConfigurationFromJson(json);
+  factory FolderConfiguration.fromJson(Map<String, dynamic> json) {
+    return FolderConfiguration(
+      action: (json['Action'] as String).toRetentionAction(),
+      name: (json['Name'] as String).toFolderName(),
+      period: json['Period'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FolderConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final name = this.name;
+    final period = this.period;
+    return {
+      'Action': action.toValue(),
+      'Name': name.toValue(),
+      if (period != null) 'Period': period,
+    };
+  }
 }
 
 enum FolderName {
-  @_s.JsonValue('INBOX')
   inbox,
-  @_s.JsonValue('DELETED_ITEMS')
   deletedItems,
-  @_s.JsonValue('SENT_ITEMS')
   sentItems,
-  @_s.JsonValue('DRAFTS')
   drafts,
-  @_s.JsonValue('JUNK_EMAIL')
   junkEmail,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FolderName {
+  String toValue() {
+    switch (this) {
+      case FolderName.inbox:
+        return 'INBOX';
+      case FolderName.deletedItems:
+        return 'DELETED_ITEMS';
+      case FolderName.sentItems:
+        return 'SENT_ITEMS';
+      case FolderName.drafts:
+        return 'DRAFTS';
+      case FolderName.junkEmail:
+        return 'JUNK_EMAIL';
+    }
+  }
+}
+
+extension on String {
+  FolderName toFolderName() {
+    switch (this) {
+      case 'INBOX':
+        return FolderName.inbox;
+      case 'DELETED_ITEMS':
+        return FolderName.deletedItems;
+      case 'SENT_ITEMS':
+        return FolderName.sentItems;
+      case 'DRAFTS':
+        return FolderName.drafts;
+      case 'JUNK_EMAIL':
+        return FolderName.junkEmail;
+    }
+    throw Exception('$this is not known in enum FolderName');
+  }
+}
+
 class GetAccessControlEffectResponse {
   /// The rule effect.
-  @_s.JsonKey(name: 'Effect')
-  final AccessControlRuleEffect effect;
+  final AccessControlRuleEffect? effect;
 
   /// The rules that match the given parameters, resulting in an effect.
-  @_s.JsonKey(name: 'MatchedRules')
-  final List<String> matchedRules;
+  final List<String>? matchedRules;
 
   GetAccessControlEffectResponse({
     this.effect,
     this.matchedRules,
   });
-  factory GetAccessControlEffectResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccessControlEffectResponseFromJson(json);
+  factory GetAccessControlEffectResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccessControlEffectResponse(
+      effect: (json['Effect'] as String?)?.toAccessControlRuleEffect(),
+      matchedRules: (json['MatchedRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDefaultRetentionPolicyResponse {
   /// The retention policy description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The retention policy folder configurations.
-  @_s.JsonKey(name: 'FolderConfigurations')
-  final List<FolderConfiguration> folderConfigurations;
+  final List<FolderConfiguration>? folderConfigurations;
 
   /// The retention policy ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The retention policy name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GetDefaultRetentionPolicyResponse({
     this.description,
@@ -4612,64 +4533,57 @@ class GetDefaultRetentionPolicyResponse {
     this.name,
   });
   factory GetDefaultRetentionPolicyResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDefaultRetentionPolicyResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDefaultRetentionPolicyResponse(
+      description: json['Description'] as String?,
+      folderConfigurations: (json['FolderConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => FolderConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMailboxDetailsResponse {
   /// The maximum allowed mailbox size, in MB, for the specified user.
-  @_s.JsonKey(name: 'MailboxQuota')
-  final int mailboxQuota;
+  final int? mailboxQuota;
 
   /// The current mailbox size, in MB, for the specified user.
-  @_s.JsonKey(name: 'MailboxSize')
-  final double mailboxSize;
+  final double? mailboxSize;
 
   GetMailboxDetailsResponse({
     this.mailboxQuota,
     this.mailboxSize,
   });
-  factory GetMailboxDetailsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMailboxDetailsResponseFromJson(json);
+  factory GetMailboxDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMailboxDetailsResponse(
+      mailboxQuota: json['MailboxQuota'] as int?,
+      mailboxSize: json['MailboxSize'] as double?,
+    );
+  }
 }
 
 /// The representation of an Amazon WorkMail group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Group {
   /// The date indicating when the group was disabled from Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The email of the group.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date indicating when the group was enabled for Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The identifier of the group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   Group({
     this.disabledDate,
@@ -4679,298 +4593,291 @@ class Group {
     this.name,
     this.state,
   });
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccessControlRulesResponse {
   /// The access control rules.
-  @_s.JsonKey(name: 'Rules')
-  final List<AccessControlRule> rules;
+  final List<AccessControlRule>? rules;
 
   ListAccessControlRulesResponse({
     this.rules,
   });
-  factory ListAccessControlRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccessControlRulesResponseFromJson(json);
+  factory ListAccessControlRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccessControlRulesResponse(
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessControlRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAliasesResponse {
   /// The entity's paginated aliases.
-  @_s.JsonKey(name: 'Aliases')
-  final List<String> aliases;
+  final List<String>? aliases;
 
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAliasesResponse({
     this.aliases,
     this.nextToken,
   });
-  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAliasesResponseFromJson(json);
+  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupMembersResponse {
   /// The members associated to the group.
-  @_s.JsonKey(name: 'Members')
-  final List<Member> members;
+  final List<Member>? members;
 
   /// The token to use to retrieve the next page of results. The first call does
   /// not contain any tokens.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupMembersResponse({
     this.members,
     this.nextToken,
   });
-  factory ListGroupMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupMembersResponseFromJson(json);
+  factory ListGroupMembersResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupMembersResponse(
+      members: (json['Members'] as List?)
+          ?.whereNotNull()
+          .map((e) => Member.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupsResponse {
   /// The overview of groups for an organization.
-  @_s.JsonKey(name: 'Groups')
-  final List<Group> groups;
+  final List<Group>? groups;
 
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupsResponse({
     this.groups,
     this.nextToken,
   });
-  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupsResponseFromJson(json);
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMailboxExportJobsResponse {
   /// The mailbox export job details.
-  @_s.JsonKey(name: 'Jobs')
-  final List<MailboxExportJob> jobs;
+  final List<MailboxExportJob>? jobs;
 
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMailboxExportJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory ListMailboxExportJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMailboxExportJobsResponseFromJson(json);
+  factory ListMailboxExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMailboxExportJobsResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => MailboxExportJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMailboxPermissionsResponse {
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// One page of the user, group, or resource mailbox permissions.
-  @_s.JsonKey(name: 'Permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   ListMailboxPermissionsResponse({
     this.nextToken,
     this.permissions,
   });
-  factory ListMailboxPermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMailboxPermissionsResponseFromJson(json);
+  factory ListMailboxPermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMailboxPermissionsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOrganizationsResponse {
   /// The token to use to retrieve the next page of results. The value is "null"
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The overview of owned organizations presented as a list of organization
   /// summaries.
-  @_s.JsonKey(name: 'OrganizationSummaries')
-  final List<OrganizationSummary> organizationSummaries;
+  final List<OrganizationSummary>? organizationSummaries;
 
   ListOrganizationsResponse({
     this.nextToken,
     this.organizationSummaries,
   });
-  factory ListOrganizationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOrganizationsResponseFromJson(json);
+  factory ListOrganizationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOrganizationsResponse(
+      nextToken: json['NextToken'] as String?,
+      organizationSummaries: (json['OrganizationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => OrganizationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceDelegatesResponse {
   /// One page of the resource's delegates.
-  @_s.JsonKey(name: 'Delegates')
-  final List<Delegate> delegates;
+  final List<Delegate>? delegates;
 
   /// The token used to paginate through the delegates associated with a resource.
   /// While results are still available, it has an associated value. When the last
   /// page is reached, the token is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListResourceDelegatesResponse({
     this.delegates,
     this.nextToken,
   });
-  factory ListResourceDelegatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceDelegatesResponseFromJson(json);
+  factory ListResourceDelegatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceDelegatesResponse(
+      delegates: (json['Delegates'] as List?)
+          ?.whereNotNull()
+          .map((e) => Delegate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourcesResponse {
   /// The token used to paginate through all the organization's resources. While
   /// results are still available, it has an associated value. When the last page
   /// is reached, the token is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// One page of the organization's resource representation.
-  @_s.JsonKey(name: 'Resources')
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   ListResourcesResponse({
     this.nextToken,
     this.resources,
   });
-  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourcesResponseFromJson(json);
+  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A list of tag key-value pairs.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// The token to use to retrieve the next page of results. This value is `null`
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The overview of users for an organization.
-  @_s.JsonKey(name: 'Users')
-  final List<User> users;
+  final List<User>? users;
 
   ListUsersResponse({
     this.nextToken,
     this.users,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      nextToken: json['NextToken'] as String?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The details of a mailbox export job, including the user or resource ID
 /// associated with the mailbox and the S3 bucket that the mailbox contents are
 /// exported to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MailboxExportJob {
   /// The mailbox export job description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The mailbox export job end timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The identifier of the user or resource associated with the mailbox.
-  @_s.JsonKey(name: 'EntityId')
-  final String entityId;
+  final String? entityId;
 
   /// The estimated progress of the mailbox export job, in percentage points.
-  @_s.JsonKey(name: 'EstimatedProgress')
-  final int estimatedProgress;
+  final int? estimatedProgress;
 
   /// The identifier of the mailbox export job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The path to the S3 bucket and file that the mailbox export job exports to.
-  @_s.JsonKey(name: 'S3Path')
-  final String s3Path;
+  final String? s3Path;
 
   /// The mailbox export job start timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The state of the mailbox export job.
-  @_s.JsonKey(name: 'State')
-  final MailboxExportJobState state;
+  final MailboxExportJobState? state;
 
   MailboxExportJob({
     this.description,
@@ -4983,53 +4890,78 @@ class MailboxExportJob {
     this.startTime,
     this.state,
   });
-  factory MailboxExportJob.fromJson(Map<String, dynamic> json) =>
-      _$MailboxExportJobFromJson(json);
+  factory MailboxExportJob.fromJson(Map<String, dynamic> json) {
+    return MailboxExportJob(
+      description: json['Description'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      entityId: json['EntityId'] as String?,
+      estimatedProgress: json['EstimatedProgress'] as int?,
+      jobId: json['JobId'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3Path: json['S3Path'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toMailboxExportJobState(),
+    );
+  }
 }
 
 enum MailboxExportJobState {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
 }
 
+extension on MailboxExportJobState {
+  String toValue() {
+    switch (this) {
+      case MailboxExportJobState.running:
+        return 'RUNNING';
+      case MailboxExportJobState.completed:
+        return 'COMPLETED';
+      case MailboxExportJobState.failed:
+        return 'FAILED';
+      case MailboxExportJobState.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  MailboxExportJobState toMailboxExportJobState() {
+    switch (this) {
+      case 'RUNNING':
+        return MailboxExportJobState.running;
+      case 'COMPLETED':
+        return MailboxExportJobState.completed;
+      case 'FAILED':
+        return MailboxExportJobState.failed;
+      case 'CANCELLED':
+        return MailboxExportJobState.cancelled;
+    }
+    throw Exception('$this is not known in enum MailboxExportJobState');
+  }
+}
+
 /// The representation of a user or group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Member {
   /// The date indicating when the member was disabled from Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The date indicating when the member was enabled for Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The identifier of the member.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the member.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the member, which can be ENABLED, DISABLED, or DELETED.
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   /// A member can be a user or group.
-  @_s.JsonKey(name: 'Type')
-  final MemberType type;
+  final MemberType? type;
 
   Member({
     this.disabledDate,
@@ -5039,44 +4971,64 @@ class Member {
     this.state,
     this.type,
   });
-  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+  factory Member.fromJson(Map<String, dynamic> json) {
+    return Member(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+      type: (json['Type'] as String?)?.toMemberType(),
+    );
+  }
 }
 
 enum MemberType {
-  @_s.JsonValue('GROUP')
   group,
-  @_s.JsonValue('USER')
   user,
 }
 
+extension on MemberType {
+  String toValue() {
+    switch (this) {
+      case MemberType.group:
+        return 'GROUP';
+      case MemberType.user:
+        return 'USER';
+    }
+  }
+}
+
+extension on String {
+  MemberType toMemberType() {
+    switch (this) {
+      case 'GROUP':
+        return MemberType.group;
+      case 'USER':
+        return MemberType.user;
+    }
+    throw Exception('$this is not known in enum MemberType');
+  }
+}
+
 /// The representation of an organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrganizationSummary {
   /// The alias associated with the organization.
-  @_s.JsonKey(name: 'Alias')
-  final String alias;
+  final String? alias;
 
   /// The default email domain associated with the organization.
-  @_s.JsonKey(name: 'DefaultMailDomain')
-  final String defaultMailDomain;
+  final String? defaultMailDomain;
 
   /// The error message associated with the organization. It is only present if
   /// unexpected behavior has occurred with regards to the organization. It
   /// provides insight or solutions regarding unexpected behavior.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier associated with the organization.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   /// The state associated with the organization.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   OrganizationSummary({
     this.alias,
@@ -5085,25 +5037,25 @@ class OrganizationSummary {
     this.organizationId,
     this.state,
   });
-  factory OrganizationSummary.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationSummaryFromJson(json);
+  factory OrganizationSummary.fromJson(Map<String, dynamic> json) {
+    return OrganizationSummary(
+      alias: json['Alias'] as String?,
+      defaultMailDomain: json['DefaultMailDomain'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      organizationId: json['OrganizationId'] as String?,
+      state: json['State'] as String?,
+    );
+  }
 }
 
 /// Permission granted to a user, group, or resource to access a certain aspect
 /// of another user, group, or resource mailbox.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Permission {
   /// The identifier of the user, group, or resource to which the permissions are
   /// granted.
-  @_s.JsonKey(name: 'GranteeId')
   final String granteeId;
 
   /// The type of user, group, or resource referred to in GranteeId.
-  @_s.JsonKey(name: 'GranteeType')
   final MemberType granteeType;
 
   /// The permissions granted to the grantee. SEND_AS allows the grantee to send
@@ -5112,24 +5064,28 @@ class Permission {
   /// owner of the mailbox (the grantee is not mentioned as the physical sender of
   /// these emails). FULL_ACCESS allows the grantee full access to the mailbox,
   /// irrespective of other folder-level permissions set on the mailbox.
-  @_s.JsonKey(name: 'PermissionValues')
   final List<PermissionType> permissionValues;
 
   Permission({
-    @_s.required this.granteeId,
-    @_s.required this.granteeType,
-    @_s.required this.permissionValues,
+    required this.granteeId,
+    required this.granteeType,
+    required this.permissionValues,
   });
-  factory Permission.fromJson(Map<String, dynamic> json) =>
-      _$PermissionFromJson(json);
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      granteeId: json['GranteeId'] as String,
+      granteeType: (json['GranteeType'] as String).toMemberType(),
+      permissionValues: (json['PermissionValues'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toPermissionType())
+          .toList(),
+    );
+  }
 }
 
 enum PermissionType {
-  @_s.JsonValue('FULL_ACCESS')
   fullAccess,
-  @_s.JsonValue('SEND_AS')
   sendAs,
-  @_s.JsonValue('SEND_ON_BEHALF')
   sendOnBehalf,
 }
 
@@ -5143,101 +5099,80 @@ extension on PermissionType {
       case PermissionType.sendOnBehalf:
         return 'SEND_ON_BEHALF';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  PermissionType toPermissionType() {
+    switch (this) {
+      case 'FULL_ACCESS':
+        return PermissionType.fullAccess;
+      case 'SEND_AS':
+        return PermissionType.sendAs;
+      case 'SEND_ON_BEHALF':
+        return PermissionType.sendOnBehalf;
+    }
+    throw Exception('$this is not known in enum PermissionType');
+  }
+}
+
 class PutAccessControlRuleResponse {
   PutAccessControlRuleResponse();
-  factory PutAccessControlRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutAccessControlRuleResponseFromJson(json);
+  factory PutAccessControlRuleResponse.fromJson(Map<String, dynamic> _) {
+    return PutAccessControlRuleResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutMailboxPermissionsResponse {
   PutMailboxPermissionsResponse();
-  factory PutMailboxPermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutMailboxPermissionsResponseFromJson(json);
+  factory PutMailboxPermissionsResponse.fromJson(Map<String, dynamic> _) {
+    return PutMailboxPermissionsResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRetentionPolicyResponse {
   PutRetentionPolicyResponse();
-  factory PutRetentionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutRetentionPolicyResponseFromJson(json);
+  factory PutRetentionPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutRetentionPolicyResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterToWorkMailResponse {
   RegisterToWorkMailResponse();
-  factory RegisterToWorkMailResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterToWorkMailResponseFromJson(json);
+  factory RegisterToWorkMailResponse.fromJson(Map<String, dynamic> _) {
+    return RegisterToWorkMailResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResetPasswordResponse {
   ResetPasswordResponse();
-  factory ResetPasswordResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResetPasswordResponseFromJson(json);
+  factory ResetPasswordResponse.fromJson(Map<String, dynamic> _) {
+    return ResetPasswordResponse();
+  }
 }
 
 /// The representation of a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resource {
   /// The date indicating when the resource was disabled from Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The email of the resource.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date indicating when the resource was enabled for Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The identifier of the resource.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the resource, which can be ENABLED, DISABLED, or DELETED.
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   /// The type of the resource: equipment or room.
-  @_s.JsonKey(name: 'Type')
-  final ResourceType type;
+  final ResourceType? type;
 
   Resource({
     this.disabledDate,
@@ -5248,14 +5183,21 @@ class Resource {
     this.state,
     this.type,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+      type: (json['Type'] as String?)?.toResourceType(),
+    );
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('ROOM')
   room,
-  @_s.JsonValue('EQUIPMENT')
   equipment,
 }
 
@@ -5267,156 +5209,157 @@ extension on ResourceType {
       case ResourceType.equipment:
         return 'EQUIPMENT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'ROOM':
+        return ResourceType.room;
+      case 'EQUIPMENT':
+        return ResourceType.equipment;
+    }
+    throw Exception('$this is not known in enum ResourceType');
   }
 }
 
 enum RetentionAction {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('DELETE')
   delete,
-  @_s.JsonValue('PERMANENTLY_DELETE')
   permanentlyDelete,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RetentionAction {
+  String toValue() {
+    switch (this) {
+      case RetentionAction.none:
+        return 'NONE';
+      case RetentionAction.delete:
+        return 'DELETE';
+      case RetentionAction.permanentlyDelete:
+        return 'PERMANENTLY_DELETE';
+    }
+  }
+}
+
+extension on String {
+  RetentionAction toRetentionAction() {
+    switch (this) {
+      case 'NONE':
+        return RetentionAction.none;
+      case 'DELETE':
+        return RetentionAction.delete;
+      case 'PERMANENTLY_DELETE':
+        return RetentionAction.permanentlyDelete;
+    }
+    throw Exception('$this is not known in enum RetentionAction');
+  }
+}
+
 class StartMailboxExportJobResponse {
   /// The job ID.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartMailboxExportJobResponse({
     this.jobId,
   });
-  factory StartMailboxExportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartMailboxExportJobResponseFromJson(json);
+  factory StartMailboxExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartMailboxExportJobResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
 }
 
 /// Describes a tag applied to a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMailboxQuotaResponse {
   UpdateMailboxQuotaResponse();
-  factory UpdateMailboxQuotaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMailboxQuotaResponseFromJson(json);
+  factory UpdateMailboxQuotaResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateMailboxQuotaResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePrimaryEmailAddressResponse {
   UpdatePrimaryEmailAddressResponse();
-  factory UpdatePrimaryEmailAddressResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePrimaryEmailAddressResponseFromJson(json);
+  factory UpdatePrimaryEmailAddressResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePrimaryEmailAddressResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResourceResponse {
   UpdateResourceResponse();
-  factory UpdateResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResourceResponseFromJson(json);
+  factory UpdateResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateResourceResponse();
+  }
 }
 
 /// The representation of an Amazon WorkMail user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The date indicating when the user was disabled from Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DisabledDate')
-  final DateTime disabledDate;
+  final DateTime? disabledDate;
 
   /// The display name of the user.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The email of the user.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The date indicating when the user was enabled for Amazon WorkMail use.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EnabledDate')
-  final DateTime enabledDate;
+  final DateTime? enabledDate;
 
   /// The identifier of the user.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The state of the user, which can be ENABLED, DISABLED, or DELETED.
-  @_s.JsonKey(name: 'State')
-  final EntityState state;
+  final EntityState? state;
 
   /// The role of the user.
-  @_s.JsonKey(name: 'UserRole')
-  final UserRole userRole;
+  final UserRole? userRole;
 
   User({
     this.disabledDate,
@@ -5428,26 +5371,61 @@ class User {
     this.state,
     this.userRole,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      disabledDate: timeStampFromJson(json['DisabledDate']),
+      displayName: json['DisplayName'] as String?,
+      email: json['Email'] as String?,
+      enabledDate: timeStampFromJson(json['EnabledDate']),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.toEntityState(),
+      userRole: (json['UserRole'] as String?)?.toUserRole(),
+    );
+  }
 }
 
 enum UserRole {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('RESOURCE')
   resource,
-  @_s.JsonValue('SYSTEM_USER')
   systemUser,
 }
 
+extension on UserRole {
+  String toValue() {
+    switch (this) {
+      case UserRole.user:
+        return 'USER';
+      case UserRole.resource:
+        return 'RESOURCE';
+      case UserRole.systemUser:
+        return 'SYSTEM_USER';
+    }
+  }
+}
+
+extension on String {
+  UserRole toUserRole() {
+    switch (this) {
+      case 'USER':
+        return UserRole.user;
+      case 'RESOURCE':
+        return UserRole.resource;
+      case 'SYSTEM_USER':
+        return UserRole.systemUser;
+    }
+    throw Exception('$this is not known in enum UserRole');
+  }
+}
+
 class DirectoryInUseException extends _s.GenericAwsException {
-  DirectoryInUseException({String type, String message})
+  DirectoryInUseException({String? type, String? message})
       : super(type: type, code: 'DirectoryInUseException', message: message);
 }
 
 class DirectoryServiceAuthenticationFailedException
     extends _s.GenericAwsException {
-  DirectoryServiceAuthenticationFailedException({String type, String message})
+  DirectoryServiceAuthenticationFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryServiceAuthenticationFailedException',
@@ -5455,7 +5433,7 @@ class DirectoryServiceAuthenticationFailedException
 }
 
 class DirectoryUnavailableException extends _s.GenericAwsException {
-  DirectoryUnavailableException({String type, String message})
+  DirectoryUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryUnavailableException',
@@ -5463,12 +5441,12 @@ class DirectoryUnavailableException extends _s.GenericAwsException {
 }
 
 class EmailAddressInUseException extends _s.GenericAwsException {
-  EmailAddressInUseException({String type, String message})
+  EmailAddressInUseException({String? type, String? message})
       : super(type: type, code: 'EmailAddressInUseException', message: message);
 }
 
 class EntityAlreadyRegisteredException extends _s.GenericAwsException {
-  EntityAlreadyRegisteredException({String type, String message})
+  EntityAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'EntityAlreadyRegisteredException',
@@ -5476,17 +5454,17 @@ class EntityAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class EntityNotFoundException extends _s.GenericAwsException {
-  EntityNotFoundException({String type, String message})
+  EntityNotFoundException({String? type, String? message})
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
 class EntityStateException extends _s.GenericAwsException {
-  EntityStateException({String type, String message})
+  EntityStateException({String? type, String? message})
       : super(type: type, code: 'EntityStateException', message: message);
 }
 
 class InvalidConfigurationException extends _s.GenericAwsException {
-  InvalidConfigurationException({String type, String message})
+  InvalidConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConfigurationException',
@@ -5494,38 +5472,38 @@ class InvalidConfigurationException extends _s.GenericAwsException {
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidPasswordException extends _s.GenericAwsException {
-  InvalidPasswordException({String type, String message})
+  InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MailDomainNotFoundException extends _s.GenericAwsException {
-  MailDomainNotFoundException({String type, String message})
+  MailDomainNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'MailDomainNotFoundException', message: message);
 }
 
 class MailDomainStateException extends _s.GenericAwsException {
-  MailDomainStateException({String type, String message})
+  MailDomainStateException({String? type, String? message})
       : super(type: type, code: 'MailDomainStateException', message: message);
 }
 
 class NameAvailabilityException extends _s.GenericAwsException {
-  NameAvailabilityException({String type, String message})
+  NameAvailabilityException({String? type, String? message})
       : super(type: type, code: 'NameAvailabilityException', message: message);
 }
 
 class OrganizationNotFoundException extends _s.GenericAwsException {
-  OrganizationNotFoundException({String type, String message})
+  OrganizationNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationNotFoundException',
@@ -5533,27 +5511,27 @@ class OrganizationNotFoundException extends _s.GenericAwsException {
 }
 
 class OrganizationStateException extends _s.GenericAwsException {
-  OrganizationStateException({String type, String message})
+  OrganizationStateException({String? type, String? message})
       : super(type: type, code: 'OrganizationStateException', message: message);
 }
 
 class ReservedNameException extends _s.GenericAwsException {
-  ReservedNameException({String type, String message})
+  ReservedNameException({String? type, String? message})
       : super(type: type, code: 'ReservedNameException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

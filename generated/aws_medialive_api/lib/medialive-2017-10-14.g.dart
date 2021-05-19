@@ -8,7 +8,7 @@ part of 'medialive-2017-10-14.dart';
 
 AacSettings _$AacSettingsFromJson(Map<String, dynamic> json) {
   return AacSettings(
-    bitrate: (json['bitrate'] as num)?.toDouble(),
+    bitrate: (json['bitrate'] as num?)?.toDouble(),
     codingMode:
         _$enumDecodeNullable(_$AacCodingModeEnumMap, json['codingMode']),
     inputType: _$enumDecodeNullable(_$AacInputTypeEnumMap, json['inputType']),
@@ -16,7 +16,7 @@ AacSettings _$AacSettingsFromJson(Map<String, dynamic> json) {
     rateControlMode: _$enumDecodeNullable(
         _$AacRateControlModeEnumMap, json['rateControlMode']),
     rawFormat: _$enumDecodeNullable(_$AacRawFormatEnumMap, json['rawFormat']),
-    sampleRate: (json['sampleRate'] as num)?.toDouble(),
+    sampleRate: (json['sampleRate'] as num?)?.toDouble(),
     spec: _$enumDecodeNullable(_$AacSpecEnumMap, json['spec']),
     vbrQuality:
         _$enumDecodeNullable(_$AacVbrQualityEnumMap, json['vbrQuality']),
@@ -45,36 +45,41 @@ Map<String, dynamic> _$AacSettingsToJson(AacSettings instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AacCodingModeEnumMap = {
@@ -120,12 +125,12 @@ const _$AacVbrQualityEnumMap = {
 
 Ac3Settings _$Ac3SettingsFromJson(Map<String, dynamic> json) {
   return Ac3Settings(
-    bitrate: (json['bitrate'] as num)?.toDouble(),
+    bitrate: (json['bitrate'] as num?)?.toDouble(),
     bitstreamMode:
         _$enumDecodeNullable(_$Ac3BitstreamModeEnumMap, json['bitstreamMode']),
     codingMode:
         _$enumDecodeNullable(_$Ac3CodingModeEnumMap, json['codingMode']),
-    dialnorm: json['dialnorm'] as int,
+    dialnorm: json['dialnorm'] as int?,
     drcProfile:
         _$enumDecodeNullable(_$Ac3DrcProfileEnumMap, json['drcProfile']),
     lfeFilter: _$enumDecodeNullable(_$Ac3LfeFilterEnumMap, json['lfeFilter']),
@@ -196,7 +201,7 @@ AcceptInputDeviceTransferResponse _$AcceptInputDeviceTransferResponseFromJson(
 AncillarySourceSettings _$AncillarySourceSettingsFromJson(
     Map<String, dynamic> json) {
   return AncillarySourceSettings(
-    sourceAncillaryChannelNumber: json['sourceAncillaryChannelNumber'] as int,
+    sourceAncillaryChannelNumber: json['sourceAncillaryChannelNumber'] as int?,
   );
 }
 
@@ -244,17 +249,17 @@ Map<String, dynamic> _$ArchiveContainerSettingsToJson(
 
 ArchiveGroupSettings _$ArchiveGroupSettingsFromJson(Map<String, dynamic> json) {
   return ArchiveGroupSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
-    rolloverInterval: json['rolloverInterval'] as int,
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
+    rolloverInterval: json['rolloverInterval'] as int?,
   );
 }
 
 Map<String, dynamic> _$ArchiveGroupSettingsToJson(
     ArchiveGroupSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -262,7 +267,6 @@ Map<String, dynamic> _$ArchiveGroupSettingsToJson(
     }
   }
 
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('rolloverInterval', instance.rolloverInterval);
   return val;
 }
@@ -270,18 +274,18 @@ Map<String, dynamic> _$ArchiveGroupSettingsToJson(
 ArchiveOutputSettings _$ArchiveOutputSettingsFromJson(
     Map<String, dynamic> json) {
   return ArchiveOutputSettings(
-    containerSettings: json['containerSettings'] == null
-        ? null
-        : ArchiveContainerSettings.fromJson(
-            json['containerSettings'] as Map<String, dynamic>),
-    extension: json['extension'] as String,
-    nameModifier: json['nameModifier'] as String,
+    containerSettings: ArchiveContainerSettings.fromJson(
+        json['containerSettings'] as Map<String, dynamic>),
+    extension: json['extension'] as String?,
+    nameModifier: json['nameModifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$ArchiveOutputSettingsToJson(
     ArchiveOutputSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'containerSettings': instance.containerSettings.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -289,7 +293,6 @@ Map<String, dynamic> _$ArchiveOutputSettingsToJson(
     }
   }
 
-  writeNotNull('containerSettings', instance.containerSettings?.toJson());
   writeNotNull('extension', instance.extension);
   writeNotNull('nameModifier', instance.nameModifier);
   return val;
@@ -313,29 +316,20 @@ Map<String, dynamic> _$AribSourceSettingsToJson(AribSourceSettings instance) =>
 
 AudioChannelMapping _$AudioChannelMappingFromJson(Map<String, dynamic> json) {
   return AudioChannelMapping(
-    inputChannelLevels: (json['inputChannelLevels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputChannelLevel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputChannelLevels: (json['inputChannelLevels'] as List<dynamic>)
+        .map((e) => InputChannelLevel.fromJson(e as Map<String, dynamic>))
+        .toList(),
     outputChannel: json['outputChannel'] as int,
   );
 }
 
-Map<String, dynamic> _$AudioChannelMappingToJson(AudioChannelMapping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('inputChannelLevels',
-      instance.inputChannelLevels?.map((e) => e?.toJson())?.toList());
-  writeNotNull('outputChannel', instance.outputChannel);
-  return val;
-}
+Map<String, dynamic> _$AudioChannelMappingToJson(
+        AudioChannelMapping instance) =>
+    <String, dynamic>{
+      'inputChannelLevels':
+          instance.inputChannelLevels.map((e) => e.toJson()).toList(),
+      'outputChannel': instance.outputChannel,
+    };
 
 AudioCodecSettings _$AudioCodecSettingsFromJson(Map<String, dynamic> json) {
   return AudioCodecSettings(
@@ -394,19 +388,22 @@ AudioDescription _$AudioDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : AudioCodecSettings.fromJson(
             json['codecSettings'] as Map<String, dynamic>),
-    languageCode: json['languageCode'] as String,
+    languageCode: json['languageCode'] as String?,
     languageCodeControl: _$enumDecodeNullable(
         _$AudioDescriptionLanguageCodeControlEnumMap,
         json['languageCodeControl']),
     remixSettings: json['remixSettings'] == null
         ? null
         : RemixSettings.fromJson(json['remixSettings'] as Map<String, dynamic>),
-    streamName: json['streamName'] as String,
+    streamName: json['streamName'] as String?,
   );
 }
 
 Map<String, dynamic> _$AudioDescriptionToJson(AudioDescription instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'audioSelectorName': instance.audioSelectorName,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -414,8 +411,6 @@ Map<String, dynamic> _$AudioDescriptionToJson(AudioDescription instance) {
     }
   }
 
-  writeNotNull('audioSelectorName', instance.audioSelectorName);
-  writeNotNull('name', instance.name);
   writeNotNull('audioNormalizationSettings',
       instance.audioNormalizationSettings?.toJson());
   writeNotNull('audioType', _$AudioTypeEnumMap[instance.audioType]);
@@ -460,7 +455,9 @@ AudioLanguageSelection _$AudioLanguageSelectionFromJson(
 
 Map<String, dynamic> _$AudioLanguageSelectionToJson(
     AudioLanguageSelection instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'languageCode': instance.languageCode,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -468,7 +465,6 @@ Map<String, dynamic> _$AudioLanguageSelectionToJson(
     }
   }
 
-  writeNotNull('languageCode', instance.languageCode);
   writeNotNull('languageSelectionPolicy',
       _$AudioLanguageSelectionPolicyEnumMap[instance.languageSelectionPolicy]);
   return val;
@@ -486,7 +482,7 @@ AudioNormalizationSettings _$AudioNormalizationSettingsFromJson(
         _$AudioNormalizationAlgorithmEnumMap, json['algorithm']),
     algorithmControl: _$enumDecodeNullable(
         _$AudioNormalizationAlgorithmControlEnumMap, json['algorithmControl']),
-    targetLkfs: (json['targetLkfs'] as num)?.toDouble(),
+    targetLkfs: (json['targetLkfs'] as num?)?.toDouble(),
   );
 }
 
@@ -519,7 +515,7 @@ const _$AudioNormalizationAlgorithmControlEnumMap = {
 
 AudioOnlyHlsSettings _$AudioOnlyHlsSettingsFromJson(Map<String, dynamic> json) {
   return AudioOnlyHlsSettings(
-    audioGroupId: json['audioGroupId'] as String,
+    audioGroupId: json['audioGroupId'] as String?,
     audioOnlyImage: json['audioOnlyImage'] == null
         ? null
         : InputLocation.fromJson(
@@ -570,18 +566,10 @@ AudioPidSelection _$AudioPidSelectionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AudioPidSelectionToJson(AudioPidSelection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('pid', instance.pid);
-  return val;
-}
+Map<String, dynamic> _$AudioPidSelectionToJson(AudioPidSelection instance) =>
+    <String, dynamic>{
+      'pid': instance.pid,
+    };
 
 AudioSelector _$AudioSelectorFromJson(Map<String, dynamic> json) {
   return AudioSelector(
@@ -594,7 +582,9 @@ AudioSelector _$AudioSelectorFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AudioSelectorToJson(AudioSelector instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -602,7 +592,6 @@ Map<String, dynamic> _$AudioSelectorToJson(AudioSelector instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('selectorSettings', instance.selectorSettings?.toJson());
   return val;
 }
@@ -646,13 +635,15 @@ AudioSilenceFailoverSettings _$AudioSilenceFailoverSettingsFromJson(
     Map<String, dynamic> json) {
   return AudioSilenceFailoverSettings(
     audioSelectorName: json['audioSelectorName'] as String,
-    audioSilenceThresholdMsec: json['audioSilenceThresholdMsec'] as int,
+    audioSilenceThresholdMsec: json['audioSilenceThresholdMsec'] as int?,
   );
 }
 
 Map<String, dynamic> _$AudioSilenceFailoverSettingsToJson(
     AudioSilenceFailoverSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'audioSelectorName': instance.audioSelectorName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -660,7 +651,6 @@ Map<String, dynamic> _$AudioSilenceFailoverSettingsToJson(
     }
   }
 
-  writeNotNull('audioSelectorName', instance.audioSelectorName);
   writeNotNull('audioSilenceThresholdMsec', instance.audioSilenceThresholdMsec);
   return val;
 }
@@ -671,51 +661,33 @@ AudioTrack _$AudioTrackFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AudioTrackToJson(AudioTrack instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('track', instance.track);
-  return val;
-}
+Map<String, dynamic> _$AudioTrackToJson(AudioTrack instance) =>
+    <String, dynamic>{
+      'track': instance.track,
+    };
 
 AudioTrackSelection _$AudioTrackSelectionFromJson(Map<String, dynamic> json) {
   return AudioTrackSelection(
-    tracks: (json['tracks'] as List)
-        ?.map((e) =>
-            e == null ? null : AudioTrack.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tracks: (json['tracks'] as List<dynamic>)
+        .map((e) => AudioTrack.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$AudioTrackSelectionToJson(AudioTrackSelection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tracks', instance.tracks?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$AudioTrackSelectionToJson(
+        AudioTrackSelection instance) =>
+    <String, dynamic>{
+      'tracks': instance.tracks.map((e) => e.toJson()).toList(),
+    };
 
 AutomaticInputFailoverSettings _$AutomaticInputFailoverSettingsFromJson(
     Map<String, dynamic> json) {
   return AutomaticInputFailoverSettings(
     secondaryInputId: json['secondaryInputId'] as String,
-    errorClearTimeMsec: json['errorClearTimeMsec'] as int,
-    failoverConditions: (json['failoverConditions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FailoverCondition.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    errorClearTimeMsec: json['errorClearTimeMsec'] as int?,
+    failoverConditions: (json['failoverConditions'] as List<dynamic>?)
+        ?.map((e) => FailoverCondition.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputPreference:
         _$enumDecodeNullable(_$InputPreferenceEnumMap, json['inputPreference']),
   );
@@ -723,7 +695,9 @@ AutomaticInputFailoverSettings _$AutomaticInputFailoverSettingsFromJson(
 
 Map<String, dynamic> _$AutomaticInputFailoverSettingsToJson(
     AutomaticInputFailoverSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'secondaryInputId': instance.secondaryInputId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -731,10 +705,9 @@ Map<String, dynamic> _$AutomaticInputFailoverSettingsToJson(
     }
   }
 
-  writeNotNull('secondaryInputId', instance.secondaryInputId);
   writeNotNull('errorClearTimeMsec', instance.errorClearTimeMsec);
   writeNotNull('failoverConditions',
-      instance.failoverConditions?.map((e) => e?.toJson())?.toList());
+      instance.failoverConditions?.map((e) => e.toJson()).toList());
   writeNotNull(
       'inputPreference', _$InputPreferenceEnumMap[instance.inputPreference]);
   return val;
@@ -824,116 +797,87 @@ Map<String, dynamic> _$AvailSettingsToJson(AvailSettings instance) {
 
 BatchDeleteResponse _$BatchDeleteResponseFromJson(Map<String, dynamic> json) {
   return BatchDeleteResponse(
-    failed: (json['failed'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    successful: (json['successful'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failed: (json['failed'] as List<dynamic>?)
+        ?.map((e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    successful: (json['successful'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchFailedResultModel _$BatchFailedResultModelFromJson(
     Map<String, dynamic> json) {
   return BatchFailedResultModel(
-    arn: json['arn'] as String,
-    code: json['code'] as String,
-    id: json['id'] as String,
-    message: json['message'] as String,
+    arn: json['arn'] as String?,
+    code: json['code'] as String?,
+    id: json['id'] as String?,
+    message: json['message'] as String?,
   );
 }
 
 Map<String, dynamic> _$BatchScheduleActionCreateRequestToJson(
-    BatchScheduleActionCreateRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('scheduleActions',
-      instance.scheduleActions?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        BatchScheduleActionCreateRequest instance) =>
+    <String, dynamic>{
+      'scheduleActions':
+          instance.scheduleActions.map((e) => e.toJson()).toList(),
+    };
 
 BatchScheduleActionCreateResult _$BatchScheduleActionCreateResultFromJson(
     Map<String, dynamic> json) {
   return BatchScheduleActionCreateResult(
-    scheduleActions: (json['scheduleActions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScheduleAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    scheduleActions: (json['scheduleActions'] as List<dynamic>)
+        .map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$BatchScheduleActionDeleteRequestToJson(
-    BatchScheduleActionDeleteRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('actionNames', instance.actionNames);
-  return val;
-}
+        BatchScheduleActionDeleteRequest instance) =>
+    <String, dynamic>{
+      'actionNames': instance.actionNames,
+    };
 
 BatchScheduleActionDeleteResult _$BatchScheduleActionDeleteResultFromJson(
     Map<String, dynamic> json) {
   return BatchScheduleActionDeleteResult(
-    scheduleActions: (json['scheduleActions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScheduleAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    scheduleActions: (json['scheduleActions'] as List<dynamic>)
+        .map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchStartResponse _$BatchStartResponseFromJson(Map<String, dynamic> json) {
   return BatchStartResponse(
-    failed: (json['failed'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    successful: (json['successful'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failed: (json['failed'] as List<dynamic>?)
+        ?.map((e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    successful: (json['successful'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchStopResponse _$BatchStopResponseFromJson(Map<String, dynamic> json) {
   return BatchStopResponse(
-    failed: (json['failed'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    successful: (json['successful'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    failed: (json['failed'] as List<dynamic>?)
+        ?.map((e) => BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    successful: (json['successful'] as List<dynamic>?)
+        ?.map((e) =>
+            BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 BatchSuccessfulResultModel _$BatchSuccessfulResultModelFromJson(
     Map<String, dynamic> json) {
   return BatchSuccessfulResultModel(
-    arn: json['arn'] as String,
-    id: json['id'] as String,
-    state: json['state'] as String,
+    arn: json['arn'] as String?,
+    id: json['id'] as String?,
+    state: json['state'] as String?,
   );
 }
 
@@ -963,7 +907,7 @@ BlackoutSlate _$BlackoutSlateFromJson(Map<String, dynamic> json) {
         ? null
         : InputLocation.fromJson(
             json['networkEndBlackoutImage'] as Map<String, dynamic>),
-    networkId: json['networkId'] as String,
+    networkId: json['networkId'] as String?,
     state: _$enumDecodeNullable(_$BlackoutSlateStateEnumMap, json['state']),
   );
 }
@@ -1004,27 +948,27 @@ BurnInDestinationSettings _$BurnInDestinationSettingsFromJson(
         _$enumDecodeNullable(_$BurnInAlignmentEnumMap, json['alignment']),
     backgroundColor: _$enumDecodeNullable(
         _$BurnInBackgroundColorEnumMap, json['backgroundColor']),
-    backgroundOpacity: json['backgroundOpacity'] as int,
+    backgroundOpacity: json['backgroundOpacity'] as int?,
     font: json['font'] == null
         ? null
         : InputLocation.fromJson(json['font'] as Map<String, dynamic>),
     fontColor:
         _$enumDecodeNullable(_$BurnInFontColorEnumMap, json['fontColor']),
-    fontOpacity: json['fontOpacity'] as int,
-    fontResolution: json['fontResolution'] as int,
-    fontSize: json['fontSize'] as String,
+    fontOpacity: json['fontOpacity'] as int?,
+    fontResolution: json['fontResolution'] as int?,
+    fontSize: json['fontSize'] as String?,
     outlineColor:
         _$enumDecodeNullable(_$BurnInOutlineColorEnumMap, json['outlineColor']),
-    outlineSize: json['outlineSize'] as int,
+    outlineSize: json['outlineSize'] as int?,
     shadowColor:
         _$enumDecodeNullable(_$BurnInShadowColorEnumMap, json['shadowColor']),
-    shadowOpacity: json['shadowOpacity'] as int,
-    shadowXOffset: json['shadowXOffset'] as int,
-    shadowYOffset: json['shadowYOffset'] as int,
+    shadowOpacity: json['shadowOpacity'] as int?,
+    shadowXOffset: json['shadowXOffset'] as int?,
+    shadowYOffset: json['shadowYOffset'] as int?,
     teletextGridControl: _$enumDecodeNullable(
         _$BurnInTeletextGridControlEnumMap, json['teletextGridControl']),
-    xPosition: json['xPosition'] as int,
-    yPosition: json['yPosition'] as int,
+    xPosition: json['xPosition'] as int?,
+    yPosition: json['yPosition'] as int?,
   );
 }
 
@@ -1115,13 +1059,16 @@ CaptionDescription _$CaptionDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : CaptionDestinationSettings.fromJson(
             json['destinationSettings'] as Map<String, dynamic>),
-    languageCode: json['languageCode'] as String,
-    languageDescription: json['languageDescription'] as String,
+    languageCode: json['languageCode'] as String?,
+    languageDescription: json['languageDescription'] as String?,
   );
 }
 
 Map<String, dynamic> _$CaptionDescriptionToJson(CaptionDescription instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'captionSelectorName': instance.captionSelectorName,
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1129,8 +1076,6 @@ Map<String, dynamic> _$CaptionDescriptionToJson(CaptionDescription instance) {
     }
   }
 
-  writeNotNull('captionSelectorName', instance.captionSelectorName);
-  writeNotNull('name', instance.name);
   writeNotNull('destinationSettings', instance.destinationSettings?.toJson());
   writeNotNull('languageCode', instance.languageCode);
   writeNotNull('languageDescription', instance.languageDescription);
@@ -1250,25 +1195,17 @@ CaptionLanguageMapping _$CaptionLanguageMappingFromJson(
 }
 
 Map<String, dynamic> _$CaptionLanguageMappingToJson(
-    CaptionLanguageMapping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('captionChannel', instance.captionChannel);
-  writeNotNull('languageCode', instance.languageCode);
-  writeNotNull('languageDescription', instance.languageDescription);
-  return val;
-}
+        CaptionLanguageMapping instance) =>
+    <String, dynamic>{
+      'captionChannel': instance.captionChannel,
+      'languageCode': instance.languageCode,
+      'languageDescription': instance.languageDescription,
+    };
 
 CaptionSelector _$CaptionSelectorFromJson(Map<String, dynamic> json) {
   return CaptionSelector(
     name: json['name'] as String,
-    languageCode: json['languageCode'] as String,
+    languageCode: json['languageCode'] as String?,
     selectorSettings: json['selectorSettings'] == null
         ? null
         : CaptionSelectorSettings.fromJson(
@@ -1277,7 +1214,9 @@ CaptionSelector _$CaptionSelectorFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CaptionSelectorToJson(CaptionSelector instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1285,7 +1224,6 @@ Map<String, dynamic> _$CaptionSelectorToJson(CaptionSelector instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('languageCode', instance.languageCode);
   writeNotNull('selectorSettings', instance.selectorSettings?.toJson());
   return val;
@@ -1379,48 +1317,40 @@ const _$CdiInputResolutionEnumMap = {
 
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encoderSettings: json['encoderSettings'] == null
         ? null
         : EncoderSettings.fromJson(
             json['encoderSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1456,45 +1386,39 @@ const _$ChannelStateEnumMap = {
 ChannelEgressEndpoint _$ChannelEgressEndpointFromJson(
     Map<String, dynamic> json) {
   return ChannelEgressEndpoint(
-    sourceIp: json['sourceIp'] as String,
+    sourceIp: json['sourceIp'] as String?,
   );
 }
 
 ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
   return ChannelSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1558,48 +1482,40 @@ CreateMultiplexResponse _$CreateMultiplexResponseFromJson(
 DeleteChannelResponse _$DeleteChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteChannelResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encoderSettings: json['encoderSettings'] == null
         ? null
         : EncoderSettings.fromJson(
             json['encoderSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1617,7 +1533,7 @@ DeleteInputSecurityGroupResponse _$DeleteInputSecurityGroupResponseFromJson(
 DeleteMultiplexProgramResponse _$DeleteMultiplexProgramResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteMultiplexProgramResponse(
-    channelId: json['channelId'] as String,
+    channelId: json['channelId'] as String?,
     multiplexProgramSettings: json['multiplexProgramSettings'] == null
         ? null
         : MultiplexProgramSettings.fromJson(
@@ -1626,37 +1542,35 @@ DeleteMultiplexProgramResponse _$DeleteMultiplexProgramResponseFromJson(
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexProgramPipelineDetail.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    programName: json['programName'] as String,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexProgramPipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    programName: json['programName'] as String?,
   );
 }
 
 DeleteMultiplexResponse _$DeleteMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteMultiplexResponse(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1677,31 +1591,31 @@ const _$MultiplexStateEnumMap = {
 DeleteReservationResponse _$DeleteReservationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReservationResponse(
-    arn: json['arn'] as String,
-    count: json['count'] as int,
-    currencyCode: json['currencyCode'] as String,
-    duration: json['duration'] as int,
+    arn: json['arn'] as String?,
+    count: json['count'] as int?,
+    currencyCode: json['currencyCode'] as String?,
+    duration: json['duration'] as int?,
     durationUnits: _$enumDecodeNullable(
         _$OfferingDurationUnitsEnumMap, json['durationUnits']),
-    end: json['end'] as String,
-    fixedPrice: (json['fixedPrice'] as num)?.toDouble(),
-    name: json['name'] as String,
-    offeringDescription: json['offeringDescription'] as String,
-    offeringId: json['offeringId'] as String,
+    end: json['end'] as String?,
+    fixedPrice: (json['fixedPrice'] as num?)?.toDouble(),
+    name: json['name'] as String?,
+    offeringDescription: json['offeringDescription'] as String?,
+    offeringId: json['offeringId'] as String?,
     offeringType:
         _$enumDecodeNullable(_$OfferingTypeEnumMap, json['offeringType']),
-    region: json['region'] as String,
-    reservationId: json['reservationId'] as String,
+    region: json['region'] as String?,
+    reservationId: json['reservationId'] as String?,
     resourceSpecification: json['resourceSpecification'] == null
         ? null
         : ReservationResourceSpecification.fromJson(
             json['resourceSpecification'] as Map<String, dynamic>),
-    start: json['start'] as String,
+    start: json['start'] as String?,
     state: _$enumDecodeNullable(_$ReservationStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    usagePrice: (json['usagePrice'] as num)?.toDouble(),
+    usagePrice: (json['usagePrice'] as num?)?.toDouble(),
   );
 }
 
@@ -1728,48 +1642,40 @@ DeleteScheduleResponse _$DeleteScheduleResponseFromJson(
 DescribeChannelResponse _$DescribeChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeChannelResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encoderSettings: json['encoderSettings'] == null
         ? null
         : EncoderSettings.fromJson(
             json['encoderSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1778,7 +1684,7 @@ DescribeChannelResponse _$DescribeChannelResponseFromJson(
 DescribeInputDeviceResponse _$DescribeInputDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeInputDeviceResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     connectionState: _$enumDecodeNullable(
         _$InputDeviceConnectionStateEnumMap, json['connectionState']),
     deviceSettingsSyncState: _$enumDecodeNullable(
@@ -1789,14 +1695,14 @@ DescribeInputDeviceResponse _$DescribeInputDeviceResponseFromJson(
         ? null
         : InputDeviceHdSettings.fromJson(
             json['hdDeviceSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    macAddress: json['macAddress'] as String,
-    name: json['name'] as String,
+    id: json['id'] as String?,
+    macAddress: json['macAddress'] as String?,
+    name: json['name'] as String?,
     networkSettings: json['networkSettings'] == null
         ? null
         : InputDeviceNetworkSettings.fromJson(
             json['networkSettings'] as Map<String, dynamic>),
-    serialNumber: json['serialNumber'] as String,
+    serialNumber: json['serialNumber'] as String?,
     type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
     uhdDeviceSettings: json['uhdDeviceSettings'] == null
         ? null
@@ -1827,11 +1733,11 @@ const _$InputDeviceTypeEnumMap = {
 DescribeInputDeviceThumbnailResponse
     _$DescribeInputDeviceThumbnailResponseFromJson(Map<String, dynamic> json) {
   return DescribeInputDeviceThumbnailResponse(
-    body: const Uint8ListConverter().fromJson(json['body'] as String),
-    contentLength: json['Content-Length'] as int,
+    body: const Uint8ListNullableConverter().fromJson(json['body'] as String?),
+    contentLength: json['Content-Length'] as int?,
     contentType:
         _$enumDecodeNullable(_$ContentTypeEnumMap, json['Content-Type']),
-    eTag: json['ETag'] as String,
+    eTag: json['ETag'] as String?,
     lastModified: const RfcDateTimeConverter().fromJson(json['Last-Modified']),
   );
 }
@@ -1843,38 +1749,33 @@ const _$ContentTypeEnumMap = {
 DescribeInputResponse _$DescribeInputResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeInputResponse(
-    arn: json['arn'] as String,
-    attachedChannels:
-        (json['attachedChannels'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    attachedChannels: (json['attachedChannels'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => InputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     inputClass: _$enumDecodeNullable(_$InputClassEnumMap, json['inputClass']),
-    inputDevices: (json['inputDevices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDeviceSettings.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputDevices: (json['inputDevices'] as List<dynamic>?)
+        ?.map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSourceType:
         _$enumDecodeNullable(_$InputSourceTypeEnumMap, json['inputSourceType']),
-    mediaConnectFlows: (json['mediaConnectFlows'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MediaConnectFlow.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['name'] as String,
-    roleArn: json['roleArn'] as String,
-    securityGroups:
-        (json['securityGroups'] as List)?.map((e) => e as String)?.toList(),
-    sources: (json['sources'] as List)
-        ?.map((e) =>
-            e == null ? null : InputSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    mediaConnectFlows: (json['mediaConnectFlows'] as List<dynamic>?)
+        ?.map((e) => MediaConnectFlow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['name'] as String?,
+    roleArn: json['roleArn'] as String?,
+    securityGroups: (json['securityGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    sources: (json['sources'] as List<dynamic>?)
+        ?.map((e) => InputSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
     state: _$enumDecodeNullable(_$InputStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     type: _$enumDecodeNullable(_$InputTypeEnumMap, json['type']),
@@ -1914,19 +1815,18 @@ const _$InputTypeEnumMap = {
 DescribeInputSecurityGroupResponse _$DescribeInputSecurityGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeInputSecurityGroupResponse(
-    arn: json['arn'] as String,
-    id: json['id'] as String,
-    inputs: (json['inputs'] as List)?.map((e) => e as String)?.toList(),
+    arn: json['arn'] as String?,
+    id: json['id'] as String?,
+    inputs:
+        (json['inputs'] as List<dynamic>?)?.map((e) => e as String).toList(),
     state:
         _$enumDecodeNullable(_$InputSecurityGroupStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    whitelistRules: (json['whitelistRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputWhitelistRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    whitelistRules: (json['whitelistRules'] as List<dynamic>?)
+        ?.map((e) => InputWhitelistRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1940,7 +1840,7 @@ const _$InputSecurityGroupStateEnumMap = {
 DescribeMultiplexProgramResponse _$DescribeMultiplexProgramResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeMultiplexProgramResponse(
-    channelId: json['channelId'] as String,
+    channelId: json['channelId'] as String?,
     multiplexProgramSettings: json['multiplexProgramSettings'] == null
         ? null
         : MultiplexProgramSettings.fromJson(
@@ -1949,37 +1849,35 @@ DescribeMultiplexProgramResponse _$DescribeMultiplexProgramResponseFromJson(
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexProgramPipelineDetail.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    programName: json['programName'] as String,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexProgramPipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    programName: json['programName'] as String?,
   );
 }
 
 DescribeMultiplexResponse _$DescribeMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeMultiplexResponse(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1988,65 +1886,63 @@ DescribeMultiplexResponse _$DescribeMultiplexResponseFromJson(
 DescribeOfferingResponse _$DescribeOfferingResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeOfferingResponse(
-    arn: json['arn'] as String,
-    currencyCode: json['currencyCode'] as String,
-    duration: json['duration'] as int,
+    arn: json['arn'] as String?,
+    currencyCode: json['currencyCode'] as String?,
+    duration: json['duration'] as int?,
     durationUnits: _$enumDecodeNullable(
         _$OfferingDurationUnitsEnumMap, json['durationUnits']),
-    fixedPrice: (json['fixedPrice'] as num)?.toDouble(),
-    offeringDescription: json['offeringDescription'] as String,
-    offeringId: json['offeringId'] as String,
+    fixedPrice: (json['fixedPrice'] as num?)?.toDouble(),
+    offeringDescription: json['offeringDescription'] as String?,
+    offeringId: json['offeringId'] as String?,
     offeringType:
         _$enumDecodeNullable(_$OfferingTypeEnumMap, json['offeringType']),
-    region: json['region'] as String,
+    region: json['region'] as String?,
     resourceSpecification: json['resourceSpecification'] == null
         ? null
         : ReservationResourceSpecification.fromJson(
             json['resourceSpecification'] as Map<String, dynamic>),
-    usagePrice: (json['usagePrice'] as num)?.toDouble(),
+    usagePrice: (json['usagePrice'] as num?)?.toDouble(),
   );
 }
 
 DescribeReservationResponse _$DescribeReservationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeReservationResponse(
-    arn: json['arn'] as String,
-    count: json['count'] as int,
-    currencyCode: json['currencyCode'] as String,
-    duration: json['duration'] as int,
+    arn: json['arn'] as String?,
+    count: json['count'] as int?,
+    currencyCode: json['currencyCode'] as String?,
+    duration: json['duration'] as int?,
     durationUnits: _$enumDecodeNullable(
         _$OfferingDurationUnitsEnumMap, json['durationUnits']),
-    end: json['end'] as String,
-    fixedPrice: (json['fixedPrice'] as num)?.toDouble(),
-    name: json['name'] as String,
-    offeringDescription: json['offeringDescription'] as String,
-    offeringId: json['offeringId'] as String,
+    end: json['end'] as String?,
+    fixedPrice: (json['fixedPrice'] as num?)?.toDouble(),
+    name: json['name'] as String?,
+    offeringDescription: json['offeringDescription'] as String?,
+    offeringId: json['offeringId'] as String?,
     offeringType:
         _$enumDecodeNullable(_$OfferingTypeEnumMap, json['offeringType']),
-    region: json['region'] as String,
-    reservationId: json['reservationId'] as String,
+    region: json['region'] as String?,
+    reservationId: json['reservationId'] as String?,
     resourceSpecification: json['resourceSpecification'] == null
         ? null
         : ReservationResourceSpecification.fromJson(
             json['resourceSpecification'] as Map<String, dynamic>),
-    start: json['start'] as String,
+    start: json['start'] as String?,
     state: _$enumDecodeNullable(_$ReservationStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    usagePrice: (json['usagePrice'] as num)?.toDouble(),
+    usagePrice: (json['usagePrice'] as num?)?.toDouble(),
   );
 }
 
 DescribeScheduleResponse _$DescribeScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeScheduleResponse(
-    nextToken: json['nextToken'] as String,
-    scheduleActions: (json['scheduleActions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ScheduleAction.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    scheduleActions: (json['scheduleActions'] as List<dynamic>?)
+        ?.map((e) => ScheduleAction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2054,12 +1950,15 @@ DvbNitSettings _$DvbNitSettingsFromJson(Map<String, dynamic> json) {
   return DvbNitSettings(
     networkId: json['networkId'] as int,
     networkName: json['networkName'] as String,
-    repInterval: json['repInterval'] as int,
+    repInterval: json['repInterval'] as int?,
   );
 }
 
 Map<String, dynamic> _$DvbNitSettingsToJson(DvbNitSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'networkId': instance.networkId,
+    'networkName': instance.networkName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2067,8 +1966,6 @@ Map<String, dynamic> _$DvbNitSettingsToJson(DvbNitSettings instance) {
     }
   }
 
-  writeNotNull('networkId', instance.networkId);
-  writeNotNull('networkName', instance.networkName);
   writeNotNull('repInterval', instance.repInterval);
   return val;
 }
@@ -2077,9 +1974,9 @@ DvbSdtSettings _$DvbSdtSettingsFromJson(Map<String, dynamic> json) {
   return DvbSdtSettings(
     outputSdt:
         _$enumDecodeNullable(_$DvbSdtOutputSdtEnumMap, json['outputSdt']),
-    repInterval: json['repInterval'] as int,
-    serviceName: json['serviceName'] as String,
-    serviceProviderName: json['serviceProviderName'] as String,
+    repInterval: json['repInterval'] as int?,
+    serviceName: json['serviceName'] as String?,
+    serviceProviderName: json['serviceProviderName'] as String?,
   );
 }
 
@@ -2113,28 +2010,28 @@ DvbSubDestinationSettings _$DvbSubDestinationSettingsFromJson(
         _$DvbSubDestinationAlignmentEnumMap, json['alignment']),
     backgroundColor: _$enumDecodeNullable(
         _$DvbSubDestinationBackgroundColorEnumMap, json['backgroundColor']),
-    backgroundOpacity: json['backgroundOpacity'] as int,
+    backgroundOpacity: json['backgroundOpacity'] as int?,
     font: json['font'] == null
         ? null
         : InputLocation.fromJson(json['font'] as Map<String, dynamic>),
     fontColor: _$enumDecodeNullable(
         _$DvbSubDestinationFontColorEnumMap, json['fontColor']),
-    fontOpacity: json['fontOpacity'] as int,
-    fontResolution: json['fontResolution'] as int,
-    fontSize: json['fontSize'] as String,
+    fontOpacity: json['fontOpacity'] as int?,
+    fontResolution: json['fontResolution'] as int?,
+    fontSize: json['fontSize'] as String?,
     outlineColor: _$enumDecodeNullable(
         _$DvbSubDestinationOutlineColorEnumMap, json['outlineColor']),
-    outlineSize: json['outlineSize'] as int,
+    outlineSize: json['outlineSize'] as int?,
     shadowColor: _$enumDecodeNullable(
         _$DvbSubDestinationShadowColorEnumMap, json['shadowColor']),
-    shadowOpacity: json['shadowOpacity'] as int,
-    shadowXOffset: json['shadowXOffset'] as int,
-    shadowYOffset: json['shadowYOffset'] as int,
+    shadowOpacity: json['shadowOpacity'] as int?,
+    shadowXOffset: json['shadowXOffset'] as int?,
+    shadowYOffset: json['shadowYOffset'] as int?,
     teletextGridControl: _$enumDecodeNullable(
         _$DvbSubDestinationTeletextGridControlEnumMap,
         json['teletextGridControl']),
-    xPosition: json['xPosition'] as int,
-    yPosition: json['yPosition'] as int,
+    xPosition: json['xPosition'] as int?,
+    yPosition: json['yPosition'] as int?,
   );
 }
 
@@ -2219,7 +2116,7 @@ const _$DvbSubDestinationTeletextGridControlEnumMap = {
 
 DvbSubSourceSettings _$DvbSubSourceSettingsFromJson(Map<String, dynamic> json) {
   return DvbSubSourceSettings(
-    pid: json['pid'] as int,
+    pid: json['pid'] as int?,
   );
 }
 
@@ -2239,7 +2136,7 @@ Map<String, dynamic> _$DvbSubSourceSettingsToJson(
 
 DvbTdtSettings _$DvbTdtSettingsFromJson(Map<String, dynamic> json) {
   return DvbTdtSettings(
-    repInterval: json['repInterval'] as int,
+    repInterval: json['repInterval'] as int?,
   );
 }
 
@@ -2260,22 +2157,22 @@ Eac3Settings _$Eac3SettingsFromJson(Map<String, dynamic> json) {
   return Eac3Settings(
     attenuationControl: _$enumDecodeNullable(
         _$Eac3AttenuationControlEnumMap, json['attenuationControl']),
-    bitrate: (json['bitrate'] as num)?.toDouble(),
+    bitrate: (json['bitrate'] as num?)?.toDouble(),
     bitstreamMode:
         _$enumDecodeNullable(_$Eac3BitstreamModeEnumMap, json['bitstreamMode']),
     codingMode:
         _$enumDecodeNullable(_$Eac3CodingModeEnumMap, json['codingMode']),
     dcFilter: _$enumDecodeNullable(_$Eac3DcFilterEnumMap, json['dcFilter']),
-    dialnorm: json['dialnorm'] as int,
+    dialnorm: json['dialnorm'] as int?,
     drcLine: _$enumDecodeNullable(_$Eac3DrcLineEnumMap, json['drcLine']),
     drcRf: _$enumDecodeNullable(_$Eac3DrcRfEnumMap, json['drcRf']),
     lfeControl:
         _$enumDecodeNullable(_$Eac3LfeControlEnumMap, json['lfeControl']),
     lfeFilter: _$enumDecodeNullable(_$Eac3LfeFilterEnumMap, json['lfeFilter']),
-    loRoCenterMixLevel: (json['loRoCenterMixLevel'] as num)?.toDouble(),
-    loRoSurroundMixLevel: (json['loRoSurroundMixLevel'] as num)?.toDouble(),
-    ltRtCenterMixLevel: (json['ltRtCenterMixLevel'] as num)?.toDouble(),
-    ltRtSurroundMixLevel: (json['ltRtSurroundMixLevel'] as num)?.toDouble(),
+    loRoCenterMixLevel: (json['loRoCenterMixLevel'] as num?)?.toDouble(),
+    loRoSurroundMixLevel: (json['loRoSurroundMixLevel'] as num?)?.toDouble(),
+    ltRtCenterMixLevel: (json['ltRtCenterMixLevel'] as num?)?.toDouble(),
+    ltRtSurroundMixLevel: (json['ltRtSurroundMixLevel'] as num?)?.toDouble(),
     metadataControl: _$enumDecodeNullable(
         _$Eac3MetadataControlEnumMap, json['metadataControl']),
     passthroughControl: _$enumDecodeNullable(
@@ -2422,7 +2319,7 @@ EbuTtDDestinationSettings _$EbuTtDDestinationSettingsFromJson(
   return EbuTtDDestinationSettings(
     fillLineGap: _$enumDecodeNullable(
         _$EbuTtDFillLineGapControlEnumMap, json['fillLineGap']),
-    fontFamily: json['fontFamily'] as String,
+    fontFamily: json['fontFamily'] as String?,
     styleControl: _$enumDecodeNullable(
         _$EbuTtDDestinationStyleControlEnumMap, json['styleControl']),
   );
@@ -2481,8 +2378,8 @@ EmbeddedSourceSettings _$EmbeddedSourceSettingsFromJson(
         _$EmbeddedConvert608To708EnumMap, json['convert608To708']),
     scte20Detection: _$enumDecodeNullable(
         _$EmbeddedScte20DetectionEnumMap, json['scte20Detection']),
-    source608ChannelNumber: json['source608ChannelNumber'] as int,
-    source608TrackNumber: json['source608TrackNumber'] as int,
+    source608ChannelNumber: json['source608ChannelNumber'] as int?,
+    source608TrackNumber: json['source608TrackNumber'] as int?,
   );
 }
 
@@ -2517,24 +2414,17 @@ const _$EmbeddedScte20DetectionEnumMap = {
 
 EncoderSettings _$EncoderSettingsFromJson(Map<String, dynamic> json) {
   return EncoderSettings(
-    audioDescriptions: (json['audioDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AudioDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    outputGroups: (json['outputGroups'] as List)
-        ?.map((e) =>
-            e == null ? null : OutputGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    timecodeConfig: json['timecodeConfig'] == null
-        ? null
-        : TimecodeConfig.fromJson(
-            json['timecodeConfig'] as Map<String, dynamic>),
-    videoDescriptions: (json['videoDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VideoDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    audioDescriptions: (json['audioDescriptions'] as List<dynamic>)
+        .map((e) => AudioDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    outputGroups: (json['outputGroups'] as List<dynamic>)
+        .map((e) => OutputGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    timecodeConfig:
+        TimecodeConfig.fromJson(json['timecodeConfig'] as Map<String, dynamic>),
+    videoDescriptions: (json['videoDescriptions'] as List<dynamic>)
+        .map((e) => VideoDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     availBlanking: json['availBlanking'] == null
         ? null
         : AvailBlanking.fromJson(json['availBlanking'] as Map<String, dynamic>),
@@ -2545,11 +2435,9 @@ EncoderSettings _$EncoderSettingsFromJson(Map<String, dynamic> json) {
     blackoutSlate: json['blackoutSlate'] == null
         ? null
         : BlackoutSlate.fromJson(json['blackoutSlate'] as Map<String, dynamic>),
-    captionDescriptions: (json['captionDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CaptionDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    captionDescriptions: (json['captionDescriptions'] as List<dynamic>?)
+        ?.map((e) => CaptionDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     featureActivations: json['featureActivations'] == null
         ? null
         : FeatureActivations.fromJson(
@@ -2566,7 +2454,14 @@ EncoderSettings _$EncoderSettingsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$EncoderSettingsToJson(EncoderSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'audioDescriptions':
+        instance.audioDescriptions.map((e) => e.toJson()).toList(),
+    'outputGroups': instance.outputGroups.map((e) => e.toJson()).toList(),
+    'timecodeConfig': instance.timecodeConfig.toJson(),
+    'videoDescriptions':
+        instance.videoDescriptions.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2574,18 +2469,11 @@ Map<String, dynamic> _$EncoderSettingsToJson(EncoderSettings instance) {
     }
   }
 
-  writeNotNull('audioDescriptions',
-      instance.audioDescriptions?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'outputGroups', instance.outputGroups?.map((e) => e?.toJson())?.toList());
-  writeNotNull('timecodeConfig', instance.timecodeConfig?.toJson());
-  writeNotNull('videoDescriptions',
-      instance.videoDescriptions?.map((e) => e?.toJson())?.toList());
   writeNotNull('availBlanking', instance.availBlanking?.toJson());
   writeNotNull('availConfiguration', instance.availConfiguration?.toJson());
   writeNotNull('blackoutSlate', instance.blackoutSlate?.toJson());
   writeNotNull('captionDescriptions',
-      instance.captionDescriptions?.map((e) => e?.toJson())?.toList());
+      instance.captionDescriptions?.map((e) => e.toJson()).toList());
   writeNotNull('featureActivations', instance.featureActivations?.toJson());
   writeNotNull('globalConfiguration', instance.globalConfiguration?.toJson());
   writeNotNull('nielsenConfiguration', instance.nielsenConfiguration?.toJson());
@@ -2680,10 +2568,10 @@ const _$FeatureActivationsInputPrepareScheduleActionsEnumMap = {
 
 FecOutputSettings _$FecOutputSettingsFromJson(Map<String, dynamic> json) {
   return FecOutputSettings(
-    columnDepth: json['columnDepth'] as int,
+    columnDepth: json['columnDepth'] as int?,
     includeFec:
         _$enumDecodeNullable(_$FecOutputIncludeFecEnumMap, json['includeFec']),
-    rowLength: json['rowLength'] as int,
+    rowLength: json['rowLength'] as int?,
   );
 }
 
@@ -2715,22 +2603,14 @@ FixedModeScheduleActionStartSettings
 }
 
 Map<String, dynamic> _$FixedModeScheduleActionStartSettingsToJson(
-    FixedModeScheduleActionStartSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('time', instance.time);
-  return val;
-}
+        FixedModeScheduleActionStartSettings instance) =>
+    <String, dynamic>{
+      'time': instance.time,
+    };
 
 Fmp4HlsSettings _$Fmp4HlsSettingsFromJson(Map<String, dynamic> json) {
   return Fmp4HlsSettings(
-    audioRenditionSets: json['audioRenditionSets'] as String,
+    audioRenditionSets: json['audioRenditionSets'] as String?,
     nielsenId3Behavior: _$enumDecodeNullable(
         _$Fmp4NielsenId3BehaviorEnumMap, json['nielsenId3Behavior']),
     timedMetadataBehavior: _$enumDecodeNullable(
@@ -2768,26 +2648,17 @@ const _$Fmp4TimedMetadataBehaviorEnumMap = {
 FollowModeScheduleActionStartSettings
     _$FollowModeScheduleActionStartSettingsFromJson(Map<String, dynamic> json) {
   return FollowModeScheduleActionStartSettings(
-    followPoint:
-        _$enumDecodeNullable(_$FollowPointEnumMap, json['followPoint']),
+    followPoint: _$enumDecode(_$FollowPointEnumMap, json['followPoint']),
     referenceActionName: json['referenceActionName'] as String,
   );
 }
 
 Map<String, dynamic> _$FollowModeScheduleActionStartSettingsToJson(
-    FollowModeScheduleActionStartSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('followPoint', _$FollowPointEnumMap[instance.followPoint]);
-  writeNotNull('referenceActionName', instance.referenceActionName);
-  return val;
-}
+        FollowModeScheduleActionStartSettings instance) =>
+    <String, dynamic>{
+      'followPoint': _$FollowPointEnumMap[instance.followPoint],
+      'referenceActionName': instance.referenceActionName,
+    };
 
 const _$FollowPointEnumMap = {
   FollowPoint.end: 'END',
@@ -2797,31 +2668,21 @@ const _$FollowPointEnumMap = {
 FrameCaptureGroupSettings _$FrameCaptureGroupSettingsFromJson(
     Map<String, dynamic> json) {
   return FrameCaptureGroupSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$FrameCaptureGroupSettingsToJson(
-    FrameCaptureGroupSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('destination', instance.destination?.toJson());
-  return val;
-}
+        FrameCaptureGroupSettings instance) =>
+    <String, dynamic>{
+      'destination': instance.destination.toJson(),
+    };
 
 FrameCaptureOutputSettings _$FrameCaptureOutputSettingsFromJson(
     Map<String, dynamic> json) {
   return FrameCaptureOutputSettings(
-    nameModifier: json['nameModifier'] as String,
+    nameModifier: json['nameModifier'] as String?,
   );
 }
 
@@ -2849,7 +2710,9 @@ FrameCaptureSettings _$FrameCaptureSettingsFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FrameCaptureSettingsToJson(
     FrameCaptureSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'captureInterval': instance.captureInterval,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2857,7 +2720,6 @@ Map<String, dynamic> _$FrameCaptureSettingsToJson(
     }
   }
 
-  writeNotNull('captureInterval', instance.captureInterval);
   writeNotNull('captureIntervalUnits',
       _$FrameCaptureIntervalUnitEnumMap[instance.captureIntervalUnits]);
   return val;
@@ -2870,7 +2732,7 @@ const _$FrameCaptureIntervalUnitEnumMap = {
 
 GlobalConfiguration _$GlobalConfigurationFromJson(Map<String, dynamic> json) {
   return GlobalConfiguration(
-    initialAudioGain: json['initialAudioGain'] as int,
+    initialAudioGain: json['initialAudioGain'] as int?,
     inputEndAction: _$enumDecodeNullable(
         _$GlobalConfigurationInputEndActionEnumMap, json['inputEndAction']),
     inputLossBehavior: json['inputLossBehavior'] == null
@@ -3002,9 +2864,9 @@ H264Settings _$H264SettingsFromJson(Map<String, dynamic> json) {
         _$H264AdaptiveQuantizationEnumMap, json['adaptiveQuantization']),
     afdSignaling:
         _$enumDecodeNullable(_$AfdSignalingEnumMap, json['afdSignaling']),
-    bitrate: json['bitrate'] as int,
-    bufFillPct: json['bufFillPct'] as int,
-    bufSize: json['bufSize'] as int,
+    bitrate: json['bitrate'] as int?,
+    bufFillPct: json['bufFillPct'] as int?,
+    bufSize: json['bufSize'] as int?,
     colorMetadata:
         _$enumDecodeNullable(_$H264ColorMetadataEnumMap, json['colorMetadata']),
     colorSpaceSettings: json['colorSpaceSettings'] == null
@@ -3023,36 +2885,36 @@ H264Settings _$H264SettingsFromJson(Map<String, dynamic> json) {
         _$H264ForceFieldPicturesEnumMap, json['forceFieldPictures']),
     framerateControl: _$enumDecodeNullable(
         _$H264FramerateControlEnumMap, json['framerateControl']),
-    framerateDenominator: json['framerateDenominator'] as int,
-    framerateNumerator: json['framerateNumerator'] as int,
+    framerateDenominator: json['framerateDenominator'] as int?,
+    framerateNumerator: json['framerateNumerator'] as int?,
     gopBReference:
         _$enumDecodeNullable(_$H264GopBReferenceEnumMap, json['gopBReference']),
-    gopClosedCadence: json['gopClosedCadence'] as int,
-    gopNumBFrames: json['gopNumBFrames'] as int,
-    gopSize: (json['gopSize'] as num)?.toDouble(),
+    gopClosedCadence: json['gopClosedCadence'] as int?,
+    gopNumBFrames: json['gopNumBFrames'] as int?,
+    gopSize: (json['gopSize'] as num?)?.toDouble(),
     gopSizeUnits:
         _$enumDecodeNullable(_$H264GopSizeUnitsEnumMap, json['gopSizeUnits']),
     level: _$enumDecodeNullable(_$H264LevelEnumMap, json['level']),
     lookAheadRateControl: _$enumDecodeNullable(
         _$H264LookAheadRateControlEnumMap, json['lookAheadRateControl']),
-    maxBitrate: json['maxBitrate'] as int,
-    minIInterval: json['minIInterval'] as int,
-    numRefFrames: json['numRefFrames'] as int,
+    maxBitrate: json['maxBitrate'] as int?,
+    minIInterval: json['minIInterval'] as int?,
+    numRefFrames: json['numRefFrames'] as int?,
     parControl:
         _$enumDecodeNullable(_$H264ParControlEnumMap, json['parControl']),
-    parDenominator: json['parDenominator'] as int,
-    parNumerator: json['parNumerator'] as int,
+    parDenominator: json['parDenominator'] as int?,
+    parNumerator: json['parNumerator'] as int?,
     profile: _$enumDecodeNullable(_$H264ProfileEnumMap, json['profile']),
     qualityLevel:
         _$enumDecodeNullable(_$H264QualityLevelEnumMap, json['qualityLevel']),
-    qvbrQualityLevel: json['qvbrQualityLevel'] as int,
+    qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
     rateControlMode: _$enumDecodeNullable(
         _$H264RateControlModeEnumMap, json['rateControlMode']),
     scanType: _$enumDecodeNullable(_$H264ScanTypeEnumMap, json['scanType']),
     sceneChangeDetect: _$enumDecodeNullable(
         _$H264SceneChangeDetectEnumMap, json['sceneChangeDetect']),
-    slices: json['slices'] as int,
-    softness: json['softness'] as int,
+    slices: json['slices'] as int?,
+    softness: json['softness'] as int?,
     spatialAq: _$enumDecodeNullable(_$H264SpatialAqEnumMap, json['spatialAq']),
     subgopLength:
         _$enumDecodeNullable(_$H264SubGopLengthEnumMap, json['subgopLength']),
@@ -3354,8 +3216,8 @@ H265Settings _$H265SettingsFromJson(Map<String, dynamic> json) {
     alternativeTransferFunction: _$enumDecodeNullable(
         _$H265AlternativeTransferFunctionEnumMap,
         json['alternativeTransferFunction']),
-    bitrate: json['bitrate'] as int,
-    bufSize: json['bufSize'] as int,
+    bitrate: json['bitrate'] as int?,
+    bufSize: json['bufSize'] as int?,
     colorMetadata:
         _$enumDecodeNullable(_$H265ColorMetadataEnumMap, json['colorMetadata']),
     colorSpaceSettings: json['colorSpaceSettings'] == null
@@ -3368,25 +3230,25 @@ H265Settings _$H265SettingsFromJson(Map<String, dynamic> json) {
             json['filterSettings'] as Map<String, dynamic>),
     fixedAfd: _$enumDecodeNullable(_$FixedAfdEnumMap, json['fixedAfd']),
     flickerAq: _$enumDecodeNullable(_$H265FlickerAqEnumMap, json['flickerAq']),
-    gopClosedCadence: json['gopClosedCadence'] as int,
-    gopSize: (json['gopSize'] as num)?.toDouble(),
+    gopClosedCadence: json['gopClosedCadence'] as int?,
+    gopSize: (json['gopSize'] as num?)?.toDouble(),
     gopSizeUnits:
         _$enumDecodeNullable(_$H265GopSizeUnitsEnumMap, json['gopSizeUnits']),
     level: _$enumDecodeNullable(_$H265LevelEnumMap, json['level']),
     lookAheadRateControl: _$enumDecodeNullable(
         _$H265LookAheadRateControlEnumMap, json['lookAheadRateControl']),
-    maxBitrate: json['maxBitrate'] as int,
-    minIInterval: json['minIInterval'] as int,
-    parDenominator: json['parDenominator'] as int,
-    parNumerator: json['parNumerator'] as int,
+    maxBitrate: json['maxBitrate'] as int?,
+    minIInterval: json['minIInterval'] as int?,
+    parDenominator: json['parDenominator'] as int?,
+    parNumerator: json['parNumerator'] as int?,
     profile: _$enumDecodeNullable(_$H265ProfileEnumMap, json['profile']),
-    qvbrQualityLevel: json['qvbrQualityLevel'] as int,
+    qvbrQualityLevel: json['qvbrQualityLevel'] as int?,
     rateControlMode: _$enumDecodeNullable(
         _$H265RateControlModeEnumMap, json['rateControlMode']),
     scanType: _$enumDecodeNullable(_$H265ScanTypeEnumMap, json['scanType']),
     sceneChangeDetect: _$enumDecodeNullable(
         _$H265SceneChangeDetectEnumMap, json['sceneChangeDetect']),
-    slices: json['slices'] as int,
+    slices: json['slices'] as int?,
     tier: _$enumDecodeNullable(_$H265TierEnumMap, json['tier']),
     timecodeInsertion: _$enumDecodeNullable(
         _$H265TimecodeInsertionBehaviorEnumMap, json['timecodeInsertion']),
@@ -3394,7 +3256,10 @@ H265Settings _$H265SettingsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$H265SettingsToJson(H265Settings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'framerateDenominator': instance.framerateDenominator,
+    'framerateNumerator': instance.framerateNumerator,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3402,8 +3267,6 @@ Map<String, dynamic> _$H265SettingsToJson(H265Settings instance) {
     }
   }
 
-  writeNotNull('framerateDenominator', instance.framerateDenominator);
-  writeNotNull('framerateNumerator', instance.framerateNumerator);
   writeNotNull('adaptiveQuantization',
       _$H265AdaptiveQuantizationEnumMap[instance.adaptiveQuantization]);
   writeNotNull('afdSignaling', _$AfdSignalingEnumMap[instance.afdSignaling]);
@@ -3529,8 +3392,8 @@ const _$H265TimecodeInsertionBehaviorEnumMap = {
 
 Hdr10Settings _$Hdr10SettingsFromJson(Map<String, dynamic> json) {
   return Hdr10Settings(
-    maxCll: json['maxCll'] as int,
-    maxFall: json['maxFall'] as int,
+    maxCll: json['maxCll'] as int?,
+    maxFall: json['maxFall'] as int?,
   );
 }
 
@@ -3550,14 +3413,14 @@ Map<String, dynamic> _$Hdr10SettingsToJson(Hdr10Settings instance) {
 
 HlsAkamaiSettings _$HlsAkamaiSettingsFromJson(Map<String, dynamic> json) {
   return HlsAkamaiSettings(
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    filecacheDuration: json['filecacheDuration'] as int,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    filecacheDuration: json['filecacheDuration'] as int?,
     httpTransferMode: _$enumDecodeNullable(
         _$HlsAkamaiHttpTransferModeEnumMap, json['httpTransferMode']),
-    numRetries: json['numRetries'] as int,
-    restartDelay: json['restartDelay'] as int,
-    salt: json['salt'] as String,
-    token: json['token'] as String,
+    numRetries: json['numRetries'] as int?,
+    restartDelay: json['restartDelay'] as int?,
+    salt: json['salt'] as String?,
+    token: json['token'] as String?,
   );
 }
 
@@ -3588,10 +3451,10 @@ const _$HlsAkamaiHttpTransferModeEnumMap = {
 
 HlsBasicPutSettings _$HlsBasicPutSettingsFromJson(Map<String, dynamic> json) {
   return HlsBasicPutSettings(
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    filecacheDuration: json['filecacheDuration'] as int,
-    numRetries: json['numRetries'] as int,
-    restartDelay: json['restartDelay'] as int,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    filecacheDuration: json['filecacheDuration'] as int?,
+    numRetries: json['numRetries'] as int?,
+    restartDelay: json['restartDelay'] as int?,
   );
 }
 
@@ -3651,29 +3514,25 @@ Map<String, dynamic> _$HlsCdnSettingsToJson(HlsCdnSettings instance) {
 
 HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
   return HlsGroupSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
-    adMarkers: (json['adMarkers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$HlsAdMarkersEnumMap, e))
-        ?.toList(),
-    baseUrlContent: json['baseUrlContent'] as String,
-    baseUrlContent1: json['baseUrlContent1'] as String,
-    baseUrlManifest: json['baseUrlManifest'] as String,
-    baseUrlManifest1: json['baseUrlManifest1'] as String,
-    captionLanguageMappings: (json['captionLanguageMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CaptionLanguageMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
+    adMarkers: (json['adMarkers'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$HlsAdMarkersEnumMap, e))
+        .toList(),
+    baseUrlContent: json['baseUrlContent'] as String?,
+    baseUrlContent1: json['baseUrlContent1'] as String?,
+    baseUrlManifest: json['baseUrlManifest'] as String?,
+    baseUrlManifest1: json['baseUrlManifest1'] as String?,
+    captionLanguageMappings: (json['captionLanguageMappings'] as List<dynamic>?)
+        ?.map((e) => CaptionLanguageMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
     captionLanguageSetting: _$enumDecodeNullable(
         _$HlsCaptionLanguageSettingEnumMap, json['captionLanguageSetting']),
     clientCache:
         _$enumDecodeNullable(_$HlsClientCacheEnumMap, json['clientCache']),
     codecSpecification: _$enumDecodeNullable(
         _$HlsCodecSpecificationEnumMap, json['codecSpecification']),
-    constantIv: json['constantIv'] as String,
+    constantIv: json['constantIv'] as String?,
     directoryStructure: _$enumDecodeNullable(
         _$HlsDirectoryStructureEnumMap, json['directoryStructure']),
     discontinuityTags: _$enumDecodeNullable(
@@ -3691,15 +3550,15 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
     incompleteSegmentBehavior: _$enumDecodeNullable(
         _$HlsIncompleteSegmentBehaviorEnumMap,
         json['incompleteSegmentBehavior']),
-    indexNSegments: json['indexNSegments'] as int,
+    indexNSegments: json['indexNSegments'] as int?,
     inputLossAction: _$enumDecodeNullable(
         _$InputLossActionForHlsOutEnumMap, json['inputLossAction']),
     ivInManifest:
         _$enumDecodeNullable(_$HlsIvInManifestEnumMap, json['ivInManifest']),
     ivSource: _$enumDecodeNullable(_$HlsIvSourceEnumMap, json['ivSource']),
-    keepSegments: json['keepSegments'] as int,
-    keyFormat: json['keyFormat'] as String,
-    keyFormatVersions: json['keyFormatVersions'] as String,
+    keepSegments: json['keepSegments'] as int?,
+    keyFormat: json['keyFormat'] as String?,
+    keyFormatVersions: json['keyFormatVersions'] as String?,
     keyProviderSettings: json['keyProviderSettings'] == null
         ? null
         : KeyProviderSettings.fromJson(
@@ -3708,32 +3567,34 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
         _$HlsManifestCompressionEnumMap, json['manifestCompression']),
     manifestDurationFormat: _$enumDecodeNullable(
         _$HlsManifestDurationFormatEnumMap, json['manifestDurationFormat']),
-    minSegmentLength: json['minSegmentLength'] as int,
+    minSegmentLength: json['minSegmentLength'] as int?,
     mode: _$enumDecodeNullable(_$HlsModeEnumMap, json['mode']),
     outputSelection: _$enumDecodeNullable(
         _$HlsOutputSelectionEnumMap, json['outputSelection']),
     programDateTime: _$enumDecodeNullable(
         _$HlsProgramDateTimeEnumMap, json['programDateTime']),
-    programDateTimePeriod: json['programDateTimePeriod'] as int,
+    programDateTimePeriod: json['programDateTimePeriod'] as int?,
     redundantManifest: _$enumDecodeNullable(
         _$HlsRedundantManifestEnumMap, json['redundantManifest']),
-    segmentLength: json['segmentLength'] as int,
+    segmentLength: json['segmentLength'] as int?,
     segmentationMode: _$enumDecodeNullable(
         _$HlsSegmentationModeEnumMap, json['segmentationMode']),
-    segmentsPerSubdirectory: json['segmentsPerSubdirectory'] as int,
+    segmentsPerSubdirectory: json['segmentsPerSubdirectory'] as int?,
     streamInfResolution: _$enumDecodeNullable(
         _$HlsStreamInfResolutionEnumMap, json['streamInfResolution']),
     timedMetadataId3Frame: _$enumDecodeNullable(
         _$HlsTimedMetadataId3FrameEnumMap, json['timedMetadataId3Frame']),
-    timedMetadataId3Period: json['timedMetadataId3Period'] as int,
-    timestampDeltaMilliseconds: json['timestampDeltaMilliseconds'] as int,
+    timedMetadataId3Period: json['timedMetadataId3Period'] as int?,
+    timestampDeltaMilliseconds: json['timestampDeltaMilliseconds'] as int?,
     tsFileMode:
         _$enumDecodeNullable(_$HlsTsFileModeEnumMap, json['tsFileMode']),
   );
 }
 
 Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3741,15 +3602,14 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
     }
   }
 
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('adMarkers',
-      instance.adMarkers?.map((e) => _$HlsAdMarkersEnumMap[e])?.toList());
+      instance.adMarkers?.map((e) => _$HlsAdMarkersEnumMap[e]).toList());
   writeNotNull('baseUrlContent', instance.baseUrlContent);
   writeNotNull('baseUrlContent1', instance.baseUrlContent1);
   writeNotNull('baseUrlManifest', instance.baseUrlManifest);
   writeNotNull('baseUrlManifest1', instance.baseUrlManifest1);
   writeNotNull('captionLanguageMappings',
-      instance.captionLanguageMappings?.map((e) => e?.toJson())?.toList());
+      instance.captionLanguageMappings?.map((e) => e.toJson()).toList());
   writeNotNull('captionLanguageSetting',
       _$HlsCaptionLanguageSettingEnumMap[instance.captionLanguageSetting]);
   writeNotNull('clientCache', _$HlsClientCacheEnumMap[instance.clientCache]);
@@ -3937,25 +3797,17 @@ HlsId3SegmentTaggingScheduleActionSettings
 }
 
 Map<String, dynamic> _$HlsId3SegmentTaggingScheduleActionSettingsToJson(
-    HlsId3SegmentTaggingScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('tag', instance.tag);
-  return val;
-}
+        HlsId3SegmentTaggingScheduleActionSettings instance) =>
+    <String, dynamic>{
+      'tag': instance.tag,
+    };
 
 HlsInputSettings _$HlsInputSettingsFromJson(Map<String, dynamic> json) {
   return HlsInputSettings(
-    bandwidth: json['bandwidth'] as int,
-    bufferSegments: json['bufferSegments'] as int,
-    retries: json['retries'] as int,
-    retryInterval: json['retryInterval'] as int,
+    bandwidth: json['bandwidth'] as int?,
+    bufferSegments: json['bufferSegments'] as int?,
+    retries: json['retries'] as int?,
+    retryInterval: json['retryInterval'] as int?,
   );
 }
 
@@ -3978,12 +3830,12 @@ Map<String, dynamic> _$HlsInputSettingsToJson(HlsInputSettings instance) {
 HlsMediaStoreSettings _$HlsMediaStoreSettingsFromJson(
     Map<String, dynamic> json) {
   return HlsMediaStoreSettings(
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    filecacheDuration: json['filecacheDuration'] as int,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    filecacheDuration: json['filecacheDuration'] as int?,
     mediaStoreStorageClass: _$enumDecodeNullable(
         _$HlsMediaStoreStorageClassEnumMap, json['mediaStoreStorageClass']),
-    numRetries: json['numRetries'] as int,
-    restartDelay: json['restartDelay'] as int,
+    numRetries: json['numRetries'] as int?,
+    restartDelay: json['restartDelay'] as int?,
   );
 }
 
@@ -4012,18 +3864,19 @@ const _$HlsMediaStoreStorageClassEnumMap = {
 
 HlsOutputSettings _$HlsOutputSettingsFromJson(Map<String, dynamic> json) {
   return HlsOutputSettings(
-    hlsSettings: json['hlsSettings'] == null
-        ? null
-        : HlsSettings.fromJson(json['hlsSettings'] as Map<String, dynamic>),
+    hlsSettings:
+        HlsSettings.fromJson(json['hlsSettings'] as Map<String, dynamic>),
     h265PackagingType: _$enumDecodeNullable(
         _$HlsH265PackagingTypeEnumMap, json['h265PackagingType']),
-    nameModifier: json['nameModifier'] as String,
-    segmentModifier: json['segmentModifier'] as String,
+    nameModifier: json['nameModifier'] as String?,
+    segmentModifier: json['segmentModifier'] as String?,
   );
 }
 
 Map<String, dynamic> _$HlsOutputSettingsToJson(HlsOutputSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'hlsSettings': instance.hlsSettings.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4031,7 +3884,6 @@ Map<String, dynamic> _$HlsOutputSettingsToJson(HlsOutputSettings instance) {
     }
   }
 
-  writeNotNull('hlsSettings', instance.hlsSettings?.toJson());
   writeNotNull('h265PackagingType',
       _$HlsH265PackagingTypeEnumMap[instance.h265PackagingType]);
   writeNotNull('nameModifier', instance.nameModifier);
@@ -4085,27 +3937,19 @@ HlsTimedMetadataScheduleActionSettings
 }
 
 Map<String, dynamic> _$HlsTimedMetadataScheduleActionSettingsToJson(
-    HlsTimedMetadataScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id3', instance.id3);
-  return val;
-}
+        HlsTimedMetadataScheduleActionSettings instance) =>
+    <String, dynamic>{
+      'id3': instance.id3,
+    };
 
 HlsWebdavSettings _$HlsWebdavSettingsFromJson(Map<String, dynamic> json) {
   return HlsWebdavSettings(
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    filecacheDuration: json['filecacheDuration'] as int,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    filecacheDuration: json['filecacheDuration'] as int?,
     httpTransferMode: _$enumDecodeNullable(
         _$HlsWebdavHttpTransferModeEnumMap, json['httpTransferMode']),
-    numRetries: json['numRetries'] as int,
-    restartDelay: json['restartDelay'] as int,
+    numRetries: json['numRetries'] as int?,
+    restartDelay: json['restartDelay'] as int?,
   );
 }
 
@@ -4144,38 +3988,33 @@ Map<String, dynamic> _$ImmediateModeScheduleActionStartSettingsToJson(
 
 Input _$InputFromJson(Map<String, dynamic> json) {
   return Input(
-    arn: json['arn'] as String,
-    attachedChannels:
-        (json['attachedChannels'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    attachedChannels: (json['attachedChannels'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => InputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     inputClass: _$enumDecodeNullable(_$InputClassEnumMap, json['inputClass']),
-    inputDevices: (json['inputDevices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDeviceSettings.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    inputDevices: (json['inputDevices'] as List<dynamic>?)
+        ?.map((e) => InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSourceType:
         _$enumDecodeNullable(_$InputSourceTypeEnumMap, json['inputSourceType']),
-    mediaConnectFlows: (json['mediaConnectFlows'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MediaConnectFlow.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['name'] as String,
-    roleArn: json['roleArn'] as String,
-    securityGroups:
-        (json['securityGroups'] as List)?.map((e) => e as String)?.toList(),
-    sources: (json['sources'] as List)
-        ?.map((e) =>
-            e == null ? null : InputSource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    mediaConnectFlows: (json['mediaConnectFlows'] as List<dynamic>?)
+        ?.map((e) => MediaConnectFlow.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['name'] as String?,
+    roleArn: json['roleArn'] as String?,
+    securityGroups: (json['securityGroups'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    sources: (json['sources'] as List<dynamic>?)
+        ?.map((e) => InputSource.fromJson(e as Map<String, dynamic>))
+        .toList(),
     state: _$enumDecodeNullable(_$InputStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     type: _$enumDecodeNullable(_$InputTypeEnumMap, json['type']),
@@ -4189,8 +4028,8 @@ InputAttachment _$InputAttachmentFromJson(Map<String, dynamic> json) {
             ? null
             : AutomaticInputFailoverSettings.fromJson(
                 json['automaticInputFailoverSettings'] as Map<String, dynamic>),
-    inputAttachmentName: json['inputAttachmentName'] as String,
-    inputId: json['inputId'] as String,
+    inputAttachmentName: json['inputAttachmentName'] as String?,
+    inputId: json['inputId'] as String?,
     inputSettings: json['inputSettings'] == null
         ? null
         : InputSettings.fromJson(json['inputSettings'] as Map<String, dynamic>),
@@ -4221,25 +4060,17 @@ InputChannelLevel _$InputChannelLevelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$InputChannelLevelToJson(InputChannelLevel instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('gain', instance.gain);
-  writeNotNull('inputChannel', instance.inputChannel);
-  return val;
-}
+Map<String, dynamic> _$InputChannelLevelToJson(InputChannelLevel instance) =>
+    <String, dynamic>{
+      'gain': instance.gain,
+      'inputChannel': instance.inputChannel,
+    };
 
 InputClippingSettings _$InputClippingSettingsFromJson(
     Map<String, dynamic> json) {
   return InputClippingSettings(
-    inputTimecodeSource: _$enumDecodeNullable(
-        _$InputTimecodeSourceEnumMap, json['inputTimecodeSource']),
+    inputTimecodeSource:
+        _$enumDecode(_$InputTimecodeSourceEnumMap, json['inputTimecodeSource']),
     startTimecode: json['startTimecode'] == null
         ? null
         : StartTimecode.fromJson(json['startTimecode'] as Map<String, dynamic>),
@@ -4251,7 +4082,10 @@ InputClippingSettings _$InputClippingSettingsFromJson(
 
 Map<String, dynamic> _$InputClippingSettingsToJson(
     InputClippingSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'inputTimecodeSource':
+        _$InputTimecodeSourceEnumMap[instance.inputTimecodeSource],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4259,8 +4093,6 @@ Map<String, dynamic> _$InputClippingSettingsToJson(
     }
   }
 
-  writeNotNull('inputTimecodeSource',
-      _$InputTimecodeSourceEnumMap[instance.inputTimecodeSource]);
   writeNotNull('startTimecode', instance.startTimecode?.toJson());
   writeNotNull('stopTimecode', instance.stopTimecode?.toJson());
   return val;
@@ -4273,9 +4105,9 @@ const _$InputTimecodeSourceEnumMap = {
 
 InputDestination _$InputDestinationFromJson(Map<String, dynamic> json) {
   return InputDestination(
-    ip: json['ip'] as String,
-    port: json['port'] as String,
-    url: json['url'] as String,
+    ip: json['ip'] as String?,
+    port: json['port'] as String?,
+    url: json['url'] as String?,
     vpc: json['vpc'] == null
         ? null
         : InputDestinationVpc.fromJson(json['vpc'] as Map<String, dynamic>),
@@ -4298,8 +4130,8 @@ Map<String, dynamic> _$InputDestinationRequestToJson(
 
 InputDestinationVpc _$InputDestinationVpcFromJson(Map<String, dynamic> json) {
   return InputDestinationVpc(
-    availabilityZone: json['availabilityZone'] as String,
-    networkInterfaceId: json['networkInterfaceId'] as String,
+    availabilityZone: json['availabilityZone'] as String?,
+    networkInterfaceId: json['networkInterfaceId'] as String?,
   );
 }
 
@@ -4334,12 +4166,12 @@ InputDeviceHdSettings _$InputDeviceHdSettingsFromJson(
         _$InputDeviceConfiguredInputEnumMap, json['configuredInput']),
     deviceState:
         _$enumDecodeNullable(_$InputDeviceStateEnumMap, json['deviceState']),
-    framerate: (json['framerate'] as num)?.toDouble(),
-    height: json['height'] as int,
-    maxBitrate: json['maxBitrate'] as int,
+    framerate: (json['framerate'] as num?)?.toDouble(),
+    height: json['height'] as int?,
+    maxBitrate: json['maxBitrate'] as int?,
     scanType:
         _$enumDecodeNullable(_$InputDeviceScanTypeEnumMap, json['scanType']),
-    width: json['width'] as int,
+    width: json['width'] as int?,
   );
 }
 
@@ -4361,13 +4193,14 @@ const _$InputDeviceScanTypeEnumMap = {
 InputDeviceNetworkSettings _$InputDeviceNetworkSettingsFromJson(
     Map<String, dynamic> json) {
   return InputDeviceNetworkSettings(
-    dnsAddresses:
-        (json['dnsAddresses'] as List)?.map((e) => e as String)?.toList(),
-    gateway: json['gateway'] as String,
-    ipAddress: json['ipAddress'] as String,
+    dnsAddresses: (json['dnsAddresses'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    gateway: json['gateway'] as String?,
+    ipAddress: json['ipAddress'] as String?,
     ipScheme:
         _$enumDecodeNullable(_$InputDeviceIpSchemeEnumMap, json['ipScheme']),
-    subnetMask: json['subnetMask'] as String,
+    subnetMask: json['subnetMask'] as String?,
   );
 }
 
@@ -4391,7 +4224,7 @@ Map<String, dynamic> _$InputDeviceRequestToJson(InputDeviceRequest instance) {
 
 InputDeviceSettings _$InputDeviceSettingsFromJson(Map<String, dynamic> json) {
   return InputDeviceSettings(
-    id: json['id'] as String,
+    id: json['id'] as String?,
   );
 }
 
@@ -4410,7 +4243,7 @@ Map<String, dynamic> _$InputDeviceSettingsToJson(InputDeviceSettings instance) {
 
 InputDeviceSummary _$InputDeviceSummaryFromJson(Map<String, dynamic> json) {
   return InputDeviceSummary(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     connectionState: _$enumDecodeNullable(
         _$InputDeviceConnectionStateEnumMap, json['connectionState']),
     deviceSettingsSyncState: _$enumDecodeNullable(
@@ -4421,14 +4254,14 @@ InputDeviceSummary _$InputDeviceSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : InputDeviceHdSettings.fromJson(
             json['hdDeviceSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    macAddress: json['macAddress'] as String,
-    name: json['name'] as String,
+    id: json['id'] as String?,
+    macAddress: json['macAddress'] as String?,
+    name: json['name'] as String?,
     networkSettings: json['networkSettings'] == null
         ? null
         : InputDeviceNetworkSettings.fromJson(
             json['networkSettings'] as Map<String, dynamic>),
-    serialNumber: json['serialNumber'] as String,
+    serialNumber: json['serialNumber'] as String?,
     type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
     uhdDeviceSettings: json['uhdDeviceSettings'] == null
         ? null
@@ -4446,25 +4279,27 @@ InputDeviceUhdSettings _$InputDeviceUhdSettingsFromJson(
         _$InputDeviceConfiguredInputEnumMap, json['configuredInput']),
     deviceState:
         _$enumDecodeNullable(_$InputDeviceStateEnumMap, json['deviceState']),
-    framerate: (json['framerate'] as num)?.toDouble(),
-    height: json['height'] as int,
-    maxBitrate: json['maxBitrate'] as int,
+    framerate: (json['framerate'] as num?)?.toDouble(),
+    height: json['height'] as int?,
+    maxBitrate: json['maxBitrate'] as int?,
     scanType:
         _$enumDecodeNullable(_$InputDeviceScanTypeEnumMap, json['scanType']),
-    width: json['width'] as int,
+    width: json['width'] as int?,
   );
 }
 
 InputLocation _$InputLocationFromJson(Map<String, dynamic> json) {
   return InputLocation(
     uri: json['uri'] as String,
-    passwordParam: json['passwordParam'] as String,
-    username: json['username'] as String,
+    passwordParam: json['passwordParam'] as String?,
+    username: json['username'] as String?,
   );
 }
 
 Map<String, dynamic> _$InputLocationToJson(InputLocation instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'uri': instance.uri,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4472,7 +4307,6 @@ Map<String, dynamic> _$InputLocationToJson(InputLocation instance) {
     }
   }
 
-  writeNotNull('uri', instance.uri);
   writeNotNull('passwordParam', instance.passwordParam);
   writeNotNull('username', instance.username);
   return val;
@@ -4480,15 +4314,15 @@ Map<String, dynamic> _$InputLocationToJson(InputLocation instance) {
 
 InputLossBehavior _$InputLossBehaviorFromJson(Map<String, dynamic> json) {
   return InputLossBehavior(
-    blackFrameMsec: json['blackFrameMsec'] as int,
-    inputLossImageColor: json['inputLossImageColor'] as String,
+    blackFrameMsec: json['blackFrameMsec'] as int?,
+    inputLossImageColor: json['inputLossImageColor'] as String?,
     inputLossImageSlate: json['inputLossImageSlate'] == null
         ? null
         : InputLocation.fromJson(
             json['inputLossImageSlate'] as Map<String, dynamic>),
     inputLossImageType: _$enumDecodeNullable(
         _$InputLossImageTypeEnumMap, json['inputLossImageType']),
-    repeatFrameMsec: json['repeatFrameMsec'] as int,
+    repeatFrameMsec: json['repeatFrameMsec'] as int?,
   );
 }
 
@@ -4518,7 +4352,7 @@ const _$InputLossImageTypeEnumMap = {
 InputLossFailoverSettings _$InputLossFailoverSettingsFromJson(
     Map<String, dynamic> json) {
   return InputLossFailoverSettings(
-    inputLossThresholdMsec: json['inputLossThresholdMsec'] as int,
+    inputLossThresholdMsec: json['inputLossThresholdMsec'] as int?,
   );
 }
 
@@ -4540,12 +4374,13 @@ InputPrepareScheduleActionSettings _$InputPrepareScheduleActionSettingsFromJson(
     Map<String, dynamic> json) {
   return InputPrepareScheduleActionSettings(
     inputAttachmentNameReference:
-        json['inputAttachmentNameReference'] as String,
+        json['inputAttachmentNameReference'] as String?,
     inputClippingSettings: json['inputClippingSettings'] == null
         ? null
         : InputClippingSettings.fromJson(
             json['inputClippingSettings'] as Map<String, dynamic>),
-    urlPath: (json['urlPath'] as List)?.map((e) => e as String)?.toList(),
+    urlPath:
+        (json['urlPath'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
@@ -4569,39 +4404,34 @@ Map<String, dynamic> _$InputPrepareScheduleActionSettingsToJson(
 
 InputSecurityGroup _$InputSecurityGroupFromJson(Map<String, dynamic> json) {
   return InputSecurityGroup(
-    arn: json['arn'] as String,
-    id: json['id'] as String,
-    inputs: (json['inputs'] as List)?.map((e) => e as String)?.toList(),
+    arn: json['arn'] as String?,
+    id: json['id'] as String?,
+    inputs:
+        (json['inputs'] as List<dynamic>?)?.map((e) => e as String).toList(),
     state:
         _$enumDecodeNullable(_$InputSecurityGroupStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    whitelistRules: (json['whitelistRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputWhitelistRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    whitelistRules: (json['whitelistRules'] as List<dynamic>?)
+        ?.map((e) => InputWhitelistRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 InputSettings _$InputSettingsFromJson(Map<String, dynamic> json) {
   return InputSettings(
-    audioSelectors: (json['audioSelectors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AudioSelector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    captionSelectors: (json['captionSelectors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CaptionSelector.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    audioSelectors: (json['audioSelectors'] as List<dynamic>?)
+        ?.map((e) => AudioSelector.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    captionSelectors: (json['captionSelectors'] as List<dynamic>?)
+        ?.map((e) => CaptionSelector.fromJson(e as Map<String, dynamic>))
+        .toList(),
     deblockFilter: _$enumDecodeNullable(
         _$InputDeblockFilterEnumMap, json['deblockFilter']),
     denoiseFilter: _$enumDecodeNullable(
         _$InputDenoiseFilterEnumMap, json['denoiseFilter']),
-    filterStrength: json['filterStrength'] as int,
+    filterStrength: json['filterStrength'] as int?,
     inputFilter:
         _$enumDecodeNullable(_$InputFilterEnumMap, json['inputFilter']),
     networkInputSettings: json['networkInputSettings'] == null
@@ -4628,9 +4458,9 @@ Map<String, dynamic> _$InputSettingsToJson(InputSettings instance) {
   }
 
   writeNotNull('audioSelectors',
-      instance.audioSelectors?.map((e) => e?.toJson())?.toList());
+      instance.audioSelectors?.map((e) => e.toJson()).toList());
   writeNotNull('captionSelectors',
-      instance.captionSelectors?.map((e) => e?.toJson())?.toList());
+      instance.captionSelectors?.map((e) => e.toJson()).toList());
   writeNotNull(
       'deblockFilter', _$InputDeblockFilterEnumMap[instance.deblockFilter]);
   writeNotNull(
@@ -4674,9 +4504,9 @@ const _$InputSourceEndBehaviorEnumMap = {
 
 InputSource _$InputSourceFromJson(Map<String, dynamic> json) {
   return InputSource(
-    passwordParam: json['passwordParam'] as String,
-    url: json['url'] as String,
-    username: json['username'] as String,
+    passwordParam: json['passwordParam'] as String?,
+    url: json['url'] as String?,
+    username: json['username'] as String?,
   );
 }
 
@@ -4748,13 +4578,16 @@ InputSwitchScheduleActionSettings _$InputSwitchScheduleActionSettingsFromJson(
         ? null
         : InputClippingSettings.fromJson(
             json['inputClippingSettings'] as Map<String, dynamic>),
-    urlPath: (json['urlPath'] as List)?.map((e) => e as String)?.toList(),
+    urlPath:
+        (json['urlPath'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$InputSwitchScheduleActionSettingsToJson(
     InputSwitchScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'inputAttachmentNameReference': instance.inputAttachmentNameReference,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4762,8 +4595,6 @@ Map<String, dynamic> _$InputSwitchScheduleActionSettingsToJson(
     }
   }
 
-  writeNotNull(
-      'inputAttachmentNameReference', instance.inputAttachmentNameReference);
   writeNotNull(
       'inputClippingSettings', instance.inputClippingSettings?.toJson());
   writeNotNull('urlPath', instance.urlPath);
@@ -4771,7 +4602,9 @@ Map<String, dynamic> _$InputSwitchScheduleActionSettingsToJson(
 }
 
 Map<String, dynamic> _$InputVpcRequestToJson(InputVpcRequest instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'subnetIds': instance.subnetIds,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -4779,14 +4612,13 @@ Map<String, dynamic> _$InputVpcRequestToJson(InputVpcRequest instance) {
     }
   }
 
-  writeNotNull('subnetIds', instance.subnetIds);
   writeNotNull('securityGroupIds', instance.securityGroupIds);
   return val;
 }
 
 InputWhitelistRule _$InputWhitelistRuleFromJson(Map<String, dynamic> json) {
   return InputWhitelistRule(
-    cidr: json['cidr'] as String,
+    cidr: json['cidr'] as String?,
   );
 }
 
@@ -4828,112 +4660,98 @@ Map<String, dynamic> _$KeyProviderSettingsToJson(KeyProviderSettings instance) {
 
 ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
   return ListChannelsResponse(
-    channels: (json['channels'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    channels: (json['channels'] as List<dynamic>?)
+        ?.map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListInputDeviceTransfersResponse _$ListInputDeviceTransfersResponseFromJson(
     Map<String, dynamic> json) {
   return ListInputDeviceTransfersResponse(
-    inputDeviceTransfers: (json['inputDeviceTransfers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TransferringInputDeviceSummary.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    inputDeviceTransfers: (json['inputDeviceTransfers'] as List<dynamic>?)
+        ?.map((e) =>
+            TransferringInputDeviceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListInputDevicesResponse _$ListInputDevicesResponseFromJson(
     Map<String, dynamic> json) {
   return ListInputDevicesResponse(
-    inputDevices: (json['inputDevices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputDeviceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    inputDevices: (json['inputDevices'] as List<dynamic>?)
+        ?.map((e) => InputDeviceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListInputSecurityGroupsResponse _$ListInputSecurityGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListInputSecurityGroupsResponse(
-    inputSecurityGroups: (json['inputSecurityGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputSecurityGroup.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    inputSecurityGroups: (json['inputSecurityGroups'] as List<dynamic>?)
+        ?.map((e) => InputSecurityGroup.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListInputsResponse _$ListInputsResponseFromJson(Map<String, dynamic> json) {
   return ListInputsResponse(
-    inputs: (json['inputs'] as List)
-        ?.map(
-            (e) => e == null ? null : Input.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    inputs: (json['inputs'] as List<dynamic>?)
+        ?.map((e) => Input.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListMultiplexProgramsResponse _$ListMultiplexProgramsResponseFromJson(
     Map<String, dynamic> json) {
   return ListMultiplexProgramsResponse(
-    multiplexPrograms: (json['multiplexPrograms'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexProgramSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    multiplexPrograms: (json['multiplexPrograms'] as List<dynamic>?)
+        ?.map(
+            (e) => MultiplexProgramSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListMultiplexesResponse _$ListMultiplexesResponseFromJson(
     Map<String, dynamic> json) {
   return ListMultiplexesResponse(
-    multiplexes: (json['multiplexes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    multiplexes: (json['multiplexes'] as List<dynamic>?)
+        ?.map((e) => MultiplexSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListOfferingsResponse _$ListOfferingsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOfferingsResponse(
-    nextToken: json['nextToken'] as String,
-    offerings: (json['offerings'] as List)
-        ?.map((e) =>
-            e == null ? null : Offering.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    offerings: (json['offerings'] as List<dynamic>?)
+        ?.map((e) => Offering.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListReservationsResponse _$ListReservationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListReservationsResponse(
-    nextToken: json['nextToken'] as String,
-    reservations: (json['reservations'] as List)
-        ?.map((e) =>
-            e == null ? null : Reservation.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['nextToken'] as String?,
+    reservations: (json['reservations'] as List<dynamic>?)
+        ?.map((e) => Reservation.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -4945,16 +4763,16 @@ M2tsSettings _$M2tsSettingsFromJson(Map<String, dynamic> json) {
         _$M2tsAbsentInputAudioBehaviorEnumMap,
         json['absentInputAudioBehavior']),
     arib: _$enumDecodeNullable(_$M2tsAribEnumMap, json['arib']),
-    aribCaptionsPid: json['aribCaptionsPid'] as String,
+    aribCaptionsPid: json['aribCaptionsPid'] as String?,
     aribCaptionsPidControl: _$enumDecodeNullable(
         _$M2tsAribCaptionsPidControlEnumMap, json['aribCaptionsPidControl']),
     audioBufferModel: _$enumDecodeNullable(
         _$M2tsAudioBufferModelEnumMap, json['audioBufferModel']),
-    audioFramesPerPes: json['audioFramesPerPes'] as int,
-    audioPids: json['audioPids'] as String,
+    audioFramesPerPes: json['audioFramesPerPes'] as int?,
+    audioPids: json['audioPids'] as String?,
     audioStreamType: _$enumDecodeNullable(
         _$M2tsAudioStreamTypeEnumMap, json['audioStreamType']),
-    bitrate: json['bitrate'] as int,
+    bitrate: json['bitrate'] as int?,
     bufferModel:
         _$enumDecodeNullable(_$M2tsBufferModelEnumMap, json['bufferModel']),
     ccDescriptor:
@@ -4967,52 +4785,52 @@ M2tsSettings _$M2tsSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : DvbSdtSettings.fromJson(
             json['dvbSdtSettings'] as Map<String, dynamic>),
-    dvbSubPids: json['dvbSubPids'] as String,
+    dvbSubPids: json['dvbSubPids'] as String?,
     dvbTdtSettings: json['dvbTdtSettings'] == null
         ? null
         : DvbTdtSettings.fromJson(
             json['dvbTdtSettings'] as Map<String, dynamic>),
-    dvbTeletextPid: json['dvbTeletextPid'] as String,
+    dvbTeletextPid: json['dvbTeletextPid'] as String?,
     ebif: _$enumDecodeNullable(_$M2tsEbifControlEnumMap, json['ebif']),
     ebpAudioInterval: _$enumDecodeNullable(
         _$M2tsAudioIntervalEnumMap, json['ebpAudioInterval']),
-    ebpLookaheadMs: json['ebpLookaheadMs'] as int,
+    ebpLookaheadMs: json['ebpLookaheadMs'] as int?,
     ebpPlacement:
         _$enumDecodeNullable(_$M2tsEbpPlacementEnumMap, json['ebpPlacement']),
-    ecmPid: json['ecmPid'] as String,
+    ecmPid: json['ecmPid'] as String?,
     esRateInPes:
         _$enumDecodeNullable(_$M2tsEsRateInPesEnumMap, json['esRateInPes']),
-    etvPlatformPid: json['etvPlatformPid'] as String,
-    etvSignalPid: json['etvSignalPid'] as String,
-    fragmentTime: (json['fragmentTime'] as num)?.toDouble(),
+    etvPlatformPid: json['etvPlatformPid'] as String?,
+    etvSignalPid: json['etvSignalPid'] as String?,
+    fragmentTime: (json['fragmentTime'] as num?)?.toDouble(),
     klv: _$enumDecodeNullable(_$M2tsKlvEnumMap, json['klv']),
-    klvDataPids: json['klvDataPids'] as String,
+    klvDataPids: json['klvDataPids'] as String?,
     nielsenId3Behavior: _$enumDecodeNullable(
         _$M2tsNielsenId3BehaviorEnumMap, json['nielsenId3Behavior']),
-    nullPacketBitrate: (json['nullPacketBitrate'] as num)?.toDouble(),
-    patInterval: json['patInterval'] as int,
+    nullPacketBitrate: (json['nullPacketBitrate'] as num?)?.toDouble(),
+    patInterval: json['patInterval'] as int?,
     pcrControl:
         _$enumDecodeNullable(_$M2tsPcrControlEnumMap, json['pcrControl']),
-    pcrPeriod: json['pcrPeriod'] as int,
-    pcrPid: json['pcrPid'] as String,
-    pmtInterval: json['pmtInterval'] as int,
-    pmtPid: json['pmtPid'] as String,
-    programNum: json['programNum'] as int,
+    pcrPeriod: json['pcrPeriod'] as int?,
+    pcrPid: json['pcrPid'] as String?,
+    pmtInterval: json['pmtInterval'] as int?,
+    pmtPid: json['pmtPid'] as String?,
+    programNum: json['programNum'] as int?,
     rateMode: _$enumDecodeNullable(_$M2tsRateModeEnumMap, json['rateMode']),
-    scte27Pids: json['scte27Pids'] as String,
+    scte27Pids: json['scte27Pids'] as String?,
     scte35Control:
         _$enumDecodeNullable(_$M2tsScte35ControlEnumMap, json['scte35Control']),
-    scte35Pid: json['scte35Pid'] as String,
+    scte35Pid: json['scte35Pid'] as String?,
     segmentationMarkers: _$enumDecodeNullable(
         _$M2tsSegmentationMarkersEnumMap, json['segmentationMarkers']),
     segmentationStyle: _$enumDecodeNullable(
         _$M2tsSegmentationStyleEnumMap, json['segmentationStyle']),
-    segmentationTime: (json['segmentationTime'] as num)?.toDouble(),
+    segmentationTime: (json['segmentationTime'] as num?)?.toDouble(),
     timedMetadataBehavior: _$enumDecodeNullable(
         _$M2tsTimedMetadataBehaviorEnumMap, json['timedMetadataBehavior']),
-    timedMetadataPid: json['timedMetadataPid'] as String,
-    transportStreamId: json['transportStreamId'] as int,
-    videoPid: json['videoPid'] as String,
+    timedMetadataPid: json['timedMetadataPid'] as String?,
+    transportStreamId: json['transportStreamId'] as int?,
+    videoPid: json['videoPid'] as String?,
   );
 }
 
@@ -5188,27 +5006,27 @@ const _$M2tsTimedMetadataBehaviorEnumMap = {
 
 M3u8Settings _$M3u8SettingsFromJson(Map<String, dynamic> json) {
   return M3u8Settings(
-    audioFramesPerPes: json['audioFramesPerPes'] as int,
-    audioPids: json['audioPids'] as String,
-    ecmPid: json['ecmPid'] as String,
+    audioFramesPerPes: json['audioFramesPerPes'] as int?,
+    audioPids: json['audioPids'] as String?,
+    ecmPid: json['ecmPid'] as String?,
     nielsenId3Behavior: _$enumDecodeNullable(
         _$M3u8NielsenId3BehaviorEnumMap, json['nielsenId3Behavior']),
-    patInterval: json['patInterval'] as int,
+    patInterval: json['patInterval'] as int?,
     pcrControl:
         _$enumDecodeNullable(_$M3u8PcrControlEnumMap, json['pcrControl']),
-    pcrPeriod: json['pcrPeriod'] as int,
-    pcrPid: json['pcrPid'] as String,
-    pmtInterval: json['pmtInterval'] as int,
-    pmtPid: json['pmtPid'] as String,
-    programNum: json['programNum'] as int,
+    pcrPeriod: json['pcrPeriod'] as int?,
+    pcrPid: json['pcrPid'] as String?,
+    pmtInterval: json['pmtInterval'] as int?,
+    pmtPid: json['pmtPid'] as String?,
+    programNum: json['programNum'] as int?,
     scte35Behavior: _$enumDecodeNullable(
         _$M3u8Scte35BehaviorEnumMap, json['scte35Behavior']),
-    scte35Pid: json['scte35Pid'] as String,
+    scte35Pid: json['scte35Pid'] as String?,
     timedMetadataBehavior: _$enumDecodeNullable(
         _$M3u8TimedMetadataBehaviorEnumMap, json['timedMetadataBehavior']),
-    timedMetadataPid: json['timedMetadataPid'] as String,
-    transportStreamId: json['transportStreamId'] as int,
-    videoPid: json['videoPid'] as String,
+    timedMetadataPid: json['timedMetadataPid'] as String?,
+    transportStreamId: json['transportStreamId'] as int?,
+    videoPid: json['videoPid'] as String?,
   );
 }
 
@@ -5266,7 +5084,7 @@ const _$M3u8TimedMetadataBehaviorEnumMap = {
 
 MediaConnectFlow _$MediaConnectFlowFromJson(Map<String, dynamic> json) {
   return MediaConnectFlow(
-    flowArn: json['flowArn'] as String,
+    flowArn: json['flowArn'] as String?,
   );
 }
 
@@ -5287,31 +5105,21 @@ Map<String, dynamic> _$MediaConnectFlowRequestToJson(
 MediaPackageGroupSettings _$MediaPackageGroupSettingsFromJson(
     Map<String, dynamic> json) {
   return MediaPackageGroupSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$MediaPackageGroupSettingsToJson(
-    MediaPackageGroupSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('destination', instance.destination?.toJson());
-  return val;
-}
+        MediaPackageGroupSettings instance) =>
+    <String, dynamic>{
+      'destination': instance.destination.toJson(),
+    };
 
 MediaPackageOutputDestinationSettings
     _$MediaPackageOutputDestinationSettingsFromJson(Map<String, dynamic> json) {
   return MediaPackageOutputDestinationSettings(
-    channelId: json['channelId'] as String,
+    channelId: json['channelId'] as String?,
   );
 }
 
@@ -5340,10 +5148,10 @@ Map<String, dynamic> _$MediaPackageOutputSettingsToJson(
 
 Mp2Settings _$Mp2SettingsFromJson(Map<String, dynamic> json) {
   return Mp2Settings(
-    bitrate: (json['bitrate'] as num)?.toDouble(),
+    bitrate: (json['bitrate'] as num?)?.toDouble(),
     codingMode:
         _$enumDecodeNullable(_$Mp2CodingModeEnumMap, json['codingMode']),
-    sampleRate: (json['sampleRate'] as num)?.toDouble(),
+    sampleRate: (json['sampleRate'] as num?)?.toDouble(),
   );
 }
 
@@ -5409,9 +5217,9 @@ Mpeg2Settings _$Mpeg2SettingsFromJson(Map<String, dynamic> json) {
         : Mpeg2FilterSettings.fromJson(
             json['filterSettings'] as Map<String, dynamic>),
     fixedAfd: _$enumDecodeNullable(_$FixedAfdEnumMap, json['fixedAfd']),
-    gopClosedCadence: json['gopClosedCadence'] as int,
-    gopNumBFrames: json['gopNumBFrames'] as int,
-    gopSize: (json['gopSize'] as num)?.toDouble(),
+    gopClosedCadence: json['gopClosedCadence'] as int?,
+    gopNumBFrames: json['gopNumBFrames'] as int?,
+    gopSize: (json['gopSize'] as num?)?.toDouble(),
     gopSizeUnits:
         _$enumDecodeNullable(_$Mpeg2GopSizeUnitsEnumMap, json['gopSizeUnits']),
     scanType: _$enumDecodeNullable(_$Mpeg2ScanTypeEnumMap, json['scanType']),
@@ -5423,7 +5231,10 @@ Mpeg2Settings _$Mpeg2SettingsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$Mpeg2SettingsToJson(Mpeg2Settings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'framerateDenominator': instance.framerateDenominator,
+    'framerateNumerator': instance.framerateNumerator,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -5431,8 +5242,6 @@ Map<String, dynamic> _$Mpeg2SettingsToJson(Mpeg2Settings instance) {
     }
   }
 
-  writeNotNull('framerateDenominator', instance.framerateDenominator);
-  writeNotNull('framerateNumerator', instance.framerateNumerator);
   writeNotNull('adaptiveQuantization',
       _$Mpeg2AdaptiveQuantizationEnumMap[instance.adaptiveQuantization]);
   writeNotNull('afdSignaling', _$AfdSignalingEnumMap[instance.afdSignaling]);
@@ -5502,37 +5311,35 @@ const _$Mpeg2TimecodeInsertionBehaviorEnumMap = {
 MsSmoothGroupSettings _$MsSmoothGroupSettingsFromJson(
     Map<String, dynamic> json) {
   return MsSmoothGroupSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
-    acquisitionPointId: json['acquisitionPointId'] as String,
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
+    acquisitionPointId: json['acquisitionPointId'] as String?,
     audioOnlyTimecodeControl: _$enumDecodeNullable(
         _$SmoothGroupAudioOnlyTimecodeControlEnumMap,
         json['audioOnlyTimecodeControl']),
     certificateMode: _$enumDecodeNullable(
         _$SmoothGroupCertificateModeEnumMap, json['certificateMode']),
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    eventId: json['eventId'] as String,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    eventId: json['eventId'] as String?,
     eventIdMode: _$enumDecodeNullable(
         _$SmoothGroupEventIdModeEnumMap, json['eventIdMode']),
     eventStopBehavior: _$enumDecodeNullable(
         _$SmoothGroupEventStopBehaviorEnumMap, json['eventStopBehavior']),
-    filecacheDuration: json['filecacheDuration'] as int,
-    fragmentLength: json['fragmentLength'] as int,
+    filecacheDuration: json['filecacheDuration'] as int?,
+    fragmentLength: json['fragmentLength'] as int?,
     inputLossAction: _$enumDecodeNullable(
         _$InputLossActionForMsSmoothOutEnumMap, json['inputLossAction']),
-    numRetries: json['numRetries'] as int,
-    restartDelay: json['restartDelay'] as int,
+    numRetries: json['numRetries'] as int?,
+    restartDelay: json['restartDelay'] as int?,
     segmentationMode: _$enumDecodeNullable(
         _$SmoothGroupSegmentationModeEnumMap, json['segmentationMode']),
-    sendDelayMs: json['sendDelayMs'] as int,
+    sendDelayMs: json['sendDelayMs'] as int?,
     sparseTrackType: _$enumDecodeNullable(
         _$SmoothGroupSparseTrackTypeEnumMap, json['sparseTrackType']),
     streamManifestBehavior: _$enumDecodeNullable(
         _$SmoothGroupStreamManifestBehaviorEnumMap,
         json['streamManifestBehavior']),
-    timestampOffset: json['timestampOffset'] as String,
+    timestampOffset: json['timestampOffset'] as String?,
     timestampOffsetMode: _$enumDecodeNullable(
         _$SmoothGroupTimestampOffsetModeEnumMap, json['timestampOffsetMode']),
   );
@@ -5540,7 +5347,9 @@ MsSmoothGroupSettings _$MsSmoothGroupSettingsFromJson(
 
 Map<String, dynamic> _$MsSmoothGroupSettingsToJson(
     MsSmoothGroupSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -5548,7 +5357,6 @@ Map<String, dynamic> _$MsSmoothGroupSettingsToJson(
     }
   }
 
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('acquisitionPointId', instance.acquisitionPointId);
   writeNotNull(
       'audioOnlyTimecodeControl',
@@ -5637,7 +5445,7 @@ MsSmoothOutputSettings _$MsSmoothOutputSettingsFromJson(
   return MsSmoothOutputSettings(
     h265PackagingType: _$enumDecodeNullable(
         _$MsSmoothH265PackagingTypeEnumMap, json['h265PackagingType']),
-    nameModifier: json['nameModifier'] as String,
+    nameModifier: json['nameModifier'] as String?,
   );
 }
 
@@ -5664,24 +5472,24 @@ const _$MsSmoothH265PackagingTypeEnumMap = {
 
 Multiplex _$MultiplexFromJson(Map<String, dynamic> json) {
   return Multiplex(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -5700,7 +5508,7 @@ MultiplexMediaConnectOutputDestinationSettings
     _$MultiplexMediaConnectOutputDestinationSettingsFromJson(
         Map<String, dynamic> json) {
   return MultiplexMediaConnectOutputDestinationSettings(
-    entitlementArn: json['entitlementArn'] as String,
+    entitlementArn: json['entitlementArn'] as String?,
   );
 }
 
@@ -5717,30 +5525,20 @@ MultiplexOutputDestination _$MultiplexOutputDestinationFromJson(
 MultiplexOutputSettings _$MultiplexOutputSettingsFromJson(
     Map<String, dynamic> json) {
   return MultiplexOutputSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$MultiplexOutputSettingsToJson(
-    MultiplexOutputSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('destination', instance.destination?.toJson());
-  return val;
-}
+        MultiplexOutputSettings instance) =>
+    <String, dynamic>{
+      'destination': instance.destination.toJson(),
+    };
 
 MultiplexProgram _$MultiplexProgramFromJson(Map<String, dynamic> json) {
   return MultiplexProgram(
-    channelId: json['channelId'] as String,
+    channelId: json['channelId'] as String?,
     multiplexProgramSettings: json['multiplexProgramSettings'] == null
         ? null
         : MultiplexProgramSettings.fromJson(
@@ -5749,13 +5547,11 @@ MultiplexProgram _$MultiplexProgramFromJson(Map<String, dynamic> json) {
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexProgramPipelineDetail.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    programName: json['programName'] as String,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexProgramPipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    programName: json['programName'] as String?,
   );
 }
 
@@ -5763,8 +5559,8 @@ MultiplexProgramChannelDestinationSettings
     _$MultiplexProgramChannelDestinationSettingsFromJson(
         Map<String, dynamic> json) {
   return MultiplexProgramChannelDestinationSettings(
-    multiplexId: json['multiplexId'] as String,
-    programName: json['programName'] as String,
+    multiplexId: json['multiplexId'] as String?,
+    programName: json['programName'] as String?,
   );
 }
 
@@ -5786,27 +5582,31 @@ Map<String, dynamic> _$MultiplexProgramChannelDestinationSettingsToJson(
 MultiplexProgramPacketIdentifiersMap
     _$MultiplexProgramPacketIdentifiersMapFromJson(Map<String, dynamic> json) {
   return MultiplexProgramPacketIdentifiersMap(
-    audioPids: (json['audioPids'] as List)?.map((e) => e as int)?.toList(),
-    dvbSubPids: (json['dvbSubPids'] as List)?.map((e) => e as int)?.toList(),
-    dvbTeletextPid: json['dvbTeletextPid'] as int,
-    etvPlatformPid: json['etvPlatformPid'] as int,
-    etvSignalPid: json['etvSignalPid'] as int,
-    klvDataPids: (json['klvDataPids'] as List)?.map((e) => e as int)?.toList(),
-    pcrPid: json['pcrPid'] as int,
-    pmtPid: json['pmtPid'] as int,
-    privateMetadataPid: json['privateMetadataPid'] as int,
-    scte27Pids: (json['scte27Pids'] as List)?.map((e) => e as int)?.toList(),
-    scte35Pid: json['scte35Pid'] as int,
-    timedMetadataPid: json['timedMetadataPid'] as int,
-    videoPid: json['videoPid'] as int,
+    audioPids:
+        (json['audioPids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+    dvbSubPids:
+        (json['dvbSubPids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+    dvbTeletextPid: json['dvbTeletextPid'] as int?,
+    etvPlatformPid: json['etvPlatformPid'] as int?,
+    etvSignalPid: json['etvSignalPid'] as int?,
+    klvDataPids:
+        (json['klvDataPids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+    pcrPid: json['pcrPid'] as int?,
+    pmtPid: json['pmtPid'] as int?,
+    privateMetadataPid: json['privateMetadataPid'] as int?,
+    scte27Pids:
+        (json['scte27Pids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+    scte35Pid: json['scte35Pid'] as int?,
+    timedMetadataPid: json['timedMetadataPid'] as int?,
+    videoPid: json['videoPid'] as int?,
   );
 }
 
 MultiplexProgramPipelineDetail _$MultiplexProgramPipelineDetailFromJson(
     Map<String, dynamic> json) {
   return MultiplexProgramPipelineDetail(
-    activeChannelPipeline: json['activeChannelPipeline'] as String,
-    pipelineId: json['pipelineId'] as String,
+    activeChannelPipeline: json['activeChannelPipeline'] as String?,
+    pipelineId: json['pipelineId'] as String?,
   );
 }
 
@@ -5819,19 +5619,11 @@ MultiplexProgramServiceDescriptor _$MultiplexProgramServiceDescriptorFromJson(
 }
 
 Map<String, dynamic> _$MultiplexProgramServiceDescriptorToJson(
-    MultiplexProgramServiceDescriptor instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('providerName', instance.providerName);
-  writeNotNull('serviceName', instance.serviceName);
-  return val;
-}
+        MultiplexProgramServiceDescriptor instance) =>
+    <String, dynamic>{
+      'providerName': instance.providerName,
+      'serviceName': instance.serviceName,
+    };
 
 MultiplexProgramSettings _$MultiplexProgramSettingsFromJson(
     Map<String, dynamic> json) {
@@ -5852,7 +5644,9 @@ MultiplexProgramSettings _$MultiplexProgramSettingsFromJson(
 
 Map<String, dynamic> _$MultiplexProgramSettingsToJson(
     MultiplexProgramSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'programNumber': instance.programNumber,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -5860,7 +5654,6 @@ Map<String, dynamic> _$MultiplexProgramSettingsToJson(
     }
   }
 
-  writeNotNull('programNumber', instance.programNumber);
   writeNotNull('preferredChannelPipeline',
       _$PreferredChannelPipelineEnumMap[instance.preferredChannelPipeline]);
   writeNotNull('serviceDescriptor', instance.serviceDescriptor?.toJson());
@@ -5877,8 +5670,8 @@ const _$PreferredChannelPipelineEnumMap = {
 MultiplexProgramSummary _$MultiplexProgramSummaryFromJson(
     Map<String, dynamic> json) {
   return MultiplexProgramSummary(
-    channelId: json['channelId'] as String,
-    programName: json['programName'] as String,
+    channelId: json['channelId'] as String?,
+    programName: json['programName'] as String?,
   );
 }
 
@@ -5887,14 +5680,17 @@ MultiplexSettings _$MultiplexSettingsFromJson(Map<String, dynamic> json) {
     transportStreamBitrate: json['transportStreamBitrate'] as int,
     transportStreamId: json['transportStreamId'] as int,
     maximumVideoBufferDelayMilliseconds:
-        json['maximumVideoBufferDelayMilliseconds'] as int,
+        json['maximumVideoBufferDelayMilliseconds'] as int?,
     transportStreamReservedBitrate:
-        json['transportStreamReservedBitrate'] as int,
+        json['transportStreamReservedBitrate'] as int?,
   );
 }
 
 Map<String, dynamic> _$MultiplexSettingsToJson(MultiplexSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'transportStreamBitrate': instance.transportStreamBitrate,
+    'transportStreamId': instance.transportStreamId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -5902,8 +5698,6 @@ Map<String, dynamic> _$MultiplexSettingsToJson(MultiplexSettings instance) {
     }
   }
 
-  writeNotNull('transportStreamBitrate', instance.transportStreamBitrate);
-  writeNotNull('transportStreamId', instance.transportStreamId);
   writeNotNull('maximumVideoBufferDelayMilliseconds',
       instance.maximumVideoBufferDelayMilliseconds);
   writeNotNull('transportStreamReservedBitrate',
@@ -5914,16 +5708,16 @@ Map<String, dynamic> _$MultiplexSettingsToJson(MultiplexSettings instance) {
 MultiplexSettingsSummary _$MultiplexSettingsSummaryFromJson(
     Map<String, dynamic> json) {
   return MultiplexSettingsSummary(
-    transportStreamBitrate: json['transportStreamBitrate'] as int,
+    transportStreamBitrate: json['transportStreamBitrate'] as int?,
   );
 }
 
 MultiplexStatmuxVideoSettings _$MultiplexStatmuxVideoSettingsFromJson(
     Map<String, dynamic> json) {
   return MultiplexStatmuxVideoSettings(
-    maximumBitrate: json['maximumBitrate'] as int,
-    minimumBitrate: json['minimumBitrate'] as int,
-    priority: json['priority'] as int,
+    maximumBitrate: json['maximumBitrate'] as int?,
+    minimumBitrate: json['minimumBitrate'] as int?,
+    priority: json['priority'] as int?,
   );
 }
 
@@ -5945,19 +5739,20 @@ Map<String, dynamic> _$MultiplexStatmuxVideoSettingsToJson(
 
 MultiplexSummary _$MultiplexSummaryFromJson(Map<String, dynamic> json) {
   return MultiplexSummary(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettingsSummary.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -5966,7 +5761,7 @@ MultiplexSummary _$MultiplexSummaryFromJson(Map<String, dynamic> json) {
 MultiplexVideoSettings _$MultiplexVideoSettingsFromJson(
     Map<String, dynamic> json) {
   return MultiplexVideoSettings(
-    constantBitrate: json['constantBitrate'] as int,
+    constantBitrate: json['constantBitrate'] as int?,
     statmuxSettings: json['statmuxSettings'] == null
         ? null
         : MultiplexStatmuxVideoSettings.fromJson(
@@ -6024,7 +5819,7 @@ const _$NetworkInputServerValidationEnumMap = {
 
 NielsenConfiguration _$NielsenConfigurationFromJson(Map<String, dynamic> json) {
   return NielsenConfiguration(
-    distributorId: json['distributorId'] as String,
+    distributorId: json['distributorId'] as String?,
     nielsenPcmToId3Tagging: _$enumDecodeNullable(
         _$NielsenPcmToId3TaggingStateEnumMap, json['nielsenPcmToId3Tagging']),
   );
@@ -6053,44 +5848,44 @@ const _$NielsenPcmToId3TaggingStateEnumMap = {
 
 Offering _$OfferingFromJson(Map<String, dynamic> json) {
   return Offering(
-    arn: json['arn'] as String,
-    currencyCode: json['currencyCode'] as String,
-    duration: json['duration'] as int,
+    arn: json['arn'] as String?,
+    currencyCode: json['currencyCode'] as String?,
+    duration: json['duration'] as int?,
     durationUnits: _$enumDecodeNullable(
         _$OfferingDurationUnitsEnumMap, json['durationUnits']),
-    fixedPrice: (json['fixedPrice'] as num)?.toDouble(),
-    offeringDescription: json['offeringDescription'] as String,
-    offeringId: json['offeringId'] as String,
+    fixedPrice: (json['fixedPrice'] as num?)?.toDouble(),
+    offeringDescription: json['offeringDescription'] as String?,
+    offeringId: json['offeringId'] as String?,
     offeringType:
         _$enumDecodeNullable(_$OfferingTypeEnumMap, json['offeringType']),
-    region: json['region'] as String,
+    region: json['region'] as String?,
     resourceSpecification: json['resourceSpecification'] == null
         ? null
         : ReservationResourceSpecification.fromJson(
             json['resourceSpecification'] as Map<String, dynamic>),
-    usagePrice: (json['usagePrice'] as num)?.toDouble(),
+    usagePrice: (json['usagePrice'] as num?)?.toDouble(),
   );
 }
 
 Output _$OutputFromJson(Map<String, dynamic> json) {
   return Output(
-    outputSettings: json['outputSettings'] == null
-        ? null
-        : OutputSettings.fromJson(
-            json['outputSettings'] as Map<String, dynamic>),
-    audioDescriptionNames: (json['audioDescriptionNames'] as List)
+    outputSettings:
+        OutputSettings.fromJson(json['outputSettings'] as Map<String, dynamic>),
+    audioDescriptionNames: (json['audioDescriptionNames'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    captionDescriptionNames: (json['captionDescriptionNames'] as List)
+        .toList(),
+    captionDescriptionNames: (json['captionDescriptionNames'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    outputName: json['outputName'] as String,
-    videoDescriptionName: json['videoDescriptionName'] as String,
+        .toList(),
+    outputName: json['outputName'] as String?,
+    videoDescriptionName: json['videoDescriptionName'] as String?,
   );
 }
 
 Map<String, dynamic> _$OutputToJson(Output instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'outputSettings': instance.outputSettings.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -6098,7 +5893,6 @@ Map<String, dynamic> _$OutputToJson(Output instance) {
     }
   }
 
-  writeNotNull('outputSettings', instance.outputSettings?.toJson());
   writeNotNull('audioDescriptionNames', instance.audioDescriptionNames);
   writeNotNull('captionDescriptionNames', instance.captionDescriptionNames);
   writeNotNull('outputName', instance.outputName);
@@ -6108,22 +5902,19 @@ Map<String, dynamic> _$OutputToJson(Output instance) {
 
 OutputDestination _$OutputDestinationFromJson(Map<String, dynamic> json) {
   return OutputDestination(
-    id: json['id'] as String,
-    mediaPackageSettings: (json['mediaPackageSettings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MediaPackageOutputDestinationSettings.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    mediaPackageSettings: (json['mediaPackageSettings'] as List<dynamic>?)
+        ?.map((e) => MediaPackageOutputDestinationSettings.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexProgramChannelDestinationSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    settings: (json['settings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestinationSettings.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    settings: (json['settings'] as List<dynamic>?)
+        ?.map((e) =>
+            OutputDestinationSettings.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -6138,20 +5929,19 @@ Map<String, dynamic> _$OutputDestinationToJson(OutputDestination instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('mediaPackageSettings',
-      instance.mediaPackageSettings?.map((e) => e?.toJson())?.toList());
+      instance.mediaPackageSettings?.map((e) => e.toJson()).toList());
   writeNotNull('multiplexSettings', instance.multiplexSettings?.toJson());
-  writeNotNull(
-      'settings', instance.settings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('settings', instance.settings?.map((e) => e.toJson()).toList());
   return val;
 }
 
 OutputDestinationSettings _$OutputDestinationSettingsFromJson(
     Map<String, dynamic> json) {
   return OutputDestinationSettings(
-    passwordParam: json['passwordParam'] as String,
-    streamName: json['streamName'] as String,
-    url: json['url'] as String,
-    username: json['username'] as String,
+    passwordParam: json['passwordParam'] as String?,
+    streamName: json['streamName'] as String?,
+    url: json['url'] as String?,
+    username: json['username'] as String?,
   );
 }
 
@@ -6174,20 +5964,20 @@ Map<String, dynamic> _$OutputDestinationSettingsToJson(
 
 OutputGroup _$OutputGroupFromJson(Map<String, dynamic> json) {
   return OutputGroup(
-    outputGroupSettings: json['outputGroupSettings'] == null
-        ? null
-        : OutputGroupSettings.fromJson(
-            json['outputGroupSettings'] as Map<String, dynamic>),
-    outputs: (json['outputs'] as List)
-        ?.map((e) =>
-            e == null ? null : Output.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['name'] as String,
+    outputGroupSettings: OutputGroupSettings.fromJson(
+        json['outputGroupSettings'] as Map<String, dynamic>),
+    outputs: (json['outputs'] as List<dynamic>)
+        .map((e) => Output.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['name'] as String?,
   );
 }
 
 Map<String, dynamic> _$OutputGroupToJson(OutputGroup instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'outputGroupSettings': instance.outputGroupSettings.toJson(),
+    'outputs': instance.outputs.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -6195,8 +5985,6 @@ Map<String, dynamic> _$OutputGroupToJson(OutputGroup instance) {
     }
   }
 
-  writeNotNull('outputGroupSettings', instance.outputGroupSettings?.toJson());
-  writeNotNull('outputs', instance.outputs?.map((e) => e?.toJson())?.toList());
   writeNotNull('name', instance.name);
   return val;
 }
@@ -6264,7 +6052,7 @@ Map<String, dynamic> _$OutputGroupSettingsToJson(OutputGroupSettings instance) {
 
 OutputLocationRef _$OutputLocationRefFromJson(Map<String, dynamic> json) {
   return OutputLocationRef(
-    destinationRefId: json['destinationRefId'] as String,
+    destinationRefId: json['destinationRefId'] as String?,
   );
 }
 
@@ -6354,11 +6142,10 @@ Map<String, dynamic> _$PassThroughSettingsToJson(
 PauseStateScheduleActionSettings _$PauseStateScheduleActionSettingsFromJson(
     Map<String, dynamic> json) {
   return PauseStateScheduleActionSettings(
-    pipelines: (json['pipelines'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelinePauseStateSettings.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    pipelines: (json['pipelines'] as List<dynamic>?)
+        ?.map((e) =>
+            PipelinePauseStateSettings.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -6373,38 +6160,30 @@ Map<String, dynamic> _$PauseStateScheduleActionSettingsToJson(
   }
 
   writeNotNull(
-      'pipelines', instance.pipelines?.map((e) => e?.toJson())?.toList());
+      'pipelines', instance.pipelines?.map((e) => e.toJson()).toList());
   return val;
 }
 
 PipelineDetail _$PipelineDetailFromJson(Map<String, dynamic> json) {
   return PipelineDetail(
-    activeInputAttachmentName: json['activeInputAttachmentName'] as String,
-    activeInputSwitchActionName: json['activeInputSwitchActionName'] as String,
-    pipelineId: json['pipelineId'] as String,
+    activeInputAttachmentName: json['activeInputAttachmentName'] as String?,
+    activeInputSwitchActionName: json['activeInputSwitchActionName'] as String?,
+    pipelineId: json['pipelineId'] as String?,
   );
 }
 
 PipelinePauseStateSettings _$PipelinePauseStateSettingsFromJson(
     Map<String, dynamic> json) {
   return PipelinePauseStateSettings(
-    pipelineId: _$enumDecodeNullable(_$PipelineIdEnumMap, json['pipelineId']),
+    pipelineId: _$enumDecode(_$PipelineIdEnumMap, json['pipelineId']),
   );
 }
 
 Map<String, dynamic> _$PipelinePauseStateSettingsToJson(
-    PipelinePauseStateSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('pipelineId', _$PipelineIdEnumMap[instance.pipelineId]);
-  return val;
-}
+        PipelinePauseStateSettings instance) =>
+    <String, dynamic>{
+      'pipelineId': _$PipelineIdEnumMap[instance.pipelineId],
+    };
 
 const _$PipelineIdEnumMap = {
   PipelineId.pipeline_0: 'PIPELINE_0',
@@ -6448,18 +6227,18 @@ RejectInputDeviceTransferResponse _$RejectInputDeviceTransferResponseFromJson(
 
 RemixSettings _$RemixSettingsFromJson(Map<String, dynamic> json) {
   return RemixSettings(
-    channelMappings: (json['channelMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AudioChannelMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    channelsIn: json['channelsIn'] as int,
-    channelsOut: json['channelsOut'] as int,
+    channelMappings: (json['channelMappings'] as List<dynamic>)
+        .map((e) => AudioChannelMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    channelsIn: json['channelsIn'] as int?,
+    channelsOut: json['channelsOut'] as int?,
   );
 }
 
 Map<String, dynamic> _$RemixSettingsToJson(RemixSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'channelMappings': instance.channelMappings.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -6467,8 +6246,6 @@ Map<String, dynamic> _$RemixSettingsToJson(RemixSettings instance) {
     }
   }
 
-  writeNotNull('channelMappings',
-      instance.channelMappings?.map((e) => e?.toJson())?.toList());
   writeNotNull('channelsIn', instance.channelsIn);
   writeNotNull('channelsOut', instance.channelsOut);
   return val;
@@ -6476,31 +6253,31 @@ Map<String, dynamic> _$RemixSettingsToJson(RemixSettings instance) {
 
 Reservation _$ReservationFromJson(Map<String, dynamic> json) {
   return Reservation(
-    arn: json['arn'] as String,
-    count: json['count'] as int,
-    currencyCode: json['currencyCode'] as String,
-    duration: json['duration'] as int,
+    arn: json['arn'] as String?,
+    count: json['count'] as int?,
+    currencyCode: json['currencyCode'] as String?,
+    duration: json['duration'] as int?,
     durationUnits: _$enumDecodeNullable(
         _$OfferingDurationUnitsEnumMap, json['durationUnits']),
-    end: json['end'] as String,
-    fixedPrice: (json['fixedPrice'] as num)?.toDouble(),
-    name: json['name'] as String,
-    offeringDescription: json['offeringDescription'] as String,
-    offeringId: json['offeringId'] as String,
+    end: json['end'] as String?,
+    fixedPrice: (json['fixedPrice'] as num?)?.toDouble(),
+    name: json['name'] as String?,
+    offeringDescription: json['offeringDescription'] as String?,
+    offeringId: json['offeringId'] as String?,
     offeringType:
         _$enumDecodeNullable(_$OfferingTypeEnumMap, json['offeringType']),
-    region: json['region'] as String,
-    reservationId: json['reservationId'] as String,
+    region: json['region'] as String?,
+    reservationId: json['reservationId'] as String?,
     resourceSpecification: json['resourceSpecification'] == null
         ? null
         : ReservationResourceSpecification.fromJson(
             json['resourceSpecification'] as Map<String, dynamic>),
-    start: json['start'] as String,
+    start: json['start'] as String?,
     state: _$enumDecodeNullable(_$ReservationStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    usagePrice: (json['usagePrice'] as num)?.toDouble(),
+    usagePrice: (json['usagePrice'] as num?)?.toDouble(),
   );
 }
 
@@ -6580,19 +6357,19 @@ Map<String, dynamic> _$RtmpCaptionInfoDestinationSettingsToJson(
 
 RtmpGroupSettings _$RtmpGroupSettingsFromJson(Map<String, dynamic> json) {
   return RtmpGroupSettings(
-    adMarkers: (json['adMarkers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$RtmpAdMarkersEnumMap, e))
-        ?.toList(),
+    adMarkers: (json['adMarkers'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$RtmpAdMarkersEnumMap, e))
+        .toList(),
     authenticationScheme: _$enumDecodeNullable(
         _$AuthenticationSchemeEnumMap, json['authenticationScheme']),
     cacheFullBehavior: _$enumDecodeNullable(
         _$RtmpCacheFullBehaviorEnumMap, json['cacheFullBehavior']),
-    cacheLength: json['cacheLength'] as int,
+    cacheLength: json['cacheLength'] as int?,
     captionData:
         _$enumDecodeNullable(_$RtmpCaptionDataEnumMap, json['captionData']),
     inputLossAction: _$enumDecodeNullable(
         _$InputLossActionForRtmpOutEnumMap, json['inputLossAction']),
-    restartDelay: json['restartDelay'] as int,
+    restartDelay: json['restartDelay'] as int?,
   );
 }
 
@@ -6606,7 +6383,7 @@ Map<String, dynamic> _$RtmpGroupSettingsToJson(RtmpGroupSettings instance) {
   }
 
   writeNotNull('adMarkers',
-      instance.adMarkers?.map((e) => _$RtmpAdMarkersEnumMap[e])?.toList());
+      instance.adMarkers?.map((e) => _$RtmpAdMarkersEnumMap[e]).toList());
   writeNotNull('authenticationScheme',
       _$AuthenticationSchemeEnumMap[instance.authenticationScheme]);
   writeNotNull('cacheFullBehavior',
@@ -6646,19 +6423,19 @@ const _$InputLossActionForRtmpOutEnumMap = {
 
 RtmpOutputSettings _$RtmpOutputSettingsFromJson(Map<String, dynamic> json) {
   return RtmpOutputSettings(
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
     certificateMode: _$enumDecodeNullable(
         _$RtmpOutputCertificateModeEnumMap, json['certificateMode']),
-    connectionRetryInterval: json['connectionRetryInterval'] as int,
-    numRetries: json['numRetries'] as int,
+    connectionRetryInterval: json['connectionRetryInterval'] as int?,
+    numRetries: json['numRetries'] as int?,
   );
 }
 
 Map<String, dynamic> _$RtmpOutputSettingsToJson(RtmpOutputSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -6666,7 +6443,6 @@ Map<String, dynamic> _$RtmpOutputSettingsToJson(RtmpOutputSettings instance) {
     }
   }
 
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('certificateMode',
       _$RtmpOutputCertificateModeEnumMap[instance.certificateMode]);
   writeNotNull('connectionRetryInterval', instance.connectionRetryInterval);
@@ -6682,33 +6458,20 @@ const _$RtmpOutputCertificateModeEnumMap = {
 ScheduleAction _$ScheduleActionFromJson(Map<String, dynamic> json) {
   return ScheduleAction(
     actionName: json['actionName'] as String,
-    scheduleActionSettings: json['scheduleActionSettings'] == null
-        ? null
-        : ScheduleActionSettings.fromJson(
-            json['scheduleActionSettings'] as Map<String, dynamic>),
-    scheduleActionStartSettings: json['scheduleActionStartSettings'] == null
-        ? null
-        : ScheduleActionStartSettings.fromJson(
-            json['scheduleActionStartSettings'] as Map<String, dynamic>),
+    scheduleActionSettings: ScheduleActionSettings.fromJson(
+        json['scheduleActionSettings'] as Map<String, dynamic>),
+    scheduleActionStartSettings: ScheduleActionStartSettings.fromJson(
+        json['scheduleActionStartSettings'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$ScheduleActionToJson(ScheduleAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('actionName', instance.actionName);
-  writeNotNull(
-      'scheduleActionSettings', instance.scheduleActionSettings?.toJson());
-  writeNotNull('scheduleActionStartSettings',
-      instance.scheduleActionStartSettings?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ScheduleActionToJson(ScheduleAction instance) =>
+    <String, dynamic>{
+      'actionName': instance.actionName,
+      'scheduleActionSettings': instance.scheduleActionSettings.toJson(),
+      'scheduleActionStartSettings':
+          instance.scheduleActionStartSettings.toJson(),
+    };
 
 ScheduleActionSettings _$ScheduleActionSettingsFromJson(
     Map<String, dynamic> json) {
@@ -6842,7 +6605,7 @@ Scte20SourceSettings _$Scte20SourceSettingsFromJson(Map<String, dynamic> json) {
   return Scte20SourceSettings(
     convert608To708: _$enumDecodeNullable(
         _$Scte20Convert608To708EnumMap, json['convert608To708']),
-    source608ChannelNumber: json['source608ChannelNumber'] as int,
+    source608ChannelNumber: json['source608ChannelNumber'] as int?,
   );
 }
 
@@ -6878,7 +6641,7 @@ Map<String, dynamic> _$Scte27DestinationSettingsToJson(
 
 Scte27SourceSettings _$Scte27SourceSettingsFromJson(Map<String, dynamic> json) {
   return Scte27SourceSettings(
-    pid: json['pid'] as int,
+    pid: json['pid'] as int?,
   );
 }
 
@@ -6899,37 +6662,29 @@ Map<String, dynamic> _$Scte27SourceSettingsToJson(
 Scte35DeliveryRestrictions _$Scte35DeliveryRestrictionsFromJson(
     Map<String, dynamic> json) {
   return Scte35DeliveryRestrictions(
-    archiveAllowedFlag: _$enumDecodeNullable(
+    archiveAllowedFlag: _$enumDecode(
         _$Scte35ArchiveAllowedFlagEnumMap, json['archiveAllowedFlag']),
-    deviceRestrictions: _$enumDecodeNullable(
+    deviceRestrictions: _$enumDecode(
         _$Scte35DeviceRestrictionsEnumMap, json['deviceRestrictions']),
-    noRegionalBlackoutFlag: _$enumDecodeNullable(
+    noRegionalBlackoutFlag: _$enumDecode(
         _$Scte35NoRegionalBlackoutFlagEnumMap, json['noRegionalBlackoutFlag']),
-    webDeliveryAllowedFlag: _$enumDecodeNullable(
+    webDeliveryAllowedFlag: _$enumDecode(
         _$Scte35WebDeliveryAllowedFlagEnumMap, json['webDeliveryAllowedFlag']),
   );
 }
 
 Map<String, dynamic> _$Scte35DeliveryRestrictionsToJson(
-    Scte35DeliveryRestrictions instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('archiveAllowedFlag',
-      _$Scte35ArchiveAllowedFlagEnumMap[instance.archiveAllowedFlag]);
-  writeNotNull('deviceRestrictions',
-      _$Scte35DeviceRestrictionsEnumMap[instance.deviceRestrictions]);
-  writeNotNull('noRegionalBlackoutFlag',
-      _$Scte35NoRegionalBlackoutFlagEnumMap[instance.noRegionalBlackoutFlag]);
-  writeNotNull('webDeliveryAllowedFlag',
-      _$Scte35WebDeliveryAllowedFlagEnumMap[instance.webDeliveryAllowedFlag]);
-  return val;
-}
+        Scte35DeliveryRestrictions instance) =>
+    <String, dynamic>{
+      'archiveAllowedFlag':
+          _$Scte35ArchiveAllowedFlagEnumMap[instance.archiveAllowedFlag],
+      'deviceRestrictions':
+          _$Scte35DeviceRestrictionsEnumMap[instance.deviceRestrictions],
+      'noRegionalBlackoutFlag': _$Scte35NoRegionalBlackoutFlagEnumMap[
+          instance.noRegionalBlackoutFlag],
+      'webDeliveryAllowedFlag': _$Scte35WebDeliveryAllowedFlagEnumMap[
+          instance.webDeliveryAllowedFlag],
+    };
 
 const _$Scte35ArchiveAllowedFlagEnumMap = {
   Scte35ArchiveAllowedFlag.archiveNotAllowed: 'ARCHIVE_NOT_ALLOWED',
@@ -6956,53 +6711,32 @@ const _$Scte35WebDeliveryAllowedFlagEnumMap = {
 
 Scte35Descriptor _$Scte35DescriptorFromJson(Map<String, dynamic> json) {
   return Scte35Descriptor(
-    scte35DescriptorSettings: json['scte35DescriptorSettings'] == null
-        ? null
-        : Scte35DescriptorSettings.fromJson(
-            json['scte35DescriptorSettings'] as Map<String, dynamic>),
+    scte35DescriptorSettings: Scte35DescriptorSettings.fromJson(
+        json['scte35DescriptorSettings'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$Scte35DescriptorToJson(Scte35Descriptor instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'scte35DescriptorSettings', instance.scte35DescriptorSettings?.toJson());
-  return val;
-}
+Map<String, dynamic> _$Scte35DescriptorToJson(Scte35Descriptor instance) =>
+    <String, dynamic>{
+      'scte35DescriptorSettings': instance.scte35DescriptorSettings.toJson(),
+    };
 
 Scte35DescriptorSettings _$Scte35DescriptorSettingsFromJson(
     Map<String, dynamic> json) {
   return Scte35DescriptorSettings(
     segmentationDescriptorScte35DescriptorSettings:
-        json['segmentationDescriptorScte35DescriptorSettings'] == null
-            ? null
-            : Scte35SegmentationDescriptor.fromJson(
-                json['segmentationDescriptorScte35DescriptorSettings']
-                    as Map<String, dynamic>),
+        Scte35SegmentationDescriptor.fromJson(
+            json['segmentationDescriptorScte35DescriptorSettings']
+                as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$Scte35DescriptorSettingsToJson(
-    Scte35DescriptorSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('segmentationDescriptorScte35DescriptorSettings',
-      instance.segmentationDescriptorScte35DescriptorSettings?.toJson());
-  return val;
-}
+        Scte35DescriptorSettings instance) =>
+    <String, dynamic>{
+      'segmentationDescriptorScte35DescriptorSettings':
+          instance.segmentationDescriptorScte35DescriptorSettings.toJson(),
+    };
 
 Scte35ReturnToNetworkScheduleActionSettings
     _$Scte35ReturnToNetworkScheduleActionSettingsFromJson(
@@ -7013,23 +6747,15 @@ Scte35ReturnToNetworkScheduleActionSettings
 }
 
 Map<String, dynamic> _$Scte35ReturnToNetworkScheduleActionSettingsToJson(
-    Scte35ReturnToNetworkScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('spliceEventId', instance.spliceEventId);
-  return val;
-}
+        Scte35ReturnToNetworkScheduleActionSettings instance) =>
+    <String, dynamic>{
+      'spliceEventId': instance.spliceEventId,
+    };
 
 Scte35SegmentationDescriptor _$Scte35SegmentationDescriptorFromJson(
     Map<String, dynamic> json) {
   return Scte35SegmentationDescriptor(
-    segmentationCancelIndicator: _$enumDecodeNullable(
+    segmentationCancelIndicator: _$enumDecode(
         _$Scte35SegmentationCancelIndicatorEnumMap,
         json['segmentationCancelIndicator']),
     segmentationEventId: json['segmentationEventId'] as int,
@@ -7037,20 +6763,24 @@ Scte35SegmentationDescriptor _$Scte35SegmentationDescriptorFromJson(
         ? null
         : Scte35DeliveryRestrictions.fromJson(
             json['deliveryRestrictions'] as Map<String, dynamic>),
-    segmentNum: json['segmentNum'] as int,
-    segmentationDuration: json['segmentationDuration'] as int,
-    segmentationTypeId: json['segmentationTypeId'] as int,
-    segmentationUpid: json['segmentationUpid'] as String,
-    segmentationUpidType: json['segmentationUpidType'] as int,
-    segmentsExpected: json['segmentsExpected'] as int,
-    subSegmentNum: json['subSegmentNum'] as int,
-    subSegmentsExpected: json['subSegmentsExpected'] as int,
+    segmentNum: json['segmentNum'] as int?,
+    segmentationDuration: json['segmentationDuration'] as int?,
+    segmentationTypeId: json['segmentationTypeId'] as int?,
+    segmentationUpid: json['segmentationUpid'] as String?,
+    segmentationUpidType: json['segmentationUpidType'] as int?,
+    segmentsExpected: json['segmentsExpected'] as int?,
+    subSegmentNum: json['subSegmentNum'] as int?,
+    subSegmentsExpected: json['subSegmentsExpected'] as int?,
   );
 }
 
 Map<String, dynamic> _$Scte35SegmentationDescriptorToJson(
     Scte35SegmentationDescriptor instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'segmentationCancelIndicator': _$Scte35SegmentationCancelIndicatorEnumMap[
+        instance.segmentationCancelIndicator],
+    'segmentationEventId': instance.segmentationEventId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7058,11 +6788,6 @@ Map<String, dynamic> _$Scte35SegmentationDescriptorToJson(
     }
   }
 
-  writeNotNull(
-      'segmentationCancelIndicator',
-      _$Scte35SegmentationCancelIndicatorEnumMap[
-          instance.segmentationCancelIndicator]);
-  writeNotNull('segmentationEventId', instance.segmentationEventId);
   writeNotNull('deliveryRestrictions', instance.deliveryRestrictions?.toJson());
   writeNotNull('segmentNum', instance.segmentNum);
   writeNotNull('segmentationDuration', instance.segmentationDuration);
@@ -7084,7 +6809,7 @@ const _$Scte35SegmentationCancelIndicatorEnumMap = {
 
 Scte35SpliceInsert _$Scte35SpliceInsertFromJson(Map<String, dynamic> json) {
   return Scte35SpliceInsert(
-    adAvailOffset: json['adAvailOffset'] as int,
+    adAvailOffset: json['adAvailOffset'] as int?,
     noRegionalBlackoutFlag: _$enumDecodeNullable(
         _$Scte35SpliceInsertNoRegionalBlackoutBehaviorEnumMap,
         json['noRegionalBlackoutFlag']),
@@ -7130,13 +6855,15 @@ Scte35SpliceInsertScheduleActionSettings
         Map<String, dynamic> json) {
   return Scte35SpliceInsertScheduleActionSettings(
     spliceEventId: json['spliceEventId'] as int,
-    duration: json['duration'] as int,
+    duration: json['duration'] as int?,
   );
 }
 
 Map<String, dynamic> _$Scte35SpliceInsertScheduleActionSettingsToJson(
     Scte35SpliceInsertScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'spliceEventId': instance.spliceEventId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7144,14 +6871,13 @@ Map<String, dynamic> _$Scte35SpliceInsertScheduleActionSettingsToJson(
     }
   }
 
-  writeNotNull('spliceEventId', instance.spliceEventId);
   writeNotNull('duration', instance.duration);
   return val;
 }
 
 Scte35TimeSignalApos _$Scte35TimeSignalAposFromJson(Map<String, dynamic> json) {
   return Scte35TimeSignalApos(
-    adAvailOffset: json['adAvailOffset'] as int,
+    adAvailOffset: json['adAvailOffset'] as int?,
     noRegionalBlackoutFlag: _$enumDecodeNullable(
         _$Scte35AposNoRegionalBlackoutBehaviorEnumMap,
         json['noRegionalBlackoutFlag']),
@@ -7197,28 +6923,18 @@ Scte35TimeSignalScheduleActionSettings
     _$Scte35TimeSignalScheduleActionSettingsFromJson(
         Map<String, dynamic> json) {
   return Scte35TimeSignalScheduleActionSettings(
-    scte35Descriptors: (json['scte35Descriptors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : Scte35Descriptor.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    scte35Descriptors: (json['scte35Descriptors'] as List<dynamic>)
+        .map((e) => Scte35Descriptor.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$Scte35TimeSignalScheduleActionSettingsToJson(
-    Scte35TimeSignalScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('scte35Descriptors',
-      instance.scte35Descriptors?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        Scte35TimeSignalScheduleActionSettings instance) =>
+    <String, dynamic>{
+      'scte35Descriptors':
+          instance.scte35Descriptors.map((e) => e.toJson()).toList(),
+    };
 
 SmpteTtDestinationSettings _$SmpteTtDestinationSettingsFromJson(
     Map<String, dynamic> json) {
@@ -7231,15 +6947,16 @@ Map<String, dynamic> _$SmpteTtDestinationSettingsToJson(
 
 StandardHlsSettings _$StandardHlsSettingsFromJson(Map<String, dynamic> json) {
   return StandardHlsSettings(
-    m3u8Settings: json['m3u8Settings'] == null
-        ? null
-        : M3u8Settings.fromJson(json['m3u8Settings'] as Map<String, dynamic>),
-    audioRenditionSets: json['audioRenditionSets'] as String,
+    m3u8Settings:
+        M3u8Settings.fromJson(json['m3u8Settings'] as Map<String, dynamic>),
+    audioRenditionSets: json['audioRenditionSets'] as String?,
   );
 }
 
 Map<String, dynamic> _$StandardHlsSettingsToJson(StandardHlsSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'm3u8Settings': instance.m3u8Settings.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7247,55 +6964,46 @@ Map<String, dynamic> _$StandardHlsSettingsToJson(StandardHlsSettings instance) {
     }
   }
 
-  writeNotNull('m3u8Settings', instance.m3u8Settings?.toJson());
   writeNotNull('audioRenditionSets', instance.audioRenditionSets);
   return val;
 }
 
 StartChannelResponse _$StartChannelResponseFromJson(Map<String, dynamic> json) {
   return StartChannelResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encoderSettings: json['encoderSettings'] == null
         ? null
         : EncoderSettings.fromJson(
             json['encoderSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -7304,24 +7012,24 @@ StartChannelResponse _$StartChannelResponseFromJson(Map<String, dynamic> json) {
 StartMultiplexResponse _$StartMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return StartMultiplexResponse(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -7329,7 +7037,7 @@ StartMultiplexResponse _$StartMultiplexResponseFromJson(
 
 StartTimecode _$StartTimecodeFromJson(Map<String, dynamic> json) {
   return StartTimecode(
-    timecode: json['timecode'] as String,
+    timecode: json['timecode'] as String?,
   );
 }
 
@@ -7350,24 +7058,24 @@ StaticImageActivateScheduleActionSettings
     _$StaticImageActivateScheduleActionSettingsFromJson(
         Map<String, dynamic> json) {
   return StaticImageActivateScheduleActionSettings(
-    image: json['image'] == null
-        ? null
-        : InputLocation.fromJson(json['image'] as Map<String, dynamic>),
-    duration: json['duration'] as int,
-    fadeIn: json['fadeIn'] as int,
-    fadeOut: json['fadeOut'] as int,
-    height: json['height'] as int,
-    imageX: json['imageX'] as int,
-    imageY: json['imageY'] as int,
-    layer: json['layer'] as int,
-    opacity: json['opacity'] as int,
-    width: json['width'] as int,
+    image: InputLocation.fromJson(json['image'] as Map<String, dynamic>),
+    duration: json['duration'] as int?,
+    fadeIn: json['fadeIn'] as int?,
+    fadeOut: json['fadeOut'] as int?,
+    height: json['height'] as int?,
+    imageX: json['imageX'] as int?,
+    imageY: json['imageY'] as int?,
+    layer: json['layer'] as int?,
+    opacity: json['opacity'] as int?,
+    width: json['width'] as int?,
   );
 }
 
 Map<String, dynamic> _$StaticImageActivateScheduleActionSettingsToJson(
     StaticImageActivateScheduleActionSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'image': instance.image.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7375,7 +7083,6 @@ Map<String, dynamic> _$StaticImageActivateScheduleActionSettingsToJson(
     }
   }
 
-  writeNotNull('image', instance.image?.toJson());
   writeNotNull('duration', instance.duration);
   writeNotNull('fadeIn', instance.fadeIn);
   writeNotNull('fadeOut', instance.fadeOut);
@@ -7392,8 +7099,8 @@ StaticImageDeactivateScheduleActionSettings
     _$StaticImageDeactivateScheduleActionSettingsFromJson(
         Map<String, dynamic> json) {
   return StaticImageDeactivateScheduleActionSettings(
-    fadeOut: json['fadeOut'] as int,
-    layer: json['layer'] as int,
+    fadeOut: json['fadeOut'] as int?,
+    layer: json['layer'] as int?,
   );
 }
 
@@ -7423,7 +7130,9 @@ StaticKeySettings _$StaticKeySettingsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StaticKeySettingsToJson(StaticKeySettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'staticKeyValue': instance.staticKeyValue,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7431,55 +7140,46 @@ Map<String, dynamic> _$StaticKeySettingsToJson(StaticKeySettings instance) {
     }
   }
 
-  writeNotNull('staticKeyValue', instance.staticKeyValue);
   writeNotNull('keyProviderServer', instance.keyProviderServer?.toJson());
   return val;
 }
 
 StopChannelResponse _$StopChannelResponseFromJson(Map<String, dynamic> json) {
   return StopChannelResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     cdiInputSpecification: json['cdiInputSpecification'] == null
         ? null
         : CdiInputSpecification.fromJson(
             json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    egressEndpoints: (json['egressEndpoints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) => OutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    egressEndpoints: (json['egressEndpoints'] as List<dynamic>?)
+        ?.map((e) => ChannelEgressEndpoint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     encoderSettings: json['encoderSettings'] == null
         ? null
         : EncoderSettings.fromJson(
             json['encoderSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    inputAttachments: (json['inputAttachments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InputAttachment.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    id: json['id'] as String?,
+    inputAttachments: (json['inputAttachments'] as List<dynamic>?)
+        ?.map((e) => InputAttachment.fromJson(e as Map<String, dynamic>))
+        .toList(),
     inputSpecification: json['inputSpecification'] == null
         ? null
         : InputSpecification.fromJson(
             json['inputSpecification'] as Map<String, dynamic>),
     logLevel: _$enumDecodeNullable(_$LogLevelEnumMap, json['logLevel']),
-    name: json['name'] as String,
-    pipelineDetails: (json['pipelineDetails'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PipelineDetail.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    roleArn: json['roleArn'] as String,
+    name: json['name'] as String?,
+    pipelineDetails: (json['pipelineDetails'] as List<dynamic>?)
+        ?.map((e) => PipelineDetail.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    roleArn: json['roleArn'] as String?,
     state: _$enumDecodeNullable(_$ChannelStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -7488,24 +7188,24 @@ StopChannelResponse _$StopChannelResponseFromJson(Map<String, dynamic> json) {
 StopMultiplexResponse _$StopMultiplexResponseFromJson(
     Map<String, dynamic> json) {
   return StopMultiplexResponse(
-    arn: json['arn'] as String,
-    availabilityZones:
-        (json['availabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    destinations: (json['destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['id'] as String,
+    arn: json['arn'] as String?,
+    availabilityZones: (json['availabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    destinations: (json['destinations'] as List<dynamic>?)
+        ?.map((e) =>
+            MultiplexOutputDestination.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['id'] as String?,
     multiplexSettings: json['multiplexSettings'] == null
         ? null
         : MultiplexSettings.fromJson(
             json['multiplexSettings'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    pipelinesRunningCount: json['pipelinesRunningCount'] as int,
-    programCount: json['programCount'] as int,
+    name: json['name'] as String?,
+    pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
+    programCount: json['programCount'] as int?,
     state: _$enumDecodeNullable(_$MultiplexStateEnumMap, json['state']),
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -7515,7 +7215,7 @@ StopTimecode _$StopTimecodeFromJson(Map<String, dynamic> json) {
   return StopTimecode(
     lastFrameClippingBehavior: _$enumDecodeNullable(
         _$LastFrameClippingBehaviorEnumMap, json['lastFrameClippingBehavior']),
-    timecode: json['timecode'] as String,
+    timecode: json['timecode'] as String?,
   );
 }
 
@@ -7551,7 +7251,7 @@ Map<String, dynamic> _$TeletextDestinationSettingsToJson(
 TeletextSourceSettings _$TeletextSourceSettingsFromJson(
     Map<String, dynamic> json) {
   return TeletextSourceSettings(
-    pageNumber: json['pageNumber'] as String,
+    pageNumber: json['pageNumber'] as String?,
   );
 }
 
@@ -7626,13 +7326,15 @@ const _$TemporalFilterStrengthEnumMap = {
 
 TimecodeConfig _$TimecodeConfigFromJson(Map<String, dynamic> json) {
   return TimecodeConfig(
-    source: _$enumDecodeNullable(_$TimecodeConfigSourceEnumMap, json['source']),
-    syncThreshold: json['syncThreshold'] as int,
+    source: _$enumDecode(_$TimecodeConfigSourceEnumMap, json['source']),
+    syncThreshold: json['syncThreshold'] as int?,
   );
 }
 
 Map<String, dynamic> _$TimecodeConfigToJson(TimecodeConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'source': _$TimecodeConfigSourceEnumMap[instance.source],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7640,7 +7342,6 @@ Map<String, dynamic> _$TimecodeConfigToJson(TimecodeConfig instance) {
     }
   }
 
-  writeNotNull('source', _$TimecodeConfigSourceEnumMap[instance.source]);
   writeNotNull('syncThreshold', instance.syncThreshold);
   return val;
 }
@@ -7659,9 +7360,9 @@ TransferInputDeviceResponse _$TransferInputDeviceResponseFromJson(
 TransferringInputDeviceSummary _$TransferringInputDeviceSummaryFromJson(
     Map<String, dynamic> json) {
   return TransferringInputDeviceSummary(
-    id: json['id'] as String,
-    message: json['message'] as String,
-    targetCustomerId: json['targetCustomerId'] as String,
+    id: json['id'] as String?,
+    message: json['message'] as String?,
+    targetCustomerId: json['targetCustomerId'] as String?,
     transferType: _$enumDecodeNullable(
         _$InputDeviceTransferTypeEnumMap, json['transferType']),
   );
@@ -7728,7 +7429,7 @@ UdpGroupSettings _$UdpGroupSettingsFromJson(Map<String, dynamic> json) {
         _$InputLossActionForUdpOutEnumMap, json['inputLossAction']),
     timedMetadataId3Frame: _$enumDecodeNullable(
         _$UdpTimedMetadataId3FrameEnumMap, json['timedMetadataId3Frame']),
-    timedMetadataId3Period: json['timedMetadataId3Period'] as int,
+    timedMetadataId3Period: json['timedMetadataId3Period'] as int?,
   );
 }
 
@@ -7763,15 +7464,11 @@ const _$UdpTimedMetadataId3FrameEnumMap = {
 
 UdpOutputSettings _$UdpOutputSettingsFromJson(Map<String, dynamic> json) {
   return UdpOutputSettings(
-    containerSettings: json['containerSettings'] == null
-        ? null
-        : UdpContainerSettings.fromJson(
-            json['containerSettings'] as Map<String, dynamic>),
-    destination: json['destination'] == null
-        ? null
-        : OutputLocationRef.fromJson(
-            json['destination'] as Map<String, dynamic>),
-    bufferMsec: json['bufferMsec'] as int,
+    containerSettings: UdpContainerSettings.fromJson(
+        json['containerSettings'] as Map<String, dynamic>),
+    destination:
+        OutputLocationRef.fromJson(json['destination'] as Map<String, dynamic>),
+    bufferMsec: json['bufferMsec'] as int?,
     fecOutputSettings: json['fecOutputSettings'] == null
         ? null
         : FecOutputSettings.fromJson(
@@ -7780,7 +7477,10 @@ UdpOutputSettings _$UdpOutputSettingsFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$UdpOutputSettingsToJson(UdpOutputSettings instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'containerSettings': instance.containerSettings.toJson(),
+    'destination': instance.destination.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7788,8 +7488,6 @@ Map<String, dynamic> _$UdpOutputSettingsToJson(UdpOutputSettings instance) {
     }
   }
 
-  writeNotNull('containerSettings', instance.containerSettings?.toJson());
-  writeNotNull('destination', instance.destination?.toJson());
   writeNotNull('bufferMsec', instance.bufferMsec);
   writeNotNull('fecOutputSettings', instance.fecOutputSettings?.toJson());
   return val;
@@ -7816,7 +7514,7 @@ UpdateChannelResponse _$UpdateChannelResponseFromJson(
 UpdateInputDeviceResponse _$UpdateInputDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateInputDeviceResponse(
-    arn: json['arn'] as String,
+    arn: json['arn'] as String?,
     connectionState: _$enumDecodeNullable(
         _$InputDeviceConnectionStateEnumMap, json['connectionState']),
     deviceSettingsSyncState: _$enumDecodeNullable(
@@ -7827,14 +7525,14 @@ UpdateInputDeviceResponse _$UpdateInputDeviceResponseFromJson(
         ? null
         : InputDeviceHdSettings.fromJson(
             json['hdDeviceSettings'] as Map<String, dynamic>),
-    id: json['id'] as String,
-    macAddress: json['macAddress'] as String,
-    name: json['name'] as String,
+    id: json['id'] as String?,
+    macAddress: json['macAddress'] as String?,
+    name: json['name'] as String?,
     networkSettings: json['networkSettings'] == null
         ? null
         : InputDeviceNetworkSettings.fromJson(
             json['networkSettings'] as Map<String, dynamic>),
-    serialNumber: json['serialNumber'] as String,
+    serialNumber: json['serialNumber'] as String?,
     type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
     uhdDeviceSettings: json['uhdDeviceSettings'] == null
         ? null
@@ -7892,8 +7590,8 @@ UpdateReservationResponse _$UpdateReservationResponseFromJson(
 VideoBlackFailoverSettings _$VideoBlackFailoverSettingsFromJson(
     Map<String, dynamic> json) {
   return VideoBlackFailoverSettings(
-    blackDetectThreshold: (json['blackDetectThreshold'] as num)?.toDouble(),
-    videoBlackThresholdMsec: json['videoBlackThresholdMsec'] as int,
+    blackDetectThreshold: (json['blackDetectThreshold'] as num?)?.toDouble(),
+    videoBlackThresholdMsec: json['videoBlackThresholdMsec'] as int?,
   );
 }
 
@@ -7953,18 +7651,20 @@ VideoDescription _$VideoDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : VideoCodecSettings.fromJson(
             json['codecSettings'] as Map<String, dynamic>),
-    height: json['height'] as int,
+    height: json['height'] as int?,
     respondToAfd: _$enumDecodeNullable(
         _$VideoDescriptionRespondToAfdEnumMap, json['respondToAfd']),
     scalingBehavior: _$enumDecodeNullable(
         _$VideoDescriptionScalingBehaviorEnumMap, json['scalingBehavior']),
-    sharpness: json['sharpness'] as int,
-    width: json['width'] as int,
+    sharpness: json['sharpness'] as int?,
+    width: json['width'] as int?,
   );
 }
 
 Map<String, dynamic> _$VideoDescriptionToJson(VideoDescription instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -7972,7 +7672,6 @@ Map<String, dynamic> _$VideoDescriptionToJson(VideoDescription instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('codecSettings', instance.codecSettings?.toJson());
   writeNotNull('height', instance.height);
   writeNotNull('respondToAfd',
@@ -8038,7 +7737,7 @@ const _$VideoSelectorColorSpaceUsageEnumMap = {
 
 VideoSelectorPid _$VideoSelectorPidFromJson(Map<String, dynamic> json) {
   return VideoSelectorPid(
-    pid: json['pid'] as int,
+    pid: json['pid'] as int?,
   );
 }
 
@@ -8058,7 +7757,7 @@ Map<String, dynamic> _$VideoSelectorPidToJson(VideoSelectorPid instance) {
 VideoSelectorProgramId _$VideoSelectorProgramIdFromJson(
     Map<String, dynamic> json) {
   return VideoSelectorProgramId(
-    programId: json['programId'] as int,
+    programId: json['programId'] as int?,
   );
 }
 
@@ -8108,10 +7807,10 @@ Map<String, dynamic> _$VideoSelectorSettingsToJson(
 
 WavSettings _$WavSettingsFromJson(Map<String, dynamic> json) {
   return WavSettings(
-    bitDepth: (json['bitDepth'] as num)?.toDouble(),
+    bitDepth: (json['bitDepth'] as num?)?.toDouble(),
     codingMode:
         _$enumDecodeNullable(_$WavCodingModeEnumMap, json['codingMode']),
-    sampleRate: (json['sampleRate'] as num)?.toDouble(),
+    sampleRate: (json['sampleRate'] as num?)?.toDouble(),
   );
 }
 

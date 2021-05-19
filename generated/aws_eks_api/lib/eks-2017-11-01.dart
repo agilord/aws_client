@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'eks-2017-11-01.g.dart';
 
 /// Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that
 /// makes it easy for you to run Kubernetes on AWS without needing to stand up
@@ -42,10 +34,10 @@ part 'eks-2017-11-01.g.dart';
 class EKS {
   final _s.RestJsonProtocol _protocol;
   EKS({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -117,13 +109,13 @@ class EKS {
   /// organization. Each tag consists of a key and an optional value, both of
   /// which you define.
   Future<CreateAddonResponse> createAddon({
-    @_s.required String addonName,
-    @_s.required String clusterName,
-    String addonVersion,
-    String clientRequestToken,
-    ResolveConflicts resolveConflicts,
-    String serviceAccountRoleArn,
-    Map<String, String> tags,
+    required String addonName,
+    required String clusterName,
+    String? addonVersion,
+    String? clientRequestToken,
+    ResolveConflicts? resolveConflicts,
+    String? serviceAccountRoleArn,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
@@ -279,15 +271,15 @@ class EKS {
   /// The desired Kubernetes version for your cluster. If you don't specify a
   /// value here, the latest version available in Amazon EKS is used.
   Future<CreateClusterResponse> createCluster({
-    @_s.required String name,
-    @_s.required VpcConfigRequest resourcesVpcConfig,
-    @_s.required String roleArn,
-    String clientRequestToken,
-    List<EncryptionConfig> encryptionConfig,
-    KubernetesNetworkConfigRequest kubernetesNetworkConfig,
-    Logging logging,
-    Map<String, String> tags,
-    String version,
+    required String name,
+    required VpcConfigRequest resourcesVpcConfig,
+    required String roleArn,
+    String? clientRequestToken,
+    List<EncryptionConfig>? encryptionConfig,
+    KubernetesNetworkConfigRequest? kubernetesNetworkConfig,
+    Logging? logging,
+    Map<String, String>? tags,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -409,13 +401,13 @@ class EKS {
   /// resources associated with the Fargate profile, such as the pods that are
   /// scheduled with it.
   Future<CreateFargateProfileResponse> createFargateProfile({
-    @_s.required String clusterName,
-    @_s.required String fargateProfileName,
-    @_s.required String podExecutionRoleArn,
-    String clientRequestToken,
-    List<FargateProfileSelector> selectors,
-    List<String> subnets,
-    Map<String, String> tags,
+    required String clusterName,
+    required String fargateProfileName,
+    required String podExecutionRoleArn,
+    String? clientRequestToken,
+    List<FargateProfileSelector>? selectors,
+    List<String>? subnets,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
@@ -600,22 +592,22 @@ class EKS {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
   /// template support</a> in the Amazon EKS User Guide.
   Future<CreateNodegroupResponse> createNodegroup({
-    @_s.required String clusterName,
-    @_s.required String nodeRole,
-    @_s.required String nodegroupName,
-    @_s.required List<String> subnets,
-    AMITypes amiType,
-    CapacityTypes capacityType,
-    String clientRequestToken,
-    int diskSize,
-    List<String> instanceTypes,
-    Map<String, String> labels,
-    LaunchTemplateSpecification launchTemplate,
-    String releaseVersion,
-    RemoteAccessConfig remoteAccess,
-    NodegroupScalingConfig scalingConfig,
-    Map<String, String> tags,
-    String version,
+    required String clusterName,
+    required String nodeRole,
+    required String nodegroupName,
+    required List<String> subnets,
+    AMITypes? amiType,
+    CapacityTypes? capacityType,
+    String? clientRequestToken,
+    int? diskSize,
+    List<String>? instanceTypes,
+    Map<String, String>? labels,
+    LaunchTemplateSpecification? launchTemplate,
+    String? releaseVersion,
+    RemoteAccessConfig? remoteAccess,
+    NodegroupScalingConfig? scalingConfig,
+    Map<String, String>? tags,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodeRole, 'nodeRole');
@@ -668,8 +660,8 @@ class EKS {
   /// Parameter [clusterName] :
   /// The name of the cluster to delete the add-on from.
   Future<DeleteAddonResponse> deleteAddon({
-    @_s.required String addonName,
-    @_s.required String clusterName,
+    required String addonName,
+    required String clusterName,
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
@@ -719,7 +711,7 @@ class EKS {
   /// Parameter [name] :
   /// The name of the cluster to delete.
   Future<DeleteClusterResponse> deleteCluster({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
@@ -755,8 +747,8 @@ class EKS {
   /// Parameter [fargateProfileName] :
   /// The name of the Fargate profile to delete.
   Future<DeleteFargateProfileResponse> deleteFargateProfile({
-    @_s.required String clusterName,
-    @_s.required String fargateProfileName,
+    required String clusterName,
+    required String fargateProfileName,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
@@ -786,8 +778,8 @@ class EKS {
   /// Parameter [nodegroupName] :
   /// The name of the node group to delete.
   Future<DeleteNodegroupResponse> deleteNodegroup({
-    @_s.required String clusterName,
-    @_s.required String nodegroupName,
+    required String clusterName,
+    required String nodegroupName,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
@@ -818,8 +810,8 @@ class EKS {
   /// Parameter [clusterName] :
   /// The name of the cluster.
   Future<DescribeAddonResponse> describeAddon({
-    @_s.required String addonName,
-    @_s.required String clusterName,
+    required String addonName,
+    required String clusterName,
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
@@ -875,10 +867,10 @@ class EKS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<DescribeAddonVersionsResponse> describeAddonVersions({
-    String addonName,
-    String kubernetesVersion,
-    int maxResults,
-    String nextToken,
+    String? addonName,
+    String? kubernetesVersion,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -923,7 +915,7 @@ class EKS {
   /// Parameter [name] :
   /// The name of the cluster to describe.
   Future<DescribeClusterResponse> describeCluster({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
@@ -948,8 +940,8 @@ class EKS {
   /// Parameter [fargateProfileName] :
   /// The name of the Fargate profile to describe.
   Future<DescribeFargateProfileResponse> describeFargateProfile({
-    @_s.required String clusterName,
-    @_s.required String fargateProfileName,
+    required String clusterName,
+    required String fargateProfileName,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
@@ -977,8 +969,8 @@ class EKS {
   /// Parameter [nodegroupName] :
   /// The name of the node group to describe.
   Future<DescribeNodegroupResponse> describeNodegroup({
-    @_s.required String clusterName,
-    @_s.required String nodegroupName,
+    required String clusterName,
+    required String nodegroupName,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
@@ -1019,10 +1011,10 @@ class EKS {
   /// Parameter [nodegroupName] :
   /// The name of the Amazon EKS node group associated with the update.
   Future<DescribeUpdateResponse> describeUpdate({
-    @_s.required String name,
-    @_s.required String updateId,
-    String addonName,
-    String nodegroupName,
+    required String name,
+    required String updateId,
+    String? addonName,
+    String? nodegroupName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(updateId, 'updateId');
@@ -1075,9 +1067,9 @@ class EKS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListAddonsResponse> listAddons({
-    @_s.required String clusterName,
-    int maxResults,
-    String nextToken,
+    required String clusterName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     _s.validateStringLength(
@@ -1142,8 +1134,8 @@ class EKS {
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
   Future<ListClustersResponse> listClusters({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1196,9 +1188,9 @@ class EKS {
   /// continues from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListFargateProfilesResponse> listFargateProfiles({
-    @_s.required String clusterName,
-    int maxResults,
-    String nextToken,
+    required String clusterName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     _s.validateNumRange(
@@ -1255,9 +1247,9 @@ class EKS {
   /// from the end of the previous results that returned the
   /// <code>nextToken</code> value.
   Future<ListNodegroupsResponse> listNodegroups({
-    @_s.required String clusterName,
-    int maxResults,
-    String nextToken,
+    required String clusterName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     _s.validateNumRange(
@@ -1290,7 +1282,7 @@ class EKS {
   /// list the tags. Currently, the supported resources are Amazon EKS clusters
   /// and managed node groups.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -1337,11 +1329,11 @@ class EKS {
   /// Parameter [nodegroupName] :
   /// The name of the Amazon EKS managed node group to list updates for.
   Future<ListUpdatesResponse> listUpdates({
-    @_s.required String name,
-    String addonName,
-    int maxResults,
-    String nextToken,
-    String nodegroupName,
+    required String name,
+    String? addonName,
+    int? maxResults,
+    String? nextToken,
+    String? nodegroupName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
@@ -1386,8 +1378,8 @@ class EKS {
   /// Parameter [tags] :
   /// The tags to add to the resource. A tag is an array of key-value pairs.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1400,7 +1392,6 @@ class EKS {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Deletes specified tags from a resource.
@@ -1416,13 +1407,13 @@ class EKS {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1431,7 +1422,6 @@ class EKS {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates an Amazon EKS add-on.
@@ -1482,12 +1472,12 @@ class EKS {
   /// User Guide</i>.
   /// </note>
   Future<UpdateAddonResponse> updateAddon({
-    @_s.required String addonName,
-    @_s.required String clusterName,
-    String addonVersion,
-    String clientRequestToken,
-    ResolveConflicts resolveConflicts,
-    String serviceAccountRoleArn,
+    required String addonName,
+    required String clusterName,
+    String? addonVersion,
+    String? clientRequestToken,
+    ResolveConflicts? resolveConflicts,
+    String? serviceAccountRoleArn,
   }) async {
     ArgumentError.checkNotNull(addonName, 'addonName');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
@@ -1591,10 +1581,10 @@ class EKS {
   /// Pricing</a>.
   /// </note>
   Future<UpdateClusterConfigResponse> updateClusterConfig({
-    @_s.required String name,
-    String clientRequestToken,
-    Logging logging,
-    VpcConfigRequest resourcesVpcConfig,
+    required String name,
+    String? clientRequestToken,
+    Logging? logging,
+    VpcConfigRequest? resourcesVpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
@@ -1643,9 +1633,9 @@ class EKS {
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<UpdateClusterVersionResponse> updateClusterVersion({
-    @_s.required String name,
-    @_s.required String version,
-    String clientRequestToken,
+    required String name,
+    required String version,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(version, 'version');
@@ -1693,11 +1683,11 @@ class EKS {
   /// The scaling configuration details for the Auto Scaling group after the
   /// update.
   Future<UpdateNodegroupConfigResponse> updateNodegroupConfig({
-    @_s.required String clusterName,
-    @_s.required String nodegroupName,
-    String clientRequestToken,
-    UpdateLabelsPayload labels,
-    NodegroupScalingConfig scalingConfig,
+    required String clusterName,
+    required String nodegroupName,
+    String? clientRequestToken,
+    UpdateLabelsPayload? labels,
+    NodegroupScalingConfig? scalingConfig,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
@@ -1799,13 +1789,13 @@ class EKS {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
   /// template support</a> in the Amazon EKS User Guide.
   Future<UpdateNodegroupVersionResponse> updateNodegroupVersion({
-    @_s.required String clusterName,
-    @_s.required String nodegroupName,
-    String clientRequestToken,
-    bool force,
-    LaunchTemplateSpecification launchTemplate,
-    String releaseVersion,
-    String version,
+    required String clusterName,
+    required String nodegroupName,
+    String? clientRequestToken,
+    bool? force,
+    LaunchTemplateSpecification? launchTemplate,
+    String? releaseVersion,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
@@ -1828,11 +1818,8 @@ class EKS {
 }
 
 enum AMITypes {
-  @_s.JsonValue('AL2_x86_64')
   al2X86_64,
-  @_s.JsonValue('AL2_x86_64_GPU')
   al2X86_64Gpu,
-  @_s.JsonValue('AL2_ARM_64')
   al2Arm_64,
 }
 
@@ -1846,62 +1833,58 @@ extension on AMITypes {
       case AMITypes.al2Arm_64:
         return 'AL2_ARM_64';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AMITypes toAMITypes() {
+    switch (this) {
+      case 'AL2_x86_64':
+        return AMITypes.al2X86_64;
+      case 'AL2_x86_64_GPU':
+        return AMITypes.al2X86_64Gpu;
+      case 'AL2_ARM_64':
+        return AMITypes.al2Arm_64;
+    }
+    throw Exception('$this is not known in enum AMITypes');
   }
 }
 
 /// An Amazon EKS add-on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Addon {
   /// The Amazon Resource Name (ARN) of the add-on.
-  @_s.JsonKey(name: 'addonArn')
-  final String addonArn;
+  final String? addonArn;
 
   /// The name of the add-on.
-  @_s.JsonKey(name: 'addonName')
-  final String addonName;
+  final String? addonName;
 
   /// The version of the add-on.
-  @_s.JsonKey(name: 'addonVersion')
-  final String addonVersion;
+  final String? addonVersion;
 
   /// The name of the cluster.
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The date and time that the add-on was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// An object that represents the health of the add-on.
-  @_s.JsonKey(name: 'health')
-  final AddonHealth health;
+  final AddonHealth? health;
 
   /// The date and time that the add-on was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'modifiedAt')
-  final DateTime modifiedAt;
+  final DateTime? modifiedAt;
 
   /// The Amazon Resource Name (ARN) of the IAM role that is bound to the
   /// Kubernetes service account used by the add-on.
-  @_s.JsonKey(name: 'serviceAccountRoleArn')
-  final String serviceAccountRoleArn;
+  final String? serviceAccountRoleArn;
 
   /// The status of the add-on.
-  @_s.JsonKey(name: 'status')
-  final AddonStatus status;
+  final AddonStatus? status;
 
   /// The metadata that you apply to the cluster to assist with categorization and
   /// organization. Each tag consists of a key and an optional value, both of
   /// which you define. Cluster tags do not propagate to any other resources
   /// associated with the cluster.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Addon({
     this.addonArn,
@@ -1915,166 +1898,246 @@ class Addon {
     this.status,
     this.tags,
   });
-  factory Addon.fromJson(Map<String, dynamic> json) => _$AddonFromJson(json);
+  factory Addon.fromJson(Map<String, dynamic> json) {
+    return Addon(
+      addonArn: json['addonArn'] as String?,
+      addonName: json['addonName'] as String?,
+      addonVersion: json['addonVersion'] as String?,
+      clusterName: json['clusterName'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      health: json['health'] != null
+          ? AddonHealth.fromJson(json['health'] as Map<String, dynamic>)
+          : null,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      serviceAccountRoleArn: json['serviceAccountRoleArn'] as String?,
+      status: (json['status'] as String?)?.toAddonStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// The health of the add-on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddonHealth {
   /// An object that represents the add-on's health issues.
-  @_s.JsonKey(name: 'issues')
-  final List<AddonIssue> issues;
+  final List<AddonIssue>? issues;
 
   AddonHealth({
     this.issues,
   });
-  factory AddonHealth.fromJson(Map<String, dynamic> json) =>
-      _$AddonHealthFromJson(json);
+  factory AddonHealth.fromJson(Map<String, dynamic> json) {
+    return AddonHealth(
+      issues: (json['issues'] as List?)
+          ?.whereNotNull()
+          .map((e) => AddonIssue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about an add-on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddonInfo {
   /// The name of the add-on.
-  @_s.JsonKey(name: 'addonName')
-  final String addonName;
+  final String? addonName;
 
   /// An object that represents information about available add-on versions and
   /// compatible Kubernetes versions.
-  @_s.JsonKey(name: 'addonVersions')
-  final List<AddonVersionInfo> addonVersions;
+  final List<AddonVersionInfo>? addonVersions;
 
   /// The type of the add-on.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   AddonInfo({
     this.addonName,
     this.addonVersions,
     this.type,
   });
-  factory AddonInfo.fromJson(Map<String, dynamic> json) =>
-      _$AddonInfoFromJson(json);
+  factory AddonInfo.fromJson(Map<String, dynamic> json) {
+    return AddonInfo(
+      addonName: json['addonName'] as String?,
+      addonVersions: (json['addonVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AddonVersionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['type'] as String?,
+    );
+  }
 }
 
 /// An issue related to an add-on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddonIssue {
   /// A code that describes the type of issue.
-  @_s.JsonKey(name: 'code')
-  final AddonIssueCode code;
+  final AddonIssueCode? code;
 
   /// A message that provides details about the issue and what might cause it.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The resource IDs of the issue.
-  @_s.JsonKey(name: 'resourceIds')
-  final List<String> resourceIds;
+  final List<String>? resourceIds;
 
   AddonIssue({
     this.code,
     this.message,
     this.resourceIds,
   });
-  factory AddonIssue.fromJson(Map<String, dynamic> json) =>
-      _$AddonIssueFromJson(json);
+  factory AddonIssue.fromJson(Map<String, dynamic> json) {
+    return AddonIssue(
+      code: (json['code'] as String?)?.toAddonIssueCode(),
+      message: json['message'] as String?,
+      resourceIds: (json['resourceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum AddonIssueCode {
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('InternalFailure')
   internalFailure,
-  @_s.JsonValue('ClusterUnreachable')
   clusterUnreachable,
-  @_s.JsonValue('InsufficientNumberOfReplicas')
   insufficientNumberOfReplicas,
-  @_s.JsonValue('ConfigurationConflict')
   configurationConflict,
 }
 
+extension on AddonIssueCode {
+  String toValue() {
+    switch (this) {
+      case AddonIssueCode.accessDenied:
+        return 'AccessDenied';
+      case AddonIssueCode.internalFailure:
+        return 'InternalFailure';
+      case AddonIssueCode.clusterUnreachable:
+        return 'ClusterUnreachable';
+      case AddonIssueCode.insufficientNumberOfReplicas:
+        return 'InsufficientNumberOfReplicas';
+      case AddonIssueCode.configurationConflict:
+        return 'ConfigurationConflict';
+    }
+  }
+}
+
+extension on String {
+  AddonIssueCode toAddonIssueCode() {
+    switch (this) {
+      case 'AccessDenied':
+        return AddonIssueCode.accessDenied;
+      case 'InternalFailure':
+        return AddonIssueCode.internalFailure;
+      case 'ClusterUnreachable':
+        return AddonIssueCode.clusterUnreachable;
+      case 'InsufficientNumberOfReplicas':
+        return AddonIssueCode.insufficientNumberOfReplicas;
+      case 'ConfigurationConflict':
+        return AddonIssueCode.configurationConflict;
+    }
+    throw Exception('$this is not known in enum AddonIssueCode');
+  }
+}
+
 enum AddonStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('DEGRADED')
   degraded,
 }
 
+extension on AddonStatus {
+  String toValue() {
+    switch (this) {
+      case AddonStatus.creating:
+        return 'CREATING';
+      case AddonStatus.active:
+        return 'ACTIVE';
+      case AddonStatus.createFailed:
+        return 'CREATE_FAILED';
+      case AddonStatus.updating:
+        return 'UPDATING';
+      case AddonStatus.deleting:
+        return 'DELETING';
+      case AddonStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case AddonStatus.degraded:
+        return 'DEGRADED';
+    }
+  }
+}
+
+extension on String {
+  AddonStatus toAddonStatus() {
+    switch (this) {
+      case 'CREATING':
+        return AddonStatus.creating;
+      case 'ACTIVE':
+        return AddonStatus.active;
+      case 'CREATE_FAILED':
+        return AddonStatus.createFailed;
+      case 'UPDATING':
+        return AddonStatus.updating;
+      case 'DELETING':
+        return AddonStatus.deleting;
+      case 'DELETE_FAILED':
+        return AddonStatus.deleteFailed;
+      case 'DEGRADED':
+        return AddonStatus.degraded;
+    }
+    throw Exception('$this is not known in enum AddonStatus');
+  }
+}
+
 /// Information about an add-on version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddonVersionInfo {
   /// The version of the add-on.
-  @_s.JsonKey(name: 'addonVersion')
-  final String addonVersion;
+  final String? addonVersion;
 
   /// The architectures that the version supports.
-  @_s.JsonKey(name: 'architecture')
-  final List<String> architecture;
+  final List<String>? architecture;
 
   /// An object that represents the compatibilities of a version.
-  @_s.JsonKey(name: 'compatibilities')
-  final List<Compatibility> compatibilities;
+  final List<Compatibility>? compatibilities;
 
   AddonVersionInfo({
     this.addonVersion,
     this.architecture,
     this.compatibilities,
   });
-  factory AddonVersionInfo.fromJson(Map<String, dynamic> json) =>
-      _$AddonVersionInfoFromJson(json);
+  factory AddonVersionInfo.fromJson(Map<String, dynamic> json) {
+    return AddonVersionInfo(
+      addonVersion: json['addonVersion'] as String?,
+      architecture: (json['architecture'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      compatibilities: (json['compatibilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Compatibility.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// An Auto Scaling group that is associated with an Amazon EKS managed node
 /// group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingGroup {
   /// The name of the Auto Scaling group associated with an Amazon EKS managed
   /// node group.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   AutoScalingGroup({
     this.name,
   });
-  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingGroupFromJson(json);
+  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroup(
+      name: json['name'] as String?,
+    );
+  }
 }
 
 enum CapacityTypes {
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
-  @_s.JsonValue('SPOT')
   spot,
 }
 
@@ -2086,86 +2149,77 @@ extension on CapacityTypes {
       case CapacityTypes.spot:
         return 'SPOT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CapacityTypes toCapacityTypes() {
+    switch (this) {
+      case 'ON_DEMAND':
+        return CapacityTypes.onDemand;
+      case 'SPOT':
+        return CapacityTypes.spot;
+    }
+    throw Exception('$this is not known in enum CapacityTypes');
   }
 }
 
 /// An object representing the <code>certificate-authority-data</code> for your
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Certificate {
   /// The Base64-encoded certificate data required to communicate with your
   /// cluster. Add this to the <code>certificate-authority-data</code> section of
   /// the <code>kubeconfig</code> file for your cluster.
-  @_s.JsonKey(name: 'data')
-  final String data;
+  final String? data;
 
   Certificate({
     this.data,
   });
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      data: json['data'] as String?,
+    );
+  }
 }
 
 /// An object representing an Amazon EKS cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cluster {
   /// The Amazon Resource Name (ARN) of the cluster.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The <code>certificate-authority-data</code> for your cluster.
-  @_s.JsonKey(name: 'certificateAuthority')
-  final Certificate certificateAuthority;
+  final Certificate? certificateAuthority;
 
   /// Unique, case-sensitive identifier that you provide to ensure the idempotency
   /// of the request.
-  @_s.JsonKey(name: 'clientRequestToken')
-  final String clientRequestToken;
+  final String? clientRequestToken;
 
   /// The Unix epoch timestamp in seconds for when the cluster was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The encryption configuration for the cluster.
-  @_s.JsonKey(name: 'encryptionConfig')
-  final List<EncryptionConfig> encryptionConfig;
+  final List<EncryptionConfig>? encryptionConfig;
 
   /// The endpoint for your Kubernetes API server.
-  @_s.JsonKey(name: 'endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// The identity provider information for the cluster.
-  @_s.JsonKey(name: 'identity')
-  final Identity identity;
+  final Identity? identity;
 
   /// The Kubernetes network configuration for the cluster.
-  @_s.JsonKey(name: 'kubernetesNetworkConfig')
-  final KubernetesNetworkConfigResponse kubernetesNetworkConfig;
+  final KubernetesNetworkConfigResponse? kubernetesNetworkConfig;
 
   /// The logging configuration for your cluster.
-  @_s.JsonKey(name: 'logging')
-  final Logging logging;
+  final Logging? logging;
 
   /// The name of the cluster.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The platform version of your Amazon EKS cluster. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html">Platform
   /// Versions</a> in the <i> <i>Amazon EKS User Guide</i> </i>.
-  @_s.JsonKey(name: 'platformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The VPC configuration used by the cluster control plane. Amazon EKS VPC
   /// resources have specific requirements to work properly with Kubernetes. For
@@ -2174,29 +2228,24 @@ class Cluster {
   /// VPC Considerations</a> and <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">Cluster
   /// Security Group Considerations</a> in the <i>Amazon EKS User Guide</i>.
-  @_s.JsonKey(name: 'resourcesVpcConfig')
-  final VpcConfigResponse resourcesVpcConfig;
+  final VpcConfigResponse? resourcesVpcConfig;
 
   /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for
   /// the Kubernetes control plane to make calls to AWS API operations on your
   /// behalf.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The current status of the cluster.
-  @_s.JsonKey(name: 'status')
-  final ClusterStatus status;
+  final ClusterStatus? status;
 
   /// The metadata that you apply to the cluster to assist with categorization and
   /// organization. Each tag consists of a key and an optional value, both of
   /// which you define. Cluster tags do not propagate to any other resources
   /// associated with the cluster.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The Kubernetes server version for the cluster.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   Cluster({
     this.arn,
@@ -2216,210 +2265,262 @@ class Cluster {
     this.tags,
     this.version,
   });
-  factory Cluster.fromJson(Map<String, dynamic> json) =>
-      _$ClusterFromJson(json);
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      arn: json['arn'] as String?,
+      certificateAuthority: json['certificateAuthority'] != null
+          ? Certificate.fromJson(
+              json['certificateAuthority'] as Map<String, dynamic>)
+          : null,
+      clientRequestToken: json['clientRequestToken'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      encryptionConfig: (json['encryptionConfig'] as List?)
+          ?.whereNotNull()
+          .map((e) => EncryptionConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endpoint: json['endpoint'] as String?,
+      identity: json['identity'] != null
+          ? Identity.fromJson(json['identity'] as Map<String, dynamic>)
+          : null,
+      kubernetesNetworkConfig: json['kubernetesNetworkConfig'] != null
+          ? KubernetesNetworkConfigResponse.fromJson(
+              json['kubernetesNetworkConfig'] as Map<String, dynamic>)
+          : null,
+      logging: json['logging'] != null
+          ? Logging.fromJson(json['logging'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      platformVersion: json['platformVersion'] as String?,
+      resourcesVpcConfig: json['resourcesVpcConfig'] != null
+          ? VpcConfigResponse.fromJson(
+              json['resourcesVpcConfig'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.toClusterStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+    );
+  }
 }
 
 enum ClusterStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on ClusterStatus {
+  String toValue() {
+    switch (this) {
+      case ClusterStatus.creating:
+        return 'CREATING';
+      case ClusterStatus.active:
+        return 'ACTIVE';
+      case ClusterStatus.deleting:
+        return 'DELETING';
+      case ClusterStatus.failed:
+        return 'FAILED';
+      case ClusterStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  ClusterStatus toClusterStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ClusterStatus.creating;
+      case 'ACTIVE':
+        return ClusterStatus.active;
+      case 'DELETING':
+        return ClusterStatus.deleting;
+      case 'FAILED':
+        return ClusterStatus.failed;
+      case 'UPDATING':
+        return ClusterStatus.updating;
+    }
+    throw Exception('$this is not known in enum ClusterStatus');
+  }
+}
+
 /// Compatibility information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Compatibility {
   /// The supported Kubernetes version of the cluster.
-  @_s.JsonKey(name: 'clusterVersion')
-  final String clusterVersion;
+  final String? clusterVersion;
 
   /// The supported default version.
-  @_s.JsonKey(name: 'defaultVersion')
-  final bool defaultVersion;
+  final bool? defaultVersion;
 
   /// The supported compute platform.
-  @_s.JsonKey(name: 'platformVersions')
-  final List<String> platformVersions;
+  final List<String>? platformVersions;
 
   Compatibility({
     this.clusterVersion,
     this.defaultVersion,
     this.platformVersions,
   });
-  factory Compatibility.fromJson(Map<String, dynamic> json) =>
-      _$CompatibilityFromJson(json);
+  factory Compatibility.fromJson(Map<String, dynamic> json) {
+    return Compatibility(
+      clusterVersion: json['clusterVersion'] as String?,
+      defaultVersion: json['defaultVersion'] as bool?,
+      platformVersions: (json['platformVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAddonResponse {
-  @_s.JsonKey(name: 'addon')
-  final Addon addon;
+  final Addon? addon;
 
   CreateAddonResponse({
     this.addon,
   });
-  factory CreateAddonResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAddonResponseFromJson(json);
+  factory CreateAddonResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAddonResponse(
+      addon: json['addon'] != null
+          ? Addon.fromJson(json['addon'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateClusterResponse {
   /// The full description of your new cluster.
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   CreateClusterResponse({
     this.cluster,
   });
-  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResponseFromJson(json);
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFargateProfileResponse {
   /// The full description of your new Fargate profile.
-  @_s.JsonKey(name: 'fargateProfile')
-  final FargateProfile fargateProfile;
+  final FargateProfile? fargateProfile;
 
   CreateFargateProfileResponse({
     this.fargateProfile,
   });
-  factory CreateFargateProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFargateProfileResponseFromJson(json);
+  factory CreateFargateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFargateProfileResponse(
+      fargateProfile: json['fargateProfile'] != null
+          ? FargateProfile.fromJson(
+              json['fargateProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNodegroupResponse {
   /// The full description of your new node group.
-  @_s.JsonKey(name: 'nodegroup')
-  final Nodegroup nodegroup;
+  final Nodegroup? nodegroup;
 
   CreateNodegroupResponse({
     this.nodegroup,
   });
-  factory CreateNodegroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateNodegroupResponseFromJson(json);
+  factory CreateNodegroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateNodegroupResponse(
+      nodegroup: json['nodegroup'] != null
+          ? Nodegroup.fromJson(json['nodegroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAddonResponse {
-  @_s.JsonKey(name: 'addon')
-  final Addon addon;
+  final Addon? addon;
 
   DeleteAddonResponse({
     this.addon,
   });
-  factory DeleteAddonResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAddonResponseFromJson(json);
+  factory DeleteAddonResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAddonResponse(
+      addon: json['addon'] != null
+          ? Addon.fromJson(json['addon'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteClusterResponse {
   /// The full description of the cluster to delete.
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DeleteClusterResponse({
     this.cluster,
   });
-  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClusterResponseFromJson(json);
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFargateProfileResponse {
   /// The deleted Fargate profile.
-  @_s.JsonKey(name: 'fargateProfile')
-  final FargateProfile fargateProfile;
+  final FargateProfile? fargateProfile;
 
   DeleteFargateProfileResponse({
     this.fargateProfile,
   });
-  factory DeleteFargateProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFargateProfileResponseFromJson(json);
+  factory DeleteFargateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFargateProfileResponse(
+      fargateProfile: json['fargateProfile'] != null
+          ? FargateProfile.fromJson(
+              json['fargateProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNodegroupResponse {
   /// The full description of your deleted node group.
-  @_s.JsonKey(name: 'nodegroup')
-  final Nodegroup nodegroup;
+  final Nodegroup? nodegroup;
 
   DeleteNodegroupResponse({
     this.nodegroup,
   });
-  factory DeleteNodegroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNodegroupResponseFromJson(json);
+  factory DeleteNodegroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteNodegroupResponse(
+      nodegroup: json['nodegroup'] != null
+          ? Nodegroup.fromJson(json['nodegroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAddonResponse {
-  @_s.JsonKey(name: 'addon')
-  final Addon addon;
+  final Addon? addon;
 
   DescribeAddonResponse({
     this.addon,
   });
-  factory DescribeAddonResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAddonResponseFromJson(json);
+  factory DescribeAddonResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAddonResponse(
+      addon: json['addon'] != null
+          ? Addon.fromJson(json['addon'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAddonVersionsResponse {
   /// The list of available versions with Kubernetes version compatibility.
-  @_s.JsonKey(name: 'addons')
-  final List<AddonInfo> addons;
+  final List<AddonInfo>? addons;
 
   /// The <code>nextToken</code> value returned from a previous paginated
   /// <code>DescribeAddonVersionsResponse</code> where <code>maxResults</code> was
@@ -2430,149 +2531,213 @@ class DescribeAddonVersionsResponse {
   /// This token should be treated as an opaque identifier that is used only to
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAddonVersionsResponse({
     this.addons,
     this.nextToken,
   });
-  factory DescribeAddonVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAddonVersionsResponseFromJson(json);
+  factory DescribeAddonVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAddonVersionsResponse(
+      addons: (json['addons'] as List?)
+          ?.whereNotNull()
+          .map((e) => AddonInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClusterResponse {
   /// The full description of your specified cluster.
-  @_s.JsonKey(name: 'cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DescribeClusterResponse({
     this.cluster,
   });
-  factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClusterResponseFromJson(json);
+  factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterResponse(
+      cluster: json['cluster'] != null
+          ? Cluster.fromJson(json['cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFargateProfileResponse {
   /// The full description of your Fargate profile.
-  @_s.JsonKey(name: 'fargateProfile')
-  final FargateProfile fargateProfile;
+  final FargateProfile? fargateProfile;
 
   DescribeFargateProfileResponse({
     this.fargateProfile,
   });
-  factory DescribeFargateProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFargateProfileResponseFromJson(json);
+  factory DescribeFargateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFargateProfileResponse(
+      fargateProfile: json['fargateProfile'] != null
+          ? FargateProfile.fromJson(
+              json['fargateProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNodegroupResponse {
   /// The full description of your node group.
-  @_s.JsonKey(name: 'nodegroup')
-  final Nodegroup nodegroup;
+  final Nodegroup? nodegroup;
 
   DescribeNodegroupResponse({
     this.nodegroup,
   });
-  factory DescribeNodegroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeNodegroupResponseFromJson(json);
+  factory DescribeNodegroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeNodegroupResponse(
+      nodegroup: json['nodegroup'] != null
+          ? Nodegroup.fromJson(json['nodegroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUpdateResponse {
   /// The full description of the specified update.
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   DescribeUpdateResponse({
     this.update,
   });
-  factory DescribeUpdateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUpdateResponseFromJson(json);
+  factory DescribeUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUpdateResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The encryption configuration for the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfig {
   /// AWS Key Management Service (AWS KMS) customer master key (CMK). Either the
   /// ARN or the alias can be used.
-  @_s.JsonKey(name: 'provider')
-  final Provider provider;
+  final Provider? provider;
 
   /// Specifies the resources to be encrypted. The only supported value is
   /// "secrets".
-  @_s.JsonKey(name: 'resources')
-  final List<String> resources;
+  final List<String>? resources;
 
   EncryptionConfig({
     this.provider,
     this.resources,
   });
-  factory EncryptionConfig.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigFromJson(json);
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfig(
+      provider: json['provider'] != null
+          ? Provider.fromJson(json['provider'] as Map<String, dynamic>)
+          : null,
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final provider = this.provider;
+    final resources = this.resources;
+    return {
+      if (provider != null) 'provider': provider,
+      if (resources != null) 'resources': resources,
+    };
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('SubnetNotFound')
   subnetNotFound,
-  @_s.JsonValue('SecurityGroupNotFound')
   securityGroupNotFound,
-  @_s.JsonValue('EniLimitReached')
   eniLimitReached,
-  @_s.JsonValue('IpNotAvailable')
   ipNotAvailable,
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('OperationNotPermitted')
   operationNotPermitted,
-  @_s.JsonValue('VpcIdNotFound')
   vpcIdNotFound,
-  @_s.JsonValue('Unknown')
   unknown,
-  @_s.JsonValue('NodeCreationFailure')
   nodeCreationFailure,
-  @_s.JsonValue('PodEvictionFailure')
   podEvictionFailure,
-  @_s.JsonValue('InsufficientFreeAddresses')
   insufficientFreeAddresses,
-  @_s.JsonValue('ClusterUnreachable')
   clusterUnreachable,
-  @_s.JsonValue('InsufficientNumberOfReplicas')
   insufficientNumberOfReplicas,
-  @_s.JsonValue('ConfigurationConflict')
   configurationConflict,
 }
 
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.subnetNotFound:
+        return 'SubnetNotFound';
+      case ErrorCode.securityGroupNotFound:
+        return 'SecurityGroupNotFound';
+      case ErrorCode.eniLimitReached:
+        return 'EniLimitReached';
+      case ErrorCode.ipNotAvailable:
+        return 'IpNotAvailable';
+      case ErrorCode.accessDenied:
+        return 'AccessDenied';
+      case ErrorCode.operationNotPermitted:
+        return 'OperationNotPermitted';
+      case ErrorCode.vpcIdNotFound:
+        return 'VpcIdNotFound';
+      case ErrorCode.unknown:
+        return 'Unknown';
+      case ErrorCode.nodeCreationFailure:
+        return 'NodeCreationFailure';
+      case ErrorCode.podEvictionFailure:
+        return 'PodEvictionFailure';
+      case ErrorCode.insufficientFreeAddresses:
+        return 'InsufficientFreeAddresses';
+      case ErrorCode.clusterUnreachable:
+        return 'ClusterUnreachable';
+      case ErrorCode.insufficientNumberOfReplicas:
+        return 'InsufficientNumberOfReplicas';
+      case ErrorCode.configurationConflict:
+        return 'ConfigurationConflict';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'SubnetNotFound':
+        return ErrorCode.subnetNotFound;
+      case 'SecurityGroupNotFound':
+        return ErrorCode.securityGroupNotFound;
+      case 'EniLimitReached':
+        return ErrorCode.eniLimitReached;
+      case 'IpNotAvailable':
+        return ErrorCode.ipNotAvailable;
+      case 'AccessDenied':
+        return ErrorCode.accessDenied;
+      case 'OperationNotPermitted':
+        return ErrorCode.operationNotPermitted;
+      case 'VpcIdNotFound':
+        return ErrorCode.vpcIdNotFound;
+      case 'Unknown':
+        return ErrorCode.unknown;
+      case 'NodeCreationFailure':
+        return ErrorCode.nodeCreationFailure;
+      case 'PodEvictionFailure':
+        return ErrorCode.podEvictionFailure;
+      case 'InsufficientFreeAddresses':
+        return ErrorCode.insufficientFreeAddresses;
+      case 'ClusterUnreachable':
+        return ErrorCode.clusterUnreachable;
+      case 'InsufficientNumberOfReplicas':
+        return ErrorCode.insufficientNumberOfReplicas;
+      case 'ConfigurationConflict':
+        return ErrorCode.configurationConflict;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
 /// An object representing an error when an asynchronous operation fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetail {
   /// A brief description of the error.
   ///
@@ -2605,78 +2770,68 @@ class ErrorDetail {
   /// <b>VpcIdNotFound</b>: We couldn't find the VPC associated with the cluster.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'errorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// A more complete description of the error.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// An optional field that contains the resource IDs associated with the error.
-  @_s.JsonKey(name: 'resourceIds')
-  final List<String> resourceIds;
+  final List<String>? resourceIds;
 
   ErrorDetail({
     this.errorCode,
     this.errorMessage,
     this.resourceIds,
   });
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailFromJson(json);
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+      resourceIds: (json['resourceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// An object representing an AWS Fargate profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FargateProfile {
   /// The name of the Amazon EKS cluster that the Fargate profile belongs to.
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The Unix epoch timestamp in seconds for when the Fargate profile was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The full Amazon Resource Name (ARN) of the Fargate profile.
-  @_s.JsonKey(name: 'fargateProfileArn')
-  final String fargateProfileArn;
+  final String? fargateProfileArn;
 
   /// The name of the Fargate profile.
-  @_s.JsonKey(name: 'fargateProfileName')
-  final String fargateProfileName;
+  final String? fargateProfileName;
 
   /// The Amazon Resource Name (ARN) of the pod execution role to use for pods
   /// that match the selectors in the Fargate profile. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html">Pod
   /// Execution Role</a> in the <i>Amazon EKS User Guide</i>.
-  @_s.JsonKey(name: 'podExecutionRoleArn')
-  final String podExecutionRoleArn;
+  final String? podExecutionRoleArn;
 
   /// The selectors to match for pods to use this Fargate profile.
-  @_s.JsonKey(name: 'selectors')
-  final List<FargateProfileSelector> selectors;
+  final List<FargateProfileSelector>? selectors;
 
   /// The current status of the Fargate profile.
-  @_s.JsonKey(name: 'status')
-  final FargateProfileStatus status;
+  final FargateProfileStatus? status;
 
   /// The IDs of subnets to launch pods into.
-  @_s.JsonKey(name: 'subnets')
-  final List<String> subnets;
+  final List<String>? subnets;
 
   /// The metadata applied to the Fargate profile to assist with categorization
   /// and organization. Each tag consists of a key and an optional value, both of
   /// which you define. Fargate profile tags do not propagate to any other
   /// resources associated with the Fargate profile, such as the pods that are
   /// scheduled with it.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   FargateProfile({
     this.clusterName,
@@ -2689,75 +2844,123 @@ class FargateProfile {
     this.subnets,
     this.tags,
   });
-  factory FargateProfile.fromJson(Map<String, dynamic> json) =>
-      _$FargateProfileFromJson(json);
+  factory FargateProfile.fromJson(Map<String, dynamic> json) {
+    return FargateProfile(
+      clusterName: json['clusterName'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      fargateProfileArn: json['fargateProfileArn'] as String?,
+      fargateProfileName: json['fargateProfileName'] as String?,
+      podExecutionRoleArn: json['podExecutionRoleArn'] as String?,
+      selectors: (json['selectors'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => FargateProfileSelector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toFargateProfileStatus(),
+      subnets: (json['subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// An object representing an AWS Fargate profile selector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FargateProfileSelector {
   /// The Kubernetes labels that the selector should match. A pod must contain all
   /// of the labels that are specified in the selector for it to be considered a
   /// match.
-  @_s.JsonKey(name: 'labels')
-  final Map<String, String> labels;
+  final Map<String, String>? labels;
 
   /// The Kubernetes namespace that the selector should match.
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   FargateProfileSelector({
     this.labels,
     this.namespace,
   });
-  factory FargateProfileSelector.fromJson(Map<String, dynamic> json) =>
-      _$FargateProfileSelectorFromJson(json);
+  factory FargateProfileSelector.fromJson(Map<String, dynamic> json) {
+    return FargateProfileSelector(
+      labels: (json['labels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      namespace: json['namespace'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FargateProfileSelectorToJson(this);
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final namespace = this.namespace;
+    return {
+      if (labels != null) 'labels': labels,
+      if (namespace != null) 'namespace': namespace,
+    };
+  }
 }
 
 enum FargateProfileStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
 }
 
+extension on FargateProfileStatus {
+  String toValue() {
+    switch (this) {
+      case FargateProfileStatus.creating:
+        return 'CREATING';
+      case FargateProfileStatus.active:
+        return 'ACTIVE';
+      case FargateProfileStatus.deleting:
+        return 'DELETING';
+      case FargateProfileStatus.createFailed:
+        return 'CREATE_FAILED';
+      case FargateProfileStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  FargateProfileStatus toFargateProfileStatus() {
+    switch (this) {
+      case 'CREATING':
+        return FargateProfileStatus.creating;
+      case 'ACTIVE':
+        return FargateProfileStatus.active;
+      case 'DELETING':
+        return FargateProfileStatus.deleting;
+      case 'CREATE_FAILED':
+        return FargateProfileStatus.createFailed;
+      case 'DELETE_FAILED':
+        return FargateProfileStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum FargateProfileStatus');
+  }
+}
+
 /// An object representing an identity provider for authentication credentials.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Identity {
   /// The <a href="https://openid.net/connect/">OpenID Connect</a> identity
   /// provider information for the cluster.
-  @_s.JsonKey(name: 'oidc')
-  final OIDC oidc;
+  final OIDC? oidc;
 
   Identity({
     this.oidc,
   });
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      oidc: json['oidc'] != null
+          ? OIDC.fromJson(json['oidc'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object representing an issue with an Amazon EKS resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Issue {
   /// A brief description of the error.
   ///
@@ -2845,31 +3048,32 @@ class Issue {
   /// nodes.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'code')
-  final NodegroupIssueCode code;
+  final NodegroupIssueCode? code;
 
   /// The error message associated with the issue.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The AWS resources that are afflicted by this issue.
-  @_s.JsonKey(name: 'resourceIds')
-  final List<String> resourceIds;
+  final List<String>? resourceIds;
 
   Issue({
     this.code,
     this.message,
     this.resourceIds,
   });
-  factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
+  factory Issue.fromJson(Map<String, dynamic> json) {
+    return Issue(
+      code: (json['code'] as String?)?.toNodegroupIssueCode(),
+      message: json['message'] as String?,
+      resourceIds: (json['resourceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The Kubernetes network configuration for the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KubernetesNetworkConfigRequest {
   /// The CIDR block to assign Kubernetes service IP addresses from. If you don't
   /// specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16
@@ -2893,35 +3097,36 @@ class KubernetesNetworkConfigRequest {
   /// You can only specify a custom CIDR block when you create a cluster and can't
   /// change this value once the cluster is created.
   /// </important>
-  @_s.JsonKey(name: 'serviceIpv4Cidr')
-  final String serviceIpv4Cidr;
+  final String? serviceIpv4Cidr;
 
   KubernetesNetworkConfigRequest({
     this.serviceIpv4Cidr,
   });
-  Map<String, dynamic> toJson() => _$KubernetesNetworkConfigRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final serviceIpv4Cidr = this.serviceIpv4Cidr;
+    return {
+      if (serviceIpv4Cidr != null) 'serviceIpv4Cidr': serviceIpv4Cidr,
+    };
+  }
 }
 
 /// The Kubernetes network configuration for the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KubernetesNetworkConfigResponse {
   /// The CIDR block that Kubernetes service IP addresses are assigned from. If
   /// you didn't specify a CIDR block when you created the cluster, then
   /// Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16
   /// CIDR blocks. If this was specified, then it was specified when the cluster
   /// was created and it cannot be changed.
-  @_s.JsonKey(name: 'serviceIpv4Cidr')
-  final String serviceIpv4Cidr;
+  final String? serviceIpv4Cidr;
 
   KubernetesNetworkConfigResponse({
     this.serviceIpv4Cidr,
   });
-  factory KubernetesNetworkConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$KubernetesNetworkConfigResponseFromJson(json);
+  factory KubernetesNetworkConfigResponse.fromJson(Map<String, dynamic> json) {
+    return KubernetesNetworkConfigResponse(
+      serviceIpv4Cidr: json['serviceIpv4Cidr'] as String?,
+    );
+  }
 }
 
 /// An object representing a node group launch template specification. The
@@ -2944,45 +3149,45 @@ class KubernetesNetworkConfigResponse {
 /// template support</a> in the Amazon EKS User Guide.
 ///
 /// Specify either <code>name</code> or <code>id</code>, but not both.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LaunchTemplateSpecification {
   /// The ID of the launch template.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The name of the launch template.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The version of the launch template to use. If no version is specified, then
   /// the template's default version is used.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   LaunchTemplateSpecification({
     this.id,
     this.name,
     this.version,
   });
-  factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) =>
-      _$LaunchTemplateSpecificationFromJson(json);
+  factory LaunchTemplateSpecification.fromJson(Map<String, dynamic> json) {
+    return LaunchTemplateSpecification(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      version: json['version'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAddonsResponse {
   /// A list of available add-ons.
-  @_s.JsonKey(name: 'addons')
-  final List<String> addons;
+  final List<String>? addons;
 
   /// The <code>nextToken</code> value returned from a previous paginated
   /// <code>ListAddonsResponse</code> where <code>maxResults</code> was used and
@@ -2993,323 +3198,341 @@ class ListAddonsResponse {
   /// This token should be treated as an opaque identifier that is used only to
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAddonsResponse({
     this.addons,
     this.nextToken,
   });
-  factory ListAddonsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAddonsResponseFromJson(json);
+  factory ListAddonsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAddonsResponse(
+      addons: (json['addons'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClustersResponse {
   /// A list of all of the clusters for your account in the specified Region.
-  @_s.JsonKey(name: 'clusters')
-  final List<String> clusters;
+  final List<String>? clusters;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListClusters</code> request. When the results of a
   /// <code>ListClusters</code> request exceed <code>maxResults</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClustersResponse({
     this.clusters,
     this.nextToken,
   });
-  factory ListClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListClustersResponseFromJson(json);
+  factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListClustersResponse(
+      clusters: (json['clusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFargateProfilesResponse {
   /// A list of all of the Fargate profiles associated with the specified cluster.
-  @_s.JsonKey(name: 'fargateProfileNames')
-  final List<String> fargateProfileNames;
+  final List<String>? fargateProfileNames;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListFargateProfiles</code> request. When the results of a
   /// <code>ListFargateProfiles</code> request exceed <code>maxResults</code>, you
   /// can use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFargateProfilesResponse({
     this.fargateProfileNames,
     this.nextToken,
   });
-  factory ListFargateProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFargateProfilesResponseFromJson(json);
+  factory ListFargateProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFargateProfilesResponse(
+      fargateProfileNames: (json['fargateProfileNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNodegroupsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListNodegroups</code> request. When the results of a
   /// <code>ListNodegroups</code> request exceed <code>maxResults</code>, you can
   /// use this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all of the node groups associated with the specified cluster.
-  @_s.JsonKey(name: 'nodegroups')
-  final List<String> nodegroups;
+  final List<String>? nodegroups;
 
   ListNodegroupsResponse({
     this.nextToken,
     this.nodegroups,
   });
-  factory ListNodegroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListNodegroupsResponseFromJson(json);
+  factory ListNodegroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListNodegroupsResponse(
+      nextToken: json['nextToken'] as String?,
+      nodegroups: (json['nodegroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUpdatesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListUpdates</code> request. When the results of a
   /// <code>ListUpdates</code> request exceed <code>maxResults</code>, you can use
   /// this value to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all the updates for the specified cluster and Region.
-  @_s.JsonKey(name: 'updateIds')
-  final List<String> updateIds;
+  final List<String>? updateIds;
 
   ListUpdatesResponse({
     this.nextToken,
     this.updateIds,
   });
-  factory ListUpdatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUpdatesResponseFromJson(json);
+  factory ListUpdatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListUpdatesResponse(
+      nextToken: json['nextToken'] as String?,
+      updateIds: (json['updateIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// An object representing the enabled or disabled Kubernetes control plane logs
 /// for your cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogSetup {
   /// If a log type is enabled, that log type exports its control plane logs to
   /// CloudWatch Logs. If a log type isn't enabled, that log type doesn't export
   /// its control plane logs. Each individual log type can be enabled or disabled
   /// independently.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The available cluster control plane log types.
-  @_s.JsonKey(name: 'types')
-  final List<LogType> types;
+  final List<LogType>? types;
 
   LogSetup({
     this.enabled,
     this.types,
   });
-  factory LogSetup.fromJson(Map<String, dynamic> json) =>
-      _$LogSetupFromJson(json);
+  factory LogSetup.fromJson(Map<String, dynamic> json) {
+    return LogSetup(
+      enabled: json['enabled'] as bool?,
+      types: (json['types'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLogType())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogSetupToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final types = this.types;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (types != null) 'types': types.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum LogType {
-  @_s.JsonValue('api')
   api,
-  @_s.JsonValue('audit')
   audit,
-  @_s.JsonValue('authenticator')
   authenticator,
-  @_s.JsonValue('controllerManager')
   controllerManager,
-  @_s.JsonValue('scheduler')
   scheduler,
+}
+
+extension on LogType {
+  String toValue() {
+    switch (this) {
+      case LogType.api:
+        return 'api';
+      case LogType.audit:
+        return 'audit';
+      case LogType.authenticator:
+        return 'authenticator';
+      case LogType.controllerManager:
+        return 'controllerManager';
+      case LogType.scheduler:
+        return 'scheduler';
+    }
+  }
+}
+
+extension on String {
+  LogType toLogType() {
+    switch (this) {
+      case 'api':
+        return LogType.api;
+      case 'audit':
+        return LogType.audit;
+      case 'authenticator':
+        return LogType.authenticator;
+      case 'controllerManager':
+        return LogType.controllerManager;
+      case 'scheduler':
+        return LogType.scheduler;
+    }
+    throw Exception('$this is not known in enum LogType');
+  }
 }
 
 /// An object representing the logging configuration for resources in your
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Logging {
   /// The cluster control plane logging configuration for your cluster.
-  @_s.JsonKey(name: 'clusterLogging')
-  final List<LogSetup> clusterLogging;
+  final List<LogSetup>? clusterLogging;
 
   Logging({
     this.clusterLogging,
   });
-  factory Logging.fromJson(Map<String, dynamic> json) =>
-      _$LoggingFromJson(json);
+  factory Logging.fromJson(Map<String, dynamic> json) {
+    return Logging(
+      clusterLogging: (json['clusterLogging'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogSetup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LoggingToJson(this);
+  Map<String, dynamic> toJson() {
+    final clusterLogging = this.clusterLogging;
+    return {
+      if (clusterLogging != null) 'clusterLogging': clusterLogging,
+    };
+  }
 }
 
 /// An object representing an Amazon EKS managed node group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Nodegroup {
   /// If the node group was deployed using a launch template with a custom AMI,
   /// then this is <code>CUSTOM</code>. For node groups that weren't deployed
   /// using a launch template, this is the AMI type that was specified in the node
   /// group configuration.
-  @_s.JsonKey(name: 'amiType')
-  final AMITypes amiType;
+  final AMITypes? amiType;
 
   /// The capacity type of your managed node group.
-  @_s.JsonKey(name: 'capacityType')
-  final CapacityTypes capacityType;
+  final CapacityTypes? capacityType;
 
   /// The name of the cluster that the managed node group resides in.
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The Unix epoch timestamp in seconds for when the managed node group was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// If the node group wasn't deployed with a launch template, then this is the
   /// disk size in the node group configuration. If the node group was deployed
   /// with a launch template, then this is <code>null</code>.
-  @_s.JsonKey(name: 'diskSize')
-  final int diskSize;
+  final int? diskSize;
 
   /// The health status of the node group. If there are issues with your node
   /// group's health, they are listed here.
-  @_s.JsonKey(name: 'health')
-  final NodegroupHealth health;
+  final NodegroupHealth? health;
 
   /// If the node group wasn't deployed with a launch template, then this is the
   /// instance type that is associated with the node group. If the node group was
   /// deployed with a launch template, then this is <code>null</code>.
-  @_s.JsonKey(name: 'instanceTypes')
-  final List<String> instanceTypes;
+  final List<String>? instanceTypes;
 
   /// The Kubernetes labels applied to the nodes in the node group.
   /// <note>
   /// Only labels that are applied with the Amazon EKS API are shown here. There
   /// may be other Kubernetes labels applied to the nodes in this group.
   /// </note>
-  @_s.JsonKey(name: 'labels')
-  final Map<String, String> labels;
+  final Map<String, String>? labels;
 
   /// If a launch template was used to create the node group, then this is the
   /// launch template that was used.
-  @_s.JsonKey(name: 'launchTemplate')
-  final LaunchTemplateSpecification launchTemplate;
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The Unix epoch timestamp in seconds for when the managed node group was last
   /// modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'modifiedAt')
-  final DateTime modifiedAt;
+  final DateTime? modifiedAt;
 
   /// The IAM role associated with your node group. The Amazon EKS worker node
   /// <code>kubelet</code> daemon makes calls to AWS APIs on your behalf. Worker
   /// nodes receive permissions for these API calls through an IAM instance
   /// profile and associated policies.
-  @_s.JsonKey(name: 'nodeRole')
-  final String nodeRole;
+  final String? nodeRole;
 
   /// The Amazon Resource Name (ARN) associated with the managed node group.
-  @_s.JsonKey(name: 'nodegroupArn')
-  final String nodegroupArn;
+  final String? nodegroupArn;
 
   /// The name associated with an Amazon EKS managed node group.
-  @_s.JsonKey(name: 'nodegroupName')
-  final String nodegroupName;
+  final String? nodegroupName;
 
   /// If the node group was deployed using a launch template with a custom AMI,
   /// then this is the AMI ID that was specified in the launch template. For node
   /// groups that weren't deployed using a launch template, this is the version of
   /// the Amazon EKS optimized AMI that the node group was deployed with.
-  @_s.JsonKey(name: 'releaseVersion')
-  final String releaseVersion;
+  final String? releaseVersion;
 
   /// If the node group wasn't deployed with a launch template, then this is the
   /// remote access configuration that is associated with the node group. If the
   /// node group was deployed with a launch template, then this is
   /// <code>null</code>.
-  @_s.JsonKey(name: 'remoteAccess')
-  final RemoteAccessConfig remoteAccess;
+  final RemoteAccessConfig? remoteAccess;
 
   /// The resources associated with the node group, such as Auto Scaling groups
   /// and security groups for remote access.
-  @_s.JsonKey(name: 'resources')
-  final NodegroupResources resources;
+  final NodegroupResources? resources;
 
   /// The scaling configuration details for the Auto Scaling group that is
   /// associated with your node group.
-  @_s.JsonKey(name: 'scalingConfig')
-  final NodegroupScalingConfig scalingConfig;
+  final NodegroupScalingConfig? scalingConfig;
 
   /// The current status of the managed node group.
-  @_s.JsonKey(name: 'status')
-  final NodegroupStatus status;
+  final NodegroupStatus? status;
 
   /// The subnets that were specified for the Auto Scaling group that is
   /// associated with your node group.
-  @_s.JsonKey(name: 'subnets')
-  final List<String> subnets;
+  final List<String>? subnets;
 
   /// The metadata applied to the node group to assist with categorization and
   /// organization. Each tag consists of a key and an optional value, both of
   /// which you define. Node group tags do not propagate to any other resources
   /// associated with the node group, such as the Amazon EC2 instances or subnets.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The Kubernetes version of the managed node group.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   Nodegroup({
     this.amiType,
@@ -3334,170 +3557,319 @@ class Nodegroup {
     this.tags,
     this.version,
   });
-  factory Nodegroup.fromJson(Map<String, dynamic> json) =>
-      _$NodegroupFromJson(json);
+  factory Nodegroup.fromJson(Map<String, dynamic> json) {
+    return Nodegroup(
+      amiType: (json['amiType'] as String?)?.toAMITypes(),
+      capacityType: (json['capacityType'] as String?)?.toCapacityTypes(),
+      clusterName: json['clusterName'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      diskSize: json['diskSize'] as int?,
+      health: json['health'] != null
+          ? NodegroupHealth.fromJson(json['health'] as Map<String, dynamic>)
+          : null,
+      instanceTypes: (json['instanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      labels: (json['labels'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      launchTemplate: json['launchTemplate'] != null
+          ? LaunchTemplateSpecification.fromJson(
+              json['launchTemplate'] as Map<String, dynamic>)
+          : null,
+      modifiedAt: timeStampFromJson(json['modifiedAt']),
+      nodeRole: json['nodeRole'] as String?,
+      nodegroupArn: json['nodegroupArn'] as String?,
+      nodegroupName: json['nodegroupName'] as String?,
+      releaseVersion: json['releaseVersion'] as String?,
+      remoteAccess: json['remoteAccess'] != null
+          ? RemoteAccessConfig.fromJson(
+              json['remoteAccess'] as Map<String, dynamic>)
+          : null,
+      resources: json['resources'] != null
+          ? NodegroupResources.fromJson(
+              json['resources'] as Map<String, dynamic>)
+          : null,
+      scalingConfig: json['scalingConfig'] != null
+          ? NodegroupScalingConfig.fromJson(
+              json['scalingConfig'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toNodegroupStatus(),
+      subnets: (json['subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+    );
+  }
 }
 
 /// An object representing the health status of the node group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodegroupHealth {
   /// Any issues that are associated with the node group.
-  @_s.JsonKey(name: 'issues')
-  final List<Issue> issues;
+  final List<Issue>? issues;
 
   NodegroupHealth({
     this.issues,
   });
-  factory NodegroupHealth.fromJson(Map<String, dynamic> json) =>
-      _$NodegroupHealthFromJson(json);
+  factory NodegroupHealth.fromJson(Map<String, dynamic> json) {
+    return NodegroupHealth(
+      issues: (json['issues'] as List?)
+          ?.whereNotNull()
+          .map((e) => Issue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum NodegroupIssueCode {
-  @_s.JsonValue('AutoScalingGroupNotFound')
   autoScalingGroupNotFound,
-  @_s.JsonValue('AutoScalingGroupInvalidConfiguration')
   autoScalingGroupInvalidConfiguration,
-  @_s.JsonValue('Ec2SecurityGroupNotFound')
   ec2SecurityGroupNotFound,
-  @_s.JsonValue('Ec2SecurityGroupDeletionFailure')
   ec2SecurityGroupDeletionFailure,
-  @_s.JsonValue('Ec2LaunchTemplateNotFound')
   ec2LaunchTemplateNotFound,
-  @_s.JsonValue('Ec2LaunchTemplateVersionMismatch')
   ec2LaunchTemplateVersionMismatch,
-  @_s.JsonValue('Ec2SubnetNotFound')
   ec2SubnetNotFound,
-  @_s.JsonValue('Ec2SubnetInvalidConfiguration')
   ec2SubnetInvalidConfiguration,
-  @_s.JsonValue('IamInstanceProfileNotFound')
   iamInstanceProfileNotFound,
-  @_s.JsonValue('IamLimitExceeded')
   iamLimitExceeded,
-  @_s.JsonValue('IamNodeRoleNotFound')
   iamNodeRoleNotFound,
-  @_s.JsonValue('NodeCreationFailure')
   nodeCreationFailure,
-  @_s.JsonValue('AsgInstanceLaunchFailures')
   asgInstanceLaunchFailures,
-  @_s.JsonValue('InstanceLimitExceeded')
   instanceLimitExceeded,
-  @_s.JsonValue('InsufficientFreeAddresses')
   insufficientFreeAddresses,
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('InternalFailure')
   internalFailure,
-  @_s.JsonValue('ClusterUnreachable')
   clusterUnreachable,
+}
+
+extension on NodegroupIssueCode {
+  String toValue() {
+    switch (this) {
+      case NodegroupIssueCode.autoScalingGroupNotFound:
+        return 'AutoScalingGroupNotFound';
+      case NodegroupIssueCode.autoScalingGroupInvalidConfiguration:
+        return 'AutoScalingGroupInvalidConfiguration';
+      case NodegroupIssueCode.ec2SecurityGroupNotFound:
+        return 'Ec2SecurityGroupNotFound';
+      case NodegroupIssueCode.ec2SecurityGroupDeletionFailure:
+        return 'Ec2SecurityGroupDeletionFailure';
+      case NodegroupIssueCode.ec2LaunchTemplateNotFound:
+        return 'Ec2LaunchTemplateNotFound';
+      case NodegroupIssueCode.ec2LaunchTemplateVersionMismatch:
+        return 'Ec2LaunchTemplateVersionMismatch';
+      case NodegroupIssueCode.ec2SubnetNotFound:
+        return 'Ec2SubnetNotFound';
+      case NodegroupIssueCode.ec2SubnetInvalidConfiguration:
+        return 'Ec2SubnetInvalidConfiguration';
+      case NodegroupIssueCode.iamInstanceProfileNotFound:
+        return 'IamInstanceProfileNotFound';
+      case NodegroupIssueCode.iamLimitExceeded:
+        return 'IamLimitExceeded';
+      case NodegroupIssueCode.iamNodeRoleNotFound:
+        return 'IamNodeRoleNotFound';
+      case NodegroupIssueCode.nodeCreationFailure:
+        return 'NodeCreationFailure';
+      case NodegroupIssueCode.asgInstanceLaunchFailures:
+        return 'AsgInstanceLaunchFailures';
+      case NodegroupIssueCode.instanceLimitExceeded:
+        return 'InstanceLimitExceeded';
+      case NodegroupIssueCode.insufficientFreeAddresses:
+        return 'InsufficientFreeAddresses';
+      case NodegroupIssueCode.accessDenied:
+        return 'AccessDenied';
+      case NodegroupIssueCode.internalFailure:
+        return 'InternalFailure';
+      case NodegroupIssueCode.clusterUnreachable:
+        return 'ClusterUnreachable';
+    }
+  }
+}
+
+extension on String {
+  NodegroupIssueCode toNodegroupIssueCode() {
+    switch (this) {
+      case 'AutoScalingGroupNotFound':
+        return NodegroupIssueCode.autoScalingGroupNotFound;
+      case 'AutoScalingGroupInvalidConfiguration':
+        return NodegroupIssueCode.autoScalingGroupInvalidConfiguration;
+      case 'Ec2SecurityGroupNotFound':
+        return NodegroupIssueCode.ec2SecurityGroupNotFound;
+      case 'Ec2SecurityGroupDeletionFailure':
+        return NodegroupIssueCode.ec2SecurityGroupDeletionFailure;
+      case 'Ec2LaunchTemplateNotFound':
+        return NodegroupIssueCode.ec2LaunchTemplateNotFound;
+      case 'Ec2LaunchTemplateVersionMismatch':
+        return NodegroupIssueCode.ec2LaunchTemplateVersionMismatch;
+      case 'Ec2SubnetNotFound':
+        return NodegroupIssueCode.ec2SubnetNotFound;
+      case 'Ec2SubnetInvalidConfiguration':
+        return NodegroupIssueCode.ec2SubnetInvalidConfiguration;
+      case 'IamInstanceProfileNotFound':
+        return NodegroupIssueCode.iamInstanceProfileNotFound;
+      case 'IamLimitExceeded':
+        return NodegroupIssueCode.iamLimitExceeded;
+      case 'IamNodeRoleNotFound':
+        return NodegroupIssueCode.iamNodeRoleNotFound;
+      case 'NodeCreationFailure':
+        return NodegroupIssueCode.nodeCreationFailure;
+      case 'AsgInstanceLaunchFailures':
+        return NodegroupIssueCode.asgInstanceLaunchFailures;
+      case 'InstanceLimitExceeded':
+        return NodegroupIssueCode.instanceLimitExceeded;
+      case 'InsufficientFreeAddresses':
+        return NodegroupIssueCode.insufficientFreeAddresses;
+      case 'AccessDenied':
+        return NodegroupIssueCode.accessDenied;
+      case 'InternalFailure':
+        return NodegroupIssueCode.internalFailure;
+      case 'ClusterUnreachable':
+        return NodegroupIssueCode.clusterUnreachable;
+    }
+    throw Exception('$this is not known in enum NodegroupIssueCode');
+  }
 }
 
 /// An object representing the resources associated with the node group, such as
 /// Auto Scaling groups and security groups for remote access.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodegroupResources {
   /// The Auto Scaling groups associated with the node group.
-  @_s.JsonKey(name: 'autoScalingGroups')
-  final List<AutoScalingGroup> autoScalingGroups;
+  final List<AutoScalingGroup>? autoScalingGroups;
 
   /// The remote access security group associated with the node group. This
   /// security group controls SSH access to the worker nodes.
-  @_s.JsonKey(name: 'remoteAccessSecurityGroup')
-  final String remoteAccessSecurityGroup;
+  final String? remoteAccessSecurityGroup;
 
   NodegroupResources({
     this.autoScalingGroups,
     this.remoteAccessSecurityGroup,
   });
-  factory NodegroupResources.fromJson(Map<String, dynamic> json) =>
-      _$NodegroupResourcesFromJson(json);
+  factory NodegroupResources.fromJson(Map<String, dynamic> json) {
+    return NodegroupResources(
+      autoScalingGroups: (json['autoScalingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      remoteAccessSecurityGroup: json['remoteAccessSecurityGroup'] as String?,
+    );
+  }
 }
 
 /// An object representing the scaling configuration details for the Auto
 /// Scaling group that is associated with your node group. If you specify a
 /// value for any property, then you must specify values for all of the
 /// properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodegroupScalingConfig {
   /// The current number of worker nodes that the managed node group should
   /// maintain.
-  @_s.JsonKey(name: 'desiredSize')
-  final int desiredSize;
+  final int? desiredSize;
 
   /// The maximum number of worker nodes that the managed node group can scale out
   /// to. Managed node groups can support up to 100 nodes by default.
-  @_s.JsonKey(name: 'maxSize')
-  final int maxSize;
+  final int? maxSize;
 
   /// The minimum number of worker nodes that the managed node group can scale in
   /// to. This number must be greater than zero.
-  @_s.JsonKey(name: 'minSize')
-  final int minSize;
+  final int? minSize;
 
   NodegroupScalingConfig({
     this.desiredSize,
     this.maxSize,
     this.minSize,
   });
-  factory NodegroupScalingConfig.fromJson(Map<String, dynamic> json) =>
-      _$NodegroupScalingConfigFromJson(json);
+  factory NodegroupScalingConfig.fromJson(Map<String, dynamic> json) {
+    return NodegroupScalingConfig(
+      desiredSize: json['desiredSize'] as int?,
+      maxSize: json['maxSize'] as int?,
+      minSize: json['minSize'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NodegroupScalingConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final desiredSize = this.desiredSize;
+    final maxSize = this.maxSize;
+    final minSize = this.minSize;
+    return {
+      if (desiredSize != null) 'desiredSize': desiredSize,
+      if (maxSize != null) 'maxSize': maxSize,
+      if (minSize != null) 'minSize': minSize,
+    };
+  }
 }
 
 enum NodegroupStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
-  @_s.JsonValue('DEGRADED')
   degraded,
+}
+
+extension on NodegroupStatus {
+  String toValue() {
+    switch (this) {
+      case NodegroupStatus.creating:
+        return 'CREATING';
+      case NodegroupStatus.active:
+        return 'ACTIVE';
+      case NodegroupStatus.updating:
+        return 'UPDATING';
+      case NodegroupStatus.deleting:
+        return 'DELETING';
+      case NodegroupStatus.createFailed:
+        return 'CREATE_FAILED';
+      case NodegroupStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case NodegroupStatus.degraded:
+        return 'DEGRADED';
+    }
+  }
+}
+
+extension on String {
+  NodegroupStatus toNodegroupStatus() {
+    switch (this) {
+      case 'CREATING':
+        return NodegroupStatus.creating;
+      case 'ACTIVE':
+        return NodegroupStatus.active;
+      case 'UPDATING':
+        return NodegroupStatus.updating;
+      case 'DELETING':
+        return NodegroupStatus.deleting;
+      case 'CREATE_FAILED':
+        return NodegroupStatus.createFailed;
+      case 'DELETE_FAILED':
+        return NodegroupStatus.deleteFailed;
+      case 'DEGRADED':
+        return NodegroupStatus.degraded;
+    }
+    throw Exception('$this is not known in enum NodegroupStatus');
+  }
 }
 
 /// An object representing the <a href="https://openid.net/connect/">OpenID
 /// Connect</a> identity provider information for the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OIDC {
   /// The issuer URL for the OpenID Connect identity provider.
-  @_s.JsonKey(name: 'issuer')
-  final String issuer;
+  final String? issuer;
 
   OIDC({
     this.issuer,
   });
-  factory OIDC.fromJson(Map<String, dynamic> json) => _$OIDCFromJson(json);
+  factory OIDC.fromJson(Map<String, dynamic> json) {
+    return OIDC(
+      issuer: json['issuer'] as String?,
+    );
+  }
 }
 
 /// Identifies the AWS Key Management Service (AWS KMS) customer master key
 /// (CMK) used to encrypt the secrets.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Provider {
   /// Amazon Resource Name (ARN) or alias of the customer master key (CMK). The
   /// CMK must be symmetric, created in the same region as the cluster, and if the
@@ -3506,33 +3878,34 @@ class Provider {
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html">Allowing
   /// Users in Other Accounts to Use a CMK</a> in the <i>AWS Key Management
   /// Service Developer Guide</i>.
-  @_s.JsonKey(name: 'keyArn')
-  final String keyArn;
+  final String? keyArn;
 
   Provider({
     this.keyArn,
   });
-  factory Provider.fromJson(Map<String, dynamic> json) =>
-      _$ProviderFromJson(json);
+  factory Provider.fromJson(Map<String, dynamic> json) {
+    return Provider(
+      keyArn: json['keyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProviderToJson(this);
+  Map<String, dynamic> toJson() {
+    final keyArn = this.keyArn;
+    return {
+      if (keyArn != null) 'keyArn': keyArn,
+    };
+  }
 }
 
 /// An object representing the remote access configuration for the managed node
 /// group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RemoteAccessConfig {
   /// The Amazon EC2 SSH key that provides access for SSH communication with the
   /// worker nodes in the managed node group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
   /// EC2 Key Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide for
   /// Linux Instances</i>.
-  @_s.JsonKey(name: 'ec2SshKey')
-  final String ec2SshKey;
+  final String? ec2SshKey;
 
   /// The security groups that are allowed SSH access (port 22) to the worker
   /// nodes. If you specify an Amazon EC2 SSH key but do not specify a source
@@ -3542,23 +3915,35 @@ class RemoteAccessConfig {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html">Security
   /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
-  @_s.JsonKey(name: 'sourceSecurityGroups')
-  final List<String> sourceSecurityGroups;
+  final List<String>? sourceSecurityGroups;
 
   RemoteAccessConfig({
     this.ec2SshKey,
     this.sourceSecurityGroups,
   });
-  factory RemoteAccessConfig.fromJson(Map<String, dynamic> json) =>
-      _$RemoteAccessConfigFromJson(json);
+  factory RemoteAccessConfig.fromJson(Map<String, dynamic> json) {
+    return RemoteAccessConfig(
+      ec2SshKey: json['ec2SshKey'] as String?,
+      sourceSecurityGroups: (json['sourceSecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RemoteAccessConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final ec2SshKey = this.ec2SshKey;
+    final sourceSecurityGroups = this.sourceSecurityGroups;
+    return {
+      if (ec2SshKey != null) 'ec2SshKey': ec2SshKey,
+      if (sourceSecurityGroups != null)
+        'sourceSecurityGroups': sourceSecurityGroups,
+    };
+  }
 }
 
 enum ResolveConflicts {
-  @_s.JsonValue('OVERWRITE')
   overwrite,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -3570,63 +3955,54 @@ extension on ResolveConflicts {
       case ResolveConflicts.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TagResourceResponse {
-  TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+extension on String {
+  ResolveConflicts toResolveConflicts() {
+    switch (this) {
+      case 'OVERWRITE':
+        return ResolveConflicts.overwrite;
+      case 'NONE':
+        return ResolveConflicts.none;
+    }
+    throw Exception('$this is not known in enum ResolveConflicts');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// An object representing an asynchronous update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Update {
   /// The Unix epoch timestamp in seconds for when the update was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Any errors associated with a <code>Failed</code> update.
-  @_s.JsonKey(name: 'errors')
-  final List<ErrorDetail> errors;
+  final List<ErrorDetail>? errors;
 
   /// A UUID that is used to track the update.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// A key-value map that contains the parameters associated with the update.
-  @_s.JsonKey(name: 'params')
-  final List<UpdateParam> params;
+  final List<UpdateParam>? params;
 
   /// The current status of the update.
-  @_s.JsonKey(name: 'status')
-  final UpdateStatus status;
+  final UpdateStatus? status;
 
   /// The type of the update.
-  @_s.JsonKey(name: 'type')
-  final UpdateType type;
+  final UpdateType? type;
 
   Update({
     this.createdAt,
@@ -3636,199 +4012,318 @@ class Update {
     this.status,
     this.type,
   });
-  factory Update.fromJson(Map<String, dynamic> json) => _$UpdateFromJson(json);
+  factory Update.fromJson(Map<String, dynamic> json) {
+    return Update(
+      createdAt: timeStampFromJson(json['createdAt']),
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      params: (json['params'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpdateParam.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toUpdateStatus(),
+      type: (json['type'] as String?)?.toUpdateType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAddonResponse {
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   UpdateAddonResponse({
     this.update,
   });
-  factory UpdateAddonResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAddonResponseFromJson(json);
+  factory UpdateAddonResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAddonResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterConfigResponse {
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   UpdateClusterConfigResponse({
     this.update,
   });
-  factory UpdateClusterConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClusterConfigResponseFromJson(json);
+  factory UpdateClusterConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterConfigResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterVersionResponse {
   /// The full description of the specified update
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   UpdateClusterVersionResponse({
     this.update,
   });
-  factory UpdateClusterVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClusterVersionResponseFromJson(json);
+  factory UpdateClusterVersionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterVersionResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object representing a Kubernetes label change for a managed node group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateLabelsPayload {
   /// Kubernetes labels to be added or updated.
-  @_s.JsonKey(name: 'addOrUpdateLabels')
-  final Map<String, String> addOrUpdateLabels;
+  final Map<String, String>? addOrUpdateLabels;
 
   /// Kubernetes labels to be removed.
-  @_s.JsonKey(name: 'removeLabels')
-  final List<String> removeLabels;
+  final List<String>? removeLabels;
 
   UpdateLabelsPayload({
     this.addOrUpdateLabels,
     this.removeLabels,
   });
-  Map<String, dynamic> toJson() => _$UpdateLabelsPayloadToJson(this);
+  Map<String, dynamic> toJson() {
+    final addOrUpdateLabels = this.addOrUpdateLabels;
+    final removeLabels = this.removeLabels;
+    return {
+      if (addOrUpdateLabels != null) 'addOrUpdateLabels': addOrUpdateLabels,
+      if (removeLabels != null) 'removeLabels': removeLabels,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNodegroupConfigResponse {
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   UpdateNodegroupConfigResponse({
     this.update,
   });
-  factory UpdateNodegroupConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNodegroupConfigResponseFromJson(json);
+  factory UpdateNodegroupConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateNodegroupConfigResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNodegroupVersionResponse {
-  @_s.JsonKey(name: 'update')
-  final Update update;
+  final Update? update;
 
   UpdateNodegroupVersionResponse({
     this.update,
   });
-  factory UpdateNodegroupVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNodegroupVersionResponseFromJson(json);
+  factory UpdateNodegroupVersionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateNodegroupVersionResponse(
+      update: json['update'] != null
+          ? Update.fromJson(json['update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object representing the details of an update request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateParam {
   /// The keys associated with an update request.
-  @_s.JsonKey(name: 'type')
-  final UpdateParamType type;
+  final UpdateParamType? type;
 
   /// The value of the keys submitted as part of an update request.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   UpdateParam({
     this.type,
     this.value,
   });
-  factory UpdateParam.fromJson(Map<String, dynamic> json) =>
-      _$UpdateParamFromJson(json);
+  factory UpdateParam.fromJson(Map<String, dynamic> json) {
+    return UpdateParam(
+      type: (json['type'] as String?)?.toUpdateParamType(),
+      value: json['value'] as String?,
+    );
+  }
 }
 
 enum UpdateParamType {
-  @_s.JsonValue('Version')
   version,
-  @_s.JsonValue('PlatformVersion')
   platformVersion,
-  @_s.JsonValue('EndpointPrivateAccess')
   endpointPrivateAccess,
-  @_s.JsonValue('EndpointPublicAccess')
   endpointPublicAccess,
-  @_s.JsonValue('ClusterLogging')
   clusterLogging,
-  @_s.JsonValue('DesiredSize')
   desiredSize,
-  @_s.JsonValue('LabelsToAdd')
   labelsToAdd,
-  @_s.JsonValue('LabelsToRemove')
   labelsToRemove,
-  @_s.JsonValue('MaxSize')
   maxSize,
-  @_s.JsonValue('MinSize')
   minSize,
-  @_s.JsonValue('ReleaseVersion')
   releaseVersion,
-  @_s.JsonValue('PublicAccessCidrs')
   publicAccessCidrs,
-  @_s.JsonValue('AddonVersion')
   addonVersion,
-  @_s.JsonValue('ServiceAccountRoleArn')
   serviceAccountRoleArn,
-  @_s.JsonValue('ResolveConflicts')
   resolveConflicts,
 }
 
+extension on UpdateParamType {
+  String toValue() {
+    switch (this) {
+      case UpdateParamType.version:
+        return 'Version';
+      case UpdateParamType.platformVersion:
+        return 'PlatformVersion';
+      case UpdateParamType.endpointPrivateAccess:
+        return 'EndpointPrivateAccess';
+      case UpdateParamType.endpointPublicAccess:
+        return 'EndpointPublicAccess';
+      case UpdateParamType.clusterLogging:
+        return 'ClusterLogging';
+      case UpdateParamType.desiredSize:
+        return 'DesiredSize';
+      case UpdateParamType.labelsToAdd:
+        return 'LabelsToAdd';
+      case UpdateParamType.labelsToRemove:
+        return 'LabelsToRemove';
+      case UpdateParamType.maxSize:
+        return 'MaxSize';
+      case UpdateParamType.minSize:
+        return 'MinSize';
+      case UpdateParamType.releaseVersion:
+        return 'ReleaseVersion';
+      case UpdateParamType.publicAccessCidrs:
+        return 'PublicAccessCidrs';
+      case UpdateParamType.addonVersion:
+        return 'AddonVersion';
+      case UpdateParamType.serviceAccountRoleArn:
+        return 'ServiceAccountRoleArn';
+      case UpdateParamType.resolveConflicts:
+        return 'ResolveConflicts';
+    }
+  }
+}
+
+extension on String {
+  UpdateParamType toUpdateParamType() {
+    switch (this) {
+      case 'Version':
+        return UpdateParamType.version;
+      case 'PlatformVersion':
+        return UpdateParamType.platformVersion;
+      case 'EndpointPrivateAccess':
+        return UpdateParamType.endpointPrivateAccess;
+      case 'EndpointPublicAccess':
+        return UpdateParamType.endpointPublicAccess;
+      case 'ClusterLogging':
+        return UpdateParamType.clusterLogging;
+      case 'DesiredSize':
+        return UpdateParamType.desiredSize;
+      case 'LabelsToAdd':
+        return UpdateParamType.labelsToAdd;
+      case 'LabelsToRemove':
+        return UpdateParamType.labelsToRemove;
+      case 'MaxSize':
+        return UpdateParamType.maxSize;
+      case 'MinSize':
+        return UpdateParamType.minSize;
+      case 'ReleaseVersion':
+        return UpdateParamType.releaseVersion;
+      case 'PublicAccessCidrs':
+        return UpdateParamType.publicAccessCidrs;
+      case 'AddonVersion':
+        return UpdateParamType.addonVersion;
+      case 'ServiceAccountRoleArn':
+        return UpdateParamType.serviceAccountRoleArn;
+      case 'ResolveConflicts':
+        return UpdateParamType.resolveConflicts;
+    }
+    throw Exception('$this is not known in enum UpdateParamType');
+  }
+}
+
 enum UpdateStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Successful')
   successful,
 }
 
+extension on UpdateStatus {
+  String toValue() {
+    switch (this) {
+      case UpdateStatus.inProgress:
+        return 'InProgress';
+      case UpdateStatus.failed:
+        return 'Failed';
+      case UpdateStatus.cancelled:
+        return 'Cancelled';
+      case UpdateStatus.successful:
+        return 'Successful';
+    }
+  }
+}
+
+extension on String {
+  UpdateStatus toUpdateStatus() {
+    switch (this) {
+      case 'InProgress':
+        return UpdateStatus.inProgress;
+      case 'Failed':
+        return UpdateStatus.failed;
+      case 'Cancelled':
+        return UpdateStatus.cancelled;
+      case 'Successful':
+        return UpdateStatus.successful;
+    }
+    throw Exception('$this is not known in enum UpdateStatus');
+  }
+}
+
 enum UpdateType {
-  @_s.JsonValue('VersionUpdate')
   versionUpdate,
-  @_s.JsonValue('EndpointAccessUpdate')
   endpointAccessUpdate,
-  @_s.JsonValue('LoggingUpdate')
   loggingUpdate,
-  @_s.JsonValue('ConfigUpdate')
   configUpdate,
-  @_s.JsonValue('AddonUpdate')
   addonUpdate,
+}
+
+extension on UpdateType {
+  String toValue() {
+    switch (this) {
+      case UpdateType.versionUpdate:
+        return 'VersionUpdate';
+      case UpdateType.endpointAccessUpdate:
+        return 'EndpointAccessUpdate';
+      case UpdateType.loggingUpdate:
+        return 'LoggingUpdate';
+      case UpdateType.configUpdate:
+        return 'ConfigUpdate';
+      case UpdateType.addonUpdate:
+        return 'AddonUpdate';
+    }
+  }
+}
+
+extension on String {
+  UpdateType toUpdateType() {
+    switch (this) {
+      case 'VersionUpdate':
+        return UpdateType.versionUpdate;
+      case 'EndpointAccessUpdate':
+        return UpdateType.endpointAccessUpdate;
+      case 'LoggingUpdate':
+        return UpdateType.loggingUpdate;
+      case 'ConfigUpdate':
+        return UpdateType.configUpdate;
+      case 'AddonUpdate':
+        return UpdateType.addonUpdate;
+    }
+    throw Exception('$this is not known in enum UpdateType');
+  }
 }
 
 /// An object representing the VPC configuration to use for an Amazon EKS
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcConfigRequest {
   /// Set this value to <code>true</code> to enable private access for your
   /// cluster's Kubernetes API server endpoint. If you enable private access,
@@ -3842,8 +4337,7 @@ class VpcConfigRequest {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
   /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'endpointPrivateAccess')
-  final bool endpointPrivateAccess;
+  final bool? endpointPrivateAccess;
 
   /// Set this value to <code>false</code> to disable public access to your
   /// cluster's Kubernetes API server endpoint. If you disable public access, your
@@ -3854,8 +4348,7 @@ class VpcConfigRequest {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
   /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'endpointPublicAccess')
-  final bool endpointPublicAccess;
+  final bool? endpointPublicAccess;
 
   /// The CIDR blocks that are allowed access to your cluster's public Kubernetes
   /// API server endpoint. Communication to the endpoint from addresses outside of
@@ -3866,8 +4359,7 @@ class VpcConfigRequest {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
   /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'publicAccessCidrs')
-  final List<String> publicAccessCidrs;
+  final List<String>? publicAccessCidrs;
 
   /// Specify one or more security groups for the cross-account elastic network
   /// interfaces that Amazon EKS creates to use to allow communication between
@@ -3887,14 +4379,12 @@ class VpcConfigRequest {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">Amazon
   /// EKS security group considerations</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// Specify subnets for your Amazon EKS worker nodes. Amazon EKS creates
   /// cross-account elastic network interfaces in these subnets to allow
   /// communication between your worker nodes and the Kubernetes control plane.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   VpcConfigRequest({
     this.endpointPrivateAccess,
@@ -3903,21 +4393,30 @@ class VpcConfigRequest {
     this.securityGroupIds,
     this.subnetIds,
   });
-  Map<String, dynamic> toJson() => _$VpcConfigRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final endpointPrivateAccess = this.endpointPrivateAccess;
+    final endpointPublicAccess = this.endpointPublicAccess;
+    final publicAccessCidrs = this.publicAccessCidrs;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (endpointPrivateAccess != null)
+        'endpointPrivateAccess': endpointPrivateAccess,
+      if (endpointPublicAccess != null)
+        'endpointPublicAccess': endpointPublicAccess,
+      if (publicAccessCidrs != null) 'publicAccessCidrs': publicAccessCidrs,
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'subnetIds': subnetIds,
+    };
+  }
 }
 
 /// An object representing an Amazon EKS cluster VPC configuration response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcConfigResponse {
   /// The cluster security group that was created by Amazon EKS for the cluster.
   /// Managed node groups use this security group for control-plane-to-data-plane
   /// communication.
-  @_s.JsonKey(name: 'clusterSecurityGroupId')
-  final String clusterSecurityGroupId;
+  final String? clusterSecurityGroupId;
 
   /// This parameter indicates whether the Amazon EKS private API server endpoint
   /// is enabled. If the Amazon EKS private API server endpoint is enabled,
@@ -3930,15 +4429,13 @@ class VpcConfigResponse {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
   /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'endpointPrivateAccess')
-  final bool endpointPrivateAccess;
+  final bool? endpointPrivateAccess;
 
   /// This parameter indicates whether the Amazon EKS public API server endpoint
   /// is enabled. If the Amazon EKS public API server endpoint is disabled, your
   /// cluster's Kubernetes API server can only receive requests that originate
   /// from within the cluster VPC.
-  @_s.JsonKey(name: 'endpointPublicAccess')
-  final bool endpointPublicAccess;
+  final bool? endpointPublicAccess;
 
   /// The CIDR blocks that are allowed access to your cluster's public Kubernetes
   /// API server endpoint. Communication to the endpoint from addresses outside of
@@ -3949,22 +4446,18 @@ class VpcConfigResponse {
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html">Amazon
   /// EKS Cluster Endpoint Access Control</a> in the <i> <i>Amazon EKS User
   /// Guide</i> </i>.
-  @_s.JsonKey(name: 'publicAccessCidrs')
-  final List<String> publicAccessCidrs;
+  final List<String>? publicAccessCidrs;
 
   /// The security groups associated with the cross-account elastic network
   /// interfaces that are used to allow communication between your worker nodes
   /// and the Kubernetes control plane.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The subnets associated with your cluster.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The VPC associated with your cluster.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   VpcConfigResponse({
     this.clusterSecurityGroupId,
@@ -3975,42 +4468,60 @@ class VpcConfigResponse {
     this.subnetIds,
     this.vpcId,
   });
-  factory VpcConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigResponseFromJson(json);
+  factory VpcConfigResponse.fromJson(Map<String, dynamic> json) {
+    return VpcConfigResponse(
+      clusterSecurityGroupId: json['clusterSecurityGroupId'] as String?,
+      endpointPrivateAccess: json['endpointPrivateAccess'] as bool?,
+      endpointPublicAccess: json['endpointPublicAccess'] as bool?,
+      publicAccessCidrs: (json['publicAccessCidrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ClientException extends _s.GenericAwsException {
-  ClientException({String type, String message})
+  ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -4018,23 +4529,23 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServerException extends _s.GenericAwsException {
-  ServerException({String type, String message})
+  ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class UnsupportedAvailabilityZoneException extends _s.GenericAwsException {
-  UnsupportedAvailabilityZoneException({String type, String message})
+  UnsupportedAvailabilityZoneException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedAvailabilityZoneException',

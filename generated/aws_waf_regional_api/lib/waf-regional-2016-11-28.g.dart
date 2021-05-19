@@ -13,10 +13,9 @@ ActivatedRule _$ActivatedRuleFromJson(Map<String, dynamic> json) {
     action: json['Action'] == null
         ? null
         : WafAction.fromJson(json['Action'] as Map<String, dynamic>),
-    excludedRules: (json['ExcludedRules'] as List)
-        ?.map((e) =>
-            e == null ? null : ExcludedRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    excludedRules: (json['ExcludedRules'] as List<dynamic>?)
+        ?.map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     overrideAction: json['OverrideAction'] == null
         ? null
         : WafOverrideAction.fromJson(
@@ -26,7 +25,10 @@ ActivatedRule _$ActivatedRuleFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ActivatedRuleToJson(ActivatedRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Priority': instance.priority,
+    'RuleId': instance.ruleId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -34,46 +36,49 @@ Map<String, dynamic> _$ActivatedRuleToJson(ActivatedRule instance) {
     }
   }
 
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('RuleId', instance.ruleId);
   writeNotNull('Action', instance.action?.toJson());
-  writeNotNull('ExcludedRules',
-      instance.excludedRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'ExcludedRules', instance.excludedRules?.map((e) => e.toJson()).toList());
   writeNotNull('OverrideAction', instance.overrideAction?.toJson());
   writeNotNull('Type', _$WafRuleTypeEnumMap[instance.type]);
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$WafRuleTypeEnumMap = {
@@ -90,12 +95,10 @@ AssociateWebACLResponse _$AssociateWebACLResponseFromJson(
 ByteMatchSet _$ByteMatchSetFromJson(Map<String, dynamic> json) {
   return ByteMatchSet(
     byteMatchSetId: json['ByteMatchSetId'] as String,
-    byteMatchTuples: (json['ByteMatchTuples'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ByteMatchTuple.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+    byteMatchTuples: (json['ByteMatchTuples'] as List<dynamic>)
+        .map((e) => ByteMatchTuple.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
@@ -106,19 +109,11 @@ ByteMatchSetSummary _$ByteMatchSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ByteMatchSetUpdateToJson(ByteMatchSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('ByteMatchTuple', instance.byteMatchTuple?.toJson());
-  return val;
-}
+Map<String, dynamic> _$ByteMatchSetUpdateToJson(ByteMatchSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'ByteMatchTuple': instance.byteMatchTuple.toJson(),
+    };
 
 const _$ChangeActionEnumMap = {
   ChangeAction.insert: 'INSERT',
@@ -127,20 +122,23 @@ const _$ChangeActionEnumMap = {
 
 ByteMatchTuple _$ByteMatchTupleFromJson(Map<String, dynamic> json) {
   return ByteMatchTuple(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    positionalConstraint: _$enumDecodeNullable(
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    positionalConstraint: _$enumDecode(
         _$PositionalConstraintEnumMap, json['PositionalConstraint']),
     targetString:
         const Uint8ListConverter().fromJson(json['TargetString'] as String),
-    textTransformation: _$enumDecodeNullable(
-        _$TextTransformationEnumMap, json['TextTransformation']),
+    textTransformation:
+        _$enumDecode(_$TextTransformationEnumMap, json['TextTransformation']),
   );
 }
 
 Map<String, dynamic> _$ByteMatchTupleToJson(ByteMatchTuple instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'FieldToMatch': instance.fieldToMatch.toJson(),
+    'PositionalConstraint':
+        _$PositionalConstraintEnumMap[instance.positionalConstraint],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -148,13 +146,10 @@ Map<String, dynamic> _$ByteMatchTupleToJson(ByteMatchTuple instance) {
     }
   }
 
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('PositionalConstraint',
-      _$PositionalConstraintEnumMap[instance.positionalConstraint]);
   writeNotNull(
       'TargetString', const Uint8ListConverter().toJson(instance.targetString));
-  writeNotNull('TextTransformation',
-      _$TextTransformationEnumMap[instance.textTransformation]);
+  val['TextTransformation'] =
+      _$TextTransformationEnumMap[instance.textTransformation];
   return val;
 }
 
@@ -181,14 +176,14 @@ CreateByteMatchSetResponse _$CreateByteMatchSetResponseFromJson(
     byteMatchSet: json['ByteMatchSet'] == null
         ? null
         : ByteMatchSet.fromJson(json['ByteMatchSet'] as Map<String, dynamic>),
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 CreateGeoMatchSetResponse _$CreateGeoMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateGeoMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     geoMatchSet: json['GeoMatchSet'] == null
         ? null
         : GeoMatchSet.fromJson(json['GeoMatchSet'] as Map<String, dynamic>),
@@ -197,7 +192,7 @@ CreateGeoMatchSetResponse _$CreateGeoMatchSetResponseFromJson(
 
 CreateIPSetResponse _$CreateIPSetResponseFromJson(Map<String, dynamic> json) {
   return CreateIPSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     iPSet: json['IPSet'] == null
         ? null
         : IPSet.fromJson(json['IPSet'] as Map<String, dynamic>),
@@ -207,7 +202,7 @@ CreateIPSetResponse _$CreateIPSetResponseFromJson(Map<String, dynamic> json) {
 CreateRateBasedRuleResponse _$CreateRateBasedRuleResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRateBasedRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     rule: json['Rule'] == null
         ? null
         : RateBasedRule.fromJson(json['Rule'] as Map<String, dynamic>),
@@ -217,7 +212,7 @@ CreateRateBasedRuleResponse _$CreateRateBasedRuleResponseFromJson(
 CreateRegexMatchSetResponse _$CreateRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRegexMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     regexMatchSet: json['RegexMatchSet'] == null
         ? null
         : RegexMatchSet.fromJson(json['RegexMatchSet'] as Map<String, dynamic>),
@@ -227,7 +222,7 @@ CreateRegexMatchSetResponse _$CreateRegexMatchSetResponseFromJson(
 CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRegexPatternSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     regexPatternSet: json['RegexPatternSet'] == null
         ? null
         : RegexPatternSet.fromJson(
@@ -238,7 +233,7 @@ CreateRegexPatternSetResponse _$CreateRegexPatternSetResponseFromJson(
 CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRuleGroupResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     ruleGroup: json['RuleGroup'] == null
         ? null
         : RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>),
@@ -247,7 +242,7 @@ CreateRuleGroupResponse _$CreateRuleGroupResponseFromJson(
 
 CreateRuleResponse _$CreateRuleResponseFromJson(Map<String, dynamic> json) {
   return CreateRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     rule: json['Rule'] == null
         ? null
         : Rule.fromJson(json['Rule'] as Map<String, dynamic>),
@@ -257,7 +252,7 @@ CreateRuleResponse _$CreateRuleResponseFromJson(Map<String, dynamic> json) {
 CreateSizeConstraintSetResponse _$CreateSizeConstraintSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSizeConstraintSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     sizeConstraintSet: json['SizeConstraintSet'] == null
         ? null
         : SizeConstraintSet.fromJson(
@@ -268,7 +263,7 @@ CreateSizeConstraintSetResponse _$CreateSizeConstraintSetResponseFromJson(
 CreateSqlInjectionMatchSetResponse _$CreateSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSqlInjectionMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     sqlInjectionMatchSet: json['SqlInjectionMatchSet'] == null
         ? null
         : SqlInjectionMatchSet.fromJson(
@@ -285,7 +280,7 @@ CreateWebACLMigrationStackResponse _$CreateWebACLMigrationStackResponseFromJson(
 
 CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
   return CreateWebACLResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     webACL: json['WebACL'] == null
         ? null
         : WebACL.fromJson(json['WebACL'] as Map<String, dynamic>),
@@ -295,7 +290,7 @@ CreateWebACLResponse _$CreateWebACLResponseFromJson(Map<String, dynamic> json) {
 CreateXssMatchSetResponse _$CreateXssMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return CreateXssMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
     xssMatchSet: json['XssMatchSet'] == null
         ? null
         : XssMatchSet.fromJson(json['XssMatchSet'] as Map<String, dynamic>),
@@ -305,20 +300,20 @@ CreateXssMatchSetResponse _$CreateXssMatchSetResponseFromJson(
 DeleteByteMatchSetResponse _$DeleteByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteByteMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteGeoMatchSetResponse _$DeleteGeoMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteGeoMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteIPSetResponse _$DeleteIPSetResponseFromJson(Map<String, dynamic> json) {
   return DeleteIPSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
@@ -335,61 +330,61 @@ DeletePermissionPolicyResponse _$DeletePermissionPolicyResponseFromJson(
 DeleteRateBasedRuleResponse _$DeleteRateBasedRuleResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRateBasedRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteRegexMatchSetResponse _$DeleteRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRegexMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteRegexPatternSetResponse _$DeleteRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRegexPatternSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteRuleGroupResponse _$DeleteRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteRuleGroupResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteRuleResponse _$DeleteRuleResponseFromJson(Map<String, dynamic> json) {
   return DeleteRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteSizeConstraintSetResponse _$DeleteSizeConstraintSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSizeConstraintSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteSqlInjectionMatchSetResponse _$DeleteSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteSqlInjectionMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteWebACLResponse _$DeleteWebACLResponseFromJson(Map<String, dynamic> json) {
   return DeleteWebACLResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 DeleteXssMatchSetResponse _$DeleteXssMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteXssMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
@@ -404,28 +399,22 @@ ExcludedRule _$ExcludedRuleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ExcludedRuleToJson(ExcludedRule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RuleId', instance.ruleId);
-  return val;
-}
+Map<String, dynamic> _$ExcludedRuleToJson(ExcludedRule instance) =>
+    <String, dynamic>{
+      'RuleId': instance.ruleId,
+    };
 
 FieldToMatch _$FieldToMatchFromJson(Map<String, dynamic> json) {
   return FieldToMatch(
-    type: _$enumDecodeNullable(_$MatchFieldTypeEnumMap, json['Type']),
-    data: json['Data'] as String,
+    type: _$enumDecode(_$MatchFieldTypeEnumMap, json['Type']),
+    data: json['Data'] as String?,
   );
 }
 
 Map<String, dynamic> _$FieldToMatchToJson(FieldToMatch instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$MatchFieldTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -433,7 +422,6 @@ Map<String, dynamic> _$FieldToMatchToJson(FieldToMatch instance) {
     }
   }
 
-  writeNotNull('Type', _$MatchFieldTypeEnumMap[instance.type]);
   writeNotNull('Data', instance.data);
   return val;
 }
@@ -450,25 +438,16 @@ const _$MatchFieldTypeEnumMap = {
 
 GeoMatchConstraint _$GeoMatchConstraintFromJson(Map<String, dynamic> json) {
   return GeoMatchConstraint(
-    type: _$enumDecodeNullable(_$GeoMatchConstraintTypeEnumMap, json['Type']),
-    value:
-        _$enumDecodeNullable(_$GeoMatchConstraintValueEnumMap, json['Value']),
+    type: _$enumDecode(_$GeoMatchConstraintTypeEnumMap, json['Type']),
+    value: _$enumDecode(_$GeoMatchConstraintValueEnumMap, json['Value']),
   );
 }
 
-Map<String, dynamic> _$GeoMatchConstraintToJson(GeoMatchConstraint instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$GeoMatchConstraintTypeEnumMap[instance.type]);
-  writeNotNull('Value', _$GeoMatchConstraintValueEnumMap[instance.value]);
-  return val;
-}
+Map<String, dynamic> _$GeoMatchConstraintToJson(GeoMatchConstraint instance) =>
+    <String, dynamic>{
+      'Type': _$GeoMatchConstraintTypeEnumMap[instance.type],
+      'Value': _$GeoMatchConstraintValueEnumMap[instance.value],
+    };
 
 const _$GeoMatchConstraintTypeEnumMap = {
   GeoMatchConstraintType.country: 'Country',
@@ -728,13 +707,11 @@ const _$GeoMatchConstraintValueEnumMap = {
 
 GeoMatchSet _$GeoMatchSetFromJson(Map<String, dynamic> json) {
   return GeoMatchSet(
-    geoMatchConstraints: (json['GeoMatchConstraints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    geoMatchConstraints: (json['GeoMatchConstraints'] as List<dynamic>)
+        .map((e) => GeoMatchConstraint.fromJson(e as Map<String, dynamic>))
+        .toList(),
     geoMatchSetId: json['GeoMatchSetId'] as String,
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
@@ -745,19 +722,11 @@ GeoMatchSetSummary _$GeoMatchSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$GeoMatchSetUpdateToJson(GeoMatchSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('GeoMatchConstraint', instance.geoMatchConstraint?.toJson());
-  return val;
-}
+Map<String, dynamic> _$GeoMatchSetUpdateToJson(GeoMatchSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'GeoMatchConstraint': instance.geoMatchConstraint.toJson(),
+    };
 
 GetByteMatchSetResponse _$GetByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
@@ -771,7 +740,7 @@ GetByteMatchSetResponse _$GetByteMatchSetResponseFromJson(
 GetChangeTokenResponse _$GetChangeTokenResponseFromJson(
     Map<String, dynamic> json) {
   return GetChangeTokenResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
@@ -819,16 +788,17 @@ GetLoggingConfigurationResponse _$GetLoggingConfigurationResponseFromJson(
 GetPermissionPolicyResponse _$GetPermissionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetPermissionPolicyResponse(
-    policy: json['Policy'] as String,
+    policy: json['Policy'] as String?,
   );
 }
 
 GetRateBasedRuleManagedKeysResponse
     _$GetRateBasedRuleManagedKeysResponseFromJson(Map<String, dynamic> json) {
   return GetRateBasedRuleManagedKeysResponse(
-    managedKeys:
-        (json['ManagedKeys'] as List)?.map((e) => e as String)?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    managedKeys: (json['ManagedKeys'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
@@ -879,12 +849,10 @@ GetRuleResponse _$GetRuleResponseFromJson(Map<String, dynamic> json) {
 GetSampledRequestsResponse _$GetSampledRequestsResponseFromJson(
     Map<String, dynamic> json) {
   return GetSampledRequestsResponse(
-    populationSize: json['PopulationSize'] as int,
-    sampledRequests: (json['SampledRequests'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    populationSize: json['PopulationSize'] as int?,
+    sampledRequests: (json['SampledRequests'] as List<dynamic>?)
+        ?.map((e) => SampledHTTPRequest.fromJson(e as Map<String, dynamic>))
+        .toList(),
     timeWindow: json['TimeWindow'] == null
         ? null
         : TimeWindow.fromJson(json['TimeWindow'] as Map<String, dynamic>),
@@ -939,57 +907,46 @@ GetXssMatchSetResponse _$GetXssMatchSetResponseFromJson(
 
 HTTPHeader _$HTTPHeaderFromJson(Map<String, dynamic> json) {
   return HTTPHeader(
-    name: json['Name'] as String,
-    value: json['Value'] as String,
+    name: json['Name'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
 HTTPRequest _$HTTPRequestFromJson(Map<String, dynamic> json) {
   return HTTPRequest(
-    clientIP: json['ClientIP'] as String,
-    country: json['Country'] as String,
-    hTTPVersion: json['HTTPVersion'] as String,
-    headers: (json['Headers'] as List)
-        ?.map((e) =>
-            e == null ? null : HTTPHeader.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    method: json['Method'] as String,
-    uri: json['URI'] as String,
+    clientIP: json['ClientIP'] as String?,
+    country: json['Country'] as String?,
+    hTTPVersion: json['HTTPVersion'] as String?,
+    headers: (json['Headers'] as List<dynamic>?)
+        ?.map((e) => HTTPHeader.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    method: json['Method'] as String?,
+    uri: json['URI'] as String?,
   );
 }
 
 IPSet _$IPSetFromJson(Map<String, dynamic> json) {
   return IPSet(
-    iPSetDescriptors: (json['IPSetDescriptors'] as List)
-        ?.map((e) => e == null
-            ? null
-            : IPSetDescriptor.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    iPSetDescriptors: (json['IPSetDescriptors'] as List<dynamic>)
+        .map((e) => IPSetDescriptor.fromJson(e as Map<String, dynamic>))
+        .toList(),
     iPSetId: json['IPSetId'] as String,
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
   );
 }
 
 IPSetDescriptor _$IPSetDescriptorFromJson(Map<String, dynamic> json) {
   return IPSetDescriptor(
-    type: _$enumDecodeNullable(_$IPSetDescriptorTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$IPSetDescriptorTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
 }
 
-Map<String, dynamic> _$IPSetDescriptorToJson(IPSetDescriptor instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$IPSetDescriptorTypeEnumMap[instance.type]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$IPSetDescriptorToJson(IPSetDescriptor instance) =>
+    <String, dynamic>{
+      'Type': _$IPSetDescriptorTypeEnumMap[instance.type],
+      'Value': instance.value,
+    };
 
 const _$IPSetDescriptorTypeEnumMap = {
   IPSetDescriptorType.ipv4: 'IPV4',
@@ -1003,183 +960,156 @@ IPSetSummary _$IPSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$IPSetUpdateToJson(IPSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('IPSetDescriptor', instance.iPSetDescriptor?.toJson());
-  return val;
-}
+Map<String, dynamic> _$IPSetUpdateToJson(IPSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'IPSetDescriptor': instance.iPSetDescriptor.toJson(),
+    };
 
 ListActivatedRulesInRuleGroupResponse
     _$ListActivatedRulesInRuleGroupResponseFromJson(Map<String, dynamic> json) {
   return ListActivatedRulesInRuleGroupResponse(
-    activatedRules: (json['ActivatedRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActivatedRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    activatedRules: (json['ActivatedRules'] as List<dynamic>?)
+        ?.map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListByteMatchSetsResponse _$ListByteMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListByteMatchSetsResponse(
-    byteMatchSets: (json['ByteMatchSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    byteMatchSets: (json['ByteMatchSets'] as List<dynamic>?)
+        ?.map((e) => ByteMatchSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListGeoMatchSetsResponse _$ListGeoMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListGeoMatchSetsResponse(
-    geoMatchSets: (json['GeoMatchSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    geoMatchSets: (json['GeoMatchSets'] as List<dynamic>?)
+        ?.map((e) => GeoMatchSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListIPSetsResponse _$ListIPSetsResponseFromJson(Map<String, dynamic> json) {
   return ListIPSetsResponse(
-    iPSets: (json['IPSets'] as List)
-        ?.map((e) =>
-            e == null ? null : IPSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    iPSets: (json['IPSets'] as List<dynamic>?)
+        ?.map((e) => IPSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListLoggingConfigurationsResponse _$ListLoggingConfigurationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLoggingConfigurationsResponse(
-    loggingConfigurations: (json['LoggingConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LoggingConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextMarker: json['NextMarker'] as String,
+    loggingConfigurations: (json['LoggingConfigurations'] as List<dynamic>?)
+        ?.map((e) => LoggingConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextMarker: json['NextMarker'] as String?,
   );
 }
 
 ListRateBasedRulesResponse _$ListRateBasedRulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRateBasedRulesResponse(
-    nextMarker: json['NextMarker'] as String,
-    rules: (json['Rules'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRegexMatchSetsResponse _$ListRegexMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRegexMatchSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    regexMatchSets: (json['RegexMatchSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    regexMatchSets: (json['RegexMatchSets'] as List<dynamic>?)
+        ?.map((e) => RegexMatchSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRegexPatternSetsResponse _$ListRegexPatternSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRegexPatternSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    regexPatternSets: (json['RegexPatternSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    regexPatternSets: (json['RegexPatternSets'] as List<dynamic>?)
+        ?.map((e) => RegexPatternSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourcesForWebACLResponse _$ListResourcesForWebACLResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesForWebACLResponse(
-    resourceArns:
-        (json['ResourceArns'] as List)?.map((e) => e as String)?.toList(),
+    resourceArns: (json['ResourceArns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 ListRuleGroupsResponse _$ListRuleGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListRuleGroupsResponse(
-    nextMarker: json['NextMarker'] as String,
-    ruleGroups: (json['RuleGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RuleGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    ruleGroups: (json['RuleGroups'] as List<dynamic>?)
+        ?.map((e) => RuleGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRulesResponse _$ListRulesResponseFromJson(Map<String, dynamic> json) {
   return ListRulesResponse(
-    nextMarker: json['NextMarker'] as String,
-    rules: (json['Rules'] as List)
-        ?.map((e) =>
-            e == null ? null : RuleSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => RuleSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSizeConstraintSetsResponse _$ListSizeConstraintSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSizeConstraintSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    sizeConstraintSets: (json['SizeConstraintSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    sizeConstraintSets: (json['SizeConstraintSets'] as List<dynamic>?)
+        ?.map(
+            (e) => SizeConstraintSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSqlInjectionMatchSetsResponse _$ListSqlInjectionMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSqlInjectionMatchSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    sqlInjectionMatchSets: (json['SqlInjectionMatchSets'] as List<dynamic>?)
+        ?.map((e) =>
+            SqlInjectionMatchSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSubscribedRuleGroupsResponse _$ListSubscribedRuleGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListSubscribedRuleGroupsResponse(
-    nextMarker: json['NextMarker'] as String,
-    ruleGroups: (json['RuleGroups'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    ruleGroups: (json['RuleGroups'] as List<dynamic>?)
+        ?.map((e) =>
+            SubscribedRuleGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    nextMarker: json['NextMarker'] as String,
+    nextMarker: json['NextMarker'] as String?,
     tagInfoForResource: json['TagInfoForResource'] == null
         ? null
         : TagInfoForResource.fromJson(
@@ -1189,43 +1119,41 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 ListWebACLsResponse _$ListWebACLsResponseFromJson(Map<String, dynamic> json) {
   return ListWebACLsResponse(
-    nextMarker: json['NextMarker'] as String,
-    webACLs: (json['WebACLs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WebACLSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    webACLs: (json['WebACLs'] as List<dynamic>?)
+        ?.map((e) => WebACLSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListXssMatchSetsResponse _$ListXssMatchSetsResponseFromJson(
     Map<String, dynamic> json) {
   return ListXssMatchSetsResponse(
-    nextMarker: json['NextMarker'] as String,
-    xssMatchSets: (json['XssMatchSets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextMarker: json['NextMarker'] as String?,
+    xssMatchSets: (json['XssMatchSets'] as List<dynamic>?)
+        ?.map((e) => XssMatchSetSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoggingConfiguration _$LoggingConfigurationFromJson(Map<String, dynamic> json) {
   return LoggingConfiguration(
-    logDestinationConfigs: (json['LogDestinationConfigs'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    logDestinationConfigs: (json['LogDestinationConfigs'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     resourceArn: json['ResourceArn'] as String,
-    redactedFields: (json['RedactedFields'] as List)
-        ?.map((e) =>
-            e == null ? null : FieldToMatch.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    redactedFields: (json['RedactedFields'] as List<dynamic>?)
+        ?.map((e) => FieldToMatch.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$LoggingConfigurationToJson(
     LoggingConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'LogDestinationConfigs': instance.logDestinationConfigs,
+    'ResourceArn': instance.resourceArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1233,10 +1161,8 @@ Map<String, dynamic> _$LoggingConfigurationToJson(
     }
   }
 
-  writeNotNull('LogDestinationConfigs', instance.logDestinationConfigs);
-  writeNotNull('ResourceArn', instance.resourceArn);
   writeNotNull('RedactedFields',
-      instance.redactedFields?.map((e) => e?.toJson())?.toList());
+      instance.redactedFields?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1244,24 +1170,15 @@ Predicate _$PredicateFromJson(Map<String, dynamic> json) {
   return Predicate(
     dataId: json['DataId'] as String,
     negated: json['Negated'] as bool,
-    type: _$enumDecodeNullable(_$PredicateTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$PredicateTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$PredicateToJson(Predicate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DataId', instance.dataId);
-  writeNotNull('Negated', instance.negated);
-  writeNotNull('Type', _$PredicateTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$PredicateToJson(Predicate instance) => <String, dynamic>{
+      'DataId': instance.dataId,
+      'Negated': instance.negated,
+      'Type': _$PredicateTypeEnumMap[instance.type],
+    };
 
 const _$PredicateTypeEnumMap = {
   PredicateType.iPMatch: 'IPMatch',
@@ -1290,15 +1207,14 @@ PutPermissionPolicyResponse _$PutPermissionPolicyResponseFromJson(
 
 RateBasedRule _$RateBasedRuleFromJson(Map<String, dynamic> json) {
   return RateBasedRule(
-    matchPredicates: (json['MatchPredicates'] as List)
-        ?.map((e) =>
-            e == null ? null : Predicate.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    rateKey: _$enumDecodeNullable(_$RateKeyEnumMap, json['RateKey']),
+    matchPredicates: (json['MatchPredicates'] as List<dynamic>)
+        .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    rateKey: _$enumDecode(_$RateKeyEnumMap, json['RateKey']),
     rateLimit: json['RateLimit'] as int,
     ruleId: json['RuleId'] as String,
-    metricName: json['MetricName'] as String,
-    name: json['Name'] as String,
+    metricName: json['MetricName'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1308,13 +1224,11 @@ const _$RateKeyEnumMap = {
 
 RegexMatchSet _$RegexMatchSetFromJson(Map<String, dynamic> json) {
   return RegexMatchSet(
-    name: json['Name'] as String,
-    regexMatchSetId: json['RegexMatchSetId'] as String,
-    regexMatchTuples: (json['RegexMatchTuples'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RegexMatchTuple.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: json['Name'] as String?,
+    regexMatchSetId: json['RegexMatchSetId'] as String?,
+    regexMatchTuples: (json['RegexMatchTuples'] as List<dynamic>?)
+        ?.map((e) => RegexMatchTuple.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1325,54 +1239,38 @@ RegexMatchSetSummary _$RegexMatchSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RegexMatchSetUpdateToJson(RegexMatchSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('RegexMatchTuple', instance.regexMatchTuple?.toJson());
-  return val;
-}
+Map<String, dynamic> _$RegexMatchSetUpdateToJson(
+        RegexMatchSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'RegexMatchTuple': instance.regexMatchTuple.toJson(),
+    };
 
 RegexMatchTuple _$RegexMatchTupleFromJson(Map<String, dynamic> json) {
   return RegexMatchTuple(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
     regexPatternSetId: json['RegexPatternSetId'] as String,
-    textTransformation: _$enumDecodeNullable(
-        _$TextTransformationEnumMap, json['TextTransformation']),
+    textTransformation:
+        _$enumDecode(_$TextTransformationEnumMap, json['TextTransformation']),
   );
 }
 
-Map<String, dynamic> _$RegexMatchTupleToJson(RegexMatchTuple instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('RegexPatternSetId', instance.regexPatternSetId);
-  writeNotNull('TextTransformation',
-      _$TextTransformationEnumMap[instance.textTransformation]);
-  return val;
-}
+Map<String, dynamic> _$RegexMatchTupleToJson(RegexMatchTuple instance) =>
+    <String, dynamic>{
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'RegexPatternSetId': instance.regexPatternSetId,
+      'TextTransformation':
+          _$TextTransformationEnumMap[instance.textTransformation],
+    };
 
 RegexPatternSet _$RegexPatternSetFromJson(Map<String, dynamic> json) {
   return RegexPatternSet(
     regexPatternSetId: json['RegexPatternSetId'] as String,
-    regexPatternStrings: (json['RegexPatternStrings'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
-    name: json['Name'] as String,
+    regexPatternStrings: (json['RegexPatternStrings'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
@@ -1385,37 +1283,28 @@ RegexPatternSetSummary _$RegexPatternSetSummaryFromJson(
 }
 
 Map<String, dynamic> _$RegexPatternSetUpdateToJson(
-    RegexPatternSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('RegexPatternString', instance.regexPatternString);
-  return val;
-}
+        RegexPatternSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'RegexPatternString': instance.regexPatternString,
+    };
 
 Rule _$RuleFromJson(Map<String, dynamic> json) {
   return Rule(
-    predicates: (json['Predicates'] as List)
-        ?.map((e) =>
-            e == null ? null : Predicate.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    predicates: (json['Predicates'] as List<dynamic>)
+        .map((e) => Predicate.fromJson(e as Map<String, dynamic>))
+        .toList(),
     ruleId: json['RuleId'] as String,
-    metricName: json['MetricName'] as String,
-    name: json['Name'] as String,
+    metricName: json['MetricName'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 RuleGroup _$RuleGroupFromJson(Map<String, dynamic> json) {
   return RuleGroup(
     ruleGroupId: json['RuleGroupId'] as String,
-    metricName: json['MetricName'] as String,
-    name: json['Name'] as String,
+    metricName: json['MetricName'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1426,19 +1315,11 @@ RuleGroupSummary _$RuleGroupSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RuleGroupUpdateToJson(RuleGroupUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('ActivatedRule', instance.activatedRule?.toJson());
-  return val;
-}
+Map<String, dynamic> _$RuleGroupUpdateToJson(RuleGroupUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'ActivatedRule': instance.activatedRule.toJson(),
+    };
 
 RuleSummary _$RuleSummaryFromJson(Map<String, dynamic> json) {
   return RuleSummary(
@@ -1447,62 +1328,43 @@ RuleSummary _$RuleSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RuleUpdateToJson(RuleUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('Predicate', instance.predicate?.toJson());
-  return val;
-}
+Map<String, dynamic> _$RuleUpdateToJson(RuleUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'Predicate': instance.predicate.toJson(),
+    };
 
 SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
   return SampledHTTPRequest(
-    request: json['Request'] == null
-        ? null
-        : HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
+    request: HTTPRequest.fromJson(json['Request'] as Map<String, dynamic>),
     weight: json['Weight'] as int,
-    action: json['Action'] as String,
-    ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String,
+    action: json['Action'] as String?,
+    ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String?,
     timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
 
 SizeConstraint _$SizeConstraintFromJson(Map<String, dynamic> json) {
   return SizeConstraint(
-    comparisonOperator: _$enumDecodeNullable(
-        _$ComparisonOperatorEnumMap, json['ComparisonOperator']),
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    comparisonOperator:
+        _$enumDecode(_$ComparisonOperatorEnumMap, json['ComparisonOperator']),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
     size: json['Size'] as int,
-    textTransformation: _$enumDecodeNullable(
-        _$TextTransformationEnumMap, json['TextTransformation']),
+    textTransformation:
+        _$enumDecode(_$TextTransformationEnumMap, json['TextTransformation']),
   );
 }
 
-Map<String, dynamic> _$SizeConstraintToJson(SizeConstraint instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ComparisonOperator',
-      _$ComparisonOperatorEnumMap[instance.comparisonOperator]);
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('Size', instance.size);
-  writeNotNull('TextTransformation',
-      _$TextTransformationEnumMap[instance.textTransformation]);
-  return val;
-}
+Map<String, dynamic> _$SizeConstraintToJson(SizeConstraint instance) =>
+    <String, dynamic>{
+      'ComparisonOperator':
+          _$ComparisonOperatorEnumMap[instance.comparisonOperator],
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'Size': instance.size,
+      'TextTransformation':
+          _$TextTransformationEnumMap[instance.textTransformation],
+    };
 
 const _$ComparisonOperatorEnumMap = {
   ComparisonOperator.eq: 'EQ',
@@ -1516,12 +1378,10 @@ const _$ComparisonOperatorEnumMap = {
 SizeConstraintSet _$SizeConstraintSetFromJson(Map<String, dynamic> json) {
   return SizeConstraintSet(
     sizeConstraintSetId: json['SizeConstraintSetId'] as String,
-    sizeConstraints: (json['SizeConstraints'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SizeConstraint.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+    sizeConstraints: (json['SizeConstraints'] as List<dynamic>)
+        .map((e) => SizeConstraint.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
@@ -1534,29 +1394,19 @@ SizeConstraintSetSummary _$SizeConstraintSetSummaryFromJson(
 }
 
 Map<String, dynamic> _$SizeConstraintSetUpdateToJson(
-    SizeConstraintSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('SizeConstraint', instance.sizeConstraint?.toJson());
-  return val;
-}
+        SizeConstraintSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'SizeConstraint': instance.sizeConstraint.toJson(),
+    };
 
 SqlInjectionMatchSet _$SqlInjectionMatchSetFromJson(Map<String, dynamic> json) {
   return SqlInjectionMatchSet(
     sqlInjectionMatchSetId: json['SqlInjectionMatchSetId'] as String,
-    sqlInjectionMatchTuples: (json['SqlInjectionMatchTuples'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+    sqlInjectionMatchTuples: (json['SqlInjectionMatchTuples'] as List<dynamic>)
+        .map((e) => SqlInjectionMatchTuple.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
@@ -1569,47 +1419,29 @@ SqlInjectionMatchSetSummary _$SqlInjectionMatchSetSummaryFromJson(
 }
 
 Map<String, dynamic> _$SqlInjectionMatchSetUpdateToJson(
-    SqlInjectionMatchSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull(
-      'SqlInjectionMatchTuple', instance.sqlInjectionMatchTuple?.toJson());
-  return val;
-}
+        SqlInjectionMatchSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'SqlInjectionMatchTuple': instance.sqlInjectionMatchTuple.toJson(),
+    };
 
 SqlInjectionMatchTuple _$SqlInjectionMatchTupleFromJson(
     Map<String, dynamic> json) {
   return SqlInjectionMatchTuple(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    textTransformation: _$enumDecodeNullable(
-        _$TextTransformationEnumMap, json['TextTransformation']),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    textTransformation:
+        _$enumDecode(_$TextTransformationEnumMap, json['TextTransformation']),
   );
 }
 
 Map<String, dynamic> _$SqlInjectionMatchTupleToJson(
-    SqlInjectionMatchTuple instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('TextTransformation',
-      _$TextTransformationEnumMap[instance.textTransformation]);
-  return val;
-}
+        SqlInjectionMatchTuple instance) =>
+    <String, dynamic>{
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'TextTransformation':
+          _$TextTransformationEnumMap[instance.textTransformation],
+    };
 
 SubscribedRuleGroupSummary _$SubscribedRuleGroupSummaryFromJson(
     Map<String, dynamic> json) {
@@ -1627,26 +1459,17 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagInfoForResource _$TagInfoForResourceFromJson(Map<String, dynamic> json) {
   return TagInfoForResource(
-    resourceARN: json['ResourceARN'] as String,
-    tagList: (json['TagList'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    resourceARN: json['ResourceARN'] as String?,
+    tagList: (json['TagList'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1656,26 +1479,16 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    endTime: DateTime.parse(json['EndTime'] as String),
+    startTime: DateTime.parse(json['StartTime'] as String),
   );
 }
 
-Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'EndTime', const UnixDateTimeConverter().toJson(instance.endTime));
-  writeNotNull(
-      'StartTime', const UnixDateTimeConverter().toJson(instance.startTime));
-  return val;
-}
+Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) =>
+    <String, dynamic>{
+      'EndTime': instance.endTime.toIso8601String(),
+      'StartTime': instance.startTime.toIso8601String(),
+    };
 
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -1685,102 +1498,93 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 UpdateByteMatchSetResponse _$UpdateByteMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateByteMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateGeoMatchSetResponse _$UpdateGeoMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateGeoMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateIPSetResponse _$UpdateIPSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateIPSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateRateBasedRuleResponse _$UpdateRateBasedRuleResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRateBasedRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateRegexMatchSetResponse _$UpdateRegexMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRegexMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateRegexPatternSetResponse _$UpdateRegexPatternSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRegexPatternSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateRuleGroupResponse _$UpdateRuleGroupResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRuleGroupResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateRuleResponse _$UpdateRuleResponseFromJson(Map<String, dynamic> json) {
   return UpdateRuleResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateSizeConstraintSetResponse _$UpdateSizeConstraintSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateSizeConstraintSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateSqlInjectionMatchSetResponse _$UpdateSqlInjectionMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateSqlInjectionMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateWebACLResponse _$UpdateWebACLResponseFromJson(Map<String, dynamic> json) {
   return UpdateWebACLResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 UpdateXssMatchSetResponse _$UpdateXssMatchSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateXssMatchSetResponse(
-    changeToken: json['ChangeToken'] as String,
+    changeToken: json['ChangeToken'] as String?,
   );
 }
 
 WafAction _$WafActionFromJson(Map<String, dynamic> json) {
   return WafAction(
-    type: _$enumDecodeNullable(_$WafActionTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$WafActionTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$WafActionToJson(WafAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$WafActionTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$WafActionToJson(WafAction instance) => <String, dynamic>{
+      'Type': _$WafActionTypeEnumMap[instance.type],
+    };
 
 const _$WafActionTypeEnumMap = {
   WafActionType.block: 'BLOCK',
@@ -1790,22 +1594,14 @@ const _$WafActionTypeEnumMap = {
 
 WafOverrideAction _$WafOverrideActionFromJson(Map<String, dynamic> json) {
   return WafOverrideAction(
-    type: _$enumDecodeNullable(_$WafOverrideActionTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$WafOverrideActionTypeEnumMap, json['Type']),
   );
 }
 
-Map<String, dynamic> _$WafOverrideActionToJson(WafOverrideAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$WafOverrideActionTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$WafOverrideActionToJson(WafOverrideAction instance) =>
+    <String, dynamic>{
+      'Type': _$WafOverrideActionTypeEnumMap[instance.type],
+    };
 
 const _$WafOverrideActionTypeEnumMap = {
   WafOverrideActionType.none: 'NONE',
@@ -1814,18 +1610,15 @@ const _$WafOverrideActionTypeEnumMap = {
 
 WebACL _$WebACLFromJson(Map<String, dynamic> json) {
   return WebACL(
-    defaultAction: json['DefaultAction'] == null
-        ? null
-        : WafAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
-    rules: (json['Rules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ActivatedRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    defaultAction:
+        WafAction.fromJson(json['DefaultAction'] as Map<String, dynamic>),
+    rules: (json['Rules'] as List<dynamic>)
+        .map((e) => ActivatedRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
     webACLId: json['WebACLId'] as String,
-    metricName: json['MetricName'] as String,
-    name: json['Name'] as String,
-    webACLArn: json['WebACLArn'] as String,
+    metricName: json['MetricName'] as String?,
+    name: json['Name'] as String?,
+    webACLArn: json['WebACLArn'] as String?,
   );
 }
 
@@ -1836,29 +1629,19 @@ WebACLSummary _$WebACLSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$WebACLUpdateToJson(WebACLUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('ActivatedRule', instance.activatedRule?.toJson());
-  return val;
-}
+Map<String, dynamic> _$WebACLUpdateToJson(WebACLUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'ActivatedRule': instance.activatedRule.toJson(),
+    };
 
 XssMatchSet _$XssMatchSetFromJson(Map<String, dynamic> json) {
   return XssMatchSet(
     xssMatchSetId: json['XssMatchSetId'] as String,
-    xssMatchTuples: (json['XssMatchTuples'] as List)
-        ?.map((e) => e == null
-            ? null
-            : XssMatchTuple.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
+    xssMatchTuples: (json['XssMatchTuples'] as List<dynamic>)
+        .map((e) => XssMatchTuple.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
   );
 }
 
@@ -1869,41 +1652,24 @@ XssMatchSetSummary _$XssMatchSetSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$XssMatchSetUpdateToJson(XssMatchSetUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Action', _$ChangeActionEnumMap[instance.action]);
-  writeNotNull('XssMatchTuple', instance.xssMatchTuple?.toJson());
-  return val;
-}
+Map<String, dynamic> _$XssMatchSetUpdateToJson(XssMatchSetUpdate instance) =>
+    <String, dynamic>{
+      'Action': _$ChangeActionEnumMap[instance.action],
+      'XssMatchTuple': instance.xssMatchTuple.toJson(),
+    };
 
 XssMatchTuple _$XssMatchTupleFromJson(Map<String, dynamic> json) {
   return XssMatchTuple(
-    fieldToMatch: json['FieldToMatch'] == null
-        ? null
-        : FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
-    textTransformation: _$enumDecodeNullable(
-        _$TextTransformationEnumMap, json['TextTransformation']),
+    fieldToMatch:
+        FieldToMatch.fromJson(json['FieldToMatch'] as Map<String, dynamic>),
+    textTransformation:
+        _$enumDecode(_$TextTransformationEnumMap, json['TextTransformation']),
   );
 }
 
-Map<String, dynamic> _$XssMatchTupleToJson(XssMatchTuple instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FieldToMatch', instance.fieldToMatch?.toJson());
-  writeNotNull('TextTransformation',
-      _$TextTransformationEnumMap[instance.textTransformation]);
-  return val;
-}
+Map<String, dynamic> _$XssMatchTupleToJson(XssMatchTuple instance) =>
+    <String, dynamic>{
+      'FieldToMatch': instance.fieldToMatch.toJson(),
+      'TextTransformation':
+          _$TextTransformationEnumMap[instance.textTransformation],
+    };

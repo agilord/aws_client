@@ -8,52 +8,65 @@ part of 'workmail-2017-10-01.dart';
 
 AccessControlRule _$AccessControlRuleFromJson(Map<String, dynamic> json) {
   return AccessControlRule(
-    actions: (json['Actions'] as List)?.map((e) => e as String)?.toList(),
+    actions:
+        (json['Actions'] as List<dynamic>?)?.map((e) => e as String).toList(),
     dateCreated: const UnixDateTimeConverter().fromJson(json['DateCreated']),
     dateModified: const UnixDateTimeConverter().fromJson(json['DateModified']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     effect:
         _$enumDecodeNullable(_$AccessControlRuleEffectEnumMap, json['Effect']),
-    ipRanges: (json['IpRanges'] as List)?.map((e) => e as String)?.toList(),
-    name: json['Name'] as String,
-    notActions: (json['NotActions'] as List)?.map((e) => e as String)?.toList(),
-    notIpRanges:
-        (json['NotIpRanges'] as List)?.map((e) => e as String)?.toList(),
-    notUserIds: (json['NotUserIds'] as List)?.map((e) => e as String)?.toList(),
-    userIds: (json['UserIds'] as List)?.map((e) => e as String)?.toList(),
+    ipRanges:
+        (json['IpRanges'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    name: json['Name'] as String?,
+    notActions: (json['NotActions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    notIpRanges: (json['NotIpRanges'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    notUserIds: (json['NotUserIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    userIds:
+        (json['UserIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$AccessControlRuleEffectEnumMap = {
@@ -73,10 +86,10 @@ AssociateMemberToGroupResponse _$AssociateMemberToGroupResponseFromJson(
 
 BookingOptions _$BookingOptionsFromJson(Map<String, dynamic> json) {
   return BookingOptions(
-    autoAcceptRequests: json['AutoAcceptRequests'] as bool,
+    autoAcceptRequests: json['AutoAcceptRequests'] as bool?,
     autoDeclineConflictingRequests:
-        json['AutoDeclineConflictingRequests'] as bool,
-    autoDeclineRecurringRequests: json['AutoDeclineRecurringRequests'] as bool,
+        json['AutoDeclineConflictingRequests'] as bool?,
+    autoDeclineRecurringRequests: json['AutoDeclineRecurringRequests'] as bool?,
   );
 }
 
@@ -108,34 +121,34 @@ CreateAliasResponse _$CreateAliasResponseFromJson(Map<String, dynamic> json) {
 
 CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
   return CreateGroupResponse(
-    groupId: json['GroupId'] as String,
+    groupId: json['GroupId'] as String?,
   );
 }
 
 CreateOrganizationResponse _$CreateOrganizationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateOrganizationResponse(
-    organizationId: json['OrganizationId'] as String,
+    organizationId: json['OrganizationId'] as String?,
   );
 }
 
 CreateResourceResponse _$CreateResourceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceResponse(
-    resourceId: json['ResourceId'] as String,
+    resourceId: json['ResourceId'] as String?,
   );
 }
 
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
-    userId: json['UserId'] as String,
+    userId: json['UserId'] as String?,
   );
 }
 
 Delegate _$DelegateFromJson(Map<String, dynamic> json) {
   return Delegate(
     id: json['Id'] as String,
-    type: _$enumDecodeNullable(_$MemberTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$MemberTypeEnumMap, json['Type']),
   );
 }
 
@@ -165,8 +178,8 @@ DeleteMailboxPermissionsResponse _$DeleteMailboxPermissionsResponseFromJson(
 DeleteOrganizationResponse _$DeleteOrganizationResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteOrganizationResponse(
-    organizationId: json['OrganizationId'] as String,
-    state: json['State'] as String,
+    organizationId: json['OrganizationId'] as String?,
+    state: json['State'] as String?,
   );
 }
 
@@ -193,10 +206,10 @@ DescribeGroupResponse _$DescribeGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeGroupResponse(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    email: json['Email'] as String,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    groupId: json['GroupId'] as String,
-    name: json['Name'] as String,
+    groupId: json['GroupId'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
   );
 }
@@ -210,16 +223,16 @@ const _$EntityStateEnumMap = {
 DescribeMailboxExportJobResponse _$DescribeMailboxExportJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeMailboxExportJobResponse(
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    entityId: json['EntityId'] as String,
-    errorInfo: json['ErrorInfo'] as String,
-    estimatedProgress: json['EstimatedProgress'] as int,
-    kmsKeyArn: json['KmsKeyArn'] as String,
-    roleArn: json['RoleArn'] as String,
-    s3BucketName: json['S3BucketName'] as String,
-    s3Path: json['S3Path'] as String,
-    s3Prefix: json['S3Prefix'] as String,
+    entityId: json['EntityId'] as String?,
+    errorInfo: json['ErrorInfo'] as String?,
+    estimatedProgress: json['EstimatedProgress'] as int?,
+    kmsKeyArn: json['KmsKeyArn'] as String?,
+    roleArn: json['RoleArn'] as String?,
+    s3BucketName: json['S3BucketName'] as String?,
+    s3Path: json['S3Path'] as String?,
+    s3Prefix: json['S3Prefix'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     state: _$enumDecodeNullable(_$MailboxExportJobStateEnumMap, json['State']),
   );
@@ -235,16 +248,16 @@ const _$MailboxExportJobStateEnumMap = {
 DescribeOrganizationResponse _$DescribeOrganizationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeOrganizationResponse(
-    arn: json['ARN'] as String,
-    alias: json['Alias'] as String,
+    arn: json['ARN'] as String?,
+    alias: json['Alias'] as String?,
     completedDate:
         const UnixDateTimeConverter().fromJson(json['CompletedDate']),
-    defaultMailDomain: json['DefaultMailDomain'] as String,
-    directoryId: json['DirectoryId'] as String,
-    directoryType: json['DirectoryType'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    organizationId: json['OrganizationId'] as String,
-    state: json['State'] as String,
+    defaultMailDomain: json['DefaultMailDomain'] as String?,
+    directoryId: json['DirectoryId'] as String?,
+    directoryType: json['DirectoryType'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    organizationId: json['OrganizationId'] as String?,
+    state: json['State'] as String?,
   );
 }
 
@@ -256,10 +269,10 @@ DescribeResourceResponse _$DescribeResourceResponseFromJson(
         : BookingOptions.fromJson(
             json['BookingOptions'] as Map<String, dynamic>),
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    email: json['Email'] as String,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    name: json['Name'] as String,
-    resourceId: json['ResourceId'] as String,
+    name: json['Name'] as String?,
+    resourceId: json['ResourceId'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$ResourceTypeEnumMap, json['Type']),
   );
@@ -273,12 +286,12 @@ const _$ResourceTypeEnumMap = {
 DescribeUserResponse _$DescribeUserResponseFromJson(Map<String, dynamic> json) {
   return DescribeUserResponse(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    displayName: json['DisplayName'] as String,
-    email: json['Email'] as String,
+    displayName: json['DisplayName'] as String?,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
-    userId: json['UserId'] as String,
+    userId: json['UserId'] as String?,
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['UserRole']),
   );
 }
@@ -316,14 +329,17 @@ Map<String, dynamic> _$DomainToJson(Domain instance) {
 
 FolderConfiguration _$FolderConfigurationFromJson(Map<String, dynamic> json) {
   return FolderConfiguration(
-    action: _$enumDecodeNullable(_$RetentionActionEnumMap, json['Action']),
-    name: _$enumDecodeNullable(_$FolderNameEnumMap, json['Name']),
-    period: json['Period'] as int,
+    action: _$enumDecode(_$RetentionActionEnumMap, json['Action']),
+    name: _$enumDecode(_$FolderNameEnumMap, json['Name']),
+    period: json['Period'] as int?,
   );
 }
 
 Map<String, dynamic> _$FolderConfigurationToJson(FolderConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Action': _$RetentionActionEnumMap[instance.action],
+    'Name': _$FolderNameEnumMap[instance.name],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -331,8 +347,6 @@ Map<String, dynamic> _$FolderConfigurationToJson(FolderConfiguration instance) {
     }
   }
 
-  writeNotNull('Action', _$RetentionActionEnumMap[instance.action]);
-  writeNotNull('Name', _$FolderNameEnumMap[instance.name]);
   writeNotNull('Period', instance.period);
   return val;
 }
@@ -356,40 +370,39 @@ GetAccessControlEffectResponse _$GetAccessControlEffectResponseFromJson(
   return GetAccessControlEffectResponse(
     effect:
         _$enumDecodeNullable(_$AccessControlRuleEffectEnumMap, json['Effect']),
-    matchedRules:
-        (json['MatchedRules'] as List)?.map((e) => e as String)?.toList(),
+    matchedRules: (json['MatchedRules'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 GetDefaultRetentionPolicyResponse _$GetDefaultRetentionPolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetDefaultRetentionPolicyResponse(
-    description: json['Description'] as String,
-    folderConfigurations: (json['FolderConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : FolderConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    description: json['Description'] as String?,
+    folderConfigurations: (json['FolderConfigurations'] as List<dynamic>?)
+        ?.map((e) => FolderConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 GetMailboxDetailsResponse _$GetMailboxDetailsResponseFromJson(
     Map<String, dynamic> json) {
   return GetMailboxDetailsResponse(
-    mailboxQuota: json['MailboxQuota'] as int,
-    mailboxSize: (json['MailboxSize'] as num)?.toDouble(),
+    mailboxQuota: json['MailboxQuota'] as int?,
+    mailboxSize: (json['MailboxSize'] as num?)?.toDouble(),
   );
 }
 
 Group _$GroupFromJson(Map<String, dynamic> json) {
   return Group(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    email: json['Email'] as String,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
   );
 }
@@ -397,127 +410,116 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
 ListAccessControlRulesResponse _$ListAccessControlRulesResponseFromJson(
     Map<String, dynamic> json) {
   return ListAccessControlRulesResponse(
-    rules: (json['Rules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AccessControlRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    rules: (json['Rules'] as List<dynamic>?)
+        ?.map((e) => AccessControlRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListAliasesResponse _$ListAliasesResponseFromJson(Map<String, dynamic> json) {
   return ListAliasesResponse(
-    aliases: (json['Aliases'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    aliases:
+        (json['Aliases'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGroupMembersResponse _$ListGroupMembersResponseFromJson(
     Map<String, dynamic> json) {
   return ListGroupMembersResponse(
-    members: (json['Members'] as List)
-        ?.map((e) =>
-            e == null ? null : Member.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    members: (json['Members'] as List<dynamic>?)
+        ?.map((e) => Member.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
   return ListGroupsResponse(
-    groups: (json['Groups'] as List)
-        ?.map(
-            (e) => e == null ? null : Group.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => Group.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListMailboxExportJobsResponse _$ListMailboxExportJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListMailboxExportJobsResponse(
-    jobs: (json['Jobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MailboxExportJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    jobs: (json['Jobs'] as List<dynamic>?)
+        ?.map((e) => MailboxExportJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListMailboxPermissionsResponse _$ListMailboxPermissionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListMailboxPermissionsResponse(
-    nextToken: json['NextToken'] as String,
-    permissions: (json['Permissions'] as List)
-        ?.map((e) =>
-            e == null ? null : Permission.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    permissions: (json['Permissions'] as List<dynamic>?)
+        ?.map((e) => Permission.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListOrganizationsResponse _$ListOrganizationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListOrganizationsResponse(
-    nextToken: json['NextToken'] as String,
-    organizationSummaries: (json['OrganizationSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : OrganizationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    organizationSummaries: (json['OrganizationSummaries'] as List<dynamic>?)
+        ?.map((e) => OrganizationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListResourceDelegatesResponse _$ListResourceDelegatesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceDelegatesResponse(
-    delegates: (json['Delegates'] as List)
-        ?.map((e) =>
-            e == null ? null : Delegate.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    delegates: (json['Delegates'] as List<dynamic>?)
+        ?.map((e) => Delegate.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListResourcesResponse _$ListResourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourcesResponse(
-    nextToken: json['NextToken'] as String,
-    resources: (json['Resources'] as List)
-        ?.map((e) =>
-            e == null ? null : Resource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    resources: (json['Resources'] as List<dynamic>?)
+        ?.map((e) => Resource.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   return ListUsersResponse(
-    nextToken: json['NextToken'] as String,
-    users: (json['Users'] as List)
-        ?.map(
-            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MailboxExportJob _$MailboxExportJobFromJson(Map<String, dynamic> json) {
   return MailboxExportJob(
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
-    entityId: json['EntityId'] as String,
-    estimatedProgress: json['EstimatedProgress'] as int,
-    jobId: json['JobId'] as String,
-    s3BucketName: json['S3BucketName'] as String,
-    s3Path: json['S3Path'] as String,
+    entityId: json['EntityId'] as String?,
+    estimatedProgress: json['EstimatedProgress'] as int?,
+    jobId: json['JobId'] as String?,
+    s3BucketName: json['S3BucketName'] as String?,
+    s3Path: json['S3Path'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     state: _$enumDecodeNullable(_$MailboxExportJobStateEnumMap, json['State']),
   );
@@ -527,8 +529,8 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$MemberTypeEnumMap, json['Type']),
   );
@@ -536,21 +538,21 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
 
 OrganizationSummary _$OrganizationSummaryFromJson(Map<String, dynamic> json) {
   return OrganizationSummary(
-    alias: json['Alias'] as String,
-    defaultMailDomain: json['DefaultMailDomain'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    organizationId: json['OrganizationId'] as String,
-    state: json['State'] as String,
+    alias: json['Alias'] as String?,
+    defaultMailDomain: json['DefaultMailDomain'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    organizationId: json['OrganizationId'] as String?,
+    state: json['State'] as String?,
   );
 }
 
 Permission _$PermissionFromJson(Map<String, dynamic> json) {
   return Permission(
     granteeId: json['GranteeId'] as String,
-    granteeType: _$enumDecodeNullable(_$MemberTypeEnumMap, json['GranteeType']),
-    permissionValues: (json['PermissionValues'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$PermissionTypeEnumMap, e))
-        ?.toList(),
+    granteeType: _$enumDecode(_$MemberTypeEnumMap, json['GranteeType']),
+    permissionValues: (json['PermissionValues'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$PermissionTypeEnumMap, e))
+        .toList(),
   );
 }
 
@@ -588,10 +590,10 @@ ResetPasswordResponse _$ResetPasswordResponseFromJson(
 Resource _$ResourceFromJson(Map<String, dynamic> json) {
   return Resource(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    email: json['Email'] as String,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$ResourceTypeEnumMap, json['Type']),
   );
@@ -600,7 +602,7 @@ Resource _$ResourceFromJson(Map<String, dynamic> json) {
 StartMailboxExportJobResponse _$StartMailboxExportJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartMailboxExportJobResponse(
-    jobId: json['JobId'] as String,
+    jobId: json['JobId'] as String?,
   );
 }
 
@@ -611,19 +613,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -652,11 +645,11 @@ UpdateResourceResponse _$UpdateResourceResponseFromJson(
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     disabledDate: const UnixDateTimeConverter().fromJson(json['DisabledDate']),
-    displayName: json['DisplayName'] as String,
-    email: json['Email'] as String,
+    displayName: json['DisplayName'] as String?,
+    email: json['Email'] as String?,
     enabledDate: const UnixDateTimeConverter().fromJson(json['EnabledDate']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     state: _$enumDecodeNullable(_$EntityStateEnumMap, json['State']),
     userRole: _$enumDecodeNullable(_$UserRoleEnumMap, json['UserRole']),
   );

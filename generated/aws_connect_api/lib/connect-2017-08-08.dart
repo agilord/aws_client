@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'connect-2017-08-08.g.dart';
 
 /// Amazon Connect is a cloud-based contact center solution that makes it easy
 /// to set up and manage a customer contact center and provide reliable customer
@@ -52,10 +44,10 @@ part 'connect-2017-08-08.g.dart';
 class Connect {
   final _s.RestJsonProtocol _protocol;
   Connect({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -86,8 +78,8 @@ class Connect {
   /// Parameter [origin] :
   /// The domain to add to your allow list.
   Future<void> associateApprovedOrigin({
-    @_s.required String instanceId,
-    @_s.required String origin,
+    required String instanceId,
+    required String origin,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -147,9 +139,9 @@ class Connect {
   /// A valid storage type.
   Future<AssociateInstanceStorageConfigResponse>
       associateInstanceStorageConfig({
-    @_s.required String instanceId,
-    @_s.required InstanceStorageResourceType resourceType,
-    @_s.required InstanceStorageConfig storageConfig,
+    required String instanceId,
+    required InstanceStorageResourceType resourceType,
+    required InstanceStorageConfig storageConfig,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -162,7 +154,7 @@ class Connect {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $payload = <String, dynamic>{
-      'ResourceType': resourceType?.toValue() ?? '',
+      'ResourceType': resourceType.toValue(),
       'StorageConfig': storageConfig,
     };
     final response = await _protocol.send(
@@ -195,8 +187,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> associateLambdaFunction({
-    @_s.required String functionArn,
-    @_s.required String instanceId,
+    required String functionArn,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(functionArn, 'functionArn');
     _s.validateStringLength(
@@ -246,8 +238,8 @@ class Connect {
   /// Parameter [lexBot] :
   /// The Amazon Lex box to associate with the instance.
   Future<void> associateLexBot({
-    @_s.required String instanceId,
-    @_s.required LexBot lexBot,
+    required String instanceId,
+    required LexBot lexBot,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -286,9 +278,9 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<void> associateRoutingProfileQueues({
-    @_s.required String instanceId,
-    @_s.required List<RoutingProfileQueueConfig> queueConfigs,
-    @_s.required String routingProfileId,
+    required String instanceId,
+    required List<RoutingProfileQueueConfig> queueConfigs,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -331,8 +323,8 @@ class Connect {
   /// Parameter [key] :
   /// A valid security key in PEM format.
   Future<AssociateSecurityKeyResponse> associateSecurityKey({
-    @_s.required String instanceId,
-    @_s.required String key,
+    required String instanceId,
+    required String key,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -398,12 +390,12 @@ class Connect {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateContactFlowResponse> createContactFlow({
-    @_s.required String content,
-    @_s.required String instanceId,
-    @_s.required String name,
-    @_s.required ContactFlowType type,
-    String description,
-    Map<String, String> tags,
+    required String content,
+    required String instanceId,
+    required String name,
+    required ContactFlowType type,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -426,7 +418,7 @@ class Connect {
     final $payload = <String, dynamic>{
       'Content': content,
       'Name': name,
-      'Type': type?.toValue() ?? '',
+      'Type': type.toValue(),
       if (description != null) 'Description': description,
       if (tags != null) 'Tags': tags,
     };
@@ -471,12 +463,12 @@ class Connect {
   /// Parameter [instanceAlias] :
   /// The name for your instance.
   Future<CreateInstanceResponse> createInstance({
-    @_s.required DirectoryType identityManagementType,
-    @_s.required bool inboundCallsEnabled,
-    @_s.required bool outboundCallsEnabled,
-    String clientToken,
-    String directoryId,
-    String instanceAlias,
+    required DirectoryType identityManagementType,
+    required bool inboundCallsEnabled,
+    required bool outboundCallsEnabled,
+    String? clientToken,
+    String? directoryId,
+    String? instanceAlias,
   }) async {
     ArgumentError.checkNotNull(
         identityManagementType, 'identityManagementType');
@@ -511,7 +503,7 @@ class Connect {
       r'''^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$''',
     );
     final $payload = <String, dynamic>{
-      'IdentityManagementType': identityManagementType?.toValue() ?? '',
+      'IdentityManagementType': identityManagementType.toValue(),
       'InboundCallsEnabled': inboundCallsEnabled,
       'OutboundCallsEnabled': outboundCallsEnabled,
       if (clientToken != null) 'ClientToken': clientToken,
@@ -556,12 +548,12 @@ class Connect {
   /// Parameter [sourceType] :
   /// The type of the data source.
   Future<CreateIntegrationAssociationResponse> createIntegrationAssociation({
-    @_s.required String instanceId,
-    @_s.required String integrationArn,
-    @_s.required IntegrationType integrationType,
-    @_s.required String sourceApplicationName,
-    @_s.required String sourceApplicationUrl,
-    @_s.required SourceType sourceType,
+    required String instanceId,
+    required String integrationArn,
+    required IntegrationType integrationType,
+    required String sourceApplicationName,
+    required String sourceApplicationUrl,
+    required SourceType sourceType,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -598,10 +590,10 @@ class Connect {
     ArgumentError.checkNotNull(sourceType, 'sourceType');
     final $payload = <String, dynamic>{
       'IntegrationArn': integrationArn,
-      'IntegrationType': integrationType?.toValue() ?? '',
+      'IntegrationType': integrationType.toValue(),
       'SourceApplicationName': sourceApplicationName,
       'SourceApplicationUrl': sourceApplicationUrl,
-      'SourceType': sourceType?.toValue() ?? '',
+      'SourceType': sourceType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -641,11 +633,11 @@ class Connect {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateQuickConnectResponse> createQuickConnect({
-    @_s.required String instanceId,
-    @_s.required String name,
-    @_s.required QuickConnectConfig quickConnectConfig,
-    String description,
-    Map<String, String> tags,
+    required String instanceId,
+    required String name,
+    required QuickConnectConfig quickConnectConfig,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -718,13 +710,13 @@ class Connect {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateRoutingProfileResponse> createRoutingProfile({
-    @_s.required String defaultOutboundQueueId,
-    @_s.required String description,
-    @_s.required String instanceId,
-    @_s.required List<MediaConcurrency> mediaConcurrencies,
-    @_s.required String name,
-    List<RoutingProfileQueueConfig> queueConfigs,
-    Map<String, String> tags,
+    required String defaultOutboundQueueId,
+    required String description,
+    required String instanceId,
+    required List<MediaConcurrency> mediaConcurrencies,
+    required String name,
+    List<RoutingProfileQueueConfig>? queueConfigs,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(
         defaultOutboundQueueId, 'defaultOutboundQueueId');
@@ -791,9 +783,9 @@ class Connect {
   /// The type of use case to associate to the AppIntegration association. Each
   /// AppIntegration association can have only one of each use case type.
   Future<CreateUseCaseResponse> createUseCase({
-    @_s.required String instanceId,
-    @_s.required String integrationAssociationId,
-    @_s.required UseCaseType useCaseType,
+    required String instanceId,
+    required String integrationAssociationId,
+    required UseCaseType useCaseType,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -814,7 +806,7 @@ class Connect {
     );
     ArgumentError.checkNotNull(useCaseType, 'useCaseType');
     final $payload = <String, dynamic>{
-      'UseCaseType': useCaseType?.toValue() ?? '',
+      'UseCaseType': useCaseType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -885,16 +877,16 @@ class Connect {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateUserResponse> createUser({
-    @_s.required String instanceId,
-    @_s.required UserPhoneConfig phoneConfig,
-    @_s.required String routingProfileId,
-    @_s.required List<String> securityProfileIds,
-    @_s.required String username,
-    String directoryUserId,
-    String hierarchyGroupId,
-    UserIdentityInfo identityInfo,
-    String password,
-    Map<String, String> tags,
+    required String instanceId,
+    required UserPhoneConfig phoneConfig,
+    required String routingProfileId,
+    required List<String> securityProfileIds,
+    required String username,
+    String? directoryUserId,
+    String? hierarchyGroupId,
+    UserIdentityInfo? identityInfo,
+    String? password,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -961,9 +953,9 @@ class Connect {
   /// The identifier for the parent hierarchy group. The user hierarchy is
   /// created at level one if the parent group ID is null.
   Future<CreateUserHierarchyGroupResponse> createUserHierarchyGroup({
-    @_s.required String instanceId,
-    @_s.required String name,
-    String parentGroupId,
+    required String instanceId,
+    required String name,
+    String? parentGroupId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -999,7 +991,7 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> deleteInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1034,8 +1026,8 @@ class Connect {
   /// Parameter [integrationAssociationId] :
   /// The identifier for the AppIntegration association.
   Future<void> deleteIntegrationAssociation({
-    @_s.required String instanceId,
-    @_s.required String integrationAssociationId,
+    required String instanceId,
+    required String integrationAssociationId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1080,8 +1072,8 @@ class Connect {
   /// Parameter [quickConnectId] :
   /// The identifier for the quick connect.
   Future<void> deleteQuickConnect({
-    @_s.required String instanceId,
-    @_s.required String quickConnectId,
+    required String instanceId,
+    required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1120,9 +1112,9 @@ class Connect {
   /// Parameter [useCaseId] :
   /// The identifier for the use case.
   Future<void> deleteUseCase({
-    @_s.required String instanceId,
-    @_s.required String integrationAssociationId,
-    @_s.required String useCaseId,
+    required String instanceId,
+    required String integrationAssociationId,
+    required String useCaseId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1178,8 +1170,8 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user.
   Future<void> deleteUser({
-    @_s.required String instanceId,
-    @_s.required String userId,
+    required String instanceId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1215,8 +1207,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> deleteUserHierarchyGroup({
-    @_s.required String hierarchyGroupId,
-    @_s.required String instanceId,
+    required String hierarchyGroupId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -1255,8 +1247,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<DescribeContactFlowResponse> describeContactFlow({
-    @_s.required String contactFlowId,
-    @_s.required String instanceId,
+    required String contactFlowId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -1303,7 +1295,7 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<DescribeInstanceResponse> describeInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1339,8 +1331,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<DescribeInstanceAttributeResponse> describeInstanceAttribute({
-    @_s.required InstanceAttributeType attributeType,
-    @_s.required String instanceId,
+    required InstanceAttributeType attributeType,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -1383,9 +1375,9 @@ class Connect {
   /// Parameter [resourceType] :
   /// A valid resource type.
   Future<DescribeInstanceStorageConfigResponse> describeInstanceStorageConfig({
-    @_s.required String associationId,
-    @_s.required String instanceId,
-    @_s.required InstanceStorageResourceType resourceType,
+    required String associationId,
+    required String instanceId,
+    required InstanceStorageResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
     _s.validateStringLength(
@@ -1405,7 +1397,7 @@ class Connect {
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
-      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1435,8 +1427,8 @@ class Connect {
   /// Parameter [quickConnectId] :
   /// The identifier for the quick connect.
   Future<DescribeQuickConnectResponse> describeQuickConnect({
-    @_s.required String instanceId,
-    @_s.required String quickConnectId,
+    required String instanceId,
+    required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1471,8 +1463,8 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<DescribeRoutingProfileResponse> describeRoutingProfile({
-    @_s.required String instanceId,
-    @_s.required String routingProfileId,
+    required String instanceId,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1509,8 +1501,8 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user account.
   Future<DescribeUserResponse> describeUser({
-    @_s.required String instanceId,
-    @_s.required String userId,
+    required String instanceId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1545,8 +1537,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<DescribeUserHierarchyGroupResponse> describeUserHierarchyGroup({
-    @_s.required String hierarchyGroupId,
-    @_s.required String instanceId,
+    required String hierarchyGroupId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -1580,7 +1572,7 @@ class Connect {
   /// The identifier of the Amazon Connect instance.
   Future<DescribeUserHierarchyStructureResponse>
       describeUserHierarchyStructure({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1617,8 +1609,8 @@ class Connect {
   /// Parameter [origin] :
   /// The domain URL of the integrated application.
   Future<void> disassociateApprovedOrigin({
-    @_s.required String instanceId,
-    @_s.required String origin,
+    required String instanceId,
+    required String origin,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1637,7 +1629,7 @@ class Connect {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (origin != null) 'origin': [origin],
+      'origin': [origin],
     };
     await _protocol.send(
       payload: null,
@@ -1671,9 +1663,9 @@ class Connect {
   /// Parameter [resourceType] :
   /// A valid resource type.
   Future<void> disassociateInstanceStorageConfig({
-    @_s.required String associationId,
-    @_s.required String instanceId,
-    @_s.required InstanceStorageResourceType resourceType,
+    required String associationId,
+    required String instanceId,
+    required InstanceStorageResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
     _s.validateStringLength(
@@ -1693,7 +1685,7 @@ class Connect {
     );
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
-      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.toValue()],
     };
     await _protocol.send(
       payload: null,
@@ -1723,8 +1715,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance..
   Future<void> disassociateLambdaFunction({
-    @_s.required String functionArn,
-    @_s.required String instanceId,
+    required String functionArn,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(functionArn, 'functionArn');
     _s.validateStringLength(
@@ -1743,7 +1735,7 @@ class Connect {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (functionArn != null) 'functionArn': [functionArn],
+      'functionArn': [functionArn],
     };
     await _protocol.send(
       payload: null,
@@ -1776,9 +1768,9 @@ class Connect {
   /// Parameter [lexRegion] :
   /// The Region in which the Amazon Lex bot has been created.
   Future<void> disassociateLexBot({
-    @_s.required String botName,
-    @_s.required String instanceId,
-    @_s.required String lexRegion,
+    required String botName,
+    required String instanceId,
+    required String lexRegion,
   }) async {
     ArgumentError.checkNotNull(botName, 'botName');
     _s.validateStringLength(
@@ -1805,8 +1797,8 @@ class Connect {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (botName != null) 'botName': [botName],
-      if (lexRegion != null) 'lexRegion': [lexRegion],
+      'botName': [botName],
+      'lexRegion': [lexRegion],
     };
     await _protocol.send(
       payload: null,
@@ -1834,9 +1826,9 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<void> disassociateRoutingProfileQueues({
-    @_s.required String instanceId,
-    @_s.required List<RoutingProfileQueueReference> queueReferences,
-    @_s.required String routingProfileId,
+    required String instanceId,
+    required List<RoutingProfileQueueReference> queueReferences,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -1878,8 +1870,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> disassociateSecurityKey({
-    @_s.required String associationId,
-    @_s.required String instanceId,
+    required String associationId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
     _s.validateStringLength(
@@ -1918,8 +1910,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<GetContactAttributesResponse> getContactAttributes({
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
+    required String initialContactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
     _s.validateStringLength(
@@ -2075,12 +2067,12 @@ class Connect {
   /// requests that use the token must use the same request parameters as the
   /// request that generated the token.
   Future<GetCurrentMetricDataResponse> getCurrentMetricData({
-    @_s.required List<CurrentMetric> currentMetrics,
-    @_s.required Filters filters,
-    @_s.required String instanceId,
-    List<Grouping> groupings,
-    int maxResults,
-    String nextToken,
+    required List<CurrentMetric> currentMetrics,
+    required Filters filters,
+    required String instanceId,
+    List<Grouping>? groupings,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(currentMetrics, 'currentMetrics');
     ArgumentError.checkNotNull(filters, 'filters');
@@ -2102,7 +2094,7 @@ class Connect {
       'CurrentMetrics': currentMetrics,
       'Filters': filters,
       if (groupings != null)
-        'Groupings': groupings.map((e) => e?.toValue() ?? '').toList(),
+        'Groupings': groupings.map((e) => e.toValue()).toList(),
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -2127,7 +2119,7 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<GetFederationTokenResponse> getFederationToken({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2314,14 +2306,14 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<GetMetricDataResponse> getMetricData({
-    @_s.required DateTime endTime,
-    @_s.required Filters filters,
-    @_s.required List<HistoricalMetric> historicalMetrics,
-    @_s.required String instanceId,
-    @_s.required DateTime startTime,
-    List<Grouping> groupings,
-    int maxResults,
-    String nextToken,
+    required DateTime endTime,
+    required Filters filters,
+    required List<HistoricalMetric> historicalMetrics,
+    required String instanceId,
+    required DateTime startTime,
+    List<Grouping>? groupings,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(filters, 'filters');
@@ -2347,7 +2339,7 @@ class Connect {
       'HistoricalMetrics': historicalMetrics,
       'StartTime': unixTimestampToJson(startTime),
       if (groupings != null)
-        'Groupings': groupings.map((e) => e?.toValue() ?? '').toList(),
+        'Groupings': groupings.map((e) => e.toValue()).toList(),
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -2382,9 +2374,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListApprovedOriginsResponse> listApprovedOrigins({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2445,10 +2437,10 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListContactFlowsResponse> listContactFlows({
-    @_s.required String instanceId,
-    List<ContactFlowType> contactFlowTypes,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    List<ContactFlowType>? contactFlowTypes,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2466,8 +2458,7 @@ class Connect {
     );
     final $query = <String, List<String>>{
       if (contactFlowTypes != null)
-        'contactFlowTypes':
-            contactFlowTypes.map((e) => e?.toValue() ?? '').toList(),
+        'contactFlowTypes': contactFlowTypes.map((e) => e.toValue()).toList(),
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2505,9 +2496,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListHoursOfOperationsResponse> listHoursOfOperations({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2559,9 +2550,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListInstanceAttributesResponse> listInstanceAttributes({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2616,10 +2607,10 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListInstanceStorageConfigsResponse> listInstanceStorageConfigs({
-    @_s.required String instanceId,
-    @_s.required InstanceStorageResourceType resourceType,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    required InstanceStorageResourceType resourceType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2637,7 +2628,7 @@ class Connect {
       10,
     );
     final $query = <String, List<String>>{
-      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -2670,8 +2661,8 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListInstancesResponse> listInstances({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2714,9 +2705,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListIntegrationAssociationsResponse> listIntegrationAssociations({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2769,9 +2760,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListLambdaFunctionsResponse> listLambdaFunctions({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2824,9 +2815,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListLexBotsResponse> listLexBots({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2886,11 +2877,11 @@ class Connect {
   /// Parameter [phoneNumberTypes] :
   /// The type of phone number.
   Future<ListPhoneNumbersResponse> listPhoneNumbers({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
-    List<PhoneNumberCountryCode> phoneNumberCountryCodes,
-    List<PhoneNumberType> phoneNumberTypes,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    List<PhoneNumberCountryCode>? phoneNumberCountryCodes,
+    List<PhoneNumberType>? phoneNumberTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2911,10 +2902,9 @@ class Connect {
       if (nextToken != null) 'nextToken': [nextToken],
       if (phoneNumberCountryCodes != null)
         'phoneNumberCountryCodes':
-            phoneNumberCountryCodes.map((e) => e?.toValue() ?? '').toList(),
+            phoneNumberCountryCodes.map((e) => e.toValue()).toList(),
       if (phoneNumberTypes != null)
-        'phoneNumberTypes':
-            phoneNumberTypes.map((e) => e?.toValue() ?? '').toList(),
+        'phoneNumberTypes': phoneNumberTypes.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -2945,9 +2935,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListPromptsResponse> listPrompts({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3003,10 +2993,10 @@ class Connect {
   /// Parameter [queueTypes] :
   /// The type of queue.
   Future<ListQueuesResponse> listQueues({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
-    List<QueueType> queueTypes,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    List<QueueType>? queueTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3026,7 +3016,7 @@ class Connect {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (queueTypes != null)
-        'queueTypes': queueTypes.map((e) => e?.toValue() ?? '').toList(),
+        'queueTypes': queueTypes.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -3065,10 +3055,10 @@ class Connect {
   /// a quick connect, you are prompted to assign one of the following types:
   /// Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
   Future<ListQuickConnectsResponse> listQuickConnects({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
-    List<QuickConnectType> quickConnectTypes,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
+    List<QuickConnectType>? quickConnectTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3088,8 +3078,7 @@ class Connect {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (quickConnectTypes != null)
-        'QuickConnectTypes':
-            quickConnectTypes.map((e) => e?.toValue() ?? '').toList(),
+        'QuickConnectTypes': quickConnectTypes.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -3122,10 +3111,10 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListRoutingProfileQueuesResponse> listRoutingProfileQueues({
-    @_s.required String instanceId,
-    @_s.required String routingProfileId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    required String routingProfileId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3182,9 +3171,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListRoutingProfilesResponse> listRoutingProfiles({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3237,9 +3226,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListSecurityKeysResponse> listSecurityKeys({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3292,9 +3281,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListSecurityProfilesResponse> listSecurityProfiles({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3341,7 +3330,7 @@ class Connect {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -3376,10 +3365,10 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListUseCasesResponse> listUseCases({
-    @_s.required String instanceId,
-    @_s.required String integrationAssociationId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    required String integrationAssociationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3442,9 +3431,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListUserHierarchyGroupsResponse> listUserHierarchyGroups({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3494,9 +3483,9 @@ class Connect {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListUsersResponse> listUsers({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -3545,9 +3534,9 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> resumeContactRecording({
-    @_s.required String contactId,
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
+    required String contactId,
+    required String initialContactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -3584,7 +3573,6 @@ class Connect {
       requestUri: '/contact/resume-recording',
       exceptionFnMap: _exceptionFns,
     );
-    return ResumeContactRecordingResponse.fromJson(response);
   }
 
   /// Initiates a contact flow to start a new chat for the customer. Response of
@@ -3654,12 +3642,12 @@ class Connect {
   /// Parameter [initialMessage] :
   /// The initial message to be sent to the newly created chat.
   Future<StartChatContactResponse> startChatContact({
-    @_s.required String contactFlowId,
-    @_s.required String instanceId,
-    @_s.required ParticipantDetails participantDetails,
-    Map<String, String> attributes,
-    String clientToken,
-    ChatMessage initialMessage,
+    required String contactFlowId,
+    required String instanceId,
+    required ParticipantDetails participantDetails,
+    Map<String, String>? attributes,
+    String? clientToken,
+    ChatMessage? initialMessage,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -3734,10 +3722,10 @@ class Connect {
   /// Parameter [voiceRecordingConfiguration] :
   /// Who is being recorded.
   Future<void> startContactRecording({
-    @_s.required String contactId,
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
-    @_s.required VoiceRecordingConfiguration voiceRecordingConfiguration,
+    required String contactId,
+    required String initialContactId,
+    required String instanceId,
+    required VoiceRecordingConfiguration voiceRecordingConfiguration,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -3777,7 +3765,6 @@ class Connect {
       requestUri: '/contact/start-recording',
       exceptionFnMap: _exceptionFns,
     );
-    return StartContactRecordingResponse.fromJson(response);
   }
 
   /// This API places an outbound call to a contact, and then initiates the
@@ -3850,13 +3837,13 @@ class Connect {
   /// format. If you do not specify a source phone number, you must specify a
   /// queue.
   Future<StartOutboundVoiceContactResponse> startOutboundVoiceContact({
-    @_s.required String contactFlowId,
-    @_s.required String destinationPhoneNumber,
-    @_s.required String instanceId,
-    Map<String, String> attributes,
-    String clientToken,
-    String queueId,
-    String sourcePhoneNumber,
+    required String contactFlowId,
+    required String destinationPhoneNumber,
+    required String instanceId,
+    Map<String, String>? attributes,
+    String? clientToken,
+    String? queueId,
+    String? sourcePhoneNumber,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -3950,14 +3937,14 @@ class Connect {
   /// A formatted URL that is shown to an agent in the Contact Control Panel
   /// (CCP).
   Future<StartTaskContactResponse> startTaskContact({
-    @_s.required String contactFlowId,
-    @_s.required String instanceId,
-    @_s.required String name,
-    Map<String, String> attributes,
-    String clientToken,
-    String description,
-    String previousContactId,
-    Map<String, Reference> references,
+    required String contactFlowId,
+    required String instanceId,
+    required String name,
+    Map<String, String>? attributes,
+    String? clientToken,
+    String? description,
+    String? previousContactId,
+    Map<String, Reference>? references,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -4034,8 +4021,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> stopContact({
-    @_s.required String contactId,
-    @_s.required String instanceId,
+    required String contactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -4063,7 +4050,6 @@ class Connect {
       requestUri: '/contact/stop',
       exceptionFnMap: _exceptionFns,
     );
-    return StopContactResponse.fromJson(response);
   }
 
   /// When a contact is being recorded, this API stops recording the call.
@@ -4090,9 +4076,9 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> stopContactRecording({
-    @_s.required String contactId,
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
+    required String contactId,
+    required String initialContactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -4129,7 +4115,6 @@ class Connect {
       requestUri: '/contact/stop-recording',
       exceptionFnMap: _exceptionFns,
     );
-    return StopContactRecordingResponse.fromJson(response);
   }
 
   /// When a contact is being recorded, this API suspends recording the call.
@@ -4156,9 +4141,9 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> suspendContactRecording({
-    @_s.required String contactId,
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
+    required String contactId,
+    required String initialContactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -4195,7 +4180,6 @@ class Connect {
       requestUri: '/contact/suspend-recording',
       exceptionFnMap: _exceptionFns,
     );
-    return SuspendContactRecordingResponse.fromJson(response);
   }
 
   /// Adds the specified tags to the specified resource.
@@ -4221,8 +4205,8 @@ class Connect {
   /// One or more tags. For example, { "tags": {"key1":"value1",
   /// "key2":"value2"} }.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -4251,13 +4235,13 @@ class Connect {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -4311,9 +4295,9 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> updateContactAttributes({
-    @_s.required Map<String, String> attributes,
-    @_s.required String initialContactId,
-    @_s.required String instanceId,
+    required Map<String, String> attributes,
+    required String initialContactId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(initialContactId, 'initialContactId');
@@ -4343,7 +4327,6 @@ class Connect {
       requestUri: '/contact/attributes',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateContactAttributesResponse.fromJson(response);
   }
 
   /// Updates the specified contact flow.
@@ -4372,9 +4355,9 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> updateContactFlowContent({
-    @_s.required String contactFlowId,
-    @_s.required String content,
-    @_s.required String instanceId,
+    required String contactFlowId,
+    required String content,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -4430,10 +4413,10 @@ class Connect {
   /// Parameter [name] :
   /// The name of the contact flow.
   Future<void> updateContactFlowName({
-    @_s.required String contactFlowId,
-    @_s.required String instanceId,
-    String description,
-    String name,
+    required String contactFlowId,
+    required String instanceId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
     _s.validateStringLength(
@@ -4490,9 +4473,9 @@ class Connect {
   /// Parameter [value] :
   /// The value for the attribute. Maximum character limit is 100.
   Future<void> updateInstanceAttribute({
-    @_s.required InstanceAttributeType attributeType,
-    @_s.required String instanceId,
-    @_s.required String value,
+    required InstanceAttributeType attributeType,
+    required String instanceId,
+    required String value,
   }) async {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -4545,10 +4528,10 @@ class Connect {
   /// Parameter [resourceType] :
   /// A valid resource type.
   Future<void> updateInstanceStorageConfig({
-    @_s.required String associationId,
-    @_s.required String instanceId,
-    @_s.required InstanceStorageResourceType resourceType,
-    @_s.required InstanceStorageConfig storageConfig,
+    required String associationId,
+    required String instanceId,
+    required InstanceStorageResourceType resourceType,
+    required InstanceStorageConfig storageConfig,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
     _s.validateStringLength(
@@ -4569,7 +4552,7 @@ class Connect {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $query = <String, List<String>>{
-      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      'resourceType': [resourceType.toValue()],
     };
     final $payload = <String, dynamic>{
       'StorageConfig': storageConfig,
@@ -4604,9 +4587,9 @@ class Connect {
   /// Parameter [quickConnectId] :
   /// The identifier for the quick connect.
   Future<void> updateQuickConnectConfig({
-    @_s.required String instanceId,
-    @_s.required QuickConnectConfig quickConnectConfig,
-    @_s.required String quickConnectId,
+    required String instanceId,
+    required QuickConnectConfig quickConnectConfig,
+    required String quickConnectId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4655,10 +4638,10 @@ class Connect {
   /// Parameter [name] :
   /// The name of the quick connect.
   Future<void> updateQuickConnectName({
-    @_s.required String instanceId,
-    @_s.required String quickConnectId,
-    String description,
-    String name,
+    required String instanceId,
+    required String quickConnectId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4712,9 +4695,9 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<void> updateRoutingProfileConcurrency({
-    @_s.required String instanceId,
-    @_s.required List<MediaConcurrency> mediaConcurrencies,
-    @_s.required String routingProfileId,
+    required String instanceId,
+    required List<MediaConcurrency> mediaConcurrencies,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4755,9 +4738,9 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<void> updateRoutingProfileDefaultOutboundQueue({
-    @_s.required String defaultOutboundQueueId,
-    @_s.required String instanceId,
-    @_s.required String routingProfileId,
+    required String defaultOutboundQueueId,
+    required String instanceId,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(
         defaultOutboundQueueId, 'defaultOutboundQueueId');
@@ -4806,10 +4789,10 @@ class Connect {
   /// Parameter [name] :
   /// The name of the routing profile. Must not be more than 127 characters.
   Future<void> updateRoutingProfileName({
-    @_s.required String instanceId,
-    @_s.required String routingProfileId,
-    String description,
-    String name,
+    required String instanceId,
+    required String routingProfileId,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4865,9 +4848,9 @@ class Connect {
   /// Parameter [routingProfileId] :
   /// The identifier of the routing profile.
   Future<void> updateRoutingProfileQueues({
-    @_s.required String instanceId,
-    @_s.required List<RoutingProfileQueueConfig> queueConfigs,
-    @_s.required String routingProfileId,
+    required String instanceId,
+    required List<RoutingProfileQueueConfig> queueConfigs,
+    required String routingProfileId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4908,9 +4891,9 @@ class Connect {
   /// Parameter [hierarchyGroupId] :
   /// The identifier of the hierarchy group.
   Future<void> updateUserHierarchy({
-    @_s.required String instanceId,
-    @_s.required String userId,
-    String hierarchyGroupId,
+    required String instanceId,
+    required String userId,
+    String? hierarchyGroupId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4951,9 +4934,9 @@ class Connect {
   /// Parameter [name] :
   /// The name of the hierarchy group. Must not be more than 100 characters.
   Future<void> updateUserHierarchyGroupName({
-    @_s.required String hierarchyGroupId,
-    @_s.required String instanceId,
-    @_s.required String name,
+    required String hierarchyGroupId,
+    required String instanceId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -4993,8 +4976,8 @@ class Connect {
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
   Future<void> updateUserHierarchyStructure({
-    @_s.required HierarchyStructureUpdate hierarchyStructure,
-    @_s.required String instanceId,
+    required HierarchyStructureUpdate hierarchyStructure,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(hierarchyStructure, 'hierarchyStructure');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -5046,9 +5029,9 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user account.
   Future<void> updateUserIdentityInfo({
-    @_s.required UserIdentityInfo identityInfo,
-    @_s.required String instanceId,
-    @_s.required String userId,
+    required UserIdentityInfo identityInfo,
+    required String instanceId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(identityInfo, 'identityInfo');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -5089,9 +5072,9 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user account.
   Future<void> updateUserPhoneConfig({
-    @_s.required String instanceId,
-    @_s.required UserPhoneConfig phoneConfig,
-    @_s.required String userId,
+    required String instanceId,
+    required UserPhoneConfig phoneConfig,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -5132,9 +5115,9 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user account.
   Future<void> updateUserRoutingProfile({
-    @_s.required String instanceId,
-    @_s.required String routingProfileId,
-    @_s.required String userId,
+    required String instanceId,
+    required String routingProfileId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -5175,9 +5158,9 @@ class Connect {
   /// Parameter [userId] :
   /// The identifier of the user account.
   Future<void> updateUserSecurityProfiles({
-    @_s.required String instanceId,
-    @_s.required List<String> securityProfileIds,
-    @_s.required String userId,
+    required String instanceId,
+    required List<String> securityProfileIds,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -5202,139 +5185,161 @@ class Connect {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateInstanceStorageConfigResponse {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   AssociateInstanceStorageConfigResponse({
     this.associationId,
   });
   factory AssociateInstanceStorageConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateInstanceStorageConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateInstanceStorageConfigResponse(
+      associationId: json['AssociationId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSecurityKeyResponse {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   AssociateSecurityKeyResponse({
     this.associationId,
   });
-  factory AssociateSecurityKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateSecurityKeyResponseFromJson(json);
+  factory AssociateSecurityKeyResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateSecurityKeyResponse(
+      associationId: json['AssociationId'] as String?,
+    );
+  }
 }
 
 /// A toggle for an individual feature at the instance level.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attribute {
   /// The type of attribute.
-  @_s.JsonKey(name: 'AttributeType')
-  final InstanceAttributeType attributeType;
+  final InstanceAttributeType? attributeType;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Attribute({
     this.attributeType,
     this.value,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      attributeType:
+          (json['AttributeType'] as String?)?.toInstanceAttributeType(),
+      value: json['Value'] as String?,
+    );
+  }
 }
 
 enum Channel {
-  @_s.JsonValue('VOICE')
   voice,
-  @_s.JsonValue('CHAT')
   chat,
-  @_s.JsonValue('TASK')
   task,
 }
 
+extension on Channel {
+  String toValue() {
+    switch (this) {
+      case Channel.voice:
+        return 'VOICE';
+      case Channel.chat:
+        return 'CHAT';
+      case Channel.task:
+        return 'TASK';
+    }
+  }
+}
+
+extension on String {
+  Channel toChannel() {
+    switch (this) {
+      case 'VOICE':
+        return Channel.voice;
+      case 'CHAT':
+        return Channel.chat;
+      case 'TASK':
+        return Channel.task;
+    }
+    throw Exception('$this is not known in enum Channel');
+  }
+}
+
 /// A chat message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ChatMessage {
   /// The content of the chat message.
-  @_s.JsonKey(name: 'Content')
   final String content;
 
   /// The type of the content. Supported types are text/plain.
-  @_s.JsonKey(name: 'ContentType')
   final String contentType;
 
   ChatMessage({
-    @_s.required this.content,
-    @_s.required this.contentType,
+    required this.content,
+    required this.contentType,
   });
-  Map<String, dynamic> toJson() => _$ChatMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final contentType = this.contentType;
+    return {
+      'Content': content,
+      'ContentType': contentType,
+    };
+  }
 }
 
 enum Comparison {
-  @_s.JsonValue('LT')
   lt,
 }
 
+extension on Comparison {
+  String toValue() {
+    switch (this) {
+      case Comparison.lt:
+        return 'LT';
+    }
+  }
+}
+
+extension on String {
+  Comparison toComparison() {
+    switch (this) {
+      case 'LT':
+        return Comparison.lt;
+    }
+    throw Exception('$this is not known in enum Comparison');
+  }
+}
+
 /// Contains information about a contact flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContactFlow {
   /// The Amazon Resource Name (ARN) of the contact flow.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The content of the contact flow.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The description of the contact flow.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The identifier of the contact flow.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the contact flow.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The type of the contact flow. For descriptions of the available types, see
   /// <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types">Choose
   /// a Contact Flow Type</a> in the <i>Amazon Connect Administrator Guide</i>.
-  @_s.JsonKey(name: 'Type')
-  final ContactFlowType type;
+  final ContactFlowType? type;
 
   ContactFlow({
     this.arn,
@@ -5345,8 +5350,18 @@ class ContactFlow {
     this.tags,
     this.type,
   });
-  factory ContactFlow.fromJson(Map<String, dynamic> json) =>
-      _$ContactFlowFromJson(json);
+  factory ContactFlow.fromJson(Map<String, dynamic> json) {
+    return ContactFlow(
+      arn: json['Arn'] as String?,
+      content: json['Content'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.toContactFlowType(),
+    );
+  }
 }
 
 /// Contains summary information about a contact flow.
@@ -5354,27 +5369,18 @@ class ContactFlow {
 /// You can also create and update contact flows using the <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
 /// Connect Flow language</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContactFlowSummary {
   /// The Amazon Resource Name (ARN) of the contact flow.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The type of contact flow.
-  @_s.JsonKey(name: 'ContactFlowType')
-  final ContactFlowType contactFlowType;
+  final ContactFlowType? contactFlowType;
 
   /// The identifier of the contact flow.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the contact flow.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ContactFlowSummary({
     this.arn,
@@ -5382,28 +5388,26 @@ class ContactFlowSummary {
     this.id,
     this.name,
   });
-  factory ContactFlowSummary.fromJson(Map<String, dynamic> json) =>
-      _$ContactFlowSummaryFromJson(json);
+  factory ContactFlowSummary.fromJson(Map<String, dynamic> json) {
+    return ContactFlowSummary(
+      arn: json['Arn'] as String?,
+      contactFlowType:
+          (json['ContactFlowType'] as String?)?.toContactFlowType(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 enum ContactFlowType {
-  @_s.JsonValue('CONTACT_FLOW')
   contactFlow,
-  @_s.JsonValue('CUSTOMER_QUEUE')
   customerQueue,
-  @_s.JsonValue('CUSTOMER_HOLD')
   customerHold,
-  @_s.JsonValue('CUSTOMER_WHISPER')
   customerWhisper,
-  @_s.JsonValue('AGENT_HOLD')
   agentHold,
-  @_s.JsonValue('AGENT_WHISPER')
   agentWhisper,
-  @_s.JsonValue('OUTBOUND_WHISPER')
   outboundWhisper,
-  @_s.JsonValue('AGENT_TRANSFER')
   agentTransfer,
-  @_s.JsonValue('QUEUE_TRANSFER')
   queueTransfer,
 }
 
@@ -5429,213 +5433,202 @@ extension on ContactFlowType {
       case ContactFlowType.queueTransfer:
         return 'QUEUE_TRANSFER';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ContactFlowType toContactFlowType() {
+    switch (this) {
+      case 'CONTACT_FLOW':
+        return ContactFlowType.contactFlow;
+      case 'CUSTOMER_QUEUE':
+        return ContactFlowType.customerQueue;
+      case 'CUSTOMER_HOLD':
+        return ContactFlowType.customerHold;
+      case 'CUSTOMER_WHISPER':
+        return ContactFlowType.customerWhisper;
+      case 'AGENT_HOLD':
+        return ContactFlowType.agentHold;
+      case 'AGENT_WHISPER':
+        return ContactFlowType.agentWhisper;
+      case 'OUTBOUND_WHISPER':
+        return ContactFlowType.outboundWhisper;
+      case 'AGENT_TRANSFER':
+        return ContactFlowType.agentTransfer;
+      case 'QUEUE_TRANSFER':
+        return ContactFlowType.queueTransfer;
+    }
+    throw Exception('$this is not known in enum ContactFlowType');
+  }
+}
+
 class CreateContactFlowResponse {
   /// The Amazon Resource Name (ARN) of the contact flow.
-  @_s.JsonKey(name: 'ContactFlowArn')
-  final String contactFlowArn;
+  final String? contactFlowArn;
 
   /// The identifier of the contact flow.
-  @_s.JsonKey(name: 'ContactFlowId')
-  final String contactFlowId;
+  final String? contactFlowId;
 
   CreateContactFlowResponse({
     this.contactFlowArn,
     this.contactFlowId,
   });
-  factory CreateContactFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateContactFlowResponseFromJson(json);
+  factory CreateContactFlowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateContactFlowResponse(
+      contactFlowArn: json['ContactFlowArn'] as String?,
+      contactFlowId: json['ContactFlowId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateInstanceResponse {
   /// The Amazon Resource Name (ARN) of the instance.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier for the instance.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   CreateInstanceResponse({
     this.arn,
     this.id,
   });
-  factory CreateInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateInstanceResponseFromJson(json);
+  factory CreateInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceResponse(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIntegrationAssociationResponse {
   /// The Amazon Resource Name (ARN) for the association.
-  @_s.JsonKey(name: 'IntegrationAssociationArn')
-  final String integrationAssociationArn;
+  final String? integrationAssociationArn;
 
   /// The identifier for the association.
-  @_s.JsonKey(name: 'IntegrationAssociationId')
-  final String integrationAssociationId;
+  final String? integrationAssociationId;
 
   CreateIntegrationAssociationResponse({
     this.integrationAssociationArn,
     this.integrationAssociationId,
   });
   factory CreateIntegrationAssociationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateIntegrationAssociationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateIntegrationAssociationResponse(
+      integrationAssociationArn: json['IntegrationAssociationArn'] as String?,
+      integrationAssociationId: json['IntegrationAssociationId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateQuickConnectResponse {
   /// The Amazon Resource Name (ARN) for the quick connect.
-  @_s.JsonKey(name: 'QuickConnectARN')
-  final String quickConnectARN;
+  final String? quickConnectARN;
 
   /// The identifier for the quick connect.
-  @_s.JsonKey(name: 'QuickConnectId')
-  final String quickConnectId;
+  final String? quickConnectId;
 
   CreateQuickConnectResponse({
     this.quickConnectARN,
     this.quickConnectId,
   });
-  factory CreateQuickConnectResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateQuickConnectResponseFromJson(json);
+  factory CreateQuickConnectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateQuickConnectResponse(
+      quickConnectARN: json['QuickConnectARN'] as String?,
+      quickConnectId: json['QuickConnectId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRoutingProfileResponse {
   /// The Amazon Resource Name (ARN) of the routing profile.
-  @_s.JsonKey(name: 'RoutingProfileArn')
-  final String routingProfileArn;
+  final String? routingProfileArn;
 
   /// The identifier of the routing profile.
-  @_s.JsonKey(name: 'RoutingProfileId')
-  final String routingProfileId;
+  final String? routingProfileId;
 
   CreateRoutingProfileResponse({
     this.routingProfileArn,
     this.routingProfileId,
   });
-  factory CreateRoutingProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRoutingProfileResponseFromJson(json);
+  factory CreateRoutingProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoutingProfileResponse(
+      routingProfileArn: json['RoutingProfileArn'] as String?,
+      routingProfileId: json['RoutingProfileId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUseCaseResponse {
   /// The Amazon Resource Name (ARN) for the use case.
-  @_s.JsonKey(name: 'UseCaseArn')
-  final String useCaseArn;
+  final String? useCaseArn;
 
   /// The identifier of the use case.
-  @_s.JsonKey(name: 'UseCaseId')
-  final String useCaseId;
+  final String? useCaseId;
 
   CreateUseCaseResponse({
     this.useCaseArn,
     this.useCaseId,
   });
-  factory CreateUseCaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUseCaseResponseFromJson(json);
+  factory CreateUseCaseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUseCaseResponse(
+      useCaseArn: json['UseCaseArn'] as String?,
+      useCaseId: json['UseCaseId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserHierarchyGroupResponse {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
-  @_s.JsonKey(name: 'HierarchyGroupArn')
-  final String hierarchyGroupArn;
+  final String? hierarchyGroupArn;
 
   /// The identifier of the hierarchy group.
-  @_s.JsonKey(name: 'HierarchyGroupId')
-  final String hierarchyGroupId;
+  final String? hierarchyGroupId;
 
   CreateUserHierarchyGroupResponse({
     this.hierarchyGroupArn,
     this.hierarchyGroupId,
   });
-  factory CreateUserHierarchyGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateUserHierarchyGroupResponseFromJson(json);
+  factory CreateUserHierarchyGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserHierarchyGroupResponse(
+      hierarchyGroupArn: json['HierarchyGroupArn'] as String?,
+      hierarchyGroupId: json['HierarchyGroupId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
   /// The Amazon Resource Name (ARN) of the user account.
-  @_s.JsonKey(name: 'UserArn')
-  final String userArn;
+  final String? userArn;
 
   /// The identifier of the user account.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   CreateUserResponse({
     this.userArn,
     this.userId,
   });
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      userArn: json['UserArn'] as String?,
+      userId: json['UserId'] as String?,
+    );
+  }
 }
 
 /// Contains credentials to use for federation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Credentials {
   /// An access token generated for a federated user to access Amazon Connect.
-  @_s.JsonKey(name: 'AccessToken')
-  final String accessToken;
+  final String? accessToken;
 
   /// A token generated with an expiration time for the session a user is logged
   /// in to Amazon Connect.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AccessTokenExpiration')
-  final DateTime accessTokenExpiration;
+  final DateTime? accessTokenExpiration;
 
   /// Renews a token generated for a user to access the Amazon Connect instance.
-  @_s.JsonKey(name: 'RefreshToken')
-  final String refreshToken;
+  final String? refreshToken;
 
   /// Renews the expiration timer for a generated token.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RefreshTokenExpiration')
-  final DateTime refreshTokenExpiration;
+  final DateTime? refreshTokenExpiration;
 
   Credentials({
     this.accessToken,
@@ -5643,300 +5636,356 @@ class Credentials {
     this.refreshToken,
     this.refreshTokenExpiration,
   });
-  factory Credentials.fromJson(Map<String, dynamic> json) =>
-      _$CredentialsFromJson(json);
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      accessToken: json['AccessToken'] as String?,
+      accessTokenExpiration: timeStampFromJson(json['AccessTokenExpiration']),
+      refreshToken: json['RefreshToken'] as String?,
+      refreshTokenExpiration: timeStampFromJson(json['RefreshTokenExpiration']),
+    );
+  }
 }
 
 /// Contains information about a real-time metric. For a description of each
 /// metric, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html">Real-time
 /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CurrentMetric {
   /// The name of the metric.
-  @_s.JsonKey(name: 'Name')
-  final CurrentMetricName name;
+  final CurrentMetricName? name;
 
   /// The unit for the metric.
-  @_s.JsonKey(name: 'Unit')
-  final Unit unit;
+  final Unit? unit;
 
   CurrentMetric({
     this.name,
     this.unit,
   });
-  factory CurrentMetric.fromJson(Map<String, dynamic> json) =>
-      _$CurrentMetricFromJson(json);
+  factory CurrentMetric.fromJson(Map<String, dynamic> json) {
+    return CurrentMetric(
+      name: (json['Name'] as String?)?.toCurrentMetricName(),
+      unit: (json['Unit'] as String?)?.toUnit(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CurrentMetricToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final unit = this.unit;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (unit != null) 'Unit': unit.toValue(),
+    };
+  }
 }
 
 /// Contains the data for a real-time metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CurrentMetricData {
   /// Information about the metric.
-  @_s.JsonKey(name: 'Metric')
-  final CurrentMetric metric;
+  final CurrentMetric? metric;
 
   /// The value of the metric.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   CurrentMetricData({
     this.metric,
     this.value,
   });
-  factory CurrentMetricData.fromJson(Map<String, dynamic> json) =>
-      _$CurrentMetricDataFromJson(json);
+  factory CurrentMetricData.fromJson(Map<String, dynamic> json) {
+    return CurrentMetricData(
+      metric: json['Metric'] != null
+          ? CurrentMetric.fromJson(json['Metric'] as Map<String, dynamic>)
+          : null,
+      value: json['Value'] as double?,
+    );
+  }
 }
 
 /// The current metric names.
 enum CurrentMetricName {
-  @_s.JsonValue('AGENTS_ONLINE')
   agentsOnline,
-  @_s.JsonValue('AGENTS_AVAILABLE')
   agentsAvailable,
-  @_s.JsonValue('AGENTS_ON_CALL')
   agentsOnCall,
-  @_s.JsonValue('AGENTS_NON_PRODUCTIVE')
   agentsNonProductive,
-  @_s.JsonValue('AGENTS_AFTER_CONTACT_WORK')
   agentsAfterContactWork,
-  @_s.JsonValue('AGENTS_ERROR')
   agentsError,
-  @_s.JsonValue('AGENTS_STAFFED')
   agentsStaffed,
-  @_s.JsonValue('CONTACTS_IN_QUEUE')
   contactsInQueue,
-  @_s.JsonValue('OLDEST_CONTACT_AGE')
   oldestContactAge,
-  @_s.JsonValue('CONTACTS_SCHEDULED')
   contactsScheduled,
-  @_s.JsonValue('AGENTS_ON_CONTACT')
   agentsOnContact,
-  @_s.JsonValue('SLOTS_ACTIVE')
   slotsActive,
-  @_s.JsonValue('SLOTS_AVAILABLE')
   slotsAvailable,
 }
 
+extension on CurrentMetricName {
+  String toValue() {
+    switch (this) {
+      case CurrentMetricName.agentsOnline:
+        return 'AGENTS_ONLINE';
+      case CurrentMetricName.agentsAvailable:
+        return 'AGENTS_AVAILABLE';
+      case CurrentMetricName.agentsOnCall:
+        return 'AGENTS_ON_CALL';
+      case CurrentMetricName.agentsNonProductive:
+        return 'AGENTS_NON_PRODUCTIVE';
+      case CurrentMetricName.agentsAfterContactWork:
+        return 'AGENTS_AFTER_CONTACT_WORK';
+      case CurrentMetricName.agentsError:
+        return 'AGENTS_ERROR';
+      case CurrentMetricName.agentsStaffed:
+        return 'AGENTS_STAFFED';
+      case CurrentMetricName.contactsInQueue:
+        return 'CONTACTS_IN_QUEUE';
+      case CurrentMetricName.oldestContactAge:
+        return 'OLDEST_CONTACT_AGE';
+      case CurrentMetricName.contactsScheduled:
+        return 'CONTACTS_SCHEDULED';
+      case CurrentMetricName.agentsOnContact:
+        return 'AGENTS_ON_CONTACT';
+      case CurrentMetricName.slotsActive:
+        return 'SLOTS_ACTIVE';
+      case CurrentMetricName.slotsAvailable:
+        return 'SLOTS_AVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  CurrentMetricName toCurrentMetricName() {
+    switch (this) {
+      case 'AGENTS_ONLINE':
+        return CurrentMetricName.agentsOnline;
+      case 'AGENTS_AVAILABLE':
+        return CurrentMetricName.agentsAvailable;
+      case 'AGENTS_ON_CALL':
+        return CurrentMetricName.agentsOnCall;
+      case 'AGENTS_NON_PRODUCTIVE':
+        return CurrentMetricName.agentsNonProductive;
+      case 'AGENTS_AFTER_CONTACT_WORK':
+        return CurrentMetricName.agentsAfterContactWork;
+      case 'AGENTS_ERROR':
+        return CurrentMetricName.agentsError;
+      case 'AGENTS_STAFFED':
+        return CurrentMetricName.agentsStaffed;
+      case 'CONTACTS_IN_QUEUE':
+        return CurrentMetricName.contactsInQueue;
+      case 'OLDEST_CONTACT_AGE':
+        return CurrentMetricName.oldestContactAge;
+      case 'CONTACTS_SCHEDULED':
+        return CurrentMetricName.contactsScheduled;
+      case 'AGENTS_ON_CONTACT':
+        return CurrentMetricName.agentsOnContact;
+      case 'SLOTS_ACTIVE':
+        return CurrentMetricName.slotsActive;
+      case 'SLOTS_AVAILABLE':
+        return CurrentMetricName.slotsAvailable;
+    }
+    throw Exception('$this is not known in enum CurrentMetricName');
+  }
+}
+
 /// Contains information about a set of real-time metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CurrentMetricResult {
   /// The set of metrics.
-  @_s.JsonKey(name: 'Collections')
-  final List<CurrentMetricData> collections;
+  final List<CurrentMetricData>? collections;
 
   /// The dimensions for the metrics.
-  @_s.JsonKey(name: 'Dimensions')
-  final Dimensions dimensions;
+  final Dimensions? dimensions;
 
   CurrentMetricResult({
     this.collections,
     this.dimensions,
   });
-  factory CurrentMetricResult.fromJson(Map<String, dynamic> json) =>
-      _$CurrentMetricResultFromJson(json);
+  factory CurrentMetricResult.fromJson(Map<String, dynamic> json) {
+    return CurrentMetricResult(
+      collections: (json['Collections'] as List?)
+          ?.whereNotNull()
+          .map((e) => CurrentMetricData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dimensions: json['Dimensions'] != null
+          ? Dimensions.fromJson(json['Dimensions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContactFlowResponse {
   /// Information about the contact flow.
-  @_s.JsonKey(name: 'ContactFlow')
-  final ContactFlow contactFlow;
+  final ContactFlow? contactFlow;
 
   DescribeContactFlowResponse({
     this.contactFlow,
   });
-  factory DescribeContactFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeContactFlowResponseFromJson(json);
+  factory DescribeContactFlowResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeContactFlowResponse(
+      contactFlow: json['ContactFlow'] != null
+          ? ContactFlow.fromJson(json['ContactFlow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceAttributeResponse {
   /// The type of attribute.
-  @_s.JsonKey(name: 'Attribute')
-  final Attribute attribute;
+  final Attribute? attribute;
 
   DescribeInstanceAttributeResponse({
     this.attribute,
   });
   factory DescribeInstanceAttributeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstanceAttributeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstanceAttributeResponse(
+      attribute: json['Attribute'] != null
+          ? Attribute.fromJson(json['Attribute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceResponse {
   /// The name of the instance.
-  @_s.JsonKey(name: 'Instance')
-  final Instance instance;
+  final Instance? instance;
 
   DescribeInstanceResponse({
     this.instance,
   });
-  factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeInstanceResponseFromJson(json);
+  factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeInstanceResponse(
+      instance: json['Instance'] != null
+          ? Instance.fromJson(json['Instance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceStorageConfigResponse {
   /// A valid storage type.
-  @_s.JsonKey(name: 'StorageConfig')
-  final InstanceStorageConfig storageConfig;
+  final InstanceStorageConfig? storageConfig;
 
   DescribeInstanceStorageConfigResponse({
     this.storageConfig,
   });
   factory DescribeInstanceStorageConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstanceStorageConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstanceStorageConfigResponse(
+      storageConfig: json['StorageConfig'] != null
+          ? InstanceStorageConfig.fromJson(
+              json['StorageConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeQuickConnectResponse {
   /// Information about the quick connect.
-  @_s.JsonKey(name: 'QuickConnect')
-  final QuickConnect quickConnect;
+  final QuickConnect? quickConnect;
 
   DescribeQuickConnectResponse({
     this.quickConnect,
   });
-  factory DescribeQuickConnectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeQuickConnectResponseFromJson(json);
+  factory DescribeQuickConnectResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeQuickConnectResponse(
+      quickConnect: json['QuickConnect'] != null
+          ? QuickConnect.fromJson(json['QuickConnect'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRoutingProfileResponse {
   /// The routing profile.
-  @_s.JsonKey(name: 'RoutingProfile')
-  final RoutingProfile routingProfile;
+  final RoutingProfile? routingProfile;
 
   DescribeRoutingProfileResponse({
     this.routingProfile,
   });
-  factory DescribeRoutingProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRoutingProfileResponseFromJson(json);
+  factory DescribeRoutingProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRoutingProfileResponse(
+      routingProfile: json['RoutingProfile'] != null
+          ? RoutingProfile.fromJson(
+              json['RoutingProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserHierarchyGroupResponse {
   /// Information about the hierarchy group.
-  @_s.JsonKey(name: 'HierarchyGroup')
-  final HierarchyGroup hierarchyGroup;
+  final HierarchyGroup? hierarchyGroup;
 
   DescribeUserHierarchyGroupResponse({
     this.hierarchyGroup,
   });
   factory DescribeUserHierarchyGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeUserHierarchyGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeUserHierarchyGroupResponse(
+      hierarchyGroup: json['HierarchyGroup'] != null
+          ? HierarchyGroup.fromJson(
+              json['HierarchyGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserHierarchyStructureResponse {
   /// Information about the hierarchy structure.
-  @_s.JsonKey(name: 'HierarchyStructure')
-  final HierarchyStructure hierarchyStructure;
+  final HierarchyStructure? hierarchyStructure;
 
   DescribeUserHierarchyStructureResponse({
     this.hierarchyStructure,
   });
   factory DescribeUserHierarchyStructureResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeUserHierarchyStructureResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeUserHierarchyStructureResponse(
+      hierarchyStructure: json['HierarchyStructure'] != null
+          ? HierarchyStructure.fromJson(
+              json['HierarchyStructure'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserResponse {
   /// Information about the user account and configuration settings.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   DescribeUserResponse({
     this.user,
   });
-  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserResponseFromJson(json);
+  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about the dimensions for a set of metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Dimensions {
   /// The channel used for grouping and filters.
-  @_s.JsonKey(name: 'Channel')
-  final Channel channel;
+  final Channel? channel;
 
   /// Information about the queue for which metrics are returned.
-  @_s.JsonKey(name: 'Queue')
-  final QueueReference queue;
+  final QueueReference? queue;
 
   Dimensions({
     this.channel,
     this.queue,
   });
-  factory Dimensions.fromJson(Map<String, dynamic> json) =>
-      _$DimensionsFromJson(json);
+  factory Dimensions.fromJson(Map<String, dynamic> json) {
+    return Dimensions(
+      channel: (json['Channel'] as String?)?.toChannel(),
+      queue: json['Queue'] != null
+          ? QueueReference.fromJson(json['Queue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DirectoryType {
-  @_s.JsonValue('SAML')
   saml,
-  @_s.JsonValue('CONNECT_MANAGED')
   connectManaged,
-  @_s.JsonValue('EXISTING_DIRECTORY')
   existingDirectory,
 }
 
@@ -5950,94 +5999,120 @@ extension on DirectoryType {
       case DirectoryType.existingDirectory:
         return 'EXISTING_DIRECTORY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DirectoryType toDirectoryType() {
+    switch (this) {
+      case 'SAML':
+        return DirectoryType.saml;
+      case 'CONNECT_MANAGED':
+        return DirectoryType.connectManaged;
+      case 'EXISTING_DIRECTORY':
+        return DirectoryType.existingDirectory;
+    }
+    throw Exception('$this is not known in enum DirectoryType');
   }
 }
 
 /// The encryption configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfig {
   /// The type of encryption.
-  @_s.JsonKey(name: 'EncryptionType')
   final EncryptionType encryptionType;
 
   /// The identifier of the encryption key.
-  @_s.JsonKey(name: 'KeyId')
   final String keyId;
 
   EncryptionConfig({
-    @_s.required this.encryptionType,
-    @_s.required this.keyId,
+    required this.encryptionType,
+    required this.keyId,
   });
-  factory EncryptionConfig.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigFromJson(json);
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfig(
+      encryptionType: (json['EncryptionType'] as String).toEncryptionType(),
+      keyId: json['KeyId'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final keyId = this.keyId;
+    return {
+      'EncryptionType': encryptionType.toValue(),
+      'KeyId': keyId,
+    };
+  }
 }
 
 enum EncryptionType {
-  @_s.JsonValue('KMS')
   kms,
 }
 
+extension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.kms:
+        return 'KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'KMS':
+        return EncryptionType.kms;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
 /// Contains the filter to apply when retrieving metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filters {
   /// The channel to use to filter the metrics.
-  @_s.JsonKey(name: 'Channels')
-  final List<Channel> channels;
+  final List<Channel>? channels;
 
   /// The queues to use to filter the metrics. You can specify up to 100 queues
   /// per request.
-  @_s.JsonKey(name: 'Queues')
-  final List<String> queues;
+  final List<String>? queues;
 
   Filters({
     this.channels,
     this.queues,
   });
-  Map<String, dynamic> toJson() => _$FiltersToJson(this);
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    final queues = this.queues;
+    return {
+      if (channels != null)
+        'Channels': channels.map((e) => e.toValue()).toList(),
+      if (queues != null) 'Queues': queues,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetContactAttributesResponse {
   /// Information about the attributes.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   GetContactAttributesResponse({
     this.attributes,
   });
-  factory GetContactAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetContactAttributesResponseFromJson(json);
+  factory GetContactAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return GetContactAttributesResponse(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCurrentMetricDataResponse {
   /// The time at which the metrics were retrieved and cached for pagination.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DataSnapshotTime')
-  final DateTime dataSnapshotTime;
+  final DateTime? dataSnapshotTime;
 
   /// Information about the real-time metrics.
-  @_s.JsonKey(name: 'MetricResults')
-  final List<CurrentMetricResult> metricResults;
+  final List<CurrentMetricResult>? metricResults;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -6045,46 +6120,46 @@ class GetCurrentMetricDataResponse {
   /// The token expires after 5 minutes from the time it is created. Subsequent
   /// requests that use the token must use the same request parameters as the
   /// request that generated the token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCurrentMetricDataResponse({
     this.dataSnapshotTime,
     this.metricResults,
     this.nextToken,
   });
-  factory GetCurrentMetricDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCurrentMetricDataResponseFromJson(json);
+  factory GetCurrentMetricDataResponse.fromJson(Map<String, dynamic> json) {
+    return GetCurrentMetricDataResponse(
+      dataSnapshotTime: timeStampFromJson(json['DataSnapshotTime']),
+      metricResults: (json['MetricResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => CurrentMetricResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFederationTokenResponse {
   /// The credentials to use for federation.
-  @_s.JsonKey(name: 'Credentials')
-  final Credentials credentials;
+  final Credentials? credentials;
 
   GetFederationTokenResponse({
     this.credentials,
   });
-  factory GetFederationTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFederationTokenResponseFromJson(json);
+  factory GetFederationTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetFederationTokenResponse(
+      credentials: json['Credentials'] != null
+          ? Credentials.fromJson(json['Credentials'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMetricDataResponse {
   /// Information about the historical metrics.
   ///
   /// If no grouping is specified, a summary of metric data is returned.
-  @_s.JsonKey(name: 'MetricResults')
-  final List<HistoricalMetricResult> metricResults;
+  final List<HistoricalMetricResult>? metricResults;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -6092,21 +6167,26 @@ class GetMetricDataResponse {
   /// The token expires after 5 minutes from the time it is created. Subsequent
   /// requests that use the token must use the same request parameters as the
   /// request that generated the token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetMetricDataResponse({
     this.metricResults,
     this.nextToken,
   });
-  factory GetMetricDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMetricDataResponseFromJson(json);
+  factory GetMetricDataResponse.fromJson(Map<String, dynamic> json) {
+    return GetMetricDataResponse(
+      metricResults: (json['MetricResults'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => HistoricalMetricResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 enum Grouping {
-  @_s.JsonValue('QUEUE')
   queue,
-  @_s.JsonValue('CHANNEL')
   channel,
 }
 
@@ -6118,36 +6198,37 @@ extension on Grouping {
       case Grouping.channel:
         return 'CHANNEL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Grouping toGrouping() {
+    switch (this) {
+      case 'QUEUE':
+        return Grouping.queue;
+      case 'CHANNEL':
+        return Grouping.channel;
+    }
+    throw Exception('$this is not known in enum Grouping');
   }
 }
 
 /// Contains information about a hierarchy group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HierarchyGroup {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// Information about the levels in the hierarchy group.
-  @_s.JsonKey(name: 'HierarchyPath')
-  final HierarchyPath hierarchyPath;
+  final HierarchyPath? hierarchyPath;
 
   /// The identifier of the hierarchy group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identifier of the level in the hierarchy group.
-  @_s.JsonKey(name: 'LevelId')
-  final String levelId;
+  final String? levelId;
 
   /// The name of the hierarchy group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   HierarchyGroup({
     this.arn,
@@ -6156,109 +6237,102 @@ class HierarchyGroup {
     this.levelId,
     this.name,
   });
-  factory HierarchyGroup.fromJson(Map<String, dynamic> json) =>
-      _$HierarchyGroupFromJson(json);
+  factory HierarchyGroup.fromJson(Map<String, dynamic> json) {
+    return HierarchyGroup(
+      arn: json['Arn'] as String?,
+      hierarchyPath: json['HierarchyPath'] != null
+          ? HierarchyPath.fromJson(
+              json['HierarchyPath'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      levelId: json['LevelId'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Contains summary information about a hierarchy group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HierarchyGroupSummary {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the hierarchy group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the hierarchy group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   HierarchyGroupSummary({
     this.arn,
     this.id,
     this.name,
   });
-  factory HierarchyGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$HierarchyGroupSummaryFromJson(json);
+  factory HierarchyGroupSummary.fromJson(Map<String, dynamic> json) {
+    return HierarchyGroupSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Contains information about a hierarchy level.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HierarchyLevel {
   /// The Amazon Resource Name (ARN) of the hierarchy level.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the hierarchy level.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the hierarchy level.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   HierarchyLevel({
     this.arn,
     this.id,
     this.name,
   });
-  factory HierarchyLevel.fromJson(Map<String, dynamic> json) =>
-      _$HierarchyLevelFromJson(json);
+  factory HierarchyLevel.fromJson(Map<String, dynamic> json) {
+    return HierarchyLevel(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Contains information about the hierarchy level to update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HierarchyLevelUpdate {
   /// The name of the user hierarchy level. Must not be more than 50 characters.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   HierarchyLevelUpdate({
-    @_s.required this.name,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$HierarchyLevelUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
 }
 
 /// Contains information about the levels of a hierarchy group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HierarchyPath {
   /// Information about level five.
-  @_s.JsonKey(name: 'LevelFive')
-  final HierarchyGroupSummary levelFive;
+  final HierarchyGroupSummary? levelFive;
 
   /// Information about level four.
-  @_s.JsonKey(name: 'LevelFour')
-  final HierarchyGroupSummary levelFour;
+  final HierarchyGroupSummary? levelFour;
 
   /// Information about level one.
-  @_s.JsonKey(name: 'LevelOne')
-  final HierarchyGroupSummary levelOne;
+  final HierarchyGroupSummary? levelOne;
 
   /// Information about level three.
-  @_s.JsonKey(name: 'LevelThree')
-  final HierarchyGroupSummary levelThree;
+  final HierarchyGroupSummary? levelThree;
 
   /// Information about level two.
-  @_s.JsonKey(name: 'LevelTwo')
-  final HierarchyGroupSummary levelTwo;
+  final HierarchyGroupSummary? levelTwo;
 
   HierarchyPath({
     this.levelFive,
@@ -6267,36 +6341,48 @@ class HierarchyPath {
     this.levelThree,
     this.levelTwo,
   });
-  factory HierarchyPath.fromJson(Map<String, dynamic> json) =>
-      _$HierarchyPathFromJson(json);
+  factory HierarchyPath.fromJson(Map<String, dynamic> json) {
+    return HierarchyPath(
+      levelFive: json['LevelFive'] != null
+          ? HierarchyGroupSummary.fromJson(
+              json['LevelFive'] as Map<String, dynamic>)
+          : null,
+      levelFour: json['LevelFour'] != null
+          ? HierarchyGroupSummary.fromJson(
+              json['LevelFour'] as Map<String, dynamic>)
+          : null,
+      levelOne: json['LevelOne'] != null
+          ? HierarchyGroupSummary.fromJson(
+              json['LevelOne'] as Map<String, dynamic>)
+          : null,
+      levelThree: json['LevelThree'] != null
+          ? HierarchyGroupSummary.fromJson(
+              json['LevelThree'] as Map<String, dynamic>)
+          : null,
+      levelTwo: json['LevelTwo'] != null
+          ? HierarchyGroupSummary.fromJson(
+              json['LevelTwo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about a hierarchy structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HierarchyStructure {
   /// Information about level five.
-  @_s.JsonKey(name: 'LevelFive')
-  final HierarchyLevel levelFive;
+  final HierarchyLevel? levelFive;
 
   /// Information about level four.
-  @_s.JsonKey(name: 'LevelFour')
-  final HierarchyLevel levelFour;
+  final HierarchyLevel? levelFour;
 
   /// Information about level one.
-  @_s.JsonKey(name: 'LevelOne')
-  final HierarchyLevel levelOne;
+  final HierarchyLevel? levelOne;
 
   /// Information about level three.
-  @_s.JsonKey(name: 'LevelThree')
-  final HierarchyLevel levelThree;
+  final HierarchyLevel? levelThree;
 
   /// Information about level two.
-  @_s.JsonKey(name: 'LevelTwo')
-  final HierarchyLevel levelTwo;
+  final HierarchyLevel? levelTwo;
 
   HierarchyStructure({
     this.levelFive,
@@ -6305,36 +6391,43 @@ class HierarchyStructure {
     this.levelThree,
     this.levelTwo,
   });
-  factory HierarchyStructure.fromJson(Map<String, dynamic> json) =>
-      _$HierarchyStructureFromJson(json);
+  factory HierarchyStructure.fromJson(Map<String, dynamic> json) {
+    return HierarchyStructure(
+      levelFive: json['LevelFive'] != null
+          ? HierarchyLevel.fromJson(json['LevelFive'] as Map<String, dynamic>)
+          : null,
+      levelFour: json['LevelFour'] != null
+          ? HierarchyLevel.fromJson(json['LevelFour'] as Map<String, dynamic>)
+          : null,
+      levelOne: json['LevelOne'] != null
+          ? HierarchyLevel.fromJson(json['LevelOne'] as Map<String, dynamic>)
+          : null,
+      levelThree: json['LevelThree'] != null
+          ? HierarchyLevel.fromJson(json['LevelThree'] as Map<String, dynamic>)
+          : null,
+      levelTwo: json['LevelTwo'] != null
+          ? HierarchyLevel.fromJson(json['LevelTwo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about the level hierarchy to update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HierarchyStructureUpdate {
   /// The update for level five.
-  @_s.JsonKey(name: 'LevelFive')
-  final HierarchyLevelUpdate levelFive;
+  final HierarchyLevelUpdate? levelFive;
 
   /// The update for level four.
-  @_s.JsonKey(name: 'LevelFour')
-  final HierarchyLevelUpdate levelFour;
+  final HierarchyLevelUpdate? levelFour;
 
   /// The update for level one.
-  @_s.JsonKey(name: 'LevelOne')
-  final HierarchyLevelUpdate levelOne;
+  final HierarchyLevelUpdate? levelOne;
 
   /// The update for level three.
-  @_s.JsonKey(name: 'LevelThree')
-  final HierarchyLevelUpdate levelThree;
+  final HierarchyLevelUpdate? levelThree;
 
   /// The update for level two.
-  @_s.JsonKey(name: 'LevelTwo')
-  final HierarchyLevelUpdate levelTwo;
+  final HierarchyLevelUpdate? levelTwo;
 
   HierarchyStructureUpdate({
     this.levelFive,
@@ -6343,34 +6436,38 @@ class HierarchyStructureUpdate {
     this.levelThree,
     this.levelTwo,
   });
-  Map<String, dynamic> toJson() => _$HierarchyStructureUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final levelFive = this.levelFive;
+    final levelFour = this.levelFour;
+    final levelOne = this.levelOne;
+    final levelThree = this.levelThree;
+    final levelTwo = this.levelTwo;
+    return {
+      if (levelFive != null) 'LevelFive': levelFive,
+      if (levelFour != null) 'LevelFour': levelFour,
+      if (levelOne != null) 'LevelOne': levelOne,
+      if (levelThree != null) 'LevelThree': levelThree,
+      if (levelTwo != null) 'LevelTwo': levelTwo,
+    };
+  }
 }
 
 /// Contains information about a historical metric. For a description of each
 /// metric, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
 /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HistoricalMetric {
   /// The name of the metric.
-  @_s.JsonKey(name: 'Name')
-  final HistoricalMetricName name;
+  final HistoricalMetricName? name;
 
   /// The statistic for the metric.
-  @_s.JsonKey(name: 'Statistic')
-  final Statistic statistic;
+  final Statistic? statistic;
 
   /// The threshold for the metric, used with service level metrics.
-  @_s.JsonKey(name: 'Threshold')
-  final Threshold threshold;
+  final Threshold? threshold;
 
   /// The unit for the metric.
-  @_s.JsonKey(name: 'Unit')
-  final Unit unit;
+  final Unit? unit;
 
   HistoricalMetric({
     this.name,
@@ -6378,187 +6475,278 @@ class HistoricalMetric {
     this.threshold,
     this.unit,
   });
-  factory HistoricalMetric.fromJson(Map<String, dynamic> json) =>
-      _$HistoricalMetricFromJson(json);
+  factory HistoricalMetric.fromJson(Map<String, dynamic> json) {
+    return HistoricalMetric(
+      name: (json['Name'] as String?)?.toHistoricalMetricName(),
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      threshold: json['Threshold'] != null
+          ? Threshold.fromJson(json['Threshold'] as Map<String, dynamic>)
+          : null,
+      unit: (json['Unit'] as String?)?.toUnit(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HistoricalMetricToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final statistic = this.statistic;
+    final threshold = this.threshold;
+    final unit = this.unit;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (threshold != null) 'Threshold': threshold,
+      if (unit != null) 'Unit': unit.toValue(),
+    };
+  }
 }
 
 /// Contains the data for a historical metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HistoricalMetricData {
   /// Information about the metric.
-  @_s.JsonKey(name: 'Metric')
-  final HistoricalMetric metric;
+  final HistoricalMetric? metric;
 
   /// The value of the metric.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   HistoricalMetricData({
     this.metric,
     this.value,
   });
-  factory HistoricalMetricData.fromJson(Map<String, dynamic> json) =>
-      _$HistoricalMetricDataFromJson(json);
+  factory HistoricalMetricData.fromJson(Map<String, dynamic> json) {
+    return HistoricalMetricData(
+      metric: json['Metric'] != null
+          ? HistoricalMetric.fromJson(json['Metric'] as Map<String, dynamic>)
+          : null,
+      value: json['Value'] as double?,
+    );
+  }
 }
 
 /// The historical metric names.
 enum HistoricalMetricName {
-  @_s.JsonValue('CONTACTS_QUEUED')
   contactsQueued,
-  @_s.JsonValue('CONTACTS_HANDLED')
   contactsHandled,
-  @_s.JsonValue('CONTACTS_ABANDONED')
   contactsAbandoned,
-  @_s.JsonValue('CONTACTS_CONSULTED')
   contactsConsulted,
-  @_s.JsonValue('CONTACTS_AGENT_HUNG_UP_FIRST')
   contactsAgentHungUpFirst,
-  @_s.JsonValue('CONTACTS_HANDLED_INCOMING')
   contactsHandledIncoming,
-  @_s.JsonValue('CONTACTS_HANDLED_OUTBOUND')
   contactsHandledOutbound,
-  @_s.JsonValue('CONTACTS_HOLD_ABANDONS')
   contactsHoldAbandons,
-  @_s.JsonValue('CONTACTS_TRANSFERRED_IN')
   contactsTransferredIn,
-  @_s.JsonValue('CONTACTS_TRANSFERRED_OUT')
   contactsTransferredOut,
-  @_s.JsonValue('CONTACTS_TRANSFERRED_IN_FROM_QUEUE')
   contactsTransferredInFromQueue,
-  @_s.JsonValue('CONTACTS_TRANSFERRED_OUT_FROM_QUEUE')
   contactsTransferredOutFromQueue,
-  @_s.JsonValue('CONTACTS_MISSED')
   contactsMissed,
-  @_s.JsonValue('CALLBACK_CONTACTS_HANDLED')
   callbackContactsHandled,
-  @_s.JsonValue('API_CONTACTS_HANDLED')
   apiContactsHandled,
-  @_s.JsonValue('OCCUPANCY')
   occupancy,
-  @_s.JsonValue('HANDLE_TIME')
   handleTime,
-  @_s.JsonValue('AFTER_CONTACT_WORK_TIME')
   afterContactWorkTime,
-  @_s.JsonValue('QUEUED_TIME')
   queuedTime,
-  @_s.JsonValue('ABANDON_TIME')
   abandonTime,
-  @_s.JsonValue('QUEUE_ANSWER_TIME')
   queueAnswerTime,
-  @_s.JsonValue('HOLD_TIME')
   holdTime,
-  @_s.JsonValue('INTERACTION_TIME')
   interactionTime,
-  @_s.JsonValue('INTERACTION_AND_HOLD_TIME')
   interactionAndHoldTime,
-  @_s.JsonValue('SERVICE_LEVEL')
   serviceLevel,
 }
 
+extension on HistoricalMetricName {
+  String toValue() {
+    switch (this) {
+      case HistoricalMetricName.contactsQueued:
+        return 'CONTACTS_QUEUED';
+      case HistoricalMetricName.contactsHandled:
+        return 'CONTACTS_HANDLED';
+      case HistoricalMetricName.contactsAbandoned:
+        return 'CONTACTS_ABANDONED';
+      case HistoricalMetricName.contactsConsulted:
+        return 'CONTACTS_CONSULTED';
+      case HistoricalMetricName.contactsAgentHungUpFirst:
+        return 'CONTACTS_AGENT_HUNG_UP_FIRST';
+      case HistoricalMetricName.contactsHandledIncoming:
+        return 'CONTACTS_HANDLED_INCOMING';
+      case HistoricalMetricName.contactsHandledOutbound:
+        return 'CONTACTS_HANDLED_OUTBOUND';
+      case HistoricalMetricName.contactsHoldAbandons:
+        return 'CONTACTS_HOLD_ABANDONS';
+      case HistoricalMetricName.contactsTransferredIn:
+        return 'CONTACTS_TRANSFERRED_IN';
+      case HistoricalMetricName.contactsTransferredOut:
+        return 'CONTACTS_TRANSFERRED_OUT';
+      case HistoricalMetricName.contactsTransferredInFromQueue:
+        return 'CONTACTS_TRANSFERRED_IN_FROM_QUEUE';
+      case HistoricalMetricName.contactsTransferredOutFromQueue:
+        return 'CONTACTS_TRANSFERRED_OUT_FROM_QUEUE';
+      case HistoricalMetricName.contactsMissed:
+        return 'CONTACTS_MISSED';
+      case HistoricalMetricName.callbackContactsHandled:
+        return 'CALLBACK_CONTACTS_HANDLED';
+      case HistoricalMetricName.apiContactsHandled:
+        return 'API_CONTACTS_HANDLED';
+      case HistoricalMetricName.occupancy:
+        return 'OCCUPANCY';
+      case HistoricalMetricName.handleTime:
+        return 'HANDLE_TIME';
+      case HistoricalMetricName.afterContactWorkTime:
+        return 'AFTER_CONTACT_WORK_TIME';
+      case HistoricalMetricName.queuedTime:
+        return 'QUEUED_TIME';
+      case HistoricalMetricName.abandonTime:
+        return 'ABANDON_TIME';
+      case HistoricalMetricName.queueAnswerTime:
+        return 'QUEUE_ANSWER_TIME';
+      case HistoricalMetricName.holdTime:
+        return 'HOLD_TIME';
+      case HistoricalMetricName.interactionTime:
+        return 'INTERACTION_TIME';
+      case HistoricalMetricName.interactionAndHoldTime:
+        return 'INTERACTION_AND_HOLD_TIME';
+      case HistoricalMetricName.serviceLevel:
+        return 'SERVICE_LEVEL';
+    }
+  }
+}
+
+extension on String {
+  HistoricalMetricName toHistoricalMetricName() {
+    switch (this) {
+      case 'CONTACTS_QUEUED':
+        return HistoricalMetricName.contactsQueued;
+      case 'CONTACTS_HANDLED':
+        return HistoricalMetricName.contactsHandled;
+      case 'CONTACTS_ABANDONED':
+        return HistoricalMetricName.contactsAbandoned;
+      case 'CONTACTS_CONSULTED':
+        return HistoricalMetricName.contactsConsulted;
+      case 'CONTACTS_AGENT_HUNG_UP_FIRST':
+        return HistoricalMetricName.contactsAgentHungUpFirst;
+      case 'CONTACTS_HANDLED_INCOMING':
+        return HistoricalMetricName.contactsHandledIncoming;
+      case 'CONTACTS_HANDLED_OUTBOUND':
+        return HistoricalMetricName.contactsHandledOutbound;
+      case 'CONTACTS_HOLD_ABANDONS':
+        return HistoricalMetricName.contactsHoldAbandons;
+      case 'CONTACTS_TRANSFERRED_IN':
+        return HistoricalMetricName.contactsTransferredIn;
+      case 'CONTACTS_TRANSFERRED_OUT':
+        return HistoricalMetricName.contactsTransferredOut;
+      case 'CONTACTS_TRANSFERRED_IN_FROM_QUEUE':
+        return HistoricalMetricName.contactsTransferredInFromQueue;
+      case 'CONTACTS_TRANSFERRED_OUT_FROM_QUEUE':
+        return HistoricalMetricName.contactsTransferredOutFromQueue;
+      case 'CONTACTS_MISSED':
+        return HistoricalMetricName.contactsMissed;
+      case 'CALLBACK_CONTACTS_HANDLED':
+        return HistoricalMetricName.callbackContactsHandled;
+      case 'API_CONTACTS_HANDLED':
+        return HistoricalMetricName.apiContactsHandled;
+      case 'OCCUPANCY':
+        return HistoricalMetricName.occupancy;
+      case 'HANDLE_TIME':
+        return HistoricalMetricName.handleTime;
+      case 'AFTER_CONTACT_WORK_TIME':
+        return HistoricalMetricName.afterContactWorkTime;
+      case 'QUEUED_TIME':
+        return HistoricalMetricName.queuedTime;
+      case 'ABANDON_TIME':
+        return HistoricalMetricName.abandonTime;
+      case 'QUEUE_ANSWER_TIME':
+        return HistoricalMetricName.queueAnswerTime;
+      case 'HOLD_TIME':
+        return HistoricalMetricName.holdTime;
+      case 'INTERACTION_TIME':
+        return HistoricalMetricName.interactionTime;
+      case 'INTERACTION_AND_HOLD_TIME':
+        return HistoricalMetricName.interactionAndHoldTime;
+      case 'SERVICE_LEVEL':
+        return HistoricalMetricName.serviceLevel;
+    }
+    throw Exception('$this is not known in enum HistoricalMetricName');
+  }
+}
+
 /// Contains information about the historical metrics retrieved.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HistoricalMetricResult {
   /// The set of metrics.
-  @_s.JsonKey(name: 'Collections')
-  final List<HistoricalMetricData> collections;
+  final List<HistoricalMetricData>? collections;
 
   /// The dimension for the metrics.
-  @_s.JsonKey(name: 'Dimensions')
-  final Dimensions dimensions;
+  final Dimensions? dimensions;
 
   HistoricalMetricResult({
     this.collections,
     this.dimensions,
   });
-  factory HistoricalMetricResult.fromJson(Map<String, dynamic> json) =>
-      _$HistoricalMetricResultFromJson(json);
+  factory HistoricalMetricResult.fromJson(Map<String, dynamic> json) {
+    return HistoricalMetricResult(
+      collections: (json['Collections'] as List?)
+          ?.whereNotNull()
+          .map((e) => HistoricalMetricData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dimensions: json['Dimensions'] != null
+          ? Dimensions.fromJson(json['Dimensions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains summary information about hours of operation for a contact center.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HoursOfOperationSummary {
   /// The Amazon Resource Name (ARN) of the hours of operation.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the hours of operation.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the hours of operation.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   HoursOfOperationSummary({
     this.arn,
     this.id,
     this.name,
   });
-  factory HoursOfOperationSummary.fromJson(Map<String, dynamic> json) =>
-      _$HoursOfOperationSummaryFromJson(json);
+  factory HoursOfOperationSummary.fromJson(Map<String, dynamic> json) {
+    return HoursOfOperationSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// The Amazon Connect instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Instance {
   /// The Amazon Resource Name (ARN) of the instance.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// When the instance was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The identifier of the Amazon Connect instance.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identity management type.
-  @_s.JsonKey(name: 'IdentityManagementType')
-  final DirectoryType identityManagementType;
+  final DirectoryType? identityManagementType;
 
   /// Whether inbound calls are enabled.
-  @_s.JsonKey(name: 'InboundCallsEnabled')
-  final bool inboundCallsEnabled;
+  final bool? inboundCallsEnabled;
 
   /// The alias of instance.
-  @_s.JsonKey(name: 'InstanceAlias')
-  final String instanceAlias;
+  final String? instanceAlias;
 
   /// The state of the instance.
-  @_s.JsonKey(name: 'InstanceStatus')
-  final InstanceStatus instanceStatus;
+  final InstanceStatus? instanceStatus;
 
   /// Whether outbound calls are enabled.
-  @_s.JsonKey(name: 'OutboundCallsEnabled')
-  final bool outboundCallsEnabled;
+  final bool? outboundCallsEnabled;
 
   /// The service role of the instance.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Relevant details why the instance was not successfully created.
-  @_s.JsonKey(name: 'StatusReason')
-  final InstanceStatusReason statusReason;
+  final InstanceStatusReason? statusReason;
 
   Instance({
     this.arn,
@@ -6572,24 +6760,33 @@ class Instance {
     this.serviceRole,
     this.statusReason,
   });
-  factory Instance.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFromJson(json);
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      identityManagementType:
+          (json['IdentityManagementType'] as String?)?.toDirectoryType(),
+      inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+      instanceAlias: json['InstanceAlias'] as String?,
+      instanceStatus: (json['InstanceStatus'] as String?)?.toInstanceStatus(),
+      outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
+      serviceRole: json['ServiceRole'] as String?,
+      statusReason: json['StatusReason'] != null
+          ? InstanceStatusReason.fromJson(
+              json['StatusReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum InstanceAttributeType {
-  @_s.JsonValue('INBOUND_CALLS')
   inboundCalls,
-  @_s.JsonValue('OUTBOUND_CALLS')
   outboundCalls,
-  @_s.JsonValue('CONTACTFLOW_LOGS')
   contactflowLogs,
-  @_s.JsonValue('CONTACT_LENS')
   contactLens,
-  @_s.JsonValue('AUTO_RESOLVE_BEST_VOICES')
   autoResolveBestVoices,
-  @_s.JsonValue('USE_CUSTOM_TTS_VOICES')
   useCustomTtsVoices,
-  @_s.JsonValue('EARLY_MEDIA')
   earlyMedia,
 }
 
@@ -6611,95 +6808,157 @@ extension on InstanceAttributeType {
       case InstanceAttributeType.earlyMedia:
         return 'EARLY_MEDIA';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceAttributeType toInstanceAttributeType() {
+    switch (this) {
+      case 'INBOUND_CALLS':
+        return InstanceAttributeType.inboundCalls;
+      case 'OUTBOUND_CALLS':
+        return InstanceAttributeType.outboundCalls;
+      case 'CONTACTFLOW_LOGS':
+        return InstanceAttributeType.contactflowLogs;
+      case 'CONTACT_LENS':
+        return InstanceAttributeType.contactLens;
+      case 'AUTO_RESOLVE_BEST_VOICES':
+        return InstanceAttributeType.autoResolveBestVoices;
+      case 'USE_CUSTOM_TTS_VOICES':
+        return InstanceAttributeType.useCustomTtsVoices;
+      case 'EARLY_MEDIA':
+        return InstanceAttributeType.earlyMedia;
+    }
+    throw Exception('$this is not known in enum InstanceAttributeType');
   }
 }
 
 enum InstanceStatus {
-  @_s.JsonValue('CREATION_IN_PROGRESS')
   creationInProgress,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CREATION_FAILED')
   creationFailed,
 }
 
+extension on InstanceStatus {
+  String toValue() {
+    switch (this) {
+      case InstanceStatus.creationInProgress:
+        return 'CREATION_IN_PROGRESS';
+      case InstanceStatus.active:
+        return 'ACTIVE';
+      case InstanceStatus.creationFailed:
+        return 'CREATION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  InstanceStatus toInstanceStatus() {
+    switch (this) {
+      case 'CREATION_IN_PROGRESS':
+        return InstanceStatus.creationInProgress;
+      case 'ACTIVE':
+        return InstanceStatus.active;
+      case 'CREATION_FAILED':
+        return InstanceStatus.creationFailed;
+    }
+    throw Exception('$this is not known in enum InstanceStatus');
+  }
+}
+
 /// Relevant details why the instance was not successfully created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceStatusReason {
   /// The message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InstanceStatusReason({
     this.message,
   });
-  factory InstanceStatusReason.fromJson(Map<String, dynamic> json) =>
-      _$InstanceStatusReasonFromJson(json);
+  factory InstanceStatusReason.fromJson(Map<String, dynamic> json) {
+    return InstanceStatusReason(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The storage configuration for the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InstanceStorageConfig {
   /// A valid storage type.
-  @_s.JsonKey(name: 'StorageType')
   final StorageType storageType;
 
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The configuration of the Kinesis Firehose delivery stream.
-  @_s.JsonKey(name: 'KinesisFirehoseConfig')
-  final KinesisFirehoseConfig kinesisFirehoseConfig;
+  final KinesisFirehoseConfig? kinesisFirehoseConfig;
 
   /// The configuration of the Kinesis data stream.
-  @_s.JsonKey(name: 'KinesisStreamConfig')
-  final KinesisStreamConfig kinesisStreamConfig;
+  final KinesisStreamConfig? kinesisStreamConfig;
 
   /// The configuration of the Kinesis video stream.
-  @_s.JsonKey(name: 'KinesisVideoStreamConfig')
-  final KinesisVideoStreamConfig kinesisVideoStreamConfig;
+  final KinesisVideoStreamConfig? kinesisVideoStreamConfig;
 
   /// The S3 configuration.
-  @_s.JsonKey(name: 'S3Config')
-  final S3Config s3Config;
+  final S3Config? s3Config;
 
   InstanceStorageConfig({
-    @_s.required this.storageType,
+    required this.storageType,
     this.associationId,
     this.kinesisFirehoseConfig,
     this.kinesisStreamConfig,
     this.kinesisVideoStreamConfig,
     this.s3Config,
   });
-  factory InstanceStorageConfig.fromJson(Map<String, dynamic> json) =>
-      _$InstanceStorageConfigFromJson(json);
+  factory InstanceStorageConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceStorageConfig(
+      storageType: (json['StorageType'] as String).toStorageType(),
+      associationId: json['AssociationId'] as String?,
+      kinesisFirehoseConfig: json['KinesisFirehoseConfig'] != null
+          ? KinesisFirehoseConfig.fromJson(
+              json['KinesisFirehoseConfig'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamConfig: json['KinesisStreamConfig'] != null
+          ? KinesisStreamConfig.fromJson(
+              json['KinesisStreamConfig'] as Map<String, dynamic>)
+          : null,
+      kinesisVideoStreamConfig: json['KinesisVideoStreamConfig'] != null
+          ? KinesisVideoStreamConfig.fromJson(
+              json['KinesisVideoStreamConfig'] as Map<String, dynamic>)
+          : null,
+      s3Config: json['S3Config'] != null
+          ? S3Config.fromJson(json['S3Config'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InstanceStorageConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final storageType = this.storageType;
+    final associationId = this.associationId;
+    final kinesisFirehoseConfig = this.kinesisFirehoseConfig;
+    final kinesisStreamConfig = this.kinesisStreamConfig;
+    final kinesisVideoStreamConfig = this.kinesisVideoStreamConfig;
+    final s3Config = this.s3Config;
+    return {
+      'StorageType': storageType.toValue(),
+      if (associationId != null) 'AssociationId': associationId,
+      if (kinesisFirehoseConfig != null)
+        'KinesisFirehoseConfig': kinesisFirehoseConfig,
+      if (kinesisStreamConfig != null)
+        'KinesisStreamConfig': kinesisStreamConfig,
+      if (kinesisVideoStreamConfig != null)
+        'KinesisVideoStreamConfig': kinesisVideoStreamConfig,
+      if (s3Config != null) 'S3Config': s3Config,
+    };
+  }
 }
 
 enum InstanceStorageResourceType {
-  @_s.JsonValue('CHAT_TRANSCRIPTS')
   chatTranscripts,
-  @_s.JsonValue('CALL_RECORDINGS')
   callRecordings,
-  @_s.JsonValue('SCHEDULED_REPORTS')
   scheduledReports,
-  @_s.JsonValue('MEDIA_STREAMS')
   mediaStreams,
-  @_s.JsonValue('CONTACT_TRACE_RECORDS')
   contactTraceRecords,
-  @_s.JsonValue('AGENT_EVENTS')
   agentEvents,
 }
 
@@ -6719,53 +6978,57 @@ extension on InstanceStorageResourceType {
       case InstanceStorageResourceType.agentEvents:
         return 'AGENT_EVENTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceStorageResourceType toInstanceStorageResourceType() {
+    switch (this) {
+      case 'CHAT_TRANSCRIPTS':
+        return InstanceStorageResourceType.chatTranscripts;
+      case 'CALL_RECORDINGS':
+        return InstanceStorageResourceType.callRecordings;
+      case 'SCHEDULED_REPORTS':
+        return InstanceStorageResourceType.scheduledReports;
+      case 'MEDIA_STREAMS':
+        return InstanceStorageResourceType.mediaStreams;
+      case 'CONTACT_TRACE_RECORDS':
+        return InstanceStorageResourceType.contactTraceRecords;
+      case 'AGENT_EVENTS':
+        return InstanceStorageResourceType.agentEvents;
+    }
+    throw Exception('$this is not known in enum InstanceStorageResourceType');
   }
 }
 
 /// Information about the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceSummary {
   /// The Amazon Resource Name (ARN) of the instance.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// When the instance was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The identifier of the instance.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The identity management type of the instance.
-  @_s.JsonKey(name: 'IdentityManagementType')
-  final DirectoryType identityManagementType;
+  final DirectoryType? identityManagementType;
 
   /// Whether inbound calls are enabled.
-  @_s.JsonKey(name: 'InboundCallsEnabled')
-  final bool inboundCallsEnabled;
+  final bool? inboundCallsEnabled;
 
   /// The alias of the instance.
-  @_s.JsonKey(name: 'InstanceAlias')
-  final String instanceAlias;
+  final String? instanceAlias;
 
   /// The state of the instance.
-  @_s.JsonKey(name: 'InstanceStatus')
-  final InstanceStatus instanceStatus;
+  final InstanceStatus? instanceStatus;
 
   /// Whether outbound calls are enabled.
-  @_s.JsonKey(name: 'OutboundCallsEnabled')
-  final bool outboundCallsEnabled;
+  final bool? outboundCallsEnabled;
 
   /// The service role of the instance.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   InstanceSummary({
     this.arn,
@@ -6778,48 +7041,47 @@ class InstanceSummary {
     this.outboundCallsEnabled,
     this.serviceRole,
   });
-  factory InstanceSummary.fromJson(Map<String, dynamic> json) =>
-      _$InstanceSummaryFromJson(json);
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceSummary(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      identityManagementType:
+          (json['IdentityManagementType'] as String?)?.toDirectoryType(),
+      inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+      instanceAlias: json['InstanceAlias'] as String?,
+      instanceStatus: (json['InstanceStatus'] as String?)?.toInstanceStatus(),
+      outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
+      serviceRole: json['ServiceRole'] as String?,
+    );
+  }
 }
 
 /// Contains summary information about the associated AppIntegrations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IntegrationAssociationSummary {
   /// The identifier of the Amazon Connect instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The Amazon Resource Name (ARN) for the AppIntegration.
-  @_s.JsonKey(name: 'IntegrationArn')
-  final String integrationArn;
+  final String? integrationArn;
 
   /// The Amazon Resource Name (ARN) for the AppIntegration association.
-  @_s.JsonKey(name: 'IntegrationAssociationArn')
-  final String integrationAssociationArn;
+  final String? integrationAssociationArn;
 
   /// The identifier for the AppIntegration association.
-  @_s.JsonKey(name: 'IntegrationAssociationId')
-  final String integrationAssociationId;
+  final String? integrationAssociationId;
 
   /// The integration type.
-  @_s.JsonKey(name: 'IntegrationType')
-  final IntegrationType integrationType;
+  final IntegrationType? integrationType;
 
   /// The user-provided, friendly name for the external application.
-  @_s.JsonKey(name: 'SourceApplicationName')
-  final String sourceApplicationName;
+  final String? sourceApplicationName;
 
   /// The URL for the external application.
-  @_s.JsonKey(name: 'SourceApplicationUrl')
-  final String sourceApplicationUrl;
+  final String? sourceApplicationUrl;
 
   /// The name of the source.
-  @_s.JsonKey(name: 'SourceType')
-  final SourceType sourceType;
+  final SourceType? sourceType;
 
   IntegrationAssociationSummary({
     this.instanceId,
@@ -6831,12 +7093,22 @@ class IntegrationAssociationSummary {
     this.sourceApplicationUrl,
     this.sourceType,
   });
-  factory IntegrationAssociationSummary.fromJson(Map<String, dynamic> json) =>
-      _$IntegrationAssociationSummaryFromJson(json);
+  factory IntegrationAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return IntegrationAssociationSummary(
+      instanceId: json['InstanceId'] as String?,
+      integrationArn: json['IntegrationArn'] as String?,
+      integrationAssociationArn: json['IntegrationAssociationArn'] as String?,
+      integrationAssociationId: json['IntegrationAssociationId'] as String?,
+      integrationType:
+          (json['IntegrationType'] as String?)?.toIntegrationType(),
+      sourceApplicationName: json['SourceApplicationName'] as String?,
+      sourceApplicationUrl: json['SourceApplicationUrl'] as String?,
+      sourceType: (json['SourceType'] as String?)?.toSourceType(),
+    );
+  }
 }
 
 enum IntegrationType {
-  @_s.JsonValue('EVENT')
   event,
 }
 
@@ -6846,1106 +7118,902 @@ extension on IntegrationType {
       case IntegrationType.event:
         return 'EVENT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IntegrationType toIntegrationType() {
+    switch (this) {
+      case 'EVENT':
+        return IntegrationType.event;
+    }
+    throw Exception('$this is not known in enum IntegrationType');
   }
 }
 
 /// Configuration information of a Kinesis Firehose delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisFirehoseConfig {
   /// The Amazon Resource Name (ARN) of the delivery stream.
-  @_s.JsonKey(name: 'FirehoseArn')
   final String firehoseArn;
 
   KinesisFirehoseConfig({
-    @_s.required this.firehoseArn,
+    required this.firehoseArn,
   });
-  factory KinesisFirehoseConfig.fromJson(Map<String, dynamic> json) =>
-      _$KinesisFirehoseConfigFromJson(json);
+  factory KinesisFirehoseConfig.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseConfig(
+      firehoseArn: json['FirehoseArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisFirehoseConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final firehoseArn = this.firehoseArn;
+    return {
+      'FirehoseArn': firehoseArn,
+    };
+  }
 }
 
 /// Configuration information of a Kinesis data stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisStreamConfig {
   /// The Amazon Resource Name (ARN) of the data stream.
-  @_s.JsonKey(name: 'StreamArn')
   final String streamArn;
 
   KinesisStreamConfig({
-    @_s.required this.streamArn,
+    required this.streamArn,
   });
-  factory KinesisStreamConfig.fromJson(Map<String, dynamic> json) =>
-      _$KinesisStreamConfigFromJson(json);
+  factory KinesisStreamConfig.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamConfig(
+      streamArn: json['StreamArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisStreamConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final streamArn = this.streamArn;
+    return {
+      'StreamArn': streamArn,
+    };
+  }
 }
 
 /// Configuration information of a Kinesis video stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisVideoStreamConfig {
   /// The encryption configuration.
-  @_s.JsonKey(name: 'EncryptionConfig')
   final EncryptionConfig encryptionConfig;
 
   /// The prefix of the video stream.
-  @_s.JsonKey(name: 'Prefix')
   final String prefix;
 
   /// The number of hours data is retained in the stream. Kinesis Video Streams
   /// retains the data in a data store that is associated with the stream.
   ///
   /// The default value is 0, indicating that the stream does not persist data.
-  @_s.JsonKey(name: 'RetentionPeriodHours')
   final int retentionPeriodHours;
 
   KinesisVideoStreamConfig({
-    @_s.required this.encryptionConfig,
-    @_s.required this.prefix,
-    @_s.required this.retentionPeriodHours,
+    required this.encryptionConfig,
+    required this.prefix,
+    required this.retentionPeriodHours,
   });
-  factory KinesisVideoStreamConfig.fromJson(Map<String, dynamic> json) =>
-      _$KinesisVideoStreamConfigFromJson(json);
+  factory KinesisVideoStreamConfig.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStreamConfig(
+      encryptionConfig: EncryptionConfig.fromJson(
+          json['EncryptionConfig'] as Map<String, dynamic>),
+      prefix: json['Prefix'] as String,
+      retentionPeriodHours: json['RetentionPeriodHours'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisVideoStreamConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final encryptionConfig = this.encryptionConfig;
+    final prefix = this.prefix;
+    final retentionPeriodHours = this.retentionPeriodHours;
+    return {
+      'EncryptionConfig': encryptionConfig,
+      'Prefix': prefix,
+      'RetentionPeriodHours': retentionPeriodHours,
+    };
+  }
 }
 
 /// Configuration information of an Amazon Lex bot.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LexBot {
   /// The Region the Amazon Lex bot was created in.
-  @_s.JsonKey(name: 'LexRegion')
-  final String lexRegion;
+  final String? lexRegion;
 
   /// The name of the Amazon Lex bot.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   LexBot({
     this.lexRegion,
     this.name,
   });
-  factory LexBot.fromJson(Map<String, dynamic> json) => _$LexBotFromJson(json);
+  factory LexBot.fromJson(Map<String, dynamic> json) {
+    return LexBot(
+      lexRegion: json['LexRegion'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LexBotToJson(this);
+  Map<String, dynamic> toJson() {
+    final lexRegion = this.lexRegion;
+    final name = this.name;
+    return {
+      if (lexRegion != null) 'LexRegion': lexRegion,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApprovedOriginsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The approved origins.
-  @_s.JsonKey(name: 'Origins')
-  final List<String> origins;
+  final List<String>? origins;
 
   ListApprovedOriginsResponse({
     this.nextToken,
     this.origins,
   });
-  factory ListApprovedOriginsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApprovedOriginsResponseFromJson(json);
+  factory ListApprovedOriginsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApprovedOriginsResponse(
+      nextToken: json['NextToken'] as String?,
+      origins: (json['Origins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListContactFlowsResponse {
   /// Information about the contact flows.
-  @_s.JsonKey(name: 'ContactFlowSummaryList')
-  final List<ContactFlowSummary> contactFlowSummaryList;
+  final List<ContactFlowSummary>? contactFlowSummaryList;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListContactFlowsResponse({
     this.contactFlowSummaryList,
     this.nextToken,
   });
-  factory ListContactFlowsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListContactFlowsResponseFromJson(json);
+  factory ListContactFlowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListContactFlowsResponse(
+      contactFlowSummaryList: (json['ContactFlowSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContactFlowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHoursOfOperationsResponse {
   /// Information about the hours of operation.
-  @_s.JsonKey(name: 'HoursOfOperationSummaryList')
-  final List<HoursOfOperationSummary> hoursOfOperationSummaryList;
+  final List<HoursOfOperationSummary>? hoursOfOperationSummaryList;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHoursOfOperationsResponse({
     this.hoursOfOperationSummaryList,
     this.nextToken,
   });
-  factory ListHoursOfOperationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListHoursOfOperationsResponseFromJson(json);
+  factory ListHoursOfOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHoursOfOperationsResponse(
+      hoursOfOperationSummaryList:
+          (json['HoursOfOperationSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  HoursOfOperationSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstanceAttributesResponse {
   /// The attribute types.
-  @_s.JsonKey(name: 'Attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInstanceAttributesResponse({
     this.attributes,
     this.nextToken,
   });
-  factory ListInstanceAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInstanceAttributesResponseFromJson(json);
+  factory ListInstanceAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstanceAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstanceStorageConfigsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A valid storage type.
-  @_s.JsonKey(name: 'StorageConfigs')
-  final List<InstanceStorageConfig> storageConfigs;
+  final List<InstanceStorageConfig>? storageConfigs;
 
   ListInstanceStorageConfigsResponse({
     this.nextToken,
     this.storageConfigs,
   });
   factory ListInstanceStorageConfigsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListInstanceStorageConfigsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListInstanceStorageConfigsResponse(
+      nextToken: json['NextToken'] as String?,
+      storageConfigs: (json['StorageConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceStorageConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstancesResponse {
   /// Information about the instances.
-  @_s.JsonKey(name: 'InstanceSummaryList')
-  final List<InstanceSummary> instanceSummaryList;
+  final List<InstanceSummary>? instanceSummaryList;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInstancesResponse({
     this.instanceSummaryList,
     this.nextToken,
   });
-  factory ListInstancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInstancesResponseFromJson(json);
+  factory ListInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstancesResponse(
+      instanceSummaryList: (json['InstanceSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIntegrationAssociationsResponse {
   /// The AppIntegration associations.
-  @_s.JsonKey(name: 'IntegrationAssociationSummaryList')
-  final List<IntegrationAssociationSummary> integrationAssociationSummaryList;
+  final List<IntegrationAssociationSummary>? integrationAssociationSummaryList;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIntegrationAssociationsResponse({
     this.integrationAssociationSummaryList,
     this.nextToken,
   });
   factory ListIntegrationAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListIntegrationAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListIntegrationAssociationsResponse(
+      integrationAssociationSummaryList:
+          (json['IntegrationAssociationSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) => IntegrationAssociationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLambdaFunctionsResponse {
   /// The Lambdafunction ARNs associated with the specified instance.
-  @_s.JsonKey(name: 'LambdaFunctions')
-  final List<String> lambdaFunctions;
+  final List<String>? lambdaFunctions;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLambdaFunctionsResponse({
     this.lambdaFunctions,
     this.nextToken,
   });
-  factory ListLambdaFunctionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLambdaFunctionsResponseFromJson(json);
+  factory ListLambdaFunctionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLambdaFunctionsResponse(
+      lambdaFunctions: (json['LambdaFunctions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLexBotsResponse {
   /// The the names and regions of the Amazon Lex bots associated with the
   /// specified instance.
-  @_s.JsonKey(name: 'LexBots')
-  final List<LexBot> lexBots;
+  final List<LexBot>? lexBots;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLexBotsResponse({
     this.lexBots,
     this.nextToken,
   });
-  factory ListLexBotsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLexBotsResponseFromJson(json);
+  factory ListLexBotsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLexBotsResponse(
+      lexBots: (json['LexBots'] as List?)
+          ?.whereNotNull()
+          .map((e) => LexBot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPhoneNumbersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the phone numbers.
-  @_s.JsonKey(name: 'PhoneNumberSummaryList')
-  final List<PhoneNumberSummary> phoneNumberSummaryList;
+  final List<PhoneNumberSummary>? phoneNumberSummaryList;
 
   ListPhoneNumbersResponse({
     this.nextToken,
     this.phoneNumberSummaryList,
   });
-  factory ListPhoneNumbersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPhoneNumbersResponseFromJson(json);
+  factory ListPhoneNumbersResponse.fromJson(Map<String, dynamic> json) {
+    return ListPhoneNumbersResponse(
+      nextToken: json['NextToken'] as String?,
+      phoneNumberSummaryList: (json['PhoneNumberSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPromptsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the prompts.
-  @_s.JsonKey(name: 'PromptSummaryList')
-  final List<PromptSummary> promptSummaryList;
+  final List<PromptSummary>? promptSummaryList;
 
   ListPromptsResponse({
     this.nextToken,
     this.promptSummaryList,
   });
-  factory ListPromptsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPromptsResponseFromJson(json);
+  factory ListPromptsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPromptsResponse(
+      nextToken: json['NextToken'] as String?,
+      promptSummaryList: (json['PromptSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PromptSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListQueuesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the queues.
-  @_s.JsonKey(name: 'QueueSummaryList')
-  final List<QueueSummary> queueSummaryList;
+  final List<QueueSummary>? queueSummaryList;
 
   ListQueuesResponse({
     this.nextToken,
     this.queueSummaryList,
   });
-  factory ListQueuesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListQueuesResponseFromJson(json);
+  factory ListQueuesResponse.fromJson(Map<String, dynamic> json) {
+    return ListQueuesResponse(
+      nextToken: json['NextToken'] as String?,
+      queueSummaryList: (json['QueueSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueueSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListQuickConnectsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quick connects.
-  @_s.JsonKey(name: 'QuickConnectSummaryList')
-  final List<QuickConnectSummary> quickConnectSummaryList;
+  final List<QuickConnectSummary>? quickConnectSummaryList;
 
   ListQuickConnectsResponse({
     this.nextToken,
     this.quickConnectSummaryList,
   });
-  factory ListQuickConnectsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListQuickConnectsResponseFromJson(json);
+  factory ListQuickConnectsResponse.fromJson(Map<String, dynamic> json) {
+    return ListQuickConnectsResponse(
+      nextToken: json['NextToken'] as String?,
+      quickConnectSummaryList: (json['QuickConnectSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => QuickConnectSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoutingProfileQueuesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the routing profiles.
-  @_s.JsonKey(name: 'RoutingProfileQueueConfigSummaryList')
-  final List<RoutingProfileQueueConfigSummary>
+  final List<RoutingProfileQueueConfigSummary>?
       routingProfileQueueConfigSummaryList;
 
   ListRoutingProfileQueuesResponse({
     this.nextToken,
     this.routingProfileQueueConfigSummaryList,
   });
-  factory ListRoutingProfileQueuesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRoutingProfileQueuesResponseFromJson(json);
+  factory ListRoutingProfileQueuesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoutingProfileQueuesResponse(
+      nextToken: json['NextToken'] as String?,
+      routingProfileQueueConfigSummaryList:
+          (json['RoutingProfileQueueConfigSummaryList'] as List?)
+              ?.whereNotNull()
+              .map((e) => RoutingProfileQueueConfigSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoutingProfilesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the routing profiles.
-  @_s.JsonKey(name: 'RoutingProfileSummaryList')
-  final List<RoutingProfileSummary> routingProfileSummaryList;
+  final List<RoutingProfileSummary>? routingProfileSummaryList;
 
   ListRoutingProfilesResponse({
     this.nextToken,
     this.routingProfileSummaryList,
   });
-  factory ListRoutingProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRoutingProfilesResponseFromJson(json);
+  factory ListRoutingProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoutingProfilesResponse(
+      nextToken: json['NextToken'] as String?,
+      routingProfileSummaryList: (json['RoutingProfileSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoutingProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecurityKeysResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The security keys.
-  @_s.JsonKey(name: 'SecurityKeys')
-  final List<SecurityKey> securityKeys;
+  final List<SecurityKey>? securityKeys;
 
   ListSecurityKeysResponse({
     this.nextToken,
     this.securityKeys,
   });
-  factory ListSecurityKeysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSecurityKeysResponseFromJson(json);
+  factory ListSecurityKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecurityKeysResponse(
+      nextToken: json['NextToken'] as String?,
+      securityKeys: (json['SecurityKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecurityProfilesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the security profiles.
-  @_s.JsonKey(name: 'SecurityProfileSummaryList')
-  final List<SecurityProfileSummary> securityProfileSummaryList;
+  final List<SecurityProfileSummary>? securityProfileSummaryList;
 
   ListSecurityProfilesResponse({
     this.nextToken,
     this.securityProfileSummaryList,
   });
-  factory ListSecurityProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSecurityProfilesResponseFromJson(json);
+  factory ListSecurityProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecurityProfilesResponse(
+      nextToken: json['NextToken'] as String?,
+      securityProfileSummaryList: (json['SecurityProfileSummaryList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => SecurityProfileSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// Information about the tags.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUseCasesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The use cases.
-  @_s.JsonKey(name: 'UseCaseSummaryList')
-  final List<UseCase> useCaseSummaryList;
+  final List<UseCase>? useCaseSummaryList;
 
   ListUseCasesResponse({
     this.nextToken,
     this.useCaseSummaryList,
   });
-  factory ListUseCasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUseCasesResponseFromJson(json);
+  factory ListUseCasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListUseCasesResponse(
+      nextToken: json['NextToken'] as String?,
+      useCaseSummaryList: (json['UseCaseSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UseCase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUserHierarchyGroupsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the hierarchy groups.
-  @_s.JsonKey(name: 'UserHierarchyGroupSummaryList')
-  final List<HierarchyGroupSummary> userHierarchyGroupSummaryList;
+  final List<HierarchyGroupSummary>? userHierarchyGroupSummaryList;
 
   ListUserHierarchyGroupsResponse({
     this.nextToken,
     this.userHierarchyGroupSummaryList,
   });
-  factory ListUserHierarchyGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUserHierarchyGroupsResponseFromJson(json);
+  factory ListUserHierarchyGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserHierarchyGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      userHierarchyGroupSummaryList: (json['UserHierarchyGroupSummaryList']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => HierarchyGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the users.
-  @_s.JsonKey(name: 'UserSummaryList')
-  final List<UserSummary> userSummaryList;
+  final List<UserSummary>? userSummaryList;
 
   ListUsersResponse({
     this.nextToken,
     this.userSummaryList,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      nextToken: json['NextToken'] as String?,
+      userSummaryList: (json['UserSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about which channels are supported, and how many
 /// contacts an agent can have on a channel simultaneously.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MediaConcurrency {
   /// The channels that agents can handle in the Contact Control Panel (CCP).
-  @_s.JsonKey(name: 'Channel')
   final Channel channel;
 
   /// The number of contacts an agent can have on a channel simultaneously.
-  @_s.JsonKey(name: 'Concurrency')
   final int concurrency;
 
   MediaConcurrency({
-    @_s.required this.channel,
-    @_s.required this.concurrency,
+    required this.channel,
+    required this.concurrency,
   });
-  factory MediaConcurrency.fromJson(Map<String, dynamic> json) =>
-      _$MediaConcurrencyFromJson(json);
+  factory MediaConcurrency.fromJson(Map<String, dynamic> json) {
+    return MediaConcurrency(
+      channel: (json['Channel'] as String).toChannel(),
+      concurrency: json['Concurrency'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MediaConcurrencyToJson(this);
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    final concurrency = this.concurrency;
+    return {
+      'Channel': channel.toValue(),
+      'Concurrency': concurrency,
+    };
+  }
 }
 
 /// The customer's details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParticipantDetails {
   /// Display name of the participant.
-  @_s.JsonKey(name: 'DisplayName')
   final String displayName;
 
   ParticipantDetails({
-    @_s.required this.displayName,
+    required this.displayName,
   });
-  Map<String, dynamic> toJson() => _$ParticipantDetailsToJson(this);
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    return {
+      'DisplayName': displayName,
+    };
+  }
 }
 
 enum PhoneNumberCountryCode {
-  @_s.JsonValue('AF')
   af,
-  @_s.JsonValue('AL')
   al,
-  @_s.JsonValue('DZ')
   dz,
-  @_s.JsonValue('AS')
   as,
-  @_s.JsonValue('AD')
   ad,
-  @_s.JsonValue('AO')
   ao,
-  @_s.JsonValue('AI')
   ai,
-  @_s.JsonValue('AQ')
   aq,
-  @_s.JsonValue('AG')
   ag,
-  @_s.JsonValue('AR')
   ar,
-  @_s.JsonValue('AM')
   am,
-  @_s.JsonValue('AW')
   aw,
-  @_s.JsonValue('AU')
   au,
-  @_s.JsonValue('AT')
   at,
-  @_s.JsonValue('AZ')
   az,
-  @_s.JsonValue('BS')
   bs,
-  @_s.JsonValue('BH')
   bh,
-  @_s.JsonValue('BD')
   bd,
-  @_s.JsonValue('BB')
   bb,
-  @_s.JsonValue('BY')
   by,
-  @_s.JsonValue('BE')
   be,
-  @_s.JsonValue('BZ')
   bz,
-  @_s.JsonValue('BJ')
   bj,
-  @_s.JsonValue('BM')
   bm,
-  @_s.JsonValue('BT')
   bt,
-  @_s.JsonValue('BO')
   bo,
-  @_s.JsonValue('BA')
   ba,
-  @_s.JsonValue('BW')
   bw,
-  @_s.JsonValue('BR')
   br,
-  @_s.JsonValue('IO')
   io,
-  @_s.JsonValue('VG')
   vg,
-  @_s.JsonValue('BN')
   bn,
-  @_s.JsonValue('BG')
   bg,
-  @_s.JsonValue('BF')
   bf,
-  @_s.JsonValue('BI')
   bi,
-  @_s.JsonValue('KH')
   kh,
-  @_s.JsonValue('CM')
   cm,
-  @_s.JsonValue('CA')
   ca,
-  @_s.JsonValue('CV')
   cv,
-  @_s.JsonValue('KY')
   ky,
-  @_s.JsonValue('CF')
   cf,
-  @_s.JsonValue('TD')
   td,
-  @_s.JsonValue('CL')
   cl,
-  @_s.JsonValue('CN')
   cn,
-  @_s.JsonValue('CX')
   cx,
-  @_s.JsonValue('CC')
   cc,
-  @_s.JsonValue('CO')
   co,
-  @_s.JsonValue('KM')
   km,
-  @_s.JsonValue('CK')
   ck,
-  @_s.JsonValue('CR')
   cr,
-  @_s.JsonValue('HR')
   hr,
-  @_s.JsonValue('CU')
   cu,
-  @_s.JsonValue('CW')
   cw,
-  @_s.JsonValue('CY')
   cy,
-  @_s.JsonValue('CZ')
   cz,
-  @_s.JsonValue('CD')
   cd,
-  @_s.JsonValue('DK')
   dk,
-  @_s.JsonValue('DJ')
   dj,
-  @_s.JsonValue('DM')
   dm,
-  @_s.JsonValue('DO')
   $do,
-  @_s.JsonValue('TL')
   tl,
-  @_s.JsonValue('EC')
   ec,
-  @_s.JsonValue('EG')
   eg,
-  @_s.JsonValue('SV')
   sv,
-  @_s.JsonValue('GQ')
   gq,
-  @_s.JsonValue('ER')
   er,
-  @_s.JsonValue('EE')
   ee,
-  @_s.JsonValue('ET')
   et,
-  @_s.JsonValue('FK')
   fk,
-  @_s.JsonValue('FO')
   fo,
-  @_s.JsonValue('FJ')
   fj,
-  @_s.JsonValue('FI')
   fi,
-  @_s.JsonValue('FR')
   fr,
-  @_s.JsonValue('PF')
   pf,
-  @_s.JsonValue('GA')
   ga,
-  @_s.JsonValue('GM')
   gm,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('DE')
   de,
-  @_s.JsonValue('GH')
   gh,
-  @_s.JsonValue('GI')
   gi,
-  @_s.JsonValue('GR')
   gr,
-  @_s.JsonValue('GL')
   gl,
-  @_s.JsonValue('GD')
   gd,
-  @_s.JsonValue('GU')
   gu,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('GG')
   gg,
-  @_s.JsonValue('GN')
   gn,
-  @_s.JsonValue('GW')
   gw,
-  @_s.JsonValue('GY')
   gy,
-  @_s.JsonValue('HT')
   ht,
-  @_s.JsonValue('HN')
   hn,
-  @_s.JsonValue('HK')
   hk,
-  @_s.JsonValue('HU')
   hu,
-  @_s.JsonValue('IS')
   $is,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('ID')
   id,
-  @_s.JsonValue('IR')
   ir,
-  @_s.JsonValue('IQ')
   iq,
-  @_s.JsonValue('IE')
   ie,
-  @_s.JsonValue('IM')
   im,
-  @_s.JsonValue('IL')
   il,
-  @_s.JsonValue('IT')
   it,
-  @_s.JsonValue('CI')
   ci,
-  @_s.JsonValue('JM')
   jm,
-  @_s.JsonValue('JP')
   jp,
-  @_s.JsonValue('JE')
   je,
-  @_s.JsonValue('JO')
   jo,
-  @_s.JsonValue('KZ')
   kz,
-  @_s.JsonValue('KE')
   ke,
-  @_s.JsonValue('KI')
   ki,
-  @_s.JsonValue('KW')
   kw,
-  @_s.JsonValue('KG')
   kg,
-  @_s.JsonValue('LA')
   la,
-  @_s.JsonValue('LV')
   lv,
-  @_s.JsonValue('LB')
   lb,
-  @_s.JsonValue('LS')
   ls,
-  @_s.JsonValue('LR')
   lr,
-  @_s.JsonValue('LY')
   ly,
-  @_s.JsonValue('LI')
   li,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('LU')
   lu,
-  @_s.JsonValue('MO')
   mo,
-  @_s.JsonValue('MK')
   mk,
-  @_s.JsonValue('MG')
   mg,
-  @_s.JsonValue('MW')
   mw,
-  @_s.JsonValue('MY')
   my,
-  @_s.JsonValue('MV')
   mv,
-  @_s.JsonValue('ML')
   ml,
-  @_s.JsonValue('MT')
   mt,
-  @_s.JsonValue('MH')
   mh,
-  @_s.JsonValue('MR')
   mr,
-  @_s.JsonValue('MU')
   mu,
-  @_s.JsonValue('YT')
   yt,
-  @_s.JsonValue('MX')
   mx,
-  @_s.JsonValue('FM')
   fm,
-  @_s.JsonValue('MD')
   md,
-  @_s.JsonValue('MC')
   mc,
-  @_s.JsonValue('MN')
   mn,
-  @_s.JsonValue('ME')
   me,
-  @_s.JsonValue('MS')
   ms,
-  @_s.JsonValue('MA')
   ma,
-  @_s.JsonValue('MZ')
   mz,
-  @_s.JsonValue('MM')
   mm,
-  @_s.JsonValue('NA')
   na,
-  @_s.JsonValue('NR')
   nr,
-  @_s.JsonValue('NP')
   np,
-  @_s.JsonValue('NL')
   nl,
-  @_s.JsonValue('AN')
   an,
-  @_s.JsonValue('NC')
   nc,
-  @_s.JsonValue('NZ')
   nz,
-  @_s.JsonValue('NI')
   ni,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('NG')
   ng,
-  @_s.JsonValue('NU')
   nu,
-  @_s.JsonValue('KP')
   kp,
-  @_s.JsonValue('MP')
   mp,
-  @_s.JsonValue('NO')
   no,
-  @_s.JsonValue('OM')
   om,
-  @_s.JsonValue('PK')
   pk,
-  @_s.JsonValue('PW')
   pw,
-  @_s.JsonValue('PA')
   pa,
-  @_s.JsonValue('PG')
   pg,
-  @_s.JsonValue('PY')
   py,
-  @_s.JsonValue('PE')
   pe,
-  @_s.JsonValue('PH')
   ph,
-  @_s.JsonValue('PN')
   pn,
-  @_s.JsonValue('PL')
   pl,
-  @_s.JsonValue('PT')
   pt,
-  @_s.JsonValue('PR')
   pr,
-  @_s.JsonValue('QA')
   qa,
-  @_s.JsonValue('CG')
   cg,
-  @_s.JsonValue('RE')
   re,
-  @_s.JsonValue('RO')
   ro,
-  @_s.JsonValue('RU')
   ru,
-  @_s.JsonValue('RW')
   rw,
-  @_s.JsonValue('BL')
   bl,
-  @_s.JsonValue('SH')
   sh,
-  @_s.JsonValue('KN')
   kn,
-  @_s.JsonValue('LC')
   lc,
-  @_s.JsonValue('MF')
   mf,
-  @_s.JsonValue('PM')
   pm,
-  @_s.JsonValue('VC')
   vc,
-  @_s.JsonValue('WS')
   ws,
-  @_s.JsonValue('SM')
   sm,
-  @_s.JsonValue('ST')
   st,
-  @_s.JsonValue('SA')
   sa,
-  @_s.JsonValue('SN')
   sn,
-  @_s.JsonValue('RS')
   rs,
-  @_s.JsonValue('SC')
   sc,
-  @_s.JsonValue('SL')
   sl,
-  @_s.JsonValue('SG')
   sg,
-  @_s.JsonValue('SX')
   sx,
-  @_s.JsonValue('SK')
   sk,
-  @_s.JsonValue('SI')
   si,
-  @_s.JsonValue('SB')
   sb,
-  @_s.JsonValue('SO')
   so,
-  @_s.JsonValue('ZA')
   za,
-  @_s.JsonValue('KR')
   kr,
-  @_s.JsonValue('ES')
   es,
-  @_s.JsonValue('LK')
   lk,
-  @_s.JsonValue('SD')
   sd,
-  @_s.JsonValue('SR')
   sr,
-  @_s.JsonValue('SJ')
   sj,
-  @_s.JsonValue('SZ')
   sz,
-  @_s.JsonValue('SE')
   se,
-  @_s.JsonValue('CH')
   ch,
-  @_s.JsonValue('SY')
   sy,
-  @_s.JsonValue('TW')
   tw,
-  @_s.JsonValue('TJ')
   tj,
-  @_s.JsonValue('TZ')
   tz,
-  @_s.JsonValue('TH')
   th,
-  @_s.JsonValue('TG')
   tg,
-  @_s.JsonValue('TK')
   tk,
-  @_s.JsonValue('TO')
   to,
-  @_s.JsonValue('TT')
   tt,
-  @_s.JsonValue('TN')
   tn,
-  @_s.JsonValue('TR')
   tr,
-  @_s.JsonValue('TM')
   tm,
-  @_s.JsonValue('TC')
   tc,
-  @_s.JsonValue('TV')
   tv,
-  @_s.JsonValue('VI')
   vi,
-  @_s.JsonValue('UG')
   ug,
-  @_s.JsonValue('UA')
   ua,
-  @_s.JsonValue('AE')
   ae,
-  @_s.JsonValue('GB')
   gb,
-  @_s.JsonValue('US')
   us,
-  @_s.JsonValue('UY')
   uy,
-  @_s.JsonValue('UZ')
   uz,
-  @_s.JsonValue('VU')
   vu,
-  @_s.JsonValue('VA')
   va,
-  @_s.JsonValue('VE')
   ve,
-  @_s.JsonValue('VN')
   vn,
-  @_s.JsonValue('WF')
   wf,
-  @_s.JsonValue('EH')
   eh,
-  @_s.JsonValue('YE')
   ye,
-  @_s.JsonValue('ZM')
   zm,
-  @_s.JsonValue('ZW')
   zw,
 }
 
@@ -8427,56 +8495,529 @@ extension on PhoneNumberCountryCode {
       case PhoneNumberCountryCode.zw:
         return 'ZW';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PhoneNumberCountryCode toPhoneNumberCountryCode() {
+    switch (this) {
+      case 'AF':
+        return PhoneNumberCountryCode.af;
+      case 'AL':
+        return PhoneNumberCountryCode.al;
+      case 'DZ':
+        return PhoneNumberCountryCode.dz;
+      case 'AS':
+        return PhoneNumberCountryCode.as;
+      case 'AD':
+        return PhoneNumberCountryCode.ad;
+      case 'AO':
+        return PhoneNumberCountryCode.ao;
+      case 'AI':
+        return PhoneNumberCountryCode.ai;
+      case 'AQ':
+        return PhoneNumberCountryCode.aq;
+      case 'AG':
+        return PhoneNumberCountryCode.ag;
+      case 'AR':
+        return PhoneNumberCountryCode.ar;
+      case 'AM':
+        return PhoneNumberCountryCode.am;
+      case 'AW':
+        return PhoneNumberCountryCode.aw;
+      case 'AU':
+        return PhoneNumberCountryCode.au;
+      case 'AT':
+        return PhoneNumberCountryCode.at;
+      case 'AZ':
+        return PhoneNumberCountryCode.az;
+      case 'BS':
+        return PhoneNumberCountryCode.bs;
+      case 'BH':
+        return PhoneNumberCountryCode.bh;
+      case 'BD':
+        return PhoneNumberCountryCode.bd;
+      case 'BB':
+        return PhoneNumberCountryCode.bb;
+      case 'BY':
+        return PhoneNumberCountryCode.by;
+      case 'BE':
+        return PhoneNumberCountryCode.be;
+      case 'BZ':
+        return PhoneNumberCountryCode.bz;
+      case 'BJ':
+        return PhoneNumberCountryCode.bj;
+      case 'BM':
+        return PhoneNumberCountryCode.bm;
+      case 'BT':
+        return PhoneNumberCountryCode.bt;
+      case 'BO':
+        return PhoneNumberCountryCode.bo;
+      case 'BA':
+        return PhoneNumberCountryCode.ba;
+      case 'BW':
+        return PhoneNumberCountryCode.bw;
+      case 'BR':
+        return PhoneNumberCountryCode.br;
+      case 'IO':
+        return PhoneNumberCountryCode.io;
+      case 'VG':
+        return PhoneNumberCountryCode.vg;
+      case 'BN':
+        return PhoneNumberCountryCode.bn;
+      case 'BG':
+        return PhoneNumberCountryCode.bg;
+      case 'BF':
+        return PhoneNumberCountryCode.bf;
+      case 'BI':
+        return PhoneNumberCountryCode.bi;
+      case 'KH':
+        return PhoneNumberCountryCode.kh;
+      case 'CM':
+        return PhoneNumberCountryCode.cm;
+      case 'CA':
+        return PhoneNumberCountryCode.ca;
+      case 'CV':
+        return PhoneNumberCountryCode.cv;
+      case 'KY':
+        return PhoneNumberCountryCode.ky;
+      case 'CF':
+        return PhoneNumberCountryCode.cf;
+      case 'TD':
+        return PhoneNumberCountryCode.td;
+      case 'CL':
+        return PhoneNumberCountryCode.cl;
+      case 'CN':
+        return PhoneNumberCountryCode.cn;
+      case 'CX':
+        return PhoneNumberCountryCode.cx;
+      case 'CC':
+        return PhoneNumberCountryCode.cc;
+      case 'CO':
+        return PhoneNumberCountryCode.co;
+      case 'KM':
+        return PhoneNumberCountryCode.km;
+      case 'CK':
+        return PhoneNumberCountryCode.ck;
+      case 'CR':
+        return PhoneNumberCountryCode.cr;
+      case 'HR':
+        return PhoneNumberCountryCode.hr;
+      case 'CU':
+        return PhoneNumberCountryCode.cu;
+      case 'CW':
+        return PhoneNumberCountryCode.cw;
+      case 'CY':
+        return PhoneNumberCountryCode.cy;
+      case 'CZ':
+        return PhoneNumberCountryCode.cz;
+      case 'CD':
+        return PhoneNumberCountryCode.cd;
+      case 'DK':
+        return PhoneNumberCountryCode.dk;
+      case 'DJ':
+        return PhoneNumberCountryCode.dj;
+      case 'DM':
+        return PhoneNumberCountryCode.dm;
+      case 'DO':
+        return PhoneNumberCountryCode.$do;
+      case 'TL':
+        return PhoneNumberCountryCode.tl;
+      case 'EC':
+        return PhoneNumberCountryCode.ec;
+      case 'EG':
+        return PhoneNumberCountryCode.eg;
+      case 'SV':
+        return PhoneNumberCountryCode.sv;
+      case 'GQ':
+        return PhoneNumberCountryCode.gq;
+      case 'ER':
+        return PhoneNumberCountryCode.er;
+      case 'EE':
+        return PhoneNumberCountryCode.ee;
+      case 'ET':
+        return PhoneNumberCountryCode.et;
+      case 'FK':
+        return PhoneNumberCountryCode.fk;
+      case 'FO':
+        return PhoneNumberCountryCode.fo;
+      case 'FJ':
+        return PhoneNumberCountryCode.fj;
+      case 'FI':
+        return PhoneNumberCountryCode.fi;
+      case 'FR':
+        return PhoneNumberCountryCode.fr;
+      case 'PF':
+        return PhoneNumberCountryCode.pf;
+      case 'GA':
+        return PhoneNumberCountryCode.ga;
+      case 'GM':
+        return PhoneNumberCountryCode.gm;
+      case 'GE':
+        return PhoneNumberCountryCode.ge;
+      case 'DE':
+        return PhoneNumberCountryCode.de;
+      case 'GH':
+        return PhoneNumberCountryCode.gh;
+      case 'GI':
+        return PhoneNumberCountryCode.gi;
+      case 'GR':
+        return PhoneNumberCountryCode.gr;
+      case 'GL':
+        return PhoneNumberCountryCode.gl;
+      case 'GD':
+        return PhoneNumberCountryCode.gd;
+      case 'GU':
+        return PhoneNumberCountryCode.gu;
+      case 'GT':
+        return PhoneNumberCountryCode.gt;
+      case 'GG':
+        return PhoneNumberCountryCode.gg;
+      case 'GN':
+        return PhoneNumberCountryCode.gn;
+      case 'GW':
+        return PhoneNumberCountryCode.gw;
+      case 'GY':
+        return PhoneNumberCountryCode.gy;
+      case 'HT':
+        return PhoneNumberCountryCode.ht;
+      case 'HN':
+        return PhoneNumberCountryCode.hn;
+      case 'HK':
+        return PhoneNumberCountryCode.hk;
+      case 'HU':
+        return PhoneNumberCountryCode.hu;
+      case 'IS':
+        return PhoneNumberCountryCode.$is;
+      case 'IN':
+        return PhoneNumberCountryCode.$in;
+      case 'ID':
+        return PhoneNumberCountryCode.id;
+      case 'IR':
+        return PhoneNumberCountryCode.ir;
+      case 'IQ':
+        return PhoneNumberCountryCode.iq;
+      case 'IE':
+        return PhoneNumberCountryCode.ie;
+      case 'IM':
+        return PhoneNumberCountryCode.im;
+      case 'IL':
+        return PhoneNumberCountryCode.il;
+      case 'IT':
+        return PhoneNumberCountryCode.it;
+      case 'CI':
+        return PhoneNumberCountryCode.ci;
+      case 'JM':
+        return PhoneNumberCountryCode.jm;
+      case 'JP':
+        return PhoneNumberCountryCode.jp;
+      case 'JE':
+        return PhoneNumberCountryCode.je;
+      case 'JO':
+        return PhoneNumberCountryCode.jo;
+      case 'KZ':
+        return PhoneNumberCountryCode.kz;
+      case 'KE':
+        return PhoneNumberCountryCode.ke;
+      case 'KI':
+        return PhoneNumberCountryCode.ki;
+      case 'KW':
+        return PhoneNumberCountryCode.kw;
+      case 'KG':
+        return PhoneNumberCountryCode.kg;
+      case 'LA':
+        return PhoneNumberCountryCode.la;
+      case 'LV':
+        return PhoneNumberCountryCode.lv;
+      case 'LB':
+        return PhoneNumberCountryCode.lb;
+      case 'LS':
+        return PhoneNumberCountryCode.ls;
+      case 'LR':
+        return PhoneNumberCountryCode.lr;
+      case 'LY':
+        return PhoneNumberCountryCode.ly;
+      case 'LI':
+        return PhoneNumberCountryCode.li;
+      case 'LT':
+        return PhoneNumberCountryCode.lt;
+      case 'LU':
+        return PhoneNumberCountryCode.lu;
+      case 'MO':
+        return PhoneNumberCountryCode.mo;
+      case 'MK':
+        return PhoneNumberCountryCode.mk;
+      case 'MG':
+        return PhoneNumberCountryCode.mg;
+      case 'MW':
+        return PhoneNumberCountryCode.mw;
+      case 'MY':
+        return PhoneNumberCountryCode.my;
+      case 'MV':
+        return PhoneNumberCountryCode.mv;
+      case 'ML':
+        return PhoneNumberCountryCode.ml;
+      case 'MT':
+        return PhoneNumberCountryCode.mt;
+      case 'MH':
+        return PhoneNumberCountryCode.mh;
+      case 'MR':
+        return PhoneNumberCountryCode.mr;
+      case 'MU':
+        return PhoneNumberCountryCode.mu;
+      case 'YT':
+        return PhoneNumberCountryCode.yt;
+      case 'MX':
+        return PhoneNumberCountryCode.mx;
+      case 'FM':
+        return PhoneNumberCountryCode.fm;
+      case 'MD':
+        return PhoneNumberCountryCode.md;
+      case 'MC':
+        return PhoneNumberCountryCode.mc;
+      case 'MN':
+        return PhoneNumberCountryCode.mn;
+      case 'ME':
+        return PhoneNumberCountryCode.me;
+      case 'MS':
+        return PhoneNumberCountryCode.ms;
+      case 'MA':
+        return PhoneNumberCountryCode.ma;
+      case 'MZ':
+        return PhoneNumberCountryCode.mz;
+      case 'MM':
+        return PhoneNumberCountryCode.mm;
+      case 'NA':
+        return PhoneNumberCountryCode.na;
+      case 'NR':
+        return PhoneNumberCountryCode.nr;
+      case 'NP':
+        return PhoneNumberCountryCode.np;
+      case 'NL':
+        return PhoneNumberCountryCode.nl;
+      case 'AN':
+        return PhoneNumberCountryCode.an;
+      case 'NC':
+        return PhoneNumberCountryCode.nc;
+      case 'NZ':
+        return PhoneNumberCountryCode.nz;
+      case 'NI':
+        return PhoneNumberCountryCode.ni;
+      case 'NE':
+        return PhoneNumberCountryCode.ne;
+      case 'NG':
+        return PhoneNumberCountryCode.ng;
+      case 'NU':
+        return PhoneNumberCountryCode.nu;
+      case 'KP':
+        return PhoneNumberCountryCode.kp;
+      case 'MP':
+        return PhoneNumberCountryCode.mp;
+      case 'NO':
+        return PhoneNumberCountryCode.no;
+      case 'OM':
+        return PhoneNumberCountryCode.om;
+      case 'PK':
+        return PhoneNumberCountryCode.pk;
+      case 'PW':
+        return PhoneNumberCountryCode.pw;
+      case 'PA':
+        return PhoneNumberCountryCode.pa;
+      case 'PG':
+        return PhoneNumberCountryCode.pg;
+      case 'PY':
+        return PhoneNumberCountryCode.py;
+      case 'PE':
+        return PhoneNumberCountryCode.pe;
+      case 'PH':
+        return PhoneNumberCountryCode.ph;
+      case 'PN':
+        return PhoneNumberCountryCode.pn;
+      case 'PL':
+        return PhoneNumberCountryCode.pl;
+      case 'PT':
+        return PhoneNumberCountryCode.pt;
+      case 'PR':
+        return PhoneNumberCountryCode.pr;
+      case 'QA':
+        return PhoneNumberCountryCode.qa;
+      case 'CG':
+        return PhoneNumberCountryCode.cg;
+      case 'RE':
+        return PhoneNumberCountryCode.re;
+      case 'RO':
+        return PhoneNumberCountryCode.ro;
+      case 'RU':
+        return PhoneNumberCountryCode.ru;
+      case 'RW':
+        return PhoneNumberCountryCode.rw;
+      case 'BL':
+        return PhoneNumberCountryCode.bl;
+      case 'SH':
+        return PhoneNumberCountryCode.sh;
+      case 'KN':
+        return PhoneNumberCountryCode.kn;
+      case 'LC':
+        return PhoneNumberCountryCode.lc;
+      case 'MF':
+        return PhoneNumberCountryCode.mf;
+      case 'PM':
+        return PhoneNumberCountryCode.pm;
+      case 'VC':
+        return PhoneNumberCountryCode.vc;
+      case 'WS':
+        return PhoneNumberCountryCode.ws;
+      case 'SM':
+        return PhoneNumberCountryCode.sm;
+      case 'ST':
+        return PhoneNumberCountryCode.st;
+      case 'SA':
+        return PhoneNumberCountryCode.sa;
+      case 'SN':
+        return PhoneNumberCountryCode.sn;
+      case 'RS':
+        return PhoneNumberCountryCode.rs;
+      case 'SC':
+        return PhoneNumberCountryCode.sc;
+      case 'SL':
+        return PhoneNumberCountryCode.sl;
+      case 'SG':
+        return PhoneNumberCountryCode.sg;
+      case 'SX':
+        return PhoneNumberCountryCode.sx;
+      case 'SK':
+        return PhoneNumberCountryCode.sk;
+      case 'SI':
+        return PhoneNumberCountryCode.si;
+      case 'SB':
+        return PhoneNumberCountryCode.sb;
+      case 'SO':
+        return PhoneNumberCountryCode.so;
+      case 'ZA':
+        return PhoneNumberCountryCode.za;
+      case 'KR':
+        return PhoneNumberCountryCode.kr;
+      case 'ES':
+        return PhoneNumberCountryCode.es;
+      case 'LK':
+        return PhoneNumberCountryCode.lk;
+      case 'SD':
+        return PhoneNumberCountryCode.sd;
+      case 'SR':
+        return PhoneNumberCountryCode.sr;
+      case 'SJ':
+        return PhoneNumberCountryCode.sj;
+      case 'SZ':
+        return PhoneNumberCountryCode.sz;
+      case 'SE':
+        return PhoneNumberCountryCode.se;
+      case 'CH':
+        return PhoneNumberCountryCode.ch;
+      case 'SY':
+        return PhoneNumberCountryCode.sy;
+      case 'TW':
+        return PhoneNumberCountryCode.tw;
+      case 'TJ':
+        return PhoneNumberCountryCode.tj;
+      case 'TZ':
+        return PhoneNumberCountryCode.tz;
+      case 'TH':
+        return PhoneNumberCountryCode.th;
+      case 'TG':
+        return PhoneNumberCountryCode.tg;
+      case 'TK':
+        return PhoneNumberCountryCode.tk;
+      case 'TO':
+        return PhoneNumberCountryCode.to;
+      case 'TT':
+        return PhoneNumberCountryCode.tt;
+      case 'TN':
+        return PhoneNumberCountryCode.tn;
+      case 'TR':
+        return PhoneNumberCountryCode.tr;
+      case 'TM':
+        return PhoneNumberCountryCode.tm;
+      case 'TC':
+        return PhoneNumberCountryCode.tc;
+      case 'TV':
+        return PhoneNumberCountryCode.tv;
+      case 'VI':
+        return PhoneNumberCountryCode.vi;
+      case 'UG':
+        return PhoneNumberCountryCode.ug;
+      case 'UA':
+        return PhoneNumberCountryCode.ua;
+      case 'AE':
+        return PhoneNumberCountryCode.ae;
+      case 'GB':
+        return PhoneNumberCountryCode.gb;
+      case 'US':
+        return PhoneNumberCountryCode.us;
+      case 'UY':
+        return PhoneNumberCountryCode.uy;
+      case 'UZ':
+        return PhoneNumberCountryCode.uz;
+      case 'VU':
+        return PhoneNumberCountryCode.vu;
+      case 'VA':
+        return PhoneNumberCountryCode.va;
+      case 'VE':
+        return PhoneNumberCountryCode.ve;
+      case 'VN':
+        return PhoneNumberCountryCode.vn;
+      case 'WF':
+        return PhoneNumberCountryCode.wf;
+      case 'EH':
+        return PhoneNumberCountryCode.eh;
+      case 'YE':
+        return PhoneNumberCountryCode.ye;
+      case 'ZM':
+        return PhoneNumberCountryCode.zm;
+      case 'ZW':
+        return PhoneNumberCountryCode.zw;
+    }
+    throw Exception('$this is not known in enum PhoneNumberCountryCode');
   }
 }
 
 /// Contains information about a phone number for a quick connect.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PhoneNumberQuickConnectConfig {
   /// The phone number in E.164 format.
-  @_s.JsonKey(name: 'PhoneNumber')
   final String phoneNumber;
 
   PhoneNumberQuickConnectConfig({
-    @_s.required this.phoneNumber,
+    required this.phoneNumber,
   });
-  factory PhoneNumberQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberQuickConnectConfigFromJson(json);
+  factory PhoneNumberQuickConnectConfig.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberQuickConnectConfig(
+      phoneNumber: json['PhoneNumber'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PhoneNumberQuickConnectConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    return {
+      'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
 /// Contains summary information about a phone number for a contact center.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumberSummary {
   /// The Amazon Resource Name (ARN) of the phone number.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the phone number.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The phone number.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The ISO country code.
-  @_s.JsonKey(name: 'PhoneNumberCountryCode')
-  final PhoneNumberCountryCode phoneNumberCountryCode;
+  final PhoneNumberCountryCode? phoneNumberCountryCode;
 
   /// The type of phone number.
-  @_s.JsonKey(name: 'PhoneNumberType')
-  final PhoneNumberType phoneNumberType;
+  final PhoneNumberType? phoneNumberType;
 
   PhoneNumberSummary({
     this.arn,
@@ -8485,14 +9026,21 @@ class PhoneNumberSummary {
     this.phoneNumberCountryCode,
     this.phoneNumberType,
   });
-  factory PhoneNumberSummary.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberSummaryFromJson(json);
+  factory PhoneNumberSummary.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      phoneNumberCountryCode: (json['PhoneNumberCountryCode'] as String?)
+          ?.toPhoneNumberCountryCode(),
+      phoneNumberType:
+          (json['PhoneNumberType'] as String?)?.toPhoneNumberType(),
+    );
+  }
 }
 
 enum PhoneNumberType {
-  @_s.JsonValue('TOLL_FREE')
   tollFree,
-  @_s.JsonValue('DID')
   did,
 }
 
@@ -8504,116 +9052,137 @@ extension on PhoneNumberType {
       case PhoneNumberType.did:
         return 'DID';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PhoneNumberType toPhoneNumberType() {
+    switch (this) {
+      case 'TOLL_FREE':
+        return PhoneNumberType.tollFree;
+      case 'DID':
+        return PhoneNumberType.did;
+    }
+    throw Exception('$this is not known in enum PhoneNumberType');
   }
 }
 
 enum PhoneType {
-  @_s.JsonValue('SOFT_PHONE')
   softPhone,
-  @_s.JsonValue('DESK_PHONE')
   deskPhone,
 }
 
+extension on PhoneType {
+  String toValue() {
+    switch (this) {
+      case PhoneType.softPhone:
+        return 'SOFT_PHONE';
+      case PhoneType.deskPhone:
+        return 'DESK_PHONE';
+    }
+  }
+}
+
+extension on String {
+  PhoneType toPhoneType() {
+    switch (this) {
+      case 'SOFT_PHONE':
+        return PhoneType.softPhone;
+      case 'DESK_PHONE':
+        return PhoneType.deskPhone;
+    }
+    throw Exception('$this is not known in enum PhoneType');
+  }
+}
+
 /// Contains information about the prompt.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PromptSummary {
   /// The Amazon Resource Name (ARN) of the prompt.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the prompt.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the prompt.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   PromptSummary({
     this.arn,
     this.id,
     this.name,
   });
-  factory PromptSummary.fromJson(Map<String, dynamic> json) =>
-      _$PromptSummaryFromJson(json);
+  factory PromptSummary.fromJson(Map<String, dynamic> json) {
+    return PromptSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Contains information about a queue for a quick connect. The contact flow
 /// must be of type Transfer to Queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class QueueQuickConnectConfig {
   /// The identifier of the contact flow.
-  @_s.JsonKey(name: 'ContactFlowId')
   final String contactFlowId;
 
   /// The identifier of the queue.
-  @_s.JsonKey(name: 'QueueId')
   final String queueId;
 
   QueueQuickConnectConfig({
-    @_s.required this.contactFlowId,
-    @_s.required this.queueId,
+    required this.contactFlowId,
+    required this.queueId,
   });
-  factory QueueQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
-      _$QueueQuickConnectConfigFromJson(json);
+  factory QueueQuickConnectConfig.fromJson(Map<String, dynamic> json) {
+    return QueueQuickConnectConfig(
+      contactFlowId: json['ContactFlowId'] as String,
+      queueId: json['QueueId'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$QueueQuickConnectConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final contactFlowId = this.contactFlowId;
+    final queueId = this.queueId;
+    return {
+      'ContactFlowId': contactFlowId,
+      'QueueId': queueId,
+    };
+  }
 }
 
 /// Contains information about a queue resource for which metrics are returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueueReference {
   /// The Amazon Resource Name (ARN) of the queue.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the queue.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   QueueReference({
     this.arn,
     this.id,
   });
-  factory QueueReference.fromJson(Map<String, dynamic> json) =>
-      _$QueueReferenceFromJson(json);
+  factory QueueReference.fromJson(Map<String, dynamic> json) {
+    return QueueReference(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
 }
 
 /// Contains summary information about a queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueueSummary {
   /// The Amazon Resource Name (ARN) of the queue.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the queue.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the queue.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of queue.
-  @_s.JsonKey(name: 'QueueType')
-  final QueueType queueType;
+  final QueueType? queueType;
 
   QueueSummary({
     this.arn,
@@ -8621,14 +9190,18 @@ class QueueSummary {
     this.name,
     this.queueType,
   });
-  factory QueueSummary.fromJson(Map<String, dynamic> json) =>
-      _$QueueSummaryFromJson(json);
+  factory QueueSummary.fromJson(Map<String, dynamic> json) {
+    return QueueSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      queueType: (json['QueueType'] as String?)?.toQueueType(),
+    );
+  }
 }
 
 enum QueueType {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('AGENT')
   agent,
 }
 
@@ -8640,40 +9213,40 @@ extension on QueueType {
       case QueueType.agent:
         return 'AGENT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QueueType toQueueType() {
+    switch (this) {
+      case 'STANDARD':
+        return QueueType.standard;
+      case 'AGENT':
+        return QueueType.agent;
+    }
+    throw Exception('$this is not known in enum QueueType');
   }
 }
 
 /// Contains information about a quick connect.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QuickConnect {
   /// The description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the quick connect.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the quick connect.
-  @_s.JsonKey(name: 'QuickConnectARN')
-  final String quickConnectARN;
+  final String? quickConnectARN;
 
   /// Contains information about the quick connect.
-  @_s.JsonKey(name: 'QuickConnectConfig')
-  final QuickConnectConfig quickConnectConfig;
+  final QuickConnectConfig? quickConnectConfig;
 
   /// The identifier for the quick connect.
-  @_s.JsonKey(name: 'QuickConnectId')
-  final String quickConnectId;
+  final String? quickConnectId;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   QuickConnect({
     this.description,
@@ -8683,72 +9256,93 @@ class QuickConnect {
     this.quickConnectId,
     this.tags,
   });
-  factory QuickConnect.fromJson(Map<String, dynamic> json) =>
-      _$QuickConnectFromJson(json);
+  factory QuickConnect.fromJson(Map<String, dynamic> json) {
+    return QuickConnect(
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      quickConnectARN: json['QuickConnectARN'] as String?,
+      quickConnectConfig: json['QuickConnectConfig'] != null
+          ? QuickConnectConfig.fromJson(
+              json['QuickConnectConfig'] as Map<String, dynamic>)
+          : null,
+      quickConnectId: json['QuickConnectId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Contains configuration settings for a quick connect.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class QuickConnectConfig {
   /// The type of quick connect. In the Amazon Connect console, when you create a
   /// quick connect, you are prompted to assign one of the following types: Agent
   /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
-  @_s.JsonKey(name: 'QuickConnectType')
   final QuickConnectType quickConnectType;
 
   /// The phone configuration. This is required only if QuickConnectType is
   /// PHONE_NUMBER.
-  @_s.JsonKey(name: 'PhoneConfig')
-  final PhoneNumberQuickConnectConfig phoneConfig;
+  final PhoneNumberQuickConnectConfig? phoneConfig;
 
   /// The queue configuration. This is required only if QuickConnectType is QUEUE.
-  @_s.JsonKey(name: 'QueueConfig')
-  final QueueQuickConnectConfig queueConfig;
+  final QueueQuickConnectConfig? queueConfig;
 
   /// The user configuration. This is required only if QuickConnectType is USER.
-  @_s.JsonKey(name: 'UserConfig')
-  final UserQuickConnectConfig userConfig;
+  final UserQuickConnectConfig? userConfig;
 
   QuickConnectConfig({
-    @_s.required this.quickConnectType,
+    required this.quickConnectType,
     this.phoneConfig,
     this.queueConfig,
     this.userConfig,
   });
-  factory QuickConnectConfig.fromJson(Map<String, dynamic> json) =>
-      _$QuickConnectConfigFromJson(json);
+  factory QuickConnectConfig.fromJson(Map<String, dynamic> json) {
+    return QuickConnectConfig(
+      quickConnectType:
+          (json['QuickConnectType'] as String).toQuickConnectType(),
+      phoneConfig: json['PhoneConfig'] != null
+          ? PhoneNumberQuickConnectConfig.fromJson(
+              json['PhoneConfig'] as Map<String, dynamic>)
+          : null,
+      queueConfig: json['QueueConfig'] != null
+          ? QueueQuickConnectConfig.fromJson(
+              json['QueueConfig'] as Map<String, dynamic>)
+          : null,
+      userConfig: json['UserConfig'] != null
+          ? UserQuickConnectConfig.fromJson(
+              json['UserConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$QuickConnectConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final quickConnectType = this.quickConnectType;
+    final phoneConfig = this.phoneConfig;
+    final queueConfig = this.queueConfig;
+    final userConfig = this.userConfig;
+    return {
+      'QuickConnectType': quickConnectType.toValue(),
+      if (phoneConfig != null) 'PhoneConfig': phoneConfig,
+      if (queueConfig != null) 'QueueConfig': queueConfig,
+      if (userConfig != null) 'UserConfig': userConfig,
+    };
+  }
 }
 
 /// Contains summary information about a quick connect.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QuickConnectSummary {
   /// The Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier for the quick connect.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of quick connect. In the Amazon Connect console, when you create a
   /// quick connect, you are prompted to assign one of the following types: Agent
   /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
-  @_s.JsonKey(name: 'QuickConnectType')
-  final QuickConnectType quickConnectType;
+  final QuickConnectType? quickConnectType;
 
   QuickConnectSummary({
     this.arn,
@@ -8756,16 +9350,20 @@ class QuickConnectSummary {
     this.name,
     this.quickConnectType,
   });
-  factory QuickConnectSummary.fromJson(Map<String, dynamic> json) =>
-      _$QuickConnectSummaryFromJson(json);
+  factory QuickConnectSummary.fromJson(Map<String, dynamic> json) {
+    return QuickConnectSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      quickConnectType:
+          (json['QuickConnectType'] as String?)?.toQuickConnectType(),
+    );
+  }
 }
 
 enum QuickConnectType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('QUEUE')
   queue,
-  @_s.JsonValue('PHONE_NUMBER')
   phoneNumber,
 }
 
@@ -8779,89 +9377,103 @@ extension on QuickConnectType {
       case QuickConnectType.phoneNumber:
         return 'PHONE_NUMBER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QuickConnectType toQuickConnectType() {
+    switch (this) {
+      case 'USER':
+        return QuickConnectType.user;
+      case 'QUEUE':
+        return QuickConnectType.queue;
+      case 'PHONE_NUMBER':
+        return QuickConnectType.phoneNumber;
+    }
+    throw Exception('$this is not known in enum QuickConnectType');
   }
 }
 
 /// A link that an agent selects to complete a given task. You can have up to
 /// 4,096 UTF-8 bytes across all references for a contact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Reference {
   /// A valid URL.
-  @_s.JsonKey(name: 'Type')
   final ReferenceType type;
 
   /// A formatted URL that will be shown to an agent in the Contact Control Panel
   /// (CCP)
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Reference({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ReferenceToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ReferenceType {
-  @_s.JsonValue('URL')
   url,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ReferenceType {
+  String toValue() {
+    switch (this) {
+      case ReferenceType.url:
+        return 'URL';
+    }
+  }
+}
+
+extension on String {
+  ReferenceType toReferenceType() {
+    switch (this) {
+      case 'URL':
+        return ReferenceType.url;
+    }
+    throw Exception('$this is not known in enum ReferenceType');
+  }
+}
+
 class ResumeContactRecordingResponse {
   ResumeContactRecordingResponse();
-  factory ResumeContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResumeContactRecordingResponseFromJson(json);
+  factory ResumeContactRecordingResponse.fromJson(Map<String, dynamic> _) {
+    return ResumeContactRecordingResponse();
+  }
 }
 
 /// Contains information about a routing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoutingProfile {
   /// The identifier of the default outbound queue for this routing profile.
-  @_s.JsonKey(name: 'DefaultOutboundQueueId')
-  final String defaultOutboundQueueId;
+  final String? defaultOutboundQueueId;
 
   /// The description of the routing profile.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The identifier of the Amazon Connect instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The channels agents can handle in the Contact Control Panel (CCP) for this
   /// routing profile.
-  @_s.JsonKey(name: 'MediaConcurrencies')
-  final List<MediaConcurrency> mediaConcurrencies;
+  final List<MediaConcurrency>? mediaConcurrencies;
 
   /// The name of the routing profile.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the routing profile.
-  @_s.JsonKey(name: 'RoutingProfileArn')
-  final String routingProfileArn;
+  final String? routingProfileArn;
 
   /// The identifier of the routing profile.
-  @_s.JsonKey(name: 'RoutingProfileId')
-  final String routingProfileId;
+  final String? routingProfileId;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   RoutingProfile({
     this.defaultOutboundQueueId,
@@ -8873,237 +9485,245 @@ class RoutingProfile {
     this.routingProfileId,
     this.tags,
   });
-  factory RoutingProfile.fromJson(Map<String, dynamic> json) =>
-      _$RoutingProfileFromJson(json);
+  factory RoutingProfile.fromJson(Map<String, dynamic> json) {
+    return RoutingProfile(
+      defaultOutboundQueueId: json['DefaultOutboundQueueId'] as String?,
+      description: json['Description'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      mediaConcurrencies: (json['MediaConcurrencies'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaConcurrency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      routingProfileArn: json['RoutingProfileArn'] as String?,
+      routingProfileId: json['RoutingProfileId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// Contains information about the queue and channel for which priority and
 /// delay can be set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RoutingProfileQueueConfig {
   /// The delay, in seconds, a contact should be in the queue before they are
   /// routed to an available agent. For more information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
   /// priority and delay</a> in the <i>Amazon Connect Administrator Guide</i>.
-  @_s.JsonKey(name: 'Delay')
   final int delay;
 
   /// The order in which contacts are to be handled for the queue. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
   /// priority and delay</a>.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// Contains information about a queue resource.
-  @_s.JsonKey(name: 'QueueReference')
   final RoutingProfileQueueReference queueReference;
 
   RoutingProfileQueueConfig({
-    @_s.required this.delay,
-    @_s.required this.priority,
-    @_s.required this.queueReference,
+    required this.delay,
+    required this.priority,
+    required this.queueReference,
   });
-  Map<String, dynamic> toJson() => _$RoutingProfileQueueConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final delay = this.delay;
+    final priority = this.priority;
+    final queueReference = this.queueReference;
+    return {
+      'Delay': delay,
+      'Priority': priority,
+      'QueueReference': queueReference,
+    };
+  }
 }
 
 /// Contains summary information about a routing profile queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoutingProfileQueueConfigSummary {
   /// The channels this queue supports.
-  @_s.JsonKey(name: 'Channel')
   final Channel channel;
 
   /// The delay, in seconds, that a contact should be in the queue before they are
   /// routed to an available agent. For more information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
   /// priority and delay</a> in the <i>Amazon Connect Administrator Guide</i>.
-  @_s.JsonKey(name: 'Delay')
   final int delay;
 
   /// The order in which contacts are to be handled for the queue. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
   /// priority and delay</a>.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// The Amazon Resource Name (ARN) of the queue.
-  @_s.JsonKey(name: 'QueueArn')
   final String queueArn;
 
   /// The identifier of the queue.
-  @_s.JsonKey(name: 'QueueId')
   final String queueId;
 
   /// The name of the queue.
-  @_s.JsonKey(name: 'QueueName')
   final String queueName;
 
   RoutingProfileQueueConfigSummary({
-    @_s.required this.channel,
-    @_s.required this.delay,
-    @_s.required this.priority,
-    @_s.required this.queueArn,
-    @_s.required this.queueId,
-    @_s.required this.queueName,
+    required this.channel,
+    required this.delay,
+    required this.priority,
+    required this.queueArn,
+    required this.queueId,
+    required this.queueName,
   });
-  factory RoutingProfileQueueConfigSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$RoutingProfileQueueConfigSummaryFromJson(json);
+  factory RoutingProfileQueueConfigSummary.fromJson(Map<String, dynamic> json) {
+    return RoutingProfileQueueConfigSummary(
+      channel: (json['Channel'] as String).toChannel(),
+      delay: json['Delay'] as int,
+      priority: json['Priority'] as int,
+      queueArn: json['QueueArn'] as String,
+      queueId: json['QueueId'] as String,
+      queueName: json['QueueName'] as String,
+    );
+  }
 }
 
 /// Contains the channel and queue identifier for a routing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RoutingProfileQueueReference {
   /// The channels agents can handle in the Contact Control Panel (CCP) for this
   /// routing profile.
-  @_s.JsonKey(name: 'Channel')
   final Channel channel;
 
   /// The identifier of the queue.
-  @_s.JsonKey(name: 'QueueId')
   final String queueId;
 
   RoutingProfileQueueReference({
-    @_s.required this.channel,
-    @_s.required this.queueId,
+    required this.channel,
+    required this.queueId,
   });
-  Map<String, dynamic> toJson() => _$RoutingProfileQueueReferenceToJson(this);
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    final queueId = this.queueId;
+    return {
+      'Channel': channel.toValue(),
+      'QueueId': queueId,
+    };
+  }
 }
 
 /// Contains summary information about a routing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoutingProfileSummary {
   /// The Amazon Resource Name (ARN) of the routing profile.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the routing profile.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the routing profile.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RoutingProfileSummary({
     this.arn,
     this.id,
     this.name,
   });
-  factory RoutingProfileSummary.fromJson(Map<String, dynamic> json) =>
-      _$RoutingProfileSummaryFromJson(json);
+  factory RoutingProfileSummary.fromJson(Map<String, dynamic> json) {
+    return RoutingProfileSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 /// Information about the S3 storage type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Config {
   /// The S3 bucket name.
-  @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
   /// The S3 bucket prefix.
-  @_s.JsonKey(name: 'BucketPrefix')
   final String bucketPrefix;
 
   /// The S3 encryption configuration.
-  @_s.JsonKey(name: 'EncryptionConfig')
-  final EncryptionConfig encryptionConfig;
+  final EncryptionConfig? encryptionConfig;
 
   S3Config({
-    @_s.required this.bucketName,
-    @_s.required this.bucketPrefix,
+    required this.bucketName,
+    required this.bucketPrefix,
     this.encryptionConfig,
   });
-  factory S3Config.fromJson(Map<String, dynamic> json) =>
-      _$S3ConfigFromJson(json);
+  factory S3Config.fromJson(Map<String, dynamic> json) {
+    return S3Config(
+      bucketName: json['BucketName'] as String,
+      bucketPrefix: json['BucketPrefix'] as String,
+      encryptionConfig: json['EncryptionConfig'] != null
+          ? EncryptionConfig.fromJson(
+              json['EncryptionConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    final encryptionConfig = this.encryptionConfig;
+    return {
+      'BucketName': bucketName,
+      'BucketPrefix': bucketPrefix,
+      if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
+    };
+  }
 }
 
 /// Configuration information of the security key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityKey {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// When the security key was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The key of the security key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   SecurityKey({
     this.associationId,
     this.creationTime,
     this.key,
   });
-  factory SecurityKey.fromJson(Map<String, dynamic> json) =>
-      _$SecurityKeyFromJson(json);
+  factory SecurityKey.fromJson(Map<String, dynamic> json) {
+    return SecurityKey(
+      associationId: json['AssociationId'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      key: json['Key'] as String?,
+    );
+  }
 }
 
 /// Contains information about a security profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityProfileSummary {
   /// The Amazon Resource Name (ARN) of the security profile.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the security profile.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the security profile.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SecurityProfileSummary({
     this.arn,
     this.id,
     this.name,
   });
-  factory SecurityProfileSummary.fromJson(Map<String, dynamic> json) =>
-      _$SecurityProfileSummaryFromJson(json);
+  factory SecurityProfileSummary.fromJson(Map<String, dynamic> json) {
+    return SecurityProfileSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 enum SourceType {
-  @_s.JsonValue('SALESFORCE')
   salesforce,
-  @_s.JsonValue('ZENDESK')
   zendesk,
 }
 
@@ -9115,215 +9735,272 @@ extension on SourceType {
       case SourceType.zendesk:
         return 'ZENDESK';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'SALESFORCE':
+        return SourceType.salesforce;
+      case 'ZENDESK':
+        return SourceType.zendesk;
+    }
+    throw Exception('$this is not known in enum SourceType');
+  }
+}
+
 class StartChatContactResponse {
   /// The identifier of this contact within the Amazon Connect instance.
-  @_s.JsonKey(name: 'ContactId')
-  final String contactId;
+  final String? contactId;
 
   /// The identifier for a chat participant. The participantId for a chat
   /// participant is the same throughout the chat lifecycle.
-  @_s.JsonKey(name: 'ParticipantId')
-  final String participantId;
+  final String? participantId;
 
   /// The token used by the chat participant to call <a
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>.
   /// The participant token is valid for the lifetime of a chat participant.
-  @_s.JsonKey(name: 'ParticipantToken')
-  final String participantToken;
+  final String? participantToken;
 
   StartChatContactResponse({
     this.contactId,
     this.participantId,
     this.participantToken,
   });
-  factory StartChatContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartChatContactResponseFromJson(json);
+  factory StartChatContactResponse.fromJson(Map<String, dynamic> json) {
+    return StartChatContactResponse(
+      contactId: json['ContactId'] as String?,
+      participantId: json['ParticipantId'] as String?,
+      participantToken: json['ParticipantToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartContactRecordingResponse {
   StartContactRecordingResponse();
-  factory StartContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartContactRecordingResponseFromJson(json);
+  factory StartContactRecordingResponse.fromJson(Map<String, dynamic> _) {
+    return StartContactRecordingResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartOutboundVoiceContactResponse {
   /// The identifier of this contact within the Amazon Connect instance.
-  @_s.JsonKey(name: 'ContactId')
-  final String contactId;
+  final String? contactId;
 
   StartOutboundVoiceContactResponse({
     this.contactId,
   });
   factory StartOutboundVoiceContactResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartOutboundVoiceContactResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartOutboundVoiceContactResponse(
+      contactId: json['ContactId'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTaskContactResponse {
   /// The identifier of this contact within the Amazon Connect instance.
-  @_s.JsonKey(name: 'ContactId')
-  final String contactId;
+  final String? contactId;
 
   StartTaskContactResponse({
     this.contactId,
   });
-  factory StartTaskContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTaskContactResponseFromJson(json);
+  factory StartTaskContactResponse.fromJson(Map<String, dynamic> json) {
+    return StartTaskContactResponse(
+      contactId: json['ContactId'] as String?,
+    );
+  }
 }
 
 enum Statistic {
-  @_s.JsonValue('SUM')
   sum,
-  @_s.JsonValue('MAX')
   max,
-  @_s.JsonValue('AVG')
   avg,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class StopContactRecordingResponse {
-  StopContactRecordingResponse();
-  factory StopContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopContactRecordingResponseFromJson(json);
+extension on Statistic {
+  String toValue() {
+    switch (this) {
+      case Statistic.sum:
+        return 'SUM';
+      case Statistic.max:
+        return 'MAX';
+      case Statistic.avg:
+        return 'AVG';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Statistic toStatistic() {
+    switch (this) {
+      case 'SUM':
+        return Statistic.sum;
+      case 'MAX':
+        return Statistic.max;
+      case 'AVG':
+        return Statistic.avg;
+    }
+    throw Exception('$this is not known in enum Statistic');
+  }
+}
+
+class StopContactRecordingResponse {
+  StopContactRecordingResponse();
+  factory StopContactRecordingResponse.fromJson(Map<String, dynamic> _) {
+    return StopContactRecordingResponse();
+  }
+}
+
 class StopContactResponse {
   StopContactResponse();
-  factory StopContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopContactResponseFromJson(json);
+  factory StopContactResponse.fromJson(Map<String, dynamic> _) {
+    return StopContactResponse();
+  }
 }
 
 enum StorageType {
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('KINESIS_VIDEO_STREAM')
   kinesisVideoStream,
-  @_s.JsonValue('KINESIS_STREAM')
   kinesisStream,
-  @_s.JsonValue('KINESIS_FIREHOSE')
   kinesisFirehose,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StorageType {
+  String toValue() {
+    switch (this) {
+      case StorageType.s3:
+        return 'S3';
+      case StorageType.kinesisVideoStream:
+        return 'KINESIS_VIDEO_STREAM';
+      case StorageType.kinesisStream:
+        return 'KINESIS_STREAM';
+      case StorageType.kinesisFirehose:
+        return 'KINESIS_FIREHOSE';
+    }
+  }
+}
+
+extension on String {
+  StorageType toStorageType() {
+    switch (this) {
+      case 'S3':
+        return StorageType.s3;
+      case 'KINESIS_VIDEO_STREAM':
+        return StorageType.kinesisVideoStream;
+      case 'KINESIS_STREAM':
+        return StorageType.kinesisStream;
+      case 'KINESIS_FIREHOSE':
+        return StorageType.kinesisFirehose;
+    }
+    throw Exception('$this is not known in enum StorageType');
+  }
+}
+
 class SuspendContactRecordingResponse {
   SuspendContactRecordingResponse();
-  factory SuspendContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
-      _$SuspendContactRecordingResponseFromJson(json);
+  factory SuspendContactRecordingResponse.fromJson(Map<String, dynamic> _) {
+    return SuspendContactRecordingResponse();
+  }
 }
 
 /// Contains information about the threshold for service level metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Threshold {
   /// The type of comparison. Only "less than" (LT) comparisons are supported.
-  @_s.JsonKey(name: 'Comparison')
-  final Comparison comparison;
+  final Comparison? comparison;
 
   /// The threshold value to compare.
-  @_s.JsonKey(name: 'ThresholdValue')
-  final double thresholdValue;
+  final double? thresholdValue;
 
   Threshold({
     this.comparison,
     this.thresholdValue,
   });
-  factory Threshold.fromJson(Map<String, dynamic> json) =>
-      _$ThresholdFromJson(json);
+  factory Threshold.fromJson(Map<String, dynamic> json) {
+    return Threshold(
+      comparison: (json['Comparison'] as String?)?.toComparison(),
+      thresholdValue: json['ThresholdValue'] as double?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ThresholdToJson(this);
+  Map<String, dynamic> toJson() {
+    final comparison = this.comparison;
+    final thresholdValue = this.thresholdValue;
+    return {
+      if (comparison != null) 'Comparison': comparison.toValue(),
+      if (thresholdValue != null) 'ThresholdValue': thresholdValue,
+    };
+  }
 }
 
 enum Unit {
-  @_s.JsonValue('SECONDS')
   seconds,
-  @_s.JsonValue('COUNT')
   count,
-  @_s.JsonValue('PERCENT')
   percent,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Unit {
+  String toValue() {
+    switch (this) {
+      case Unit.seconds:
+        return 'SECONDS';
+      case Unit.count:
+        return 'COUNT';
+      case Unit.percent:
+        return 'PERCENT';
+    }
+  }
+}
+
+extension on String {
+  Unit toUnit() {
+    switch (this) {
+      case 'SECONDS':
+        return Unit.seconds;
+      case 'COUNT':
+        return Unit.count;
+      case 'PERCENT':
+        return Unit.percent;
+    }
+    throw Exception('$this is not known in enum Unit');
+  }
+}
+
 class UpdateContactAttributesResponse {
   UpdateContactAttributesResponse();
-  factory UpdateContactAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContactAttributesResponseFromJson(json);
+  factory UpdateContactAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactAttributesResponse();
+  }
 }
 
 /// Contains the use case.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UseCase {
   /// The Amazon Resource Name (ARN) for the use case.
-  @_s.JsonKey(name: 'UseCaseArn')
-  final String useCaseArn;
+  final String? useCaseArn;
 
   /// The identifier for the use case.
-  @_s.JsonKey(name: 'UseCaseId')
-  final String useCaseId;
+  final String? useCaseId;
 
   /// The type of use case to associate to the AppIntegration association. Each
   /// AppIntegration association can have only one of each use case type.
-  @_s.JsonKey(name: 'UseCaseType')
-  final UseCaseType useCaseType;
+  final UseCaseType? useCaseType;
 
   UseCase({
     this.useCaseArn,
     this.useCaseId,
     this.useCaseType,
   });
-  factory UseCase.fromJson(Map<String, dynamic> json) =>
-      _$UseCaseFromJson(json);
+  factory UseCase.fromJson(Map<String, dynamic> json) {
+    return UseCase(
+      useCaseArn: json['UseCaseArn'] as String?,
+      useCaseId: json['UseCaseId'] as String?,
+      useCaseType: (json['UseCaseType'] as String?)?.toUseCaseType(),
+    );
+  }
 }
 
 enum UseCaseType {
-  @_s.JsonValue('RULES_EVALUATION')
   rulesEvaluation,
 }
 
@@ -9333,57 +10010,51 @@ extension on UseCaseType {
       case UseCaseType.rulesEvaluation:
         return 'RULES_EVALUATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UseCaseType toUseCaseType() {
+    switch (this) {
+      case 'RULES_EVALUATION':
+        return UseCaseType.rulesEvaluation;
+    }
+    throw Exception('$this is not known in enum UseCaseType');
   }
 }
 
 /// Contains information about a user account for a Amazon Connect instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The Amazon Resource Name (ARN) of the user account.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the user account in the directory used for identity
   /// management.
-  @_s.JsonKey(name: 'DirectoryUserId')
-  final String directoryUserId;
+  final String? directoryUserId;
 
   /// The identifier of the hierarchy group for the user.
-  @_s.JsonKey(name: 'HierarchyGroupId')
-  final String hierarchyGroupId;
+  final String? hierarchyGroupId;
 
   /// The identifier of the user account.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Information about the user identity.
-  @_s.JsonKey(name: 'IdentityInfo')
-  final UserIdentityInfo identityInfo;
+  final UserIdentityInfo? identityInfo;
 
   /// Information about the phone configuration for the user.
-  @_s.JsonKey(name: 'PhoneConfig')
-  final UserPhoneConfig phoneConfig;
+  final UserPhoneConfig? phoneConfig;
 
   /// The identifier of the routing profile for the user.
-  @_s.JsonKey(name: 'RoutingProfileId')
-  final String routingProfileId;
+  final String? routingProfileId;
 
   /// The identifiers of the security profiles for the user.
-  @_s.JsonKey(name: 'SecurityProfileIds')
-  final List<String> securityProfileIds;
+  final List<String>? securityProfileIds;
 
   /// The tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The user name assigned to the user account.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   User({
     this.arn,
@@ -9397,159 +10068,222 @@ class User {
     this.tags,
     this.username,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      arn: json['Arn'] as String?,
+      directoryUserId: json['DirectoryUserId'] as String?,
+      hierarchyGroupId: json['HierarchyGroupId'] as String?,
+      id: json['Id'] as String?,
+      identityInfo: json['IdentityInfo'] != null
+          ? UserIdentityInfo.fromJson(
+              json['IdentityInfo'] as Map<String, dynamic>)
+          : null,
+      phoneConfig: json['PhoneConfig'] != null
+          ? UserPhoneConfig.fromJson(
+              json['PhoneConfig'] as Map<String, dynamic>)
+          : null,
+      routingProfileId: json['RoutingProfileId'] as String?,
+      securityProfileIds: (json['SecurityProfileIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      username: json['Username'] as String?,
+    );
+  }
 }
 
 /// Contains information about the identity of a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserIdentityInfo {
   /// The email address. If you are using SAML for identity management and include
   /// this parameter, an error is returned.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The first name. This is required if you are using Amazon Connect or SAML for
   /// identity management.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// The last name. This is required if you are using Amazon Connect or SAML for
   /// identity management.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   UserIdentityInfo({
     this.email,
     this.firstName,
     this.lastName,
   });
-  factory UserIdentityInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserIdentityInfoFromJson(json);
+  factory UserIdentityInfo.fromJson(Map<String, dynamic> json) {
+    return UserIdentityInfo(
+      email: json['Email'] as String?,
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserIdentityInfoToJson(this);
+  Map<String, dynamic> toJson() {
+    final email = this.email;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    return {
+      if (email != null) 'Email': email,
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+    };
+  }
 }
 
 /// Contains information about the phone configuration settings for a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserPhoneConfig {
   /// The phone type.
-  @_s.JsonKey(name: 'PhoneType')
   final PhoneType phoneType;
 
   /// The After Call Work (ACW) timeout setting, in seconds.
-  @_s.JsonKey(name: 'AfterContactWorkTimeLimit')
-  final int afterContactWorkTimeLimit;
+  final int? afterContactWorkTimeLimit;
 
   /// The Auto accept setting.
-  @_s.JsonKey(name: 'AutoAccept')
-  final bool autoAccept;
+  final bool? autoAccept;
 
   /// The phone number for the user's desk phone.
-  @_s.JsonKey(name: 'DeskPhoneNumber')
-  final String deskPhoneNumber;
+  final String? deskPhoneNumber;
 
   UserPhoneConfig({
-    @_s.required this.phoneType,
+    required this.phoneType,
     this.afterContactWorkTimeLimit,
     this.autoAccept,
     this.deskPhoneNumber,
   });
-  factory UserPhoneConfig.fromJson(Map<String, dynamic> json) =>
-      _$UserPhoneConfigFromJson(json);
+  factory UserPhoneConfig.fromJson(Map<String, dynamic> json) {
+    return UserPhoneConfig(
+      phoneType: (json['PhoneType'] as String).toPhoneType(),
+      afterContactWorkTimeLimit: json['AfterContactWorkTimeLimit'] as int?,
+      autoAccept: json['AutoAccept'] as bool?,
+      deskPhoneNumber: json['DeskPhoneNumber'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserPhoneConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final phoneType = this.phoneType;
+    final afterContactWorkTimeLimit = this.afterContactWorkTimeLimit;
+    final autoAccept = this.autoAccept;
+    final deskPhoneNumber = this.deskPhoneNumber;
+    return {
+      'PhoneType': phoneType.toValue(),
+      if (afterContactWorkTimeLimit != null)
+        'AfterContactWorkTimeLimit': afterContactWorkTimeLimit,
+      if (autoAccept != null) 'AutoAccept': autoAccept,
+      if (deskPhoneNumber != null) 'DeskPhoneNumber': deskPhoneNumber,
+    };
+  }
 }
 
 /// Contains information about the quick connect configuration settings for a
 /// user. The contact flow must be of type Transfer to Agent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserQuickConnectConfig {
   /// The identifier of the contact flow.
-  @_s.JsonKey(name: 'ContactFlowId')
   final String contactFlowId;
 
   /// The identifier of the user.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   UserQuickConnectConfig({
-    @_s.required this.contactFlowId,
-    @_s.required this.userId,
+    required this.contactFlowId,
+    required this.userId,
   });
-  factory UserQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
-      _$UserQuickConnectConfigFromJson(json);
+  factory UserQuickConnectConfig.fromJson(Map<String, dynamic> json) {
+    return UserQuickConnectConfig(
+      contactFlowId: json['ContactFlowId'] as String,
+      userId: json['UserId'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$UserQuickConnectConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final contactFlowId = this.contactFlowId;
+    final userId = this.userId;
+    return {
+      'ContactFlowId': contactFlowId,
+      'UserId': userId,
+    };
+  }
 }
 
 /// Contains summary information about a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserSummary {
   /// The Amazon Resource Name (ARN) of the user account.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier of the user account.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The Amazon Connect user name of the user account.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   UserSummary({
     this.arn,
     this.id,
     this.username,
   });
-  factory UserSummary.fromJson(Map<String, dynamic> json) =>
-      _$UserSummaryFromJson(json);
+  factory UserSummary.fromJson(Map<String, dynamic> json) {
+    return UserSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
 }
 
 /// Contains information about the recording configuration settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VoiceRecordingConfiguration {
   /// Identifies which track is being recorded.
-  @_s.JsonKey(name: 'VoiceRecordingTrack')
-  final VoiceRecordingTrack voiceRecordingTrack;
+  final VoiceRecordingTrack? voiceRecordingTrack;
 
   VoiceRecordingConfiguration({
     this.voiceRecordingTrack,
   });
-  Map<String, dynamic> toJson() => _$VoiceRecordingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final voiceRecordingTrack = this.voiceRecordingTrack;
+    return {
+      if (voiceRecordingTrack != null)
+        'VoiceRecordingTrack': voiceRecordingTrack.toValue(),
+    };
+  }
 }
 
 enum VoiceRecordingTrack {
-  @_s.JsonValue('FROM_AGENT')
   fromAgent,
-  @_s.JsonValue('TO_AGENT')
   toAgent,
-  @_s.JsonValue('ALL')
   all,
 }
 
+extension on VoiceRecordingTrack {
+  String toValue() {
+    switch (this) {
+      case VoiceRecordingTrack.fromAgent:
+        return 'FROM_AGENT';
+      case VoiceRecordingTrack.toAgent:
+        return 'TO_AGENT';
+      case VoiceRecordingTrack.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  VoiceRecordingTrack toVoiceRecordingTrack() {
+    switch (this) {
+      case 'FROM_AGENT':
+        return VoiceRecordingTrack.fromAgent;
+      case 'TO_AGENT':
+        return VoiceRecordingTrack.toAgent;
+      case 'ALL':
+        return VoiceRecordingTrack.all;
+    }
+    throw Exception('$this is not known in enum VoiceRecordingTrack');
+  }
+}
+
 class ContactFlowNotPublishedException extends _s.GenericAwsException {
-  ContactFlowNotPublishedException({String type, String message})
+  ContactFlowNotPublishedException({String? type, String? message})
       : super(
             type: type,
             code: 'ContactFlowNotPublishedException',
@@ -9557,12 +10291,12 @@ class ContactFlowNotPublishedException extends _s.GenericAwsException {
 }
 
 class ContactNotFoundException extends _s.GenericAwsException {
-  ContactNotFoundException({String type, String message})
+  ContactNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContactNotFoundException', message: message);
 }
 
 class DestinationNotAllowedException extends _s.GenericAwsException {
-  DestinationNotAllowedException({String type, String message})
+  DestinationNotAllowedException({String? type, String? message})
       : super(
             type: type,
             code: 'DestinationNotAllowedException',
@@ -9570,38 +10304,38 @@ class DestinationNotAllowedException extends _s.GenericAwsException {
 }
 
 class DuplicateResourceException extends _s.GenericAwsException {
-  DuplicateResourceException({String type, String message})
+  DuplicateResourceException({String? type, String? message})
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidContactFlowException extends _s.GenericAwsException {
-  InvalidContactFlowException({String type, String message})
+  InvalidContactFlowException({String? type, String? message})
       : super(
             type: type, code: 'InvalidContactFlowException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class OutboundContactNotPermittedException extends _s.GenericAwsException {
-  OutboundContactNotPermittedException({String type, String message})
+  OutboundContactNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OutboundContactNotPermittedException',
@@ -9609,22 +10343,22 @@ class OutboundContactNotPermittedException extends _s.GenericAwsException {
 }
 
 class ResourceConflictException extends _s.GenericAwsException {
-  ResourceConflictException({String type, String message})
+  ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -9632,12 +10366,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UserNotFoundException extends _s.GenericAwsException {
-  UserNotFoundException({String type, String message})
+  UserNotFoundException({String? type, String? message})
       : super(type: type, code: 'UserNotFoundException', message: message);
 }
 

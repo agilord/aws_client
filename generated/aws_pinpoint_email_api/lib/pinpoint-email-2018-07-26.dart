@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'pinpoint-email-2018-07-26.g.dart';
 
 /// Welcome to the <i>Amazon Pinpoint Email API Reference</i>. This guide
 /// provides information about the Amazon Pinpoint Email API (version 1.0),
@@ -32,10 +24,10 @@ part 'pinpoint-email-2018-07-26.g.dart';
 class PinpointEmail {
   final _s.RestJsonProtocol _protocol;
   PinpointEmail({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -84,12 +76,12 @@ class PinpointEmail {
   /// An object that defines the open and click tracking options for emails that
   /// you send using the configuration set.
   Future<void> createConfigurationSet({
-    @_s.required String configurationSetName,
-    DeliveryOptions deliveryOptions,
-    ReputationOptions reputationOptions,
-    SendingOptions sendingOptions,
-    List<Tag> tags,
-    TrackingOptions trackingOptions,
+    required String configurationSetName,
+    DeliveryOptions? deliveryOptions,
+    ReputationOptions? reputationOptions,
+    SendingOptions? sendingOptions,
+    List<Tag>? tags,
+    TrackingOptions? trackingOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -106,7 +98,6 @@ class PinpointEmail {
       requestUri: '/v1/email/configuration-sets',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateConfigurationSetResponse.fromJson(response);
   }
 
   /// Create an event destination. In Amazon Pinpoint, <i>events</i> include
@@ -135,9 +126,9 @@ class PinpointEmail {
   /// Parameter [eventDestinationName] :
   /// A name that identifies the event destination within the configuration set.
   Future<void> createConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required EventDestinationDefinition eventDestination,
-    @_s.required String eventDestinationName,
+    required String configurationSetName,
+    required EventDestinationDefinition eventDestination,
+    required String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
@@ -153,7 +144,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateConfigurationSetEventDestinationResponse.fromJson(response);
   }
 
   /// Create a new pool of dedicated IP addresses. A pool can include one or
@@ -175,8 +165,8 @@ class PinpointEmail {
   /// An object that defines the tags (keys and values) that you want to
   /// associate with the pool.
   Future<void> createDedicatedIpPool({
-    @_s.required String poolName,
-    List<Tag> tags,
+    required String poolName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
     final $payload = <String, dynamic>{
@@ -189,7 +179,6 @@ class PinpointEmail {
       requestUri: '/v1/email/dedicated-ip-pools',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateDedicatedIpPoolResponse.fromJson(response);
   }
 
   /// Create a new predictive inbox placement test. Predictive inbox placement
@@ -229,10 +218,10 @@ class PinpointEmail {
   /// to associate with the predictive inbox placement test.
   Future<CreateDeliverabilityTestReportResponse>
       createDeliverabilityTestReport({
-    @_s.required EmailContent content,
-    @_s.required String fromEmailAddress,
-    String reportName,
-    List<Tag> tags,
+    required EmailContent content,
+    required String fromEmailAddress,
+    String? reportName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
@@ -281,8 +270,8 @@ class PinpointEmail {
   /// An array of objects that define the tags (keys and values) that you want
   /// to associate with the email identity.
   Future<CreateEmailIdentityResponse> createEmailIdentity({
-    @_s.required String emailIdentity,
-    List<Tag> tags,
+    required String emailIdentity,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
@@ -314,7 +303,7 @@ class PinpointEmail {
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to delete.
   Future<void> deleteConfigurationSet({
-    @_s.required String configurationSetName,
+    required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
@@ -324,7 +313,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteConfigurationSetResponse.fromJson(response);
   }
 
   /// Delete an event destination.
@@ -347,8 +335,8 @@ class PinpointEmail {
   /// Parameter [eventDestinationName] :
   /// The name of the event destination that you want to delete.
   Future<void> deleteConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required String eventDestinationName,
+    required String configurationSetName,
+    required String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
@@ -359,7 +347,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations/${Uri.encodeComponent(eventDestinationName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteConfigurationSetEventDestinationResponse.fromJson(response);
   }
 
   /// Delete a dedicated IP pool.
@@ -372,7 +359,7 @@ class PinpointEmail {
   /// Parameter [poolName] :
   /// The name of the dedicated IP pool that you want to delete.
   Future<void> deleteDedicatedIpPool({
-    @_s.required String poolName,
+    required String poolName,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
     final response = await _protocol.send(
@@ -382,7 +369,6 @@ class PinpointEmail {
           '/v1/email/dedicated-ip-pools/${Uri.encodeComponent(poolName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDedicatedIpPoolResponse.fromJson(response);
   }
 
   /// Deletes an email identity that you previously verified for use with Amazon
@@ -397,7 +383,7 @@ class PinpointEmail {
   /// The identity (that is, the email address or domain) that you want to
   /// delete from your Amazon Pinpoint account.
   Future<void> deleteEmailIdentity({
-    @_s.required String emailIdentity,
+    required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final response = await _protocol.send(
@@ -406,7 +392,6 @@ class PinpointEmail {
       requestUri: '/v1/email/identities/${Uri.encodeComponent(emailIdentity)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEmailIdentityResponse.fromJson(response);
   }
 
   /// Obtain information about the email-sending status and capabilities of your
@@ -436,11 +421,11 @@ class PinpointEmail {
   /// about. You can only specify the dedicated IP addresses that you use to
   /// send email using Amazon Pinpoint or Amazon SES.
   Future<GetBlacklistReportsResponse> getBlacklistReports({
-    @_s.required List<String> blacklistItemNames,
+    required List<String> blacklistItemNames,
   }) async {
     ArgumentError.checkNotNull(blacklistItemNames, 'blacklistItemNames');
     final $query = <String, List<String>>{
-      if (blacklistItemNames != null) 'BlacklistItemNames': blacklistItemNames,
+      'BlacklistItemNames': blacklistItemNames,
     };
     final response = await _protocol.send(
       payload: null,
@@ -470,7 +455,7 @@ class PinpointEmail {
   /// The name of the configuration set that you want to obtain more information
   /// about.
   Future<GetConfigurationSetResponse> getConfigurationSet({
-    @_s.required String configurationSetName,
+    required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
@@ -501,7 +486,7 @@ class PinpointEmail {
   /// The name of the configuration set that contains the event destination.
   Future<GetConfigurationSetEventDestinationsResponse>
       getConfigurationSetEventDestinations({
-    @_s.required String configurationSetName,
+    required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
@@ -527,7 +512,7 @@ class PinpointEmail {
   /// you specify has to be a dedicated IP address that's assocaited with your
   /// Amazon Pinpoint account.
   Future<GetDedicatedIpResponse> getDedicatedIp({
-    @_s.required String ip,
+    required String ip,
   }) async {
     ArgumentError.checkNotNull(ip, 'ip');
     final response = await _protocol.send(
@@ -560,9 +545,9 @@ class PinpointEmail {
   /// Parameter [poolName] :
   /// The name of the IP pool that the dedicated IP address is associated with.
   Future<GetDedicatedIpsResponse> getDedicatedIps({
-    String nextToken,
-    int pageSize,
-    String poolName,
+    String? nextToken,
+    int? pageSize,
+    String? poolName,
   }) async {
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
@@ -615,7 +600,7 @@ class PinpointEmail {
   /// Parameter [reportId] :
   /// A unique string that identifies the predictive inbox placement test.
   Future<GetDeliverabilityTestReportResponse> getDeliverabilityTestReport({
-    @_s.required String reportId,
+    required String reportId,
   }) async {
     ArgumentError.checkNotNull(reportId, 'reportId');
     final response = await _protocol.send(
@@ -645,7 +630,7 @@ class PinpointEmail {
   /// Pinpoint console.
   Future<GetDomainDeliverabilityCampaignResponse>
       getDomainDeliverabilityCampaign({
-    @_s.required String campaignId,
+    required String campaignId,
   }) async {
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     final response = await _protocol.send(
@@ -677,17 +662,16 @@ class PinpointEmail {
   /// The first day (in Unix time) that you want to obtain domain deliverability
   /// metrics for.
   Future<GetDomainStatisticsReportResponse> getDomainStatisticsReport({
-    @_s.required String domain,
-    @_s.required DateTime endDate,
-    @_s.required DateTime startDate,
+    required String domain,
+    required DateTime endDate,
+    required DateTime startDate,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     final $query = <String, List<String>>{
-      if (endDate != null) 'EndDate': [_s.iso8601ToJson(endDate).toString()],
-      if (startDate != null)
-        'StartDate': [_s.iso8601ToJson(startDate).toString()],
+      'EndDate': [_s.iso8601ToJson(endDate).toString()],
+      'StartDate': [_s.iso8601ToJson(startDate).toString()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -711,7 +695,7 @@ class PinpointEmail {
   /// Parameter [emailIdentity] :
   /// The email identity that you want to retrieve details for.
   Future<GetEmailIdentityResponse> getEmailIdentity({
-    @_s.required String emailIdentity,
+    required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final response = await _protocol.send(
@@ -747,8 +731,8 @@ class PinpointEmail {
   /// includes a <code>NextToken</code> element, which you can use to obtain
   /// additional results.
   Future<ListConfigurationSetsResponse> listConfigurationSets({
-    String nextToken,
-    int pageSize,
+    String? nextToken,
+    int? pageSize,
   }) async {
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
@@ -781,8 +765,8 @@ class PinpointEmail {
   /// <code>NextToken</code> element, which you can use to obtain additional
   /// results.
   Future<ListDedicatedIpPoolsResponse> listDedicatedIpPools({
-    String nextToken,
-    int pageSize,
+    String? nextToken,
+    int? pageSize,
   }) async {
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
@@ -821,8 +805,8 @@ class PinpointEmail {
   ///
   /// The value you specify has to be at least 0, and can be no more than 1000.
   Future<ListDeliverabilityTestReportsResponse> listDeliverabilityTestReports({
-    String nextToken,
-    int pageSize,
+    String? nextToken,
+    int? pageSize,
   }) async {
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
@@ -872,19 +856,18 @@ class PinpointEmail {
   /// you can use to obtain additional results.
   Future<ListDomainDeliverabilityCampaignsResponse>
       listDomainDeliverabilityCampaigns({
-    @_s.required DateTime endDate,
-    @_s.required DateTime startDate,
-    @_s.required String subscribedDomain,
-    String nextToken,
-    int pageSize,
+    required DateTime endDate,
+    required DateTime startDate,
+    required String subscribedDomain,
+    String? nextToken,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
     final $query = <String, List<String>>{
-      if (endDate != null) 'EndDate': [_s.iso8601ToJson(endDate).toString()],
-      if (startDate != null)
-        'StartDate': [_s.iso8601ToJson(startDate).toString()],
+      'EndDate': [_s.iso8601ToJson(endDate).toString()],
+      'StartDate': [_s.iso8601ToJson(startDate).toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (pageSize != null) 'PageSize': [pageSize.toString()],
     };
@@ -920,8 +903,8 @@ class PinpointEmail {
   ///
   /// The value you specify has to be at least 0, and can be no more than 1000.
   Future<ListEmailIdentitiesResponse> listEmailIdentities({
-    String nextToken,
-    int pageSize,
+    String? nextToken,
+    int? pageSize,
   }) async {
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
@@ -952,11 +935,11 @@ class PinpointEmail {
   /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
   /// tag information for.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'ResourceArn': [resourceArn],
+      'ResourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -980,7 +963,7 @@ class PinpointEmail {
   /// current AWS Region. Set to <code>true</code> to enable the automatic
   /// warm-up feature, or set to <code>false</code> to disable it.
   Future<void> putAccountDedicatedIpWarmupAttributes({
-    bool autoWarmupEnabled,
+    bool? autoWarmupEnabled,
   }) async {
     final $payload = <String, dynamic>{
       if (autoWarmupEnabled != null) 'AutoWarmupEnabled': autoWarmupEnabled,
@@ -991,7 +974,6 @@ class PinpointEmail {
       requestUri: '/v1/email/account/dedicated-ips/warmup',
       exceptionFnMap: _exceptionFns,
     );
-    return PutAccountDedicatedIpWarmupAttributesResponse.fromJson(response);
   }
 
   /// Enable or disable the ability of your account to send email.
@@ -1008,7 +990,7 @@ class PinpointEmail {
   /// operation to resume your account's ability to send email.
   /// </note>
   Future<void> putAccountSendingAttributes({
-    bool sendingEnabled,
+    bool? sendingEnabled,
   }) async {
     final $payload = <String, dynamic>{
       if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
@@ -1019,7 +1001,6 @@ class PinpointEmail {
       requestUri: '/v1/email/account/sending',
       exceptionFnMap: _exceptionFns,
     );
-    return PutAccountSendingAttributesResponse.fromJson(response);
   }
 
   /// Associate a configuration set with a dedicated IP pool. You can use
@@ -1045,9 +1026,9 @@ class PinpointEmail {
   /// value is <code>Optional</code>, messages can be delivered in plain text if
   /// a TLS connection can't be established.
   Future<void> putConfigurationSetDeliveryOptions({
-    @_s.required String configurationSetName,
-    String sendingPoolName,
-    TlsPolicy tlsPolicy,
+    required String configurationSetName,
+    String? sendingPoolName,
+    TlsPolicy? tlsPolicy,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -1061,7 +1042,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/delivery-options',
       exceptionFnMap: _exceptionFns,
     );
-    return PutConfigurationSetDeliveryOptionsResponse.fromJson(response);
   }
 
   /// Enable or disable collection of reputation metrics for emails that you
@@ -1080,8 +1060,8 @@ class PinpointEmail {
   /// configuration set. If <code>false</code>, tracking of reputation metrics
   /// is disabled for the configuration set.
   Future<void> putConfigurationSetReputationOptions({
-    @_s.required String configurationSetName,
-    bool reputationMetricsEnabled,
+    required String configurationSetName,
+    bool? reputationMetricsEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -1095,7 +1075,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/reputation-options',
       exceptionFnMap: _exceptionFns,
     );
-    return PutConfigurationSetReputationOptionsResponse.fromJson(response);
   }
 
   /// Enable or disable email sending for messages that use a particular
@@ -1114,8 +1093,8 @@ class PinpointEmail {
   /// If <code>false</code>, email sending is disabled for the configuration
   /// set.
   Future<void> putConfigurationSetSendingOptions({
-    @_s.required String configurationSetName,
-    bool sendingEnabled,
+    required String configurationSetName,
+    bool? sendingEnabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -1128,7 +1107,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/sending',
       exceptionFnMap: _exceptionFns,
     );
-    return PutConfigurationSetSendingOptionsResponse.fromJson(response);
   }
 
   /// Specify a custom domain to use for open and click tracking elements in
@@ -1145,8 +1123,8 @@ class PinpointEmail {
   /// Parameter [customRedirectDomain] :
   /// The domain that you want to use to track open and click events.
   Future<void> putConfigurationSetTrackingOptions({
-    @_s.required String configurationSetName,
-    String customRedirectDomain,
+    required String configurationSetName,
+    String? customRedirectDomain,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -1160,7 +1138,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/tracking-options',
       exceptionFnMap: _exceptionFns,
     );
-    return PutConfigurationSetTrackingOptionsResponse.fromJson(response);
   }
 
   /// Move a dedicated IP address to an existing dedicated IP pool.
@@ -1185,8 +1162,8 @@ class PinpointEmail {
   /// you specify has to be a dedicated IP address that's associated with your
   /// Amazon Pinpoint account.
   Future<void> putDedicatedIpInPool({
-    @_s.required String destinationPoolName,
-    @_s.required String ip,
+    required String destinationPoolName,
+    required String ip,
   }) async {
     ArgumentError.checkNotNull(destinationPoolName, 'destinationPoolName');
     ArgumentError.checkNotNull(ip, 'ip');
@@ -1199,7 +1176,6 @@ class PinpointEmail {
       requestUri: '/v1/email/dedicated-ips/${Uri.encodeComponent(ip)}/pool',
       exceptionFnMap: _exceptionFns,
     );
-    return PutDedicatedIpInPoolResponse.fromJson(response);
   }
 
   /// <p/>
@@ -1216,8 +1192,8 @@ class PinpointEmail {
   /// The warm-up percentage that you want to associate with the dedicated IP
   /// address.
   Future<void> putDedicatedIpWarmupAttributes({
-    @_s.required String ip,
-    @_s.required int warmupPercentage,
+    required String ip,
+    required int warmupPercentage,
   }) async {
     ArgumentError.checkNotNull(ip, 'ip');
     ArgumentError.checkNotNull(warmupPercentage, 'warmupPercentage');
@@ -1230,7 +1206,6 @@ class PinpointEmail {
       requestUri: '/v1/email/dedicated-ips/${Uri.encodeComponent(ip)}/warmup',
       exceptionFnMap: _exceptionFns,
     );
-    return PutDedicatedIpWarmupAttributesResponse.fromJson(response);
   }
 
   /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint
@@ -1261,8 +1236,8 @@ class PinpointEmail {
   /// An array of objects, one for each verified domain that you use to send
   /// email and enabled the Deliverability dashboard for.
   Future<void> putDeliverabilityDashboardOption({
-    @_s.required bool dashboardEnabled,
-    List<DomainDeliverabilityTrackingOption> subscribedDomains,
+    required bool dashboardEnabled,
+    List<DomainDeliverabilityTrackingOption>? subscribedDomains,
   }) async {
     ArgumentError.checkNotNull(dashboardEnabled, 'dashboardEnabled');
     final $payload = <String, dynamic>{
@@ -1275,7 +1250,6 @@ class PinpointEmail {
       requestUri: '/v1/email/deliverability-dashboard',
       exceptionFnMap: _exceptionFns,
     );
-    return PutDeliverabilityDashboardOptionResponse.fromJson(response);
   }
 
   /// Used to enable or disable DKIM authentication for an email identity.
@@ -1295,8 +1269,8 @@ class PinpointEmail {
   /// to <code>false</code>, then the messages that Amazon Pinpoint sends from
   /// the identity aren't DKIM-signed.
   Future<void> putEmailIdentityDkimAttributes({
-    @_s.required String emailIdentity,
-    bool signingEnabled,
+    required String emailIdentity,
+    bool? signingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
@@ -1309,7 +1283,6 @@ class PinpointEmail {
           '/v1/email/identities/${Uri.encodeComponent(emailIdentity)}/dkim',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEmailIdentityDkimAttributesResponse.fromJson(response);
   }
 
   /// Used to enable or disable feedback forwarding for an identity. This
@@ -1352,8 +1325,8 @@ class PinpointEmail {
   /// email notification when these events occur (even if this setting is
   /// disabled).
   Future<void> putEmailIdentityFeedbackAttributes({
-    @_s.required String emailIdentity,
-    bool emailForwardingEnabled,
+    required String emailIdentity,
+    bool? emailForwardingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
@@ -1367,7 +1340,6 @@ class PinpointEmail {
           '/v1/email/identities/${Uri.encodeComponent(emailIdentity)}/feedback',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEmailIdentityFeedbackAttributesResponse.fromJson(response);
   }
 
   /// Used to enable or disable the custom Mail-From domain configuration for an
@@ -1411,9 +1383,9 @@ class PinpointEmail {
   /// </li>
   /// </ul>
   Future<void> putEmailIdentityMailFromAttributes({
-    @_s.required String emailIdentity,
-    BehaviorOnMxFailure behaviorOnMxFailure,
-    String mailFromDomain,
+    required String emailIdentity,
+    BehaviorOnMxFailure? behaviorOnMxFailure,
+    String? mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
@@ -1428,7 +1400,6 @@ class PinpointEmail {
           '/v1/email/identities/${Uri.encodeComponent(emailIdentity)}/mail-from',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEmailIdentityMailFromAttributesResponse.fromJson(response);
   }
 
   /// Sends an email message. You can use the Amazon Pinpoint Email API to send
@@ -1486,13 +1457,13 @@ class PinpointEmail {
   /// The "Reply-to" email addresses for the message. When the recipient replies
   /// to the message, each Reply-to address receives the reply.
   Future<SendEmailResponse> sendEmail({
-    @_s.required EmailContent content,
-    @_s.required Destination destination,
-    String configurationSetName,
-    List<MessageTag> emailTags,
-    String feedbackForwardingEmailAddress,
-    String fromEmailAddress,
-    List<String> replyToAddresses,
+    required EmailContent content,
+    required Destination destination,
+    String? configurationSetName,
+    List<MessageTag>? emailTags,
+    String? feedbackForwardingEmailAddress,
+    String? fromEmailAddress,
+    List<String>? replyToAddresses,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(destination, 'destination');
@@ -1542,8 +1513,8 @@ class PinpointEmail {
   /// (<code>Value</code>). The maximum length of a tag key is 128 characters.
   /// The maximum length of a tag value is 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1557,7 +1528,6 @@ class PinpointEmail {
       requestUri: '/v1/email/tags',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Remove one or more tags (keys and values) from a specified resource.
@@ -1581,14 +1551,14 @@ class PinpointEmail {
   /// remove, separated by an ampersand. For example:
   /// <code>/v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2</code>
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'ResourceArn': [resourceArn],
-      if (tagKeys != null) 'TagKeys': tagKeys,
+      'ResourceArn': [resourceArn],
+      'TagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1597,7 +1567,6 @@ class PinpointEmail {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Update the configuration of an event destination for a configuration set.
@@ -1623,9 +1592,9 @@ class PinpointEmail {
   /// Parameter [eventDestinationName] :
   /// The name of the event destination that you want to modify.
   Future<void> updateConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required EventDestinationDefinition eventDestination,
-    @_s.required String eventDestinationName,
+    required String configurationSetName,
+    required EventDestinationDefinition eventDestination,
+    required String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
@@ -1640,7 +1609,6 @@ class PinpointEmail {
           '/v1/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations/${Uri.encodeComponent(eventDestinationName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateConfigurationSetEventDestinationResponse.fromJson(response);
   }
 }
 
@@ -1655,9 +1623,7 @@ class PinpointEmail {
 /// in the <code>Pending</code>, <code>Failed</code>, and
 /// <code>TemporaryFailure</code> states.
 enum BehaviorOnMxFailure {
-  @_s.JsonValue('USE_DEFAULT_VALUE')
   useDefaultValue,
-  @_s.JsonValue('REJECT_MESSAGE')
   rejectMessage,
 }
 
@@ -1669,97 +1635,105 @@ extension on BehaviorOnMxFailure {
       case BehaviorOnMxFailure.rejectMessage:
         return 'REJECT_MESSAGE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BehaviorOnMxFailure toBehaviorOnMxFailure() {
+    switch (this) {
+      case 'USE_DEFAULT_VALUE':
+        return BehaviorOnMxFailure.useDefaultValue;
+      case 'REJECT_MESSAGE':
+        return BehaviorOnMxFailure.rejectMessage;
+    }
+    throw Exception('$this is not known in enum BehaviorOnMxFailure');
   }
 }
 
 /// An object that contains information about a blacklisting event that impacts
 /// one of the dedicated IP addresses that is associated with your account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BlacklistEntry {
   /// Additional information about the blacklisting event, as provided by the
   /// blacklist maintainer.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The time when the blacklisting event occurred, shown in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ListingTime')
-  final DateTime listingTime;
+  final DateTime? listingTime;
 
   /// The name of the blacklist that the IP address appears on.
-  @_s.JsonKey(name: 'RblName')
-  final String rblName;
+  final String? rblName;
 
   BlacklistEntry({
     this.description,
     this.listingTime,
     this.rblName,
   });
-  factory BlacklistEntry.fromJson(Map<String, dynamic> json) =>
-      _$BlacklistEntryFromJson(json);
+  factory BlacklistEntry.fromJson(Map<String, dynamic> json) {
+    return BlacklistEntry(
+      description: json['Description'] as String?,
+      listingTime: timeStampFromJson(json['ListingTime']),
+      rblName: json['RblName'] as String?,
+    );
+  }
 }
 
 /// Represents the body of the email message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Body {
   /// An object that represents the version of the message that is displayed in
   /// email clients that support HTML. HTML messages can include formatted text,
   /// hyperlinks, images, and more.
-  @_s.JsonKey(name: 'Html')
-  final Content html;
+  final Content? html;
 
   /// An object that represents the version of the message that is displayed in
   /// email clients that don't support HTML, or clients where the recipient has
   /// disabled HTML rendering.
-  @_s.JsonKey(name: 'Text')
-  final Content text;
+  final Content? text;
 
   Body({
     this.html,
     this.text,
   });
-  Map<String, dynamic> toJson() => _$BodyToJson(this);
+  Map<String, dynamic> toJson() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null) 'Html': html,
+      if (text != null) 'Text': text,
+    };
+  }
 }
 
 /// An object that defines an Amazon CloudWatch destination for email events.
 /// You can use Amazon CloudWatch to monitor and gain insights on your email
 /// sending metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchDestination {
   /// An array of objects that define the dimensions to use when you send email
   /// events to Amazon CloudWatch.
-  @_s.JsonKey(name: 'DimensionConfigurations')
   final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
 
   CloudWatchDestination({
-    @_s.required this.dimensionConfigurations,
+    required this.dimensionConfigurations,
   });
-  factory CloudWatchDestination.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchDestinationFromJson(json);
+  factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDestination(
+      dimensionConfigurations: (json['DimensionConfigurations'] as List)
+          .whereNotNull()
+          .map((e) => CloudWatchDimensionConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      'DimensionConfigurations': dimensionConfigurations,
+    };
+  }
 }
 
 /// An object that defines the dimension configuration to use when you send
 /// Amazon Pinpoint email events to Amazon CloudWatch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you don't provide the value of the dimension when you send an email. This
@@ -1774,7 +1748,6 @@ class CloudWatchDimensionConfiguration {
   /// It can contain no more than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DefaultDimensionValue')
   final String defaultDimensionValue;
 
   /// The name of an Amazon CloudWatch dimension associated with an email sending
@@ -1789,7 +1762,6 @@ class CloudWatchDimensionConfiguration {
   /// It can contain no more than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DimensionName')
   final String dimensionName;
 
   /// The location where Amazon Pinpoint finds the value of a dimension to publish
@@ -1799,32 +1771,38 @@ class CloudWatchDimensionConfiguration {
   /// Amazon Pinpoint to use your own email headers, choose
   /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
   /// choose <code>linkTags</code>.
-  @_s.JsonKey(name: 'DimensionValueSource')
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
-    @_s.required this.defaultDimensionValue,
-    @_s.required this.dimensionName,
-    @_s.required this.dimensionValueSource,
+    required this.defaultDimensionValue,
+    required this.dimensionName,
+    required this.dimensionValueSource,
   });
-  factory CloudWatchDimensionConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$CloudWatchDimensionConfigurationFromJson(json);
+  factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDimensionConfiguration(
+      defaultDimensionValue: json['DefaultDimensionValue'] as String,
+      dimensionName: json['DimensionName'] as String,
+      dimensionValueSource:
+          (json['DimensionValueSource'] as String).toDimensionValueSource(),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$CloudWatchDimensionConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.toValue(),
+    };
+  }
 }
 
 /// An object that represents the content of the email, and optionally a
 /// character set specification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Content {
   /// The content of the message itself.
-  @_s.JsonKey(name: 'Data')
   final String data;
 
   /// The character set for the content. Because of the constraints of the SMTP
@@ -1832,62 +1810,51 @@ class Content {
   /// characters outside of the ASCII range, you have to specify a character set.
   /// For example, you could specify <code>UTF-8</code>, <code>ISO-8859-1</code>,
   /// or <code>Shift_JIS</code>.
-  @_s.JsonKey(name: 'Charset')
-  final String charset;
+  final String? charset;
 
   Content({
-    @_s.required this.data,
+    required this.data,
     this.charset,
   });
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateConfigurationSetEventDestinationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return CreateConfigurationSetEventDestinationResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
-  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateConfigurationSetResponseFromJson(json);
+  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateConfigurationSetResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
-  factory CreateDedicatedIpPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDedicatedIpPoolResponseFromJson(json);
+  factory CreateDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
+    return CreateDedicatedIpPoolResponse();
+  }
 }
 
 /// Information about the predictive inbox placement test that you created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeliverabilityTestReportResponse {
   /// The status of the predictive inbox placement test. If the status is
   /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
@@ -1895,20 +1862,23 @@ class CreateDeliverabilityTestReportResponse {
   /// within 24 hours of creating the test. If the status is
   /// <code>COMPLETE</code>, then the test is finished, and you can use the
   /// <code>GetDeliverabilityTestReport</code> to view the results of the test.
-  @_s.JsonKey(name: 'DeliverabilityTestStatus')
   final DeliverabilityTestStatus deliverabilityTestStatus;
 
   /// A unique string that identifies the predictive inbox placement test.
-  @_s.JsonKey(name: 'ReportId')
   final String reportId;
 
   CreateDeliverabilityTestReportResponse({
-    @_s.required this.deliverabilityTestStatus,
-    @_s.required this.reportId,
+    required this.deliverabilityTestStatus,
+    required this.reportId,
   });
   factory CreateDeliverabilityTestReportResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDeliverabilityTestReportResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDeliverabilityTestReportResponse(
+      deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String)
+          .toDeliverabilityTestStatus(),
+      reportId: json['ReportId'] as String,
+    );
+  }
 }
 
 /// If the email identity is a domain, this object contains tokens that you can
@@ -1916,88 +1886,83 @@ class CreateDeliverabilityTestReportResponse {
 /// have to add these records to the DNS configuration for your domain.
 ///
 /// If the email identity is an email address, this object is empty.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEmailIdentityResponse {
   /// An object that contains information about the DKIM attributes for the
   /// identity. This object includes the tokens that you use to create the CNAME
   /// records that are required to complete the DKIM verification process.
-  @_s.JsonKey(name: 'DkimAttributes')
-  final DkimAttributes dkimAttributes;
+  final DkimAttributes? dkimAttributes;
 
   /// The email identity type.
-  @_s.JsonKey(name: 'IdentityType')
-  final IdentityType identityType;
+  final IdentityType? identityType;
 
   /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you
   /// can only send email from verified email addresses or domains. For more
   /// information about verifying identities, see the <a
   /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-email-manage-verify.html">Amazon
   /// Pinpoint User Guide</a>.
-  @_s.JsonKey(name: 'VerifiedForSendingStatus')
-  final bool verifiedForSendingStatus;
+  final bool? verifiedForSendingStatus;
 
   CreateEmailIdentityResponse({
     this.dkimAttributes,
     this.identityType,
     this.verifiedForSendingStatus,
   });
-  factory CreateEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEmailIdentityResponseFromJson(json);
+  factory CreateEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEmailIdentityResponse(
+      dkimAttributes: json['DkimAttributes'] != null
+          ? DkimAttributes.fromJson(
+              json['DkimAttributes'] as Map<String, dynamic>)
+          : null,
+      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool?,
+    );
+  }
 }
 
 /// An object that contains information about the volume of email sent on each
 /// day of the analysis period.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DailyVolume {
   /// An object that contains inbox placement metrics for a specified day in the
   /// analysis period, broken out by the recipient's email provider.
-  @_s.JsonKey(name: 'DomainIspPlacements')
-  final List<DomainIspPlacement> domainIspPlacements;
+  final List<DomainIspPlacement>? domainIspPlacements;
 
   /// The date that the DailyVolume metrics apply to, in Unix time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDate')
-  final DateTime startDate;
+  final DateTime? startDate;
 
   /// An object that contains inbox placement metrics for a specific day in the
   /// analysis period.
-  @_s.JsonKey(name: 'VolumeStatistics')
-  final VolumeStatistics volumeStatistics;
+  final VolumeStatistics? volumeStatistics;
 
   DailyVolume({
     this.domainIspPlacements,
     this.startDate,
     this.volumeStatistics,
   });
-  factory DailyVolume.fromJson(Map<String, dynamic> json) =>
-      _$DailyVolumeFromJson(json);
+  factory DailyVolume.fromJson(Map<String, dynamic> json) {
+    return DailyVolume(
+      domainIspPlacements: (json['DomainIspPlacements'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startDate: timeStampFromJson(json['StartDate']),
+      volumeStatistics: json['VolumeStatistics'] != null
+          ? VolumeStatistics.fromJson(
+              json['VolumeStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Contains information about a dedicated IP address that is associated with
 /// your Amazon Pinpoint account.
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DedicatedIp {
   /// An IP address that is reserved for use by your Amazon Pinpoint account.
-  @_s.JsonKey(name: 'Ip')
   final String ip;
 
   /// Indicates how complete the dedicated IP warm-up process is. When this value
   /// equals 1, the address has completed the warm-up process and is ready for
   /// use.
-  @_s.JsonKey(name: 'WarmupPercentage')
   final int warmupPercentage;
 
   /// The warm-up status of a dedicated IP address. The status can have one of the
@@ -2013,101 +1978,108 @@ class DedicatedIp {
   /// address is ready to use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'WarmupStatus')
   final WarmupStatus warmupStatus;
 
   /// The name of the dedicated IP pool that the IP address is associated with.
-  @_s.JsonKey(name: 'PoolName')
-  final String poolName;
+  final String? poolName;
 
   DedicatedIp({
-    @_s.required this.ip,
-    @_s.required this.warmupPercentage,
-    @_s.required this.warmupStatus,
+    required this.ip,
+    required this.warmupPercentage,
+    required this.warmupStatus,
     this.poolName,
   });
-  factory DedicatedIp.fromJson(Map<String, dynamic> json) =>
-      _$DedicatedIpFromJson(json);
+  factory DedicatedIp.fromJson(Map<String, dynamic> json) {
+    return DedicatedIp(
+      ip: json['Ip'] as String,
+      warmupPercentage: json['WarmupPercentage'] as int,
+      warmupStatus: (json['WarmupStatus'] as String).toWarmupStatus(),
+      poolName: json['PoolName'] as String?,
+    );
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteConfigurationSetEventDestinationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteConfigurationSetEventDestinationResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
-  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConfigurationSetResponseFromJson(json);
+  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConfigurationSetResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDedicatedIpPoolResponse {
   DeleteDedicatedIpPoolResponse();
-  factory DeleteDedicatedIpPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDedicatedIpPoolResponseFromJson(json);
+  factory DeleteDedicatedIpPoolResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDedicatedIpPoolResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
-  factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEmailIdentityResponseFromJson(json);
+  factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteEmailIdentityResponse();
+  }
 }
 
 /// The current status of your Deliverability dashboard subscription. If this
 /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
 /// expire at the end of the current calendar month.
 enum DeliverabilityDashboardAccountStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('PENDING_EXPIRATION')
   pendingExpiration,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on DeliverabilityDashboardAccountStatus {
+  String toValue() {
+    switch (this) {
+      case DeliverabilityDashboardAccountStatus.active:
+        return 'ACTIVE';
+      case DeliverabilityDashboardAccountStatus.pendingExpiration:
+        return 'PENDING_EXPIRATION';
+      case DeliverabilityDashboardAccountStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DeliverabilityDashboardAccountStatus
+      toDeliverabilityDashboardAccountStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DeliverabilityDashboardAccountStatus.active;
+      case 'PENDING_EXPIRATION':
+        return DeliverabilityDashboardAccountStatus.pendingExpiration;
+      case 'DISABLED':
+        return DeliverabilityDashboardAccountStatus.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum DeliverabilityDashboardAccountStatus');
+  }
 }
 
 /// An object that contains metadata related to a predictive inbox placement
 /// test.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeliverabilityTestReport {
   /// The date and time when the predictive inbox placement test was created, in
   /// Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateDate')
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The status of the predictive inbox placement test. If the status is
   /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
@@ -2115,26 +2087,21 @@ class DeliverabilityTestReport {
   /// within 24 hours of creating the test. If the status is
   /// <code>COMPLETE</code>, then the test is finished, and you can use the
   /// <code>GetDeliverabilityTestReport</code> to view the results of the test.
-  @_s.JsonKey(name: 'DeliverabilityTestStatus')
-  final DeliverabilityTestStatus deliverabilityTestStatus;
+  final DeliverabilityTestStatus? deliverabilityTestStatus;
 
   /// The sender address that you specified for the predictive inbox placement
   /// test.
-  @_s.JsonKey(name: 'FromEmailAddress')
-  final String fromEmailAddress;
+  final String? fromEmailAddress;
 
   /// A unique string that identifies the predictive inbox placement test.
-  @_s.JsonKey(name: 'ReportId')
-  final String reportId;
+  final String? reportId;
 
   /// A name that helps you identify a predictive inbox placement test report.
-  @_s.JsonKey(name: 'ReportName')
-  final String reportName;
+  final String? reportName;
 
   /// The subject line for an email that you submitted in a predictive inbox
   /// placement test.
-  @_s.JsonKey(name: 'Subject')
-  final String subject;
+  final String? subject;
 
   DeliverabilityTestReport({
     this.createDate,
@@ -2144,8 +2111,17 @@ class DeliverabilityTestReport {
     this.reportName,
     this.subject,
   });
-  factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) =>
-      _$DeliverabilityTestReportFromJson(json);
+  factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) {
+    return DeliverabilityTestReport(
+      createDate: timeStampFromJson(json['CreateDate']),
+      deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String?)
+          ?.toDeliverabilityTestStatus(),
+      fromEmailAddress: json['FromEmailAddress'] as String?,
+      reportId: json['ReportId'] as String?,
+      reportName: json['ReportName'] as String?,
+      subject: json['Subject'] as String?,
+    );
+  }
 }
 
 /// The status of a predictive inbox placement test. If the status is
@@ -2156,70 +2132,96 @@ class DeliverabilityTestReport {
 /// <code>GetDeliverabilityTestReport</code> operation to view the results of
 /// the test.
 enum DeliverabilityTestStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
+extension on DeliverabilityTestStatus {
+  String toValue() {
+    switch (this) {
+      case DeliverabilityTestStatus.inProgress:
+        return 'IN_PROGRESS';
+      case DeliverabilityTestStatus.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  DeliverabilityTestStatus toDeliverabilityTestStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return DeliverabilityTestStatus.inProgress;
+      case 'COMPLETED':
+        return DeliverabilityTestStatus.completed;
+    }
+    throw Exception('$this is not known in enum DeliverabilityTestStatus');
+  }
+}
+
 /// Used to associate a configuration set with a dedicated IP pool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeliveryOptions {
   /// The name of the dedicated IP pool that you want to associate with the
   /// configuration set.
-  @_s.JsonKey(name: 'SendingPoolName')
-  final String sendingPoolName;
+  final String? sendingPoolName;
 
   /// Specifies whether messages that use the configuration set are required to
   /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
   /// messages are only delivered if a TLS connection can be established. If the
   /// value is <code>Optional</code>, messages can be delivered in plain text if a
   /// TLS connection can't be established.
-  @_s.JsonKey(name: 'TlsPolicy')
-  final TlsPolicy tlsPolicy;
+  final TlsPolicy? tlsPolicy;
 
   DeliveryOptions({
     this.sendingPoolName,
     this.tlsPolicy,
   });
-  factory DeliveryOptions.fromJson(Map<String, dynamic> json) =>
-      _$DeliveryOptionsFromJson(json);
+  factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
+    return DeliveryOptions(
+      sendingPoolName: json['SendingPoolName'] as String?,
+      tlsPolicy: (json['TlsPolicy'] as String?)?.toTlsPolicy(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DeliveryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final sendingPoolName = this.sendingPoolName;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+    };
+  }
 }
 
 /// An object that describes the recipients for an email.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Destination {
   /// An array that contains the email addresses of the "BCC" (blind carbon copy)
   /// recipients for the email.
-  @_s.JsonKey(name: 'BccAddresses')
-  final List<String> bccAddresses;
+  final List<String>? bccAddresses;
 
   /// An array that contains the email addresses of the "CC" (carbon copy)
   /// recipients for the email.
-  @_s.JsonKey(name: 'CcAddresses')
-  final List<String> ccAddresses;
+  final List<String>? ccAddresses;
 
   /// An array that contains the email addresses of the "To" recipients for the
   /// email.
-  @_s.JsonKey(name: 'ToAddresses')
-  final List<String> toAddresses;
+  final List<String>? toAddresses;
 
   Destination({
     this.bccAddresses,
     this.ccAddresses,
     this.toAddresses,
   });
-  Map<String, dynamic> toJson() => _$DestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null) 'BccAddresses': bccAddresses,
+      if (ccAddresses != null) 'CcAddresses': ccAddresses,
+      if (toAddresses != null) 'ToAddresses': toAddresses,
+    };
+  }
 }
 
 /// The location where Amazon Pinpoint finds the value of a dimension to publish
@@ -2230,28 +2232,46 @@ class Destination {
 /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
 /// choose <code>linkTags</code>.
 enum DimensionValueSource {
-  @_s.JsonValue('MESSAGE_TAG')
   messageTag,
-  @_s.JsonValue('EMAIL_HEADER')
   emailHeader,
-  @_s.JsonValue('LINK_TAG')
   linkTag,
+}
+
+extension on DimensionValueSource {
+  String toValue() {
+    switch (this) {
+      case DimensionValueSource.messageTag:
+        return 'MESSAGE_TAG';
+      case DimensionValueSource.emailHeader:
+        return 'EMAIL_HEADER';
+      case DimensionValueSource.linkTag:
+        return 'LINK_TAG';
+    }
+  }
+}
+
+extension on String {
+  DimensionValueSource toDimensionValueSource() {
+    switch (this) {
+      case 'MESSAGE_TAG':
+        return DimensionValueSource.messageTag;
+      case 'EMAIL_HEADER':
+        return DimensionValueSource.emailHeader;
+      case 'LINK_TAG':
+        return DimensionValueSource.linkTag;
+    }
+    throw Exception('$this is not known in enum DimensionValueSource');
+  }
 }
 
 /// An object that contains information about the DKIM configuration for an
 /// email identity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DkimAttributes {
   /// If the value is <code>true</code>, then the messages that Amazon Pinpoint
   /// sends from the identity are DKIM-signed. If the value is <code>false</code>,
   /// then the messages that Amazon Pinpoint sends from the identity aren't
   /// DKIM-signed.
-  @_s.JsonKey(name: 'SigningEnabled')
-  final bool signingEnabled;
+  final bool? signingEnabled;
 
   /// Describes whether or not Amazon Pinpoint has successfully located the DKIM
   /// records in the DNS records for the domain. The status can be one of the
@@ -2281,8 +2301,7 @@ class DkimAttributes {
   /// the DKIM records in the DKIM records for the domain.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final DkimStatus status;
+  final DkimStatus? status;
 
   /// A set of unique strings that you use to create a set of CNAME records that
   /// you add to the DNS configuration for your domain. When Amazon Pinpoint
@@ -2290,16 +2309,23 @@ class DkimAttributes {
   /// authentication process is complete. Amazon Pinpoint usually detects these
   /// records within about 72 hours of adding them to the DNS configuration for
   /// your domain.
-  @_s.JsonKey(name: 'Tokens')
-  final List<String> tokens;
+  final List<String>? tokens;
 
   DkimAttributes({
     this.signingEnabled,
     this.status,
     this.tokens,
   });
-  factory DkimAttributes.fromJson(Map<String, dynamic> json) =>
-      _$DkimAttributesFromJson(json);
+  factory DkimAttributes.fromJson(Map<String, dynamic> json) {
+    return DkimAttributes(
+      signingEnabled: json['SigningEnabled'] as bool?,
+      status: (json['Status'] as String?)?.toDkimStatus(),
+      tokens: (json['Tokens'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// The DKIM authentication status of the identity. The status can be one of the
@@ -2330,103 +2356,112 @@ class DkimAttributes {
 /// </li>
 /// </ul>
 enum DkimStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TEMPORARY_FAILURE')
   temporaryFailure,
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
+}
+
+extension on DkimStatus {
+  String toValue() {
+    switch (this) {
+      case DkimStatus.pending:
+        return 'PENDING';
+      case DkimStatus.success:
+        return 'SUCCESS';
+      case DkimStatus.failed:
+        return 'FAILED';
+      case DkimStatus.temporaryFailure:
+        return 'TEMPORARY_FAILURE';
+      case DkimStatus.notStarted:
+        return 'NOT_STARTED';
+    }
+  }
+}
+
+extension on String {
+  DkimStatus toDkimStatus() {
+    switch (this) {
+      case 'PENDING':
+        return DkimStatus.pending;
+      case 'SUCCESS':
+        return DkimStatus.success;
+      case 'FAILED':
+        return DkimStatus.failed;
+      case 'TEMPORARY_FAILURE':
+        return DkimStatus.temporaryFailure;
+      case 'NOT_STARTED':
+        return DkimStatus.notStarted;
+    }
+    throw Exception('$this is not known in enum DkimStatus');
+  }
 }
 
 /// An object that contains the deliverability data for a specific campaign.
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainDeliverabilityCampaign {
   /// The unique identifier for the campaign. Amazon Pinpoint automatically
   /// generates and assigns this identifier to a campaign. This value is not the
   /// same as the campaign identifier that Amazon Pinpoint assigns to campaigns
   /// that you create and manage by using the Amazon Pinpoint API or the Amazon
   /// Pinpoint console.
-  @_s.JsonKey(name: 'CampaignId')
-  final String campaignId;
+  final String? campaignId;
 
   /// The percentage of email messages that were deleted by recipients, without
   /// being opened first. Due to technical limitations, this value only includes
   /// recipients who opened the message by using an email client that supports
   /// images.
-  @_s.JsonKey(name: 'DeleteRate')
-  final double deleteRate;
+  final double? deleteRate;
 
   /// The major email providers who handled the email message.
-  @_s.JsonKey(name: 'Esps')
-  final List<String> esps;
+  final List<String>? esps;
 
   /// The first time, in Unix time format, when the email message was delivered to
   /// any recipient's inbox. This value can help you determine how long it took
   /// for a campaign to deliver an email message.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FirstSeenDateTime')
-  final DateTime firstSeenDateTime;
+  final DateTime? firstSeenDateTime;
 
   /// The verified email address that the email message was sent from.
-  @_s.JsonKey(name: 'FromAddress')
-  final String fromAddress;
+  final String? fromAddress;
 
   /// The URL of an image that contains a snapshot of the email message that was
   /// sent.
-  @_s.JsonKey(name: 'ImageUrl')
-  final String imageUrl;
+  final String? imageUrl;
 
   /// The number of email messages that were delivered to recipients’ inboxes.
-  @_s.JsonKey(name: 'InboxCount')
-  final int inboxCount;
+  final int? inboxCount;
 
   /// The last time, in Unix time format, when the email message was delivered to
   /// any recipient's inbox. This value can help you determine how long it took
   /// for a campaign to deliver an email message.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastSeenDateTime')
-  final DateTime lastSeenDateTime;
+  final DateTime? lastSeenDateTime;
 
   /// The projected number of recipients that the email message was sent to.
-  @_s.JsonKey(name: 'ProjectedVolume')
-  final int projectedVolume;
+  final int? projectedVolume;
 
   /// The percentage of email messages that were opened and then deleted by
   /// recipients. Due to technical limitations, this value only includes
   /// recipients who opened the message by using an email client that supports
   /// images.
-  @_s.JsonKey(name: 'ReadDeleteRate')
-  final double readDeleteRate;
+  final double? readDeleteRate;
 
   /// The percentage of email messages that were opened by recipients. Due to
   /// technical limitations, this value only includes recipients who opened the
   /// message by using an email client that supports images.
-  @_s.JsonKey(name: 'ReadRate')
-  final double readRate;
+  final double? readRate;
 
   /// The IP addresses that were used to send the email message.
-  @_s.JsonKey(name: 'SendingIps')
-  final List<String> sendingIps;
+  final List<String>? sendingIps;
 
   /// The number of email messages that were delivered to recipients' spam or junk
   /// mail folders.
-  @_s.JsonKey(name: 'SpamCount')
-  final int spamCount;
+  final int? spamCount;
 
   /// The subject line, or title, of the email message.
-  @_s.JsonKey(name: 'Subject')
-  final String subject;
+  final String? subject;
 
   DomainDeliverabilityCampaign({
     this.campaignId,
@@ -2444,8 +2479,30 @@ class DomainDeliverabilityCampaign {
     this.spamCount,
     this.subject,
   });
-  factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) =>
-      _$DomainDeliverabilityCampaignFromJson(json);
+  factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
+    return DomainDeliverabilityCampaign(
+      campaignId: json['CampaignId'] as String?,
+      deleteRate: json['DeleteRate'] as double?,
+      esps: (json['Esps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
+      fromAddress: json['FromAddress'] as String?,
+      imageUrl: json['ImageUrl'] as String?,
+      inboxCount: json['InboxCount'] as int?,
+      lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
+      projectedVolume: json['ProjectedVolume'] as int?,
+      readDeleteRate: json['ReadDeleteRate'] as double?,
+      readRate: json['ReadRate'] as double?,
+      sendingIps: (json['SendingIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      spamCount: json['SpamCount'] as int?,
+      subject: json['Subject'] as String?,
+    );
+  }
 }
 
 /// An object that contains information about the Deliverability dashboard
@@ -2453,27 +2510,18 @@ class DomainDeliverabilityCampaign {
 /// has an active Deliverability dashboard subscription. If a Deliverability
 /// dashboard subscription is active for a domain, you gain access to
 /// reputation, inbox placement, and other metrics for the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DomainDeliverabilityTrackingOption {
   /// A verified domain that’s associated with your AWS account and currently has
   /// an active Deliverability dashboard subscription.
-  @_s.JsonKey(name: 'Domain')
-  final String domain;
+  final String? domain;
 
   /// An object that contains information about the inbox placement data settings
   /// for the domain.
-  @_s.JsonKey(name: 'InboxPlacementTrackingOption')
-  final InboxPlacementTrackingOption inboxPlacementTrackingOption;
+  final InboxPlacementTrackingOption? inboxPlacementTrackingOption;
 
   /// The date, in Unix time format, when you enabled the Deliverability dashboard
   /// for the domain.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubscriptionStartDate')
-  final DateTime subscriptionStartDate;
+  final DateTime? subscriptionStartDate;
 
   DomainDeliverabilityTrackingOption({
     this.domain,
@@ -2481,46 +2529,54 @@ class DomainDeliverabilityTrackingOption {
     this.subscriptionStartDate,
   });
   factory DomainDeliverabilityTrackingOption.fromJson(
-          Map<String, dynamic> json) =>
-      _$DomainDeliverabilityTrackingOptionFromJson(json);
+      Map<String, dynamic> json) {
+    return DomainDeliverabilityTrackingOption(
+      domain: json['Domain'] as String?,
+      inboxPlacementTrackingOption: json['InboxPlacementTrackingOption'] != null
+          ? InboxPlacementTrackingOption.fromJson(
+              json['InboxPlacementTrackingOption'] as Map<String, dynamic>)
+          : null,
+      subscriptionStartDate: timeStampFromJson(json['SubscriptionStartDate']),
+    );
+  }
 
-  Map<String, dynamic> toJson() =>
-      _$DomainDeliverabilityTrackingOptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final inboxPlacementTrackingOption = this.inboxPlacementTrackingOption;
+    final subscriptionStartDate = this.subscriptionStartDate;
+    return {
+      if (domain != null) 'Domain': domain,
+      if (inboxPlacementTrackingOption != null)
+        'InboxPlacementTrackingOption': inboxPlacementTrackingOption,
+      if (subscriptionStartDate != null)
+        'SubscriptionStartDate': unixTimestampToJson(subscriptionStartDate),
+    };
+  }
 }
 
 /// An object that contains inbox placement data for email sent from one of your
 /// email domains to a specific email provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainIspPlacement {
   /// The percentage of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' inboxes.
-  @_s.JsonKey(name: 'InboxPercentage')
-  final double inboxPercentage;
+  final double? inboxPercentage;
 
   /// The total number of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' inboxes.
-  @_s.JsonKey(name: 'InboxRawCount')
-  final int inboxRawCount;
+  final int? inboxRawCount;
 
   /// The name of the email provider that the inbox placement data applies to.
-  @_s.JsonKey(name: 'IspName')
-  final String ispName;
+  final String? ispName;
 
   /// The percentage of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' spam or junk mail
   /// folders.
-  @_s.JsonKey(name: 'SpamPercentage')
-  final double spamPercentage;
+  final double? spamPercentage;
 
   /// The total number of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' spam or junk mail
   /// folders.
-  @_s.JsonKey(name: 'SpamRawCount')
-  final int spamRawCount;
+  final int? spamRawCount;
 
   DomainIspPlacement({
     this.inboxPercentage,
@@ -2529,8 +2585,15 @@ class DomainIspPlacement {
     this.spamPercentage,
     this.spamRawCount,
   });
-  factory DomainIspPlacement.fromJson(Map<String, dynamic> json) =>
-      _$DomainIspPlacementFromJson(json);
+  factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
+    return DomainIspPlacement(
+      inboxPercentage: json['InboxPercentage'] as double?,
+      inboxRawCount: json['InboxRawCount'] as int?,
+      ispName: json['IspName'] as String?,
+      spamPercentage: json['SpamPercentage'] as double?,
+      spamRawCount: json['SpamRawCount'] as int?,
+    );
+  }
 }
 
 /// An object that defines the entire content of the email, including the
@@ -2539,11 +2602,6 @@ class DomainIspPlacement {
 /// message body. You can also create raw messages, in which you specify a
 /// complete MIME-formatted message. Raw messages can include attachments and
 /// custom headers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EmailContent {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -2575,24 +2633,30 @@ class EmailContent {
   /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Raw')
-  final RawMessage raw;
+  final RawMessage? raw;
 
   /// The simple email message. The message consists of a subject and a message
   /// body.
-  @_s.JsonKey(name: 'Simple')
-  final Message simple;
+  final Message? simple;
 
   /// The template to use for the email message.
-  @_s.JsonKey(name: 'Template')
-  final Template template;
+  final Template? template;
 
   EmailContent({
     this.raw,
     this.simple,
     this.template,
   });
-  Map<String, dynamic> toJson() => _$EmailContentToJson(this);
+  Map<String, dynamic> toJson() {
+    final raw = this.raw;
+    final simple = this.simple;
+    final template = this.template;
+    return {
+      if (raw != null) 'Raw': raw,
+      if (simple != null) 'Simple': simple,
+      if (template != null) 'Template': template,
+    };
+  }
 }
 
 /// In Amazon Pinpoint, <i>events</i> include message sends, deliveries, opens,
@@ -2601,26 +2665,18 @@ class EmailContent {
 /// event data to Amazon SNS to receive notifications when you receive bounces
 /// or complaints, or you can use Amazon Kinesis Data Firehose to stream data to
 /// Amazon S3 for long-term storage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventDestination {
   /// The types of events that Amazon Pinpoint sends to the specified event
   /// destinations.
-  @_s.JsonKey(name: 'MatchingEventTypes')
   final List<EventType> matchingEventTypes;
 
   /// A name that identifies the event destination.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An object that defines an Amazon CloudWatch destination for email events.
   /// You can use Amazon CloudWatch to monitor and gain insights on your email
   /// sending metrics.
-  @_s.JsonKey(name: 'CloudWatchDestination')
-  final CloudWatchDestination cloudWatchDestination;
+  final CloudWatchDestination? cloudWatchDestination;
 
   /// If <code>true</code>, the event destination is enabled. When the event
   /// destination is enabled, the specified event types are sent to the
@@ -2628,55 +2684,69 @@ class EventDestination {
   ///
   /// If <code>false</code>, the event destination is disabled. When the event
   /// destination is disabled, events aren't sent to the specified destinations.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// An object that defines an Amazon Kinesis Data Firehose destination for email
   /// events. You can use Amazon Kinesis Data Firehose to stream data to other
   /// services, such as Amazon S3 and Amazon Redshift.
-  @_s.JsonKey(name: 'KinesisFirehoseDestination')
-  final KinesisFirehoseDestination kinesisFirehoseDestination;
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
 
   /// An object that defines a Amazon Pinpoint destination for email events. You
   /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
   /// projects. You can use these attributes to create segments for your
   /// campaigns.
-  @_s.JsonKey(name: 'PinpointDestination')
-  final PinpointDestination pinpointDestination;
+  final PinpointDestination? pinpointDestination;
 
   /// An object that defines an Amazon SNS destination for email events. You can
   /// use Amazon SNS to send notification when certain email events occur.
-  @_s.JsonKey(name: 'SnsDestination')
-  final SnsDestination snsDestination;
+  final SnsDestination? snsDestination;
 
   EventDestination({
-    @_s.required this.matchingEventTypes,
-    @_s.required this.name,
+    required this.matchingEventTypes,
+    required this.name,
     this.cloudWatchDestination,
     this.enabled,
     this.kinesisFirehoseDestination,
     this.pinpointDestination,
     this.snsDestination,
   });
-  factory EventDestination.fromJson(Map<String, dynamic> json) =>
-      _$EventDestinationFromJson(json);
+  factory EventDestination.fromJson(Map<String, dynamic> json) {
+    return EventDestination(
+      matchingEventTypes: (json['MatchingEventTypes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEventType())
+          .toList(),
+      name: json['Name'] as String,
+      cloudWatchDestination: json['CloudWatchDestination'] != null
+          ? CloudWatchDestination.fromJson(
+              json['CloudWatchDestination'] as Map<String, dynamic>)
+          : null,
+      enabled: json['Enabled'] as bool?,
+      kinesisFirehoseDestination: json['KinesisFirehoseDestination'] != null
+          ? KinesisFirehoseDestination.fromJson(
+              json['KinesisFirehoseDestination'] as Map<String, dynamic>)
+          : null,
+      pinpointDestination: json['PinpointDestination'] != null
+          ? PinpointDestination.fromJson(
+              json['PinpointDestination'] as Map<String, dynamic>)
+          : null,
+      snsDestination: json['SnsDestination'] != null
+          ? SnsDestination.fromJson(
+              json['SnsDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object that defines the event destination. Specifically, it defines which
 /// services receive events from emails sent using the configuration set that
 /// the event destination is associated with. Also defines the types of events
 /// that are sent to the event destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EventDestinationDefinition {
   /// An object that defines an Amazon CloudWatch destination for email events.
   /// You can use Amazon CloudWatch to monitor and gain insights on your email
   /// sending metrics.
-  @_s.JsonKey(name: 'CloudWatchDestination')
-  final CloudWatchDestination cloudWatchDestination;
+  final CloudWatchDestination? cloudWatchDestination;
 
   /// If <code>true</code>, the event destination is enabled. When the event
   /// destination is enabled, the specified event types are sent to the
@@ -2684,31 +2754,26 @@ class EventDestinationDefinition {
   ///
   /// If <code>false</code>, the event destination is disabled. When the event
   /// destination is disabled, events aren't sent to the specified destinations.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// An object that defines an Amazon Kinesis Data Firehose destination for email
   /// events. You can use Amazon Kinesis Data Firehose to stream data to other
   /// services, such as Amazon S3 and Amazon Redshift.
-  @_s.JsonKey(name: 'KinesisFirehoseDestination')
-  final KinesisFirehoseDestination kinesisFirehoseDestination;
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
 
   /// An array that specifies which events Amazon Pinpoint should send to the
   /// destinations in this <code>EventDestinationDefinition</code>.
-  @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<EventType> matchingEventTypes;
+  final List<EventType>? matchingEventTypes;
 
   /// An object that defines a Amazon Pinpoint destination for email events. You
   /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
   /// projects. You can use these attributes to create segments for your
   /// campaigns.
-  @_s.JsonKey(name: 'PinpointDestination')
-  final PinpointDestination pinpointDestination;
+  final PinpointDestination? pinpointDestination;
 
   /// An object that defines an Amazon SNS destination for email events. You can
   /// use Amazon SNS to send notification when certain email events occur.
-  @_s.JsonKey(name: 'SnsDestination')
-  final SnsDestination snsDestination;
+  final SnsDestination? snsDestination;
 
   EventDestinationDefinition({
     this.cloudWatchDestination,
@@ -2718,42 +2783,95 @@ class EventDestinationDefinition {
     this.pinpointDestination,
     this.snsDestination,
   });
-  Map<String, dynamic> toJson() => _$EventDestinationDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final matchingEventTypes = this.matchingEventTypes;
+    final pinpointDestination = this.pinpointDestination;
+    final snsDestination = this.snsDestination;
+    return {
+      if (cloudWatchDestination != null)
+        'CloudWatchDestination': cloudWatchDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (matchingEventTypes != null)
+        'MatchingEventTypes':
+            matchingEventTypes.map((e) => e.toValue()).toList(),
+      if (pinpointDestination != null)
+        'PinpointDestination': pinpointDestination,
+      if (snsDestination != null) 'SnsDestination': snsDestination,
+    };
+  }
 }
 
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
 enum EventType {
-  @_s.JsonValue('SEND')
   send,
-  @_s.JsonValue('REJECT')
   reject,
-  @_s.JsonValue('BOUNCE')
   bounce,
-  @_s.JsonValue('COMPLAINT')
   complaint,
-  @_s.JsonValue('DELIVERY')
   delivery,
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CLICK')
   click,
-  @_s.JsonValue('RENDERING_FAILURE')
   renderingFailure,
+}
+
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.send:
+        return 'SEND';
+      case EventType.reject:
+        return 'REJECT';
+      case EventType.bounce:
+        return 'BOUNCE';
+      case EventType.complaint:
+        return 'COMPLAINT';
+      case EventType.delivery:
+        return 'DELIVERY';
+      case EventType.open:
+        return 'OPEN';
+      case EventType.click:
+        return 'CLICK';
+      case EventType.renderingFailure:
+        return 'RENDERING_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'SEND':
+        return EventType.send;
+      case 'REJECT':
+        return EventType.reject;
+      case 'BOUNCE':
+        return EventType.bounce;
+      case 'COMPLAINT':
+        return EventType.complaint;
+      case 'DELIVERY':
+        return EventType.delivery;
+      case 'OPEN':
+        return EventType.open;
+      case 'CLICK':
+        return EventType.click;
+      case 'RENDERING_FAILURE':
+        return EventType.renderingFailure;
+    }
+    throw Exception('$this is not known in enum EventType');
+  }
 }
 
 /// A list of details about the email-sending capabilities of your Amazon
 /// Pinpoint account in the current AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccountResponse {
   /// Indicates whether or not the automatic warm-up feature is enabled for
   /// dedicated IP addresses that are associated with your account.
-  @_s.JsonKey(name: 'DedicatedIpAutoWarmupEnabled')
-  final bool dedicatedIpAutoWarmupEnabled;
+  final bool? dedicatedIpAutoWarmupEnabled;
 
   /// The reputation status of your Amazon Pinpoint account. The status can be one
   /// of the following:
@@ -2775,8 +2893,7 @@ class GetAccountResponse {
   /// ability to send email is resumed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EnforcementStatus')
-  final String enforcementStatus;
+  final String? enforcementStatus;
 
   /// Indicates whether or not your account has production access in the current
   /// AWS Region.
@@ -2791,18 +2908,15 @@ class GetAccountResponse {
   /// When your account has production access, you can send email to any address.
   /// The sending quota and maximum sending rate for your account vary based on
   /// your specific use case.
-  @_s.JsonKey(name: 'ProductionAccessEnabled')
-  final bool productionAccessEnabled;
+  final bool? productionAccessEnabled;
 
   /// An object that contains information about the per-day and per-second sending
   /// limits for your Amazon Pinpoint account in the current AWS Region.
-  @_s.JsonKey(name: 'SendQuota')
-  final SendQuota sendQuota;
+  final SendQuota? sendQuota;
 
   /// Indicates whether or not email sending is enabled for your Amazon Pinpoint
   /// account in the current AWS Region.
-  @_s.JsonKey(name: 'SendingEnabled')
-  final bool sendingEnabled;
+  final bool? sendingEnabled;
 
   GetAccountResponse({
     this.dedicatedIpAutoWarmupEnabled,
@@ -2811,84 +2925,87 @@ class GetAccountResponse {
     this.sendQuota,
     this.sendingEnabled,
   });
-  factory GetAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountResponseFromJson(json);
+  factory GetAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountResponse(
+      dedicatedIpAutoWarmupEnabled:
+          json['DedicatedIpAutoWarmupEnabled'] as bool?,
+      enforcementStatus: json['EnforcementStatus'] as String?,
+      productionAccessEnabled: json['ProductionAccessEnabled'] as bool?,
+      sendQuota: json['SendQuota'] != null
+          ? SendQuota.fromJson(json['SendQuota'] as Map<String, dynamic>)
+          : null,
+      sendingEnabled: json['SendingEnabled'] as bool?,
+    );
+  }
 }
 
 /// An object that contains information about blacklist events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBlacklistReportsResponse {
   /// An object that contains information about a blacklist that one of your
   /// dedicated IP addresses appears on.
-  @_s.JsonKey(name: 'BlacklistReport')
   final Map<String, List<BlacklistEntry>> blacklistReport;
 
   GetBlacklistReportsResponse({
-    @_s.required this.blacklistReport,
+    required this.blacklistReport,
   });
-  factory GetBlacklistReportsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBlacklistReportsResponseFromJson(json);
+  factory GetBlacklistReportsResponse.fromJson(Map<String, dynamic> json) {
+    return GetBlacklistReportsResponse(
+      blacklistReport: (json['BlacklistReport'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map(
+                      (e) => BlacklistEntry.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
 }
 
 /// Information about an event destination for a configuration set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConfigurationSetEventDestinationsResponse {
   /// An array that includes all of the events destinations that have been
   /// configured for the configuration set.
-  @_s.JsonKey(name: 'EventDestinations')
-  final List<EventDestination> eventDestinations;
+  final List<EventDestination>? eventDestinations;
 
   GetConfigurationSetEventDestinationsResponse({
     this.eventDestinations,
   });
   factory GetConfigurationSetEventDestinationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetConfigurationSetEventDestinationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetConfigurationSetEventDestinationsResponse(
+      eventDestinations: (json['EventDestinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about a configuration set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConfigurationSetResponse {
   /// The name of the configuration set.
-  @_s.JsonKey(name: 'ConfigurationSetName')
-  final String configurationSetName;
+  final String? configurationSetName;
 
   /// An object that defines the dedicated IP pool that is used to send emails
   /// that you send using the configuration set.
-  @_s.JsonKey(name: 'DeliveryOptions')
-  final DeliveryOptions deliveryOptions;
+  final DeliveryOptions? deliveryOptions;
 
   /// An object that defines whether or not Amazon Pinpoint collects reputation
   /// metrics for the emails that you send that use the configuration set.
-  @_s.JsonKey(name: 'ReputationOptions')
-  final ReputationOptions reputationOptions;
+  final ReputationOptions? reputationOptions;
 
   /// An object that defines whether or not Amazon Pinpoint can send email that
   /// you send using the configuration set.
-  @_s.JsonKey(name: 'SendingOptions')
-  final SendingOptions sendingOptions;
+  final SendingOptions? sendingOptions;
 
   /// An array of objects that define the tags (keys and values) that are
   /// associated with the configuration set.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// An object that defines the open and click tracking options for emails that
   /// you send using the configuration set.
-  @_s.JsonKey(name: 'TrackingOptions')
-  final TrackingOptions trackingOptions;
+  final TrackingOptions? trackingOptions;
 
   GetConfigurationSetResponse({
     this.configurationSetName,
@@ -2898,87 +3015,100 @@ class GetConfigurationSetResponse {
     this.tags,
     this.trackingOptions,
   });
-  factory GetConfigurationSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConfigurationSetResponseFromJson(json);
+  factory GetConfigurationSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetConfigurationSetResponse(
+      configurationSetName: json['ConfigurationSetName'] as String?,
+      deliveryOptions: json['DeliveryOptions'] != null
+          ? DeliveryOptions.fromJson(
+              json['DeliveryOptions'] as Map<String, dynamic>)
+          : null,
+      reputationOptions: json['ReputationOptions'] != null
+          ? ReputationOptions.fromJson(
+              json['ReputationOptions'] as Map<String, dynamic>)
+          : null,
+      sendingOptions: json['SendingOptions'] != null
+          ? SendingOptions.fromJson(
+              json['SendingOptions'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trackingOptions: json['TrackingOptions'] != null
+          ? TrackingOptions.fromJson(
+              json['TrackingOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about a dedicated IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDedicatedIpResponse {
   /// An object that contains information about a dedicated IP address.
-  @_s.JsonKey(name: 'DedicatedIp')
-  final DedicatedIp dedicatedIp;
+  final DedicatedIp? dedicatedIp;
 
   GetDedicatedIpResponse({
     this.dedicatedIp,
   });
-  factory GetDedicatedIpResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDedicatedIpResponseFromJson(json);
+  factory GetDedicatedIpResponse.fromJson(Map<String, dynamic> json) {
+    return GetDedicatedIpResponse(
+      dedicatedIp: json['DedicatedIp'] != null
+          ? DedicatedIp.fromJson(json['DedicatedIp'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the dedicated IP addresses that are associated with your
 /// Amazon Pinpoint account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDedicatedIpsResponse {
   /// A list of dedicated IP addresses that are reserved for use by your Amazon
   /// Pinpoint account.
-  @_s.JsonKey(name: 'DedicatedIps')
-  final List<DedicatedIp> dedicatedIps;
+  final List<DedicatedIp>? dedicatedIps;
 
   /// A token that indicates that there are additional dedicated IP addresses to
   /// list. To view additional addresses, issue another request to
   /// <code>GetDedicatedIps</code>, passing this token in the
   /// <code>NextToken</code> parameter.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDedicatedIpsResponse({
     this.dedicatedIps,
     this.nextToken,
   });
-  factory GetDedicatedIpsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDedicatedIpsResponseFromJson(json);
+  factory GetDedicatedIpsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDedicatedIpsResponse(
+      dedicatedIps: (json['DedicatedIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => DedicatedIp.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// An object that shows the status of the Deliverability dashboard for your
 /// Amazon Pinpoint account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeliverabilityDashboardOptionsResponse {
   /// Specifies whether the Deliverability dashboard is enabled for your Amazon
   /// Pinpoint account. If this value is <code>true</code>, the dashboard is
   /// enabled.
-  @_s.JsonKey(name: 'DashboardEnabled')
   final bool dashboardEnabled;
 
   /// The current status of your Deliverability dashboard subscription. If this
   /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
   /// expire at the end of the current calendar month.
-  @_s.JsonKey(name: 'AccountStatus')
-  final DeliverabilityDashboardAccountStatus accountStatus;
+  final DeliverabilityDashboardAccountStatus? accountStatus;
 
   /// An array of objects, one for each verified domain that you use to send email
   /// and currently has an active Deliverability dashboard subscription that isn’t
   /// scheduled to expire at the end of the current calendar month.
-  @_s.JsonKey(name: 'ActiveSubscribedDomains')
-  final List<DomainDeliverabilityTrackingOption> activeSubscribedDomains;
+  final List<DomainDeliverabilityTrackingOption>? activeSubscribedDomains;
 
   /// An array of objects, one for each verified domain that you use to send email
   /// and currently has an active Deliverability dashboard subscription that's
   /// scheduled to expire at the end of the current calendar month.
-  @_s.JsonKey(name: 'PendingExpirationSubscribedDomains')
-  final List<DomainDeliverabilityTrackingOption>
+  final List<DomainDeliverabilityTrackingOption>?
       pendingExpirationSubscribedDomains;
 
   /// The date, in Unix time format, when your current subscription to the
@@ -2986,129 +3116,142 @@ class GetDeliverabilityDashboardOptionsResponse {
   /// scheduled to expire at the end of the current calendar month. This value is
   /// null if you have an active subscription that isn’t due to expire at the end
   /// of the month.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubscriptionExpiryDate')
-  final DateTime subscriptionExpiryDate;
+  final DateTime? subscriptionExpiryDate;
 
   GetDeliverabilityDashboardOptionsResponse({
-    @_s.required this.dashboardEnabled,
+    required this.dashboardEnabled,
     this.accountStatus,
     this.activeSubscribedDomains,
     this.pendingExpirationSubscribedDomains,
     this.subscriptionExpiryDate,
   });
   factory GetDeliverabilityDashboardOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDeliverabilityDashboardOptionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDeliverabilityDashboardOptionsResponse(
+      dashboardEnabled: json['DashboardEnabled'] as bool,
+      accountStatus: (json['AccountStatus'] as String?)
+          ?.toDeliverabilityDashboardAccountStatus(),
+      activeSubscribedDomains: (json['ActiveSubscribedDomains'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainDeliverabilityTrackingOption.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      pendingExpirationSubscribedDomains:
+          (json['PendingExpirationSubscribedDomains'] as List?)
+              ?.whereNotNull()
+              .map((e) => DomainDeliverabilityTrackingOption.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      subscriptionExpiryDate: timeStampFromJson(json['SubscriptionExpiryDate']),
+    );
+  }
 }
 
 /// The results of the predictive inbox placement test.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeliverabilityTestReportResponse {
   /// An object that contains the results of the predictive inbox placement test.
-  @_s.JsonKey(name: 'DeliverabilityTestReport')
   final DeliverabilityTestReport deliverabilityTestReport;
 
   /// An object that describes how the test email was handled by several email
   /// providers, including Gmail, Hotmail, Yahoo, AOL, and others.
-  @_s.JsonKey(name: 'IspPlacements')
   final List<IspPlacement> ispPlacements;
 
   /// An object that specifies how many test messages that were sent during the
   /// predictive inbox placement test were delivered to recipients' inboxes, how
   /// many were sent to recipients' spam folders, and how many weren't delivered.
-  @_s.JsonKey(name: 'OverallPlacement')
   final PlacementStatistics overallPlacement;
 
   /// An object that contains the message that you sent when you performed this
   /// predictive inbox placement test.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// An array of objects that define the tags (keys and values) that are
   /// associated with the predictive inbox placement test.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   GetDeliverabilityTestReportResponse({
-    @_s.required this.deliverabilityTestReport,
-    @_s.required this.ispPlacements,
-    @_s.required this.overallPlacement,
+    required this.deliverabilityTestReport,
+    required this.ispPlacements,
+    required this.overallPlacement,
     this.message,
     this.tags,
   });
   factory GetDeliverabilityTestReportResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDeliverabilityTestReportResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDeliverabilityTestReportResponse(
+      deliverabilityTestReport: DeliverabilityTestReport.fromJson(
+          json['DeliverabilityTestReport'] as Map<String, dynamic>),
+      ispPlacements: (json['IspPlacements'] as List)
+          .whereNotNull()
+          .map((e) => IspPlacement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      overallPlacement: PlacementStatistics.fromJson(
+          json['OverallPlacement'] as Map<String, dynamic>),
+      message: json['Message'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// An object that contains all the deliverability data for a specific campaign.
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainDeliverabilityCampaignResponse {
   /// An object that contains the deliverability data for the campaign.
-  @_s.JsonKey(name: 'DomainDeliverabilityCampaign')
   final DomainDeliverabilityCampaign domainDeliverabilityCampaign;
 
   GetDomainDeliverabilityCampaignResponse({
-    @_s.required this.domainDeliverabilityCampaign,
+    required this.domainDeliverabilityCampaign,
   });
   factory GetDomainDeliverabilityCampaignResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDomainDeliverabilityCampaignResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDomainDeliverabilityCampaignResponse(
+      domainDeliverabilityCampaign: DomainDeliverabilityCampaign.fromJson(
+          json['DomainDeliverabilityCampaign'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// An object that includes statistics that are related to the domain that you
 /// specified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainStatisticsReportResponse {
   /// An object that contains deliverability metrics for the domain that you
   /// specified. This object contains data for each day, starting on the
   /// <code>StartDate</code> and ending on the <code>EndDate</code>.
-  @_s.JsonKey(name: 'DailyVolumes')
   final List<DailyVolume> dailyVolumes;
 
   /// An object that contains deliverability metrics for the domain that you
   /// specified. The data in this object is a summary of all of the data that was
   /// collected from the <code>StartDate</code> to the <code>EndDate</code>.
-  @_s.JsonKey(name: 'OverallVolume')
   final OverallVolume overallVolume;
 
   GetDomainStatisticsReportResponse({
-    @_s.required this.dailyVolumes,
-    @_s.required this.overallVolume,
+    required this.dailyVolumes,
+    required this.overallVolume,
   });
   factory GetDomainStatisticsReportResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDomainStatisticsReportResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDomainStatisticsReportResponse(
+      dailyVolumes: (json['DailyVolumes'] as List)
+          .whereNotNull()
+          .map((e) => DailyVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      overallVolume:
+          OverallVolume.fromJson(json['OverallVolume'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Details about an email identity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEmailIdentityResponse {
   /// An object that contains information about the DKIM attributes for the
   /// identity. This object includes the tokens that you use to create the CNAME
   /// records that are required to complete the DKIM verification process.
-  @_s.JsonKey(name: 'DkimAttributes')
-  final DkimAttributes dkimAttributes;
+  final DkimAttributes? dkimAttributes;
 
   /// The feedback forwarding configuration for the identity.
   ///
@@ -3123,30 +3266,25 @@ class GetEmailIdentityResponse {
   /// tracking bounces and complaints. If you haven't set up another mechanism for
   /// receiving bounce or complaint notifications, Amazon Pinpoint sends an email
   /// notification when these events occur (even if this setting is disabled).
-  @_s.JsonKey(name: 'FeedbackForwardingStatus')
-  final bool feedbackForwardingStatus;
+  final bool? feedbackForwardingStatus;
 
   /// The email identity type.
-  @_s.JsonKey(name: 'IdentityType')
-  final IdentityType identityType;
+  final IdentityType? identityType;
 
   /// An object that contains information about the Mail-From attributes for the
   /// email identity.
-  @_s.JsonKey(name: 'MailFromAttributes')
-  final MailFromAttributes mailFromAttributes;
+  final MailFromAttributes? mailFromAttributes;
 
   /// An array of objects that define the tags (keys and values) that are
   /// associated with the email identity.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Specifies whether or not the identity is verified. In Amazon Pinpoint, you
   /// can only send email from verified email addresses or domains. For more
   /// information about verifying identities, see the <a
   /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-email-manage-verify.html">Amazon
   /// Pinpoint User Guide</a>.
-  @_s.JsonKey(name: 'VerifiedForSendingStatus')
-  final bool verifiedForSendingStatus;
+  final bool? verifiedForSendingStatus;
 
   GetEmailIdentityResponse({
     this.dkimAttributes,
@@ -3156,20 +3294,31 @@ class GetEmailIdentityResponse {
     this.tags,
     this.verifiedForSendingStatus,
   });
-  factory GetEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEmailIdentityResponseFromJson(json);
+  factory GetEmailIdentityResponse.fromJson(Map<String, dynamic> json) {
+    return GetEmailIdentityResponse(
+      dkimAttributes: json['DkimAttributes'] != null
+          ? DkimAttributes.fromJson(
+              json['DkimAttributes'] as Map<String, dynamic>)
+          : null,
+      feedbackForwardingStatus: json['FeedbackForwardingStatus'] as bool?,
+      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      mailFromAttributes: json['MailFromAttributes'] != null
+          ? MailFromAttributes.fromJson(
+              json['MailFromAttributes'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      verifiedForSendingStatus: json['VerifiedForSendingStatus'] as bool?,
+    );
+  }
 }
 
 /// Information about an email identity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IdentityInfo {
   /// The address or domain of the identity.
-  @_s.JsonKey(name: 'IdentityName')
-  final String identityName;
+  final String? identityName;
 
   /// The email identity type. The identity type can be one of the following:
   ///
@@ -3185,8 +3334,7 @@ class IdentityInfo {
   /// AWS.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IdentityType')
-  final IdentityType identityType;
+  final IdentityType? identityType;
 
   /// Indicates whether or not you can send email from the identity.
   ///
@@ -3194,16 +3342,20 @@ class IdentityInfo {
   /// email from. Before you can send email from an identity, you have to
   /// demostrate that you own the identity, and that you authorize Amazon Pinpoint
   /// to send email from that identity.
-  @_s.JsonKey(name: 'SendingEnabled')
-  final bool sendingEnabled;
+  final bool? sendingEnabled;
 
   IdentityInfo({
     this.identityName,
     this.identityType,
     this.sendingEnabled,
   });
-  factory IdentityInfo.fromJson(Map<String, dynamic> json) =>
-      _$IdentityInfoFromJson(json);
+  factory IdentityInfo.fromJson(Map<String, dynamic> json) {
+    return IdentityInfo(
+      identityName: json['IdentityName'] as String?,
+      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      sendingEnabled: json['SendingEnabled'] as bool?,
+    );
+  }
 }
 
 /// The email identity type. The identity type can be one of the following:
@@ -3217,179 +3369,215 @@ class IdentityInfo {
 /// </li>
 /// </ul>
 enum IdentityType {
-  @_s.JsonValue('EMAIL_ADDRESS')
   emailAddress,
-  @_s.JsonValue('DOMAIN')
   domain,
-  @_s.JsonValue('MANAGED_DOMAIN')
   managedDomain,
+}
+
+extension on IdentityType {
+  String toValue() {
+    switch (this) {
+      case IdentityType.emailAddress:
+        return 'EMAIL_ADDRESS';
+      case IdentityType.domain:
+        return 'DOMAIN';
+      case IdentityType.managedDomain:
+        return 'MANAGED_DOMAIN';
+    }
+  }
+}
+
+extension on String {
+  IdentityType toIdentityType() {
+    switch (this) {
+      case 'EMAIL_ADDRESS':
+        return IdentityType.emailAddress;
+      case 'DOMAIN':
+        return IdentityType.domain;
+      case 'MANAGED_DOMAIN':
+        return IdentityType.managedDomain;
+    }
+    throw Exception('$this is not known in enum IdentityType');
+  }
 }
 
 /// An object that contains information about the inbox placement data settings
 /// for a verified domain that’s associated with your AWS account. This data is
 /// available only if you enabled the Deliverability dashboard for the domain
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InboxPlacementTrackingOption {
   /// Specifies whether inbox placement data is being tracked for the domain.
-  @_s.JsonKey(name: 'Global')
-  final bool global;
+  final bool? global;
 
   /// An array of strings, one for each major email provider that the inbox
   /// placement data applies to.
-  @_s.JsonKey(name: 'TrackedIsps')
-  final List<String> trackedIsps;
+  final List<String>? trackedIsps;
 
   InboxPlacementTrackingOption({
     this.global,
     this.trackedIsps,
   });
-  factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) =>
-      _$InboxPlacementTrackingOptionFromJson(json);
+  factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) {
+    return InboxPlacementTrackingOption(
+      global: json['Global'] as bool?,
+      trackedIsps: (json['TrackedIsps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InboxPlacementTrackingOptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final global = this.global;
+    final trackedIsps = this.trackedIsps;
+    return {
+      if (global != null) 'Global': global,
+      if (trackedIsps != null) 'TrackedIsps': trackedIsps,
+    };
+  }
 }
 
 /// An object that describes how email sent during the predictive inbox
 /// placement test was handled by a certain email provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IspPlacement {
   /// The name of the email provider that the inbox placement data applies to.
-  @_s.JsonKey(name: 'IspName')
-  final String ispName;
+  final String? ispName;
 
   /// An object that contains inbox placement metrics for a specific email
   /// provider.
-  @_s.JsonKey(name: 'PlacementStatistics')
-  final PlacementStatistics placementStatistics;
+  final PlacementStatistics? placementStatistics;
 
   IspPlacement({
     this.ispName,
     this.placementStatistics,
   });
-  factory IspPlacement.fromJson(Map<String, dynamic> json) =>
-      _$IspPlacementFromJson(json);
+  factory IspPlacement.fromJson(Map<String, dynamic> json) {
+    return IspPlacement(
+      ispName: json['IspName'] as String?,
+      placementStatistics: json['PlacementStatistics'] != null
+          ? PlacementStatistics.fromJson(
+              json['PlacementStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object that defines an Amazon Kinesis Data Firehose destination for email
 /// events. You can use Amazon Kinesis Data Firehose to stream data to other
 /// services, such as Amazon S3 and Amazon Redshift.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisFirehoseDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream
   /// that Amazon Pinpoint sends email events to.
-  @_s.JsonKey(name: 'DeliveryStreamArn')
   final String deliveryStreamArn;
 
   /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses
   /// when sending email events to the Amazon Kinesis Data Firehose stream.
-  @_s.JsonKey(name: 'IamRoleArn')
   final String iamRoleArn;
 
   KinesisFirehoseDestination({
-    @_s.required this.deliveryStreamArn,
-    @_s.required this.iamRoleArn,
+    required this.deliveryStreamArn,
+    required this.iamRoleArn,
   });
-  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) =>
-      _$KinesisFirehoseDestinationFromJson(json);
+  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseDestination(
+      deliveryStreamArn: json['DeliveryStreamArn'] as String,
+      iamRoleArn: json['IamRoleArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$KinesisFirehoseDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final deliveryStreamArn = this.deliveryStreamArn;
+    final iamRoleArn = this.iamRoleArn;
+    return {
+      'DeliveryStreamArn': deliveryStreamArn,
+      'IamRoleArn': iamRoleArn,
+    };
+  }
 }
 
 /// A list of configuration sets in your Amazon Pinpoint account in the current
 /// AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationSetsResponse {
   /// An array that contains all of the configuration sets in your Amazon Pinpoint
   /// account in the current AWS Region.
-  @_s.JsonKey(name: 'ConfigurationSets')
-  final List<String> configurationSets;
+  final List<String>? configurationSets;
 
   /// A token that indicates that there are additional configuration sets to list.
   /// To view additional configuration sets, issue another request to
   /// <code>ListConfigurationSets</code>, and pass this token in the
   /// <code>NextToken</code> parameter.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationSetsResponse({
     this.configurationSets,
     this.nextToken,
   });
-  factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListConfigurationSetsResponseFromJson(json);
+  factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationSetsResponse(
+      configurationSets: (json['ConfigurationSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A list of dedicated IP pools.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDedicatedIpPoolsResponse {
   /// A list of all of the dedicated IP pools that are associated with your Amazon
   /// Pinpoint account.
-  @_s.JsonKey(name: 'DedicatedIpPools')
-  final List<String> dedicatedIpPools;
+  final List<String>? dedicatedIpPools;
 
   /// A token that indicates that there are additional IP pools to list. To view
   /// additional IP pools, issue another request to
   /// <code>ListDedicatedIpPools</code>, passing this token in the
   /// <code>NextToken</code> parameter.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDedicatedIpPoolsResponse({
     this.dedicatedIpPools,
     this.nextToken,
   });
-  factory ListDedicatedIpPoolsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDedicatedIpPoolsResponseFromJson(json);
+  factory ListDedicatedIpPoolsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDedicatedIpPoolsResponse(
+      dedicatedIpPools: (json['DedicatedIpPools'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A list of the predictive inbox placement test reports that are available for
 /// your account, regardless of whether or not those tests are complete.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeliverabilityTestReportsResponse {
   /// An object that contains a lists of predictive inbox placement tests that
   /// you've performed.
-  @_s.JsonKey(name: 'DeliverabilityTestReports')
   final List<DeliverabilityTestReport> deliverabilityTestReports;
 
   /// A token that indicates that there are additional predictive inbox placement
   /// tests to list. To view additional predictive inbox placement tests, issue
   /// another request to <code>ListDeliverabilityTestReports</code>, and pass this
   /// token in the <code>NextToken</code> parameter.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeliverabilityTestReportsResponse({
-    @_s.required this.deliverabilityTestReports,
+    required this.deliverabilityTestReports,
     this.nextToken,
   });
   factory ListDeliverabilityTestReportsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDeliverabilityTestReportsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDeliverabilityTestReportsResponse(
+      deliverabilityTestReports: (json['DeliverabilityTestReports'] as List)
+          .whereNotNull()
+          .map((e) =>
+              DeliverabilityTestReport.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// An array of objects that provide deliverability data for all the campaigns
@@ -3397,86 +3585,83 @@ class ListDeliverabilityTestReportsResponse {
 /// This data is available for a domain only if you enabled the Deliverability
 /// dashboard (<code>PutDeliverabilityDashboardOption</code> operation) for the
 /// domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainDeliverabilityCampaignsResponse {
   /// An array of responses, one for each campaign that used the domain to send
   /// email during the specified time range.
-  @_s.JsonKey(name: 'DomainDeliverabilityCampaigns')
   final List<DomainDeliverabilityCampaign> domainDeliverabilityCampaigns;
 
   /// A token that’s returned from a previous call to the
   /// <code>ListDomainDeliverabilityCampaigns</code> operation. This token
   /// indicates the position of the campaign in the list of campaigns.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDomainDeliverabilityCampaignsResponse({
-    @_s.required this.domainDeliverabilityCampaigns,
+    required this.domainDeliverabilityCampaigns,
     this.nextToken,
   });
   factory ListDomainDeliverabilityCampaignsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDomainDeliverabilityCampaignsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDomainDeliverabilityCampaignsResponse(
+      domainDeliverabilityCampaigns: (json['DomainDeliverabilityCampaigns']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              DomainDeliverabilityCampaign.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A list of all of the identities that you've attempted to verify for use with
 /// Amazon Pinpoint, regardless of whether or not those identities were
 /// successfully verified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEmailIdentitiesResponse {
   /// An array that includes all of the identities associated with your Amazon
   /// Pinpoint account.
-  @_s.JsonKey(name: 'EmailIdentities')
-  final List<IdentityInfo> emailIdentities;
+  final List<IdentityInfo>? emailIdentities;
 
   /// A token that indicates that there are additional configuration sets to list.
   /// To view additional configuration sets, issue another request to
   /// <code>ListEmailIdentities</code>, and pass this token in the
   /// <code>NextToken</code> parameter.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEmailIdentitiesResponse({
     this.emailIdentities,
     this.nextToken,
   });
-  factory ListEmailIdentitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEmailIdentitiesResponseFromJson(json);
+  factory ListEmailIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEmailIdentitiesResponse(
+      emailIdentities: (json['EmailIdentities'] as List?)
+          ?.whereNotNull()
+          .map((e) => IdentityInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// An array that lists all the tags that are associated with the resource. Each
   /// tag consists of a required tag key (<code>Key</code>) and an associated tag
   /// value (<code>Value</code>)
-  @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   ListTagsForResourceResponse({
-    @_s.required this.tags,
+    required this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A list of attributes that are associated with a MAIL FROM domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MailFromAttributes {
   /// The action that Amazon Pinpoint to takes if it can't read the required MX
   /// record for a custom MAIL FROM domain. When you set this value to
@@ -3488,12 +3673,10 @@ class MailFromAttributes {
   /// These behaviors are taken when the custom MAIL FROM domain configuration is
   /// in the <code>Pending</code>, <code>Failed</code>, and
   /// <code>TemporaryFailure</code> states.
-  @_s.JsonKey(name: 'BehaviorOnMxFailure')
   final BehaviorOnMxFailure behaviorOnMxFailure;
 
   /// The name of a domain that an email identity uses as a custom MAIL FROM
   /// domain.
-  @_s.JsonKey(name: 'MailFromDomain')
   final String mailFromDomain;
 
   /// The status of the MAIL FROM domain. This status can have the following
@@ -3517,16 +3700,22 @@ class MailFromAttributes {
   /// Amazon Pinpoint from determining the status of the MAIL FROM domain.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MailFromDomainStatus')
   final MailFromDomainStatus mailFromDomainStatus;
 
   MailFromAttributes({
-    @_s.required this.behaviorOnMxFailure,
-    @_s.required this.mailFromDomain,
-    @_s.required this.mailFromDomainStatus,
+    required this.behaviorOnMxFailure,
+    required this.mailFromDomain,
+    required this.mailFromDomainStatus,
   });
-  factory MailFromAttributes.fromJson(Map<String, dynamic> json) =>
-      _$MailFromAttributesFromJson(json);
+  factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
+    return MailFromAttributes(
+      behaviorOnMxFailure:
+          (json['BehaviorOnMxFailure'] as String).toBehaviorOnMxFailure(),
+      mailFromDomain: json['MailFromDomain'] as String,
+      mailFromDomainStatus:
+          (json['MailFromDomainStatus'] as String).toMailFromDomainStatus(),
+    );
+  }
 }
 
 /// The status of the MAIL FROM domain. This status can have the following
@@ -3551,50 +3740,72 @@ class MailFromAttributes {
 /// </li>
 /// </ul>
 enum MailFromDomainStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TEMPORARY_FAILURE')
   temporaryFailure,
+}
+
+extension on MailFromDomainStatus {
+  String toValue() {
+    switch (this) {
+      case MailFromDomainStatus.pending:
+        return 'PENDING';
+      case MailFromDomainStatus.success:
+        return 'SUCCESS';
+      case MailFromDomainStatus.failed:
+        return 'FAILED';
+      case MailFromDomainStatus.temporaryFailure:
+        return 'TEMPORARY_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  MailFromDomainStatus toMailFromDomainStatus() {
+    switch (this) {
+      case 'PENDING':
+        return MailFromDomainStatus.pending;
+      case 'SUCCESS':
+        return MailFromDomainStatus.success;
+      case 'FAILED':
+        return MailFromDomainStatus.failed;
+      case 'TEMPORARY_FAILURE':
+        return MailFromDomainStatus.temporaryFailure;
+    }
+    throw Exception('$this is not known in enum MailFromDomainStatus');
+  }
 }
 
 /// Represents the email message that you're sending. The <code>Message</code>
 /// object consists of a subject line and a message body.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Message {
   /// The body of the message. You can specify an HTML version of the message, a
   /// text-only version of the message, or both.
-  @_s.JsonKey(name: 'Body')
   final Body body;
 
   /// The subject line of the email. The subject line can only contain 7-bit ASCII
   /// characters. However, you can specify non-ASCII characters in the subject
   /// line by using encoded-word syntax, as described in <a
   /// href="https://tools.ietf.org/html/rfc2047">RFC 2047</a>.
-  @_s.JsonKey(name: 'Subject')
   final Content subject;
 
   Message({
-    @_s.required this.body,
-    @_s.required this.subject,
+    required this.body,
+    required this.subject,
   });
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      'Body': body,
+      'Subject': subject,
+    };
+  }
 }
 
 /// Contains the name and value of a tag that you apply to an email. You can use
 /// message tags when you publish email sending events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageTag {
   /// The name of the message tag. The message tag name has to meet the following
   /// criteria:
@@ -3608,7 +3819,6 @@ class MessageTag {
   /// It can contain no more than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the message tag. The message tag value has to meet the
@@ -3623,103 +3833,104 @@ class MessageTag {
   /// It can contain no more than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   MessageTag({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$MessageTagToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 /// An object that contains information about email that was sent from the
 /// selected domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OverallVolume {
   /// An object that contains inbox and junk mail placement metrics for individual
   /// email providers.
-  @_s.JsonKey(name: 'DomainIspPlacements')
-  final List<DomainIspPlacement> domainIspPlacements;
+  final List<DomainIspPlacement>? domainIspPlacements;
 
   /// The percentage of emails that were sent from the domain that were read by
   /// their recipients.
-  @_s.JsonKey(name: 'ReadRatePercent')
-  final double readRatePercent;
+  final double? readRatePercent;
 
   /// An object that contains information about the numbers of messages that
   /// arrived in recipients' inboxes and junk mail folders.
-  @_s.JsonKey(name: 'VolumeStatistics')
-  final VolumeStatistics volumeStatistics;
+  final VolumeStatistics? volumeStatistics;
 
   OverallVolume({
     this.domainIspPlacements,
     this.readRatePercent,
     this.volumeStatistics,
   });
-  factory OverallVolume.fromJson(Map<String, dynamic> json) =>
-      _$OverallVolumeFromJson(json);
+  factory OverallVolume.fromJson(Map<String, dynamic> json) {
+    return OverallVolume(
+      domainIspPlacements: (json['DomainIspPlacements'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readRatePercent: json['ReadRatePercent'] as double?,
+      volumeStatistics: json['VolumeStatistics'] != null
+          ? VolumeStatistics.fromJson(
+              json['VolumeStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// An object that defines a Amazon Pinpoint destination for email events. You
 /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
 /// projects. You can use these attributes to create segments for your
 /// campaigns.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PinpointDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
   /// to send email events to.
-  @_s.JsonKey(name: 'ApplicationArn')
-  final String applicationArn;
+  final String? applicationArn;
 
   PinpointDestination({
     this.applicationArn,
   });
-  factory PinpointDestination.fromJson(Map<String, dynamic> json) =>
-      _$PinpointDestinationFromJson(json);
+  factory PinpointDestination.fromJson(Map<String, dynamic> json) {
+    return PinpointDestination(
+      applicationArn: json['ApplicationArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$PinpointDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+    };
+  }
 }
 
 /// An object that contains inbox placement data for an email provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PlacementStatistics {
   /// The percentage of emails that were authenticated by using DomainKeys
   /// Identified Mail (DKIM) during the predictive inbox placement test.
-  @_s.JsonKey(name: 'DkimPercentage')
-  final double dkimPercentage;
+  final double? dkimPercentage;
 
   /// The percentage of emails that arrived in recipients' inboxes during the
   /// predictive inbox placement test.
-  @_s.JsonKey(name: 'InboxPercentage')
-  final double inboxPercentage;
+  final double? inboxPercentage;
 
   /// The percentage of emails that didn't arrive in recipients' inboxes at all
   /// during the predictive inbox placement test.
-  @_s.JsonKey(name: 'MissingPercentage')
-  final double missingPercentage;
+  final double? missingPercentage;
 
   /// The percentage of emails that arrived in recipients' spam or junk mail
   /// folders during the predictive inbox placement test.
-  @_s.JsonKey(name: 'SpamPercentage')
-  final double spamPercentage;
+  final double? spamPercentage;
 
   /// The percentage of emails that were authenticated by using Sender Policy
   /// Framework (SPF) during the predictive inbox placement test.
-  @_s.JsonKey(name: 'SpfPercentage')
-  final double spfPercentage;
+  final double? spfPercentage;
 
   PlacementStatistics({
     this.dkimPercentage,
@@ -3728,183 +3939,136 @@ class PlacementStatistics {
     this.spamPercentage,
     this.spfPercentage,
   });
-  factory PlacementStatistics.fromJson(Map<String, dynamic> json) =>
-      _$PlacementStatisticsFromJson(json);
+  factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
+    return PlacementStatistics(
+      dkimPercentage: json['DkimPercentage'] as double?,
+      inboxPercentage: json['InboxPercentage'] as double?,
+      missingPercentage: json['MissingPercentage'] as double?,
+      spamPercentage: json['SpamPercentage'] as double?,
+      spfPercentage: json['SpfPercentage'] as double?,
+    );
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAccountDedicatedIpWarmupAttributesResponse {
   PutAccountDedicatedIpWarmupAttributesResponse();
   factory PutAccountDedicatedIpWarmupAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAccountDedicatedIpWarmupAttributesResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutAccountDedicatedIpWarmupAttributesResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAccountSendingAttributesResponse {
   PutAccountSendingAttributesResponse();
-  factory PutAccountSendingAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAccountSendingAttributesResponseFromJson(json);
+  factory PutAccountSendingAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return PutAccountSendingAttributesResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
   factory PutConfigurationSetDeliveryOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutConfigurationSetDeliveryOptionsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutConfigurationSetDeliveryOptionsResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutConfigurationSetReputationOptionsResponse {
   PutConfigurationSetReputationOptionsResponse();
   factory PutConfigurationSetReputationOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutConfigurationSetReputationOptionsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutConfigurationSetReputationOptionsResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutConfigurationSetSendingOptionsResponse {
   PutConfigurationSetSendingOptionsResponse();
   factory PutConfigurationSetSendingOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutConfigurationSetSendingOptionsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutConfigurationSetSendingOptionsResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutConfigurationSetTrackingOptionsResponse {
   PutConfigurationSetTrackingOptionsResponse();
   factory PutConfigurationSetTrackingOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutConfigurationSetTrackingOptionsResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutConfigurationSetTrackingOptionsResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
-  factory PutDedicatedIpInPoolResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutDedicatedIpInPoolResponseFromJson(json);
+  factory PutDedicatedIpInPoolResponse.fromJson(Map<String, dynamic> _) {
+    return PutDedicatedIpInPoolResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDedicatedIpWarmupAttributesResponse {
   PutDedicatedIpWarmupAttributesResponse();
   factory PutDedicatedIpWarmupAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutDedicatedIpWarmupAttributesResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutDedicatedIpWarmupAttributesResponse();
+  }
 }
 
 /// A response that indicates whether the Deliverability dashboard is enabled
 /// for your Amazon Pinpoint account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDeliverabilityDashboardOptionResponse {
   PutDeliverabilityDashboardOptionResponse();
   factory PutDeliverabilityDashboardOptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutDeliverabilityDashboardOptionResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutDeliverabilityDashboardOptionResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEmailIdentityDkimAttributesResponse {
   PutEmailIdentityDkimAttributesResponse();
   factory PutEmailIdentityDkimAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutEmailIdentityDkimAttributesResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutEmailIdentityDkimAttributesResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEmailIdentityFeedbackAttributesResponse {
   PutEmailIdentityFeedbackAttributesResponse();
   factory PutEmailIdentityFeedbackAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutEmailIdentityFeedbackAttributesResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutEmailIdentityFeedbackAttributesResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEmailIdentityMailFromAttributesResponse {
   PutEmailIdentityMailFromAttributesResponse();
   factory PutEmailIdentityMailFromAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutEmailIdentityMailFromAttributesResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return PutEmailIdentityMailFromAttributesResponse();
+  }
 }
 
 /// The raw email message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RawMessage {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -3935,54 +4099,57 @@ class RawMessage {
   /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
   /// </li>
   /// </ul>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Data')
   final Uint8List data;
 
   RawMessage({
-    @_s.required this.data,
+    required this.data,
   });
-  Map<String, dynamic> toJson() => _$RawMessageToJson(this);
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
 }
 
 /// Enable or disable collection of reputation metrics for emails that you send
 /// using this configuration set in the current AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
   /// metrics are calculated starting from the date of the fresh start.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastFreshStart')
-  final DateTime lastFreshStart;
+  final DateTime? lastFreshStart;
 
   /// If <code>true</code>, tracking of reputation metrics is enabled for the
   /// configuration set. If <code>false</code>, tracking of reputation metrics is
   /// disabled for the configuration set.
-  @_s.JsonKey(name: 'ReputationMetricsEnabled')
-  final bool reputationMetricsEnabled;
+  final bool? reputationMetricsEnabled;
 
   ReputationOptions({
     this.lastFreshStart,
     this.reputationMetricsEnabled,
   });
-  factory ReputationOptions.fromJson(Map<String, dynamic> json) =>
-      _$ReputationOptionsFromJson(json);
+  factory ReputationOptions.fromJson(Map<String, dynamic> json) {
+    return ReputationOptions(
+      lastFreshStart: timeStampFromJson(json['LastFreshStart']),
+      reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ReputationOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final lastFreshStart = this.lastFreshStart;
+    final reputationMetricsEnabled = this.reputationMetricsEnabled;
+    return {
+      if (lastFreshStart != null)
+        'LastFreshStart': unixTimestampToJson(lastFreshStart),
+      if (reputationMetricsEnabled != null)
+        'ReputationMetricsEnabled': reputationMetricsEnabled,
+    };
+  }
 }
 
 /// A unique message ID that you receive when Amazon Pinpoint accepts an email
 /// for sending.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendEmailResponse {
   /// A unique identifier for the message that is generated when Amazon Pinpoint
   /// accepts the message.
@@ -3992,94 +4159,97 @@ class SendEmailResponse {
   /// doesn't pass a virus check, or when you send a templated email that contains
   /// invalid personalization content, for example.
   /// </note>
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  final String? messageId;
 
   SendEmailResponse({
     this.messageId,
   });
-  factory SendEmailResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendEmailResponseFromJson(json);
+  factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendEmailResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
 }
 
 /// An object that contains information about the per-day and per-second sending
 /// limits for your Amazon Pinpoint account in the current AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendQuota {
   /// The maximum number of emails that you can send in the current AWS Region
   /// over a 24-hour period. This value is also called your <i>sending quota</i>.
-  @_s.JsonKey(name: 'Max24HourSend')
-  final double max24HourSend;
+  final double? max24HourSend;
 
   /// The maximum number of emails that you can send per second in the current AWS
   /// Region. This value is also called your <i>maximum sending rate</i> or your
   /// <i>maximum TPS (transactions per second) rate</i>.
-  @_s.JsonKey(name: 'MaxSendRate')
-  final double maxSendRate;
+  final double? maxSendRate;
 
   /// The number of emails sent from your Amazon Pinpoint account in the current
   /// AWS Region over the past 24 hours.
-  @_s.JsonKey(name: 'SentLast24Hours')
-  final double sentLast24Hours;
+  final double? sentLast24Hours;
 
   SendQuota({
     this.max24HourSend,
     this.maxSendRate,
     this.sentLast24Hours,
   });
-  factory SendQuota.fromJson(Map<String, dynamic> json) =>
-      _$SendQuotaFromJson(json);
+  factory SendQuota.fromJson(Map<String, dynamic> json) {
+    return SendQuota(
+      max24HourSend: json['Max24HourSend'] as double?,
+      maxSendRate: json['MaxSendRate'] as double?,
+      sentLast24Hours: json['SentLast24Hours'] as double?,
+    );
+  }
 }
 
 /// Used to enable or disable email sending for messages that use this
 /// configuration set in the current AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SendingOptions {
   /// If <code>true</code>, email sending is enabled for the configuration set. If
   /// <code>false</code>, email sending is disabled for the configuration set.
-  @_s.JsonKey(name: 'SendingEnabled')
-  final bool sendingEnabled;
+  final bool? sendingEnabled;
 
   SendingOptions({
     this.sendingEnabled,
   });
-  factory SendingOptions.fromJson(Map<String, dynamic> json) =>
-      _$SendingOptionsFromJson(json);
+  factory SendingOptions.fromJson(Map<String, dynamic> json) {
+    return SendingOptions(
+      sendingEnabled: json['SendingEnabled'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SendingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final sendingEnabled = this.sendingEnabled;
+    return {
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
+    };
+  }
 }
 
 /// An object that defines an Amazon SNS destination for email events. You can
 /// use Amazon SNS to send notification when certain email events occur.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
   /// publish email events to. For more information about Amazon SNS topics, see
   /// the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   SnsDestination({
-    @_s.required this.topicArn,
+    required this.topicArn,
   });
-  factory SnsDestination.fromJson(Map<String, dynamic> json) =>
-      _$SnsDestinationFromJson(json);
+  factory SnsDestination.fromJson(Map<String, dynamic> json) {
+    return SnsDestination(
+      topicArn: json['TopicArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SnsDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    return {
+      'TopicArn': topicArn,
+    };
+  }
 }
 
 /// An object that defines the tags that are associated with a resource.
@@ -4118,66 +4288,67 @@ class SnsDestination {
 /// located in the specified AWS Region for your AWS account.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that defines a tag. The maximum length of a tag
   /// key is 128 characters. The minimum length is 1 character.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional part of a key-value pair that defines a tag. The maximum length
   /// of a tag value is 256 characters. The minimum length is 0 characters. If you
   /// don’t want a resource to have a specific tag value, don’t specify a value
   /// for this parameter. Amazon Pinpoint will set the value to an empty string.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Template {
   /// The Amazon Resource Name (ARN) of the template.
-  @_s.JsonKey(name: 'TemplateArn')
-  final String templateArn;
+  final String? templateArn;
 
   /// An object that defines the values to use for message variables in the
   /// template. This object is a set of key-value pairs. Each key defines a
   /// message variable in the template. The corresponding value defines the value
   /// to use for that variable.
-  @_s.JsonKey(name: 'TemplateData')
-  final String templateData;
+  final String? templateData;
 
   Template({
     this.templateArn,
     this.templateData,
   });
-  Map<String, dynamic> toJson() => _$TemplateToJson(this);
+  Map<String, dynamic> toJson() {
+    final templateArn = this.templateArn;
+    final templateData = this.templateData;
+    return {
+      if (templateArn != null) 'TemplateArn': templateArn,
+      if (templateData != null) 'TemplateData': templateData,
+    };
+  }
 }
 
 /// Specifies whether messages that use the configuration set are required to
@@ -4186,9 +4357,7 @@ class Template {
 /// value is <code>Optional</code>, messages can be delivered in plain text if a
 /// TLS connection can't be established.
 enum TlsPolicy {
-  @_s.JsonValue('REQUIRE')
   require,
-  @_s.JsonValue('OPTIONAL')
   optional,
 }
 
@@ -4200,7 +4369,18 @@ extension on TlsPolicy {
       case TlsPolicy.optional:
         return 'OPTIONAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TlsPolicy toTlsPolicy() {
+    switch (this) {
+      case 'REQUIRE':
+        return TlsPolicy.require;
+      case 'OPTIONAL':
+        return TlsPolicy.optional;
+    }
+    throw Exception('$this is not known in enum TlsPolicy');
   }
 }
 
@@ -4213,76 +4393,61 @@ extension on TlsPolicy {
 /// These images and links include references to a domain operated by AWS. You
 /// can optionally configure Amazon Pinpoint to use a domain that you operate
 /// for these images and links.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TrackingOptions {
   /// The domain that you want to use for tracking open and click events.
-  @_s.JsonKey(name: 'CustomRedirectDomain')
   final String customRedirectDomain;
 
   TrackingOptions({
-    @_s.required this.customRedirectDomain,
+    required this.customRedirectDomain,
   });
-  factory TrackingOptions.fromJson(Map<String, dynamic> json) =>
-      _$TrackingOptionsFromJson(json);
+  factory TrackingOptions.fromJson(Map<String, dynamic> json) {
+    return TrackingOptions(
+      customRedirectDomain: json['CustomRedirectDomain'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TrackingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
   factory UpdateConfigurationSetEventDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateConfigurationSetEventDestinationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateConfigurationSetEventDestinationResponse();
+  }
 }
 
 /// An object that contains information about the amount of email that was
 /// delivered to recipients.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VolumeStatistics {
   /// The total number of emails that arrived in recipients' inboxes.
-  @_s.JsonKey(name: 'InboxRawCount')
-  final int inboxRawCount;
+  final int? inboxRawCount;
 
   /// An estimate of the percentage of emails sent from the current domain that
   /// will arrive in recipients' inboxes.
-  @_s.JsonKey(name: 'ProjectedInbox')
-  final int projectedInbox;
+  final int? projectedInbox;
 
   /// An estimate of the percentage of emails sent from the current domain that
   /// will arrive in recipients' spam or junk mail folders.
-  @_s.JsonKey(name: 'ProjectedSpam')
-  final int projectedSpam;
+  final int? projectedSpam;
 
   /// The total number of emails that arrived in recipients' spam or junk mail
   /// folders.
-  @_s.JsonKey(name: 'SpamRawCount')
-  final int spamRawCount;
+  final int? spamRawCount;
 
   VolumeStatistics({
     this.inboxRawCount,
@@ -4290,35 +4455,62 @@ class VolumeStatistics {
     this.projectedSpam,
     this.spamRawCount,
   });
-  factory VolumeStatistics.fromJson(Map<String, dynamic> json) =>
-      _$VolumeStatisticsFromJson(json);
+  factory VolumeStatistics.fromJson(Map<String, dynamic> json) {
+    return VolumeStatistics(
+      inboxRawCount: json['InboxRawCount'] as int?,
+      projectedInbox: json['ProjectedInbox'] as int?,
+      projectedSpam: json['ProjectedSpam'] as int?,
+      spamRawCount: json['SpamRawCount'] as int?,
+    );
+  }
 }
 
 /// The warmup status of a dedicated IP.
 enum WarmupStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('DONE')
   done,
 }
 
+extension on WarmupStatus {
+  String toValue() {
+    switch (this) {
+      case WarmupStatus.inProgress:
+        return 'IN_PROGRESS';
+      case WarmupStatus.done:
+        return 'DONE';
+    }
+  }
+}
+
+extension on String {
+  WarmupStatus toWarmupStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return WarmupStatus.inProgress;
+      case 'DONE':
+        return WarmupStatus.done;
+    }
+    throw Exception('$this is not known in enum WarmupStatus');
+  }
+}
+
 class AccountSuspendedException extends _s.GenericAwsException {
-  AccountSuspendedException({String type, String message})
+  AccountSuspendedException({String? type, String? message})
       : super(type: type, code: 'AccountSuspendedException', message: message);
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -4326,12 +4518,12 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
-  MailFromDomainNotVerifiedException({String type, String message})
+  MailFromDomainNotVerifiedException({String? type, String? message})
       : super(
             type: type,
             code: 'MailFromDomainNotVerifiedException',
@@ -4339,22 +4531,22 @@ class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
 }
 
 class MessageRejected extends _s.GenericAwsException {
-  MessageRejected({String type, String message})
+  MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class SendingPausedException extends _s.GenericAwsException {
-  SendingPausedException({String type, String message})
+  SendingPausedException({String? type, String? message})
       : super(type: type, code: 'SendingPausedException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

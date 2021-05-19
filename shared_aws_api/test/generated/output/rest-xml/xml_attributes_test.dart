@@ -30,12 +30,12 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.listItems[0].itemDetail.type, ItemType.type1);
-    expect(output.listItems[0].itemDetail.id, "id1");
-    expect(output.listItems[1].itemDetail.type, ItemType.type2);
-    expect(output.listItems[1].itemDetail.id, "id2");
-    expect(output.listItems[2].itemDetail.type, ItemType.type3);
-    expect(output.listItems[2].itemDetail.id, "id3");
+    expect(output.listItems?[0].itemDetail?.type, ItemType.type1);
+    expect(output.listItems?[0].itemDetail?.id, "id1");
+    expect(output.listItems?[1].itemDetail?.type, ItemType.type2);
+    expect(output.listItems?[1].itemDetail?.id, "id2");
+    expect(output.listItems?[2].itemDetail?.type, ItemType.type3);
+    expect(output.listItems?[2].itemDetail?.id, "id3");
 /*
 {
   "ListItems": [

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'codebuild-2016-10-06.g.dart';
 
 /// AWS CodeBuild is a fully managed build service in the cloud. AWS CodeBuild
 /// compiles your source code, runs unit tests, and produces artifacts that are
@@ -40,10 +32,10 @@ part 'codebuild-2016-10-06.g.dart';
 class CodeBuild {
   final _s.JsonProtocol _protocol;
   CodeBuild({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,7 +53,7 @@ class CodeBuild {
   /// Parameter [ids] :
   /// The IDs of the builds to delete.
   Future<BatchDeleteBuildsOutput> batchDeleteBuilds({
-    @_s.required List<String> ids,
+    required List<String> ids,
   }) async {
     ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
@@ -89,7 +81,7 @@ class CodeBuild {
   /// Parameter [ids] :
   /// An array that contains the batch build identifiers to retrieve.
   Future<BatchGetBuildBatchesOutput> batchGetBuildBatches({
-    @_s.required List<String> ids,
+    required List<String> ids,
   }) async {
     ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
@@ -117,7 +109,7 @@ class CodeBuild {
   /// Parameter [ids] :
   /// The IDs of the builds.
   Future<BatchGetBuildsOutput> batchGetBuilds({
-    @_s.required List<String> ids,
+    required List<String> ids,
   }) async {
     ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
@@ -147,7 +139,7 @@ class CodeBuild {
   /// project shared with your AWS account, its ARN must be specified. You
   /// cannot specify a shared project using its name.
   Future<BatchGetProjectsOutput> batchGetProjects({
-    @_s.required List<String> names,
+    required List<String> names,
   }) async {
     ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
@@ -175,7 +167,7 @@ class CodeBuild {
   /// Parameter [reportGroupArns] :
   /// An array of report group ARNs that identify the report groups to return.
   Future<BatchGetReportGroupsOutput> batchGetReportGroups({
-    @_s.required List<String> reportGroupArns,
+    required List<String> reportGroupArns,
   }) async {
     ArgumentError.checkNotNull(reportGroupArns, 'reportGroupArns');
     final headers = <String, String>{
@@ -203,7 +195,7 @@ class CodeBuild {
   /// Parameter [reportArns] :
   /// An array of ARNs that identify the <code>Report</code> objects to return.
   Future<BatchGetReportsOutput> batchGetReports({
-    @_s.required List<String> reportArns,
+    required List<String> reportArns,
   }) async {
     ArgumentError.checkNotNull(reportArns, 'reportArns');
     final headers = <String, String>{
@@ -348,26 +340,26 @@ class CodeBuild {
   /// Parameter [vpcConfig] :
   /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
   Future<CreateProjectOutput> createProject({
-    @_s.required ProjectArtifacts artifacts,
-    @_s.required ProjectEnvironment environment,
-    @_s.required String name,
-    @_s.required String serviceRole,
-    @_s.required ProjectSource source,
-    bool badgeEnabled,
-    ProjectBuildBatchConfig buildBatchConfig,
-    ProjectCache cache,
-    String description,
-    String encryptionKey,
-    List<ProjectFileSystemLocation> fileSystemLocations,
-    LogsConfig logsConfig,
-    int queuedTimeoutInMinutes,
-    List<ProjectArtifacts> secondaryArtifacts,
-    List<ProjectSourceVersion> secondarySourceVersions,
-    List<ProjectSource> secondarySources,
-    String sourceVersion,
-    List<Tag> tags,
-    int timeoutInMinutes,
-    VpcConfig vpcConfig,
+    required ProjectArtifacts artifacts,
+    required ProjectEnvironment environment,
+    required String name,
+    required String serviceRole,
+    required ProjectSource source,
+    bool? badgeEnabled,
+    ProjectBuildBatchConfig? buildBatchConfig,
+    ProjectCache? cache,
+    String? description,
+    String? encryptionKey,
+    List<ProjectFileSystemLocation>? fileSystemLocations,
+    LogsConfig? logsConfig,
+    int? queuedTimeoutInMinutes,
+    List<ProjectArtifacts>? secondaryArtifacts,
+    List<ProjectSourceVersion>? secondarySourceVersions,
+    List<ProjectSource>? secondarySources,
+    String? sourceVersion,
+    List<Tag>? tags,
+    int? timeoutInMinutes,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(artifacts, 'artifacts');
     ArgumentError.checkNotNull(environment, 'environment');
@@ -481,10 +473,10 @@ class CodeBuild {
   /// These tags are available for use by AWS services that support AWS
   /// CodeBuild report group tags.
   Future<CreateReportGroupOutput> createReportGroup({
-    @_s.required ReportExportConfig exportConfig,
-    @_s.required String name,
-    @_s.required ReportType type,
-    List<Tag> tags,
+    required ReportExportConfig exportConfig,
+    required String name,
+    required ReportType type,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(exportConfig, 'exportConfig');
     ArgumentError.checkNotNull(name, 'name');
@@ -509,7 +501,7 @@ class CodeBuild {
       payload: {
         'exportConfig': exportConfig,
         'name': name,
-        'type': type?.toValue() ?? '',
+        'type': type.toValue(),
         if (tags != null) 'tags': tags,
       },
     );
@@ -563,10 +555,10 @@ class CodeBuild {
   /// <code>filterGroups</code> array must pass. For a filter group to pass,
   /// each of its filters must pass.
   Future<CreateWebhookOutput> createWebhook({
-    @_s.required String projectName,
-    String branchFilter,
-    WebhookBuildType buildType,
-    List<List<WebhookFilter>> filterGroups,
+    required String projectName,
+    String? branchFilter,
+    WebhookBuildType? buildType,
+    List<List<WebhookFilter>>? filterGroups,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -610,7 +602,7 @@ class CodeBuild {
   /// Parameter [id] :
   /// The identifier of the batch build to delete.
   Future<DeleteBuildBatchOutput> deleteBuildBatch({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -646,7 +638,7 @@ class CodeBuild {
   /// Parameter [name] :
   /// The name of the build project.
   Future<void> deleteProject({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -660,7 +652,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteProject'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -670,8 +662,6 @@ class CodeBuild {
         'name': name,
       },
     );
-
-    return DeleteProjectOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a report.
@@ -681,7 +671,7 @@ class CodeBuild {
   /// Parameter [arn] :
   /// The ARN of the report to delete.
   Future<void> deleteReport({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -695,7 +685,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReport'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -705,8 +695,6 @@ class CodeBuild {
         'arn': arn,
       },
     );
-
-    return DeleteReportOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a report group. Before you delete a report group, you must delete
@@ -729,8 +717,8 @@ class CodeBuild {
   /// to delete the reports. If you call <code>DeleteReportGroup</code> for a
   /// report group that contains one or more reports, an exception is thrown.
   Future<void> deleteReportGroup({
-    @_s.required String arn,
-    bool deleteReports,
+    required String arn,
+    bool? deleteReports,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -744,7 +732,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReportGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -755,8 +743,6 @@ class CodeBuild {
         if (deleteReports != null) 'deleteReports': deleteReports,
       },
     );
-
-    return DeleteReportGroupOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a resource policy that is identified by its resource ARN.
@@ -766,7 +752,7 @@ class CodeBuild {
   /// Parameter [resourceArn] :
   /// The ARN of the resource that is associated with the resource policy.
   Future<void> deleteResourcePolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -780,7 +766,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteResourcePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -790,8 +776,6 @@ class CodeBuild {
         'resourceArn': resourceArn,
       },
     );
-
-    return DeleteResourcePolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source
@@ -803,7 +787,7 @@ class CodeBuild {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the token.
   Future<DeleteSourceCredentialsOutput> deleteSourceCredentials({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -843,7 +827,7 @@ class CodeBuild {
   /// Parameter [projectName] :
   /// The name of the AWS CodeBuild project.
   Future<void> deleteWebhook({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -863,7 +847,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteWebhook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -873,8 +857,6 @@ class CodeBuild {
         'projectName': projectName,
       },
     );
-
-    return DeleteWebhookOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves one or more code coverage reports.
@@ -909,13 +891,13 @@ class CodeBuild {
   /// Parameter [sortOrder] :
   /// Specifies if the results are sorted in ascending or descending order.
   Future<DescribeCodeCoveragesOutput> describeCodeCoverages({
-    @_s.required String reportArn,
-    double maxLineCoveragePercentage,
-    int maxResults,
-    double minLineCoveragePercentage,
-    String nextToken,
-    ReportCodeCoverageSortByType sortBy,
-    SortOrderType sortOrder,
+    required String reportArn,
+    double? maxLineCoveragePercentage,
+    int? maxResults,
+    double? minLineCoveragePercentage,
+    String? nextToken,
+    ReportCodeCoverageSortByType? sortBy,
+    SortOrderType? sortOrder,
   }) async {
     ArgumentError.checkNotNull(reportArn, 'reportArn');
     _s.validateStringLength(
@@ -994,10 +976,10 @@ class CodeBuild {
   /// calling this operation with each subsequent next token that is returned,
   /// until no more next tokens are returned.
   Future<DescribeTestCasesOutput> describeTestCases({
-    @_s.required String reportArn,
-    TestCaseFilter filter,
-    int maxResults,
-    String nextToken,
+    required String reportArn,
+    TestCaseFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(reportArn, 'reportArn');
     _s.validateNumRange(
@@ -1031,9 +1013,9 @@ class CodeBuild {
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
   Future<GetReportGroupTrendOutput> getReportGroupTrend({
-    @_s.required String reportGroupArn,
-    @_s.required ReportGroupTrendFieldType trendField,
-    int numOfReports,
+    required String reportGroupArn,
+    required ReportGroupTrendFieldType trendField,
+    int? numOfReports,
   }) async {
     ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
     _s.validateStringLength(
@@ -1062,7 +1044,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         'reportGroupArn': reportGroupArn,
-        'trendField': trendField?.toValue() ?? '',
+        'trendField': trendField.toValue(),
         if (numOfReports != null) 'numOfReports': numOfReports,
       },
     );
@@ -1078,7 +1060,7 @@ class CodeBuild {
   /// Parameter [resourceArn] :
   /// The ARN of the resource that is associated with the resource policy.
   Future<GetResourcePolicyOutput> getResourcePolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1135,11 +1117,11 @@ class CodeBuild {
   /// The Bitbucket username when the <code>authType</code> is BASIC_AUTH. This
   /// parameter is not valid for other types of source providers or connections.
   Future<ImportSourceCredentialsOutput> importSourceCredentials({
-    @_s.required AuthType authType,
-    @_s.required ServerType serverType,
-    @_s.required String token,
-    bool shouldOverwrite,
-    String username,
+    required AuthType authType,
+    required ServerType serverType,
+    required String token,
+    bool? shouldOverwrite,
+    String? username,
   }) async {
     ArgumentError.checkNotNull(authType, 'authType');
     ArgumentError.checkNotNull(serverType, 'serverType');
@@ -1168,8 +1150,8 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'authType': authType?.toValue() ?? '',
-        'serverType': serverType?.toValue() ?? '',
+        'authType': authType.toValue(),
+        'serverType': serverType.toValue(),
         'token': token,
         if (shouldOverwrite != null) 'shouldOverwrite': shouldOverwrite,
         if (username != null) 'username': username,
@@ -1187,7 +1169,7 @@ class CodeBuild {
   /// Parameter [projectName] :
   /// The name of the AWS CodeBuild build project that the cache is reset for.
   Future<void> invalidateProjectCache({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -1201,7 +1183,7 @@ class CodeBuild {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.InvalidateProjectCache'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1211,8 +1193,6 @@ class CodeBuild {
         'projectName': projectName,
       },
     );
-
-    return InvalidateProjectCacheOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the identifiers of your build batches in the current region.
@@ -1245,10 +1225,10 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListBuildBatchesOutput> listBuildBatches({
-    BuildBatchFilter filter,
-    int maxResults,
-    String nextToken,
-    SortOrderType sortOrder,
+    BuildBatchFilter? filter,
+    int? maxResults,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1311,11 +1291,11 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListBuildBatchesForProjectOutput> listBuildBatchesForProject({
-    BuildBatchFilter filter,
-    int maxResults,
-    String nextToken,
-    String projectName,
-    SortOrderType sortOrder,
+    BuildBatchFilter? filter,
+    int? maxResults,
+    String? nextToken,
+    String? projectName,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1376,8 +1356,8 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListBuildsOutput> listBuilds({
-    String nextToken,
-    SortOrderType sortOrder,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1428,9 +1408,9 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListBuildsForProjectOutput> listBuildsForProject({
-    @_s.required String projectName,
-    String nextToken,
-    SortOrderType sortOrder,
+    required String projectName,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -1525,9 +1505,9 @@ class CodeBuild {
   /// Use <code>sortBy</code> to specify the criterion to be used to list build
   /// project names.
   Future<ListProjectsOutput> listProjects({
-    String nextToken,
-    ProjectSortByType sortBy,
-    SortOrderType sortOrder,
+    String? nextToken,
+    ProjectSortByType? sortBy,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1595,10 +1575,10 @@ class CodeBuild {
   /// Used to specify the order to sort the list of returned report groups.
   /// Valid values are <code>ASCENDING</code> and <code>DESCENDING</code>.
   Future<ListReportGroupsOutput> listReportGroups({
-    int maxResults,
-    String nextToken,
-    ReportGroupSortByType sortBy,
-    SortOrderType sortOrder,
+    int? maxResults,
+    String? nextToken,
+    ReportGroupSortByType? sortBy,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1663,10 +1643,10 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListReportsOutput> listReports({
-    ReportFilter filter,
-    int maxResults,
-    String nextToken,
-    SortOrderType sortOrder,
+    ReportFilter? filter,
+    int? maxResults,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1725,11 +1705,11 @@ class CodeBuild {
   /// Use to specify whether the results are returned in ascending or descending
   /// order.
   Future<ListReportsForReportGroupOutput> listReportsForReportGroup({
-    @_s.required String reportGroupArn,
-    ReportFilter filter,
-    int maxResults,
-    String nextToken,
-    SortOrderType sortOrder,
+    required String reportGroupArn,
+    ReportFilter? filter,
+    int? maxResults,
+    String? nextToken,
+    SortOrderType? sortOrder,
   }) async {
     ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
     _s.validateNumRange(
@@ -1804,10 +1784,10 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListSharedProjectsOutput> listSharedProjects({
-    int maxResults,
-    String nextToken,
-    SharedResourceSortByType sortBy,
-    SortOrderType sortOrder,
+    int? maxResults,
+    String? nextToken,
+    SharedResourceSortByType? sortBy,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1887,10 +1867,10 @@ class CodeBuild {
   /// </li>
   /// </ul>
   Future<ListSharedReportGroupsOutput> listSharedReportGroups({
-    int maxResults,
-    String nextToken,
-    SharedResourceSortByType sortBy,
-    SortOrderType sortOrder,
+    int? maxResults,
+    String? nextToken,
+    SharedResourceSortByType? sortBy,
+    SortOrderType? sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1955,8 +1935,8 @@ class CodeBuild {
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
   /// you want to associate with a resource policy.
   Future<PutResourcePolicyOutput> putResourcePolicy({
-    @_s.required String policy,
-    @_s.required String resourceArn,
+    required String policy,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
@@ -2009,8 +1989,8 @@ class CodeBuild {
   /// repeat the <code>RetryBuild</code> request with the same token, but change
   /// a parameter, AWS CodeBuild returns a parameter mismatch error.
   Future<RetryBuildOutput> retryBuild({
-    String id,
-    String idempotencyToken,
+    String? id,
+    String? idempotencyToken,
   }) async {
     _s.validateStringLength(
       'id',
@@ -2056,9 +2036,9 @@ class CodeBuild {
   /// Parameter [retryType] :
   /// Specifies the type of retry to perform.
   Future<RetryBuildBatchOutput> retryBuildBatch({
-    String id,
-    String idempotencyToken,
-    RetryBuildBatchType retryType,
+    String? id,
+    String? idempotencyToken,
+    RetryBuildBatchType? retryType,
   }) async {
     _s.validateStringLength(
       'id',
@@ -2284,37 +2264,37 @@ class CodeBuild {
   /// overrides, for this build only, the latest setting already defined in the
   /// build project.
   Future<StartBuildOutput> startBuild({
-    @_s.required String projectName,
-    ProjectArtifacts artifactsOverride,
-    BuildStatusConfig buildStatusConfigOverride,
-    String buildspecOverride,
-    ProjectCache cacheOverride,
-    String certificateOverride,
-    ComputeType computeTypeOverride,
-    bool debugSessionEnabled,
-    String encryptionKeyOverride,
-    EnvironmentType environmentTypeOverride,
-    List<EnvironmentVariable> environmentVariablesOverride,
-    int gitCloneDepthOverride,
-    GitSubmodulesConfig gitSubmodulesConfigOverride,
-    String idempotencyToken,
-    String imageOverride,
-    ImagePullCredentialsType imagePullCredentialsTypeOverride,
-    bool insecureSslOverride,
-    LogsConfig logsConfigOverride,
-    bool privilegedModeOverride,
-    int queuedTimeoutInMinutesOverride,
-    RegistryCredential registryCredentialOverride,
-    bool reportBuildStatusOverride,
-    List<ProjectArtifacts> secondaryArtifactsOverride,
-    List<ProjectSource> secondarySourcesOverride,
-    List<ProjectSourceVersion> secondarySourcesVersionOverride,
-    String serviceRoleOverride,
-    SourceAuth sourceAuthOverride,
-    String sourceLocationOverride,
-    SourceType sourceTypeOverride,
-    String sourceVersion,
-    int timeoutInMinutesOverride,
+    required String projectName,
+    ProjectArtifacts? artifactsOverride,
+    BuildStatusConfig? buildStatusConfigOverride,
+    String? buildspecOverride,
+    ProjectCache? cacheOverride,
+    String? certificateOverride,
+    ComputeType? computeTypeOverride,
+    bool? debugSessionEnabled,
+    String? encryptionKeyOverride,
+    EnvironmentType? environmentTypeOverride,
+    List<EnvironmentVariable>? environmentVariablesOverride,
+    int? gitCloneDepthOverride,
+    GitSubmodulesConfig? gitSubmodulesConfigOverride,
+    String? idempotencyToken,
+    String? imageOverride,
+    ImagePullCredentialsType? imagePullCredentialsTypeOverride,
+    bool? insecureSslOverride,
+    LogsConfig? logsConfigOverride,
+    bool? privilegedModeOverride,
+    int? queuedTimeoutInMinutesOverride,
+    RegistryCredential? registryCredentialOverride,
+    bool? reportBuildStatusOverride,
+    List<ProjectArtifacts>? secondaryArtifactsOverride,
+    List<ProjectSource>? secondarySourcesOverride,
+    List<ProjectSourceVersion>? secondarySourcesVersionOverride,
+    String? serviceRoleOverride,
+    SourceAuth? sourceAuthOverride,
+    String? sourceLocationOverride,
+    SourceType? sourceTypeOverride,
+    String? sourceVersion,
+    int? timeoutInMinutesOverride,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -2623,36 +2603,36 @@ class CodeBuild {
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
   Future<StartBuildBatchOutput> startBuildBatch({
-    @_s.required String projectName,
-    ProjectArtifacts artifactsOverride,
-    ProjectBuildBatchConfig buildBatchConfigOverride,
-    int buildTimeoutInMinutesOverride,
-    String buildspecOverride,
-    ProjectCache cacheOverride,
-    String certificateOverride,
-    ComputeType computeTypeOverride,
-    String encryptionKeyOverride,
-    EnvironmentType environmentTypeOverride,
-    List<EnvironmentVariable> environmentVariablesOverride,
-    int gitCloneDepthOverride,
-    GitSubmodulesConfig gitSubmodulesConfigOverride,
-    String idempotencyToken,
-    String imageOverride,
-    ImagePullCredentialsType imagePullCredentialsTypeOverride,
-    bool insecureSslOverride,
-    LogsConfig logsConfigOverride,
-    bool privilegedModeOverride,
-    int queuedTimeoutInMinutesOverride,
-    RegistryCredential registryCredentialOverride,
-    bool reportBuildBatchStatusOverride,
-    List<ProjectArtifacts> secondaryArtifactsOverride,
-    List<ProjectSource> secondarySourcesOverride,
-    List<ProjectSourceVersion> secondarySourcesVersionOverride,
-    String serviceRoleOverride,
-    SourceAuth sourceAuthOverride,
-    String sourceLocationOverride,
-    SourceType sourceTypeOverride,
-    String sourceVersion,
+    required String projectName,
+    ProjectArtifacts? artifactsOverride,
+    ProjectBuildBatchConfig? buildBatchConfigOverride,
+    int? buildTimeoutInMinutesOverride,
+    String? buildspecOverride,
+    ProjectCache? cacheOverride,
+    String? certificateOverride,
+    ComputeType? computeTypeOverride,
+    String? encryptionKeyOverride,
+    EnvironmentType? environmentTypeOverride,
+    List<EnvironmentVariable>? environmentVariablesOverride,
+    int? gitCloneDepthOverride,
+    GitSubmodulesConfig? gitSubmodulesConfigOverride,
+    String? idempotencyToken,
+    String? imageOverride,
+    ImagePullCredentialsType? imagePullCredentialsTypeOverride,
+    bool? insecureSslOverride,
+    LogsConfig? logsConfigOverride,
+    bool? privilegedModeOverride,
+    int? queuedTimeoutInMinutesOverride,
+    RegistryCredential? registryCredentialOverride,
+    bool? reportBuildBatchStatusOverride,
+    List<ProjectArtifacts>? secondaryArtifactsOverride,
+    List<ProjectSource>? secondarySourcesOverride,
+    List<ProjectSourceVersion>? secondarySourcesVersionOverride,
+    String? serviceRoleOverride,
+    SourceAuth? sourceAuthOverride,
+    String? sourceLocationOverride,
+    SourceType? sourceTypeOverride,
+    String? sourceVersion,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -2777,7 +2757,7 @@ class CodeBuild {
   /// Parameter [id] :
   /// The ID of the build.
   Future<StopBuildOutput> stopBuild({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2813,7 +2793,7 @@ class CodeBuild {
   /// Parameter [id] :
   /// The identifier of the batch build to stop.
   Future<StopBuildBatchOutput> stopBuildBatch({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2967,26 +2947,26 @@ class CodeBuild {
   /// Parameter [vpcConfig] :
   /// VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
   Future<UpdateProjectOutput> updateProject({
-    @_s.required String name,
-    ProjectArtifacts artifacts,
-    bool badgeEnabled,
-    ProjectBuildBatchConfig buildBatchConfig,
-    ProjectCache cache,
-    String description,
-    String encryptionKey,
-    ProjectEnvironment environment,
-    List<ProjectFileSystemLocation> fileSystemLocations,
-    LogsConfig logsConfig,
-    int queuedTimeoutInMinutes,
-    List<ProjectArtifacts> secondaryArtifacts,
-    List<ProjectSourceVersion> secondarySourceVersions,
-    List<ProjectSource> secondarySources,
-    String serviceRole,
-    ProjectSource source,
-    String sourceVersion,
-    List<Tag> tags,
-    int timeoutInMinutes,
-    VpcConfig vpcConfig,
+    required String name,
+    ProjectArtifacts? artifacts,
+    bool? badgeEnabled,
+    ProjectBuildBatchConfig? buildBatchConfig,
+    ProjectCache? cache,
+    String? description,
+    String? encryptionKey,
+    ProjectEnvironment? environment,
+    List<ProjectFileSystemLocation>? fileSystemLocations,
+    LogsConfig? logsConfig,
+    int? queuedTimeoutInMinutes,
+    List<ProjectArtifacts>? secondaryArtifacts,
+    List<ProjectSourceVersion>? secondarySourceVersions,
+    List<ProjectSource>? secondarySources,
+    String? serviceRole,
+    ProjectSource? source,
+    String? sourceVersion,
+    List<Tag>? tags,
+    int? timeoutInMinutes,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3094,9 +3074,9 @@ class CodeBuild {
   /// These tags are available for use by AWS services that support AWS
   /// CodeBuild report group tags.
   Future<UpdateReportGroupOutput> updateReportGroup({
-    @_s.required String arn,
-    ReportExportConfig exportConfig,
-    List<Tag> tags,
+    required String arn,
+    ReportExportConfig? exportConfig,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -3162,11 +3142,11 @@ class CodeBuild {
   /// secret token should be updated. If you use Bitbucket for your repository,
   /// <code>rotateSecret</code> is ignored.
   Future<UpdateWebhookOutput> updateWebhook({
-    @_s.required String projectName,
-    String branchFilter,
-    WebhookBuildType buildType,
-    List<List<WebhookFilter>> filterGroups,
-    bool rotateSecret,
+    required String projectName,
+    String? branchFilter,
+    WebhookBuildType? buildType,
+    List<List<WebhookFilter>>? filterGroups,
+    bool? rotateSecret,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -3206,34 +3186,97 @@ class CodeBuild {
 }
 
 enum ArtifactNamespace {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('BUILD_ID')
   buildId,
 }
 
+extension on ArtifactNamespace {
+  String toValue() {
+    switch (this) {
+      case ArtifactNamespace.none:
+        return 'NONE';
+      case ArtifactNamespace.buildId:
+        return 'BUILD_ID';
+    }
+  }
+}
+
+extension on String {
+  ArtifactNamespace toArtifactNamespace() {
+    switch (this) {
+      case 'NONE':
+        return ArtifactNamespace.none;
+      case 'BUILD_ID':
+        return ArtifactNamespace.buildId;
+    }
+    throw Exception('$this is not known in enum ArtifactNamespace');
+  }
+}
+
 enum ArtifactPackaging {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ZIP')
   zip,
 }
 
+extension on ArtifactPackaging {
+  String toValue() {
+    switch (this) {
+      case ArtifactPackaging.none:
+        return 'NONE';
+      case ArtifactPackaging.zip:
+        return 'ZIP';
+    }
+  }
+}
+
+extension on String {
+  ArtifactPackaging toArtifactPackaging() {
+    switch (this) {
+      case 'NONE':
+        return ArtifactPackaging.none;
+      case 'ZIP':
+        return ArtifactPackaging.zip;
+    }
+    throw Exception('$this is not known in enum ArtifactPackaging');
+  }
+}
+
 enum ArtifactsType {
-  @_s.JsonValue('CODEPIPELINE')
   codepipeline,
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('NO_ARTIFACTS')
   noArtifacts,
 }
 
+extension on ArtifactsType {
+  String toValue() {
+    switch (this) {
+      case ArtifactsType.codepipeline:
+        return 'CODEPIPELINE';
+      case ArtifactsType.s3:
+        return 'S3';
+      case ArtifactsType.noArtifacts:
+        return 'NO_ARTIFACTS';
+    }
+  }
+}
+
+extension on String {
+  ArtifactsType toArtifactsType() {
+    switch (this) {
+      case 'CODEPIPELINE':
+        return ArtifactsType.codepipeline;
+      case 'S3':
+        return ArtifactsType.s3;
+      case 'NO_ARTIFACTS':
+        return ArtifactsType.noArtifacts;
+    }
+    throw Exception('$this is not known in enum ArtifactsType');
+  }
+}
+
 enum AuthType {
-  @_s.JsonValue('OAUTH')
   oauth,
-  @_s.JsonValue('BASIC_AUTH')
   basicAuth,
-  @_s.JsonValue('PERSONAL_ACCESS_TOKEN')
   personalAccessToken,
 }
 
@@ -3247,205 +3290,235 @@ extension on AuthType {
       case AuthType.personalAccessToken:
         return 'PERSONAL_ACCESS_TOKEN';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  AuthType toAuthType() {
+    switch (this) {
+      case 'OAUTH':
+        return AuthType.oauth;
+      case 'BASIC_AUTH':
+        return AuthType.basicAuth;
+      case 'PERSONAL_ACCESS_TOKEN':
+        return AuthType.personalAccessToken;
+    }
+    throw Exception('$this is not known in enum AuthType');
+  }
+}
+
 class BatchDeleteBuildsOutput {
   /// The IDs of the builds that were successfully deleted.
-  @_s.JsonKey(name: 'buildsDeleted')
-  final List<String> buildsDeleted;
+  final List<String>? buildsDeleted;
 
   /// Information about any builds that could not be successfully deleted.
-  @_s.JsonKey(name: 'buildsNotDeleted')
-  final List<BuildNotDeleted> buildsNotDeleted;
+  final List<BuildNotDeleted>? buildsNotDeleted;
 
   BatchDeleteBuildsOutput({
     this.buildsDeleted,
     this.buildsNotDeleted,
   });
-  factory BatchDeleteBuildsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteBuildsOutputFromJson(json);
+  factory BatchDeleteBuildsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteBuildsOutput(
+      buildsDeleted: (json['buildsDeleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      buildsNotDeleted: (json['buildsNotDeleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildNotDeleted.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetBuildBatchesOutput {
   /// An array of <code>BuildBatch</code> objects that represent the retrieved
   /// batch builds.
-  @_s.JsonKey(name: 'buildBatches')
-  final List<BuildBatch> buildBatches;
+  final List<BuildBatch>? buildBatches;
 
   /// An array that contains the identifiers of any batch builds that are not
   /// found.
-  @_s.JsonKey(name: 'buildBatchesNotFound')
-  final List<String> buildBatchesNotFound;
+  final List<String>? buildBatchesNotFound;
 
   BatchGetBuildBatchesOutput({
     this.buildBatches,
     this.buildBatchesNotFound,
   });
-  factory BatchGetBuildBatchesOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetBuildBatchesOutputFromJson(json);
+  factory BatchGetBuildBatchesOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetBuildBatchesOutput(
+      buildBatches: (json['buildBatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildBatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      buildBatchesNotFound: (json['buildBatchesNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetBuildsOutput {
   /// Information about the requested builds.
-  @_s.JsonKey(name: 'builds')
-  final List<Build> builds;
+  final List<Build>? builds;
 
   /// The IDs of builds for which information could not be found.
-  @_s.JsonKey(name: 'buildsNotFound')
-  final List<String> buildsNotFound;
+  final List<String>? buildsNotFound;
 
   BatchGetBuildsOutput({
     this.builds,
     this.buildsNotFound,
   });
-  factory BatchGetBuildsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetBuildsOutputFromJson(json);
+  factory BatchGetBuildsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetBuildsOutput(
+      builds: (json['builds'] as List?)
+          ?.whereNotNull()
+          .map((e) => Build.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      buildsNotFound: (json['buildsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetProjectsOutput {
   /// Information about the requested build projects.
-  @_s.JsonKey(name: 'projects')
-  final List<Project> projects;
+  final List<Project>? projects;
 
   /// The names of build projects for which information could not be found.
-  @_s.JsonKey(name: 'projectsNotFound')
-  final List<String> projectsNotFound;
+  final List<String>? projectsNotFound;
 
   BatchGetProjectsOutput({
     this.projects,
     this.projectsNotFound,
   });
-  factory BatchGetProjectsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetProjectsOutputFromJson(json);
+  factory BatchGetProjectsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetProjectsOutput(
+      projects: (json['projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => Project.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projectsNotFound: (json['projectsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetReportGroupsOutput {
   /// The array of report groups returned by <code>BatchGetReportGroups</code>.
-  @_s.JsonKey(name: 'reportGroups')
-  final List<ReportGroup> reportGroups;
+  final List<ReportGroup>? reportGroups;
 
   /// An array of ARNs passed to <code>BatchGetReportGroups</code> that are not
   /// associated with a <code>ReportGroup</code>.
-  @_s.JsonKey(name: 'reportGroupsNotFound')
-  final List<String> reportGroupsNotFound;
+  final List<String>? reportGroupsNotFound;
 
   BatchGetReportGroupsOutput({
     this.reportGroups,
     this.reportGroupsNotFound,
   });
-  factory BatchGetReportGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetReportGroupsOutputFromJson(json);
+  factory BatchGetReportGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetReportGroupsOutput(
+      reportGroups: (json['reportGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReportGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reportGroupsNotFound: (json['reportGroupsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetReportsOutput {
   /// The array of <code>Report</code> objects returned by
   /// <code>BatchGetReports</code>.
-  @_s.JsonKey(name: 'reports')
-  final List<Report> reports;
+  final List<Report>? reports;
 
   /// An array of ARNs passed to <code>BatchGetReportGroups</code> that are not
   /// associated with a <code>Report</code>.
-  @_s.JsonKey(name: 'reportsNotFound')
-  final List<String> reportsNotFound;
+  final List<String>? reportsNotFound;
 
   BatchGetReportsOutput({
     this.reports,
     this.reportsNotFound,
   });
-  factory BatchGetReportsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetReportsOutputFromJson(json);
+  factory BatchGetReportsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetReportsOutput(
+      reports: (json['reports'] as List?)
+          ?.whereNotNull()
+          .map((e) => Report.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reportsNotFound: (json['reportsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// Specifies restrictions for the batch build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BatchRestrictions {
   /// An array of strings that specify the compute types that are allowed for the
   /// batch build. See <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
   /// environment compute types</a> in the <i>AWS CodeBuild User Guide</i> for
   /// these values.
-  @_s.JsonKey(name: 'computeTypesAllowed')
-  final List<String> computeTypesAllowed;
+  final List<String>? computeTypesAllowed;
 
   /// Specifies the maximum number of builds allowed.
-  @_s.JsonKey(name: 'maximumBuildsAllowed')
-  final int maximumBuildsAllowed;
+  final int? maximumBuildsAllowed;
 
   BatchRestrictions({
     this.computeTypesAllowed,
     this.maximumBuildsAllowed,
   });
-  factory BatchRestrictions.fromJson(Map<String, dynamic> json) =>
-      _$BatchRestrictionsFromJson(json);
+  factory BatchRestrictions.fromJson(Map<String, dynamic> json) {
+    return BatchRestrictions(
+      computeTypesAllowed: (json['computeTypesAllowed'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maximumBuildsAllowed: json['maximumBuildsAllowed'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BatchRestrictionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final computeTypesAllowed = this.computeTypesAllowed;
+    final maximumBuildsAllowed = this.maximumBuildsAllowed;
+    return {
+      if (computeTypesAllowed != null)
+        'computeTypesAllowed': computeTypesAllowed,
+      if (maximumBuildsAllowed != null)
+        'maximumBuildsAllowed': maximumBuildsAllowed,
+    };
+  }
 }
 
 /// Information about a build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Build {
   /// The Amazon Resource Name (ARN) of the build.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Information about the output artifacts for the build.
-  @_s.JsonKey(name: 'artifacts')
-  final BuildArtifacts artifacts;
+  final BuildArtifacts? artifacts;
 
   /// The ARN of the batch build that this build is a member of, if applicable.
-  @_s.JsonKey(name: 'buildBatchArn')
-  final String buildBatchArn;
+  final String? buildBatchArn;
 
   /// Whether the build is complete. True if complete; otherwise, false.
-  @_s.JsonKey(name: 'buildComplete')
-  final bool buildComplete;
+  final bool? buildComplete;
 
   /// The number of the build. For each project, the <code>buildNumber</code> of
   /// its first build is <code>1</code>. The <code>buildNumber</code> of each
   /// subsequent build is incremented by <code>1</code>. If a build is deleted,
   /// the <code>buildNumber</code> of other builds does not change.
-  @_s.JsonKey(name: 'buildNumber')
-  final int buildNumber;
+  final int? buildNumber;
 
   /// The current status of the build. Valid values include:
   ///
@@ -3469,20 +3542,16 @@ class Build {
   /// <code>TIMED_OUT</code>: The build timed out.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'buildStatus')
-  final StatusType buildStatus;
+  final StatusType? buildStatus;
 
   /// Information about the cache for the build.
-  @_s.JsonKey(name: 'cache')
-  final ProjectCache cache;
+  final ProjectCache? cache;
 
   /// The current build phase.
-  @_s.JsonKey(name: 'currentPhase')
-  final String currentPhase;
+  final String? currentPhase;
 
   /// Contains information about the debug session for this build.
-  @_s.JsonKey(name: 'debugSession')
-  final DebugSession debugSession;
+  final DebugSession? debugSession;
 
   /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
   /// used for encrypting the build output artifacts.
@@ -3493,33 +3562,26 @@ class Build {
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
   /// available, the CMK's alias (using the format
   /// <code>alias/&lt;alias-name&gt;</code>).
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// When the build process ended, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// Information about the build environment for this build.
-  @_s.JsonKey(name: 'environment')
-  final ProjectEnvironment environment;
+  final ProjectEnvironment? environment;
 
   /// A list of exported environment variables for this build.
-  @_s.JsonKey(name: 'exportedEnvironmentVariables')
-  final List<ExportedEnvironmentVariable> exportedEnvironmentVariables;
+  final List<ExportedEnvironmentVariable>? exportedEnvironmentVariables;
 
   /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
   /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
   /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
   /// <code>mountPoint</code>, and <code>type</code> of a file system created
   /// using Amazon Elastic File System.
-  @_s.JsonKey(name: 'fileSystemLocations')
-  final List<ProjectFileSystemLocation> fileSystemLocations;
+  final List<ProjectFileSystemLocation>? fileSystemLocations;
 
   /// The unique ID for the build.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The entity that started the build. Valid values include:
   ///
@@ -3537,33 +3599,26 @@ class Build {
   /// <code>CodeBuild-Jenkins-Plugin</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'initiator')
-  final String initiator;
+  final String? initiator;
 
   /// Information about the build's logs in Amazon CloudWatch Logs.
-  @_s.JsonKey(name: 'logs')
-  final LogsLocation logs;
+  final LogsLocation? logs;
 
   /// Describes a network interface.
-  @_s.JsonKey(name: 'networkInterface')
-  final NetworkInterface networkInterface;
+  final NetworkInterface? networkInterface;
 
   /// Information about all previous build phases that are complete and
   /// information about any current build phase that is not yet complete.
-  @_s.JsonKey(name: 'phases')
-  final List<BuildPhase> phases;
+  final List<BuildPhase>? phases;
 
   /// The name of the AWS CodeBuild project.
-  @_s.JsonKey(name: 'projectName')
-  final String projectName;
+  final String? projectName;
 
   /// The number of minutes a build is allowed to be queued before it times out.
-  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
-  final int queuedTimeoutInMinutes;
+  final int? queuedTimeoutInMinutes;
 
   /// An array of the ARNs associated with this build's reports.
-  @_s.JsonKey(name: 'reportArns')
-  final List<String> reportArns;
+  final List<String>? reportArns;
 
   /// An identifier for the version of this build's source code.
   ///
@@ -3578,12 +3633,10 @@ class Build {
   /// For Amazon Simple Storage Service (Amazon S3), this does not apply.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'resolvedSourceVersion')
-  final String resolvedSourceVersion;
+  final String? resolvedSourceVersion;
 
   /// An array of <code>ProjectArtifacts</code> objects.
-  @_s.JsonKey(name: 'secondaryArtifacts')
-  final List<BuildArtifacts> secondaryArtifacts;
+  final List<BuildArtifacts>? secondaryArtifacts;
 
   /// An array of <code>ProjectSourceVersion</code> objects. Each
   /// <code>ProjectSourceVersion</code> must be one of:
@@ -3611,20 +3664,16 @@ class Build {
   /// that represents the build input ZIP file to use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'secondarySourceVersions')
-  final List<ProjectSourceVersion> secondarySourceVersions;
+  final List<ProjectSourceVersion>? secondarySourceVersions;
 
   /// An array of <code>ProjectSource</code> objects.
-  @_s.JsonKey(name: 'secondarySources')
-  final List<ProjectSource> secondarySources;
+  final List<ProjectSource>? secondarySources;
 
   /// The name of a service role used for this build.
-  @_s.JsonKey(name: 'serviceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Information about the source code to be built.
-  @_s.JsonKey(name: 'source')
-  final ProjectSource source;
+  final ProjectSource? source;
 
   /// Any version identifier for the version of the source code to be built. If
   /// <code>sourceVersion</code> is specified at the project level, then this
@@ -3633,25 +3682,20 @@ class Build {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
-  @_s.JsonKey(name: 'sourceVersion')
-  final String sourceVersion;
+  final String? sourceVersion;
 
   /// When the build process started, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// How long, in minutes, for AWS CodeBuild to wait before timing out this build
   /// if it does not get marked as completed.
-  @_s.JsonKey(name: 'timeoutInMinutes')
-  final int timeoutInMinutes;
+  final int? timeoutInMinutes;
 
   /// If your AWS CodeBuild project accesses resources in an Amazon VPC, you
   /// provide this parameter that identifies the VPC ID and the list of security
   /// group IDs and subnet IDs. The security groups and subnets must belong to the
   /// same VPC. You must provide at least one security group and one subnet ID.
-  @_s.JsonKey(name: 'vpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   Build({
     this.arn,
@@ -3687,27 +3731,96 @@ class Build {
     this.timeoutInMinutes,
     this.vpcConfig,
   });
-  factory Build.fromJson(Map<String, dynamic> json) => _$BuildFromJson(json);
+  factory Build.fromJson(Map<String, dynamic> json) {
+    return Build(
+      arn: json['arn'] as String?,
+      artifacts: json['artifacts'] != null
+          ? BuildArtifacts.fromJson(json['artifacts'] as Map<String, dynamic>)
+          : null,
+      buildBatchArn: json['buildBatchArn'] as String?,
+      buildComplete: json['buildComplete'] as bool?,
+      buildNumber: json['buildNumber'] as int?,
+      buildStatus: (json['buildStatus'] as String?)?.toStatusType(),
+      cache: json['cache'] != null
+          ? ProjectCache.fromJson(json['cache'] as Map<String, dynamic>)
+          : null,
+      currentPhase: json['currentPhase'] as String?,
+      debugSession: json['debugSession'] != null
+          ? DebugSession.fromJson(json['debugSession'] as Map<String, dynamic>)
+          : null,
+      encryptionKey: json['encryptionKey'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      environment: json['environment'] != null
+          ? ProjectEnvironment.fromJson(
+              json['environment'] as Map<String, dynamic>)
+          : null,
+      exportedEnvironmentVariables: (json['exportedEnvironmentVariables']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ExportedEnvironmentVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fileSystemLocations: (json['fileSystemLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProjectFileSystemLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      initiator: json['initiator'] as String?,
+      logs: json['logs'] != null
+          ? LogsLocation.fromJson(json['logs'] as Map<String, dynamic>)
+          : null,
+      networkInterface: json['networkInterface'] != null
+          ? NetworkInterface.fromJson(
+              json['networkInterface'] as Map<String, dynamic>)
+          : null,
+      phases: (json['phases'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildPhase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projectName: json['projectName'] as String?,
+      queuedTimeoutInMinutes: json['queuedTimeoutInMinutes'] as int?,
+      reportArns: (json['reportArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resolvedSourceVersion: json['resolvedSourceVersion'] as String?,
+      secondaryArtifacts: (json['secondaryArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildArtifacts.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySourceVersions: (json['secondarySourceVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSourceVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySources: (json['secondarySources'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceRole: json['serviceRole'] as String?,
+      source: json['source'] != null
+          ? ProjectSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      sourceVersion: json['sourceVersion'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      timeoutInMinutes: json['timeoutInMinutes'] as int?,
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about build output artifacts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildArtifacts {
   /// An identifier for this artifact definition.
-  @_s.JsonKey(name: 'artifactIdentifier')
-  final String artifactIdentifier;
+  final String? artifactIdentifier;
 
   /// Information that tells you if encryption for build artifacts is disabled.
-  @_s.JsonKey(name: 'encryptionDisabled')
-  final bool encryptionDisabled;
+  final bool? encryptionDisabled;
 
   /// Information about the location of the build artifacts.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// The MD5 hash of the build artifact.
   ///
@@ -3717,15 +3830,13 @@ class BuildArtifacts {
   /// This value is available only if the build project's <code>packaging</code>
   /// value is set to <code>ZIP</code>.
   /// </note>
-  @_s.JsonKey(name: 'md5sum')
-  final String md5sum;
+  final String? md5sum;
 
   /// If this flag is set, a name specified in the buildspec file overrides the
   /// artifact name. The name specified in a buildspec file is calculated at build
   /// time and uses the Shell Command Language. For example, you can append a date
   /// and time to your artifact name so that it is always unique.
-  @_s.JsonKey(name: 'overrideArtifactName')
-  final bool overrideArtifactName;
+  final bool? overrideArtifactName;
 
   /// The SHA-256 hash of the build artifact.
   ///
@@ -3735,8 +3846,7 @@ class BuildArtifacts {
   /// This value is available only if the build project's <code>packaging</code>
   /// value is set to <code>ZIP</code>.
   /// </note>
-  @_s.JsonKey(name: 'sha256sum')
-  final String sha256sum;
+  final String? sha256sum;
 
   BuildArtifacts({
     this.artifactIdentifier,
@@ -3746,59 +3856,52 @@ class BuildArtifacts {
     this.overrideArtifactName,
     this.sha256sum,
   });
-  factory BuildArtifacts.fromJson(Map<String, dynamic> json) =>
-      _$BuildArtifactsFromJson(json);
+  factory BuildArtifacts.fromJson(Map<String, dynamic> json) {
+    return BuildArtifacts(
+      artifactIdentifier: json['artifactIdentifier'] as String?,
+      encryptionDisabled: json['encryptionDisabled'] as bool?,
+      location: json['location'] as String?,
+      md5sum: json['md5sum'] as String?,
+      overrideArtifactName: json['overrideArtifactName'] as bool?,
+      sha256sum: json['sha256sum'] as String?,
+    );
+  }
 }
 
 /// Contains information about a batch build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildBatch {
   /// The ARN of the batch build.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A <code>BuildArtifacts</code> object the defines the build artifacts for
   /// this batch build.
-  @_s.JsonKey(name: 'artifacts')
-  final BuildArtifacts artifacts;
-  @_s.JsonKey(name: 'buildBatchConfig')
-  final ProjectBuildBatchConfig buildBatchConfig;
+  final BuildArtifacts? artifacts;
+  final ProjectBuildBatchConfig? buildBatchConfig;
 
   /// The number of the batch build. For each project, the
   /// <code>buildBatchNumber</code> of its first batch build is <code>1</code>.
   /// The <code>buildBatchNumber</code> of each subsequent batch build is
   /// incremented by <code>1</code>. If a batch build is deleted, the
   /// <code>buildBatchNumber</code> of other batch builds does not change.
-  @_s.JsonKey(name: 'buildBatchNumber')
-  final int buildBatchNumber;
+  final int? buildBatchNumber;
 
   /// The status of the batch build.
-  @_s.JsonKey(name: 'buildBatchStatus')
-  final StatusType buildBatchStatus;
+  final StatusType? buildBatchStatus;
 
   /// An array of <code>BuildGroup</code> objects that define the build groups for
   /// the batch build.
-  @_s.JsonKey(name: 'buildGroups')
-  final List<BuildGroup> buildGroups;
+  final List<BuildGroup>? buildGroups;
 
   /// Specifies the maximum amount of time, in minutes, that the build in a batch
   /// must be completed in.
-  @_s.JsonKey(name: 'buildTimeoutInMinutes')
-  final int buildTimeoutInMinutes;
-  @_s.JsonKey(name: 'cache')
-  final ProjectCache cache;
+  final int? buildTimeoutInMinutes;
+  final ProjectCache? cache;
 
   /// Indicates if the batch build is complete.
-  @_s.JsonKey(name: 'complete')
-  final bool complete;
+  final bool? complete;
 
   /// The current phase of the batch build.
-  @_s.JsonKey(name: 'currentPhase')
-  final String currentPhase;
+  final String? currentPhase;
 
   /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
   /// used for encrypting the batch build output artifacts.
@@ -3809,27 +3912,21 @@ class BuildBatch {
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
   /// available, the CMK's alias (using the format
   /// <code>alias/&lt;alias-name&gt;</code>).
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// The date and time that the batch build ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
-  @_s.JsonKey(name: 'environment')
-  final ProjectEnvironment environment;
+  final DateTime? endTime;
+  final ProjectEnvironment? environment;
 
   /// An array of <code>ProjectFileSystemLocation</code> objects for the batch
   /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
   /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
   /// <code>mountPoint</code>, and <code>type</code> of a file system created
   /// using Amazon Elastic File System.
-  @_s.JsonKey(name: 'fileSystemLocations')
-  final List<ProjectFileSystemLocation> fileSystemLocations;
+  final List<ProjectFileSystemLocation>? fileSystemLocations;
 
   /// The identifier of the batch build.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The entity that started the batch build. Valid values include:
   ///
@@ -3847,24 +3944,19 @@ class BuildBatch {
   /// <code>CodeBuild-Jenkins-Plugin</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'initiator')
-  final String initiator;
-  @_s.JsonKey(name: 'logConfig')
-  final LogsConfig logConfig;
+  final String? initiator;
+  final LogsConfig? logConfig;
 
   /// An array of <code>BuildBatchPhase</code> objects the specify the phases of
   /// the batch build.
-  @_s.JsonKey(name: 'phases')
-  final List<BuildBatchPhase> phases;
+  final List<BuildBatchPhase>? phases;
 
   /// The name of the batch build project.
-  @_s.JsonKey(name: 'projectName')
-  final String projectName;
+  final String? projectName;
 
   /// Specifies the amount of time, in minutes, that the batch build is allowed to
   /// be queued before it times out.
-  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
-  final int queuedTimeoutInMinutes;
+  final int? queuedTimeoutInMinutes;
 
   /// The identifier of the resolved version of this batch build's source code.
   ///
@@ -3879,13 +3971,11 @@ class BuildBatch {
   /// For Amazon Simple Storage Service (Amazon S3), this does not apply.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'resolvedSourceVersion')
-  final String resolvedSourceVersion;
+  final String? resolvedSourceVersion;
 
   /// An array of <code>BuildArtifacts</code> objects the define the build
   /// artifacts for this batch build.
-  @_s.JsonKey(name: 'secondaryArtifacts')
-  final List<BuildArtifacts> secondaryArtifacts;
+  final List<BuildArtifacts>? secondaryArtifacts;
 
   /// An array of <code>ProjectSourceVersion</code> objects. Each
   /// <code>ProjectSourceVersion</code> must be one of:
@@ -3913,30 +4003,22 @@ class BuildBatch {
   /// that represents the build input ZIP file to use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'secondarySourceVersions')
-  final List<ProjectSourceVersion> secondarySourceVersions;
+  final List<ProjectSourceVersion>? secondarySourceVersions;
 
   /// An array of <code>ProjectSource</code> objects that define the sources for
   /// the batch build.
-  @_s.JsonKey(name: 'secondarySources')
-  final List<ProjectSource> secondarySources;
+  final List<ProjectSource>? secondarySources;
 
   /// The name of a service role used for builds in the batch.
-  @_s.JsonKey(name: 'serviceRole')
-  final String serviceRole;
-  @_s.JsonKey(name: 'source')
-  final ProjectSource source;
+  final String? serviceRole;
+  final ProjectSource? source;
 
   /// The identifier of the version of the source code to be built.
-  @_s.JsonKey(name: 'sourceVersion')
-  final String sourceVersion;
+  final String? sourceVersion;
 
   /// The date and time that the batch build started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
-  @_s.JsonKey(name: 'vpcConfig')
-  final VpcConfig vpcConfig;
+  final DateTime? startTime;
+  final VpcConfig? vpcConfig;
 
   BuildBatch({
     this.arn,
@@ -3969,49 +4051,105 @@ class BuildBatch {
     this.startTime,
     this.vpcConfig,
   });
-  factory BuildBatch.fromJson(Map<String, dynamic> json) =>
-      _$BuildBatchFromJson(json);
+  factory BuildBatch.fromJson(Map<String, dynamic> json) {
+    return BuildBatch(
+      arn: json['arn'] as String?,
+      artifacts: json['artifacts'] != null
+          ? BuildArtifacts.fromJson(json['artifacts'] as Map<String, dynamic>)
+          : null,
+      buildBatchConfig: json['buildBatchConfig'] != null
+          ? ProjectBuildBatchConfig.fromJson(
+              json['buildBatchConfig'] as Map<String, dynamic>)
+          : null,
+      buildBatchNumber: json['buildBatchNumber'] as int?,
+      buildBatchStatus: (json['buildBatchStatus'] as String?)?.toStatusType(),
+      buildGroups: (json['buildGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      buildTimeoutInMinutes: json['buildTimeoutInMinutes'] as int?,
+      cache: json['cache'] != null
+          ? ProjectCache.fromJson(json['cache'] as Map<String, dynamic>)
+          : null,
+      complete: json['complete'] as bool?,
+      currentPhase: json['currentPhase'] as String?,
+      encryptionKey: json['encryptionKey'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      environment: json['environment'] != null
+          ? ProjectEnvironment.fromJson(
+              json['environment'] as Map<String, dynamic>)
+          : null,
+      fileSystemLocations: (json['fileSystemLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProjectFileSystemLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String?,
+      initiator: json['initiator'] as String?,
+      logConfig: json['logConfig'] != null
+          ? LogsConfig.fromJson(json['logConfig'] as Map<String, dynamic>)
+          : null,
+      phases: (json['phases'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildBatchPhase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projectName: json['projectName'] as String?,
+      queuedTimeoutInMinutes: json['queuedTimeoutInMinutes'] as int?,
+      resolvedSourceVersion: json['resolvedSourceVersion'] as String?,
+      secondaryArtifacts: (json['secondaryArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildArtifacts.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySourceVersions: (json['secondarySourceVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSourceVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySources: (json['secondarySources'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceRole: json['serviceRole'] as String?,
+      source: json['source'] != null
+          ? ProjectSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      sourceVersion: json['sourceVersion'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Specifies filters when retrieving batch builds.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BuildBatchFilter {
   /// The status of the batch builds to retrieve. Only batch builds that have this
   /// status will be retrieved.
-  @_s.JsonKey(name: 'status')
-  final StatusType status;
+  final StatusType? status;
 
   BuildBatchFilter({
     this.status,
   });
-  Map<String, dynamic> toJson() => _$BuildBatchFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about a stage for a batch build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildBatchPhase {
   /// Additional information about the batch build phase. Especially to help
   /// troubleshoot a failed btach build.
-  @_s.JsonKey(name: 'contexts')
-  final List<PhaseContext> contexts;
+  final List<PhaseContext>? contexts;
 
   /// How long, in seconds, between the starting and ending times of the batch
   /// build's phase.
-  @_s.JsonKey(name: 'durationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   /// When the batch build phase ended, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The current status of the batch build phase. Valid values include:
   /// <dl> <dt>FAILED</dt> <dd>
@@ -4029,8 +4167,7 @@ class BuildBatchPhase {
   /// </dd> <dt>TIMED_OUT</dt> <dd>
   /// The build phase timed out.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'phaseStatus')
-  final StatusType phaseStatus;
+  final StatusType? phaseStatus;
 
   /// The name of the batch build phase. Valid values include:
   /// <dl> <dt>COMBINE_ARTIFACTS</dt> <dd>
@@ -4049,13 +4186,10 @@ class BuildBatchPhase {
   /// </dd> <dt>SUCCEEDED</dt> <dd>
   /// The batch build succeeded.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'phaseType')
-  final BuildBatchPhaseType phaseType;
+  final BuildBatchPhaseType? phaseType;
 
   /// When the batch build phase started, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   BuildBatchPhase({
     this.contexts,
@@ -4065,58 +4199,95 @@ class BuildBatchPhase {
     this.phaseType,
     this.startTime,
   });
-  factory BuildBatchPhase.fromJson(Map<String, dynamic> json) =>
-      _$BuildBatchPhaseFromJson(json);
+  factory BuildBatchPhase.fromJson(Map<String, dynamic> json) {
+    return BuildBatchPhase(
+      contexts: (json['contexts'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhaseContext.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      durationInSeconds: json['durationInSeconds'] as int?,
+      endTime: timeStampFromJson(json['endTime']),
+      phaseStatus: (json['phaseStatus'] as String?)?.toStatusType(),
+      phaseType: (json['phaseType'] as String?)?.toBuildBatchPhaseType(),
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
 }
 
 enum BuildBatchPhaseType {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('DOWNLOAD_BATCHSPEC')
   downloadBatchspec,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMBINE_ARTIFACTS')
   combineArtifacts,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOPPED')
   stopped,
+}
+
+extension on BuildBatchPhaseType {
+  String toValue() {
+    switch (this) {
+      case BuildBatchPhaseType.submitted:
+        return 'SUBMITTED';
+      case BuildBatchPhaseType.downloadBatchspec:
+        return 'DOWNLOAD_BATCHSPEC';
+      case BuildBatchPhaseType.inProgress:
+        return 'IN_PROGRESS';
+      case BuildBatchPhaseType.combineArtifacts:
+        return 'COMBINE_ARTIFACTS';
+      case BuildBatchPhaseType.succeeded:
+        return 'SUCCEEDED';
+      case BuildBatchPhaseType.failed:
+        return 'FAILED';
+      case BuildBatchPhaseType.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  BuildBatchPhaseType toBuildBatchPhaseType() {
+    switch (this) {
+      case 'SUBMITTED':
+        return BuildBatchPhaseType.submitted;
+      case 'DOWNLOAD_BATCHSPEC':
+        return BuildBatchPhaseType.downloadBatchspec;
+      case 'IN_PROGRESS':
+        return BuildBatchPhaseType.inProgress;
+      case 'COMBINE_ARTIFACTS':
+        return BuildBatchPhaseType.combineArtifacts;
+      case 'SUCCEEDED':
+        return BuildBatchPhaseType.succeeded;
+      case 'FAILED':
+        return BuildBatchPhaseType.failed;
+      case 'STOPPED':
+        return BuildBatchPhaseType.stopped;
+    }
+    throw Exception('$this is not known in enum BuildBatchPhaseType');
+  }
 }
 
 /// Contains information about a batch build build group. Build groups are used
 /// to combine builds that can run in parallel, while still being able to set
 /// dependencies on other build groups.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildGroup {
   /// A <code>BuildSummary</code> object that contains a summary of the current
   /// build group.
-  @_s.JsonKey(name: 'currentBuildSummary')
-  final BuildSummary currentBuildSummary;
+  final BuildSummary? currentBuildSummary;
 
   /// An array of strings that contain the identifiers of the build groups that
   /// this build group depends on.
-  @_s.JsonKey(name: 'dependsOn')
-  final List<String> dependsOn;
+  final List<String>? dependsOn;
 
   /// Contains the identifier of the build group.
-  @_s.JsonKey(name: 'identifier')
-  final String identifier;
+  final String? identifier;
 
   /// Specifies if failures in this build group can be ignored.
-  @_s.JsonKey(name: 'ignoreFailure')
-  final bool ignoreFailure;
+  final bool? ignoreFailure;
 
   /// An array of <code>BuildSummary</code> objects that contain summaries of
   /// previous build groups.
-  @_s.JsonKey(name: 'priorBuildSummaryList')
-  final List<BuildSummary> priorBuildSummaryList;
+  final List<BuildSummary>? priorBuildSummaryList;
 
   BuildGroup({
     this.currentBuildSummary,
@@ -4125,55 +4296,59 @@ class BuildGroup {
     this.ignoreFailure,
     this.priorBuildSummaryList,
   });
-  factory BuildGroup.fromJson(Map<String, dynamic> json) =>
-      _$BuildGroupFromJson(json);
+  factory BuildGroup.fromJson(Map<String, dynamic> json) {
+    return BuildGroup(
+      currentBuildSummary: json['currentBuildSummary'] != null
+          ? BuildSummary.fromJson(
+              json['currentBuildSummary'] as Map<String, dynamic>)
+          : null,
+      dependsOn: (json['dependsOn'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      identifier: json['identifier'] as String?,
+      ignoreFailure: json['ignoreFailure'] as bool?,
+      priorBuildSummaryList: (json['priorBuildSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about a build that could not be successfully deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildNotDeleted {
   /// The ID of the build that could not be successfully deleted.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// Additional information about the build that could not be successfully
   /// deleted.
-  @_s.JsonKey(name: 'statusCode')
-  final String statusCode;
+  final String? statusCode;
 
   BuildNotDeleted({
     this.id,
     this.statusCode,
   });
-  factory BuildNotDeleted.fromJson(Map<String, dynamic> json) =>
-      _$BuildNotDeletedFromJson(json);
+  factory BuildNotDeleted.fromJson(Map<String, dynamic> json) {
+    return BuildNotDeleted(
+      id: json['id'] as String?,
+      statusCode: json['statusCode'] as String?,
+    );
+  }
 }
 
 /// Information about a stage for a build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildPhase {
   /// Additional information about a build phase, especially to help troubleshoot
   /// a failed build.
-  @_s.JsonKey(name: 'contexts')
-  final List<PhaseContext> contexts;
+  final List<PhaseContext>? contexts;
 
   /// How long, in seconds, between the starting and ending times of the build's
   /// phase.
-  @_s.JsonKey(name: 'durationInSeconds')
-  final int durationInSeconds;
+  final int? durationInSeconds;
 
   /// When the build phase ended, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The current status of the build phase. Valid values include:
   /// <dl> <dt>FAILED</dt> <dd>
@@ -4191,8 +4366,7 @@ class BuildPhase {
   /// </dd> <dt>TIMED_OUT</dt> <dd>
   /// The build phase timed out.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'phaseStatus')
-  final StatusType phaseStatus;
+  final StatusType? phaseStatus;
 
   /// The name of the build phase. Valid values include:
   ///
@@ -4239,13 +4413,10 @@ class BuildPhase {
   /// the output location.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'phaseType')
-  final BuildPhaseType phaseType;
+  final BuildPhaseType? phaseType;
 
   /// When the build phase started, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   BuildPhase({
     this.contexts,
@@ -4255,42 +4426,96 @@ class BuildPhase {
     this.phaseType,
     this.startTime,
   });
-  factory BuildPhase.fromJson(Map<String, dynamic> json) =>
-      _$BuildPhaseFromJson(json);
+  factory BuildPhase.fromJson(Map<String, dynamic> json) {
+    return BuildPhase(
+      contexts: (json['contexts'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhaseContext.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      durationInSeconds: json['durationInSeconds'] as int?,
+      endTime: timeStampFromJson(json['endTime']),
+      phaseStatus: (json['phaseStatus'] as String?)?.toStatusType(),
+      phaseType: (json['phaseType'] as String?)?.toBuildPhaseType(),
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
 }
 
 enum BuildPhaseType {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('QUEUED')
   queued,
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('DOWNLOAD_SOURCE')
   downloadSource,
-  @_s.JsonValue('INSTALL')
   install,
-  @_s.JsonValue('PRE_BUILD')
   preBuild,
-  @_s.JsonValue('BUILD')
   build,
-  @_s.JsonValue('POST_BUILD')
   postBuild,
-  @_s.JsonValue('UPLOAD_ARTIFACTS')
   uploadArtifacts,
-  @_s.JsonValue('FINALIZING')
   finalizing,
-  @_s.JsonValue('COMPLETED')
   completed,
+}
+
+extension on BuildPhaseType {
+  String toValue() {
+    switch (this) {
+      case BuildPhaseType.submitted:
+        return 'SUBMITTED';
+      case BuildPhaseType.queued:
+        return 'QUEUED';
+      case BuildPhaseType.provisioning:
+        return 'PROVISIONING';
+      case BuildPhaseType.downloadSource:
+        return 'DOWNLOAD_SOURCE';
+      case BuildPhaseType.install:
+        return 'INSTALL';
+      case BuildPhaseType.preBuild:
+        return 'PRE_BUILD';
+      case BuildPhaseType.build:
+        return 'BUILD';
+      case BuildPhaseType.postBuild:
+        return 'POST_BUILD';
+      case BuildPhaseType.uploadArtifacts:
+        return 'UPLOAD_ARTIFACTS';
+      case BuildPhaseType.finalizing:
+        return 'FINALIZING';
+      case BuildPhaseType.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  BuildPhaseType toBuildPhaseType() {
+    switch (this) {
+      case 'SUBMITTED':
+        return BuildPhaseType.submitted;
+      case 'QUEUED':
+        return BuildPhaseType.queued;
+      case 'PROVISIONING':
+        return BuildPhaseType.provisioning;
+      case 'DOWNLOAD_SOURCE':
+        return BuildPhaseType.downloadSource;
+      case 'INSTALL':
+        return BuildPhaseType.install;
+      case 'PRE_BUILD':
+        return BuildPhaseType.preBuild;
+      case 'BUILD':
+        return BuildPhaseType.build;
+      case 'POST_BUILD':
+        return BuildPhaseType.postBuild;
+      case 'UPLOAD_ARTIFACTS':
+        return BuildPhaseType.uploadArtifacts;
+      case 'FINALIZING':
+        return BuildPhaseType.finalizing;
+      case 'COMPLETED':
+        return BuildPhaseType.completed;
+    }
+    throw Exception('$this is not known in enum BuildPhaseType');
+  }
 }
 
 /// Contains information that defines how the AWS CodeBuild build project
 /// reports the build status to the source provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BuildStatusConfig {
   /// Specifies the context of the build status CodeBuild sends to the source
   /// provider. The usage of this parameter depends on the source provider.
@@ -4305,8 +4530,7 @@ class BuildStatusConfig {
   /// href="https://developer.github.com/v3/repos/statuses/#create-a-commit-status">Create
   /// a commit status</a> in the GitHub developer guide.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'context')
-  final String context;
+  final String? context;
 
   /// Specifies the target url of the build status CodeBuild sends to the source
   /// provider. The usage of this parameter depends on the source provider.
@@ -4321,29 +4545,33 @@ class BuildStatusConfig {
   /// href="https://developer.github.com/v3/repos/statuses/#create-a-commit-status">Create
   /// a commit status</a> in the GitHub developer guide.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'targetUrl')
-  final String targetUrl;
+  final String? targetUrl;
 
   BuildStatusConfig({
     this.context,
     this.targetUrl,
   });
-  factory BuildStatusConfig.fromJson(Map<String, dynamic> json) =>
-      _$BuildStatusConfigFromJson(json);
+  factory BuildStatusConfig.fromJson(Map<String, dynamic> json) {
+    return BuildStatusConfig(
+      context: json['context'] as String?,
+      targetUrl: json['targetUrl'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BuildStatusConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final context = this.context;
+    final targetUrl = this.targetUrl;
+    return {
+      if (context != null) 'context': context,
+      if (targetUrl != null) 'targetUrl': targetUrl,
+    };
+  }
 }
 
 /// Contains summary information about a batch build group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BuildSummary {
   /// The batch build ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The status of the build group.
   /// <dl> <dt>FAILED</dt> <dd>
@@ -4359,23 +4587,18 @@ class BuildSummary {
   /// </dd> <dt>TIMED_OUT</dt> <dd>
   /// The build group timed out.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'buildStatus')
-  final StatusType buildStatus;
+  final StatusType? buildStatus;
 
   /// A <code>ResolvedArtifact</code> object that represents the primary build
   /// artifacts for the build group.
-  @_s.JsonKey(name: 'primaryArtifact')
-  final ResolvedArtifact primaryArtifact;
+  final ResolvedArtifact? primaryArtifact;
 
   /// When the build was started, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'requestedOn')
-  final DateTime requestedOn;
+  final DateTime? requestedOn;
 
   /// An array of <code>ResolvedArtifact</code> objects that represents the
   /// secondary build artifacts for the build group.
-  @_s.JsonKey(name: 'secondaryArtifacts')
-  final List<ResolvedArtifact> secondaryArtifacts;
+  final List<ResolvedArtifact>? secondaryArtifacts;
 
   BuildSummary({
     this.arn,
@@ -4384,34 +4607,90 @@ class BuildSummary {
     this.requestedOn,
     this.secondaryArtifacts,
   });
-  factory BuildSummary.fromJson(Map<String, dynamic> json) =>
-      _$BuildSummaryFromJson(json);
+  factory BuildSummary.fromJson(Map<String, dynamic> json) {
+    return BuildSummary(
+      arn: json['arn'] as String?,
+      buildStatus: (json['buildStatus'] as String?)?.toStatusType(),
+      primaryArtifact: json['primaryArtifact'] != null
+          ? ResolvedArtifact.fromJson(
+              json['primaryArtifact'] as Map<String, dynamic>)
+          : null,
+      requestedOn: timeStampFromJson(json['requestedOn']),
+      secondaryArtifacts: (json['secondaryArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResolvedArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum CacheMode {
-  @_s.JsonValue('LOCAL_DOCKER_LAYER_CACHE')
   localDockerLayerCache,
-  @_s.JsonValue('LOCAL_SOURCE_CACHE')
   localSourceCache,
-  @_s.JsonValue('LOCAL_CUSTOM_CACHE')
   localCustomCache,
 }
 
+extension on CacheMode {
+  String toValue() {
+    switch (this) {
+      case CacheMode.localDockerLayerCache:
+        return 'LOCAL_DOCKER_LAYER_CACHE';
+      case CacheMode.localSourceCache:
+        return 'LOCAL_SOURCE_CACHE';
+      case CacheMode.localCustomCache:
+        return 'LOCAL_CUSTOM_CACHE';
+    }
+  }
+}
+
+extension on String {
+  CacheMode toCacheMode() {
+    switch (this) {
+      case 'LOCAL_DOCKER_LAYER_CACHE':
+        return CacheMode.localDockerLayerCache;
+      case 'LOCAL_SOURCE_CACHE':
+        return CacheMode.localSourceCache;
+      case 'LOCAL_CUSTOM_CACHE':
+        return CacheMode.localCustomCache;
+    }
+    throw Exception('$this is not known in enum CacheMode');
+  }
+}
+
 enum CacheType {
-  @_s.JsonValue('NO_CACHE')
   noCache,
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('LOCAL')
   local,
 }
 
+extension on CacheType {
+  String toValue() {
+    switch (this) {
+      case CacheType.noCache:
+        return 'NO_CACHE';
+      case CacheType.s3:
+        return 'S3';
+      case CacheType.local:
+        return 'LOCAL';
+    }
+  }
+}
+
+extension on String {
+  CacheType toCacheType() {
+    switch (this) {
+      case 'NO_CACHE':
+        return CacheType.noCache;
+      case 'S3':
+        return CacheType.s3;
+      case 'LOCAL':
+        return CacheType.local;
+    }
+    throw Exception('$this is not known in enum CacheType');
+  }
+}
+
 /// Information about Amazon CloudWatch Logs for a build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchLogsConfig {
   /// The current status of the logs in Amazon CloudWatch Logs for a build
   /// project. Valid values are:
@@ -4426,32 +4705,43 @@ class CloudWatchLogsConfig {
   /// project.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
   final LogsConfigStatusType status;
 
   /// The group name of the logs in Amazon CloudWatch Logs. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
   /// with Log Groups and Log Streams</a>.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   /// The prefix of the stream name of the Amazon CloudWatch Logs. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
   /// with Log Groups and Log Streams</a>.
-  @_s.JsonKey(name: 'streamName')
-  final String streamName;
+  final String? streamName;
 
   CloudWatchLogsConfig({
-    @_s.required this.status,
+    required this.status,
     this.groupName,
     this.streamName,
   });
-  factory CloudWatchLogsConfig.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchLogsConfigFromJson(json);
+  factory CloudWatchLogsConfig.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogsConfig(
+      status: (json['status'] as String).toLogsConfigStatusType(),
+      groupName: json['groupName'] as String?,
+      streamName: json['streamName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CloudWatchLogsConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final groupName = this.groupName;
+    final streamName = this.streamName;
+    return {
+      'status': status.toValue(),
+      if (groupName != null) 'groupName': groupName,
+      if (streamName != null) 'streamName': streamName,
+    };
+  }
 }
 
 /// Contains code coverage report information.
@@ -4462,52 +4752,36 @@ class CloudWatchLogsConfig {
 /// Branch coverage determines if your tests cover every possible branch of a
 /// control structure, such as an <code>if</code> or <code>case</code>
 /// statement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CodeCoverage {
   /// The percentage of branches that are covered by your tests.
-  @_s.JsonKey(name: 'branchCoveragePercentage')
-  final double branchCoveragePercentage;
+  final double? branchCoveragePercentage;
 
   /// The number of conditional branches that are covered by your tests.
-  @_s.JsonKey(name: 'branchesCovered')
-  final int branchesCovered;
+  final int? branchesCovered;
 
   /// The number of conditional branches that are not covered by your tests.
-  @_s.JsonKey(name: 'branchesMissed')
-  final int branchesMissed;
+  final int? branchesMissed;
 
   /// The date and time that the tests were run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expired')
-  final DateTime expired;
+  final DateTime? expired;
 
   /// The path of the test report file.
-  @_s.JsonKey(name: 'filePath')
-  final String filePath;
+  final String? filePath;
 
   /// The identifier of the code coverage report.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The percentage of lines that are covered by your tests.
-  @_s.JsonKey(name: 'lineCoveragePercentage')
-  final double lineCoveragePercentage;
+  final double? lineCoveragePercentage;
 
   /// The number of lines that are covered by your tests.
-  @_s.JsonKey(name: 'linesCovered')
-  final int linesCovered;
+  final int? linesCovered;
 
   /// The number of lines that are not covered by your tests.
-  @_s.JsonKey(name: 'linesMissed')
-  final int linesMissed;
+  final int? linesMissed;
 
   /// The ARN of the report.
-  @_s.JsonKey(name: 'reportARN')
-  final String reportARN;
+  final String? reportARN;
 
   CodeCoverage({
     this.branchCoveragePercentage,
@@ -4521,8 +4795,20 @@ class CodeCoverage {
     this.linesMissed,
     this.reportARN,
   });
-  factory CodeCoverage.fromJson(Map<String, dynamic> json) =>
-      _$CodeCoverageFromJson(json);
+  factory CodeCoverage.fromJson(Map<String, dynamic> json) {
+    return CodeCoverage(
+      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchesCovered: json['branchesCovered'] as int?,
+      branchesMissed: json['branchesMissed'] as int?,
+      expired: timeStampFromJson(json['expired']),
+      filePath: json['filePath'] as String?,
+      id: json['id'] as String?,
+      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      linesCovered: json['linesCovered'] as int?,
+      linesMissed: json['linesMissed'] as int?,
+      reportARN: json['reportARN'] as String?,
+    );
+  }
 }
 
 /// Contains a summary of a code coverage report.
@@ -4533,35 +4819,24 @@ class CodeCoverage {
 /// Branch coverage determines if your tests cover every possible branch of a
 /// control structure, such as an <code>if</code> or <code>case</code>
 /// statement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CodeCoverageReportSummary {
   /// The percentage of branches that are covered by your tests.
-  @_s.JsonKey(name: 'branchCoveragePercentage')
-  final double branchCoveragePercentage;
+  final double? branchCoveragePercentage;
 
   /// The number of conditional branches that are covered by your tests.
-  @_s.JsonKey(name: 'branchesCovered')
-  final int branchesCovered;
+  final int? branchesCovered;
 
   /// The number of conditional branches that are not covered by your tests.
-  @_s.JsonKey(name: 'branchesMissed')
-  final int branchesMissed;
+  final int? branchesMissed;
 
   /// The percentage of lines that are covered by your tests.
-  @_s.JsonKey(name: 'lineCoveragePercentage')
-  final double lineCoveragePercentage;
+  final double? lineCoveragePercentage;
 
   /// The number of lines that are covered by your tests.
-  @_s.JsonKey(name: 'linesCovered')
-  final int linesCovered;
+  final int? linesCovered;
 
   /// The number of lines that are not covered by your tests.
-  @_s.JsonKey(name: 'linesMissed')
-  final int linesMissed;
+  final int? linesMissed;
 
   CodeCoverageReportSummary({
     this.branchCoveragePercentage,
@@ -4571,18 +4846,22 @@ class CodeCoverageReportSummary {
     this.linesCovered,
     this.linesMissed,
   });
-  factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) =>
-      _$CodeCoverageReportSummaryFromJson(json);
+  factory CodeCoverageReportSummary.fromJson(Map<String, dynamic> json) {
+    return CodeCoverageReportSummary(
+      branchCoveragePercentage: json['branchCoveragePercentage'] as double?,
+      branchesCovered: json['branchesCovered'] as int?,
+      branchesMissed: json['branchesMissed'] as int?,
+      lineCoveragePercentage: json['lineCoveragePercentage'] as double?,
+      linesCovered: json['linesCovered'] as int?,
+      linesMissed: json['linesMissed'] as int?,
+    );
+  }
 }
 
 enum ComputeType {
-  @_s.JsonValue('BUILD_GENERAL1_SMALL')
   buildGeneral1Small,
-  @_s.JsonValue('BUILD_GENERAL1_MEDIUM')
   buildGeneral1Medium,
-  @_s.JsonValue('BUILD_GENERAL1_LARGE')
   buildGeneral1Large,
-  @_s.JsonValue('BUILD_GENERAL1_2XLARGE')
   buildGeneral1_2xlarge,
 }
 
@@ -4598,225 +4877,227 @@ extension on ComputeType {
       case ComputeType.buildGeneral1_2xlarge:
         return 'BUILD_GENERAL1_2XLARGE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ComputeType toComputeType() {
+    switch (this) {
+      case 'BUILD_GENERAL1_SMALL':
+        return ComputeType.buildGeneral1Small;
+      case 'BUILD_GENERAL1_MEDIUM':
+        return ComputeType.buildGeneral1Medium;
+      case 'BUILD_GENERAL1_LARGE':
+        return ComputeType.buildGeneral1Large;
+      case 'BUILD_GENERAL1_2XLARGE':
+        return ComputeType.buildGeneral1_2xlarge;
+    }
+    throw Exception('$this is not known in enum ComputeType');
+  }
+}
+
 class CreateProjectOutput {
   /// Information about the build project that was created.
-  @_s.JsonKey(name: 'project')
-  final Project project;
+  final Project? project;
 
   CreateProjectOutput({
     this.project,
   });
-  factory CreateProjectOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectOutputFromJson(json);
+  factory CreateProjectOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProjectOutput(
+      project: json['project'] != null
+          ? Project.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateReportGroupOutput {
   /// Information about the report group that was created.
-  @_s.JsonKey(name: 'reportGroup')
-  final ReportGroup reportGroup;
+  final ReportGroup? reportGroup;
 
   CreateReportGroupOutput({
     this.reportGroup,
   });
-  factory CreateReportGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateReportGroupOutputFromJson(json);
+  factory CreateReportGroupOutput.fromJson(Map<String, dynamic> json) {
+    return CreateReportGroupOutput(
+      reportGroup: json['reportGroup'] != null
+          ? ReportGroup.fromJson(json['reportGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWebhookOutput {
   /// Information about a webhook that connects repository events to a build
   /// project in AWS CodeBuild.
-  @_s.JsonKey(name: 'webhook')
-  final Webhook webhook;
+  final Webhook? webhook;
 
   CreateWebhookOutput({
     this.webhook,
   });
-  factory CreateWebhookOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateWebhookOutputFromJson(json);
+  factory CreateWebhookOutput.fromJson(Map<String, dynamic> json) {
+    return CreateWebhookOutput(
+      webhook: json['webhook'] != null
+          ? Webhook.fromJson(json['webhook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum CredentialProviderType {
-  @_s.JsonValue('SECRETS_MANAGER')
   secretsManager,
+}
+
+extension on CredentialProviderType {
+  String toValue() {
+    switch (this) {
+      case CredentialProviderType.secretsManager:
+        return 'SECRETS_MANAGER';
+    }
+  }
+}
+
+extension on String {
+  CredentialProviderType toCredentialProviderType() {
+    switch (this) {
+      case 'SECRETS_MANAGER':
+        return CredentialProviderType.secretsManager;
+    }
+    throw Exception('$this is not known in enum CredentialProviderType');
+  }
 }
 
 /// Contains information about the debug session for a build. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
 /// a running build in Session Manager</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DebugSession {
   /// Specifies if session debugging is enabled for this build.
-  @_s.JsonKey(name: 'sessionEnabled')
-  final bool sessionEnabled;
+  final bool? sessionEnabled;
 
   /// Contains the identifier of the Session Manager session used for the build.
   /// To work with the paused build, you open this session to examine, control,
   /// and resume the build.
-  @_s.JsonKey(name: 'sessionTarget')
-  final String sessionTarget;
+  final String? sessionTarget;
 
   DebugSession({
     this.sessionEnabled,
     this.sessionTarget,
   });
-  factory DebugSession.fromJson(Map<String, dynamic> json) =>
-      _$DebugSessionFromJson(json);
+  factory DebugSession.fromJson(Map<String, dynamic> json) {
+    return DebugSession(
+      sessionEnabled: json['sessionEnabled'] as bool?,
+      sessionTarget: json['sessionTarget'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBuildBatchOutput {
   /// An array of strings that contain the identifiers of the builds that were
   /// deleted.
-  @_s.JsonKey(name: 'buildsDeleted')
-  final List<String> buildsDeleted;
+  final List<String>? buildsDeleted;
 
   /// An array of <code>BuildNotDeleted</code> objects that specify the builds
   /// that could not be deleted.
-  @_s.JsonKey(name: 'buildsNotDeleted')
-  final List<BuildNotDeleted> buildsNotDeleted;
+  final List<BuildNotDeleted>? buildsNotDeleted;
 
   /// The status code.
-  @_s.JsonKey(name: 'statusCode')
-  final String statusCode;
+  final String? statusCode;
 
   DeleteBuildBatchOutput({
     this.buildsDeleted,
     this.buildsNotDeleted,
     this.statusCode,
   });
-  factory DeleteBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBuildBatchOutputFromJson(json);
+  factory DeleteBuildBatchOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBuildBatchOutput(
+      buildsDeleted: (json['buildsDeleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      buildsNotDeleted: (json['buildsNotDeleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => BuildNotDeleted.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusCode: json['statusCode'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectOutput {
   DeleteProjectOutput();
-  factory DeleteProjectOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectOutputFromJson(json);
+  factory DeleteProjectOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteProjectOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReportGroupOutput {
   DeleteReportGroupOutput();
-  factory DeleteReportGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteReportGroupOutputFromJson(json);
+  factory DeleteReportGroupOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteReportGroupOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReportOutput {
   DeleteReportOutput();
-  factory DeleteReportOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteReportOutputFromJson(json);
+  factory DeleteReportOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteReportOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
-  factory DeleteResourcePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourcePolicyOutputFromJson(json);
+  factory DeleteResourcePolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcePolicyOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSourceCredentialsOutput {
   /// The Amazon Resource Name (ARN) of the token.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   DeleteSourceCredentialsOutput({
     this.arn,
   });
-  factory DeleteSourceCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSourceCredentialsOutputFromJson(json);
+  factory DeleteSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteSourceCredentialsOutput(
+      arn: json['arn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
-  factory DeleteWebhookOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWebhookOutputFromJson(json);
+  factory DeleteWebhookOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteWebhookOutput();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCodeCoveragesOutput {
   /// An array of <code>CodeCoverage</code> objects that contain the results.
-  @_s.JsonKey(name: 'codeCoverages')
-  final List<CodeCoverage> codeCoverages;
+  final List<CodeCoverage>? codeCoverages;
 
   /// If there are more items to return, this contains a token that is passed to a
   /// subsequent call to <code>DescribeCodeCoverages</code> to retrieve the next
   /// set of items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeCodeCoveragesOutput({
     this.codeCoverages,
     this.nextToken,
   });
-  factory DescribeCodeCoveragesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCodeCoveragesOutputFromJson(json);
+  factory DescribeCodeCoveragesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCodeCoveragesOutput(
+      codeCoverages: (json['codeCoverages'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeCoverage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTestCasesOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -4825,109 +5106,109 @@ class DescribeTestCasesOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The returned list of test cases.
-  @_s.JsonKey(name: 'testCases')
-  final List<TestCase> testCases;
+  final List<TestCase>? testCases;
 
   DescribeTestCasesOutput({
     this.nextToken,
     this.testCases,
   });
-  factory DescribeTestCasesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTestCasesOutputFromJson(json);
+  factory DescribeTestCasesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTestCasesOutput(
+      nextToken: json['nextToken'] as String?,
+      testCases: (json['testCases'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestCase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about a Docker image that is managed by AWS CodeBuild.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentImage {
   /// The description of the Docker image.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name of the Docker image.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of environment image versions.
-  @_s.JsonKey(name: 'versions')
-  final List<String> versions;
+  final List<String>? versions;
 
   EnvironmentImage({
     this.description,
     this.name,
     this.versions,
   });
-  factory EnvironmentImage.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentImageFromJson(json);
+  factory EnvironmentImage.fromJson(Map<String, dynamic> json) {
+    return EnvironmentImage(
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      versions: (json['versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A set of Docker images that are related by programming language and are
 /// managed by AWS CodeBuild.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentLanguage {
   /// The list of Docker images that are related by the specified programming
   /// language.
-  @_s.JsonKey(name: 'images')
-  final List<EnvironmentImage> images;
+  final List<EnvironmentImage>? images;
 
   /// The programming language for the Docker images.
-  @_s.JsonKey(name: 'language')
-  final LanguageType language;
+  final LanguageType? language;
 
   EnvironmentLanguage({
     this.images,
     this.language,
   });
-  factory EnvironmentLanguage.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentLanguageFromJson(json);
+  factory EnvironmentLanguage.fromJson(Map<String, dynamic> json) {
+    return EnvironmentLanguage(
+      images: (json['images'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      language: (json['language'] as String?)?.toLanguageType(),
+    );
+  }
 }
 
 /// A set of Docker images that are related by platform and are managed by AWS
 /// CodeBuild.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentPlatform {
   /// The list of programming languages that are available for the specified
   /// platform.
-  @_s.JsonKey(name: 'languages')
-  final List<EnvironmentLanguage> languages;
+  final List<EnvironmentLanguage>? languages;
 
   /// The platform's name.
-  @_s.JsonKey(name: 'platform')
-  final PlatformType platform;
+  final PlatformType? platform;
 
   EnvironmentPlatform({
     this.languages,
     this.platform,
   });
-  factory EnvironmentPlatform.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentPlatformFromJson(json);
+  factory EnvironmentPlatform.fromJson(Map<String, dynamic> json) {
+    return EnvironmentPlatform(
+      languages: (json['languages'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentLanguage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      platform: (json['platform'] as String?)?.toPlatformType(),
+    );
+  }
 }
 
 enum EnvironmentType {
-  @_s.JsonValue('WINDOWS_CONTAINER')
   windowsContainer,
-  @_s.JsonValue('LINUX_CONTAINER')
   linuxContainer,
-  @_s.JsonValue('LINUX_GPU_CONTAINER')
   linuxGpuContainer,
-  @_s.JsonValue('ARM_CONTAINER')
   armContainer,
-  @_s.JsonValue('WINDOWS_SERVER_2019_CONTAINER')
   windowsServer_2019Container,
 }
 
@@ -4945,19 +5226,30 @@ extension on EnvironmentType {
       case EnvironmentType.windowsServer_2019Container:
         return 'WINDOWS_SERVER_2019_CONTAINER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnvironmentType toEnvironmentType() {
+    switch (this) {
+      case 'WINDOWS_CONTAINER':
+        return EnvironmentType.windowsContainer;
+      case 'LINUX_CONTAINER':
+        return EnvironmentType.linuxContainer;
+      case 'LINUX_GPU_CONTAINER':
+        return EnvironmentType.linuxGpuContainer;
+      case 'ARM_CONTAINER':
+        return EnvironmentType.armContainer;
+      case 'WINDOWS_SERVER_2019_CONTAINER':
+        return EnvironmentType.windowsServer_2019Container;
+    }
+    throw Exception('$this is not known in enum EnvironmentType');
   }
 }
 
 /// Information about an environment variable for a build project or a build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EnvironmentVariable {
   /// The name or key of the environment variable.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The value of the environment variable.
@@ -4970,7 +5262,6 @@ class EnvironmentVariable {
   /// environment variable of type <code>PARAMETER_STORE</code> or
   /// <code>SECRETS_MANAGER</code>.
   /// </important>
-  @_s.JsonKey(name: 'value')
   final String value;
 
   /// The type of environment variable. Valid values include:
@@ -4995,39 +5286,70 @@ class EnvironmentVariable {
   /// in the <i>AWS CodeBuild User Guide</i>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
-  final EnvironmentVariableType type;
+  final EnvironmentVariableType? type;
 
   EnvironmentVariable({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
     this.type,
   });
-  factory EnvironmentVariable.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentVariableFromJson(json);
+  factory EnvironmentVariable.fromJson(Map<String, dynamic> json) {
+    return EnvironmentVariable(
+      name: json['name'] as String,
+      value: json['value'] as String,
+      type: (json['type'] as String?)?.toEnvironmentVariableType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EnvironmentVariableToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    final type = this.type;
+    return {
+      'name': name,
+      'value': value,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum EnvironmentVariableType {
-  @_s.JsonValue('PLAINTEXT')
   plaintext,
-  @_s.JsonValue('PARAMETER_STORE')
   parameterStore,
-  @_s.JsonValue('SECRETS_MANAGER')
   secretsManager,
 }
 
+extension on EnvironmentVariableType {
+  String toValue() {
+    switch (this) {
+      case EnvironmentVariableType.plaintext:
+        return 'PLAINTEXT';
+      case EnvironmentVariableType.parameterStore:
+        return 'PARAMETER_STORE';
+      case EnvironmentVariableType.secretsManager:
+        return 'SECRETS_MANAGER';
+    }
+  }
+}
+
+extension on String {
+  EnvironmentVariableType toEnvironmentVariableType() {
+    switch (this) {
+      case 'PLAINTEXT':
+        return EnvironmentVariableType.plaintext;
+      case 'PARAMETER_STORE':
+        return EnvironmentVariableType.parameterStore;
+      case 'SECRETS_MANAGER':
+        return EnvironmentVariableType.secretsManager;
+    }
+    throw Exception('$this is not known in enum EnvironmentVariableType');
+  }
+}
+
 /// Information about an exported environment variable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportedEnvironmentVariable {
   /// The name of this exported environment variable.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The value assigned to this exported environment variable.
   /// <note>
@@ -5037,83 +5359,104 @@ class ExportedEnvironmentVariable {
   /// After the <code>post_build</code> phase ends, the value of exported
   /// variables cannot change.
   /// </note>
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ExportedEnvironmentVariable({
     this.name,
     this.value,
   });
-  factory ExportedEnvironmentVariable.fromJson(Map<String, dynamic> json) =>
-      _$ExportedEnvironmentVariableFromJson(json);
+  factory ExportedEnvironmentVariable.fromJson(Map<String, dynamic> json) {
+    return ExportedEnvironmentVariable(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 }
 
 enum FileSystemType {
-  @_s.JsonValue('EFS')
   efs,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FileSystemType {
+  String toValue() {
+    switch (this) {
+      case FileSystemType.efs:
+        return 'EFS';
+    }
+  }
+}
+
+extension on String {
+  FileSystemType toFileSystemType() {
+    switch (this) {
+      case 'EFS':
+        return FileSystemType.efs;
+    }
+    throw Exception('$this is not known in enum FileSystemType');
+  }
+}
+
 class GetReportGroupTrendOutput {
-  @_s.JsonKey(name: 'rawData')
-  final List<ReportWithRawData> rawData;
-  @_s.JsonKey(name: 'stats')
-  final ReportGroupTrendStats stats;
+  final List<ReportWithRawData>? rawData;
+  final ReportGroupTrendStats? stats;
 
   GetReportGroupTrendOutput({
     this.rawData,
     this.stats,
   });
-  factory GetReportGroupTrendOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetReportGroupTrendOutputFromJson(json);
+  factory GetReportGroupTrendOutput.fromJson(Map<String, dynamic> json) {
+    return GetReportGroupTrendOutput(
+      rawData: (json['rawData'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReportWithRawData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stats: json['stats'] != null
+          ? ReportGroupTrendStats.fromJson(
+              json['stats'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePolicyOutput {
   /// The resource policy for the resource identified by the input ARN parameter.
-  @_s.JsonKey(name: 'policy')
-  final String policy;
+  final String? policy;
 
   GetResourcePolicyOutput({
     this.policy,
   });
-  factory GetResourcePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePolicyOutputFromJson(json);
+  factory GetResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyOutput(
+      policy: json['policy'] as String?,
+    );
+  }
 }
 
 /// Information about the Git submodules configuration for an AWS CodeBuild
 /// build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GitSubmodulesConfig {
   /// Set to true to fetch Git submodules for your AWS CodeBuild build project.
-  @_s.JsonKey(name: 'fetchSubmodules')
   final bool fetchSubmodules;
 
   GitSubmodulesConfig({
-    @_s.required this.fetchSubmodules,
+    required this.fetchSubmodules,
   });
-  factory GitSubmodulesConfig.fromJson(Map<String, dynamic> json) =>
-      _$GitSubmodulesConfigFromJson(json);
+  factory GitSubmodulesConfig.fromJson(Map<String, dynamic> json) {
+    return GitSubmodulesConfig(
+      fetchSubmodules: json['fetchSubmodules'] as bool,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GitSubmodulesConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final fetchSubmodules = this.fetchSubmodules;
+    return {
+      'fetchSubmodules': fetchSubmodules,
+    };
+  }
 }
 
 enum ImagePullCredentialsType {
-  @_s.JsonValue('CODEBUILD')
   codebuild,
-  @_s.JsonValue('SERVICE_ROLE')
   serviceRole,
 }
 
@@ -5125,211 +5468,254 @@ extension on ImagePullCredentialsType {
       case ImagePullCredentialsType.serviceRole:
         return 'SERVICE_ROLE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ImagePullCredentialsType toImagePullCredentialsType() {
+    switch (this) {
+      case 'CODEBUILD':
+        return ImagePullCredentialsType.codebuild;
+      case 'SERVICE_ROLE':
+        return ImagePullCredentialsType.serviceRole;
+    }
+    throw Exception('$this is not known in enum ImagePullCredentialsType');
+  }
+}
+
 class ImportSourceCredentialsOutput {
   /// The Amazon Resource Name (ARN) of the token.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ImportSourceCredentialsOutput({
     this.arn,
   });
-  factory ImportSourceCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ImportSourceCredentialsOutputFromJson(json);
+  factory ImportSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return ImportSourceCredentialsOutput(
+      arn: json['arn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidateProjectCacheOutput {
   InvalidateProjectCacheOutput();
-  factory InvalidateProjectCacheOutput.fromJson(Map<String, dynamic> json) =>
-      _$InvalidateProjectCacheOutputFromJson(json);
+  factory InvalidateProjectCacheOutput.fromJson(Map<String, dynamic> _) {
+    return InvalidateProjectCacheOutput();
+  }
 }
 
 enum LanguageType {
-  @_s.JsonValue('JAVA')
   java,
-  @_s.JsonValue('PYTHON')
   python,
-  @_s.JsonValue('NODE_JS')
   nodeJs,
-  @_s.JsonValue('RUBY')
   ruby,
-  @_s.JsonValue('GOLANG')
   golang,
-  @_s.JsonValue('DOCKER')
   docker,
-  @_s.JsonValue('ANDROID')
   android,
-  @_s.JsonValue('DOTNET')
   dotnet,
-  @_s.JsonValue('BASE')
   base,
-  @_s.JsonValue('PHP')
   php,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LanguageType {
+  String toValue() {
+    switch (this) {
+      case LanguageType.java:
+        return 'JAVA';
+      case LanguageType.python:
+        return 'PYTHON';
+      case LanguageType.nodeJs:
+        return 'NODE_JS';
+      case LanguageType.ruby:
+        return 'RUBY';
+      case LanguageType.golang:
+        return 'GOLANG';
+      case LanguageType.docker:
+        return 'DOCKER';
+      case LanguageType.android:
+        return 'ANDROID';
+      case LanguageType.dotnet:
+        return 'DOTNET';
+      case LanguageType.base:
+        return 'BASE';
+      case LanguageType.php:
+        return 'PHP';
+    }
+  }
+}
+
+extension on String {
+  LanguageType toLanguageType() {
+    switch (this) {
+      case 'JAVA':
+        return LanguageType.java;
+      case 'PYTHON':
+        return LanguageType.python;
+      case 'NODE_JS':
+        return LanguageType.nodeJs;
+      case 'RUBY':
+        return LanguageType.ruby;
+      case 'GOLANG':
+        return LanguageType.golang;
+      case 'DOCKER':
+        return LanguageType.docker;
+      case 'ANDROID':
+        return LanguageType.android;
+      case 'DOTNET':
+        return LanguageType.dotnet;
+      case 'BASE':
+        return LanguageType.base;
+      case 'PHP':
+        return LanguageType.php;
+    }
+    throw Exception('$this is not known in enum LanguageType');
+  }
+}
+
 class ListBuildBatchesForProjectOutput {
   /// An array of strings that contains the batch build identifiers.
-  @_s.JsonKey(name: 'ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// If there are more items to return, this contains a token that is passed to a
   /// subsequent call to <code>ListBuildBatchesForProject</code> to retrieve the
   /// next set of items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBuildBatchesForProjectOutput({
     this.ids,
     this.nextToken,
   });
-  factory ListBuildBatchesForProjectOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListBuildBatchesForProjectOutputFromJson(json);
+  factory ListBuildBatchesForProjectOutput.fromJson(Map<String, dynamic> json) {
+    return ListBuildBatchesForProjectOutput(
+      ids: (json['ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBuildBatchesOutput {
   /// An array of strings that contains the batch build identifiers.
-  @_s.JsonKey(name: 'ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// If there are more items to return, this contains a token that is passed to a
   /// subsequent call to <code>ListBuildBatches</code> to retrieve the next set of
   /// items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBuildBatchesOutput({
     this.ids,
     this.nextToken,
   });
-  factory ListBuildBatchesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBuildBatchesOutputFromJson(json);
+  factory ListBuildBatchesOutput.fromJson(Map<String, dynamic> json) {
+    return ListBuildBatchesOutput(
+      ids: (json['ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBuildsForProjectOutput {
   /// A list of build IDs for the specified build project, with each build ID
   /// representing a single build.
-  @_s.JsonKey(name: 'ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// If there are more than 100 items in the list, only the first 100 items are
   /// returned, along with a unique string called a <i>nextToken</i>. To get the
   /// next batch of items in the list, call this operation again, adding the next
   /// token to the call.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBuildsForProjectOutput({
     this.ids,
     this.nextToken,
   });
-  factory ListBuildsForProjectOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBuildsForProjectOutputFromJson(json);
+  factory ListBuildsForProjectOutput.fromJson(Map<String, dynamic> json) {
+    return ListBuildsForProjectOutput(
+      ids: (json['ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBuildsOutput {
   /// A list of build IDs, with each build ID representing a single build.
-  @_s.JsonKey(name: 'ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// If there are more than 100 items in the list, only the first 100 items are
   /// returned, along with a unique string called a <i>nextToken</i>. To get the
   /// next batch of items in the list, call this operation again, adding the next
   /// token to the call.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBuildsOutput({
     this.ids,
     this.nextToken,
   });
-  factory ListBuildsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBuildsOutputFromJson(json);
+  factory ListBuildsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBuildsOutput(
+      ids: (json['ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCuratedEnvironmentImagesOutput {
   /// Information about supported platforms for Docker images that are managed by
   /// AWS CodeBuild.
-  @_s.JsonKey(name: 'platforms')
-  final List<EnvironmentPlatform> platforms;
+  final List<EnvironmentPlatform>? platforms;
 
   ListCuratedEnvironmentImagesOutput({
     this.platforms,
   });
   factory ListCuratedEnvironmentImagesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCuratedEnvironmentImagesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCuratedEnvironmentImagesOutput(
+      platforms: (json['platforms'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentPlatform.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProjectsOutput {
   /// If there are more than 100 items in the list, only the first 100 items are
   /// returned, along with a unique string called a <i>nextToken</i>. To get the
   /// next batch of items in the list, call this operation again, adding the next
   /// token to the call.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of build project names, with each build project name representing a
   /// single build project.
-  @_s.JsonKey(name: 'projects')
-  final List<String> projects;
+  final List<String>? projects;
 
   ListProjectsOutput({
     this.nextToken,
     this.projects,
   });
-  factory ListProjectsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProjectsOutputFromJson(json);
+  factory ListProjectsOutput.fromJson(Map<String, dynamic> json) {
+    return ListProjectsOutput(
+      nextToken: json['nextToken'] as String?,
+      projects: (json['projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReportGroupsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5338,26 +5724,26 @@ class ListReportGroupsOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of ARNs for the report groups in the current AWS account.
-  @_s.JsonKey(name: 'reportGroups')
-  final List<String> reportGroups;
+  final List<String>? reportGroups;
 
   ListReportGroupsOutput({
     this.nextToken,
     this.reportGroups,
   });
-  factory ListReportGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListReportGroupsOutputFromJson(json);
+  factory ListReportGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListReportGroupsOutput(
+      nextToken: json['nextToken'] as String?,
+      reportGroups: (json['reportGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReportsForReportGroupOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5366,26 +5752,26 @@ class ListReportsForReportGroupOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of report ARNs.
-  @_s.JsonKey(name: 'reports')
-  final List<String> reports;
+  final List<String>? reports;
 
   ListReportsForReportGroupOutput({
     this.nextToken,
     this.reports,
   });
-  factory ListReportsForReportGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListReportsForReportGroupOutputFromJson(json);
+  factory ListReportsForReportGroupOutput.fromJson(Map<String, dynamic> json) {
+    return ListReportsForReportGroupOutput(
+      nextToken: json['nextToken'] as String?,
+      reports: (json['reports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReportsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5394,26 +5780,26 @@ class ListReportsOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of returned ARNs for the reports in the current AWS account.
-  @_s.JsonKey(name: 'reports')
-  final List<String> reports;
+  final List<String>? reports;
 
   ListReportsOutput({
     this.nextToken,
     this.reports,
   });
-  factory ListReportsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListReportsOutputFromJson(json);
+  factory ListReportsOutput.fromJson(Map<String, dynamic> json) {
+    return ListReportsOutput(
+      nextToken: json['nextToken'] as String?,
+      reports: (json['reports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSharedProjectsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5422,27 +5808,27 @@ class ListSharedProjectsOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of ARNs for the build projects shared with the current AWS account
   /// or user.
-  @_s.JsonKey(name: 'projects')
-  final List<String> projects;
+  final List<String>? projects;
 
   ListSharedProjectsOutput({
     this.nextToken,
     this.projects,
   });
-  factory ListSharedProjectsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSharedProjectsOutputFromJson(json);
+  factory ListSharedProjectsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSharedProjectsOutput(
+      nextToken: json['nextToken'] as String?,
+      projects: (json['projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSharedReportGroupsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5451,122 +5837,144 @@ class ListSharedReportGroupsOutput {
   /// token to the call. To get all of the items in the list, keep calling this
   /// operation with each subsequent next token that is returned, until no more
   /// next tokens are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of ARNs for the report groups shared with the current AWS account
   /// or user.
-  @_s.JsonKey(name: 'reportGroups')
-  final List<String> reportGroups;
+  final List<String>? reportGroups;
 
   ListSharedReportGroupsOutput({
     this.nextToken,
     this.reportGroups,
   });
-  factory ListSharedReportGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSharedReportGroupsOutputFromJson(json);
+  factory ListSharedReportGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSharedReportGroupsOutput(
+      nextToken: json['nextToken'] as String?,
+      reportGroups: (json['reportGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSourceCredentialsOutput {
   /// A list of <code>SourceCredentialsInfo</code> objects. Each
   /// <code>SourceCredentialsInfo</code> object includes the authentication type,
   /// token ARN, and type of source provider for one set of credentials.
-  @_s.JsonKey(name: 'sourceCredentialsInfos')
-  final List<SourceCredentialsInfo> sourceCredentialsInfos;
+  final List<SourceCredentialsInfo>? sourceCredentialsInfos;
 
   ListSourceCredentialsOutput({
     this.sourceCredentialsInfos,
   });
-  factory ListSourceCredentialsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSourceCredentialsOutputFromJson(json);
+  factory ListSourceCredentialsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSourceCredentialsOutput(
+      sourceCredentialsInfos: (json['sourceCredentialsInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => SourceCredentialsInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Information about logs for a build project. These can be logs in Amazon
 /// CloudWatch Logs, built in a specified S3 bucket, or both.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogsConfig {
   /// Information about Amazon CloudWatch Logs for a build project. Amazon
   /// CloudWatch Logs are enabled by default.
-  @_s.JsonKey(name: 'cloudWatchLogs')
-  final CloudWatchLogsConfig cloudWatchLogs;
+  final CloudWatchLogsConfig? cloudWatchLogs;
 
   /// Information about logs built to an S3 bucket for a build project. S3 logs
   /// are not enabled by default.
-  @_s.JsonKey(name: 's3Logs')
-  final S3LogsConfig s3Logs;
+  final S3LogsConfig? s3Logs;
 
   LogsConfig({
     this.cloudWatchLogs,
     this.s3Logs,
   });
-  factory LogsConfig.fromJson(Map<String, dynamic> json) =>
-      _$LogsConfigFromJson(json);
+  factory LogsConfig.fromJson(Map<String, dynamic> json) {
+    return LogsConfig(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogsConfig.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      s3Logs: json['s3Logs'] != null
+          ? S3LogsConfig.fromJson(json['s3Logs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$LogsConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final s3Logs = this.s3Logs;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (s3Logs != null) 's3Logs': s3Logs,
+    };
+  }
 }
 
 enum LogsConfigStatusType {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on LogsConfigStatusType {
+  String toValue() {
+    switch (this) {
+      case LogsConfigStatusType.enabled:
+        return 'ENABLED';
+      case LogsConfigStatusType.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  LogsConfigStatusType toLogsConfigStatusType() {
+    switch (this) {
+      case 'ENABLED':
+        return LogsConfigStatusType.enabled;
+      case 'DISABLED':
+        return LogsConfigStatusType.disabled;
+    }
+    throw Exception('$this is not known in enum LogsConfigStatusType');
+  }
+}
+
 /// Information about build logs in Amazon CloudWatch Logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogsLocation {
   /// Information about Amazon CloudWatch Logs for a build project.
-  @_s.JsonKey(name: 'cloudWatchLogs')
-  final CloudWatchLogsConfig cloudWatchLogs;
+  final CloudWatchLogsConfig? cloudWatchLogs;
 
   /// The ARN of Amazon CloudWatch Logs for a build project. Its format is
   /// <code>arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatchlogs.html#amazoncloudwatchlogs-resources-for-iam-policies">Resources
   /// Defined by Amazon CloudWatch Logs</a>.
-  @_s.JsonKey(name: 'cloudWatchLogsArn')
-  final String cloudWatchLogsArn;
+  final String? cloudWatchLogsArn;
 
   /// The URL to an individual build log in Amazon CloudWatch Logs.
-  @_s.JsonKey(name: 'deepLink')
-  final String deepLink;
+  final String? deepLink;
 
   /// The name of the Amazon CloudWatch Logs group for the build logs.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   /// The URL to a build log in an S3 bucket.
-  @_s.JsonKey(name: 's3DeepLink')
-  final String s3DeepLink;
+  final String? s3DeepLink;
 
   /// Information about S3 logs for a build project.
-  @_s.JsonKey(name: 's3Logs')
-  final S3LogsConfig s3Logs;
+  final S3LogsConfig? s3Logs;
 
   /// The ARN of S3 logs for a build project. Its format is
   /// <code>arn:${Partition}:s3:::${BucketName}/${ObjectName}</code>. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html#amazons3-resources-for-iam-policies">Resources
   /// Defined by Amazon S3</a>.
-  @_s.JsonKey(name: 's3LogsArn')
-  final String s3LogsArn;
+  final String? s3LogsArn;
 
   /// The name of the Amazon CloudWatch Logs stream for the build logs.
-  @_s.JsonKey(name: 'streamName')
-  final String streamName;
+  final String? streamName;
 
   LogsLocation({
     this.cloudWatchLogs,
@@ -5578,105 +5986,128 @@ class LogsLocation {
     this.s3LogsArn,
     this.streamName,
   });
-  factory LogsLocation.fromJson(Map<String, dynamic> json) =>
-      _$LogsLocationFromJson(json);
+  factory LogsLocation.fromJson(Map<String, dynamic> json) {
+    return LogsLocation(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogsConfig.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLogsArn: json['cloudWatchLogsArn'] as String?,
+      deepLink: json['deepLink'] as String?,
+      groupName: json['groupName'] as String?,
+      s3DeepLink: json['s3DeepLink'] as String?,
+      s3Logs: json['s3Logs'] != null
+          ? S3LogsConfig.fromJson(json['s3Logs'] as Map<String, dynamic>)
+          : null,
+      s3LogsArn: json['s3LogsArn'] as String?,
+      streamName: json['streamName'] as String?,
+    );
+  }
 }
 
 /// Describes a network interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The ID of the network interface.
-  @_s.JsonKey(name: 'networkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// The ID of the subnet.
-  @_s.JsonKey(name: 'subnetId')
-  final String subnetId;
+  final String? subnetId;
 
   NetworkInterface({
     this.networkInterfaceId,
     this.subnetId,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      networkInterfaceId: json['networkInterfaceId'] as String?,
+      subnetId: json['subnetId'] as String?,
+    );
+  }
 }
 
 /// Additional information about a build phase that has an error. You can use
 /// this information for troubleshooting.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhaseContext {
   /// An explanation of the build phase's context. This might include a command ID
   /// and an exit code.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The status code for the context of the build phase.
-  @_s.JsonKey(name: 'statusCode')
-  final String statusCode;
+  final String? statusCode;
 
   PhaseContext({
     this.message,
     this.statusCode,
   });
-  factory PhaseContext.fromJson(Map<String, dynamic> json) =>
-      _$PhaseContextFromJson(json);
+  factory PhaseContext.fromJson(Map<String, dynamic> json) {
+    return PhaseContext(
+      message: json['message'] as String?,
+      statusCode: json['statusCode'] as String?,
+    );
+  }
 }
 
 enum PlatformType {
-  @_s.JsonValue('DEBIAN')
   debian,
-  @_s.JsonValue('AMAZON_LINUX')
   amazonLinux,
-  @_s.JsonValue('UBUNTU')
   ubuntu,
-  @_s.JsonValue('WINDOWS_SERVER')
   windowsServer,
 }
 
+extension on PlatformType {
+  String toValue() {
+    switch (this) {
+      case PlatformType.debian:
+        return 'DEBIAN';
+      case PlatformType.amazonLinux:
+        return 'AMAZON_LINUX';
+      case PlatformType.ubuntu:
+        return 'UBUNTU';
+      case PlatformType.windowsServer:
+        return 'WINDOWS_SERVER';
+    }
+  }
+}
+
+extension on String {
+  PlatformType toPlatformType() {
+    switch (this) {
+      case 'DEBIAN':
+        return PlatformType.debian;
+      case 'AMAZON_LINUX':
+        return PlatformType.amazonLinux;
+      case 'UBUNTU':
+        return PlatformType.ubuntu;
+      case 'WINDOWS_SERVER':
+        return PlatformType.windowsServer;
+    }
+    throw Exception('$this is not known in enum PlatformType');
+  }
+}
+
 /// Information about a build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Project {
   /// The Amazon Resource Name (ARN) of the build project.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Information about the build output artifacts for the build project.
-  @_s.JsonKey(name: 'artifacts')
-  final ProjectArtifacts artifacts;
+  final ProjectArtifacts? artifacts;
 
   /// Information about the build badge for the build project.
-  @_s.JsonKey(name: 'badge')
-  final ProjectBadge badge;
+  final ProjectBadge? badge;
 
   /// A <a>ProjectBuildBatchConfig</a> object that defines the batch build options
   /// for the project.
-  @_s.JsonKey(name: 'buildBatchConfig')
-  final ProjectBuildBatchConfig buildBatchConfig;
+  final ProjectBuildBatchConfig? buildBatchConfig;
 
   /// Information about the cache for the build project.
-  @_s.JsonKey(name: 'cache')
-  final ProjectCache cache;
+  final ProjectCache? cache;
 
   /// When the build project was created, expressed in Unix time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// A description that makes the build project easy to identify.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
   /// used for encrypting the build output artifacts.
@@ -5687,64 +6118,51 @@ class Project {
   /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if
   /// available, the CMK's alias (using the format
   /// <code>alias/&lt;alias-name&gt;</code>).
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// Information about the build environment for this build project.
-  @_s.JsonKey(name: 'environment')
-  final ProjectEnvironment environment;
+  final ProjectEnvironment? environment;
 
   /// An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild
   /// build project. A <code>ProjectFileSystemLocation</code> object specifies the
   /// <code>identifier</code>, <code>location</code>, <code>mountOptions</code>,
   /// <code>mountPoint</code>, and <code>type</code> of a file system created
   /// using Amazon Elastic File System.
-  @_s.JsonKey(name: 'fileSystemLocations')
-  final List<ProjectFileSystemLocation> fileSystemLocations;
+  final List<ProjectFileSystemLocation>? fileSystemLocations;
 
   /// When the build project's settings were last modified, expressed in Unix time
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// Information about logs for the build project. A project can create logs in
   /// Amazon CloudWatch Logs, an S3 bucket, or both.
-  @_s.JsonKey(name: 'logsConfig')
-  final LogsConfig logsConfig;
+  final LogsConfig? logsConfig;
 
   /// The name of the build project.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The number of minutes a build is allowed to be queued before it times out.
-  @_s.JsonKey(name: 'queuedTimeoutInMinutes')
-  final int queuedTimeoutInMinutes;
+  final int? queuedTimeoutInMinutes;
 
   /// An array of <code>ProjectArtifacts</code> objects.
-  @_s.JsonKey(name: 'secondaryArtifacts')
-  final List<ProjectArtifacts> secondaryArtifacts;
+  final List<ProjectArtifacts>? secondaryArtifacts;
 
   /// An array of <code>ProjectSourceVersion</code> objects. If
   /// <code>secondarySourceVersions</code> is specified at the build level, then
   /// they take over these <code>secondarySourceVersions</code> (at the project
   /// level).
-  @_s.JsonKey(name: 'secondarySourceVersions')
-  final List<ProjectSourceVersion> secondarySourceVersions;
+  final List<ProjectSourceVersion>? secondarySourceVersions;
 
   /// An array of <code>ProjectSource</code> objects.
-  @_s.JsonKey(name: 'secondarySources')
-  final List<ProjectSource> secondarySources;
+  final List<ProjectSource>? secondarySources;
 
   /// The ARN of the AWS Identity and Access Management (IAM) role that enables
   /// AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
   /// account.
-  @_s.JsonKey(name: 'serviceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Information about the build input source code for this build project.
-  @_s.JsonKey(name: 'source')
-  final ProjectSource source;
+  final ProjectSource? source;
 
   /// A version of the build input to be built for this project. If not specified,
   /// the latest version is used. If specified, it must be one of:
@@ -5779,30 +6197,25 @@ class Project {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
-  @_s.JsonKey(name: 'sourceVersion')
-  final String sourceVersion;
+  final String? sourceVersion;
 
   /// A list of tag key and value pairs associated with this build project.
   ///
   /// These tags are available for use by AWS services that support AWS CodeBuild
   /// build project tags.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
   /// before timing out any related build that did not get marked as completed.
   /// The default is 60 minutes.
-  @_s.JsonKey(name: 'timeoutInMinutes')
-  final int timeoutInMinutes;
+  final int? timeoutInMinutes;
 
   /// Information about the VPC configuration that AWS CodeBuild accesses.
-  @_s.JsonKey(name: 'vpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   /// Information about a webhook that connects repository events to a build
   /// project in AWS CodeBuild.
-  @_s.JsonKey(name: 'webhook')
-  final Webhook webhook;
+  final Webhook? webhook;
 
   Project({
     this.arn,
@@ -5830,16 +6243,73 @@ class Project {
     this.vpcConfig,
     this.webhook,
   });
-  factory Project.fromJson(Map<String, dynamic> json) =>
-      _$ProjectFromJson(json);
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      arn: json['arn'] as String?,
+      artifacts: json['artifacts'] != null
+          ? ProjectArtifacts.fromJson(json['artifacts'] as Map<String, dynamic>)
+          : null,
+      badge: json['badge'] != null
+          ? ProjectBadge.fromJson(json['badge'] as Map<String, dynamic>)
+          : null,
+      buildBatchConfig: json['buildBatchConfig'] != null
+          ? ProjectBuildBatchConfig.fromJson(
+              json['buildBatchConfig'] as Map<String, dynamic>)
+          : null,
+      cache: json['cache'] != null
+          ? ProjectCache.fromJson(json['cache'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      description: json['description'] as String?,
+      encryptionKey: json['encryptionKey'] as String?,
+      environment: json['environment'] != null
+          ? ProjectEnvironment.fromJson(
+              json['environment'] as Map<String, dynamic>)
+          : null,
+      fileSystemLocations: (json['fileSystemLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProjectFileSystemLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModified: timeStampFromJson(json['lastModified']),
+      logsConfig: json['logsConfig'] != null
+          ? LogsConfig.fromJson(json['logsConfig'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      queuedTimeoutInMinutes: json['queuedTimeoutInMinutes'] as int?,
+      secondaryArtifacts: (json['secondaryArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectArtifacts.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySourceVersions: (json['secondarySourceVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSourceVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      secondarySources: (json['secondarySources'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceRole: json['serviceRole'] as String?,
+      source: json['source'] != null
+          ? ProjectSource.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      sourceVersion: json['sourceVersion'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeoutInMinutes: json['timeoutInMinutes'] as int?,
+      vpcConfig: json['vpcConfig'] != null
+          ? VpcConfig.fromJson(json['vpcConfig'] as Map<String, dynamic>)
+          : null,
+      webhook: json['webhook'] != null
+          ? Webhook.fromJson(json['webhook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the build output artifacts for the build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectArtifacts {
   /// The type of build output artifact. Valid values include:
   ///
@@ -5860,19 +6330,16 @@ class ProjectArtifacts {
   /// Storage Service (Amazon S3).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final ArtifactsType type;
 
   /// An identifier for this artifact definition.
-  @_s.JsonKey(name: 'artifactIdentifier')
-  final String artifactIdentifier;
+  final String? artifactIdentifier;
 
   /// Set to true if you do not want your output artifacts encrypted. This option
   /// is valid only if your artifacts type is Amazon Simple Storage Service
   /// (Amazon S3). If this is set with another artifacts type, an
   /// invalidInputException is thrown.
-  @_s.JsonKey(name: 'encryptionDisabled')
-  final bool encryptionDisabled;
+  final bool? encryptionDisabled;
 
   /// Information about the build output artifact location:
   ///
@@ -5891,8 +6358,7 @@ class ProjectArtifacts {
   /// output bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// Along with <code>path</code> and <code>namespaceType</code>, the pattern
   /// that AWS CodeBuild uses to name and store the output artifact:
@@ -5935,8 +6401,7 @@ class ProjectArtifacts {
   /// in <code>MyArtifacts/&lt;build-ID&gt;</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Along with <code>path</code> and <code>name</code>, the pattern that AWS
   /// CodeBuild uses to determine the name and location to store the output
@@ -5970,15 +6435,13 @@ class ProjectArtifacts {
   /// <code>namespaceType</code> is set to <code>BUILD_ID</code>, and
   /// <code>name</code> is set to <code>MyArtifact.zip</code>, the output artifact
   /// is stored in <code>MyArtifacts/&lt;build-ID&gt;/MyArtifact.zip</code>.
-  @_s.JsonKey(name: 'namespaceType')
-  final ArtifactNamespace namespaceType;
+  final ArtifactNamespace? namespaceType;
 
   /// If this flag is set, a name specified in the buildspec file overrides the
   /// artifact name. The name specified in a buildspec file is calculated at build
   /// time and uses the Shell Command Language. For example, you can append a date
   /// and time to your artifact name so that it is always unique.
-  @_s.JsonKey(name: 'overrideArtifactName')
-  final bool overrideArtifactName;
+  final bool? overrideArtifactName;
 
   /// The type of build output artifact to create:
   ///
@@ -6007,8 +6470,7 @@ class ProjectArtifacts {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'packaging')
-  final ArtifactPackaging packaging;
+  final ArtifactPackaging? packaging;
 
   /// Along with <code>namespaceType</code> and <code>name</code>, the pattern
   /// that AWS CodeBuild uses to name and store the output artifact:
@@ -6033,11 +6495,10 @@ class ProjectArtifacts {
   /// <code>namespaceType</code> is set to <code>NONE</code>, and
   /// <code>name</code> is set to <code>MyArtifact.zip</code>, the output artifact
   /// is stored in the output bucket at <code>MyArtifacts/MyArtifact.zip</code>.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   ProjectArtifacts({
-    @_s.required this.type,
+    required this.type,
     this.artifactIdentifier,
     this.encryptionDisabled,
     this.location,
@@ -6047,65 +6508,86 @@ class ProjectArtifacts {
     this.packaging,
     this.path,
   });
-  factory ProjectArtifacts.fromJson(Map<String, dynamic> json) =>
-      _$ProjectArtifactsFromJson(json);
+  factory ProjectArtifacts.fromJson(Map<String, dynamic> json) {
+    return ProjectArtifacts(
+      type: (json['type'] as String).toArtifactsType(),
+      artifactIdentifier: json['artifactIdentifier'] as String?,
+      encryptionDisabled: json['encryptionDisabled'] as bool?,
+      location: json['location'] as String?,
+      name: json['name'] as String?,
+      namespaceType: (json['namespaceType'] as String?)?.toArtifactNamespace(),
+      overrideArtifactName: json['overrideArtifactName'] as bool?,
+      packaging: (json['packaging'] as String?)?.toArtifactPackaging(),
+      path: json['path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectArtifactsToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final artifactIdentifier = this.artifactIdentifier;
+    final encryptionDisabled = this.encryptionDisabled;
+    final location = this.location;
+    final name = this.name;
+    final namespaceType = this.namespaceType;
+    final overrideArtifactName = this.overrideArtifactName;
+    final packaging = this.packaging;
+    final path = this.path;
+    return {
+      'type': type.toValue(),
+      if (artifactIdentifier != null) 'artifactIdentifier': artifactIdentifier,
+      if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
+      if (location != null) 'location': location,
+      if (name != null) 'name': name,
+      if (namespaceType != null) 'namespaceType': namespaceType.toValue(),
+      if (overrideArtifactName != null)
+        'overrideArtifactName': overrideArtifactName,
+      if (packaging != null) 'packaging': packaging.toValue(),
+      if (path != null) 'path': path,
+    };
+  }
 }
 
 /// Information about the build badge for the build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectBadge {
   /// Set this to true to generate a publicly accessible URL for your project's
   /// build badge.
-  @_s.JsonKey(name: 'badgeEnabled')
-  final bool badgeEnabled;
+  final bool? badgeEnabled;
 
   /// The publicly-accessible URL through which you can access the build badge for
   /// your project.
   ///
   /// The publicly accessible URL through which you can access the build badge for
   /// your project.
-  @_s.JsonKey(name: 'badgeRequestUrl')
-  final String badgeRequestUrl;
+  final String? badgeRequestUrl;
 
   ProjectBadge({
     this.badgeEnabled,
     this.badgeRequestUrl,
   });
-  factory ProjectBadge.fromJson(Map<String, dynamic> json) =>
-      _$ProjectBadgeFromJson(json);
+  factory ProjectBadge.fromJson(Map<String, dynamic> json) {
+    return ProjectBadge(
+      badgeEnabled: json['badgeEnabled'] as bool?,
+      badgeRequestUrl: json['badgeRequestUrl'] as String?,
+    );
+  }
 }
 
 /// Contains configuration information about a batch build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectBuildBatchConfig {
   /// Specifies if the build artifacts for the batch build should be combined into
   /// a single artifact location.
-  @_s.JsonKey(name: 'combineArtifacts')
-  final bool combineArtifacts;
+  final bool? combineArtifacts;
 
   /// A <code>BatchRestrictions</code> object that specifies the restrictions for
   /// the batch build.
-  @_s.JsonKey(name: 'restrictions')
-  final BatchRestrictions restrictions;
+  final BatchRestrictions? restrictions;
 
   /// Specifies the service role ARN for the batch build project.
-  @_s.JsonKey(name: 'serviceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Specifies the maximum amount of time, in minutes, that the batch build must
   /// be completed in.
-  @_s.JsonKey(name: 'timeoutInMins')
-  final int timeoutInMins;
+  final int? timeoutInMins;
 
   ProjectBuildBatchConfig({
     this.combineArtifacts,
@@ -6113,18 +6595,33 @@ class ProjectBuildBatchConfig {
     this.serviceRole,
     this.timeoutInMins,
   });
-  factory ProjectBuildBatchConfig.fromJson(Map<String, dynamic> json) =>
-      _$ProjectBuildBatchConfigFromJson(json);
+  factory ProjectBuildBatchConfig.fromJson(Map<String, dynamic> json) {
+    return ProjectBuildBatchConfig(
+      combineArtifacts: json['combineArtifacts'] as bool?,
+      restrictions: json['restrictions'] != null
+          ? BatchRestrictions.fromJson(
+              json['restrictions'] as Map<String, dynamic>)
+          : null,
+      serviceRole: json['serviceRole'] as String?,
+      timeoutInMins: json['timeoutInMins'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectBuildBatchConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final combineArtifacts = this.combineArtifacts;
+    final restrictions = this.restrictions;
+    final serviceRole = this.serviceRole;
+    final timeoutInMins = this.timeoutInMins;
+    return {
+      if (combineArtifacts != null) 'combineArtifacts': combineArtifacts,
+      if (restrictions != null) 'restrictions': restrictions,
+      if (serviceRole != null) 'serviceRole': serviceRole,
+      if (timeoutInMins != null) 'timeoutInMins': timeoutInMins,
+    };
+  }
 }
 
 /// Information about the cache for the build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectCache {
   /// The type of cache used by the build project. Valid values include:
   ///
@@ -6140,7 +6637,6 @@ class ProjectCache {
   /// that is only available to that build host.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final CacheType type;
 
   /// Information about the cache location:
@@ -6153,8 +6649,7 @@ class ProjectCache {
   /// <code>S3</code>: This is the S3 bucket name/prefix.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// An array of strings that specify the local cache modes. You can use one or
   /// more local cache modes at the same time. This is only used for
@@ -6204,26 +6699,37 @@ class ProjectCache {
   /// Directories are specified using cache paths in the buildspec file.
   /// </li>
   /// </ul> </dd> </dl>
-  @_s.JsonKey(name: 'modes')
-  final List<CacheMode> modes;
+  final List<CacheMode>? modes;
 
   ProjectCache({
-    @_s.required this.type,
+    required this.type,
     this.location,
     this.modes,
   });
-  factory ProjectCache.fromJson(Map<String, dynamic> json) =>
-      _$ProjectCacheFromJson(json);
+  factory ProjectCache.fromJson(Map<String, dynamic> json) {
+    return ProjectCache(
+      type: (json['type'] as String).toCacheType(),
+      location: json['location'] as String?,
+      modes: (json['modes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCacheMode())
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectCacheToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final location = this.location;
+    final modes = this.modes;
+    return {
+      'type': type.toValue(),
+      if (location != null) 'location': location,
+      if (modes != null) 'modes': modes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Information about the build environment of the build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectEnvironment {
   /// Information about the compute resources the build project uses. Available
   /// values include:
@@ -6266,7 +6772,6 @@ class ProjectEnvironment {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
   /// Environment Compute Types</a> in the <i>AWS CodeBuild User Guide.</i>
-  @_s.JsonKey(name: 'computeType')
   final ComputeType computeType;
 
   /// The image tag or image digest that identifies the Docker image to use for
@@ -6288,7 +6793,6 @@ class ProjectEnvironment {
   /// <code>&lt;registry&gt;/&lt;repository&gt;@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'image')
   final String image;
 
   /// The type of build environment to use for related builds.
@@ -6316,7 +6820,6 @@ class ProjectEnvironment {
   /// China (Beijing), and China (Ningxia).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final EnvironmentType type;
 
   /// The ARN of the Amazon Simple Storage Service (Amazon S3) bucket, path
@@ -6324,13 +6827,11 @@ class ProjectEnvironment {
   /// build project. For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html#cli.environment.certificate">certificate</a>
   /// in the <i>AWS CodeBuild User Guide</i>.
-  @_s.JsonKey(name: 'certificate')
-  final String certificate;
+  final String? certificate;
 
   /// A set of environment variables to make available to builds for this build
   /// project.
-  @_s.JsonKey(name: 'environmentVariables')
-  final List<EnvironmentVariable> environmentVariables;
+  final List<EnvironmentVariable>? environmentVariables;
 
   /// The type of credentials AWS CodeBuild uses to pull images in your build.
   /// There are two valid values:
@@ -6349,8 +6850,7 @@ class ProjectEnvironment {
   /// When you use a cross-account or private registry image, you must use
   /// SERVICE_ROLE credentials. When you use an AWS CodeBuild curated image, you
   /// must use CODEBUILD credentials.
-  @_s.JsonKey(name: 'imagePullCredentialsType')
-  final ImagePullCredentialsType imagePullCredentialsType;
+  final ImagePullCredentialsType? imagePullCredentialsType;
 
   /// Enables running the Docker daemon inside a Docker container. Set to true
   /// only if the build project is used to build Docker images. Otherwise, a build
@@ -6378,38 +6878,69 @@ class ProjectEnvironment {
   ///
   /// <code>- timeout -t 15 sh -c "until docker info; do echo .; sleep 1;
   /// done"</code>
-  @_s.JsonKey(name: 'privilegedMode')
-  final bool privilegedMode;
+  final bool? privilegedMode;
 
   /// The credentials for access to a private registry.
-  @_s.JsonKey(name: 'registryCredential')
-  final RegistryCredential registryCredential;
+  final RegistryCredential? registryCredential;
 
   ProjectEnvironment({
-    @_s.required this.computeType,
-    @_s.required this.image,
-    @_s.required this.type,
+    required this.computeType,
+    required this.image,
+    required this.type,
     this.certificate,
     this.environmentVariables,
     this.imagePullCredentialsType,
     this.privilegedMode,
     this.registryCredential,
   });
-  factory ProjectEnvironment.fromJson(Map<String, dynamic> json) =>
-      _$ProjectEnvironmentFromJson(json);
+  factory ProjectEnvironment.fromJson(Map<String, dynamic> json) {
+    return ProjectEnvironment(
+      computeType: (json['computeType'] as String).toComputeType(),
+      image: json['image'] as String,
+      type: (json['type'] as String).toEnvironmentType(),
+      certificate: json['certificate'] as String?,
+      environmentVariables: (json['environmentVariables'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imagePullCredentialsType: (json['imagePullCredentialsType'] as String?)
+          ?.toImagePullCredentialsType(),
+      privilegedMode: json['privilegedMode'] as bool?,
+      registryCredential: json['registryCredential'] != null
+          ? RegistryCredential.fromJson(
+              json['registryCredential'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectEnvironmentToJson(this);
+  Map<String, dynamic> toJson() {
+    final computeType = this.computeType;
+    final image = this.image;
+    final type = this.type;
+    final certificate = this.certificate;
+    final environmentVariables = this.environmentVariables;
+    final imagePullCredentialsType = this.imagePullCredentialsType;
+    final privilegedMode = this.privilegedMode;
+    final registryCredential = this.registryCredential;
+    return {
+      'computeType': computeType.toValue(),
+      'image': image,
+      'type': type.toValue(),
+      if (certificate != null) 'certificate': certificate,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (imagePullCredentialsType != null)
+        'imagePullCredentialsType': imagePullCredentialsType.toValue(),
+      if (privilegedMode != null) 'privilegedMode': privilegedMode,
+      if (registryCredential != null) 'registryCredential': registryCredential,
+    };
+  }
 }
 
 /// Information about a file system created by Amazon Elastic File System (EFS).
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html">What Is
 /// Amazon Elastic File System?</a>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectFileSystemLocation {
   /// The name used to access a file system created by Amazon EFS. CodeBuild
   /// creates an environment variable by appending the <code>identifier</code> in
@@ -6418,8 +6949,7 @@ class ProjectFileSystemLocation {
   /// is create named <code>CODEBUILD_MY_EFS</code>.
   ///
   /// The <code>identifier</code> is used to mount your file system.
-  @_s.JsonKey(name: 'identifier')
-  final String identifier;
+  final String? identifier;
 
   /// A string that specifies the location of the file system created by Amazon
   /// EFS. Its format is <code>efs-dns-name:/directory-path</code>. You can find
@@ -6434,8 +6964,7 @@ class ProjectFileSystemLocation {
   /// The directory path in the format <code>efs-dns-name:/directory-path</code>
   /// is optional. If you do not specify a directory path, the location is only
   /// the DNS name and CodeBuild mounts the entire file system.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// The mount options for a file system created by AWS EFS. The default mount
   /// options used by CodeBuild are
@@ -6443,16 +6972,13 @@ class ProjectFileSystemLocation {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/mounting-fs-nfs-mount-settings.html">Recommended
   /// NFS Mount Options</a>.
-  @_s.JsonKey(name: 'mountOptions')
-  final String mountOptions;
+  final String? mountOptions;
 
   /// The location in the container where you mount the file system.
-  @_s.JsonKey(name: 'mountPoint')
-  final String mountPoint;
+  final String? mountPoint;
 
   /// The type of the file system. The one supported type is <code>EFS</code>.
-  @_s.JsonKey(name: 'type')
-  final FileSystemType type;
+  final FileSystemType? type;
 
   ProjectFileSystemLocation({
     this.identifier,
@@ -6461,18 +6987,35 @@ class ProjectFileSystemLocation {
     this.mountPoint,
     this.type,
   });
-  factory ProjectFileSystemLocation.fromJson(Map<String, dynamic> json) =>
-      _$ProjectFileSystemLocationFromJson(json);
+  factory ProjectFileSystemLocation.fromJson(Map<String, dynamic> json) {
+    return ProjectFileSystemLocation(
+      identifier: json['identifier'] as String?,
+      location: json['location'] as String?,
+      mountOptions: json['mountOptions'] as String?,
+      mountPoint: json['mountPoint'] as String?,
+      type: (json['type'] as String?)?.toFileSystemType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectFileSystemLocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final location = this.location;
+    final mountOptions = this.mountOptions;
+    final mountPoint = this.mountPoint;
+    final type = this.type;
+    return {
+      if (identifier != null) 'identifier': identifier,
+      if (location != null) 'location': location,
+      if (mountOptions != null) 'mountOptions': mountOptions,
+      if (mountPoint != null) 'mountPoint': mountPoint,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum ProjectSortByType {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('CREATED_TIME')
   createdTime,
-  @_s.JsonValue('LAST_MODIFIED_TIME')
   lastModifiedTime,
 }
 
@@ -6486,16 +7029,24 @@ extension on ProjectSortByType {
       case ProjectSortByType.lastModifiedTime:
         return 'LAST_MODIFIED_TIME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProjectSortByType toProjectSortByType() {
+    switch (this) {
+      case 'NAME':
+        return ProjectSortByType.name;
+      case 'CREATED_TIME':
+        return ProjectSortByType.createdTime;
+      case 'LAST_MODIFIED_TIME':
+        return ProjectSortByType.lastModifiedTime;
+    }
+    throw Exception('$this is not known in enum ProjectSortByType');
   }
 }
 
 /// Information about the build input source code for the build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectSource {
   /// The type of repository that contains the source code to be built. Valid
   /// values include:
@@ -6527,7 +7078,6 @@ class ProjectSource {
   /// (Amazon S3) input bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'type')
   final SourceType type;
 
   /// Information about the authorization settings for AWS CodeBuild to access the
@@ -6535,15 +7085,13 @@ class ProjectSource {
   ///
   /// This information is for the AWS CodeBuild console's use only. Your code
   /// should not get or set this information directly.
-  @_s.JsonKey(name: 'auth')
-  final SourceAuth auth;
+  final SourceAuth? auth;
 
   /// Contains information that defines how the build project reports the build
   /// status to the source provider. This option is only used when the source
   /// provider is <code>GITHUB</code>, <code>GITHUB_ENTERPRISE</code>, or
   /// <code>BITBUCKET</code>.
-  @_s.JsonKey(name: 'buildStatusConfig')
-  final BuildStatusConfig buildStatusConfig;
+  final BuildStatusConfig? buildStatusConfig;
 
   /// The buildspec file declaration to use for the builds in this build project.
   ///
@@ -6557,21 +7105,17 @@ class ProjectSource {
   /// buildspec file in its root directory. For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage">Buildspec
   /// File Name and Storage Location</a>.
-  @_s.JsonKey(name: 'buildspec')
-  final String buildspec;
+  final String? buildspec;
 
   /// Information about the Git clone depth for the build project.
-  @_s.JsonKey(name: 'gitCloneDepth')
-  final int gitCloneDepth;
+  final int? gitCloneDepth;
 
   /// Information about the Git submodules configuration for the build project.
-  @_s.JsonKey(name: 'gitSubmodulesConfig')
-  final GitSubmodulesConfig gitSubmodulesConfig;
+  final GitSubmodulesConfig? gitSubmodulesConfig;
 
   /// Enable this flag to ignore SSL warnings while connecting to the project
   /// source code.
-  @_s.JsonKey(name: 'insecureSsl')
-  final bool insecureSsl;
+  final bool? insecureSsl;
 
   /// Information about the location of the source code to be built. Valid values
   /// include:
@@ -6631,8 +7175,7 @@ class ProjectSource {
   /// <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// Set to true to report the status of a build's start and finish to your
   /// source provider. This option is valid only when your source provider is
@@ -6642,15 +7185,13 @@ class ProjectSource {
   /// The status of a build triggered by a webhook is always reported to your
   /// source provider.
   /// </note>
-  @_s.JsonKey(name: 'reportBuildStatus')
-  final bool reportBuildStatus;
+  final bool? reportBuildStatus;
 
   /// An identifier for this project source.
-  @_s.JsonKey(name: 'sourceIdentifier')
-  final String sourceIdentifier;
+  final String? sourceIdentifier;
 
   ProjectSource({
-    @_s.required this.type,
+    required this.type,
     this.auth,
     this.buildStatusConfig,
     this.buildspec,
@@ -6661,21 +7202,59 @@ class ProjectSource {
     this.reportBuildStatus,
     this.sourceIdentifier,
   });
-  factory ProjectSource.fromJson(Map<String, dynamic> json) =>
-      _$ProjectSourceFromJson(json);
+  factory ProjectSource.fromJson(Map<String, dynamic> json) {
+    return ProjectSource(
+      type: (json['type'] as String).toSourceType(),
+      auth: json['auth'] != null
+          ? SourceAuth.fromJson(json['auth'] as Map<String, dynamic>)
+          : null,
+      buildStatusConfig: json['buildStatusConfig'] != null
+          ? BuildStatusConfig.fromJson(
+              json['buildStatusConfig'] as Map<String, dynamic>)
+          : null,
+      buildspec: json['buildspec'] as String?,
+      gitCloneDepth: json['gitCloneDepth'] as int?,
+      gitSubmodulesConfig: json['gitSubmodulesConfig'] != null
+          ? GitSubmodulesConfig.fromJson(
+              json['gitSubmodulesConfig'] as Map<String, dynamic>)
+          : null,
+      insecureSsl: json['insecureSsl'] as bool?,
+      location: json['location'] as String?,
+      reportBuildStatus: json['reportBuildStatus'] as bool?,
+      sourceIdentifier: json['sourceIdentifier'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final auth = this.auth;
+    final buildStatusConfig = this.buildStatusConfig;
+    final buildspec = this.buildspec;
+    final gitCloneDepth = this.gitCloneDepth;
+    final gitSubmodulesConfig = this.gitSubmodulesConfig;
+    final insecureSsl = this.insecureSsl;
+    final location = this.location;
+    final reportBuildStatus = this.reportBuildStatus;
+    final sourceIdentifier = this.sourceIdentifier;
+    return {
+      'type': type.toValue(),
+      if (auth != null) 'auth': auth,
+      if (buildStatusConfig != null) 'buildStatusConfig': buildStatusConfig,
+      if (buildspec != null) 'buildspec': buildspec,
+      if (gitCloneDepth != null) 'gitCloneDepth': gitCloneDepth,
+      if (gitSubmodulesConfig != null)
+        'gitSubmodulesConfig': gitSubmodulesConfig,
+      if (insecureSsl != null) 'insecureSsl': insecureSsl,
+      if (location != null) 'location': location,
+      if (reportBuildStatus != null) 'reportBuildStatus': reportBuildStatus,
+      if (sourceIdentifier != null) 'sourceIdentifier': sourceIdentifier,
+    };
+  }
 }
 
 /// A source identifier and its corresponding version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProjectSourceVersion {
   /// An identifier for a source in the build project.
-  @_s.JsonKey(name: 'sourceIdentifier')
   final String sourceIdentifier;
 
   /// The source version for the corresponding source identifier. If specified,
@@ -6707,35 +7286,42 @@ class ProjectSourceVersion {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
   /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>.
-  @_s.JsonKey(name: 'sourceVersion')
   final String sourceVersion;
 
   ProjectSourceVersion({
-    @_s.required this.sourceIdentifier,
-    @_s.required this.sourceVersion,
+    required this.sourceIdentifier,
+    required this.sourceVersion,
   });
-  factory ProjectSourceVersion.fromJson(Map<String, dynamic> json) =>
-      _$ProjectSourceVersionFromJson(json);
+  factory ProjectSourceVersion.fromJson(Map<String, dynamic> json) {
+    return ProjectSourceVersion(
+      sourceIdentifier: json['sourceIdentifier'] as String,
+      sourceVersion: json['sourceVersion'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProjectSourceVersionToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceVersion = this.sourceVersion;
+    return {
+      'sourceIdentifier': sourceIdentifier,
+      'sourceVersion': sourceVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyOutput {
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
   /// that is associated with a resource policy.
-  @_s.JsonKey(name: 'resourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   PutResourcePolicyOutput({
     this.resourceArn,
   });
-  factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyOutputFromJson(json);
+  factory PutResourcePolicyOutput.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyOutput(
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
 }
 
 /// Information about credentials that provide access to a private Docker
@@ -6753,11 +7339,6 @@ class PutResourcePolicyOutput {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-private-registry.html">Private
 /// Registry with AWS Secrets Manager Sample for AWS CodeBuild</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RegistryCredential {
   /// The Amazon Resource Name (ARN) or name of credentials created using AWS
   /// Secrets Manager.
@@ -6765,22 +7346,32 @@ class RegistryCredential {
   /// The <code>credential</code> can use the name of the credentials only if they
   /// exist in your current AWS Region.
   /// </note>
-  @_s.JsonKey(name: 'credential')
   final String credential;
 
   /// The service that created the credentials to access a private Docker
   /// registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager.
-  @_s.JsonKey(name: 'credentialProvider')
   final CredentialProviderType credentialProvider;
 
   RegistryCredential({
-    @_s.required this.credential,
-    @_s.required this.credentialProvider,
+    required this.credential,
+    required this.credentialProvider,
   });
-  factory RegistryCredential.fromJson(Map<String, dynamic> json) =>
-      _$RegistryCredentialFromJson(json);
+  factory RegistryCredential.fromJson(Map<String, dynamic> json) {
+    return RegistryCredential(
+      credential: json['credential'] as String,
+      credentialProvider:
+          (json['credentialProvider'] as String).toCredentialProviderType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$RegistryCredentialToJson(this);
+  Map<String, dynamic> toJson() {
+    final credential = this.credential;
+    final credentialProvider = this.credentialProvider;
+    return {
+      'credential': credential,
+      'credentialProvider': credentialProvider.toValue(),
+    };
+  }
 }
 
 /// Information about the results from running a series of test cases during the
@@ -6788,62 +7379,44 @@ class RegistryCredential {
 /// the build project using one or more paths to the test case files. You can
 /// specify any type of tests you want, such as unit tests, integration tests,
 /// and functional tests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Report {
   /// The ARN of the report run.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A <code>CodeCoverageReportSummary</code> object that contains a code
   /// coverage summary for this report.
-  @_s.JsonKey(name: 'codeCoverageSummary')
-  final CodeCoverageReportSummary codeCoverageSummary;
+  final CodeCoverageReportSummary? codeCoverageSummary;
 
   /// The date and time this report run occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The ARN of the build run that generated this report.
-  @_s.JsonKey(name: 'executionId')
-  final String executionId;
+  final String? executionId;
 
   /// The date and time a report expires. A report expires 30 days after it is
   /// created. An expired report is not available to view in CodeBuild.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expired')
-  final DateTime expired;
+  final DateTime? expired;
 
   /// Information about where the raw data used to generate this report was
   /// exported.
-  @_s.JsonKey(name: 'exportConfig')
-  final ReportExportConfig exportConfig;
+  final ReportExportConfig? exportConfig;
 
   /// The name of the report that was run.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The ARN of the report group associated with this report.
-  @_s.JsonKey(name: 'reportGroupArn')
-  final String reportGroupArn;
+  final String? reportGroupArn;
 
   /// The status of this report.
-  @_s.JsonKey(name: 'status')
-  final ReportStatusType status;
+  final ReportStatusType? status;
 
   /// A <code>TestReportSummary</code> object that contains information about this
   /// test report.
-  @_s.JsonKey(name: 'testSummary')
-  final TestReportSummary testSummary;
+  final TestReportSummary? testSummary;
 
   /// A boolean that specifies if this report run is truncated. The list of test
   /// cases is truncated after the maximum number of test cases is reached.
-  @_s.JsonKey(name: 'truncated')
-  final bool truncated;
+  final bool? truncated;
 
   /// The type of the report that was run.
   /// <dl> <dt>CODE_COVERAGE</dt> <dd>
@@ -6851,8 +7424,7 @@ class Report {
   /// </dd> <dt>TEST</dt> <dd>
   /// A test report.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'type')
-  final ReportType type;
+  final ReportType? type;
 
   Report({
     this.arn,
@@ -6868,13 +7440,35 @@ class Report {
     this.truncated,
     this.type,
   });
-  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+  factory Report.fromJson(Map<String, dynamic> json) {
+    return Report(
+      arn: json['arn'] as String?,
+      codeCoverageSummary: json['codeCoverageSummary'] != null
+          ? CodeCoverageReportSummary.fromJson(
+              json['codeCoverageSummary'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      executionId: json['executionId'] as String?,
+      expired: timeStampFromJson(json['expired']),
+      exportConfig: json['exportConfig'] != null
+          ? ReportExportConfig.fromJson(
+              json['exportConfig'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      reportGroupArn: json['reportGroupArn'] as String?,
+      status: (json['status'] as String?)?.toReportStatusType(),
+      testSummary: json['testSummary'] != null
+          ? TestReportSummary.fromJson(
+              json['testSummary'] as Map<String, dynamic>)
+          : null,
+      truncated: json['truncated'] as bool?,
+      type: (json['type'] as String?)?.toReportType(),
+    );
+  }
 }
 
 enum ReportCodeCoverageSortByType {
-  @_s.JsonValue('LINE_COVERAGE_PERCENTAGE')
   lineCoveragePercentage,
-  @_s.JsonValue('FILE_PATH')
   filePath,
 }
 
@@ -6886,16 +7480,22 @@ extension on ReportCodeCoverageSortByType {
       case ReportCodeCoverageSortByType.filePath:
         return 'FILE_PATH';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReportCodeCoverageSortByType toReportCodeCoverageSortByType() {
+    switch (this) {
+      case 'LINE_COVERAGE_PERCENTAGE':
+        return ReportCodeCoverageSortByType.lineCoveragePercentage;
+      case 'FILE_PATH':
+        return ReportCodeCoverageSortByType.filePath;
+    }
+    throw Exception('$this is not known in enum ReportCodeCoverageSortByType');
   }
 }
 
 /// Information about the location where the run of a report is exported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReportExportConfig {
   /// The export configuration type. Valid values are:
   ///
@@ -6907,95 +7507,114 @@ class ReportExportConfig {
   /// <code>NO_EXPORT</code>: The report results are not exported.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'exportConfigType')
-  final ReportExportConfigType exportConfigType;
+  final ReportExportConfigType? exportConfigType;
 
   /// A <code>S3ReportExportConfig</code> object that contains information about
   /// the S3 bucket where the run of a report is exported.
-  @_s.JsonKey(name: 's3Destination')
-  final S3ReportExportConfig s3Destination;
+  final S3ReportExportConfig? s3Destination;
 
   ReportExportConfig({
     this.exportConfigType,
     this.s3Destination,
   });
-  factory ReportExportConfig.fromJson(Map<String, dynamic> json) =>
-      _$ReportExportConfigFromJson(json);
+  factory ReportExportConfig.fromJson(Map<String, dynamic> json) {
+    return ReportExportConfig(
+      exportConfigType:
+          (json['exportConfigType'] as String?)?.toReportExportConfigType(),
+      s3Destination: json['s3Destination'] != null
+          ? S3ReportExportConfig.fromJson(
+              json['s3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ReportExportConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final exportConfigType = this.exportConfigType;
+    final s3Destination = this.s3Destination;
+    return {
+      if (exportConfigType != null)
+        'exportConfigType': exportConfigType.toValue(),
+      if (s3Destination != null) 's3Destination': s3Destination,
+    };
+  }
 }
 
 enum ReportExportConfigType {
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('NO_EXPORT')
   noExport,
+}
+
+extension on ReportExportConfigType {
+  String toValue() {
+    switch (this) {
+      case ReportExportConfigType.s3:
+        return 'S3';
+      case ReportExportConfigType.noExport:
+        return 'NO_EXPORT';
+    }
+  }
+}
+
+extension on String {
+  ReportExportConfigType toReportExportConfigType() {
+    switch (this) {
+      case 'S3':
+        return ReportExportConfigType.s3;
+      case 'NO_EXPORT':
+        return ReportExportConfigType.noExport;
+    }
+    throw Exception('$this is not known in enum ReportExportConfigType');
+  }
 }
 
 /// A filter used to return reports with the status specified by the input
 /// <code>status</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReportFilter {
   /// The status used to filter reports. You can filter using one status only.
-  @_s.JsonKey(name: 'status')
-  final ReportStatusType status;
+  final ReportStatusType? status;
 
   ReportFilter({
     this.status,
   });
-  Map<String, dynamic> toJson() => _$ReportFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// A series of reports. Each report contains information about the results from
 /// running a series of test cases. You specify the test cases for a report
 /// group in the buildspec for a build project using one or more paths to the
 /// test case files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReportGroup {
   /// The ARN of a <code>ReportGroup</code>.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time this <code>ReportGroup</code> was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Information about the destination where the raw data of this
   /// <code>ReportGroup</code> is exported.
-  @_s.JsonKey(name: 'exportConfig')
-  final ReportExportConfig exportConfig;
+  final ReportExportConfig? exportConfig;
 
   /// The date and time this <code>ReportGroup</code> was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The name of a <code>ReportGroup</code>.
-  @_s.JsonKey(name: 'name')
-  final String name;
-  @_s.JsonKey(name: 'status')
-  final ReportGroupStatusType status;
+  final String? name;
+  final ReportGroupStatusType? status;
 
   /// A list of tag key and value pairs associated with this report group.
   ///
   /// These tags are available for use by AWS services that support AWS CodeBuild
   /// report group tags.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The type of the <code>ReportGroup</code>. The one valid value is
   /// <code>TEST</code>.
-  @_s.JsonKey(name: 'type')
-  final ReportType type;
+  final ReportType? type;
 
   ReportGroup({
     this.arn,
@@ -7007,16 +7626,29 @@ class ReportGroup {
     this.tags,
     this.type,
   });
-  factory ReportGroup.fromJson(Map<String, dynamic> json) =>
-      _$ReportGroupFromJson(json);
+  factory ReportGroup.fromJson(Map<String, dynamic> json) {
+    return ReportGroup(
+      arn: json['arn'] as String?,
+      created: timeStampFromJson(json['created']),
+      exportConfig: json['exportConfig'] != null
+          ? ReportExportConfig.fromJson(
+              json['exportConfig'] as Map<String, dynamic>)
+          : null,
+      lastModified: timeStampFromJson(json['lastModified']),
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.toReportGroupStatusType(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?)?.toReportType(),
+    );
+  }
 }
 
 enum ReportGroupSortByType {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('CREATED_TIME')
   createdTime,
-  @_s.JsonValue('LAST_MODIFIED_TIME')
   lastModifiedTime,
 }
 
@@ -7030,35 +7662,60 @@ extension on ReportGroupSortByType {
       case ReportGroupSortByType.lastModifiedTime:
         return 'LAST_MODIFIED_TIME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReportGroupSortByType toReportGroupSortByType() {
+    switch (this) {
+      case 'NAME':
+        return ReportGroupSortByType.name;
+      case 'CREATED_TIME':
+        return ReportGroupSortByType.createdTime;
+      case 'LAST_MODIFIED_TIME':
+        return ReportGroupSortByType.lastModifiedTime;
+    }
+    throw Exception('$this is not known in enum ReportGroupSortByType');
   }
 }
 
 enum ReportGroupStatusType {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ReportGroupStatusType {
+  String toValue() {
+    switch (this) {
+      case ReportGroupStatusType.active:
+        return 'ACTIVE';
+      case ReportGroupStatusType.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ReportGroupStatusType toReportGroupStatusType() {
+    switch (this) {
+      case 'ACTIVE':
+        return ReportGroupStatusType.active;
+      case 'DELETING':
+        return ReportGroupStatusType.deleting;
+    }
+    throw Exception('$this is not known in enum ReportGroupStatusType');
+  }
+}
+
 enum ReportGroupTrendFieldType {
-  @_s.JsonValue('PASS_RATE')
   passRate,
-  @_s.JsonValue('DURATION')
   duration,
-  @_s.JsonValue('TOTAL')
   total,
-  @_s.JsonValue('LINE_COVERAGE')
   lineCoverage,
-  @_s.JsonValue('LINES_COVERED')
   linesCovered,
-  @_s.JsonValue('LINES_MISSED')
   linesMissed,
-  @_s.JsonValue('BRANCH_COVERAGE')
   branchCoverage,
-  @_s.JsonValue('BRANCHES_COVERED')
   branchesCovered,
-  @_s.JsonValue('BRANCHES_MISSED')
   branchesMissed,
 }
 
@@ -7084,56 +7741,127 @@ extension on ReportGroupTrendFieldType {
       case ReportGroupTrendFieldType.branchesMissed:
         return 'BRANCHES_MISSED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ReportGroupTrendFieldType toReportGroupTrendFieldType() {
+    switch (this) {
+      case 'PASS_RATE':
+        return ReportGroupTrendFieldType.passRate;
+      case 'DURATION':
+        return ReportGroupTrendFieldType.duration;
+      case 'TOTAL':
+        return ReportGroupTrendFieldType.total;
+      case 'LINE_COVERAGE':
+        return ReportGroupTrendFieldType.lineCoverage;
+      case 'LINES_COVERED':
+        return ReportGroupTrendFieldType.linesCovered;
+      case 'LINES_MISSED':
+        return ReportGroupTrendFieldType.linesMissed;
+      case 'BRANCH_COVERAGE':
+        return ReportGroupTrendFieldType.branchCoverage;
+      case 'BRANCHES_COVERED':
+        return ReportGroupTrendFieldType.branchesCovered;
+      case 'BRANCHES_MISSED':
+        return ReportGroupTrendFieldType.branchesMissed;
+    }
+    throw Exception('$this is not known in enum ReportGroupTrendFieldType');
+  }
+}
+
 class ReportGroupTrendStats {
-  @_s.JsonKey(name: 'average')
-  final String average;
-  @_s.JsonKey(name: 'max')
-  final String max;
-  @_s.JsonKey(name: 'min')
-  final String min;
+  final String? average;
+  final String? max;
+  final String? min;
 
   ReportGroupTrendStats({
     this.average,
     this.max,
     this.min,
   });
-  factory ReportGroupTrendStats.fromJson(Map<String, dynamic> json) =>
-      _$ReportGroupTrendStatsFromJson(json);
+  factory ReportGroupTrendStats.fromJson(Map<String, dynamic> json) {
+    return ReportGroupTrendStats(
+      average: json['average'] as String?,
+      max: json['max'] as String?,
+      min: json['min'] as String?,
+    );
+  }
 }
 
 enum ReportPackagingType {
-  @_s.JsonValue('ZIP')
   zip,
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on ReportPackagingType {
+  String toValue() {
+    switch (this) {
+      case ReportPackagingType.zip:
+        return 'ZIP';
+      case ReportPackagingType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ReportPackagingType toReportPackagingType() {
+    switch (this) {
+      case 'ZIP':
+        return ReportPackagingType.zip;
+      case 'NONE':
+        return ReportPackagingType.none;
+    }
+    throw Exception('$this is not known in enum ReportPackagingType');
+  }
+}
+
 enum ReportStatusType {
-  @_s.JsonValue('GENERATING')
   generating,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('INCOMPLETE')
   incomplete,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ReportStatusType {
+  String toValue() {
+    switch (this) {
+      case ReportStatusType.generating:
+        return 'GENERATING';
+      case ReportStatusType.succeeded:
+        return 'SUCCEEDED';
+      case ReportStatusType.failed:
+        return 'FAILED';
+      case ReportStatusType.incomplete:
+        return 'INCOMPLETE';
+      case ReportStatusType.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ReportStatusType toReportStatusType() {
+    switch (this) {
+      case 'GENERATING':
+        return ReportStatusType.generating;
+      case 'SUCCEEDED':
+        return ReportStatusType.succeeded;
+      case 'FAILED':
+        return ReportStatusType.failed;
+      case 'INCOMPLETE':
+        return ReportStatusType.incomplete;
+      case 'DELETING':
+        return ReportStatusType.deleting;
+    }
+    throw Exception('$this is not known in enum ReportStatusType');
+  }
+}
+
 enum ReportType {
-  @_s.JsonValue('TEST')
   test,
-  @_s.JsonValue('CODE_COVERAGE')
   codeCoverage,
 }
 
@@ -7145,79 +7873,81 @@ extension on ReportType {
       case ReportType.codeCoverage:
         return 'CODE_COVERAGE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ReportType toReportType() {
+    switch (this) {
+      case 'TEST':
+        return ReportType.test;
+      case 'CODE_COVERAGE':
+        return ReportType.codeCoverage;
+    }
+    throw Exception('$this is not known in enum ReportType');
+  }
+}
+
 class ReportWithRawData {
-  @_s.JsonKey(name: 'data')
-  final String data;
-  @_s.JsonKey(name: 'reportArn')
-  final String reportArn;
+  final String? data;
+  final String? reportArn;
 
   ReportWithRawData({
     this.data,
     this.reportArn,
   });
-  factory ReportWithRawData.fromJson(Map<String, dynamic> json) =>
-      _$ReportWithRawDataFromJson(json);
+  factory ReportWithRawData.fromJson(Map<String, dynamic> json) {
+    return ReportWithRawData(
+      data: json['data'] as String?,
+      reportArn: json['reportArn'] as String?,
+    );
+  }
 }
 
 /// Represents a resolved build artifact. A resolve artifact is an artifact that
 /// is built and deployed to the destination, such as Amazon Simple Storage
 /// Service (Amazon S3).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolvedArtifact {
   /// The identifier of the artifact.
-  @_s.JsonKey(name: 'identifier')
-  final String identifier;
+  final String? identifier;
 
   /// The location of the artifact.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// Specifies the type of artifact.
-  @_s.JsonKey(name: 'type')
-  final ArtifactsType type;
+  final ArtifactsType? type;
 
   ResolvedArtifact({
     this.identifier,
     this.location,
     this.type,
   });
-  factory ResolvedArtifact.fromJson(Map<String, dynamic> json) =>
-      _$ResolvedArtifactFromJson(json);
+  factory ResolvedArtifact.fromJson(Map<String, dynamic> json) {
+    return ResolvedArtifact(
+      identifier: json['identifier'] as String?,
+      location: json['location'] as String?,
+      type: (json['type'] as String?)?.toArtifactsType(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetryBuildBatchOutput {
-  @_s.JsonKey(name: 'buildBatch')
-  final BuildBatch buildBatch;
+  final BuildBatch? buildBatch;
 
   RetryBuildBatchOutput({
     this.buildBatch,
   });
-  factory RetryBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
-      _$RetryBuildBatchOutputFromJson(json);
+  factory RetryBuildBatchOutput.fromJson(Map<String, dynamic> json) {
+    return RetryBuildBatchOutput(
+      buildBatch: json['buildBatch'] != null
+          ? BuildBatch.fromJson(json['buildBatch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum RetryBuildBatchType {
-  @_s.JsonValue('RETRY_ALL_BUILDS')
   retryAllBuilds,
-  @_s.JsonValue('RETRY_FAILED_BUILDS')
   retryFailedBuilds,
 }
 
@@ -7229,32 +7959,37 @@ extension on RetryBuildBatchType {
       case RetryBuildBatchType.retryFailedBuilds:
         return 'RETRY_FAILED_BUILDS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  RetryBuildBatchType toRetryBuildBatchType() {
+    switch (this) {
+      case 'RETRY_ALL_BUILDS':
+        return RetryBuildBatchType.retryAllBuilds;
+      case 'RETRY_FAILED_BUILDS':
+        return RetryBuildBatchType.retryFailedBuilds;
+    }
+    throw Exception('$this is not known in enum RetryBuildBatchType');
+  }
+}
+
 class RetryBuildOutput {
-  @_s.JsonKey(name: 'build')
-  final Build build;
+  final Build? build;
 
   RetryBuildOutput({
     this.build,
   });
-  factory RetryBuildOutput.fromJson(Map<String, dynamic> json) =>
-      _$RetryBuildOutputFromJson(json);
+  factory RetryBuildOutput.fromJson(Map<String, dynamic> json) {
+    return RetryBuildOutput(
+      build: json['build'] != null
+          ? Build.fromJson(json['build'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about S3 logs for a build project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3LogsConfig {
   /// The current status of the S3 build logs. Valid values are:
   ///
@@ -7266,51 +8001,54 @@ class S3LogsConfig {
   /// <code>DISABLED</code>: S3 build logs are not enabled for this build project.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
   final LogsConfigStatusType status;
 
   /// Set to true if you do not want your S3 build log output encrypted. By
   /// default S3 build logs are encrypted.
-  @_s.JsonKey(name: 'encryptionDisabled')
-  final bool encryptionDisabled;
+  final bool? encryptionDisabled;
 
   /// The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3
   /// bucket name is <code>my-bucket</code>, and your path prefix is
   /// <code>build-log</code>, then acceptable formats are
   /// <code>my-bucket/build-log</code> or
   /// <code>arn:aws:s3:::my-bucket/build-log</code>.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   S3LogsConfig({
-    @_s.required this.status,
+    required this.status,
     this.encryptionDisabled,
     this.location,
   });
-  factory S3LogsConfig.fromJson(Map<String, dynamic> json) =>
-      _$S3LogsConfigFromJson(json);
+  factory S3LogsConfig.fromJson(Map<String, dynamic> json) {
+    return S3LogsConfig(
+      status: (json['status'] as String).toLogsConfigStatusType(),
+      encryptionDisabled: json['encryptionDisabled'] as bool?,
+      location: json['location'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3LogsConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final encryptionDisabled = this.encryptionDisabled;
+    final location = this.location;
+    return {
+      'status': status.toValue(),
+      if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
+      if (location != null) 'location': location,
+    };
+  }
 }
 
 /// Information about the S3 bucket where the raw data of a report are exported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3ReportExportConfig {
   /// The name of the S3 bucket where the raw data of a report are exported.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// A boolean value that specifies if the results of a report are encrypted.
-  @_s.JsonKey(name: 'encryptionDisabled')
-  final bool encryptionDisabled;
+  final bool? encryptionDisabled;
 
   /// The encryption key for the report's encrypted raw data.
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// The type of build output artifact to create. Valid values include:
   ///
@@ -7324,12 +8062,10 @@ class S3ReportExportConfig {
   /// output bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'packaging')
-  final ReportPackagingType packaging;
+  final ReportPackagingType? packaging;
 
   /// The path to the exported report's raw data results.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   S3ReportExportConfig({
     this.bucket,
@@ -7338,18 +8074,35 @@ class S3ReportExportConfig {
     this.packaging,
     this.path,
   });
-  factory S3ReportExportConfig.fromJson(Map<String, dynamic> json) =>
-      _$S3ReportExportConfigFromJson(json);
+  factory S3ReportExportConfig.fromJson(Map<String, dynamic> json) {
+    return S3ReportExportConfig(
+      bucket: json['bucket'] as String?,
+      encryptionDisabled: json['encryptionDisabled'] as bool?,
+      encryptionKey: json['encryptionKey'] as String?,
+      packaging: (json['packaging'] as String?)?.toReportPackagingType(),
+      path: json['path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ReportExportConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final encryptionDisabled = this.encryptionDisabled;
+    final encryptionKey = this.encryptionKey;
+    final packaging = this.packaging;
+    final path = this.path;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (encryptionDisabled != null) 'encryptionDisabled': encryptionDisabled,
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+      if (packaging != null) 'packaging': packaging.toValue(),
+      if (path != null) 'path': path,
+    };
+  }
 }
 
 enum ServerType {
-  @_s.JsonValue('GITHUB')
   github,
-  @_s.JsonValue('BITBUCKET')
   bitbucket,
-  @_s.JsonValue('GITHUB_ENTERPRISE')
   githubEnterprise,
 }
 
@@ -7363,14 +8116,25 @@ extension on ServerType {
       case ServerType.githubEnterprise:
         return 'GITHUB_ENTERPRISE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServerType toServerType() {
+    switch (this) {
+      case 'GITHUB':
+        return ServerType.github;
+      case 'BITBUCKET':
+        return ServerType.bitbucket;
+      case 'GITHUB_ENTERPRISE':
+        return ServerType.githubEnterprise;
+    }
+    throw Exception('$this is not known in enum ServerType');
   }
 }
 
 enum SharedResourceSortByType {
-  @_s.JsonValue('ARN')
   arn,
-  @_s.JsonValue('MODIFIED_TIME')
   modifiedTime,
 }
 
@@ -7382,14 +8146,23 @@ extension on SharedResourceSortByType {
       case SharedResourceSortByType.modifiedTime:
         return 'MODIFIED_TIME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SharedResourceSortByType toSharedResourceSortByType() {
+    switch (this) {
+      case 'ARN':
+        return SharedResourceSortByType.arn;
+      case 'MODIFIED_TIME':
+        return SharedResourceSortByType.modifiedTime;
+    }
+    throw Exception('$this is not known in enum SharedResourceSortByType');
   }
 }
 
 enum SortOrderType {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
@@ -7401,7 +8174,18 @@ extension on SortOrderType {
       case SortOrderType.descending:
         return 'DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrderType toSortOrderType() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrderType.ascending;
+      case 'DESCENDING':
+        return SortOrderType.descending;
+    }
+    throw Exception('$this is not known in enum SortOrderType');
   }
 }
 
@@ -7410,84 +8194,96 @@ extension on SortOrderType {
 ///
 /// This information is for the AWS CodeBuild console's use only. Your code
 /// should not get or set this information directly.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SourceAuth {
   /// <note>
   /// This data type is deprecated and is no longer accurate or used.
   /// </note>
   /// The authorization type to use. The only valid value is <code>OAUTH</code>,
   /// which represents the OAuth authorization type.
-  @_s.JsonKey(name: 'type')
   final SourceAuthType type;
 
   /// The resource value that applies to the specified authorization type.
-  @_s.JsonKey(name: 'resource')
-  final String resource;
+  final String? resource;
 
   SourceAuth({
-    @_s.required this.type,
+    required this.type,
     this.resource,
   });
-  factory SourceAuth.fromJson(Map<String, dynamic> json) =>
-      _$SourceAuthFromJson(json);
+  factory SourceAuth.fromJson(Map<String, dynamic> json) {
+    return SourceAuth(
+      type: (json['type'] as String).toSourceAuthType(),
+      resource: json['resource'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SourceAuthToJson(this);
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final resource = this.resource;
+    return {
+      'type': type.toValue(),
+      if (resource != null) 'resource': resource,
+    };
+  }
 }
 
 enum SourceAuthType {
-  @_s.JsonValue('OAUTH')
   oauth,
+}
+
+extension on SourceAuthType {
+  String toValue() {
+    switch (this) {
+      case SourceAuthType.oauth:
+        return 'OAUTH';
+    }
+  }
+}
+
+extension on String {
+  SourceAuthType toSourceAuthType() {
+    switch (this) {
+      case 'OAUTH':
+        return SourceAuthType.oauth;
+    }
+    throw Exception('$this is not known in enum SourceAuthType');
+  }
 }
 
 /// Information about the credentials for a GitHub, GitHub Enterprise, or
 /// Bitbucket repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SourceCredentialsInfo {
   /// The Amazon Resource Name (ARN) of the token.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The type of authentication used by the credentials. Valid options are OAUTH,
   /// BASIC_AUTH, or PERSONAL_ACCESS_TOKEN.
-  @_s.JsonKey(name: 'authType')
-  final AuthType authType;
+  final AuthType? authType;
 
   /// The type of source provider. The valid options are GITHUB,
   /// GITHUB_ENTERPRISE, or BITBUCKET.
-  @_s.JsonKey(name: 'serverType')
-  final ServerType serverType;
+  final ServerType? serverType;
 
   SourceCredentialsInfo({
     this.arn,
     this.authType,
     this.serverType,
   });
-  factory SourceCredentialsInfo.fromJson(Map<String, dynamic> json) =>
-      _$SourceCredentialsInfoFromJson(json);
+  factory SourceCredentialsInfo.fromJson(Map<String, dynamic> json) {
+    return SourceCredentialsInfo(
+      arn: json['arn'] as String?,
+      authType: (json['authType'] as String?)?.toAuthType(),
+      serverType: (json['serverType'] as String?)?.toServerType(),
+    );
+  }
 }
 
 enum SourceType {
-  @_s.JsonValue('CODECOMMIT')
   codecommit,
-  @_s.JsonValue('CODEPIPELINE')
   codepipeline,
-  @_s.JsonValue('GITHUB')
   github,
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('BITBUCKET')
   bitbucket,
-  @_s.JsonValue('GITHUB_ENTERPRISE')
   githubEnterprise,
-  @_s.JsonValue('NO_SOURCE')
   noSource,
 }
 
@@ -7509,166 +8305,207 @@ extension on SourceType {
       case SourceType.noSource:
         return 'NO_SOURCE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'CODECOMMIT':
+        return SourceType.codecommit;
+      case 'CODEPIPELINE':
+        return SourceType.codepipeline;
+      case 'GITHUB':
+        return SourceType.github;
+      case 'S3':
+        return SourceType.s3;
+      case 'BITBUCKET':
+        return SourceType.bitbucket;
+      case 'GITHUB_ENTERPRISE':
+        return SourceType.githubEnterprise;
+      case 'NO_SOURCE':
+        return SourceType.noSource;
+    }
+    throw Exception('$this is not known in enum SourceType');
+  }
+}
+
 class StartBuildBatchOutput {
   /// A <code>BuildBatch</code> object that contains information about the batch
   /// build.
-  @_s.JsonKey(name: 'buildBatch')
-  final BuildBatch buildBatch;
+  final BuildBatch? buildBatch;
 
   StartBuildBatchOutput({
     this.buildBatch,
   });
-  factory StartBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartBuildBatchOutputFromJson(json);
+  factory StartBuildBatchOutput.fromJson(Map<String, dynamic> json) {
+    return StartBuildBatchOutput(
+      buildBatch: json['buildBatch'] != null
+          ? BuildBatch.fromJson(json['buildBatch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartBuildOutput {
   /// Information about the build to be run.
-  @_s.JsonKey(name: 'build')
-  final Build build;
+  final Build? build;
 
   StartBuildOutput({
     this.build,
   });
-  factory StartBuildOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartBuildOutputFromJson(json);
+  factory StartBuildOutput.fromJson(Map<String, dynamic> json) {
+    return StartBuildOutput(
+      build: json['build'] != null
+          ? Build.fromJson(json['build'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum StatusType {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('FAULT')
   fault,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StatusType {
+  String toValue() {
+    switch (this) {
+      case StatusType.succeeded:
+        return 'SUCCEEDED';
+      case StatusType.failed:
+        return 'FAILED';
+      case StatusType.fault:
+        return 'FAULT';
+      case StatusType.timedOut:
+        return 'TIMED_OUT';
+      case StatusType.inProgress:
+        return 'IN_PROGRESS';
+      case StatusType.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  StatusType toStatusType() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return StatusType.succeeded;
+      case 'FAILED':
+        return StatusType.failed;
+      case 'FAULT':
+        return StatusType.fault;
+      case 'TIMED_OUT':
+        return StatusType.timedOut;
+      case 'IN_PROGRESS':
+        return StatusType.inProgress;
+      case 'STOPPED':
+        return StatusType.stopped;
+    }
+    throw Exception('$this is not known in enum StatusType');
+  }
+}
+
 class StopBuildBatchOutput {
-  @_s.JsonKey(name: 'buildBatch')
-  final BuildBatch buildBatch;
+  final BuildBatch? buildBatch;
 
   StopBuildBatchOutput({
     this.buildBatch,
   });
-  factory StopBuildBatchOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopBuildBatchOutputFromJson(json);
+  factory StopBuildBatchOutput.fromJson(Map<String, dynamic> json) {
+    return StopBuildBatchOutput(
+      buildBatch: json['buildBatch'] != null
+          ? BuildBatch.fromJson(json['buildBatch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopBuildOutput {
   /// Information about the build.
-  @_s.JsonKey(name: 'build')
-  final Build build;
+  final Build? build;
 
   StopBuildOutput({
     this.build,
   });
-  factory StopBuildOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopBuildOutputFromJson(json);
+  factory StopBuildOutput.fromJson(Map<String, dynamic> json) {
+    return StopBuildOutput(
+      build: json['build'] != null
+          ? Build.fromJson(json['build'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A tag, consisting of a key and a value.
 ///
 /// This tag is available for use by AWS services that support tags in AWS
 /// CodeBuild.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Information about a test case created using a framework such as NUnit or
 /// Cucumber. A test case might be a unit test or a configuration test.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestCase {
   /// The number of nanoseconds it took to run this test case.
-  @_s.JsonKey(name: 'durationInNanoSeconds')
-  final int durationInNanoSeconds;
+  final int? durationInNanoSeconds;
 
   /// The date and time a test case expires. A test case expires 30 days after it
   /// is created. An expired test case is not available to view in CodeBuild.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expired')
-  final DateTime expired;
+  final DateTime? expired;
 
   /// A message associated with a test case. For example, an error message or
   /// stack trace.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The name of the test case.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A string that is applied to a series of related test cases. CodeBuild
   /// generates the prefix. The prefix depends on the framework used to generate
   /// the tests.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   /// The ARN of the report to which the test case belongs.
-  @_s.JsonKey(name: 'reportArn')
-  final String reportArn;
+  final String? reportArn;
 
   /// The status returned by the test case after it was run. Valid statuses are
   /// <code>SUCCEEDED</code>, <code>FAILED</code>, <code>ERROR</code>,
   /// <code>SKIPPED</code>, and <code>UNKNOWN</code>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The path to the raw data file that contains the test result.
-  @_s.JsonKey(name: 'testRawDataPath')
-  final String testRawDataPath;
+  final String? testRawDataPath;
 
   TestCase({
     this.durationInNanoSeconds,
@@ -7680,24 +8517,28 @@ class TestCase {
     this.status,
     this.testRawDataPath,
   });
-  factory TestCase.fromJson(Map<String, dynamic> json) =>
-      _$TestCaseFromJson(json);
+  factory TestCase.fromJson(Map<String, dynamic> json) {
+    return TestCase(
+      durationInNanoSeconds: json['durationInNanoSeconds'] as int?,
+      expired: timeStampFromJson(json['expired']),
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+      prefix: json['prefix'] as String?,
+      reportArn: json['reportArn'] as String?,
+      status: json['status'] as String?,
+      testRawDataPath: json['testRawDataPath'] as String?,
+    );
+  }
 }
 
 /// A filter used to return specific types of test cases. In order to pass the
 /// filter, the report must meet all of the filter properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TestCaseFilter {
   /// A keyword that is used to filter on the <code>name</code> or the
   /// <code>prefix</code> of the test cases. Only test cases where the keyword is
   /// a substring of the <code>name</code> or the <code>prefix</code> will be
   /// returned.
-  @_s.JsonKey(name: 'keyword')
-  final String keyword;
+  final String? keyword;
 
   /// The status used to filter test cases. A <code>TestCaseFilter</code> can have
   /// one status. Valid values are:
@@ -7719,136 +8560,144 @@ class TestCaseFilter {
   /// <code>UNKNOWN</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   TestCaseFilter({
     this.keyword,
     this.status,
   });
-  Map<String, dynamic> toJson() => _$TestCaseFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final keyword = this.keyword;
+    final status = this.status;
+    return {
+      if (keyword != null) 'keyword': keyword,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// Information about a test report.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestReportSummary {
   /// The number of nanoseconds it took to run all of the test cases in this
   /// report.
-  @_s.JsonKey(name: 'durationInNanoSeconds')
   final int durationInNanoSeconds;
 
   /// A map that contains the number of each type of status returned by the test
   /// results in this <code>TestReportSummary</code>.
-  @_s.JsonKey(name: 'statusCounts')
   final Map<String, int> statusCounts;
 
   /// The number of test cases in this <code>TestReportSummary</code>. The total
   /// includes truncated test cases.
-  @_s.JsonKey(name: 'total')
   final int total;
 
   TestReportSummary({
-    @_s.required this.durationInNanoSeconds,
-    @_s.required this.statusCounts,
-    @_s.required this.total,
+    required this.durationInNanoSeconds,
+    required this.statusCounts,
+    required this.total,
   });
-  factory TestReportSummary.fromJson(Map<String, dynamic> json) =>
-      _$TestReportSummaryFromJson(json);
+  factory TestReportSummary.fromJson(Map<String, dynamic> json) {
+    return TestReportSummary(
+      durationInNanoSeconds: json['durationInNanoSeconds'] as int,
+      statusCounts: (json['statusCounts'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as int)),
+      total: json['total'] as int,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProjectOutput {
   /// Information about the build project that was changed.
-  @_s.JsonKey(name: 'project')
-  final Project project;
+  final Project? project;
 
   UpdateProjectOutput({
     this.project,
   });
-  factory UpdateProjectOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProjectOutputFromJson(json);
+  factory UpdateProjectOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProjectOutput(
+      project: json['project'] != null
+          ? Project.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateReportGroupOutput {
   /// Information about the updated report group.
-  @_s.JsonKey(name: 'reportGroup')
-  final ReportGroup reportGroup;
+  final ReportGroup? reportGroup;
 
   UpdateReportGroupOutput({
     this.reportGroup,
   });
-  factory UpdateReportGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateReportGroupOutputFromJson(json);
+  factory UpdateReportGroupOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateReportGroupOutput(
+      reportGroup: json['reportGroup'] != null
+          ? ReportGroup.fromJson(json['reportGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateWebhookOutput {
   /// Information about a repository's webhook that is associated with a project
   /// in AWS CodeBuild.
-  @_s.JsonKey(name: 'webhook')
-  final Webhook webhook;
+  final Webhook? webhook;
 
   UpdateWebhookOutput({
     this.webhook,
   });
-  factory UpdateWebhookOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateWebhookOutputFromJson(json);
+  factory UpdateWebhookOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateWebhookOutput(
+      webhook: json['webhook'] != null
+          ? Webhook.fromJson(json['webhook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Information about the VPC configuration that AWS CodeBuild accesses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VpcConfig {
   /// A list of one or more security groups IDs in your Amazon VPC.
-  @_s.JsonKey(name: 'securityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of one or more subnet IDs in your Amazon VPC.
-  @_s.JsonKey(name: 'subnets')
-  final List<String> subnets;
+  final List<String>? subnets;
 
   /// The ID of the Amazon VPC.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   VpcConfig({
     this.securityGroupIds,
     this.subnets,
     this.vpcId,
   });
-  factory VpcConfig.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigFromJson(json);
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      securityGroupIds: (json['securityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnets: (json['subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VpcConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnets = this.subnets;
+    final vpcId = this.vpcId;
+    return {
+      if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
+      if (subnets != null) 'subnets': subnets,
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
 }
 
 /// Information about a webhook that connects repository events to a build
 /// project in AWS CodeBuild.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Webhook {
   /// A regular expression used to determine which repository branches are built
   /// when a webhook is triggered. If the name of a branch matches the regular
@@ -7858,12 +8707,10 @@ class Webhook {
   /// It is recommended that you use <code>filterGroups</code> instead of
   /// <code>branchFilter</code>.
   /// </note>
-  @_s.JsonKey(name: 'branchFilter')
-  final String branchFilter;
+  final String? branchFilter;
 
   /// Specifies the type of build this webhook will trigger.
-  @_s.JsonKey(name: 'buildType')
-  final WebhookBuildType buildType;
+  final WebhookBuildType? buildType;
 
   /// An array of arrays of <code>WebhookFilter</code> objects used to determine
   /// which webhooks are triggered. At least one <code>WebhookFilter</code> in the
@@ -7872,29 +8719,23 @@ class Webhook {
   /// For a build to be triggered, at least one filter group in the
   /// <code>filterGroups</code> array must pass. For a filter group to pass, each
   /// of its filters must pass.
-  @_s.JsonKey(name: 'filterGroups')
-  final List<List<WebhookFilter>> filterGroups;
+  final List<List<WebhookFilter>>? filterGroups;
 
   /// A timestamp that indicates the last time a repository's secret token was
   /// modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedSecret')
-  final DateTime lastModifiedSecret;
+  final DateTime? lastModifiedSecret;
 
   /// The AWS CodeBuild endpoint where webhook events are sent.
-  @_s.JsonKey(name: 'payloadUrl')
-  final String payloadUrl;
+  final String? payloadUrl;
 
   /// The secret token of the associated repository.
   /// <note>
   /// A Bitbucket webhook does not support <code>secret</code>.
   /// </note>
-  @_s.JsonKey(name: 'secret')
-  final String secret;
+  final String? secret;
 
   /// The URL to the webhook.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   Webhook({
     this.branchFilter,
@@ -7905,14 +8746,27 @@ class Webhook {
     this.secret,
     this.url,
   });
-  factory Webhook.fromJson(Map<String, dynamic> json) =>
-      _$WebhookFromJson(json);
+  factory Webhook.fromJson(Map<String, dynamic> json) {
+    return Webhook(
+      branchFilter: json['branchFilter'] as String?,
+      buildType: (json['buildType'] as String?)?.toWebhookBuildType(),
+      filterGroups: (json['filterGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => WebhookFilter.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+      lastModifiedSecret: timeStampFromJson(json['lastModifiedSecret']),
+      payloadUrl: json['payloadUrl'] as String?,
+      secret: json['secret'] as String?,
+      url: json['url'] as String?,
+    );
+  }
 }
 
 enum WebhookBuildType {
-  @_s.JsonValue('BUILD')
   build,
-  @_s.JsonValue('BUILD_BATCH')
   buildBatch,
 }
 
@@ -7924,16 +8778,22 @@ extension on WebhookBuildType {
       case WebhookBuildType.buildBatch:
         return 'BUILD_BATCH';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WebhookBuildType toWebhookBuildType() {
+    switch (this) {
+      case 'BUILD':
+        return WebhookBuildType.build;
+      case 'BUILD_BATCH':
+        return WebhookBuildType.buildBatch;
+    }
+    throw Exception('$this is not known in enum WebhookBuildType');
   }
 }
 
 /// A filter used to determine which webhooks trigger a build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WebhookFilter {
   /// For a <code>WebHookFilter</code> that uses <code>EVENT</code> type, a
   /// comma-separated string that specifies one or more events. For example, the
@@ -7946,7 +8806,6 @@ class WebhookFilter {
   /// uses <code>HEAD_REF</code> for its <code>type</code> and the pattern
   /// <code>^refs/heads/</code> triggers a build when the head reference is a
   /// branch with a reference name <code>refs/heads/branch-name</code>.
-  @_s.JsonKey(name: 'pattern')
   final String pattern;
 
   /// The type of webhook filter. There are six webhook filter types:
@@ -7995,44 +8854,90 @@ class WebhookFilter {
   /// works with GitHub Enterprise push events, but does not work with GitHub
   /// Enterprise pull request events.
   /// </note> </dd> </dl>
-  @_s.JsonKey(name: 'type')
   final WebhookFilterType type;
 
   /// Used to indicate that the <code>pattern</code> determines which webhook
   /// events do not trigger a build. If true, then a webhook event that does not
   /// match the <code>pattern</code> triggers a build. If false, then a webhook
   /// event that matches the <code>pattern</code> triggers a build.
-  @_s.JsonKey(name: 'excludeMatchedPattern')
-  final bool excludeMatchedPattern;
+  final bool? excludeMatchedPattern;
 
   WebhookFilter({
-    @_s.required this.pattern,
-    @_s.required this.type,
+    required this.pattern,
+    required this.type,
     this.excludeMatchedPattern,
   });
-  factory WebhookFilter.fromJson(Map<String, dynamic> json) =>
-      _$WebhookFilterFromJson(json);
+  factory WebhookFilter.fromJson(Map<String, dynamic> json) {
+    return WebhookFilter(
+      pattern: json['pattern'] as String,
+      type: (json['type'] as String).toWebhookFilterType(),
+      excludeMatchedPattern: json['excludeMatchedPattern'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$WebhookFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final pattern = this.pattern;
+    final type = this.type;
+    final excludeMatchedPattern = this.excludeMatchedPattern;
+    return {
+      'pattern': pattern,
+      'type': type.toValue(),
+      if (excludeMatchedPattern != null)
+        'excludeMatchedPattern': excludeMatchedPattern,
+    };
+  }
 }
 
 enum WebhookFilterType {
-  @_s.JsonValue('EVENT')
   event,
-  @_s.JsonValue('BASE_REF')
   baseRef,
-  @_s.JsonValue('HEAD_REF')
   headRef,
-  @_s.JsonValue('ACTOR_ACCOUNT_ID')
   actorAccountId,
-  @_s.JsonValue('FILE_PATH')
   filePath,
-  @_s.JsonValue('COMMIT_MESSAGE')
   commitMessage,
 }
 
+extension on WebhookFilterType {
+  String toValue() {
+    switch (this) {
+      case WebhookFilterType.event:
+        return 'EVENT';
+      case WebhookFilterType.baseRef:
+        return 'BASE_REF';
+      case WebhookFilterType.headRef:
+        return 'HEAD_REF';
+      case WebhookFilterType.actorAccountId:
+        return 'ACTOR_ACCOUNT_ID';
+      case WebhookFilterType.filePath:
+        return 'FILE_PATH';
+      case WebhookFilterType.commitMessage:
+        return 'COMMIT_MESSAGE';
+    }
+  }
+}
+
+extension on String {
+  WebhookFilterType toWebhookFilterType() {
+    switch (this) {
+      case 'EVENT':
+        return WebhookFilterType.event;
+      case 'BASE_REF':
+        return WebhookFilterType.baseRef;
+      case 'HEAD_REF':
+        return WebhookFilterType.headRef;
+      case 'ACTOR_ACCOUNT_ID':
+        return WebhookFilterType.actorAccountId;
+      case 'FILE_PATH':
+        return WebhookFilterType.filePath;
+      case 'COMMIT_MESSAGE':
+        return WebhookFilterType.commitMessage;
+    }
+    throw Exception('$this is not known in enum WebhookFilterType');
+  }
+}
+
 class AccountLimitExceededException extends _s.GenericAwsException {
-  AccountLimitExceededException({String type, String message})
+  AccountLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountLimitExceededException',
@@ -8040,17 +8945,17 @@ class AccountLimitExceededException extends _s.GenericAwsException {
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class OAuthProviderException extends _s.GenericAwsException {
-  OAuthProviderException({String type, String message})
+  OAuthProviderException({String? type, String? message})
       : super(type: type, code: 'OAuthProviderException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -8058,7 +8963,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

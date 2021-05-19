@@ -36,36 +36,30 @@ AwsCloudMapInstanceAttribute _$AwsCloudMapInstanceAttributeFromJson(
 }
 
 Map<String, dynamic> _$AwsCloudMapInstanceAttributeToJson(
-    AwsCloudMapInstanceAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+        AwsCloudMapInstanceAttribute instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 AwsCloudMapServiceDiscovery _$AwsCloudMapServiceDiscoveryFromJson(
     Map<String, dynamic> json) {
   return AwsCloudMapServiceDiscovery(
     namespaceName: json['namespaceName'] as String,
     serviceName: json['serviceName'] as String,
-    attributes: (json['attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AwsCloudMapInstanceAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['attributes'] as List<dynamic>?)
+        ?.map((e) =>
+            AwsCloudMapInstanceAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$AwsCloudMapServiceDiscoveryToJson(
     AwsCloudMapServiceDiscovery instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'namespaceName': instance.namespaceName,
+    'serviceName': instance.serviceName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -73,10 +67,8 @@ Map<String, dynamic> _$AwsCloudMapServiceDiscoveryToJson(
     }
   }
 
-  writeNotNull('namespaceName', instance.namespaceName);
-  writeNotNull('serviceName', instance.serviceName);
   writeNotNull(
-      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
+      'attributes', instance.attributes?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -146,17 +138,17 @@ Map<String, dynamic> _$ClientPolicyToJson(ClientPolicy instance) {
 
 ClientPolicyTls _$ClientPolicyTlsFromJson(Map<String, dynamic> json) {
   return ClientPolicyTls(
-    validation: json['validation'] == null
-        ? null
-        : TlsValidationContext.fromJson(
-            json['validation'] as Map<String, dynamic>),
-    enforce: json['enforce'] as bool,
-    ports: (json['ports'] as List)?.map((e) => e as int)?.toList(),
+    validation: TlsValidationContext.fromJson(
+        json['validation'] as Map<String, dynamic>),
+    enforce: json['enforce'] as bool?,
+    ports: (json['ports'] as List<dynamic>?)?.map((e) => e as int).toList(),
   );
 }
 
 Map<String, dynamic> _$ClientPolicyTlsToJson(ClientPolicyTls instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'validation': instance.validation.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -164,7 +156,6 @@ Map<String, dynamic> _$ClientPolicyTlsToJson(ClientPolicyTls instance) {
     }
   }
 
-  writeNotNull('validation', instance.validation?.toJson());
   writeNotNull('enforce', instance.enforce);
   writeNotNull('ports', instance.ports);
   return val;
@@ -173,195 +164,156 @@ Map<String, dynamic> _$ClientPolicyTlsToJson(ClientPolicyTls instance) {
 CreateGatewayRouteOutput _$CreateGatewayRouteOutputFromJson(
     Map<String, dynamic> json) {
   return CreateGatewayRouteOutput(
-    gatewayRoute: json['gatewayRoute'] == null
-        ? null
-        : GatewayRouteData.fromJson(
-            json['gatewayRoute'] as Map<String, dynamic>),
+    gatewayRoute:
+        GatewayRouteData.fromJson(json['gatewayRoute'] as Map<String, dynamic>),
   );
 }
 
 CreateMeshOutput _$CreateMeshOutputFromJson(Map<String, dynamic> json) {
   return CreateMeshOutput(
-    mesh: json['mesh'] == null
-        ? null
-        : MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
+    mesh: MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
   );
 }
 
 CreateRouteOutput _$CreateRouteOutputFromJson(Map<String, dynamic> json) {
   return CreateRouteOutput(
-    route: json['route'] == null
-        ? null
-        : RouteData.fromJson(json['route'] as Map<String, dynamic>),
+    route: RouteData.fromJson(json['route'] as Map<String, dynamic>),
   );
 }
 
 CreateVirtualGatewayOutput _$CreateVirtualGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return CreateVirtualGatewayOutput(
-    virtualGateway: json['virtualGateway'] == null
-        ? null
-        : VirtualGatewayData.fromJson(
-            json['virtualGateway'] as Map<String, dynamic>),
+    virtualGateway: VirtualGatewayData.fromJson(
+        json['virtualGateway'] as Map<String, dynamic>),
   );
 }
 
 CreateVirtualNodeOutput _$CreateVirtualNodeOutputFromJson(
     Map<String, dynamic> json) {
   return CreateVirtualNodeOutput(
-    virtualNode: json['virtualNode'] == null
-        ? null
-        : VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
+    virtualNode:
+        VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
   );
 }
 
 CreateVirtualRouterOutput _$CreateVirtualRouterOutputFromJson(
     Map<String, dynamic> json) {
   return CreateVirtualRouterOutput(
-    virtualRouter: json['virtualRouter'] == null
-        ? null
-        : VirtualRouterData.fromJson(
-            json['virtualRouter'] as Map<String, dynamic>),
+    virtualRouter: VirtualRouterData.fromJson(
+        json['virtualRouter'] as Map<String, dynamic>),
   );
 }
 
 CreateVirtualServiceOutput _$CreateVirtualServiceOutputFromJson(
     Map<String, dynamic> json) {
   return CreateVirtualServiceOutput(
-    virtualService: json['virtualService'] == null
-        ? null
-        : VirtualServiceData.fromJson(
-            json['virtualService'] as Map<String, dynamic>),
+    virtualService: VirtualServiceData.fromJson(
+        json['virtualService'] as Map<String, dynamic>),
   );
 }
 
 DeleteGatewayRouteOutput _$DeleteGatewayRouteOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteGatewayRouteOutput(
-    gatewayRoute: json['gatewayRoute'] == null
-        ? null
-        : GatewayRouteData.fromJson(
-            json['gatewayRoute'] as Map<String, dynamic>),
+    gatewayRoute:
+        GatewayRouteData.fromJson(json['gatewayRoute'] as Map<String, dynamic>),
   );
 }
 
 DeleteMeshOutput _$DeleteMeshOutputFromJson(Map<String, dynamic> json) {
   return DeleteMeshOutput(
-    mesh: json['mesh'] == null
-        ? null
-        : MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
+    mesh: MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
   );
 }
 
 DeleteRouteOutput _$DeleteRouteOutputFromJson(Map<String, dynamic> json) {
   return DeleteRouteOutput(
-    route: json['route'] == null
-        ? null
-        : RouteData.fromJson(json['route'] as Map<String, dynamic>),
+    route: RouteData.fromJson(json['route'] as Map<String, dynamic>),
   );
 }
 
 DeleteVirtualGatewayOutput _$DeleteVirtualGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteVirtualGatewayOutput(
-    virtualGateway: json['virtualGateway'] == null
-        ? null
-        : VirtualGatewayData.fromJson(
-            json['virtualGateway'] as Map<String, dynamic>),
+    virtualGateway: VirtualGatewayData.fromJson(
+        json['virtualGateway'] as Map<String, dynamic>),
   );
 }
 
 DeleteVirtualNodeOutput _$DeleteVirtualNodeOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteVirtualNodeOutput(
-    virtualNode: json['virtualNode'] == null
-        ? null
-        : VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
+    virtualNode:
+        VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
   );
 }
 
 DeleteVirtualRouterOutput _$DeleteVirtualRouterOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteVirtualRouterOutput(
-    virtualRouter: json['virtualRouter'] == null
-        ? null
-        : VirtualRouterData.fromJson(
-            json['virtualRouter'] as Map<String, dynamic>),
+    virtualRouter: VirtualRouterData.fromJson(
+        json['virtualRouter'] as Map<String, dynamic>),
   );
 }
 
 DeleteVirtualServiceOutput _$DeleteVirtualServiceOutputFromJson(
     Map<String, dynamic> json) {
   return DeleteVirtualServiceOutput(
-    virtualService: json['virtualService'] == null
-        ? null
-        : VirtualServiceData.fromJson(
-            json['virtualService'] as Map<String, dynamic>),
+    virtualService: VirtualServiceData.fromJson(
+        json['virtualService'] as Map<String, dynamic>),
   );
 }
 
 DescribeGatewayRouteOutput _$DescribeGatewayRouteOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeGatewayRouteOutput(
-    gatewayRoute: json['gatewayRoute'] == null
-        ? null
-        : GatewayRouteData.fromJson(
-            json['gatewayRoute'] as Map<String, dynamic>),
+    gatewayRoute:
+        GatewayRouteData.fromJson(json['gatewayRoute'] as Map<String, dynamic>),
   );
 }
 
 DescribeMeshOutput _$DescribeMeshOutputFromJson(Map<String, dynamic> json) {
   return DescribeMeshOutput(
-    mesh: json['mesh'] == null
-        ? null
-        : MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
+    mesh: MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
   );
 }
 
 DescribeRouteOutput _$DescribeRouteOutputFromJson(Map<String, dynamic> json) {
   return DescribeRouteOutput(
-    route: json['route'] == null
-        ? null
-        : RouteData.fromJson(json['route'] as Map<String, dynamic>),
+    route: RouteData.fromJson(json['route'] as Map<String, dynamic>),
   );
 }
 
 DescribeVirtualGatewayOutput _$DescribeVirtualGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeVirtualGatewayOutput(
-    virtualGateway: json['virtualGateway'] == null
-        ? null
-        : VirtualGatewayData.fromJson(
-            json['virtualGateway'] as Map<String, dynamic>),
+    virtualGateway: VirtualGatewayData.fromJson(
+        json['virtualGateway'] as Map<String, dynamic>),
   );
 }
 
 DescribeVirtualNodeOutput _$DescribeVirtualNodeOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeVirtualNodeOutput(
-    virtualNode: json['virtualNode'] == null
-        ? null
-        : VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
+    virtualNode:
+        VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
   );
 }
 
 DescribeVirtualRouterOutput _$DescribeVirtualRouterOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeVirtualRouterOutput(
-    virtualRouter: json['virtualRouter'] == null
-        ? null
-        : VirtualRouterData.fromJson(
-            json['virtualRouter'] as Map<String, dynamic>),
+    virtualRouter: VirtualRouterData.fromJson(
+        json['virtualRouter'] as Map<String, dynamic>),
   );
 }
 
 DescribeVirtualServiceOutput _$DescribeVirtualServiceOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeVirtualServiceOutput(
-    virtualService: json['virtualService'] == null
-        ? null
-        : VirtualServiceData.fromJson(
-            json['virtualService'] as Map<String, dynamic>),
+    virtualService: VirtualServiceData.fromJson(
+        json['virtualService'] as Map<String, dynamic>),
   );
 }
 
@@ -371,23 +323,16 @@ DnsServiceDiscovery _$DnsServiceDiscoveryFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DnsServiceDiscoveryToJson(DnsServiceDiscovery instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('hostname', instance.hostname);
-  return val;
-}
+Map<String, dynamic> _$DnsServiceDiscoveryToJson(
+        DnsServiceDiscovery instance) =>
+    <String, dynamic>{
+      'hostname': instance.hostname,
+    };
 
 Duration _$DurationFromJson(Map<String, dynamic> json) {
   return Duration(
     unit: _$enumDecodeNullable(_$DurationUnitEnumMap, json['unit']),
-    value: json['value'] as int,
+    value: json['value'] as int?,
   );
 }
 
@@ -405,36 +350,41 @@ Map<String, dynamic> _$DurationToJson(Duration instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DurationUnitEnumMap = {
@@ -444,22 +394,14 @@ const _$DurationUnitEnumMap = {
 
 EgressFilter _$EgressFilterFromJson(Map<String, dynamic> json) {
   return EgressFilter(
-    type: _$enumDecodeNullable(_$EgressFilterTypeEnumMap, json['type']),
+    type: _$enumDecode(_$EgressFilterTypeEnumMap, json['type']),
   );
 }
 
-Map<String, dynamic> _$EgressFilterToJson(EgressFilter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('type', _$EgressFilterTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$EgressFilterToJson(EgressFilter instance) =>
+    <String, dynamic>{
+      'type': _$EgressFilterTypeEnumMap[instance.type],
+    };
 
 const _$EgressFilterTypeEnumMap = {
   EgressFilterType.allowAll: 'ALLOW_ALL',
@@ -472,32 +414,19 @@ FileAccessLog _$FileAccessLogFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FileAccessLogToJson(FileAccessLog instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  return val;
-}
+Map<String, dynamic> _$FileAccessLogToJson(FileAccessLog instance) =>
+    <String, dynamic>{
+      'path': instance.path,
+    };
 
 GatewayRouteData _$GatewayRouteDataFromJson(Map<String, dynamic> json) {
   return GatewayRouteData(
     gatewayRouteName: json['gatewayRouteName'] as String,
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : GatewayRouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : GatewayRouteStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: GatewayRouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status: GatewayRouteStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualGatewayName: json['virtualGatewayName'] as String,
   );
 }
@@ -505,10 +434,9 @@ GatewayRouteData _$GatewayRouteDataFromJson(Map<String, dynamic> json) {
 GatewayRouteRef _$GatewayRouteRefFromJson(Map<String, dynamic> json) {
   return GatewayRouteRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
     gatewayRouteName: json['gatewayRouteName'] as String,
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -548,8 +476,7 @@ Map<String, dynamic> _$GatewayRouteSpecToJson(GatewayRouteSpec instance) {
 
 GatewayRouteStatus _$GatewayRouteStatusFromJson(Map<String, dynamic> json) {
   return GatewayRouteStatus(
-    status:
-        _$enumDecodeNullable(_$GatewayRouteStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$GatewayRouteStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -561,25 +488,15 @@ const _$GatewayRouteStatusCodeEnumMap = {
 
 GatewayRouteTarget _$GatewayRouteTargetFromJson(Map<String, dynamic> json) {
   return GatewayRouteTarget(
-    virtualService: json['virtualService'] == null
-        ? null
-        : GatewayRouteVirtualService.fromJson(
-            json['virtualService'] as Map<String, dynamic>),
+    virtualService: GatewayRouteVirtualService.fromJson(
+        json['virtualService'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$GatewayRouteTargetToJson(GatewayRouteTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('virtualService', instance.virtualService?.toJson());
-  return val;
-}
+Map<String, dynamic> _$GatewayRouteTargetToJson(GatewayRouteTarget instance) =>
+    <String, dynamic>{
+      'virtualService': instance.virtualService.toJson(),
+    };
 
 GatewayRouteVirtualService _$GatewayRouteVirtualServiceFromJson(
     Map<String, dynamic> json) {
@@ -589,72 +506,43 @@ GatewayRouteVirtualService _$GatewayRouteVirtualServiceFromJson(
 }
 
 Map<String, dynamic> _$GatewayRouteVirtualServiceToJson(
-    GatewayRouteVirtualService instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('virtualServiceName', instance.virtualServiceName);
-  return val;
-}
+        GatewayRouteVirtualService instance) =>
+    <String, dynamic>{
+      'virtualServiceName': instance.virtualServiceName,
+    };
 
 GrpcGatewayRoute _$GrpcGatewayRouteFromJson(Map<String, dynamic> json) {
   return GrpcGatewayRoute(
-    action: json['action'] == null
-        ? null
-        : GrpcGatewayRouteAction.fromJson(
-            json['action'] as Map<String, dynamic>),
-    match: json['match'] == null
-        ? null
-        : GrpcGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    action:
+        GrpcGatewayRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+    match:
+        GrpcGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$GrpcGatewayRouteToJson(GrpcGatewayRoute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('action', instance.action?.toJson());
-  writeNotNull('match', instance.match?.toJson());
-  return val;
-}
+Map<String, dynamic> _$GrpcGatewayRouteToJson(GrpcGatewayRoute instance) =>
+    <String, dynamic>{
+      'action': instance.action.toJson(),
+      'match': instance.match.toJson(),
+    };
 
 GrpcGatewayRouteAction _$GrpcGatewayRouteActionFromJson(
     Map<String, dynamic> json) {
   return GrpcGatewayRouteAction(
-    target: json['target'] == null
-        ? null
-        : GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+    target: GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$GrpcGatewayRouteActionToJson(
-    GrpcGatewayRouteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('target', instance.target?.toJson());
-  return val;
-}
+        GrpcGatewayRouteAction instance) =>
+    <String, dynamic>{
+      'target': instance.target.toJson(),
+    };
 
 GrpcGatewayRouteMatch _$GrpcGatewayRouteMatchFromJson(
     Map<String, dynamic> json) {
   return GrpcGatewayRouteMatch(
-    serviceName: json['serviceName'] as String,
+    serviceName: json['serviceName'] as String?,
   );
 }
 
@@ -675,22 +563,25 @@ Map<String, dynamic> _$GrpcGatewayRouteMatchToJson(
 GrpcRetryPolicy _$GrpcRetryPolicyFromJson(Map<String, dynamic> json) {
   return GrpcRetryPolicy(
     maxRetries: json['maxRetries'] as int,
-    perRetryTimeout: json['perRetryTimeout'] == null
-        ? null
-        : Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
-    grpcRetryEvents: (json['grpcRetryEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$GrpcRetryPolicyEventEnumMap, e))
-        ?.toList(),
-    httpRetryEvents:
-        (json['httpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
-    tcpRetryEvents: (json['tcpRetryEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$TcpRetryPolicyEventEnumMap, e))
-        ?.toList(),
+    perRetryTimeout:
+        Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+    grpcRetryEvents: (json['grpcRetryEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$GrpcRetryPolicyEventEnumMap, e))
+        .toList(),
+    httpRetryEvents: (json['httpRetryEvents'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    tcpRetryEvents: (json['tcpRetryEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$TcpRetryPolicyEventEnumMap, e))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$GrpcRetryPolicyToJson(GrpcRetryPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'maxRetries': instance.maxRetries,
+    'perRetryTimeout': instance.perRetryTimeout.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -698,19 +589,17 @@ Map<String, dynamic> _$GrpcRetryPolicyToJson(GrpcRetryPolicy instance) {
     }
   }
 
-  writeNotNull('maxRetries', instance.maxRetries);
-  writeNotNull('perRetryTimeout', instance.perRetryTimeout?.toJson());
   writeNotNull(
       'grpcRetryEvents',
       instance.grpcRetryEvents
           ?.map((e) => _$GrpcRetryPolicyEventEnumMap[e])
-          ?.toList());
+          .toList());
   writeNotNull('httpRetryEvents', instance.httpRetryEvents);
   writeNotNull(
       'tcpRetryEvents',
       instance.tcpRetryEvents
           ?.map((e) => _$TcpRetryPolicyEventEnumMap[e])
-          ?.toList());
+          .toList());
   return val;
 }
 
@@ -728,12 +617,8 @@ const _$TcpRetryPolicyEventEnumMap = {
 
 GrpcRoute _$GrpcRouteFromJson(Map<String, dynamic> json) {
   return GrpcRoute(
-    action: json['action'] == null
-        ? null
-        : GrpcRouteAction.fromJson(json['action'] as Map<String, dynamic>),
-    match: json['match'] == null
-        ? null
-        : GrpcRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    action: GrpcRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+    match: GrpcRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
     retryPolicy: json['retryPolicy'] == null
         ? null
         : GrpcRetryPolicy.fromJson(json['retryPolicy'] as Map<String, dynamic>),
@@ -744,7 +629,10 @@ GrpcRoute _$GrpcRouteFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$GrpcRouteToJson(GrpcRoute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'action': instance.action.toJson(),
+    'match': instance.match.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -752,8 +640,6 @@ Map<String, dynamic> _$GrpcRouteToJson(GrpcRoute instance) {
     }
   }
 
-  writeNotNull('action', instance.action?.toJson());
-  writeNotNull('match', instance.match?.toJson());
   writeNotNull('retryPolicy', instance.retryPolicy?.toJson());
   writeNotNull('timeout', instance.timeout?.toJson());
   return val;
@@ -761,37 +647,25 @@ Map<String, dynamic> _$GrpcRouteToJson(GrpcRoute instance) {
 
 GrpcRouteAction _$GrpcRouteActionFromJson(Map<String, dynamic> json) {
   return GrpcRouteAction(
-    weightedTargets: (json['weightedTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WeightedTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    weightedTargets: (json['weightedTargets'] as List<dynamic>)
+        .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$GrpcRouteActionToJson(GrpcRouteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('weightedTargets',
-      instance.weightedTargets?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$GrpcRouteActionToJson(GrpcRouteAction instance) =>
+    <String, dynamic>{
+      'weightedTargets':
+          instance.weightedTargets.map((e) => e.toJson()).toList(),
+    };
 
 GrpcRouteMatch _$GrpcRouteMatchFromJson(Map<String, dynamic> json) {
   return GrpcRouteMatch(
-    metadata: (json['metadata'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GrpcRouteMetadata.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    methodName: json['methodName'] as String,
-    serviceName: json['serviceName'] as String,
+    metadata: (json['metadata'] as List<dynamic>?)
+        ?.map((e) => GrpcRouteMetadata.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    methodName: json['methodName'] as String?,
+    serviceName: json['serviceName'] as String?,
   );
 }
 
@@ -804,8 +678,7 @@ Map<String, dynamic> _$GrpcRouteMatchToJson(GrpcRouteMatch instance) {
     }
   }
 
-  writeNotNull(
-      'metadata', instance.metadata?.map((e) => e?.toJson())?.toList());
+  writeNotNull('metadata', instance.metadata?.map((e) => e.toJson()).toList());
   writeNotNull('methodName', instance.methodName);
   writeNotNull('serviceName', instance.serviceName);
   return val;
@@ -814,7 +687,7 @@ Map<String, dynamic> _$GrpcRouteMatchToJson(GrpcRouteMatch instance) {
 GrpcRouteMetadata _$GrpcRouteMetadataFromJson(Map<String, dynamic> json) {
   return GrpcRouteMetadata(
     name: json['name'] as String,
-    invert: json['invert'] as bool,
+    invert: json['invert'] as bool?,
     match: json['match'] == null
         ? null
         : GrpcRouteMetadataMatchMethod.fromJson(
@@ -823,7 +696,9 @@ GrpcRouteMetadata _$GrpcRouteMetadataFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$GrpcRouteMetadataToJson(GrpcRouteMetadata instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -831,7 +706,6 @@ Map<String, dynamic> _$GrpcRouteMetadataToJson(GrpcRouteMetadata instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('invert', instance.invert);
   writeNotNull('match', instance.match?.toJson());
   return val;
@@ -840,13 +714,13 @@ Map<String, dynamic> _$GrpcRouteMetadataToJson(GrpcRouteMetadata instance) {
 GrpcRouteMetadataMatchMethod _$GrpcRouteMetadataMatchMethodFromJson(
     Map<String, dynamic> json) {
   return GrpcRouteMetadataMatchMethod(
-    exact: json['exact'] as String,
-    prefix: json['prefix'] as String,
+    exact: json['exact'] as String?,
+    prefix: json['prefix'] as String?,
     range: json['range'] == null
         ? null
         : MatchRange.fromJson(json['range'] as Map<String, dynamic>),
-    regex: json['regex'] as String,
-    suffix: json['suffix'] as String,
+    regex: json['regex'] as String?,
+    suffix: json['suffix'] as String?,
   );
 }
 
@@ -895,13 +769,13 @@ Map<String, dynamic> _$GrpcTimeoutToJson(GrpcTimeout instance) {
 
 HeaderMatchMethod _$HeaderMatchMethodFromJson(Map<String, dynamic> json) {
   return HeaderMatchMethod(
-    exact: json['exact'] as String,
-    prefix: json['prefix'] as String,
+    exact: json['exact'] as String?,
+    prefix: json['prefix'] as String?,
     range: json['range'] == null
         ? null
         : MatchRange.fromJson(json['range'] as Map<String, dynamic>),
-    regex: json['regex'] as String,
-    suffix: json['suffix'] as String,
+    regex: json['regex'] as String?,
+    suffix: json['suffix'] as String?,
   );
 }
 
@@ -926,16 +800,22 @@ HealthCheckPolicy _$HealthCheckPolicyFromJson(Map<String, dynamic> json) {
   return HealthCheckPolicy(
     healthyThreshold: json['healthyThreshold'] as int,
     intervalMillis: json['intervalMillis'] as int,
-    protocol: _$enumDecodeNullable(_$PortProtocolEnumMap, json['protocol']),
+    protocol: _$enumDecode(_$PortProtocolEnumMap, json['protocol']),
     timeoutMillis: json['timeoutMillis'] as int,
     unhealthyThreshold: json['unhealthyThreshold'] as int,
-    path: json['path'] as String,
-    port: json['port'] as int,
+    path: json['path'] as String?,
+    port: json['port'] as int?,
   );
 }
 
 Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'healthyThreshold': instance.healthyThreshold,
+    'intervalMillis': instance.intervalMillis,
+    'protocol': _$PortProtocolEnumMap[instance.protocol],
+    'timeoutMillis': instance.timeoutMillis,
+    'unhealthyThreshold': instance.unhealthyThreshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -943,11 +823,6 @@ Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
     }
   }
 
-  writeNotNull('healthyThreshold', instance.healthyThreshold);
-  writeNotNull('intervalMillis', instance.intervalMillis);
-  writeNotNull('protocol', _$PortProtocolEnumMap[instance.protocol]);
-  writeNotNull('timeoutMillis', instance.timeoutMillis);
-  writeNotNull('unhealthyThreshold', instance.unhealthyThreshold);
   writeNotNull('path', instance.path);
   writeNotNull('port', instance.port);
   return val;
@@ -962,52 +837,31 @@ const _$PortProtocolEnumMap = {
 
 HttpGatewayRoute _$HttpGatewayRouteFromJson(Map<String, dynamic> json) {
   return HttpGatewayRoute(
-    action: json['action'] == null
-        ? null
-        : HttpGatewayRouteAction.fromJson(
-            json['action'] as Map<String, dynamic>),
-    match: json['match'] == null
-        ? null
-        : HttpGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    action:
+        HttpGatewayRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+    match:
+        HttpGatewayRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$HttpGatewayRouteToJson(HttpGatewayRoute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('action', instance.action?.toJson());
-  writeNotNull('match', instance.match?.toJson());
-  return val;
-}
+Map<String, dynamic> _$HttpGatewayRouteToJson(HttpGatewayRoute instance) =>
+    <String, dynamic>{
+      'action': instance.action.toJson(),
+      'match': instance.match.toJson(),
+    };
 
 HttpGatewayRouteAction _$HttpGatewayRouteActionFromJson(
     Map<String, dynamic> json) {
   return HttpGatewayRouteAction(
-    target: json['target'] == null
-        ? null
-        : GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
+    target: GatewayRouteTarget.fromJson(json['target'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$HttpGatewayRouteActionToJson(
-    HttpGatewayRouteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('target', instance.target?.toJson());
-  return val;
-}
+        HttpGatewayRouteAction instance) =>
+    <String, dynamic>{
+      'target': instance.target.toJson(),
+    };
 
 HttpGatewayRouteMatch _$HttpGatewayRouteMatchFromJson(
     Map<String, dynamic> json) {
@@ -1017,35 +871,30 @@ HttpGatewayRouteMatch _$HttpGatewayRouteMatchFromJson(
 }
 
 Map<String, dynamic> _$HttpGatewayRouteMatchToJson(
-    HttpGatewayRouteMatch instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('prefix', instance.prefix);
-  return val;
-}
+        HttpGatewayRouteMatch instance) =>
+    <String, dynamic>{
+      'prefix': instance.prefix,
+    };
 
 HttpRetryPolicy _$HttpRetryPolicyFromJson(Map<String, dynamic> json) {
   return HttpRetryPolicy(
     maxRetries: json['maxRetries'] as int,
-    perRetryTimeout: json['perRetryTimeout'] == null
-        ? null
-        : Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
-    httpRetryEvents:
-        (json['httpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
-    tcpRetryEvents: (json['tcpRetryEvents'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$TcpRetryPolicyEventEnumMap, e))
-        ?.toList(),
+    perRetryTimeout:
+        Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
+    httpRetryEvents: (json['httpRetryEvents'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    tcpRetryEvents: (json['tcpRetryEvents'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$TcpRetryPolicyEventEnumMap, e))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$HttpRetryPolicyToJson(HttpRetryPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'maxRetries': instance.maxRetries,
+    'perRetryTimeout': instance.perRetryTimeout.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1053,25 +902,19 @@ Map<String, dynamic> _$HttpRetryPolicyToJson(HttpRetryPolicy instance) {
     }
   }
 
-  writeNotNull('maxRetries', instance.maxRetries);
-  writeNotNull('perRetryTimeout', instance.perRetryTimeout?.toJson());
   writeNotNull('httpRetryEvents', instance.httpRetryEvents);
   writeNotNull(
       'tcpRetryEvents',
       instance.tcpRetryEvents
           ?.map((e) => _$TcpRetryPolicyEventEnumMap[e])
-          ?.toList());
+          .toList());
   return val;
 }
 
 HttpRoute _$HttpRouteFromJson(Map<String, dynamic> json) {
   return HttpRoute(
-    action: json['action'] == null
-        ? null
-        : HttpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
-    match: json['match'] == null
-        ? null
-        : HttpRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
+    action: HttpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+    match: HttpRouteMatch.fromJson(json['match'] as Map<String, dynamic>),
     retryPolicy: json['retryPolicy'] == null
         ? null
         : HttpRetryPolicy.fromJson(json['retryPolicy'] as Map<String, dynamic>),
@@ -1082,7 +925,10 @@ HttpRoute _$HttpRouteFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$HttpRouteToJson(HttpRoute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'action': instance.action.toJson(),
+    'match': instance.match.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1090,8 +936,6 @@ Map<String, dynamic> _$HttpRouteToJson(HttpRoute instance) {
     }
   }
 
-  writeNotNull('action', instance.action?.toJson());
-  writeNotNull('match', instance.match?.toJson());
   writeNotNull('retryPolicy', instance.retryPolicy?.toJson());
   writeNotNull('timeout', instance.timeout?.toJson());
   return val;
@@ -1099,32 +943,22 @@ Map<String, dynamic> _$HttpRouteToJson(HttpRoute instance) {
 
 HttpRouteAction _$HttpRouteActionFromJson(Map<String, dynamic> json) {
   return HttpRouteAction(
-    weightedTargets: (json['weightedTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WeightedTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    weightedTargets: (json['weightedTargets'] as List<dynamic>)
+        .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$HttpRouteActionToJson(HttpRouteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('weightedTargets',
-      instance.weightedTargets?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$HttpRouteActionToJson(HttpRouteAction instance) =>
+    <String, dynamic>{
+      'weightedTargets':
+          instance.weightedTargets.map((e) => e.toJson()).toList(),
+    };
 
 HttpRouteHeader _$HttpRouteHeaderFromJson(Map<String, dynamic> json) {
   return HttpRouteHeader(
     name: json['name'] as String,
-    invert: json['invert'] as bool,
+    invert: json['invert'] as bool?,
     match: json['match'] == null
         ? null
         : HeaderMatchMethod.fromJson(json['match'] as Map<String, dynamic>),
@@ -1132,7 +966,9 @@ HttpRouteHeader _$HttpRouteHeaderFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$HttpRouteHeaderToJson(HttpRouteHeader instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1140,7 +976,6 @@ Map<String, dynamic> _$HttpRouteHeaderToJson(HttpRouteHeader instance) {
     }
   }
 
-  writeNotNull('name', instance.name);
   writeNotNull('invert', instance.invert);
   writeNotNull('match', instance.match?.toJson());
   return val;
@@ -1149,18 +984,18 @@ Map<String, dynamic> _$HttpRouteHeaderToJson(HttpRouteHeader instance) {
 HttpRouteMatch _$HttpRouteMatchFromJson(Map<String, dynamic> json) {
   return HttpRouteMatch(
     prefix: json['prefix'] as String,
-    headers: (json['headers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HttpRouteHeader.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    headers: (json['headers'] as List<dynamic>?)
+        ?.map((e) => HttpRouteHeader.fromJson(e as Map<String, dynamic>))
+        .toList(),
     method: _$enumDecodeNullable(_$HttpMethodEnumMap, json['method']),
     scheme: _$enumDecodeNullable(_$HttpSchemeEnumMap, json['scheme']),
   );
 }
 
 Map<String, dynamic> _$HttpRouteMatchToJson(HttpRouteMatch instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'prefix': instance.prefix,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1168,8 +1003,7 @@ Map<String, dynamic> _$HttpRouteMatchToJson(HttpRouteMatch instance) {
     }
   }
 
-  writeNotNull('prefix', instance.prefix);
-  writeNotNull('headers', instance.headers?.map((e) => e?.toJson())?.toList());
+  writeNotNull('headers', instance.headers?.map((e) => e.toJson()).toList());
   writeNotNull('method', _$HttpMethodEnumMap[instance.method]);
   writeNotNull('scheme', _$HttpSchemeEnumMap[instance.scheme]);
   return val;
@@ -1220,99 +1054,85 @@ Map<String, dynamic> _$HttpTimeoutToJson(HttpTimeout instance) {
 ListGatewayRoutesOutput _$ListGatewayRoutesOutputFromJson(
     Map<String, dynamic> json) {
   return ListGatewayRoutesOutput(
-    gatewayRoutes: (json['gatewayRoutes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : GatewayRouteRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    gatewayRoutes: (json['gatewayRoutes'] as List<dynamic>)
+        .map((e) => GatewayRouteRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListMeshesOutput _$ListMeshesOutputFromJson(Map<String, dynamic> json) {
   return ListMeshesOutput(
-    meshes: (json['meshes'] as List)
-        ?.map((e) =>
-            e == null ? null : MeshRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    meshes: (json['meshes'] as List<dynamic>)
+        .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListRoutesOutput _$ListRoutesOutputFromJson(Map<String, dynamic> json) {
   return ListRoutesOutput(
-    routes: (json['routes'] as List)
-        ?.map((e) =>
-            e == null ? null : RouteRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    routes: (json['routes'] as List<dynamic>)
+        .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    tags: (json['tags'] as List)
-        ?.map((e) =>
-            e == null ? null : TagRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    tags: (json['tags'] as List<dynamic>)
+        .map((e) => TagRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListVirtualGatewaysOutput _$ListVirtualGatewaysOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualGatewaysOutput(
-    virtualGateways: (json['virtualGateways'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualGatewayRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualGateways: (json['virtualGateways'] as List<dynamic>)
+        .map((e) => VirtualGatewayRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListVirtualNodesOutput _$ListVirtualNodesOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualNodesOutput(
-    virtualNodes: (json['virtualNodes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualNodeRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualNodes: (json['virtualNodes'] as List<dynamic>)
+        .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListVirtualRoutersOutput _$ListVirtualRoutersOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualRoutersOutput(
-    virtualRouters: (json['virtualRouters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualRouterRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualRouters: (json['virtualRouters'] as List<dynamic>)
+        .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListVirtualServicesOutput _$ListVirtualServicesOutputFromJson(
     Map<String, dynamic> json) {
   return ListVirtualServicesOutput(
-    virtualServices: (json['virtualServices'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualServiceRef.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    virtualServices: (json['virtualServices'] as List<dynamic>)
+        .map((e) => VirtualServiceRef.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 Listener _$ListenerFromJson(Map<String, dynamic> json) {
   return Listener(
-    portMapping: json['portMapping'] == null
-        ? null
-        : PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+    portMapping:
+        PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
     connectionPool: json['connectionPool'] == null
         ? null
         : VirtualNodeConnectionPool.fromJson(
@@ -1335,7 +1155,9 @@ Listener _$ListenerFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ListenerToJson(Listener instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'portMapping': instance.portMapping.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1343,7 +1165,6 @@ Map<String, dynamic> _$ListenerToJson(Listener instance) {
     }
   }
 
-  writeNotNull('portMapping', instance.portMapping?.toJson());
   writeNotNull('connectionPool', instance.connectionPool?.toJson());
   writeNotNull('healthCheck', instance.healthCheck?.toJson());
   writeNotNull('outlierDetection', instance.outlierDetection?.toJson());
@@ -1387,27 +1208,17 @@ Map<String, dynamic> _$ListenerTimeoutToJson(ListenerTimeout instance) {
 
 ListenerTls _$ListenerTlsFromJson(Map<String, dynamic> json) {
   return ListenerTls(
-    certificate: json['certificate'] == null
-        ? null
-        : ListenerTlsCertificate.fromJson(
-            json['certificate'] as Map<String, dynamic>),
-    mode: _$enumDecodeNullable(_$ListenerTlsModeEnumMap, json['mode']),
+    certificate: ListenerTlsCertificate.fromJson(
+        json['certificate'] as Map<String, dynamic>),
+    mode: _$enumDecode(_$ListenerTlsModeEnumMap, json['mode']),
   );
 }
 
-Map<String, dynamic> _$ListenerTlsToJson(ListenerTls instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificate', instance.certificate?.toJson());
-  writeNotNull('mode', _$ListenerTlsModeEnumMap[instance.mode]);
-  return val;
-}
+Map<String, dynamic> _$ListenerTlsToJson(ListenerTls instance) =>
+    <String, dynamic>{
+      'certificate': instance.certificate.toJson(),
+      'mode': _$ListenerTlsModeEnumMap[instance.mode],
+    };
 
 const _$ListenerTlsModeEnumMap = {
   ListenerTlsMode.strict: 'STRICT',
@@ -1423,18 +1234,10 @@ ListenerTlsAcmCertificate _$ListenerTlsAcmCertificateFromJson(
 }
 
 Map<String, dynamic> _$ListenerTlsAcmCertificateToJson(
-    ListenerTlsAcmCertificate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateArn', instance.certificateArn);
-  return val;
-}
+        ListenerTlsAcmCertificate instance) =>
+    <String, dynamic>{
+      'certificateArn': instance.certificateArn,
+    };
 
 ListenerTlsCertificate _$ListenerTlsCertificateFromJson(
     Map<String, dynamic> json) {
@@ -1474,19 +1277,11 @@ ListenerTlsFileCertificate _$ListenerTlsFileCertificateFromJson(
 }
 
 Map<String, dynamic> _$ListenerTlsFileCertificateToJson(
-    ListenerTlsFileCertificate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateChain', instance.certificateChain);
-  writeNotNull('privateKey', instance.privateKey);
-  return val;
-}
+        ListenerTlsFileCertificate instance) =>
+    <String, dynamic>{
+      'certificateChain': instance.certificateChain,
+      'privateKey': instance.privateKey,
+    };
 
 Logging _$LoggingFromJson(Map<String, dynamic> json) {
   return Logging(
@@ -1516,41 +1311,27 @@ MatchRange _$MatchRangeFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MatchRangeToJson(MatchRange instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('end', instance.end);
-  writeNotNull('start', instance.start);
-  return val;
-}
+Map<String, dynamic> _$MatchRangeToJson(MatchRange instance) =>
+    <String, dynamic>{
+      'end': instance.end,
+      'start': instance.start,
+    };
 
 MeshData _$MeshDataFromJson(Map<String, dynamic> json) {
   return MeshData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : MeshSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: MeshSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status: MeshStatus.fromJson(json['status'] as Map<String, dynamic>),
   );
 }
 
 MeshRef _$MeshRefFromJson(Map<String, dynamic> json) {
   return MeshRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -1593,61 +1374,40 @@ const _$MeshStatusCodeEnumMap = {
 
 OutlierDetection _$OutlierDetectionFromJson(Map<String, dynamic> json) {
   return OutlierDetection(
-    baseEjectionDuration: json['baseEjectionDuration'] == null
-        ? null
-        : Duration.fromJson(
-            json['baseEjectionDuration'] as Map<String, dynamic>),
-    interval: json['interval'] == null
-        ? null
-        : Duration.fromJson(json['interval'] as Map<String, dynamic>),
+    baseEjectionDuration:
+        Duration.fromJson(json['baseEjectionDuration'] as Map<String, dynamic>),
+    interval: Duration.fromJson(json['interval'] as Map<String, dynamic>),
     maxEjectionPercent: json['maxEjectionPercent'] as int,
     maxServerErrors: json['maxServerErrors'] as int,
   );
 }
 
-Map<String, dynamic> _$OutlierDetectionToJson(OutlierDetection instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('baseEjectionDuration', instance.baseEjectionDuration?.toJson());
-  writeNotNull('interval', instance.interval?.toJson());
-  writeNotNull('maxEjectionPercent', instance.maxEjectionPercent);
-  writeNotNull('maxServerErrors', instance.maxServerErrors);
-  return val;
-}
+Map<String, dynamic> _$OutlierDetectionToJson(OutlierDetection instance) =>
+    <String, dynamic>{
+      'baseEjectionDuration': instance.baseEjectionDuration.toJson(),
+      'interval': instance.interval.toJson(),
+      'maxEjectionPercent': instance.maxEjectionPercent,
+      'maxServerErrors': instance.maxServerErrors,
+    };
 
 PortMapping _$PortMappingFromJson(Map<String, dynamic> json) {
   return PortMapping(
     port: json['port'] as int,
-    protocol: _$enumDecodeNullable(_$PortProtocolEnumMap, json['protocol']),
+    protocol: _$enumDecode(_$PortProtocolEnumMap, json['protocol']),
   );
 }
 
-Map<String, dynamic> _$PortMappingToJson(PortMapping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('port', instance.port);
-  writeNotNull('protocol', _$PortProtocolEnumMap[instance.protocol]);
-  return val;
-}
+Map<String, dynamic> _$PortMappingToJson(PortMapping instance) =>
+    <String, dynamic>{
+      'port': instance.port,
+      'protocol': _$PortProtocolEnumMap[instance.protocol],
+    };
 
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
     uid: json['uid'] as String,
@@ -1658,16 +1418,11 @@ ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
 RouteData _$RouteDataFromJson(Map<String, dynamic> json) {
   return RouteData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
     routeName: json['routeName'] as String,
-    spec: json['spec'] == null
-        ? null
-        : RouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : RouteStatus.fromJson(json['status'] as Map<String, dynamic>),
+    spec: RouteSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status: RouteStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualRouterName: json['virtualRouterName'] as String,
   );
 }
@@ -1675,9 +1430,8 @@ RouteData _$RouteDataFromJson(Map<String, dynamic> json) {
 RouteRef _$RouteRefFromJson(Map<String, dynamic> json) {
   return RouteRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -1698,7 +1452,7 @@ RouteSpec _$RouteSpecFromJson(Map<String, dynamic> json) {
     httpRoute: json['httpRoute'] == null
         ? null
         : HttpRoute.fromJson(json['httpRoute'] as Map<String, dynamic>),
-    priority: json['priority'] as int,
+    priority: json['priority'] as int?,
     tcpRoute: json['tcpRoute'] == null
         ? null
         : TcpRoute.fromJson(json['tcpRoute'] as Map<String, dynamic>),
@@ -1724,7 +1478,7 @@ Map<String, dynamic> _$RouteSpecToJson(RouteSpec instance) {
 
 RouteStatus _$RouteStatusFromJson(Map<String, dynamic> json) {
   return RouteStatus(
-    status: _$enumDecodeNullable(_$RouteStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$RouteStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -1767,19 +1521,10 @@ TagRef _$TagRefFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagRefToJson(TagRef instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagRefToJson(TagRef instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
   return TagResourceOutput();
@@ -1787,9 +1532,7 @@ TagResourceOutput _$TagResourceOutputFromJson(Map<String, dynamic> json) {
 
 TcpRoute _$TcpRouteFromJson(Map<String, dynamic> json) {
   return TcpRoute(
-    action: json['action'] == null
-        ? null
-        : TcpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
+    action: TcpRouteAction.fromJson(json['action'] as Map<String, dynamic>),
     timeout: json['timeout'] == null
         ? null
         : TcpTimeout.fromJson(json['timeout'] as Map<String, dynamic>),
@@ -1797,7 +1540,9 @@ TcpRoute _$TcpRouteFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TcpRouteToJson(TcpRoute instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'action': instance.action.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1805,34 +1550,23 @@ Map<String, dynamic> _$TcpRouteToJson(TcpRoute instance) {
     }
   }
 
-  writeNotNull('action', instance.action?.toJson());
   writeNotNull('timeout', instance.timeout?.toJson());
   return val;
 }
 
 TcpRouteAction _$TcpRouteActionFromJson(Map<String, dynamic> json) {
   return TcpRouteAction(
-    weightedTargets: (json['weightedTargets'] as List)
-        ?.map((e) => e == null
-            ? null
-            : WeightedTarget.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    weightedTargets: (json['weightedTargets'] as List<dynamic>)
+        .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$TcpRouteActionToJson(TcpRouteAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('weightedTargets',
-      instance.weightedTargets?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$TcpRouteActionToJson(TcpRouteAction instance) =>
+    <String, dynamic>{
+      'weightedTargets':
+          instance.weightedTargets.map((e) => e.toJson()).toList(),
+    };
 
 TcpTimeout _$TcpTimeoutFromJson(Map<String, dynamic> json) {
   return TcpTimeout(
@@ -1857,49 +1591,32 @@ Map<String, dynamic> _$TcpTimeoutToJson(TcpTimeout instance) {
 
 TlsValidationContext _$TlsValidationContextFromJson(Map<String, dynamic> json) {
   return TlsValidationContext(
-    trust: json['trust'] == null
-        ? null
-        : TlsValidationContextTrust.fromJson(
-            json['trust'] as Map<String, dynamic>),
+    trust: TlsValidationContextTrust.fromJson(
+        json['trust'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$TlsValidationContextToJson(
-    TlsValidationContext instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trust', instance.trust?.toJson());
-  return val;
-}
+        TlsValidationContext instance) =>
+    <String, dynamic>{
+      'trust': instance.trust.toJson(),
+    };
 
 TlsValidationContextAcmTrust _$TlsValidationContextAcmTrustFromJson(
     Map<String, dynamic> json) {
   return TlsValidationContextAcmTrust(
-    certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    certificateAuthorityArns:
+        (json['certificateAuthorityArns'] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$TlsValidationContextAcmTrustToJson(
-    TlsValidationContextAcmTrust instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateAuthorityArns', instance.certificateAuthorityArns);
-  return val;
-}
+        TlsValidationContextAcmTrust instance) =>
+    <String, dynamic>{
+      'certificateAuthorityArns': instance.certificateAuthorityArns,
+    };
 
 TlsValidationContextFileTrust _$TlsValidationContextFileTrustFromJson(
     Map<String, dynamic> json) {
@@ -1909,18 +1626,10 @@ TlsValidationContextFileTrust _$TlsValidationContextFileTrustFromJson(
 }
 
 Map<String, dynamic> _$TlsValidationContextFileTrustToJson(
-    TlsValidationContextFileTrust instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateChain', instance.certificateChain);
-  return val;
-}
+        TlsValidationContextFileTrust instance) =>
+    <String, dynamic>{
+      'certificateChain': instance.certificateChain,
+    };
 
 TlsValidationContextTrust _$TlsValidationContextTrustFromJson(
     Map<String, dynamic> json) {
@@ -1958,65 +1667,52 @@ UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
 UpdateGatewayRouteOutput _$UpdateGatewayRouteOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateGatewayRouteOutput(
-    gatewayRoute: json['gatewayRoute'] == null
-        ? null
-        : GatewayRouteData.fromJson(
-            json['gatewayRoute'] as Map<String, dynamic>),
+    gatewayRoute:
+        GatewayRouteData.fromJson(json['gatewayRoute'] as Map<String, dynamic>),
   );
 }
 
 UpdateMeshOutput _$UpdateMeshOutputFromJson(Map<String, dynamic> json) {
   return UpdateMeshOutput(
-    mesh: json['mesh'] == null
-        ? null
-        : MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
+    mesh: MeshData.fromJson(json['mesh'] as Map<String, dynamic>),
   );
 }
 
 UpdateRouteOutput _$UpdateRouteOutputFromJson(Map<String, dynamic> json) {
   return UpdateRouteOutput(
-    route: json['route'] == null
-        ? null
-        : RouteData.fromJson(json['route'] as Map<String, dynamic>),
+    route: RouteData.fromJson(json['route'] as Map<String, dynamic>),
   );
 }
 
 UpdateVirtualGatewayOutput _$UpdateVirtualGatewayOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateVirtualGatewayOutput(
-    virtualGateway: json['virtualGateway'] == null
-        ? null
-        : VirtualGatewayData.fromJson(
-            json['virtualGateway'] as Map<String, dynamic>),
+    virtualGateway: VirtualGatewayData.fromJson(
+        json['virtualGateway'] as Map<String, dynamic>),
   );
 }
 
 UpdateVirtualNodeOutput _$UpdateVirtualNodeOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateVirtualNodeOutput(
-    virtualNode: json['virtualNode'] == null
-        ? null
-        : VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
+    virtualNode:
+        VirtualNodeData.fromJson(json['virtualNode'] as Map<String, dynamic>),
   );
 }
 
 UpdateVirtualRouterOutput _$UpdateVirtualRouterOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateVirtualRouterOutput(
-    virtualRouter: json['virtualRouter'] == null
-        ? null
-        : VirtualRouterData.fromJson(
-            json['virtualRouter'] as Map<String, dynamic>),
+    virtualRouter: VirtualRouterData.fromJson(
+        json['virtualRouter'] as Map<String, dynamic>),
   );
 }
 
 UpdateVirtualServiceOutput _$UpdateVirtualServiceOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateVirtualServiceOutput(
-    virtualService: json['virtualService'] == null
-        ? null
-        : VirtualServiceData.fromJson(
-            json['virtualService'] as Map<String, dynamic>),
+    virtualService: VirtualServiceData.fromJson(
+        json['virtualService'] as Map<String, dynamic>),
   );
 }
 
@@ -2095,18 +1791,18 @@ Map<String, dynamic> _$VirtualGatewayClientPolicyToJson(
 VirtualGatewayClientPolicyTls _$VirtualGatewayClientPolicyTlsFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayClientPolicyTls(
-    validation: json['validation'] == null
-        ? null
-        : VirtualGatewayTlsValidationContext.fromJson(
-            json['validation'] as Map<String, dynamic>),
-    enforce: json['enforce'] as bool,
-    ports: (json['ports'] as List)?.map((e) => e as int)?.toList(),
+    validation: VirtualGatewayTlsValidationContext.fromJson(
+        json['validation'] as Map<String, dynamic>),
+    enforce: json['enforce'] as bool?,
+    ports: (json['ports'] as List<dynamic>?)?.map((e) => e as int).toList(),
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayClientPolicyTlsToJson(
     VirtualGatewayClientPolicyTls instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'validation': instance.validation.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2114,7 +1810,6 @@ Map<String, dynamic> _$VirtualGatewayClientPolicyTlsToJson(
     }
   }
 
-  writeNotNull('validation', instance.validation?.toJson());
   writeNotNull('enforce', instance.enforce);
   writeNotNull('ports', instance.ports);
   return val;
@@ -2157,15 +1852,11 @@ Map<String, dynamic> _$VirtualGatewayConnectionPoolToJson(
 VirtualGatewayData _$VirtualGatewayDataFromJson(Map<String, dynamic> json) {
   return VirtualGatewayData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : VirtualGatewaySpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : VirtualGatewayStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: VirtualGatewaySpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status:
+        VirtualGatewayStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualGatewayName: json['virtualGatewayName'] as String,
   );
 }
@@ -2178,18 +1869,10 @@ VirtualGatewayFileAccessLog _$VirtualGatewayFileAccessLogFromJson(
 }
 
 Map<String, dynamic> _$VirtualGatewayFileAccessLogToJson(
-    VirtualGatewayFileAccessLog instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('path', instance.path);
-  return val;
-}
+        VirtualGatewayFileAccessLog instance) =>
+    <String, dynamic>{
+      'path': instance.path,
+    };
 
 VirtualGatewayGrpcConnectionPool _$VirtualGatewayGrpcConnectionPoolFromJson(
     Map<String, dynamic> json) {
@@ -2199,36 +1882,34 @@ VirtualGatewayGrpcConnectionPool _$VirtualGatewayGrpcConnectionPoolFromJson(
 }
 
 Map<String, dynamic> _$VirtualGatewayGrpcConnectionPoolToJson(
-    VirtualGatewayGrpcConnectionPool instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maxRequests', instance.maxRequests);
-  return val;
-}
+        VirtualGatewayGrpcConnectionPool instance) =>
+    <String, dynamic>{
+      'maxRequests': instance.maxRequests,
+    };
 
 VirtualGatewayHealthCheckPolicy _$VirtualGatewayHealthCheckPolicyFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayHealthCheckPolicy(
     healthyThreshold: json['healthyThreshold'] as int,
     intervalMillis: json['intervalMillis'] as int,
-    protocol: _$enumDecodeNullable(
-        _$VirtualGatewayPortProtocolEnumMap, json['protocol']),
+    protocol:
+        _$enumDecode(_$VirtualGatewayPortProtocolEnumMap, json['protocol']),
     timeoutMillis: json['timeoutMillis'] as int,
     unhealthyThreshold: json['unhealthyThreshold'] as int,
-    path: json['path'] as String,
-    port: json['port'] as int,
+    path: json['path'] as String?,
+    port: json['port'] as int?,
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayHealthCheckPolicyToJson(
     VirtualGatewayHealthCheckPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'healthyThreshold': instance.healthyThreshold,
+    'intervalMillis': instance.intervalMillis,
+    'protocol': _$VirtualGatewayPortProtocolEnumMap[instance.protocol],
+    'timeoutMillis': instance.timeoutMillis,
+    'unhealthyThreshold': instance.unhealthyThreshold,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2236,12 +1917,6 @@ Map<String, dynamic> _$VirtualGatewayHealthCheckPolicyToJson(
     }
   }
 
-  writeNotNull('healthyThreshold', instance.healthyThreshold);
-  writeNotNull('intervalMillis', instance.intervalMillis);
-  writeNotNull(
-      'protocol', _$VirtualGatewayPortProtocolEnumMap[instance.protocol]);
-  writeNotNull('timeoutMillis', instance.timeoutMillis);
-  writeNotNull('unhealthyThreshold', instance.unhealthyThreshold);
   writeNotNull('path', instance.path);
   writeNotNull('port', instance.port);
   return val;
@@ -2261,30 +1936,24 @@ VirtualGatewayHttp2ConnectionPool _$VirtualGatewayHttp2ConnectionPoolFromJson(
 }
 
 Map<String, dynamic> _$VirtualGatewayHttp2ConnectionPoolToJson(
-    VirtualGatewayHttp2ConnectionPool instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maxRequests', instance.maxRequests);
-  return val;
-}
+        VirtualGatewayHttp2ConnectionPool instance) =>
+    <String, dynamic>{
+      'maxRequests': instance.maxRequests,
+    };
 
 VirtualGatewayHttpConnectionPool _$VirtualGatewayHttpConnectionPoolFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayHttpConnectionPool(
     maxConnections: json['maxConnections'] as int,
-    maxPendingRequests: json['maxPendingRequests'] as int,
+    maxPendingRequests: json['maxPendingRequests'] as int?,
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayHttpConnectionPoolToJson(
     VirtualGatewayHttpConnectionPool instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'maxConnections': instance.maxConnections,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2292,7 +1961,6 @@ Map<String, dynamic> _$VirtualGatewayHttpConnectionPoolToJson(
     }
   }
 
-  writeNotNull('maxConnections', instance.maxConnections);
   writeNotNull('maxPendingRequests', instance.maxPendingRequests);
   return val;
 }
@@ -2300,10 +1968,8 @@ Map<String, dynamic> _$VirtualGatewayHttpConnectionPoolToJson(
 VirtualGatewayListener _$VirtualGatewayListenerFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayListener(
-    portMapping: json['portMapping'] == null
-        ? null
-        : VirtualGatewayPortMapping.fromJson(
-            json['portMapping'] as Map<String, dynamic>),
+    portMapping: VirtualGatewayPortMapping.fromJson(
+        json['portMapping'] as Map<String, dynamic>),
     connectionPool: json['connectionPool'] == null
         ? null
         : VirtualGatewayConnectionPool.fromJson(
@@ -2321,7 +1987,9 @@ VirtualGatewayListener _$VirtualGatewayListenerFromJson(
 
 Map<String, dynamic> _$VirtualGatewayListenerToJson(
     VirtualGatewayListener instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'portMapping': instance.portMapping.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2329,7 +1997,6 @@ Map<String, dynamic> _$VirtualGatewayListenerToJson(
     }
   }
 
-  writeNotNull('portMapping', instance.portMapping?.toJson());
   writeNotNull('connectionPool', instance.connectionPool?.toJson());
   writeNotNull('healthCheck', instance.healthCheck?.toJson());
   writeNotNull('tls', instance.tls?.toJson());
@@ -2339,29 +2006,18 @@ Map<String, dynamic> _$VirtualGatewayListenerToJson(
 VirtualGatewayListenerTls _$VirtualGatewayListenerTlsFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayListenerTls(
-    certificate: json['certificate'] == null
-        ? null
-        : VirtualGatewayListenerTlsCertificate.fromJson(
-            json['certificate'] as Map<String, dynamic>),
-    mode: _$enumDecodeNullable(
-        _$VirtualGatewayListenerTlsModeEnumMap, json['mode']),
+    certificate: VirtualGatewayListenerTlsCertificate.fromJson(
+        json['certificate'] as Map<String, dynamic>),
+    mode: _$enumDecode(_$VirtualGatewayListenerTlsModeEnumMap, json['mode']),
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayListenerTlsToJson(
-    VirtualGatewayListenerTls instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificate', instance.certificate?.toJson());
-  writeNotNull('mode', _$VirtualGatewayListenerTlsModeEnumMap[instance.mode]);
-  return val;
-}
+        VirtualGatewayListenerTls instance) =>
+    <String, dynamic>{
+      'certificate': instance.certificate.toJson(),
+      'mode': _$VirtualGatewayListenerTlsModeEnumMap[instance.mode],
+    };
 
 const _$VirtualGatewayListenerTlsModeEnumMap = {
   VirtualGatewayListenerTlsMode.strict: 'STRICT',
@@ -2378,18 +2034,10 @@ VirtualGatewayListenerTlsAcmCertificate
 }
 
 Map<String, dynamic> _$VirtualGatewayListenerTlsAcmCertificateToJson(
-    VirtualGatewayListenerTlsAcmCertificate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateArn', instance.certificateArn);
-  return val;
-}
+        VirtualGatewayListenerTlsAcmCertificate instance) =>
+    <String, dynamic>{
+      'certificateArn': instance.certificateArn,
+    };
 
 VirtualGatewayListenerTlsCertificate
     _$VirtualGatewayListenerTlsCertificateFromJson(Map<String, dynamic> json) {
@@ -2430,19 +2078,11 @@ VirtualGatewayListenerTlsFileCertificate
 }
 
 Map<String, dynamic> _$VirtualGatewayListenerTlsFileCertificateToJson(
-    VirtualGatewayListenerTlsFileCertificate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateChain', instance.certificateChain);
-  writeNotNull('privateKey', instance.privateKey);
-  return val;
-}
+        VirtualGatewayListenerTlsFileCertificate instance) =>
+    <String, dynamic>{
+      'certificateChain': instance.certificateChain,
+      'privateKey': instance.privateKey,
+    };
 
 VirtualGatewayLogging _$VirtualGatewayLoggingFromJson(
     Map<String, dynamic> json) {
@@ -2472,33 +2112,23 @@ VirtualGatewayPortMapping _$VirtualGatewayPortMappingFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayPortMapping(
     port: json['port'] as int,
-    protocol: _$enumDecodeNullable(
-        _$VirtualGatewayPortProtocolEnumMap, json['protocol']),
+    protocol:
+        _$enumDecode(_$VirtualGatewayPortProtocolEnumMap, json['protocol']),
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayPortMappingToJson(
-    VirtualGatewayPortMapping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('port', instance.port);
-  writeNotNull(
-      'protocol', _$VirtualGatewayPortProtocolEnumMap[instance.protocol]);
-  return val;
-}
+        VirtualGatewayPortMapping instance) =>
+    <String, dynamic>{
+      'port': instance.port,
+      'protocol': _$VirtualGatewayPortProtocolEnumMap[instance.protocol],
+    };
 
 VirtualGatewayRef _$VirtualGatewayRefFromJson(Map<String, dynamic> json) {
   return VirtualGatewayRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -2509,11 +2139,9 @@ VirtualGatewayRef _$VirtualGatewayRefFromJson(Map<String, dynamic> json) {
 
 VirtualGatewaySpec _$VirtualGatewaySpecFromJson(Map<String, dynamic> json) {
   return VirtualGatewaySpec(
-    listeners: (json['listeners'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualGatewayListener.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    listeners: (json['listeners'] as List<dynamic>)
+        .map((e) => VirtualGatewayListener.fromJson(e as Map<String, dynamic>))
+        .toList(),
     backendDefaults: json['backendDefaults'] == null
         ? null
         : VirtualGatewayBackendDefaults.fromJson(
@@ -2526,7 +2154,9 @@ VirtualGatewaySpec _$VirtualGatewaySpecFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$VirtualGatewaySpecToJson(VirtualGatewaySpec instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'listeners': instance.listeners.map((e) => e.toJson()).toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2534,8 +2164,6 @@ Map<String, dynamic> _$VirtualGatewaySpecToJson(VirtualGatewaySpec instance) {
     }
   }
 
-  writeNotNull(
-      'listeners', instance.listeners?.map((e) => e?.toJson())?.toList());
   writeNotNull('backendDefaults', instance.backendDefaults?.toJson());
   writeNotNull('logging', instance.logging?.toJson());
   return val;
@@ -2543,8 +2171,7 @@ Map<String, dynamic> _$VirtualGatewaySpecToJson(VirtualGatewaySpec instance) {
 
 VirtualGatewayStatus _$VirtualGatewayStatusFromJson(Map<String, dynamic> json) {
   return VirtualGatewayStatus(
-    status:
-        _$enumDecodeNullable(_$VirtualGatewayStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$VirtualGatewayStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -2557,50 +2184,33 @@ const _$VirtualGatewayStatusCodeEnumMap = {
 VirtualGatewayTlsValidationContext _$VirtualGatewayTlsValidationContextFromJson(
     Map<String, dynamic> json) {
   return VirtualGatewayTlsValidationContext(
-    trust: json['trust'] == null
-        ? null
-        : VirtualGatewayTlsValidationContextTrust.fromJson(
-            json['trust'] as Map<String, dynamic>),
+    trust: VirtualGatewayTlsValidationContextTrust.fromJson(
+        json['trust'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayTlsValidationContextToJson(
-    VirtualGatewayTlsValidationContext instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('trust', instance.trust?.toJson());
-  return val;
-}
+        VirtualGatewayTlsValidationContext instance) =>
+    <String, dynamic>{
+      'trust': instance.trust.toJson(),
+    };
 
 VirtualGatewayTlsValidationContextAcmTrust
     _$VirtualGatewayTlsValidationContextAcmTrustFromJson(
         Map<String, dynamic> json) {
   return VirtualGatewayTlsValidationContextAcmTrust(
-    certificateAuthorityArns: (json['certificateAuthorityArns'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    certificateAuthorityArns:
+        (json['certificateAuthorityArns'] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$VirtualGatewayTlsValidationContextAcmTrustToJson(
-    VirtualGatewayTlsValidationContextAcmTrust instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateAuthorityArns', instance.certificateAuthorityArns);
-  return val;
-}
+        VirtualGatewayTlsValidationContextAcmTrust instance) =>
+    <String, dynamic>{
+      'certificateAuthorityArns': instance.certificateAuthorityArns,
+    };
 
 VirtualGatewayTlsValidationContextFileTrust
     _$VirtualGatewayTlsValidationContextFileTrustFromJson(
@@ -2611,18 +2221,10 @@ VirtualGatewayTlsValidationContextFileTrust
 }
 
 Map<String, dynamic> _$VirtualGatewayTlsValidationContextFileTrustToJson(
-    VirtualGatewayTlsValidationContextFileTrust instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('certificateChain', instance.certificateChain);
-  return val;
-}
+        VirtualGatewayTlsValidationContextFileTrust instance) =>
+    <String, dynamic>{
+      'certificateChain': instance.certificateChain,
+    };
 
 VirtualGatewayTlsValidationContextTrust
     _$VirtualGatewayTlsValidationContextTrustFromJson(
@@ -2696,15 +2298,10 @@ Map<String, dynamic> _$VirtualNodeConnectionPoolToJson(
 VirtualNodeData _$VirtualNodeDataFromJson(Map<String, dynamic> json) {
   return VirtualNodeData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : VirtualNodeSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : VirtualNodeStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: VirtualNodeSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status: VirtualNodeStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualNodeName: json['virtualNodeName'] as String,
   );
 }
@@ -2717,18 +2314,10 @@ VirtualNodeGrpcConnectionPool _$VirtualNodeGrpcConnectionPoolFromJson(
 }
 
 Map<String, dynamic> _$VirtualNodeGrpcConnectionPoolToJson(
-    VirtualNodeGrpcConnectionPool instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maxRequests', instance.maxRequests);
-  return val;
-}
+        VirtualNodeGrpcConnectionPool instance) =>
+    <String, dynamic>{
+      'maxRequests': instance.maxRequests,
+    };
 
 VirtualNodeHttp2ConnectionPool _$VirtualNodeHttp2ConnectionPoolFromJson(
     Map<String, dynamic> json) {
@@ -2738,30 +2327,24 @@ VirtualNodeHttp2ConnectionPool _$VirtualNodeHttp2ConnectionPoolFromJson(
 }
 
 Map<String, dynamic> _$VirtualNodeHttp2ConnectionPoolToJson(
-    VirtualNodeHttp2ConnectionPool instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maxRequests', instance.maxRequests);
-  return val;
-}
+        VirtualNodeHttp2ConnectionPool instance) =>
+    <String, dynamic>{
+      'maxRequests': instance.maxRequests,
+    };
 
 VirtualNodeHttpConnectionPool _$VirtualNodeHttpConnectionPoolFromJson(
     Map<String, dynamic> json) {
   return VirtualNodeHttpConnectionPool(
     maxConnections: json['maxConnections'] as int,
-    maxPendingRequests: json['maxPendingRequests'] as int,
+    maxPendingRequests: json['maxPendingRequests'] as int?,
   );
 }
 
 Map<String, dynamic> _$VirtualNodeHttpConnectionPoolToJson(
     VirtualNodeHttpConnectionPool instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'maxConnections': instance.maxConnections,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2769,7 +2352,6 @@ Map<String, dynamic> _$VirtualNodeHttpConnectionPoolToJson(
     }
   }
 
-  writeNotNull('maxConnections', instance.maxConnections);
   writeNotNull('maxPendingRequests', instance.maxPendingRequests);
   return val;
 }
@@ -2777,9 +2359,8 @@ Map<String, dynamic> _$VirtualNodeHttpConnectionPoolToJson(
 VirtualNodeRef _$VirtualNodeRefFromJson(Map<String, dynamic> json) {
   return VirtualNodeRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -2796,18 +2377,10 @@ VirtualNodeServiceProvider _$VirtualNodeServiceProviderFromJson(
 }
 
 Map<String, dynamic> _$VirtualNodeServiceProviderToJson(
-    VirtualNodeServiceProvider instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('virtualNodeName', instance.virtualNodeName);
-  return val;
-}
+        VirtualNodeServiceProvider instance) =>
+    <String, dynamic>{
+      'virtualNodeName': instance.virtualNodeName,
+    };
 
 VirtualNodeSpec _$VirtualNodeSpecFromJson(Map<String, dynamic> json) {
   return VirtualNodeSpec(
@@ -2815,14 +2388,12 @@ VirtualNodeSpec _$VirtualNodeSpecFromJson(Map<String, dynamic> json) {
         ? null
         : BackendDefaults.fromJson(
             json['backendDefaults'] as Map<String, dynamic>),
-    backends: (json['backends'] as List)
-        ?.map((e) =>
-            e == null ? null : Backend.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    listeners: (json['listeners'] as List)
-        ?.map((e) =>
-            e == null ? null : Listener.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    backends: (json['backends'] as List<dynamic>?)
+        ?.map((e) => Backend.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    listeners: (json['listeners'] as List<dynamic>?)
+        ?.map((e) => Listener.fromJson(e as Map<String, dynamic>))
+        .toList(),
     logging: json['logging'] == null
         ? null
         : Logging.fromJson(json['logging'] as Map<String, dynamic>),
@@ -2843,10 +2414,9 @@ Map<String, dynamic> _$VirtualNodeSpecToJson(VirtualNodeSpec instance) {
   }
 
   writeNotNull('backendDefaults', instance.backendDefaults?.toJson());
+  writeNotNull('backends', instance.backends?.map((e) => e.toJson()).toList());
   writeNotNull(
-      'backends', instance.backends?.map((e) => e?.toJson())?.toList());
-  writeNotNull(
-      'listeners', instance.listeners?.map((e) => e?.toJson())?.toList());
+      'listeners', instance.listeners?.map((e) => e.toJson()).toList());
   writeNotNull('logging', instance.logging?.toJson());
   writeNotNull('serviceDiscovery', instance.serviceDiscovery?.toJson());
   return val;
@@ -2854,8 +2424,7 @@ Map<String, dynamic> _$VirtualNodeSpecToJson(VirtualNodeSpec instance) {
 
 VirtualNodeStatus _$VirtualNodeStatusFromJson(Map<String, dynamic> json) {
   return VirtualNodeStatus(
-    status:
-        _$enumDecodeNullable(_$VirtualNodeStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$VirtualNodeStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -2873,31 +2442,19 @@ VirtualNodeTcpConnectionPool _$VirtualNodeTcpConnectionPoolFromJson(
 }
 
 Map<String, dynamic> _$VirtualNodeTcpConnectionPoolToJson(
-    VirtualNodeTcpConnectionPool instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('maxConnections', instance.maxConnections);
-  return val;
-}
+        VirtualNodeTcpConnectionPool instance) =>
+    <String, dynamic>{
+      'maxConnections': instance.maxConnections,
+    };
 
 VirtualRouterData _$VirtualRouterDataFromJson(Map<String, dynamic> json) {
   return VirtualRouterData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : VirtualRouterSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : VirtualRouterStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: VirtualRouterSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status:
+        VirtualRouterStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualRouterName: json['virtualRouterName'] as String,
   );
 }
@@ -2905,32 +2462,22 @@ VirtualRouterData _$VirtualRouterDataFromJson(Map<String, dynamic> json) {
 VirtualRouterListener _$VirtualRouterListenerFromJson(
     Map<String, dynamic> json) {
   return VirtualRouterListener(
-    portMapping: json['portMapping'] == null
-        ? null
-        : PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
+    portMapping:
+        PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$VirtualRouterListenerToJson(
-    VirtualRouterListener instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('portMapping', instance.portMapping?.toJson());
-  return val;
-}
+        VirtualRouterListener instance) =>
+    <String, dynamic>{
+      'portMapping': instance.portMapping.toJson(),
+    };
 
 VirtualRouterRef _$VirtualRouterRefFromJson(Map<String, dynamic> json) {
   return VirtualRouterRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -2947,26 +2494,16 @@ VirtualRouterServiceProvider _$VirtualRouterServiceProviderFromJson(
 }
 
 Map<String, dynamic> _$VirtualRouterServiceProviderToJson(
-    VirtualRouterServiceProvider instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('virtualRouterName', instance.virtualRouterName);
-  return val;
-}
+        VirtualRouterServiceProvider instance) =>
+    <String, dynamic>{
+      'virtualRouterName': instance.virtualRouterName,
+    };
 
 VirtualRouterSpec _$VirtualRouterSpecFromJson(Map<String, dynamic> json) {
   return VirtualRouterSpec(
-    listeners: (json['listeners'] as List)
-        ?.map((e) => e == null
-            ? null
-            : VirtualRouterListener.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    listeners: (json['listeners'] as List<dynamic>?)
+        ?.map((e) => VirtualRouterListener.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2980,14 +2517,13 @@ Map<String, dynamic> _$VirtualRouterSpecToJson(VirtualRouterSpec instance) {
   }
 
   writeNotNull(
-      'listeners', instance.listeners?.map((e) => e?.toJson())?.toList());
+      'listeners', instance.listeners?.map((e) => e.toJson()).toList());
   return val;
 }
 
 VirtualRouterStatus _$VirtualRouterStatusFromJson(Map<String, dynamic> json) {
   return VirtualRouterStatus(
-    status:
-        _$enumDecodeNullable(_$VirtualRouterStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$VirtualRouterStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -3009,7 +2545,9 @@ VirtualServiceBackend _$VirtualServiceBackendFromJson(
 
 Map<String, dynamic> _$VirtualServiceBackendToJson(
     VirtualServiceBackend instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'virtualServiceName': instance.virtualServiceName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -3017,7 +2555,6 @@ Map<String, dynamic> _$VirtualServiceBackendToJson(
     }
   }
 
-  writeNotNull('virtualServiceName', instance.virtualServiceName);
   writeNotNull('clientPolicy', instance.clientPolicy?.toJson());
   return val;
 }
@@ -3025,15 +2562,11 @@ Map<String, dynamic> _$VirtualServiceBackendToJson(
 VirtualServiceData _$VirtualServiceDataFromJson(Map<String, dynamic> json) {
   return VirtualServiceData(
     meshName: json['meshName'] as String,
-    metadata: json['metadata'] == null
-        ? null
-        : ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    spec: json['spec'] == null
-        ? null
-        : VirtualServiceSpec.fromJson(json['spec'] as Map<String, dynamic>),
-    status: json['status'] == null
-        ? null
-        : VirtualServiceStatus.fromJson(json['status'] as Map<String, dynamic>),
+    metadata:
+        ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    spec: VirtualServiceSpec.fromJson(json['spec'] as Map<String, dynamic>),
+    status:
+        VirtualServiceStatus.fromJson(json['status'] as Map<String, dynamic>),
     virtualServiceName: json['virtualServiceName'] as String,
   );
 }
@@ -3070,9 +2603,8 @@ Map<String, dynamic> _$VirtualServiceProviderToJson(
 VirtualServiceRef _$VirtualServiceRefFromJson(Map<String, dynamic> json) {
   return VirtualServiceRef(
     arn: json['arn'] as String,
-    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
-    lastUpdatedAt:
-        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+    lastUpdatedAt: DateTime.parse(json['lastUpdatedAt'] as String),
     meshName: json['meshName'] as String,
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
@@ -3105,8 +2637,7 @@ Map<String, dynamic> _$VirtualServiceSpecToJson(VirtualServiceSpec instance) {
 
 VirtualServiceStatus _$VirtualServiceStatusFromJson(Map<String, dynamic> json) {
   return VirtualServiceStatus(
-    status:
-        _$enumDecodeNullable(_$VirtualServiceStatusCodeEnumMap, json['status']),
+    status: _$enumDecode(_$VirtualServiceStatusCodeEnumMap, json['status']),
   );
 }
 
@@ -3123,16 +2654,8 @@ WeightedTarget _$WeightedTargetFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$WeightedTargetToJson(WeightedTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('virtualNode', instance.virtualNode);
-  writeNotNull('weight', instance.weight);
-  return val;
-}
+Map<String, dynamic> _$WeightedTargetToJson(WeightedTarget instance) =>
+    <String, dynamic>{
+      'virtualNode': instance.virtualNode,
+      'weight': instance.weight,
+    };

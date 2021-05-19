@@ -10,14 +10,14 @@ AssociateInstanceStorageConfigResponse
     _$AssociateInstanceStorageConfigResponseFromJson(
         Map<String, dynamic> json) {
   return AssociateInstanceStorageConfigResponse(
-    associationId: json['AssociationId'] as String,
+    associationId: json['AssociationId'] as String?,
   );
 }
 
 AssociateSecurityKeyResponse _$AssociateSecurityKeyResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateSecurityKeyResponse(
-    associationId: json['AssociationId'] as String,
+    associationId: json['AssociationId'] as String?,
   );
 }
 
@@ -25,40 +25,45 @@ Attribute _$AttributeFromJson(Map<String, dynamic> json) {
   return Attribute(
     attributeType: _$enumDecodeNullable(
         _$InstanceAttributeTypeEnumMap, json['AttributeType']),
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$InstanceAttributeTypeEnumMap = {
@@ -71,28 +76,20 @@ const _$InstanceAttributeTypeEnumMap = {
   InstanceAttributeType.earlyMedia: 'EARLY_MEDIA',
 };
 
-Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Content', instance.content);
-  writeNotNull('ContentType', instance.contentType);
-  return val;
-}
+Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) =>
+    <String, dynamic>{
+      'Content': instance.content,
+      'ContentType': instance.contentType,
+    };
 
 ContactFlow _$ContactFlowFromJson(Map<String, dynamic> json) {
   return ContactFlow(
-    arn: json['Arn'] as String,
-    content: json['Content'] as String,
-    description: json['Description'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    arn: json['Arn'] as String?,
+    content: json['Content'] as String?,
+    description: json['Description'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     type: _$enumDecodeNullable(_$ContactFlowTypeEnumMap, json['Type']),
@@ -113,83 +110,83 @@ const _$ContactFlowTypeEnumMap = {
 
 ContactFlowSummary _$ContactFlowSummaryFromJson(Map<String, dynamic> json) {
   return ContactFlowSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     contactFlowType:
         _$enumDecodeNullable(_$ContactFlowTypeEnumMap, json['ContactFlowType']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 CreateContactFlowResponse _$CreateContactFlowResponseFromJson(
     Map<String, dynamic> json) {
   return CreateContactFlowResponse(
-    contactFlowArn: json['ContactFlowArn'] as String,
-    contactFlowId: json['ContactFlowId'] as String,
+    contactFlowArn: json['ContactFlowArn'] as String?,
+    contactFlowId: json['ContactFlowId'] as String?,
   );
 }
 
 CreateInstanceResponse _$CreateInstanceResponseFromJson(
     Map<String, dynamic> json) {
   return CreateInstanceResponse(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
   );
 }
 
 CreateIntegrationAssociationResponse
     _$CreateIntegrationAssociationResponseFromJson(Map<String, dynamic> json) {
   return CreateIntegrationAssociationResponse(
-    integrationAssociationArn: json['IntegrationAssociationArn'] as String,
-    integrationAssociationId: json['IntegrationAssociationId'] as String,
+    integrationAssociationArn: json['IntegrationAssociationArn'] as String?,
+    integrationAssociationId: json['IntegrationAssociationId'] as String?,
   );
 }
 
 CreateQuickConnectResponse _$CreateQuickConnectResponseFromJson(
     Map<String, dynamic> json) {
   return CreateQuickConnectResponse(
-    quickConnectARN: json['QuickConnectARN'] as String,
-    quickConnectId: json['QuickConnectId'] as String,
+    quickConnectARN: json['QuickConnectARN'] as String?,
+    quickConnectId: json['QuickConnectId'] as String?,
   );
 }
 
 CreateRoutingProfileResponse _$CreateRoutingProfileResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRoutingProfileResponse(
-    routingProfileArn: json['RoutingProfileArn'] as String,
-    routingProfileId: json['RoutingProfileId'] as String,
+    routingProfileArn: json['RoutingProfileArn'] as String?,
+    routingProfileId: json['RoutingProfileId'] as String?,
   );
 }
 
 CreateUseCaseResponse _$CreateUseCaseResponseFromJson(
     Map<String, dynamic> json) {
   return CreateUseCaseResponse(
-    useCaseArn: json['UseCaseArn'] as String,
-    useCaseId: json['UseCaseId'] as String,
+    useCaseArn: json['UseCaseArn'] as String?,
+    useCaseId: json['UseCaseId'] as String?,
   );
 }
 
 CreateUserHierarchyGroupResponse _$CreateUserHierarchyGroupResponseFromJson(
     Map<String, dynamic> json) {
   return CreateUserHierarchyGroupResponse(
-    hierarchyGroupArn: json['HierarchyGroupArn'] as String,
-    hierarchyGroupId: json['HierarchyGroupId'] as String,
+    hierarchyGroupArn: json['HierarchyGroupArn'] as String?,
+    hierarchyGroupId: json['HierarchyGroupId'] as String?,
   );
 }
 
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
-    userArn: json['UserArn'] as String,
-    userId: json['UserId'] as String,
+    userArn: json['UserArn'] as String?,
+    userId: json['UserId'] as String?,
   );
 }
 
 Credentials _$CredentialsFromJson(Map<String, dynamic> json) {
   return Credentials(
-    accessToken: json['AccessToken'] as String,
+    accessToken: json['AccessToken'] as String?,
     accessTokenExpiration:
         const UnixDateTimeConverter().fromJson(json['AccessTokenExpiration']),
-    refreshToken: json['RefreshToken'] as String,
+    refreshToken: json['RefreshToken'] as String?,
     refreshTokenExpiration:
         const UnixDateTimeConverter().fromJson(json['RefreshTokenExpiration']),
   );
@@ -243,17 +240,15 @@ CurrentMetricData _$CurrentMetricDataFromJson(Map<String, dynamic> json) {
     metric: json['Metric'] == null
         ? null
         : CurrentMetric.fromJson(json['Metric'] as Map<String, dynamic>),
-    value: (json['Value'] as num)?.toDouble(),
+    value: (json['Value'] as num?)?.toDouble(),
   );
 }
 
 CurrentMetricResult _$CurrentMetricResultFromJson(Map<String, dynamic> json) {
   return CurrentMetricResult(
-    collections: (json['Collections'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CurrentMetricData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    collections: (json['Collections'] as List<dynamic>?)
+        ?.map((e) => CurrentMetricData.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dimensions: json['Dimensions'] == null
         ? null
         : Dimensions.fromJson(json['Dimensions'] as Map<String, dynamic>),
@@ -363,25 +358,16 @@ const _$ChannelEnumMap = {
 EncryptionConfig _$EncryptionConfigFromJson(Map<String, dynamic> json) {
   return EncryptionConfig(
     encryptionType:
-        _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['EncryptionType']),
+        _$enumDecode(_$EncryptionTypeEnumMap, json['EncryptionType']),
     keyId: json['KeyId'] as String,
   );
 }
 
-Map<String, dynamic> _$EncryptionConfigToJson(EncryptionConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'EncryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
-  writeNotNull('KeyId', instance.keyId);
-  return val;
-}
+Map<String, dynamic> _$EncryptionConfigToJson(EncryptionConfig instance) =>
+    <String, dynamic>{
+      'EncryptionType': _$EncryptionTypeEnumMap[instance.encryptionType],
+      'KeyId': instance.keyId,
+    };
 
 const _$EncryptionTypeEnumMap = {
   EncryptionType.kms: 'KMS',
@@ -397,7 +383,7 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
   }
 
   writeNotNull(
-      'Channels', instance.channels?.map((e) => _$ChannelEnumMap[e])?.toList());
+      'Channels', instance.channels?.map((e) => _$ChannelEnumMap[e]).toList());
   writeNotNull('Queues', instance.queues);
   return val;
 }
@@ -405,7 +391,7 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
 GetContactAttributesResponse _$GetContactAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return GetContactAttributesResponse(
-    attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
+    attributes: (json['Attributes'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -416,12 +402,10 @@ GetCurrentMetricDataResponse _$GetCurrentMetricDataResponseFromJson(
   return GetCurrentMetricDataResponse(
     dataSnapshotTime:
         const UnixDateTimeConverter().fromJson(json['DataSnapshotTime']),
-    metricResults: (json['MetricResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CurrentMetricResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    metricResults: (json['MetricResults'] as List<dynamic>?)
+        ?.map((e) => CurrentMetricResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -437,57 +421,47 @@ GetFederationTokenResponse _$GetFederationTokenResponseFromJson(
 GetMetricDataResponse _$GetMetricDataResponseFromJson(
     Map<String, dynamic> json) {
   return GetMetricDataResponse(
-    metricResults: (json['MetricResults'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HistoricalMetricResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    metricResults: (json['MetricResults'] as List<dynamic>?)
+        ?.map((e) => HistoricalMetricResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 HierarchyGroup _$HierarchyGroupFromJson(Map<String, dynamic> json) {
   return HierarchyGroup(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     hierarchyPath: json['HierarchyPath'] == null
         ? null
         : HierarchyPath.fromJson(json['HierarchyPath'] as Map<String, dynamic>),
-    id: json['Id'] as String,
-    levelId: json['LevelId'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    levelId: json['LevelId'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 HierarchyGroupSummary _$HierarchyGroupSummaryFromJson(
     Map<String, dynamic> json) {
   return HierarchyGroupSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 HierarchyLevel _$HierarchyLevelFromJson(Map<String, dynamic> json) {
   return HierarchyLevel(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 Map<String, dynamic> _$HierarchyLevelUpdateToJson(
-    HierarchyLevelUpdate instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', instance.name);
-  return val;
-}
+        HierarchyLevelUpdate instance) =>
+    <String, dynamic>{
+      'Name': instance.name,
+    };
 
 HierarchyPath _$HierarchyPathFromJson(Map<String, dynamic> json) {
   return HierarchyPath(
@@ -620,18 +594,16 @@ HistoricalMetricData _$HistoricalMetricDataFromJson(Map<String, dynamic> json) {
     metric: json['Metric'] == null
         ? null
         : HistoricalMetric.fromJson(json['Metric'] as Map<String, dynamic>),
-    value: (json['Value'] as num)?.toDouble(),
+    value: (json['Value'] as num?)?.toDouble(),
   );
 }
 
 HistoricalMetricResult _$HistoricalMetricResultFromJson(
     Map<String, dynamic> json) {
   return HistoricalMetricResult(
-    collections: (json['Collections'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HistoricalMetricData.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    collections: (json['Collections'] as List<dynamic>?)
+        ?.map((e) => HistoricalMetricData.fromJson(e as Map<String, dynamic>))
+        .toList(),
     dimensions: json['Dimensions'] == null
         ? null
         : Dimensions.fromJson(json['Dimensions'] as Map<String, dynamic>),
@@ -641,25 +613,25 @@ HistoricalMetricResult _$HistoricalMetricResultFromJson(
 HoursOfOperationSummary _$HoursOfOperationSummaryFromJson(
     Map<String, dynamic> json) {
   return HoursOfOperationSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 Instance _$InstanceFromJson(Map<String, dynamic> json) {
   return Instance(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     identityManagementType: _$enumDecodeNullable(
         _$DirectoryTypeEnumMap, json['IdentityManagementType']),
-    inboundCallsEnabled: json['InboundCallsEnabled'] as bool,
-    instanceAlias: json['InstanceAlias'] as String,
+    inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+    instanceAlias: json['InstanceAlias'] as String?,
     instanceStatus:
         _$enumDecodeNullable(_$InstanceStatusEnumMap, json['InstanceStatus']),
-    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool,
-    serviceRole: json['ServiceRole'] as String,
+    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
+    serviceRole: json['ServiceRole'] as String?,
     statusReason: json['StatusReason'] == null
         ? null
         : InstanceStatusReason.fromJson(
@@ -681,16 +653,15 @@ const _$InstanceStatusEnumMap = {
 
 InstanceStatusReason _$InstanceStatusReasonFromJson(Map<String, dynamic> json) {
   return InstanceStatusReason(
-    message: json['Message'] as String,
+    message: json['Message'] as String?,
   );
 }
 
 InstanceStorageConfig _$InstanceStorageConfigFromJson(
     Map<String, dynamic> json) {
   return InstanceStorageConfig(
-    storageType:
-        _$enumDecodeNullable(_$StorageTypeEnumMap, json['StorageType']),
-    associationId: json['AssociationId'] as String,
+    storageType: _$enumDecode(_$StorageTypeEnumMap, json['StorageType']),
+    associationId: json['AssociationId'] as String?,
     kinesisFirehoseConfig: json['KinesisFirehoseConfig'] == null
         ? null
         : KinesisFirehoseConfig.fromJson(
@@ -711,7 +682,9 @@ InstanceStorageConfig _$InstanceStorageConfigFromJson(
 
 Map<String, dynamic> _$InstanceStorageConfigToJson(
     InstanceStorageConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'StorageType': _$StorageTypeEnumMap[instance.storageType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -719,7 +692,6 @@ Map<String, dynamic> _$InstanceStorageConfigToJson(
     }
   }
 
-  writeNotNull('StorageType', _$StorageTypeEnumMap[instance.storageType]);
   writeNotNull('AssociationId', instance.associationId);
   writeNotNull(
       'KinesisFirehoseConfig', instance.kinesisFirehoseConfig?.toJson());
@@ -739,31 +711,31 @@ const _$StorageTypeEnumMap = {
 
 InstanceSummary _$InstanceSummaryFromJson(Map<String, dynamic> json) {
   return InstanceSummary(
-    arn: json['Arn'] as String,
+    arn: json['Arn'] as String?,
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     identityManagementType: _$enumDecodeNullable(
         _$DirectoryTypeEnumMap, json['IdentityManagementType']),
-    inboundCallsEnabled: json['InboundCallsEnabled'] as bool,
-    instanceAlias: json['InstanceAlias'] as String,
+    inboundCallsEnabled: json['InboundCallsEnabled'] as bool?,
+    instanceAlias: json['InstanceAlias'] as String?,
     instanceStatus:
         _$enumDecodeNullable(_$InstanceStatusEnumMap, json['InstanceStatus']),
-    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool,
-    serviceRole: json['ServiceRole'] as String,
+    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool?,
+    serviceRole: json['ServiceRole'] as String?,
   );
 }
 
 IntegrationAssociationSummary _$IntegrationAssociationSummaryFromJson(
     Map<String, dynamic> json) {
   return IntegrationAssociationSummary(
-    instanceId: json['InstanceId'] as String,
-    integrationArn: json['IntegrationArn'] as String,
-    integrationAssociationArn: json['IntegrationAssociationArn'] as String,
-    integrationAssociationId: json['IntegrationAssociationId'] as String,
+    instanceId: json['InstanceId'] as String?,
+    integrationArn: json['IntegrationArn'] as String?,
+    integrationAssociationArn: json['IntegrationAssociationArn'] as String?,
+    integrationAssociationId: json['IntegrationAssociationId'] as String?,
     integrationType:
         _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['IntegrationType']),
-    sourceApplicationName: json['SourceApplicationName'] as String,
-    sourceApplicationUrl: json['SourceApplicationUrl'] as String,
+    sourceApplicationName: json['SourceApplicationName'] as String?,
+    sourceApplicationUrl: json['SourceApplicationUrl'] as String?,
     sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['SourceType']),
   );
 }
@@ -785,18 +757,10 @@ KinesisFirehoseConfig _$KinesisFirehoseConfigFromJson(
 }
 
 Map<String, dynamic> _$KinesisFirehoseConfigToJson(
-    KinesisFirehoseConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('FirehoseArn', instance.firehoseArn);
-  return val;
-}
+        KinesisFirehoseConfig instance) =>
+    <String, dynamic>{
+      'FirehoseArn': instance.firehoseArn,
+    };
 
 KinesisStreamConfig _$KinesisStreamConfigFromJson(Map<String, dynamic> json) {
   return KinesisStreamConfig(
@@ -804,51 +768,34 @@ KinesisStreamConfig _$KinesisStreamConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$KinesisStreamConfigToJson(KinesisStreamConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('StreamArn', instance.streamArn);
-  return val;
-}
+Map<String, dynamic> _$KinesisStreamConfigToJson(
+        KinesisStreamConfig instance) =>
+    <String, dynamic>{
+      'StreamArn': instance.streamArn,
+    };
 
 KinesisVideoStreamConfig _$KinesisVideoStreamConfigFromJson(
     Map<String, dynamic> json) {
   return KinesisVideoStreamConfig(
-    encryptionConfig: json['EncryptionConfig'] == null
-        ? null
-        : EncryptionConfig.fromJson(
-            json['EncryptionConfig'] as Map<String, dynamic>),
+    encryptionConfig: EncryptionConfig.fromJson(
+        json['EncryptionConfig'] as Map<String, dynamic>),
     prefix: json['Prefix'] as String,
     retentionPeriodHours: json['RetentionPeriodHours'] as int,
   );
 }
 
 Map<String, dynamic> _$KinesisVideoStreamConfigToJson(
-    KinesisVideoStreamConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
-  writeNotNull('Prefix', instance.prefix);
-  writeNotNull('RetentionPeriodHours', instance.retentionPeriodHours);
-  return val;
-}
+        KinesisVideoStreamConfig instance) =>
+    <String, dynamic>{
+      'EncryptionConfig': instance.encryptionConfig.toJson(),
+      'Prefix': instance.prefix,
+      'RetentionPeriodHours': instance.retentionPeriodHours,
+    };
 
 LexBot _$LexBotFromJson(Map<String, dynamic> json) {
   return LexBot(
-    lexRegion: json['LexRegion'] as String,
-    name: json['Name'] as String,
+    lexRegion: json['LexRegion'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -869,67 +816,61 @@ Map<String, dynamic> _$LexBotToJson(LexBot instance) {
 ListApprovedOriginsResponse _$ListApprovedOriginsResponseFromJson(
     Map<String, dynamic> json) {
   return ListApprovedOriginsResponse(
-    nextToken: json['NextToken'] as String,
-    origins: (json['Origins'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String?,
+    origins:
+        (json['Origins'] as List<dynamic>?)?.map((e) => e as String).toList(),
   );
 }
 
 ListContactFlowsResponse _$ListContactFlowsResponseFromJson(
     Map<String, dynamic> json) {
   return ListContactFlowsResponse(
-    contactFlowSummaryList: (json['ContactFlowSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ContactFlowSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    contactFlowSummaryList: (json['ContactFlowSummaryList'] as List<dynamic>?)
+        ?.map((e) => ContactFlowSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListHoursOfOperationsResponse _$ListHoursOfOperationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListHoursOfOperationsResponse(
-    hoursOfOperationSummaryList: (json['HoursOfOperationSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HoursOfOperationSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    hoursOfOperationSummaryList: (json['HoursOfOperationSummaryList']
+            as List<dynamic>?)
+        ?.map(
+            (e) => HoursOfOperationSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListInstanceAttributesResponse _$ListInstanceAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return ListInstanceAttributesResponse(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) =>
-            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListInstanceStorageConfigsResponse _$ListInstanceStorageConfigsResponseFromJson(
     Map<String, dynamic> json) {
   return ListInstanceStorageConfigsResponse(
-    nextToken: json['NextToken'] as String,
-    storageConfigs: (json['StorageConfigs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceStorageConfig.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    storageConfigs: (json['StorageConfigs'] as List<dynamic>?)
+        ?.map((e) => InstanceStorageConfig.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListInstancesResponse _$ListInstancesResponseFromJson(
     Map<String, dynamic> json) {
   return ListInstancesResponse(
-    instanceSummaryList: (json['InstanceSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : InstanceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    instanceSummaryList: (json['InstanceSummaryList'] as List<dynamic>?)
+        ?.map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -937,133 +878,119 @@ ListIntegrationAssociationsResponse
     _$ListIntegrationAssociationsResponseFromJson(Map<String, dynamic> json) {
   return ListIntegrationAssociationsResponse(
     integrationAssociationSummaryList:
-        (json['IntegrationAssociationSummaryList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : IntegrationAssociationSummary.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['IntegrationAssociationSummaryList'] as List<dynamic>?)
+            ?.map((e) => IntegrationAssociationSummary.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListLambdaFunctionsResponse _$ListLambdaFunctionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListLambdaFunctionsResponse(
-    lambdaFunctions:
-        (json['LambdaFunctions'] as List)?.map((e) => e as String)?.toList(),
-    nextToken: json['NextToken'] as String,
+    lambdaFunctions: (json['LambdaFunctions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListLexBotsResponse _$ListLexBotsResponseFromJson(Map<String, dynamic> json) {
   return ListLexBotsResponse(
-    lexBots: (json['LexBots'] as List)
-        ?.map((e) =>
-            e == null ? null : LexBot.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    lexBots: (json['LexBots'] as List<dynamic>?)
+        ?.map((e) => LexBot.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListPhoneNumbersResponse _$ListPhoneNumbersResponseFromJson(
     Map<String, dynamic> json) {
   return ListPhoneNumbersResponse(
-    nextToken: json['NextToken'] as String,
-    phoneNumberSummaryList: (json['PhoneNumberSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PhoneNumberSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    phoneNumberSummaryList: (json['PhoneNumberSummaryList'] as List<dynamic>?)
+        ?.map((e) => PhoneNumberSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListPromptsResponse _$ListPromptsResponseFromJson(Map<String, dynamic> json) {
   return ListPromptsResponse(
-    nextToken: json['NextToken'] as String,
-    promptSummaryList: (json['PromptSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PromptSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    promptSummaryList: (json['PromptSummaryList'] as List<dynamic>?)
+        ?.map((e) => PromptSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListQueuesResponse _$ListQueuesResponseFromJson(Map<String, dynamic> json) {
   return ListQueuesResponse(
-    nextToken: json['NextToken'] as String,
-    queueSummaryList: (json['QueueSummaryList'] as List)
-        ?.map((e) =>
-            e == null ? null : QueueSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    queueSummaryList: (json['QueueSummaryList'] as List<dynamic>?)
+        ?.map((e) => QueueSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListQuickConnectsResponse _$ListQuickConnectsResponseFromJson(
     Map<String, dynamic> json) {
   return ListQuickConnectsResponse(
-    nextToken: json['NextToken'] as String,
-    quickConnectSummaryList: (json['QuickConnectSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : QuickConnectSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    quickConnectSummaryList: (json['QuickConnectSummaryList'] as List<dynamic>?)
+        ?.map((e) => QuickConnectSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListRoutingProfileQueuesResponse _$ListRoutingProfileQueuesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRoutingProfileQueuesResponse(
-    nextToken: json['NextToken'] as String,
+    nextToken: json['NextToken'] as String?,
     routingProfileQueueConfigSummaryList:
-        (json['RoutingProfileQueueConfigSummaryList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : RoutingProfileQueueConfigSummary.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+        (json['RoutingProfileQueueConfigSummaryList'] as List<dynamic>?)
+            ?.map((e) => RoutingProfileQueueConfigSummary.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 ListRoutingProfilesResponse _$ListRoutingProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRoutingProfilesResponse(
-    nextToken: json['NextToken'] as String,
-    routingProfileSummaryList: (json['RoutingProfileSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RoutingProfileSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    routingProfileSummaryList: (json['RoutingProfileSummaryList']
+            as List<dynamic>?)
+        ?.map((e) => RoutingProfileSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSecurityKeysResponse _$ListSecurityKeysResponseFromJson(
     Map<String, dynamic> json) {
   return ListSecurityKeysResponse(
-    nextToken: json['NextToken'] as String,
-    securityKeys: (json['SecurityKeys'] as List)
-        ?.map((e) =>
-            e == null ? null : SecurityKey.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    securityKeys: (json['SecurityKeys'] as List<dynamic>?)
+        ?.map((e) => SecurityKey.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListSecurityProfilesResponse _$ListSecurityProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return ListSecurityProfilesResponse(
-    nextToken: json['NextToken'] as String,
-    securityProfileSummaryList: (json['SecurityProfileSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SecurityProfileSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    securityProfileSummaryList: (json['SecurityProfileSummaryList']
+            as List<dynamic>?)
+        ?.map((e) => SecurityProfileSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1071,70 +998,50 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 
 ListUseCasesResponse _$ListUseCasesResponseFromJson(Map<String, dynamic> json) {
   return ListUseCasesResponse(
-    nextToken: json['NextToken'] as String,
-    useCaseSummaryList: (json['UseCaseSummaryList'] as List)
-        ?.map((e) =>
-            e == null ? null : UseCase.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    useCaseSummaryList: (json['UseCaseSummaryList'] as List<dynamic>?)
+        ?.map((e) => UseCase.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUserHierarchyGroupsResponse _$ListUserHierarchyGroupsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserHierarchyGroupsResponse(
-    nextToken: json['NextToken'] as String,
-    userHierarchyGroupSummaryList:
-        (json['UserHierarchyGroupSummaryList'] as List)
-            ?.map((e) => e == null
-                ? null
-                : HierarchyGroupSummary.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    userHierarchyGroupSummaryList: (json['UserHierarchyGroupSummaryList']
+            as List<dynamic>?)
+        ?.map((e) => HierarchyGroupSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   return ListUsersResponse(
-    nextToken: json['NextToken'] as String,
-    userSummaryList: (json['UserSummaryList'] as List)
-        ?.map((e) =>
-            e == null ? null : UserSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    userSummaryList: (json['UserSummaryList'] as List<dynamic>?)
+        ?.map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MediaConcurrency _$MediaConcurrencyFromJson(Map<String, dynamic> json) {
   return MediaConcurrency(
-    channel: _$enumDecodeNullable(_$ChannelEnumMap, json['Channel']),
+    channel: _$enumDecode(_$ChannelEnumMap, json['Channel']),
     concurrency: json['Concurrency'] as int,
   );
 }
 
-Map<String, dynamic> _$MediaConcurrencyToJson(MediaConcurrency instance) {
-  final val = <String, dynamic>{};
+Map<String, dynamic> _$MediaConcurrencyToJson(MediaConcurrency instance) =>
+    <String, dynamic>{
+      'Channel': _$ChannelEnumMap[instance.channel],
+      'Concurrency': instance.concurrency,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Channel', _$ChannelEnumMap[instance.channel]);
-  writeNotNull('Concurrency', instance.concurrency);
-  return val;
-}
-
-Map<String, dynamic> _$ParticipantDetailsToJson(ParticipantDetails instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DisplayName', instance.displayName);
-  return val;
-}
+Map<String, dynamic> _$ParticipantDetailsToJson(ParticipantDetails instance) =>
+    <String, dynamic>{
+      'DisplayName': instance.displayName,
+    };
 
 PhoneNumberQuickConnectConfig _$PhoneNumberQuickConnectConfigFromJson(
     Map<String, dynamic> json) {
@@ -1144,24 +1051,16 @@ PhoneNumberQuickConnectConfig _$PhoneNumberQuickConnectConfigFromJson(
 }
 
 Map<String, dynamic> _$PhoneNumberQuickConnectConfigToJson(
-    PhoneNumberQuickConnectConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('PhoneNumber', instance.phoneNumber);
-  return val;
-}
+        PhoneNumberQuickConnectConfig instance) =>
+    <String, dynamic>{
+      'PhoneNumber': instance.phoneNumber,
+    };
 
 PhoneNumberSummary _$PhoneNumberSummaryFromJson(Map<String, dynamic> json) {
   return PhoneNumberSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    phoneNumber: json['PhoneNumber'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    phoneNumber: json['PhoneNumber'] as String?,
     phoneNumberCountryCode: _$enumDecodeNullable(
         _$PhoneNumberCountryCodeEnumMap, json['PhoneNumberCountryCode']),
     phoneNumberType:
@@ -1416,9 +1315,9 @@ const _$PhoneNumberTypeEnumMap = {
 
 PromptSummary _$PromptSummaryFromJson(Map<String, dynamic> json) {
   return PromptSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1431,32 +1330,24 @@ QueueQuickConnectConfig _$QueueQuickConnectConfigFromJson(
 }
 
 Map<String, dynamic> _$QueueQuickConnectConfigToJson(
-    QueueQuickConnectConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ContactFlowId', instance.contactFlowId);
-  writeNotNull('QueueId', instance.queueId);
-  return val;
-}
+        QueueQuickConnectConfig instance) =>
+    <String, dynamic>{
+      'ContactFlowId': instance.contactFlowId,
+      'QueueId': instance.queueId,
+    };
 
 QueueReference _$QueueReferenceFromJson(Map<String, dynamic> json) {
   return QueueReference(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
   );
 }
 
 QueueSummary _$QueueSummaryFromJson(Map<String, dynamic> json) {
   return QueueSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     queueType: _$enumDecodeNullable(_$QueueTypeEnumMap, json['QueueType']),
   );
 }
@@ -1468,15 +1359,15 @@ const _$QueueTypeEnumMap = {
 
 QuickConnect _$QuickConnectFromJson(Map<String, dynamic> json) {
   return QuickConnect(
-    description: json['Description'] as String,
-    name: json['Name'] as String,
-    quickConnectARN: json['QuickConnectARN'] as String,
+    description: json['Description'] as String?,
+    name: json['Name'] as String?,
+    quickConnectARN: json['QuickConnectARN'] as String?,
     quickConnectConfig: json['QuickConnectConfig'] == null
         ? null
         : QuickConnectConfig.fromJson(
             json['QuickConnectConfig'] as Map<String, dynamic>),
-    quickConnectId: json['QuickConnectId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    quickConnectId: json['QuickConnectId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1484,8 +1375,8 @@ QuickConnect _$QuickConnectFromJson(Map<String, dynamic> json) {
 
 QuickConnectConfig _$QuickConnectConfigFromJson(Map<String, dynamic> json) {
   return QuickConnectConfig(
-    quickConnectType: _$enumDecodeNullable(
-        _$QuickConnectTypeEnumMap, json['QuickConnectType']),
+    quickConnectType:
+        _$enumDecode(_$QuickConnectTypeEnumMap, json['QuickConnectType']),
     phoneConfig: json['PhoneConfig'] == null
         ? null
         : PhoneNumberQuickConnectConfig.fromJson(
@@ -1502,7 +1393,9 @@ QuickConnectConfig _$QuickConnectConfigFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$QuickConnectConfigToJson(QuickConnectConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'QuickConnectType': _$QuickConnectTypeEnumMap[instance.quickConnectType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1510,8 +1403,6 @@ Map<String, dynamic> _$QuickConnectConfigToJson(QuickConnectConfig instance) {
     }
   }
 
-  writeNotNull(
-      'QuickConnectType', _$QuickConnectTypeEnumMap[instance.quickConnectType]);
   writeNotNull('PhoneConfig', instance.phoneConfig?.toJson());
   writeNotNull('QueueConfig', instance.queueConfig?.toJson());
   writeNotNull('UserConfig', instance.userConfig?.toJson());
@@ -1526,27 +1417,18 @@ const _$QuickConnectTypeEnumMap = {
 
 QuickConnectSummary _$QuickConnectSummaryFromJson(Map<String, dynamic> json) {
   return QuickConnectSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     quickConnectType: _$enumDecodeNullable(
         _$QuickConnectTypeEnumMap, json['QuickConnectType']),
   );
 }
 
-Map<String, dynamic> _$ReferenceToJson(Reference instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$ReferenceTypeEnumMap[instance.type]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$ReferenceToJson(Reference instance) => <String, dynamic>{
+      'Type': _$ReferenceTypeEnumMap[instance.type],
+      'Value': instance.value,
+    };
 
 const _$ReferenceTypeEnumMap = {
   ReferenceType.url: 'URL',
@@ -1559,43 +1441,33 @@ ResumeContactRecordingResponse _$ResumeContactRecordingResponseFromJson(
 
 RoutingProfile _$RoutingProfileFromJson(Map<String, dynamic> json) {
   return RoutingProfile(
-    defaultOutboundQueueId: json['DefaultOutboundQueueId'] as String,
-    description: json['Description'] as String,
-    instanceId: json['InstanceId'] as String,
-    mediaConcurrencies: (json['MediaConcurrencies'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MediaConcurrency.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    name: json['Name'] as String,
-    routingProfileArn: json['RoutingProfileArn'] as String,
-    routingProfileId: json['RoutingProfileId'] as String,
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    defaultOutboundQueueId: json['DefaultOutboundQueueId'] as String?,
+    description: json['Description'] as String?,
+    instanceId: json['InstanceId'] as String?,
+    mediaConcurrencies: (json['MediaConcurrencies'] as List<dynamic>?)
+        ?.map((e) => MediaConcurrency.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    name: json['Name'] as String?,
+    routingProfileArn: json['RoutingProfileArn'] as String?,
+    routingProfileId: json['RoutingProfileId'] as String?,
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
 }
 
 Map<String, dynamic> _$RoutingProfileQueueConfigToJson(
-    RoutingProfileQueueConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Delay', instance.delay);
-  writeNotNull('Priority', instance.priority);
-  writeNotNull('QueueReference', instance.queueReference?.toJson());
-  return val;
-}
+        RoutingProfileQueueConfig instance) =>
+    <String, dynamic>{
+      'Delay': instance.delay,
+      'Priority': instance.priority,
+      'QueueReference': instance.queueReference.toJson(),
+    };
 
 RoutingProfileQueueConfigSummary _$RoutingProfileQueueConfigSummaryFromJson(
     Map<String, dynamic> json) {
   return RoutingProfileQueueConfigSummary(
-    channel: _$enumDecodeNullable(_$ChannelEnumMap, json['Channel']),
+    channel: _$enumDecode(_$ChannelEnumMap, json['Channel']),
     delay: json['Delay'] as int,
     priority: json['Priority'] as int,
     queueArn: json['QueueArn'] as String,
@@ -1605,26 +1477,18 @@ RoutingProfileQueueConfigSummary _$RoutingProfileQueueConfigSummaryFromJson(
 }
 
 Map<String, dynamic> _$RoutingProfileQueueReferenceToJson(
-    RoutingProfileQueueReference instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Channel', _$ChannelEnumMap[instance.channel]);
-  writeNotNull('QueueId', instance.queueId);
-  return val;
-}
+        RoutingProfileQueueReference instance) =>
+    <String, dynamic>{
+      'Channel': _$ChannelEnumMap[instance.channel],
+      'QueueId': instance.queueId,
+    };
 
 RoutingProfileSummary _$RoutingProfileSummaryFromJson(
     Map<String, dynamic> json) {
   return RoutingProfileSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
@@ -1640,7 +1504,10 @@ S3Config _$S3ConfigFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$S3ConfigToJson(S3Config instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketName': instance.bucketName,
+    'BucketPrefix': instance.bucketPrefix,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1648,35 +1515,33 @@ Map<String, dynamic> _$S3ConfigToJson(S3Config instance) {
     }
   }
 
-  writeNotNull('BucketName', instance.bucketName);
-  writeNotNull('BucketPrefix', instance.bucketPrefix);
   writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
   return val;
 }
 
 SecurityKey _$SecurityKeyFromJson(Map<String, dynamic> json) {
   return SecurityKey(
-    associationId: json['AssociationId'] as String,
+    associationId: json['AssociationId'] as String?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    key: json['Key'] as String,
+    key: json['Key'] as String?,
   );
 }
 
 SecurityProfileSummary _$SecurityProfileSummaryFromJson(
     Map<String, dynamic> json) {
   return SecurityProfileSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 StartChatContactResponse _$StartChatContactResponseFromJson(
     Map<String, dynamic> json) {
   return StartChatContactResponse(
-    contactId: json['ContactId'] as String,
-    participantId: json['ParticipantId'] as String,
-    participantToken: json['ParticipantToken'] as String,
+    contactId: json['ContactId'] as String?,
+    participantId: json['ParticipantId'] as String?,
+    participantToken: json['ParticipantToken'] as String?,
   );
 }
 
@@ -1688,14 +1553,14 @@ StartContactRecordingResponse _$StartContactRecordingResponseFromJson(
 StartOutboundVoiceContactResponse _$StartOutboundVoiceContactResponseFromJson(
     Map<String, dynamic> json) {
   return StartOutboundVoiceContactResponse(
-    contactId: json['ContactId'] as String,
+    contactId: json['ContactId'] as String?,
   );
 }
 
 StartTaskContactResponse _$StartTaskContactResponseFromJson(
     Map<String, dynamic> json) {
   return StartTaskContactResponse(
-    contactId: json['ContactId'] as String,
+    contactId: json['ContactId'] as String?,
   );
 }
 
@@ -1716,7 +1581,7 @@ SuspendContactRecordingResponse _$SuspendContactRecordingResponseFromJson(
 Threshold _$ThresholdFromJson(Map<String, dynamic> json) {
   return Threshold(
     comparison: _$enumDecodeNullable(_$ComparisonEnumMap, json['Comparison']),
-    thresholdValue: (json['ThresholdValue'] as num)?.toDouble(),
+    thresholdValue: (json['ThresholdValue'] as num?)?.toDouble(),
   );
 }
 
@@ -1745,8 +1610,8 @@ UpdateContactAttributesResponse _$UpdateContactAttributesResponseFromJson(
 
 UseCase _$UseCaseFromJson(Map<String, dynamic> json) {
   return UseCase(
-    useCaseArn: json['UseCaseArn'] as String,
-    useCaseId: json['UseCaseId'] as String,
+    useCaseArn: json['UseCaseArn'] as String?,
+    useCaseId: json['UseCaseId'] as String?,
     useCaseType:
         _$enumDecodeNullable(_$UseCaseTypeEnumMap, json['UseCaseType']),
   );
@@ -1758,10 +1623,10 @@ const _$UseCaseTypeEnumMap = {
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-    arn: json['Arn'] as String,
-    directoryUserId: json['DirectoryUserId'] as String,
-    hierarchyGroupId: json['HierarchyGroupId'] as String,
-    id: json['Id'] as String,
+    arn: json['Arn'] as String?,
+    directoryUserId: json['DirectoryUserId'] as String?,
+    hierarchyGroupId: json['HierarchyGroupId'] as String?,
+    id: json['Id'] as String?,
     identityInfo: json['IdentityInfo'] == null
         ? null
         : UserIdentityInfo.fromJson(
@@ -1769,21 +1634,22 @@ User _$UserFromJson(Map<String, dynamic> json) {
     phoneConfig: json['PhoneConfig'] == null
         ? null
         : UserPhoneConfig.fromJson(json['PhoneConfig'] as Map<String, dynamic>),
-    routingProfileId: json['RoutingProfileId'] as String,
-    securityProfileIds:
-        (json['SecurityProfileIds'] as List)?.map((e) => e as String)?.toList(),
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    routingProfileId: json['RoutingProfileId'] as String?,
+    securityProfileIds: (json['SecurityProfileIds'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    username: json['Username'] as String,
+    username: json['Username'] as String?,
   );
 }
 
 UserIdentityInfo _$UserIdentityInfoFromJson(Map<String, dynamic> json) {
   return UserIdentityInfo(
-    email: json['Email'] as String,
-    firstName: json['FirstName'] as String,
-    lastName: json['LastName'] as String,
+    email: json['Email'] as String?,
+    firstName: json['FirstName'] as String?,
+    lastName: json['LastName'] as String?,
   );
 }
 
@@ -1804,15 +1670,17 @@ Map<String, dynamic> _$UserIdentityInfoToJson(UserIdentityInfo instance) {
 
 UserPhoneConfig _$UserPhoneConfigFromJson(Map<String, dynamic> json) {
   return UserPhoneConfig(
-    phoneType: _$enumDecodeNullable(_$PhoneTypeEnumMap, json['PhoneType']),
-    afterContactWorkTimeLimit: json['AfterContactWorkTimeLimit'] as int,
-    autoAccept: json['AutoAccept'] as bool,
-    deskPhoneNumber: json['DeskPhoneNumber'] as String,
+    phoneType: _$enumDecode(_$PhoneTypeEnumMap, json['PhoneType']),
+    afterContactWorkTimeLimit: json['AfterContactWorkTimeLimit'] as int?,
+    autoAccept: json['AutoAccept'] as bool?,
+    deskPhoneNumber: json['DeskPhoneNumber'] as String?,
   );
 }
 
 Map<String, dynamic> _$UserPhoneConfigToJson(UserPhoneConfig instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'PhoneType': _$PhoneTypeEnumMap[instance.phoneType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1820,7 +1688,6 @@ Map<String, dynamic> _$UserPhoneConfigToJson(UserPhoneConfig instance) {
     }
   }
 
-  writeNotNull('PhoneType', _$PhoneTypeEnumMap[instance.phoneType]);
   writeNotNull('AfterContactWorkTimeLimit', instance.afterContactWorkTimeLimit);
   writeNotNull('AutoAccept', instance.autoAccept);
   writeNotNull('DeskPhoneNumber', instance.deskPhoneNumber);
@@ -1841,25 +1708,17 @@ UserQuickConnectConfig _$UserQuickConnectConfigFromJson(
 }
 
 Map<String, dynamic> _$UserQuickConnectConfigToJson(
-    UserQuickConnectConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ContactFlowId', instance.contactFlowId);
-  writeNotNull('UserId', instance.userId);
-  return val;
-}
+        UserQuickConnectConfig instance) =>
+    <String, dynamic>{
+      'ContactFlowId': instance.contactFlowId,
+      'UserId': instance.userId,
+    };
 
 UserSummary _$UserSummaryFromJson(Map<String, dynamic> json) {
   return UserSummary(
-    arn: json['Arn'] as String,
-    id: json['Id'] as String,
-    username: json['Username'] as String,
+    arn: json['Arn'] as String?,
+    id: json['Id'] as String?,
+    username: json['Username'] as String?,
   );
 }
 

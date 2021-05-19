@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'pricing-2017-10-15.g.dart';
 
 /// AWS Price List Service API (AWS Price List Service) is a centralized and
 /// convenient way to programmatically query Amazon Web Services for services,
@@ -61,10 +53,10 @@ part 'pricing-2017-10-15.g.dart';
 class Pricing {
   final _s.JsonProtocol _protocol;
   Pricing({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -109,10 +101,10 @@ class Pricing {
   /// the results in a <code>GetProducts</code> call. To retrieve a list of all
   /// services, leave this blank.
   Future<DescribeServicesResponse> describeServices({
-    String formatVersion,
-    int maxResults,
-    String nextToken,
-    String serviceCode,
+    String? formatVersion,
+    int? maxResults,
+    String? nextToken,
+    String? serviceCode,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -170,10 +162,10 @@ class Pricing {
   /// The pagination token that indicates the next set of results that you want
   /// to retrieve.
   Future<GetAttributeValuesResponse> getAttributeValues({
-    @_s.required String attributeName,
-    @_s.required String serviceCode,
-    int maxResults,
-    String nextToken,
+    required String attributeName,
+    required String serviceCode,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
@@ -231,11 +223,11 @@ class Pricing {
   /// Parameter [serviceCode] :
   /// The code for the service whose products you want to retrieve.
   Future<GetProductsResponse> getProducts({
-    List<Filter> filters,
-    String formatVersion,
-    int maxResults,
-    String nextToken,
-    String serviceCode,
+    List<Filter>? filters,
+    String? formatVersion,
+    int? maxResults,
+    String? nextToken,
+    String? serviceCode,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -269,73 +261,62 @@ class Pricing {
 /// The values of a given attribute, such as <code>Throughput Optimized
 /// HDD</code> or <code>Provisioned IOPS</code> for the <code>Amazon EC2</code>
 /// <code>volumeType</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttributeValue {
   /// The specific value of an <code>attributeName</code>.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   AttributeValue({
     this.value,
   });
-  factory AttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeValueFromJson(json);
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      value: json['Value'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServicesResponse {
   /// The format version of the response. For example, <code>aws_v1</code>.
-  @_s.JsonKey(name: 'FormatVersion')
-  final String formatVersion;
+  final String? formatVersion;
 
   /// The pagination token for the next set of retreivable results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The service metadata for the service or services in the response.
-  @_s.JsonKey(name: 'Services')
-  final List<Service> services;
+  final List<Service>? services;
 
   DescribeServicesResponse({
     this.formatVersion,
     this.nextToken,
     this.services,
   });
-  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServicesResponseFromJson(json);
+  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeServicesResponse(
+      formatVersion: json['FormatVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      services: (json['Services'] as List?)
+          ?.whereNotNull()
+          .map((e) => Service.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The pagination token expired. Try again without a pagination token.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExpiredNextTokenException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ExpiredNextTokenException({
     this.message,
   });
-  factory ExpiredNextTokenException.fromJson(Map<String, dynamic> json) =>
-      _$ExpiredNextTokenExceptionFromJson(json);
+  factory ExpiredNextTokenException.fromJson(Map<String, dynamic> json) {
+    return ExpiredNextTokenException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The constraints that you want all returned products to match.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The product metadata field that you want to filter on. You can filter by
   /// just the service code to see all products for a specific service, filter by
@@ -348,14 +329,12 @@ class Filter {
   /// For example, you can filter by the <code>AmazonEC2</code> service code and
   /// the <code>volumeType</code> attribute name to get the prices for only Amazon
   /// EC2 volumes.
-  @_s.JsonKey(name: 'Field')
   final String field;
 
   /// The type of filter that you want to use.
   ///
   /// Valid values are: <code>TERM_MATCH</code>. <code>TERM_MATCH</code> returns
   /// only products that match both the given filter field and the given value.
-  @_s.JsonKey(name: 'Type')
   final FilterType type;
 
   /// The service code or attribute value that you want to filter by. If you are
@@ -363,165 +342,181 @@ class Filter {
   /// <code>AmazonEC2</code>. If you are filtering by attribute name, this is the
   /// attribute value that you want the returned products to match, such as a
   /// <code>Provisioned IOPS</code> volume.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Filter({
-    @_s.required this.field,
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.field,
+    required this.type,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Field': field,
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum FilterType {
-  @_s.JsonValue('TERM_MATCH')
   termMatch,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FilterType {
+  String toValue() {
+    switch (this) {
+      case FilterType.termMatch:
+        return 'TERM_MATCH';
+    }
+  }
+}
+
+extension on String {
+  FilterType toFilterType() {
+    switch (this) {
+      case 'TERM_MATCH':
+        return FilterType.termMatch;
+    }
+    throw Exception('$this is not known in enum FilterType');
+  }
+}
+
 class GetAttributeValuesResponse {
   /// The list of values for an attribute. For example, <code>Throughput Optimized
   /// HDD</code> and <code>Provisioned IOPS</code> are two available values for
   /// the <code>AmazonEC2</code> <code>volumeType</code>.
-  @_s.JsonKey(name: 'AttributeValues')
-  final List<AttributeValue> attributeValues;
+  final List<AttributeValue>? attributeValues;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetAttributeValuesResponse({
     this.attributeValues,
     this.nextToken,
   });
-  factory GetAttributeValuesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAttributeValuesResponseFromJson(json);
+  factory GetAttributeValuesResponse.fromJson(Map<String, dynamic> json) {
+    return GetAttributeValuesResponse(
+      attributeValues: (json['AttributeValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProductsResponse {
   /// The format version of the response. For example, aws_v1.
-  @_s.JsonKey(name: 'FormatVersion')
-  final String formatVersion;
+  final String? formatVersion;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of products that match your filters. The list contains both the
   /// product metadata and the price information.
-  @_s.JsonKey(name: 'PriceList')
-  final List<Object> priceList;
+  final List<Object>? priceList;
 
   GetProductsResponse({
     this.formatVersion,
     this.nextToken,
     this.priceList,
   });
-  factory GetProductsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetProductsResponseFromJson(json);
+  factory GetProductsResponse.fromJson(Map<String, dynamic> json) {
+    return GetProductsResponse(
+      formatVersion: json['FormatVersion'] as String?,
+      nextToken: json['NextToken'] as String?,
+      priceList: json['PriceList'] == null
+          ? null
+          : (json['PriceList'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
+    );
+  }
 }
 
 /// An error on the server occurred during the processing of your request. Try
 /// again later.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InternalErrorException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InternalErrorException({
     this.message,
   });
-  factory InternalErrorException.fromJson(Map<String, dynamic> json) =>
-      _$InternalErrorExceptionFromJson(json);
+  factory InternalErrorException.fromJson(Map<String, dynamic> json) {
+    return InternalErrorException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidNextTokenException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidNextTokenException({
     this.message,
   });
-  factory InvalidNextTokenException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidNextTokenExceptionFromJson(json);
+  factory InvalidNextTokenException.fromJson(Map<String, dynamic> json) {
+    return InvalidNextTokenException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// One or more parameters had an invalid value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidParameterException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InvalidParameterException({
     this.message,
   });
-  factory InvalidParameterException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidParameterExceptionFromJson(json);
+  factory InvalidParameterException.fromJson(Map<String, dynamic> json) {
+    return InvalidParameterException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The requested resource can't be found.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   NotFoundException({
     this.message,
   });
-  factory NotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$NotFoundExceptionFromJson(json);
+  factory NotFoundException.fromJson(Map<String, dynamic> json) {
+    return NotFoundException(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The metadata for a service, such as the service code and available attribute
 /// names.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Service {
   /// The attributes that are available for this service.
-  @_s.JsonKey(name: 'AttributeNames')
-  final List<String> attributeNames;
+  final List<String>? attributeNames;
 
   /// The code for the AWS service.
-  @_s.JsonKey(name: 'ServiceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   Service({
     this.attributeNames,
     this.serviceCode,
   });
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      attributeNames: (json['AttributeNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      serviceCode: json['ServiceCode'] as String?,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

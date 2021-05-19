@@ -7,7 +7,9 @@ part of 'rds-2013-01-10.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$OptionConfigurationToJson(OptionConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OptionName': instance.optionName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -15,7 +17,6 @@ Map<String, dynamic> _$OptionConfigurationToJson(OptionConfiguration instance) {
     }
   }
 
-  writeNotNull('OptionName', instance.optionName);
   writeNotNull(
       'DBSecurityGroupMemberships', instance.dBSecurityGroupMemberships);
   writeNotNull('Port', instance.port);

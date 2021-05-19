@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'runtime.sagemaker-2017-05-13.g.dart';
 
 /// The Amazon SageMaker runtime API.
 class SageMakerRuntime {
   final _s.RestJsonProtocol _protocol;
   SageMakerRuntime({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -139,14 +131,14 @@ class SageMakerRuntime {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html">Test
   /// models in production</a>
   Future<InvokeEndpointOutput> invokeEndpoint({
-    @_s.required Uint8List body,
-    @_s.required String endpointName,
-    String accept,
-    String contentType,
-    String customAttributes,
-    String inferenceId,
-    String targetModel,
-    String targetVariant,
+    required Uint8List body,
+    required String endpointName,
+    String? accept,
+    String? contentType,
+    String? customAttributes,
+    String? inferenceId,
+    String? targetModel,
+    String? targetVariant,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(endpointName, 'endpointName');
@@ -229,17 +221,18 @@ class SageMakerRuntime {
       targetVariant,
       r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
-    final headers = <String, String>{};
-    accept?.let((v) => headers['Accept'] = v.toString());
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    customAttributes?.let(
-        (v) => headers['X-Amzn-SageMaker-Custom-Attributes'] = v.toString());
-    inferenceId
-        ?.let((v) => headers['X-Amzn-SageMaker-Inference-Id'] = v.toString());
-    targetModel
-        ?.let((v) => headers['X-Amzn-SageMaker-Target-Model'] = v.toString());
-    targetVariant
-        ?.let((v) => headers['X-Amzn-SageMaker-Target-Variant'] = v.toString());
+    final headers = <String, String>{
+      if (accept != null) 'Accept': accept.toString(),
+      if (contentType != null) 'Content-Type': contentType.toString(),
+      if (customAttributes != null)
+        'X-Amzn-SageMaker-Custom-Attributes': customAttributes.toString(),
+      if (inferenceId != null)
+        'X-Amzn-SageMaker-Inference-Id': inferenceId.toString(),
+      if (targetModel != null)
+        'X-Amzn-SageMaker-Target-Model': targetModel.toString(),
+      if (targetVariant != null)
+        'X-Amzn-SageMaker-Target-Variant': targetVariant.toString(),
+    };
     final response = await _protocol.sendRaw(
       payload: body,
       method: 'POST',
@@ -259,24 +252,16 @@ class SageMakerRuntime {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvokeEndpointOutput {
   /// Includes the inference provided by the model.
   ///
   /// For information about the format of the response body, see <a
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
   /// Data Formats-Inference</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Body')
   final Uint8List body;
 
   /// The MIME type of the inference returned in the response body.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// Provides additional information in the response about the inference returned
   /// by a model hosted at an Amazon SageMaker endpoint. The information is an
@@ -298,40 +283,36 @@ class InvokeEndpointOutput {
   ///
   /// This feature is currently supported in the AWS SDKs but not in the Amazon
   /// SageMaker Python SDK.
-  @_s.JsonKey(name: 'X-Amzn-SageMaker-Custom-Attributes')
-  final String customAttributes;
+  final String? customAttributes;
 
   /// Identifies the production variant that was invoked.
-  @_s.JsonKey(name: 'x-Amzn-Invoked-Production-Variant')
-  final String invokedProductionVariant;
+  final String? invokedProductionVariant;
 
   InvokeEndpointOutput({
-    @_s.required this.body,
+    required this.body,
     this.contentType,
     this.customAttributes,
     this.invokedProductionVariant,
   });
-  factory InvokeEndpointOutput.fromJson(Map<String, dynamic> json) =>
-      _$InvokeEndpointOutputFromJson(json);
 }
 
 class InternalFailure extends _s.GenericAwsException {
-  InternalFailure({String type, String message})
+  InternalFailure({String? type, String? message})
       : super(type: type, code: 'InternalFailure', message: message);
 }
 
 class ModelError extends _s.GenericAwsException {
-  ModelError({String type, String message})
+  ModelError({String? type, String? message})
       : super(type: type, code: 'ModelError', message: message);
 }
 
 class ServiceUnavailable extends _s.GenericAwsException {
-  ServiceUnavailable({String type, String message})
+  ServiceUnavailable({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailable', message: message);
 }
 
 class ValidationError extends _s.GenericAwsException {
-  ValidationError({String type, String message})
+  ValidationError({String? type, String? message})
       : super(type: type, code: 'ValidationError', message: message);
 }
 

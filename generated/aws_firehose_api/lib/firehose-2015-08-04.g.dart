@@ -8,8 +8,8 @@ part of 'firehose-2015-08-04.dart';
 
 BufferingHints _$BufferingHintsFromJson(Map<String, dynamic> json) {
   return BufferingHints(
-    intervalInSeconds: json['IntervalInSeconds'] as int,
-    sizeInMBs: json['SizeInMBs'] as int,
+    intervalInSeconds: json['IntervalInSeconds'] as int?,
+    sizeInMBs: json['SizeInMBs'] as int?,
   );
 }
 
@@ -30,9 +30,9 @@ Map<String, dynamic> _$BufferingHintsToJson(BufferingHints instance) {
 CloudWatchLoggingOptions _$CloudWatchLoggingOptionsFromJson(
     Map<String, dynamic> json) {
   return CloudWatchLoggingOptions(
-    enabled: json['Enabled'] as bool,
-    logGroupName: json['LogGroupName'] as String,
-    logStreamName: json['LogStreamName'] as String,
+    enabled: json['Enabled'] as bool?,
+    logGroupName: json['LogGroupName'] as String?,
+    logStreamName: json['LogStreamName'] as String?,
   );
 }
 
@@ -55,13 +55,15 @@ Map<String, dynamic> _$CloudWatchLoggingOptionsToJson(
 CopyCommand _$CopyCommandFromJson(Map<String, dynamic> json) {
   return CopyCommand(
     dataTableName: json['DataTableName'] as String,
-    copyOptions: json['CopyOptions'] as String,
-    dataTableColumns: json['DataTableColumns'] as String,
+    copyOptions: json['CopyOptions'] as String?,
+    dataTableColumns: json['DataTableColumns'] as String?,
   );
 }
 
 Map<String, dynamic> _$CopyCommandToJson(CopyCommand instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataTableName': instance.dataTableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -69,7 +71,6 @@ Map<String, dynamic> _$CopyCommandToJson(CopyCommand instance) {
     }
   }
 
-  writeNotNull('DataTableName', instance.dataTableName);
   writeNotNull('CopyOptions', instance.copyOptions);
   writeNotNull('DataTableColumns', instance.dataTableColumns);
   return val;
@@ -78,14 +79,14 @@ Map<String, dynamic> _$CopyCommandToJson(CopyCommand instance) {
 CreateDeliveryStreamOutput _$CreateDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return CreateDeliveryStreamOutput(
-    deliveryStreamARN: json['DeliveryStreamARN'] as String,
+    deliveryStreamARN: json['DeliveryStreamARN'] as String?,
   );
 }
 
 DataFormatConversionConfiguration _$DataFormatConversionConfigurationFromJson(
     Map<String, dynamic> json) {
   return DataFormatConversionConfiguration(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
     inputFormatConfiguration: json['InputFormatConfiguration'] == null
         ? null
         : InputFormatConfiguration.fromJson(
@@ -130,15 +131,13 @@ DeliveryStreamDescription _$DeliveryStreamDescriptionFromJson(
   return DeliveryStreamDescription(
     deliveryStreamARN: json['DeliveryStreamARN'] as String,
     deliveryStreamName: json['DeliveryStreamName'] as String,
-    deliveryStreamStatus: _$enumDecodeNullable(
+    deliveryStreamStatus: _$enumDecode(
         _$DeliveryStreamStatusEnumMap, json['DeliveryStreamStatus']),
-    deliveryStreamType: _$enumDecodeNullable(
-        _$DeliveryStreamTypeEnumMap, json['DeliveryStreamType']),
-    destinations: (json['Destinations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DestinationDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deliveryStreamType:
+        _$enumDecode(_$DeliveryStreamTypeEnumMap, json['DeliveryStreamType']),
+    destinations: (json['Destinations'] as List<dynamic>)
+        .map((e) => DestinationDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
     hasMoreDestinations: json['HasMoreDestinations'] as bool,
     versionId: json['VersionId'] as String,
     createTimestamp:
@@ -161,36 +160,30 @@ DeliveryStreamDescription _$DeliveryStreamDescriptionFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$DeliveryStreamStatusEnumMap = {
@@ -213,11 +206,22 @@ DeliveryStreamEncryptionConfiguration
         ? null
         : FailureDescription.fromJson(
             json['FailureDescription'] as Map<String, dynamic>),
-    keyARN: json['KeyARN'] as String,
+    keyARN: json['KeyARN'] as String?,
     keyType: _$enumDecodeNullable(_$KeyTypeEnumMap, json['KeyType']),
     status: _$enumDecodeNullable(
         _$DeliveryStreamEncryptionStatusEnumMap, json['Status']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$KeyTypeEnumMap = {
@@ -236,7 +240,9 @@ const _$DeliveryStreamEncryptionStatusEnumMap = {
 
 Map<String, dynamic> _$DeliveryStreamEncryptionConfigurationInputToJson(
     DeliveryStreamEncryptionConfigurationInput instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'KeyType': _$KeyTypeEnumMap[instance.keyType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -244,7 +250,6 @@ Map<String, dynamic> _$DeliveryStreamEncryptionConfigurationInputToJson(
     }
   }
 
-  writeNotNull('KeyType', _$KeyTypeEnumMap[instance.keyType]);
   writeNotNull('KeyARN', instance.keyARN);
   return val;
 }
@@ -252,10 +257,8 @@ Map<String, dynamic> _$DeliveryStreamEncryptionConfigurationInputToJson(
 DescribeDeliveryStreamOutput _$DescribeDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeDeliveryStreamOutput(
-    deliveryStreamDescription: json['DeliveryStreamDescription'] == null
-        ? null
-        : DeliveryStreamDescription.fromJson(
-            json['DeliveryStreamDescription'] as Map<String, dynamic>),
+    deliveryStreamDescription: DeliveryStreamDescription.fromJson(
+        json['DeliveryStreamDescription'] as Map<String, dynamic>),
   );
 }
 
@@ -326,8 +329,8 @@ DestinationDescription _$DestinationDescriptionFromJson(
 ElasticsearchBufferingHints _$ElasticsearchBufferingHintsFromJson(
     Map<String, dynamic> json) {
   return ElasticsearchBufferingHints(
-    intervalInSeconds: json['IntervalInSeconds'] as int,
-    sizeInMBs: json['SizeInMBs'] as int,
+    intervalInSeconds: json['IntervalInSeconds'] as int?,
+    sizeInMBs: json['SizeInMBs'] as int?,
   );
 }
 
@@ -348,7 +351,11 @@ Map<String, dynamic> _$ElasticsearchBufferingHintsToJson(
 
 Map<String, dynamic> _$ElasticsearchDestinationConfigurationToJson(
     ElasticsearchDestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IndexName': instance.indexName,
+    'RoleARN': instance.roleARN,
+    'S3Configuration': instance.s3Configuration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -356,9 +363,6 @@ Map<String, dynamic> _$ElasticsearchDestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('IndexName', instance.indexName);
-  writeNotNull('RoleARN', instance.roleARN);
-  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
   writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
@@ -400,9 +404,9 @@ ElasticsearchDestinationDescription
         ? null
         : CloudWatchLoggingOptions.fromJson(
             json['CloudWatchLoggingOptions'] as Map<String, dynamic>),
-    clusterEndpoint: json['ClusterEndpoint'] as String,
-    domainARN: json['DomainARN'] as String,
-    indexName: json['IndexName'] as String,
+    clusterEndpoint: json['ClusterEndpoint'] as String?,
+    domainARN: json['DomainARN'] as String?,
+    indexName: json['IndexName'] as String?,
     indexRotationPeriod: _$enumDecodeNullable(
         _$ElasticsearchIndexRotationPeriodEnumMap, json['IndexRotationPeriod']),
     processingConfiguration: json['ProcessingConfiguration'] == null
@@ -413,14 +417,14 @@ ElasticsearchDestinationDescription
         ? null
         : ElasticsearchRetryOptions.fromJson(
             json['RetryOptions'] as Map<String, dynamic>),
-    roleARN: json['RoleARN'] as String,
+    roleARN: json['RoleARN'] as String?,
     s3BackupMode: _$enumDecodeNullable(
         _$ElasticsearchS3BackupModeEnumMap, json['S3BackupMode']),
     s3DestinationDescription: json['S3DestinationDescription'] == null
         ? null
         : S3DestinationDescription.fromJson(
             json['S3DestinationDescription'] as Map<String, dynamic>),
-    typeName: json['TypeName'] as String,
+    typeName: json['TypeName'] as String?,
     vpcConfigurationDescription: json['VpcConfigurationDescription'] == null
         ? null
         : VpcConfigurationDescription.fromJson(
@@ -458,7 +462,7 @@ Map<String, dynamic> _$ElasticsearchDestinationUpdateToJson(
 ElasticsearchRetryOptions _$ElasticsearchRetryOptionsFromJson(
     Map<String, dynamic> json) {
   return ElasticsearchRetryOptions(
-    durationInSeconds: json['DurationInSeconds'] as int,
+    durationInSeconds: json['DurationInSeconds'] as int?,
   );
 }
 
@@ -510,7 +514,10 @@ const _$NoEncryptionConfigEnumMap = {
 
 Map<String, dynamic> _$ExtendedS3DestinationConfigurationToJson(
     ExtendedS3DestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketARN': instance.bucketARN,
+    'RoleARN': instance.roleARN,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -518,8 +525,6 @@ Map<String, dynamic> _$ExtendedS3DestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('BucketARN', instance.bucketARN);
-  writeNotNull('RoleARN', instance.roleARN);
   writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
@@ -556,16 +561,12 @@ ExtendedS3DestinationDescription _$ExtendedS3DestinationDescriptionFromJson(
     Map<String, dynamic> json) {
   return ExtendedS3DestinationDescription(
     bucketARN: json['BucketARN'] as String,
-    bufferingHints: json['BufferingHints'] == null
-        ? null
-        : BufferingHints.fromJson(
-            json['BufferingHints'] as Map<String, dynamic>),
-    compressionFormat: _$enumDecodeNullable(
-        _$CompressionFormatEnumMap, json['CompressionFormat']),
-    encryptionConfiguration: json['EncryptionConfiguration'] == null
-        ? null
-        : EncryptionConfiguration.fromJson(
-            json['EncryptionConfiguration'] as Map<String, dynamic>),
+    bufferingHints:
+        BufferingHints.fromJson(json['BufferingHints'] as Map<String, dynamic>),
+    compressionFormat:
+        _$enumDecode(_$CompressionFormatEnumMap, json['CompressionFormat']),
+    encryptionConfiguration: EncryptionConfiguration.fromJson(
+        json['EncryptionConfiguration'] as Map<String, dynamic>),
     roleARN: json['RoleARN'] as String,
     cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] == null
         ? null
@@ -577,8 +578,8 @@ ExtendedS3DestinationDescription _$ExtendedS3DestinationDescriptionFromJson(
             : DataFormatConversionConfiguration.fromJson(
                 json['DataFormatConversionConfiguration']
                     as Map<String, dynamic>),
-    errorOutputPrefix: json['ErrorOutputPrefix'] as String,
-    prefix: json['Prefix'] as String,
+    errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
+    prefix: json['Prefix'] as String?,
     processingConfiguration: json['ProcessingConfiguration'] == null
         ? null
         : ProcessingConfiguration.fromJson(
@@ -625,8 +626,7 @@ Map<String, dynamic> _$ExtendedS3DestinationUpdateToJson(
 FailureDescription _$FailureDescriptionFromJson(Map<String, dynamic> json) {
   return FailureDescription(
     details: json['Details'] as String,
-    type:
-        _$enumDecodeNullable(_$DeliveryStreamFailureTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$DeliveryStreamFailureTypeEnumMap, json['Type']),
   );
 }
 
@@ -651,8 +651,9 @@ const _$DeliveryStreamFailureTypeEnumMap = {
 
 HiveJsonSerDe _$HiveJsonSerDeFromJson(Map<String, dynamic> json) {
   return HiveJsonSerDe(
-    timestampFormats:
-        (json['TimestampFormats'] as List)?.map((e) => e as String)?.toList(),
+    timestampFormats: (json['TimestampFormats'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -672,8 +673,8 @@ Map<String, dynamic> _$HiveJsonSerDeToJson(HiveJsonSerDe instance) {
 HttpEndpointBufferingHints _$HttpEndpointBufferingHintsFromJson(
     Map<String, dynamic> json) {
   return HttpEndpointBufferingHints(
-    intervalInSeconds: json['IntervalInSeconds'] as int,
-    sizeInMBs: json['SizeInMBs'] as int,
+    intervalInSeconds: json['IntervalInSeconds'] as int?,
+    sizeInMBs: json['SizeInMBs'] as int?,
   );
 }
 
@@ -701,23 +702,17 @@ HttpEndpointCommonAttribute _$HttpEndpointCommonAttributeFromJson(
 }
 
 Map<String, dynamic> _$HttpEndpointCommonAttributeToJson(
-    HttpEndpointCommonAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AttributeName', instance.attributeName);
-  writeNotNull('AttributeValue', instance.attributeValue);
-  return val;
-}
+        HttpEndpointCommonAttribute instance) =>
+    <String, dynamic>{
+      'AttributeName': instance.attributeName,
+      'AttributeValue': instance.attributeValue,
+    };
 
 Map<String, dynamic> _$HttpEndpointConfigurationToJson(
     HttpEndpointConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Url': instance.url,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -725,7 +720,6 @@ Map<String, dynamic> _$HttpEndpointConfigurationToJson(
     }
   }
 
-  writeNotNull('Url', instance.url);
   writeNotNull('AccessKey', instance.accessKey);
   writeNotNull('Name', instance.name);
   return val;
@@ -734,14 +728,17 @@ Map<String, dynamic> _$HttpEndpointConfigurationToJson(
 HttpEndpointDescription _$HttpEndpointDescriptionFromJson(
     Map<String, dynamic> json) {
   return HttpEndpointDescription(
-    name: json['Name'] as String,
-    url: json['Url'] as String,
+    name: json['Name'] as String?,
+    url: json['Url'] as String?,
   );
 }
 
 Map<String, dynamic> _$HttpEndpointDestinationConfigurationToJson(
     HttpEndpointDestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'EndpointConfiguration': instance.endpointConfiguration.toJson(),
+    'S3Configuration': instance.s3Configuration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -749,9 +746,6 @@ Map<String, dynamic> _$HttpEndpointDestinationConfigurationToJson(
     }
   }
 
-  writeNotNull(
-      'EndpointConfiguration', instance.endpointConfiguration?.toJson());
-  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
   writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
@@ -797,7 +791,7 @@ HttpEndpointDestinationDescription _$HttpEndpointDestinationDescriptionFromJson(
         ? null
         : HttpEndpointRetryOptions.fromJson(
             json['RetryOptions'] as Map<String, dynamic>),
-    roleARN: json['RoleARN'] as String,
+    roleARN: json['RoleARN'] as String?,
     s3BackupMode: _$enumDecodeNullable(
         _$HttpEndpointS3BackupModeEnumMap, json['S3BackupMode']),
     s3DestinationDescription: json['S3DestinationDescription'] == null
@@ -836,11 +830,10 @@ Map<String, dynamic> _$HttpEndpointDestinationUpdateToJson(
 HttpEndpointRequestConfiguration _$HttpEndpointRequestConfigurationFromJson(
     Map<String, dynamic> json) {
   return HttpEndpointRequestConfiguration(
-    commonAttributes: (json['CommonAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    commonAttributes: (json['CommonAttributes'] as List<dynamic>?)
+        ?.map((e) =>
+            HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
     contentEncoding:
         _$enumDecodeNullable(_$ContentEncodingEnumMap, json['ContentEncoding']),
   );
@@ -857,7 +850,7 @@ Map<String, dynamic> _$HttpEndpointRequestConfigurationToJson(
   }
 
   writeNotNull('CommonAttributes',
-      instance.commonAttributes?.map((e) => e?.toJson())?.toList());
+      instance.commonAttributes?.map((e) => e.toJson()).toList());
   writeNotNull(
       'ContentEncoding', _$ContentEncodingEnumMap[instance.contentEncoding]);
   return val;
@@ -871,7 +864,7 @@ const _$ContentEncodingEnumMap = {
 HttpEndpointRetryOptions _$HttpEndpointRetryOptionsFromJson(
     Map<String, dynamic> json) {
   return HttpEndpointRetryOptions(
-    durationInSeconds: json['DurationInSeconds'] as int,
+    durationInSeconds: json['DurationInSeconds'] as int?,
   );
 }
 
@@ -918,50 +911,35 @@ KMSEncryptionConfig _$KMSEncryptionConfigFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$KMSEncryptionConfigToJson(KMSEncryptionConfig instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AWSKMSKeyARN', instance.awsKMSKeyARN);
-  return val;
-}
+Map<String, dynamic> _$KMSEncryptionConfigToJson(
+        KMSEncryptionConfig instance) =>
+    <String, dynamic>{
+      'AWSKMSKeyARN': instance.awsKMSKeyARN,
+    };
 
 Map<String, dynamic> _$KinesisStreamSourceConfigurationToJson(
-    KinesisStreamSourceConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('KinesisStreamARN', instance.kinesisStreamARN);
-  writeNotNull('RoleARN', instance.roleARN);
-  return val;
-}
+        KinesisStreamSourceConfiguration instance) =>
+    <String, dynamic>{
+      'KinesisStreamARN': instance.kinesisStreamARN,
+      'RoleARN': instance.roleARN,
+    };
 
 KinesisStreamSourceDescription _$KinesisStreamSourceDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisStreamSourceDescription(
     deliveryStartTimestamp:
         const UnixDateTimeConverter().fromJson(json['DeliveryStartTimestamp']),
-    kinesisStreamARN: json['KinesisStreamARN'] as String,
-    roleARN: json['RoleARN'] as String,
+    kinesisStreamARN: json['KinesisStreamARN'] as String?,
+    roleARN: json['RoleARN'] as String?,
   );
 }
 
 ListDeliveryStreamsOutput _$ListDeliveryStreamsOutputFromJson(
     Map<String, dynamic> json) {
   return ListDeliveryStreamsOutput(
-    deliveryStreamNames: (json['DeliveryStreamNames'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    deliveryStreamNames: (json['DeliveryStreamNames'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     hasMoreDeliveryStreams: json['HasMoreDeliveryStreams'] as bool,
   );
 }
@@ -970,21 +948,21 @@ ListTagsForDeliveryStreamOutput _$ListTagsForDeliveryStreamOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForDeliveryStreamOutput(
     hasMoreTags: json['HasMoreTags'] as bool,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>)
+        .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OpenXJsonSerDe _$OpenXJsonSerDeFromJson(Map<String, dynamic> json) {
   return OpenXJsonSerDe(
-    caseInsensitive: json['CaseInsensitive'] as bool,
+    caseInsensitive: json['CaseInsensitive'] as bool?,
     columnToJsonKeyMappings:
-        (json['ColumnToJsonKeyMappings'] as Map<String, dynamic>)?.map(
+        (json['ColumnToJsonKeyMappings'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     convertDotsInJsonKeysToUnderscores:
-        json['ConvertDotsInJsonKeysToUnderscores'] as bool,
+        json['ConvertDotsInJsonKeysToUnderscores'] as bool?,
   );
 }
 
@@ -1006,20 +984,22 @@ Map<String, dynamic> _$OpenXJsonSerDeToJson(OpenXJsonSerDe instance) {
 
 OrcSerDe _$OrcSerDeFromJson(Map<String, dynamic> json) {
   return OrcSerDe(
-    blockSizeBytes: json['BlockSizeBytes'] as int,
-    bloomFilterColumns:
-        (json['BloomFilterColumns'] as List)?.map((e) => e as String)?.toList(),
+    blockSizeBytes: json['BlockSizeBytes'] as int?,
+    bloomFilterColumns: (json['BloomFilterColumns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     bloomFilterFalsePositiveProbability:
-        (json['BloomFilterFalsePositiveProbability'] as num)?.toDouble(),
+        (json['BloomFilterFalsePositiveProbability'] as num?)?.toDouble(),
     compression:
         _$enumDecodeNullable(_$OrcCompressionEnumMap, json['Compression']),
-    dictionaryKeyThreshold: (json['DictionaryKeyThreshold'] as num)?.toDouble(),
-    enablePadding: json['EnablePadding'] as bool,
+    dictionaryKeyThreshold:
+        (json['DictionaryKeyThreshold'] as num?)?.toDouble(),
+    enablePadding: json['EnablePadding'] as bool?,
     formatVersion:
         _$enumDecodeNullable(_$OrcFormatVersionEnumMap, json['FormatVersion']),
-    paddingTolerance: (json['PaddingTolerance'] as num)?.toDouble(),
-    rowIndexStride: json['RowIndexStride'] as int,
-    stripeSizeBytes: json['StripeSizeBytes'] as int,
+    paddingTolerance: (json['PaddingTolerance'] as num?)?.toDouble(),
+    rowIndexStride: json['RowIndexStride'] as int?,
+    stripeSizeBytes: json['StripeSizeBytes'] as int?,
   );
 }
 
@@ -1083,12 +1063,12 @@ Map<String, dynamic> _$OutputFormatConfigurationToJson(
 
 ParquetSerDe _$ParquetSerDeFromJson(Map<String, dynamic> json) {
   return ParquetSerDe(
-    blockSizeBytes: json['BlockSizeBytes'] as int,
+    blockSizeBytes: json['BlockSizeBytes'] as int?,
     compression:
         _$enumDecodeNullable(_$ParquetCompressionEnumMap, json['Compression']),
-    enableDictionaryCompression: json['EnableDictionaryCompression'] as bool,
-    maxPaddingBytes: json['MaxPaddingBytes'] as int,
-    pageSizeBytes: json['PageSizeBytes'] as int,
+    enableDictionaryCompression: json['EnableDictionaryCompression'] as bool?,
+    maxPaddingBytes: json['MaxPaddingBytes'] as int?,
+    pageSizeBytes: json['PageSizeBytes'] as int?,
     writerVersion: _$enumDecodeNullable(
         _$ParquetWriterVersionEnumMap, json['WriterVersion']),
   );
@@ -1129,11 +1109,10 @@ const _$ParquetWriterVersionEnumMap = {
 ProcessingConfiguration _$ProcessingConfigurationFromJson(
     Map<String, dynamic> json) {
   return ProcessingConfiguration(
-    enabled: json['Enabled'] as bool,
-    processors: (json['Processors'] as List)
-        ?.map((e) =>
-            e == null ? null : Processor.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    enabled: json['Enabled'] as bool?,
+    processors: (json['Processors'] as List<dynamic>?)
+        ?.map((e) => Processor.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1149,23 +1128,23 @@ Map<String, dynamic> _$ProcessingConfigurationToJson(
 
   writeNotNull('Enabled', instance.enabled);
   writeNotNull(
-      'Processors', instance.processors?.map((e) => e?.toJson())?.toList());
+      'Processors', instance.processors?.map((e) => e.toJson()).toList());
   return val;
 }
 
 Processor _$ProcessorFromJson(Map<String, dynamic> json) {
   return Processor(
-    type: _$enumDecodeNullable(_$ProcessorTypeEnumMap, json['Type']),
-    parameters: (json['Parameters'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProcessorParameter.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    type: _$enumDecode(_$ProcessorTypeEnumMap, json['Type']),
+    parameters: (json['Parameters'] as List<dynamic>?)
+        ?.map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ProcessorToJson(Processor instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Type': _$ProcessorTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1173,9 +1152,8 @@ Map<String, dynamic> _$ProcessorToJson(Processor instance) {
     }
   }
 
-  writeNotNull('Type', _$ProcessorTypeEnumMap[instance.type]);
   writeNotNull(
-      'Parameters', instance.parameters?.map((e) => e?.toJson())?.toList());
+      'Parameters', instance.parameters?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1185,26 +1163,17 @@ const _$ProcessorTypeEnumMap = {
 
 ProcessorParameter _$ProcessorParameterFromJson(Map<String, dynamic> json) {
   return ProcessorParameter(
-    parameterName: _$enumDecodeNullable(
-        _$ProcessorParameterNameEnumMap, json['ParameterName']),
+    parameterName:
+        _$enumDecode(_$ProcessorParameterNameEnumMap, json['ParameterName']),
     parameterValue: json['ParameterValue'] as String,
   );
 }
 
-Map<String, dynamic> _$ProcessorParameterToJson(ProcessorParameter instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'ParameterName', _$ProcessorParameterNameEnumMap[instance.parameterName]);
-  writeNotNull('ParameterValue', instance.parameterValue);
-  return val;
-}
+Map<String, dynamic> _$ProcessorParameterToJson(ProcessorParameter instance) =>
+    <String, dynamic>{
+      'ParameterName': _$ProcessorParameterNameEnumMap[instance.parameterName],
+      'ParameterValue': instance.parameterValue,
+    };
 
 const _$ProcessorParameterNameEnumMap = {
   ProcessorParameterName.lambdaArn: 'LambdaArn',
@@ -1217,28 +1186,27 @@ const _$ProcessorParameterNameEnumMap = {
 PutRecordBatchOutput _$PutRecordBatchOutputFromJson(Map<String, dynamic> json) {
   return PutRecordBatchOutput(
     failedPutCount: json['FailedPutCount'] as int,
-    requestResponses: (json['RequestResponses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    encrypted: json['Encrypted'] as bool,
+    requestResponses: (json['RequestResponses'] as List<dynamic>)
+        .map((e) =>
+            PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    encrypted: json['Encrypted'] as bool?,
   );
 }
 
 PutRecordBatchResponseEntry _$PutRecordBatchResponseEntryFromJson(
     Map<String, dynamic> json) {
   return PutRecordBatchResponseEntry(
-    errorCode: json['ErrorCode'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    recordId: json['RecordId'] as String,
+    errorCode: json['ErrorCode'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    recordId: json['RecordId'] as String?,
   );
 }
 
 PutRecordOutput _$PutRecordOutputFromJson(Map<String, dynamic> json) {
   return PutRecordOutput(
     recordId: json['RecordId'] as String,
-    encrypted: json['Encrypted'] as bool,
+    encrypted: json['Encrypted'] as bool?,
   );
 }
 
@@ -1257,7 +1225,14 @@ Map<String, dynamic> _$RecordToJson(Record instance) {
 
 Map<String, dynamic> _$RedshiftDestinationConfigurationToJson(
     RedshiftDestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ClusterJDBCURL': instance.clusterJDBCURL,
+    'CopyCommand': instance.copyCommand.toJson(),
+    'Password': instance.password,
+    'RoleARN': instance.roleARN,
+    'S3Configuration': instance.s3Configuration.toJson(),
+    'Username': instance.username,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1265,12 +1240,6 @@ Map<String, dynamic> _$RedshiftDestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('ClusterJDBCURL', instance.clusterJDBCURL);
-  writeNotNull('CopyCommand', instance.copyCommand?.toJson());
-  writeNotNull('Password', instance.password);
-  writeNotNull('RoleARN', instance.roleARN);
-  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
-  writeNotNull('Username', instance.username);
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
   writeNotNull(
@@ -1292,14 +1261,11 @@ RedshiftDestinationDescription _$RedshiftDestinationDescriptionFromJson(
     Map<String, dynamic> json) {
   return RedshiftDestinationDescription(
     clusterJDBCURL: json['ClusterJDBCURL'] as String,
-    copyCommand: json['CopyCommand'] == null
-        ? null
-        : CopyCommand.fromJson(json['CopyCommand'] as Map<String, dynamic>),
+    copyCommand:
+        CopyCommand.fromJson(json['CopyCommand'] as Map<String, dynamic>),
     roleARN: json['RoleARN'] as String,
-    s3DestinationDescription: json['S3DestinationDescription'] == null
-        ? null
-        : S3DestinationDescription.fromJson(
-            json['S3DestinationDescription'] as Map<String, dynamic>),
+    s3DestinationDescription: S3DestinationDescription.fromJson(
+        json['S3DestinationDescription'] as Map<String, dynamic>),
     username: json['Username'] as String,
     cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] == null
         ? null
@@ -1351,7 +1317,7 @@ Map<String, dynamic> _$RedshiftDestinationUpdateToJson(
 
 RedshiftRetryOptions _$RedshiftRetryOptionsFromJson(Map<String, dynamic> json) {
   return RedshiftRetryOptions(
-    durationInSeconds: json['DurationInSeconds'] as int,
+    durationInSeconds: json['DurationInSeconds'] as int?,
   );
 }
 
@@ -1371,7 +1337,10 @@ Map<String, dynamic> _$RedshiftRetryOptionsToJson(
 
 Map<String, dynamic> _$S3DestinationConfigurationToJson(
     S3DestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketARN': instance.bucketARN,
+    'RoleARN': instance.roleARN,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1379,8 +1348,6 @@ Map<String, dynamic> _$S3DestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('BucketARN', instance.bucketARN);
-  writeNotNull('RoleARN', instance.roleARN);
   writeNotNull('BufferingHints', instance.bufferingHints?.toJson());
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
@@ -1397,23 +1364,19 @@ S3DestinationDescription _$S3DestinationDescriptionFromJson(
     Map<String, dynamic> json) {
   return S3DestinationDescription(
     bucketARN: json['BucketARN'] as String,
-    bufferingHints: json['BufferingHints'] == null
-        ? null
-        : BufferingHints.fromJson(
-            json['BufferingHints'] as Map<String, dynamic>),
-    compressionFormat: _$enumDecodeNullable(
-        _$CompressionFormatEnumMap, json['CompressionFormat']),
-    encryptionConfiguration: json['EncryptionConfiguration'] == null
-        ? null
-        : EncryptionConfiguration.fromJson(
-            json['EncryptionConfiguration'] as Map<String, dynamic>),
+    bufferingHints:
+        BufferingHints.fromJson(json['BufferingHints'] as Map<String, dynamic>),
+    compressionFormat:
+        _$enumDecode(_$CompressionFormatEnumMap, json['CompressionFormat']),
+    encryptionConfiguration: EncryptionConfiguration.fromJson(
+        json['EncryptionConfiguration'] as Map<String, dynamic>),
     roleARN: json['RoleARN'] as String,
     cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] == null
         ? null
         : CloudWatchLoggingOptions.fromJson(
             json['CloudWatchLoggingOptions'] as Map<String, dynamic>),
-    errorOutputPrefix: json['ErrorOutputPrefix'] as String,
-    prefix: json['Prefix'] as String,
+    errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
+    prefix: json['Prefix'] as String?,
   );
 }
 
@@ -1442,12 +1405,12 @@ Map<String, dynamic> _$S3DestinationUpdateToJson(S3DestinationUpdate instance) {
 
 SchemaConfiguration _$SchemaConfigurationFromJson(Map<String, dynamic> json) {
   return SchemaConfiguration(
-    catalogId: json['CatalogId'] as String,
-    databaseName: json['DatabaseName'] as String,
-    region: json['Region'] as String,
-    roleARN: json['RoleARN'] as String,
-    tableName: json['TableName'] as String,
-    versionId: json['VersionId'] as String,
+    catalogId: json['CatalogId'] as String?,
+    databaseName: json['DatabaseName'] as String?,
+    region: json['Region'] as String?,
+    roleARN: json['RoleARN'] as String?,
+    tableName: json['TableName'] as String?,
+    versionId: json['VersionId'] as String?,
   );
 }
 
@@ -1506,7 +1469,12 @@ SourceDescription _$SourceDescriptionFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$SplunkDestinationConfigurationToJson(
     SplunkDestinationConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'HECEndpoint': instance.hECEndpoint,
+    'HECEndpointType': _$HECEndpointTypeEnumMap[instance.hECEndpointType],
+    'HECToken': instance.hECToken,
+    'S3Configuration': instance.s3Configuration.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1514,11 +1482,6 @@ Map<String, dynamic> _$SplunkDestinationConfigurationToJson(
     }
   }
 
-  writeNotNull('HECEndpoint', instance.hECEndpoint);
-  writeNotNull(
-      'HECEndpointType', _$HECEndpointTypeEnumMap[instance.hECEndpointType]);
-  writeNotNull('HECToken', instance.hECToken);
-  writeNotNull('S3Configuration', instance.s3Configuration?.toJson());
   writeNotNull(
       'CloudWatchLoggingOptions', instance.cloudWatchLoggingOptions?.toJson());
   writeNotNull('HECAcknowledgmentTimeoutInSeconds',
@@ -1549,11 +1512,11 @@ SplunkDestinationDescription _$SplunkDestinationDescriptionFromJson(
         : CloudWatchLoggingOptions.fromJson(
             json['CloudWatchLoggingOptions'] as Map<String, dynamic>),
     hECAcknowledgmentTimeoutInSeconds:
-        json['HECAcknowledgmentTimeoutInSeconds'] as int,
-    hECEndpoint: json['HECEndpoint'] as String,
+        json['HECAcknowledgmentTimeoutInSeconds'] as int?,
+    hECEndpoint: json['HECEndpoint'] as String?,
     hECEndpointType:
         _$enumDecodeNullable(_$HECEndpointTypeEnumMap, json['HECEndpointType']),
-    hECToken: json['HECToken'] as String,
+    hECToken: json['HECToken'] as String?,
     processingConfiguration: json['ProcessingConfiguration'] == null
         ? null
         : ProcessingConfiguration.fromJson(
@@ -1600,7 +1563,7 @@ Map<String, dynamic> _$SplunkDestinationUpdateToJson(
 
 SplunkRetryOptions _$SplunkRetryOptionsFromJson(Map<String, dynamic> json) {
   return SplunkRetryOptions(
-    durationInSeconds: json['DurationInSeconds'] as int,
+    durationInSeconds: json['DurationInSeconds'] as int?,
   );
 }
 
@@ -1630,12 +1593,14 @@ StopDeliveryStreamEncryptionOutput _$StopDeliveryStreamEncryptionOutputFromJson(
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1643,7 +1608,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }
@@ -1663,28 +1627,22 @@ UpdateDestinationOutput _$UpdateDestinationOutputFromJson(
   return UpdateDestinationOutput();
 }
 
-Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('RoleARN', instance.roleARN);
-  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
-  writeNotNull('SubnetIds', instance.subnetIds);
-  return val;
-}
+Map<String, dynamic> _$VpcConfigurationToJson(VpcConfiguration instance) =>
+    <String, dynamic>{
+      'RoleARN': instance.roleARN,
+      'SecurityGroupIds': instance.securityGroupIds,
+      'SubnetIds': instance.subnetIds,
+    };
 
 VpcConfigurationDescription _$VpcConfigurationDescriptionFromJson(
     Map<String, dynamic> json) {
   return VpcConfigurationDescription(
     roleARN: json['RoleARN'] as String,
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>).map((e) => e as String).toList(),
     vpcId: json['VpcId'] as String,
   );
 }

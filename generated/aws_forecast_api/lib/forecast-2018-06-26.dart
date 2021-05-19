@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'forecast-2018-06-26.g.dart';
 
 /// Provides APIs for creating and managing Amazon Forecast resources.
 class ForecastService {
   final _s.JsonProtocol _protocol;
   ForecastService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -168,13 +160,13 @@ class ForecastService {
   /// </li>
   /// </ul>
   Future<CreateDatasetResponse> createDataset({
-    @_s.required String datasetName,
-    @_s.required DatasetType datasetType,
-    @_s.required Domain domain,
-    @_s.required Schema schema,
-    String dataFrequency,
-    EncryptionConfig encryptionConfig,
-    List<Tag> tags,
+    required String datasetName,
+    required DatasetType datasetType,
+    required Domain domain,
+    required Schema schema,
+    String? dataFrequency,
+    EncryptionConfig? encryptionConfig,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -210,8 +202,8 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetName': datasetName,
-        'DatasetType': datasetType?.toValue() ?? '',
-        'Domain': domain?.toValue() ?? '',
+        'DatasetType': datasetType.toValue(),
+        'Domain': domain.toValue(),
         'Schema': schema,
         if (dataFrequency != null) 'DataFrequency': dataFrequency,
         if (encryptionConfig != null) 'EncryptionConfig': encryptionConfig,
@@ -306,10 +298,10 @@ class ForecastService {
   /// </li>
   /// </ul>
   Future<CreateDatasetGroupResponse> createDatasetGroup({
-    @_s.required String datasetGroupName,
-    @_s.required Domain domain,
-    List<String> datasetArns,
-    List<Tag> tags,
+    required String datasetGroupName,
+    required Domain domain,
+    List<String>? datasetArns,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(datasetGroupName, 'datasetGroupName');
     _s.validateStringLength(
@@ -338,7 +330,7 @@ class ForecastService {
       headers: headers,
       payload: {
         'DatasetGroupName': datasetGroupName,
-        'Domain': domain?.toValue() ?? '',
+        'Domain': domain.toValue(),
         if (datasetArns != null) 'DatasetArns': datasetArns,
         if (tags != null) 'Tags': tags,
       },
@@ -492,14 +484,14 @@ class ForecastService {
   /// This option is ideal for datasets that contain timestamps in multiple time
   /// zones and those timestamps are expressed in local time.
   Future<CreateDatasetImportJobResponse> createDatasetImportJob({
-    @_s.required DataSource dataSource,
-    @_s.required String datasetArn,
-    @_s.required String datasetImportJobName,
-    String geolocationFormat,
-    List<Tag> tags,
-    String timeZone,
-    String timestampFormat,
-    bool useGeolocationForTimeZone,
+    required DataSource dataSource,
+    required String datasetArn,
+    required String datasetImportJobName,
+    String? geolocationFormat,
+    List<Tag>? tags,
+    String? timeZone,
+    String? timestampFormat,
+    bool? useGeolocationForTimeZone,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
@@ -676,10 +668,10 @@ class ForecastService {
   /// </li>
   /// </ul>
   Future<CreateForecastResponse> createForecast({
-    @_s.required String forecastName,
-    @_s.required String predictorArn,
-    List<String> forecastTypes,
-    List<Tag> tags,
+    required String forecastName,
+    required String predictorArn,
+    List<String>? forecastTypes,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(forecastName, 'forecastName');
     _s.validateStringLength(
@@ -817,10 +809,10 @@ class ForecastService {
   /// </li>
   /// </ul>
   Future<CreateForecastExportJobResponse> createForecastExportJob({
-    @_s.required DataDestination destination,
-    @_s.required String forecastArn,
-    @_s.required String forecastExportJobName,
-    List<Tag> tags,
+    required DataDestination destination,
+    required String forecastArn,
+    required String forecastExportJobName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(forecastArn, 'forecastArn');
@@ -1104,19 +1096,19 @@ class ForecastService {
   /// that you can override are listed in the individual algorithms. For the
   /// list of supported algorithms, see <a>aws-forecast-choosing-recipes</a>.
   Future<CreatePredictorResponse> createPredictor({
-    @_s.required FeaturizationConfig featurizationConfig,
-    @_s.required int forecastHorizon,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required String predictorName,
-    String algorithmArn,
-    EncryptionConfig encryptionConfig,
-    EvaluationParameters evaluationParameters,
-    List<String> forecastTypes,
-    HyperParameterTuningJobConfig hPOConfig,
-    bool performAutoML,
-    bool performHPO,
-    List<Tag> tags,
-    Map<String, String> trainingParameters,
+    required FeaturizationConfig featurizationConfig,
+    required int forecastHorizon,
+    required InputDataConfig inputDataConfig,
+    required String predictorName,
+    String? algorithmArn,
+    EncryptionConfig? encryptionConfig,
+    EvaluationParameters? evaluationParameters,
+    List<String>? forecastTypes,
+    HyperParameterTuningJobConfig? hPOConfig,
+    bool? performAutoML,
+    bool? performHPO,
+    List<Tag>? tags,
+    Map<String, String>? trainingParameters,
   }) async {
     ArgumentError.checkNotNull(featurizationConfig, 'featurizationConfig');
     ArgumentError.checkNotNull(forecastHorizon, 'forecastHorizon');
@@ -1250,10 +1242,10 @@ class ForecastService {
   /// </ul>
   Future<CreatePredictorBacktestExportJobResponse>
       createPredictorBacktestExportJob({
-    @_s.required DataDestination destination,
-    @_s.required String predictorArn,
-    @_s.required String predictorBacktestExportJobName,
-    List<Tag> tags,
+    required DataDestination destination,
+    required String predictorArn,
+    required String predictorBacktestExportJobName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
@@ -1323,7 +1315,7 @@ class ForecastService {
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to delete.
   Future<void> deleteDataset({
-    @_s.required String datasetArn,
+    required String datasetArn,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
     _s.validateStringLength(
@@ -1343,7 +1335,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteDataset'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1371,7 +1363,7 @@ class ForecastService {
   /// Parameter [datasetGroupArn] :
   /// The Amazon Resource Name (ARN) of the dataset group to delete.
   Future<void> deleteDatasetGroup({
-    @_s.required String datasetGroupArn,
+    required String datasetGroupArn,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -1391,7 +1383,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteDatasetGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1416,7 +1408,7 @@ class ForecastService {
   /// Parameter [datasetImportJobArn] :
   /// The Amazon Resource Name (ARN) of the dataset import job to delete.
   Future<void> deleteDatasetImportJob({
-    @_s.required String datasetImportJobArn,
+    required String datasetImportJobArn,
   }) async {
     ArgumentError.checkNotNull(datasetImportJobArn, 'datasetImportJobArn');
     _s.validateStringLength(
@@ -1436,7 +1428,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteDatasetImportJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1463,7 +1455,7 @@ class ForecastService {
   /// Parameter [forecastArn] :
   /// The Amazon Resource Name (ARN) of the forecast to delete.
   Future<void> deleteForecast({
-    @_s.required String forecastArn,
+    required String forecastArn,
   }) async {
     ArgumentError.checkNotNull(forecastArn, 'forecastArn');
     _s.validateStringLength(
@@ -1483,7 +1475,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteForecast'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1507,7 +1499,7 @@ class ForecastService {
   /// Parameter [forecastExportJobArn] :
   /// The Amazon Resource Name (ARN) of the forecast export job to delete.
   Future<void> deleteForecastExportJob({
-    @_s.required String forecastExportJobArn,
+    required String forecastExportJobArn,
   }) async {
     ArgumentError.checkNotNull(forecastExportJobArn, 'forecastExportJobArn');
     _s.validateStringLength(
@@ -1527,7 +1519,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeleteForecastExportJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1551,7 +1543,7 @@ class ForecastService {
   /// Parameter [predictorArn] :
   /// The Amazon Resource Name (ARN) of the predictor to delete.
   Future<void> deletePredictor({
-    @_s.required String predictorArn,
+    required String predictorArn,
   }) async {
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
     _s.validateStringLength(
@@ -1571,7 +1563,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeletePredictor'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1593,7 +1585,7 @@ class ForecastService {
   /// The Amazon Resource Name (ARN) of the predictor backtest export job to
   /// delete.
   Future<void> deletePredictorBacktestExportJob({
-    @_s.required String predictorBacktestExportJobArn,
+    required String predictorBacktestExportJobArn,
   }) async {
     ArgumentError.checkNotNull(
         predictorBacktestExportJobArn, 'predictorBacktestExportJobArn');
@@ -1614,7 +1606,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.DeletePredictorBacktestExportJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1651,7 +1643,7 @@ class ForecastService {
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset.
   Future<DescribeDatasetResponse> describeDataset({
-    @_s.required String datasetArn,
+    required String datasetArn,
   }) async {
     ArgumentError.checkNotNull(datasetArn, 'datasetArn');
     _s.validateStringLength(
@@ -1713,7 +1705,7 @@ class ForecastService {
   /// Parameter [datasetGroupArn] :
   /// The Amazon Resource Name (ARN) of the dataset group.
   Future<DescribeDatasetGroupResponse> describeDatasetGroup({
-    @_s.required String datasetGroupArn,
+    required String datasetGroupArn,
   }) async {
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
     _s.validateStringLength(
@@ -1781,7 +1773,7 @@ class ForecastService {
   /// Parameter [datasetImportJobArn] :
   /// The Amazon Resource Name (ARN) of the dataset import job.
   Future<DescribeDatasetImportJobResponse> describeDatasetImportJob({
-    @_s.required String datasetImportJobArn,
+    required String datasetImportJobArn,
   }) async {
     ArgumentError.checkNotNull(datasetImportJobArn, 'datasetImportJobArn');
     _s.validateStringLength(
@@ -1846,7 +1838,7 @@ class ForecastService {
   /// Parameter [forecastArn] :
   /// The Amazon Resource Name (ARN) of the forecast.
   Future<DescribeForecastResponse> describeForecast({
-    @_s.required String forecastArn,
+    required String forecastArn,
   }) async {
     ArgumentError.checkNotNull(forecastArn, 'forecastArn');
     _s.validateStringLength(
@@ -1908,7 +1900,7 @@ class ForecastService {
   /// Parameter [forecastExportJobArn] :
   /// The Amazon Resource Name (ARN) of the forecast export job.
   Future<DescribeForecastExportJobResponse> describeForecastExportJob({
-    @_s.required String forecastExportJobArn,
+    required String forecastExportJobArn,
   }) async {
     ArgumentError.checkNotNull(forecastExportJobArn, 'forecastExportJobArn');
     _s.validateStringLength(
@@ -1978,7 +1970,7 @@ class ForecastService {
   /// The Amazon Resource Name (ARN) of the predictor that you want information
   /// about.
   Future<DescribePredictorResponse> describePredictor({
-    @_s.required String predictorArn,
+    required String predictorArn,
   }) async {
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
     _s.validateStringLength(
@@ -2041,7 +2033,7 @@ class ForecastService {
   /// The Amazon Resource Name (ARN) of the predictor backtest export job.
   Future<DescribePredictorBacktestExportJobResponse>
       describePredictorBacktestExportJob({
-    @_s.required String predictorBacktestExportJobArn,
+    required String predictorBacktestExportJobArn,
   }) async {
     ArgumentError.checkNotNull(
         predictorBacktestExportJobArn, 'predictorBacktestExportJobArn');
@@ -2110,7 +2102,7 @@ class ForecastService {
   /// Parameter [predictorArn] :
   /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
   Future<GetAccuracyMetricsResponse> getAccuracyMetrics({
-    @_s.required String predictorArn,
+    required String predictorArn,
   }) async {
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
     _s.validateStringLength(
@@ -2161,8 +2153,8 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListDatasetGroupsResponse> listDatasetGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2243,9 +2235,9 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListDatasetImportJobsResponse> listDatasetImportJobs({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2294,8 +2286,8 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListDatasetsResponse> listDatasets({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2377,9 +2369,9 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListForecastExportJobsResponse> listForecastExportJobs({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2462,9 +2454,9 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListForecastsResponse> listForecasts({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2544,9 +2536,9 @@ class ForecastService {
   /// next request. Tokens expire after 24 hours.
   Future<ListPredictorBacktestExportJobsResponse>
       listPredictorBacktestExportJobs({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2628,9 +2620,9 @@ class ForecastService {
   /// a <code>NextToken</code>. To retrieve the next set of results, use the
   /// token in the next request. Tokens expire after 24 hours.
   Future<ListPredictorsResponse> listPredictors({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2675,7 +2667,7 @@ class ForecastService {
   /// groups, datasets, dataset import jobs, predictors, forecasts, and forecast
   /// export jobs.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2763,8 +2755,8 @@ class ForecastService {
   /// </li>
   /// </ul>
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2785,7 +2777,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2796,8 +2788,6 @@ class ForecastService {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified tags from a resource.
@@ -2814,8 +2804,8 @@ class ForecastService {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2836,7 +2826,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2847,8 +2837,6 @@ class ForecastService {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Replaces the datasets in a dataset group with the specified datasets.
@@ -2869,8 +2857,8 @@ class ForecastService {
   /// Parameter [datasetGroupArn] :
   /// The ARN of the dataset group.
   Future<void> updateDatasetGroup({
-    @_s.required List<String> datasetArns,
-    @_s.required String datasetGroupArn,
+    required List<String> datasetArns,
+    required String datasetGroupArn,
   }) async {
     ArgumentError.checkNotNull(datasetArns, 'datasetArns');
     ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
@@ -2891,7 +2879,7 @@ class ForecastService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecast.UpdateDatasetGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2902,68 +2890,95 @@ class ForecastService {
         'DatasetGroupArn': datasetGroupArn,
       },
     );
-
-    return UpdateDatasetGroupResponse.fromJson(jsonResponse.body);
   }
 }
 
 enum AttributeType {
-  @_s.JsonValue('string')
   string,
-  @_s.JsonValue('integer')
   integer,
-  @_s.JsonValue('float')
   float,
-  @_s.JsonValue('timestamp')
   timestamp,
-  @_s.JsonValue('geolocation')
   geolocation,
+}
+
+extension on AttributeType {
+  String toValue() {
+    switch (this) {
+      case AttributeType.string:
+        return 'string';
+      case AttributeType.integer:
+        return 'integer';
+      case AttributeType.float:
+        return 'float';
+      case AttributeType.timestamp:
+        return 'timestamp';
+      case AttributeType.geolocation:
+        return 'geolocation';
+    }
+  }
+}
+
+extension on String {
+  AttributeType toAttributeType() {
+    switch (this) {
+      case 'string':
+        return AttributeType.string;
+      case 'integer':
+        return AttributeType.integer;
+      case 'float':
+        return AttributeType.float;
+      case 'timestamp':
+        return AttributeType.timestamp;
+      case 'geolocation':
+        return AttributeType.geolocation;
+    }
+    throw Exception('$this is not known in enum AttributeType');
+  }
 }
 
 /// Specifies a categorical hyperparameter and it's range of tunable values.
 /// This object is part of the <a>ParameterRanges</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CategoricalParameterRange {
   /// The name of the categorical hyperparameter to tune.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A list of the tunable categories for the hyperparameter.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   CategoricalParameterRange({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  factory CategoricalParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$CategoricalParameterRangeFromJson(json);
+  factory CategoricalParameterRange.fromJson(Map<String, dynamic> json) {
+    return CategoricalParameterRange(
+      name: json['Name'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CategoricalParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
 }
 
 /// Specifies a continuous hyperparameter and it's range of tunable values. This
 /// object is part of the <a>ParameterRanges</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContinuousParameterRange {
   /// The maximum tunable value of the hyperparameter.
-  @_s.JsonKey(name: 'MaxValue')
   final double maxValue;
 
   /// The minimum tunable value of the hyperparameter.
-  @_s.JsonKey(name: 'MinValue')
   final double minValue;
 
   /// The name of the hyperparameter to tune.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The scale that hyperparameter tuning uses to search the hyperparameter
@@ -2989,219 +3004,208 @@ class ContinuousParameterRange {
   /// For information about choosing a hyperparameter scale, see <a
   /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
   /// Scaling</a>. One of the following values:
-  @_s.JsonKey(name: 'ScalingType')
-  final ScalingType scalingType;
+  final ScalingType? scalingType;
 
   ContinuousParameterRange({
-    @_s.required this.maxValue,
-    @_s.required this.minValue,
-    @_s.required this.name,
+    required this.maxValue,
+    required this.minValue,
+    required this.name,
     this.scalingType,
   });
-  factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$ContinuousParameterRangeFromJson(json);
+  factory ContinuousParameterRange.fromJson(Map<String, dynamic> json) {
+    return ContinuousParameterRange(
+      maxValue: json['MaxValue'] as double,
+      minValue: json['MinValue'] as double,
+      name: json['Name'] as String,
+      scalingType: (json['ScalingType'] as String?)?.toScalingType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContinuousParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    final scalingType = this.scalingType;
+    return {
+      'MaxValue': maxValue,
+      'MinValue': minValue,
+      'Name': name,
+      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetGroupResponse {
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   CreateDatasetGroupResponse({
     this.datasetGroupArn,
   });
-  factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetGroupResponseFromJson(json);
+  factory CreateDatasetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetGroupResponse(
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetImportJobResponse {
   /// The Amazon Resource Name (ARN) of the dataset import job.
-  @_s.JsonKey(name: 'DatasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   CreateDatasetImportJobResponse({
     this.datasetImportJobArn,
   });
-  factory CreateDatasetImportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetImportJobResponseFromJson(json);
+  factory CreateDatasetImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetImportJobResponse(
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
-  @_s.JsonKey(name: 'DatasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   CreateDatasetResponse({
     this.datasetArn,
   });
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetResponseFromJson(json);
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: json['DatasetArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateForecastExportJobResponse {
   /// The Amazon Resource Name (ARN) of the export job.
-  @_s.JsonKey(name: 'ForecastExportJobArn')
-  final String forecastExportJobArn;
+  final String? forecastExportJobArn;
 
   CreateForecastExportJobResponse({
     this.forecastExportJobArn,
   });
-  factory CreateForecastExportJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateForecastExportJobResponseFromJson(json);
+  factory CreateForecastExportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateForecastExportJobResponse(
+      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateForecastResponse {
   /// The Amazon Resource Name (ARN) of the forecast.
-  @_s.JsonKey(name: 'ForecastArn')
-  final String forecastArn;
+  final String? forecastArn;
 
   CreateForecastResponse({
     this.forecastArn,
   });
-  factory CreateForecastResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateForecastResponseFromJson(json);
+  factory CreateForecastResponse.fromJson(Map<String, dynamic> json) {
+    return CreateForecastResponse(
+      forecastArn: json['ForecastArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePredictorBacktestExportJobResponse {
   /// The Amazon Resource Name (ARN) of the predictor backtest export job that you
   /// want to export.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
-  final String predictorBacktestExportJobArn;
+  final String? predictorBacktestExportJobArn;
 
   CreatePredictorBacktestExportJobResponse({
     this.predictorBacktestExportJobArn,
   });
   factory CreatePredictorBacktestExportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreatePredictorBacktestExportJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreatePredictorBacktestExportJobResponse(
+      predictorBacktestExportJobArn:
+          json['PredictorBacktestExportJobArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePredictorResponse {
   /// The Amazon Resource Name (ARN) of the predictor.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   CreatePredictorResponse({
     this.predictorArn,
   });
-  factory CreatePredictorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePredictorResponseFromJson(json);
+  factory CreatePredictorResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePredictorResponse(
+      predictorArn: json['PredictorArn'] as String?,
+    );
+  }
 }
 
 /// The destination for an export job. Provide an S3 path, an AWS Identity and
 /// Access Management (IAM) role that allows Amazon Forecast to access the
 /// location, and an AWS Key Management Service (KMS) key (optional).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataDestination {
   /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with
   /// the credentials to access the bucket.
-  @_s.JsonKey(name: 'S3Config')
   final S3Config s3Config;
 
   DataDestination({
-    @_s.required this.s3Config,
+    required this.s3Config,
   });
-  factory DataDestination.fromJson(Map<String, dynamic> json) =>
-      _$DataDestinationFromJson(json);
+  factory DataDestination.fromJson(Map<String, dynamic> json) {
+    return DataDestination(
+      s3Config: S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Config = this.s3Config;
+    return {
+      'S3Config': s3Config,
+    };
+  }
 }
 
 /// The source of your training data, an AWS Identity and Access Management
 /// (IAM) role that allows Amazon Forecast to access the data and, optionally,
 /// an AWS Key Management Service (KMS) key. This object is submitted in the
 /// <a>CreateDatasetImportJob</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DataSource {
   /// The path to the training data stored in an Amazon Simple Storage Service
   /// (Amazon S3) bucket along with the credentials to access the data.
-  @_s.JsonKey(name: 'S3Config')
   final S3Config s3Config;
 
   DataSource({
-    @_s.required this.s3Config,
+    required this.s3Config,
   });
-  factory DataSource.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceFromJson(json);
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      s3Config: S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DataSourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Config = this.s3Config;
+    return {
+      'S3Config': s3Config,
+    };
+  }
 }
 
 /// Provides a summary of the dataset group properties used in the
 /// <a>ListDatasetGroups</a> operation. To get the complete set of properties,
 /// call the <a>DescribeDatasetGroup</a> operation, and provide the
 /// <code>DatasetGroupArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetGroupSummary {
   /// When the dataset group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The name of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupName')
-  final String datasetGroupName;
+  final String? datasetGroupName;
 
   /// When the dataset group was created or last updated from a call to the
   /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
   /// updated, <code>LastModificationTime</code> is the current time of the
   /// <code>ListDatasetGroups</code> call.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   DatasetGroupSummary({
     this.creationTime,
@@ -3209,24 +3213,23 @@ class DatasetGroupSummary {
     this.datasetGroupName,
     this.lastModificationTime,
   });
-  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetGroupSummaryFromJson(json);
+  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetGroupSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      datasetGroupName: json['DatasetGroupName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+    );
+  }
 }
 
 /// Provides a summary of the dataset import job properties used in the
 /// <a>ListDatasetImportJobs</a> operation. To get the complete set of
 /// properties, call the <a>DescribeDatasetImportJob</a> operation, and provide
 /// the <code>DatasetImportJobArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetImportJobSummary {
   /// When the dataset import job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The location of the training data to import and an AWS Identity and Access
   /// Management (IAM) role that Amazon Forecast can assume to access the data.
@@ -3234,16 +3237,13 @@ class DatasetImportJobSummary {
   ///
   /// If encryption is used, <code>DataSource</code> includes an AWS Key
   /// Management Service (KMS) key.
-  @_s.JsonKey(name: 'DataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The Amazon Resource Name (ARN) of the dataset import job.
-  @_s.JsonKey(name: 'DatasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   /// The name of the dataset import job.
-  @_s.JsonKey(name: 'DatasetImportJobName')
-  final String datasetImportJobName;
+  final String? datasetImportJobName;
 
   /// The last time that the dataset was modified. The time depends on the status
   /// of the job, as follows:
@@ -3260,13 +3260,10 @@ class DatasetImportJobSummary {
   /// failed.
   /// </li>
   /// </ul>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The status of the dataset import job. The status is reflected in the status
   /// of the dataset. For example, when the import job status is
@@ -3286,8 +3283,7 @@ class DatasetImportJobSummary {
   /// <code>DELETE_FAILED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DatasetImportJobSummary({
     this.creationTime,
@@ -3298,39 +3294,39 @@ class DatasetImportJobSummary {
     this.message,
     this.status,
   });
-  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetImportJobSummaryFromJson(json);
+  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+      datasetImportJobName: json['DatasetImportJobName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the dataset properties used in the <a>ListDatasets</a>
 /// operation. To get the complete set of properties, call the
 /// <a>DescribeDataset</a> operation, and provide the <code>DatasetArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetSummary {
   /// When the dataset was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset.
-  @_s.JsonKey(name: 'DatasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The name of the dataset.
-  @_s.JsonKey(name: 'DatasetName')
-  final String datasetName;
+  final String? datasetName;
 
   /// The dataset type.
-  @_s.JsonKey(name: 'DatasetType')
-  final DatasetType datasetType;
+  final DatasetType? datasetType;
 
   /// The domain associated with the dataset.
-  @_s.JsonKey(name: 'Domain')
-  final Domain domain;
+  final Domain? domain;
 
   /// When you create a dataset, <code>LastModificationTime</code> is the same as
   /// <code>CreationTime</code>. While data is being imported to the dataset,
@@ -3338,9 +3334,7 @@ class DatasetSummary {
   /// <code>ListDatasets</code> call. After a <a>CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   DatasetSummary({
     this.creationTime,
@@ -3350,16 +3344,21 @@ class DatasetSummary {
     this.domain,
     this.lastModificationTime,
   });
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetSummaryFromJson(json);
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
+      domain: (json['Domain'] as String?)?.toDomain(),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+    );
+  }
 }
 
 enum DatasetType {
-  @_s.JsonValue('TARGET_TIME_SERIES')
   targetTimeSeries,
-  @_s.JsonValue('RELATED_TIME_SERIES')
   relatedTimeSeries,
-  @_s.JsonValue('ITEM_METADATA')
   itemMetadata,
 }
 
@@ -3373,45 +3372,45 @@ extension on DatasetType {
       case DatasetType.itemMetadata:
         return 'ITEM_METADATA';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DatasetType toDatasetType() {
+    switch (this) {
+      case 'TARGET_TIME_SERIES':
+        return DatasetType.targetTimeSeries;
+      case 'RELATED_TIME_SERIES':
+        return DatasetType.relatedTimeSeries;
+      case 'ITEM_METADATA':
+        return DatasetType.itemMetadata;
+    }
+    throw Exception('$this is not known in enum DatasetType');
+  }
+}
+
 class DescribeDatasetGroupResponse {
   /// When the dataset group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// An array of Amazon Resource Names (ARNs) of the datasets contained in the
   /// dataset group.
-  @_s.JsonKey(name: 'DatasetArns')
-  final List<String> datasetArns;
+  final List<String>? datasetArns;
 
   /// The ARN of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The name of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupName')
-  final String datasetGroupName;
+  final String? datasetGroupName;
 
   /// The domain associated with the dataset group.
-  @_s.JsonKey(name: 'Domain')
-  final Domain domain;
+  final Domain? domain;
 
   /// When the dataset group was created or last updated from a call to the
   /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
   /// updated, <code>LastModificationTime</code> is the current time of the
   /// <code>DescribeDatasetGroup</code> call.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// The status of the dataset group. States include:
   ///
@@ -3438,8 +3437,7 @@ class DescribeDatasetGroupResponse {
   /// The <code>Status</code> of the dataset group must be <code>ACTIVE</code>
   /// before you can use the dataset group to create a predictor.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribeDatasetGroupResponse({
     this.creationTime,
@@ -3450,54 +3448,52 @@ class DescribeDatasetGroupResponse {
     this.lastModificationTime,
     this.status,
   });
-  factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetGroupResponseFromJson(json);
+  factory DescribeDatasetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetGroupResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetArns: (json['DatasetArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      datasetGroupName: json['DatasetGroupName'] as String?,
+      domain: (json['Domain'] as String?)?.toDomain(),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetImportJobResponse {
   /// When the dataset import job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The size of the dataset in gigabytes (GB) after the import job has finished.
-  @_s.JsonKey(name: 'DataSize')
-  final double dataSize;
+  final double? dataSize;
 
   /// The location of the training data to import and an AWS Identity and Access
   /// Management (IAM) role that Amazon Forecast can assume to access the data.
   ///
   /// If encryption is used, <code>DataSource</code> includes an AWS Key
   /// Management Service (KMS) key.
-  @_s.JsonKey(name: 'DataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The Amazon Resource Name (ARN) of the dataset that the training data was
   /// imported to.
-  @_s.JsonKey(name: 'DatasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The ARN of the dataset import job.
-  @_s.JsonKey(name: 'DatasetImportJobArn')
-  final String datasetImportJobArn;
+  final String? datasetImportJobArn;
 
   /// The name of the dataset import job.
-  @_s.JsonKey(name: 'DatasetImportJobName')
-  final String datasetImportJobName;
+  final String? datasetImportJobName;
 
   /// Statistical information about each field in the input data.
-  @_s.JsonKey(name: 'FieldStatistics')
-  final Map<String, Statistics> fieldStatistics;
+  final Map<String, Statistics>? fieldStatistics;
 
   /// The format of the geolocation attribute. Valid
   /// Values:<code>"LAT_LONG"</code> and <code>"CC_POSTALCODE"</code>.
-  @_s.JsonKey(name: 'GeolocationFormat')
-  final String geolocationFormat;
+  final String? geolocationFormat;
 
   /// The last time that the dataset was modified. The time depends on the status
   /// of the job, as follows:
@@ -3514,13 +3510,10 @@ class DescribeDatasetImportJobResponse {
   /// failed.
   /// </li>
   /// </ul>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The status of the dataset import job. The status is reflected in the status
   /// of the dataset. For example, when the import job status is
@@ -3540,12 +3533,10 @@ class DescribeDatasetImportJobResponse {
   /// <code>DELETE_FAILED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The single time zone applied to every item in the dataset
-  @_s.JsonKey(name: 'TimeZone')
-  final String timeZone;
+  final String? timeZone;
 
   /// The format of timestamps in the dataset. The format that you specify depends
   /// on the <code>DataFrequency</code> specified when the dataset was created.
@@ -3564,13 +3555,11 @@ class DescribeDatasetImportJobResponse {
   /// optionally, for: Y, M, W, and D
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TimestampFormat')
-  final String timestampFormat;
+  final String? timestampFormat;
 
   /// Whether <code>TimeZone</code> is automatically derived from the geolocation
   /// attribute.
-  @_s.JsonKey(name: 'UseGeolocationForTimeZone')
-  final bool useGeolocationForTimeZone;
+  final bool? useGeolocationForTimeZone;
 
   DescribeDatasetImportJobResponse({
     this.creationTime,
@@ -3588,21 +3577,33 @@ class DescribeDatasetImportJobResponse {
     this.timestampFormat,
     this.useGeolocationForTimeZone,
   });
-  factory DescribeDatasetImportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDatasetImportJobResponseFromJson(json);
+  factory DescribeDatasetImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetImportJobResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataSize: json['DataSize'] as double?,
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      datasetArn: json['DatasetArn'] as String?,
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+      datasetImportJobName: json['DatasetImportJobName'] as String?,
+      fieldStatistics: (json['FieldStatistics'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, Statistics.fromJson(e as Map<String, dynamic>))),
+      geolocationFormat: json['GeolocationFormat'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+      timeZone: json['TimeZone'] as String?,
+      timestampFormat: json['TimestampFormat'] as String?,
+      useGeolocationForTimeZone: json['UseGeolocationForTimeZone'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetResponse {
   /// When the dataset was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The frequency of data collection.
   ///
@@ -3610,29 +3611,23 @@ class DescribeDatasetResponse {
   /// (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
   /// 1min (1 minute). For example, "M" indicates every month and "30min"
   /// indicates every 30 minutes.
-  @_s.JsonKey(name: 'DataFrequency')
-  final String dataFrequency;
+  final String? dataFrequency;
 
   /// The Amazon Resource Name (ARN) of the dataset.
-  @_s.JsonKey(name: 'DatasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The name of the dataset.
-  @_s.JsonKey(name: 'DatasetName')
-  final String datasetName;
+  final String? datasetName;
 
   /// The dataset type.
-  @_s.JsonKey(name: 'DatasetType')
-  final DatasetType datasetType;
+  final DatasetType? datasetType;
 
   /// The domain associated with the dataset.
-  @_s.JsonKey(name: 'Domain')
-  final Domain domain;
+  final Domain? domain;
 
   /// The AWS Key Management Service (KMS) key and the AWS Identity and Access
   /// Management (IAM) role that Amazon Forecast can assume to access the key.
-  @_s.JsonKey(name: 'EncryptionConfig')
-  final EncryptionConfig encryptionConfig;
+  final EncryptionConfig? encryptionConfig;
 
   /// When you create a dataset, <code>LastModificationTime</code> is the same as
   /// <code>CreationTime</code>. While data is being imported to the dataset,
@@ -3640,15 +3635,12 @@ class DescribeDatasetResponse {
   /// <code>DescribeDataset</code> call. After a <a>CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// An array of <code>SchemaAttribute</code> objects that specify the dataset
   /// fields. Each <code>SchemaAttribute</code> specifies the name and data type
   /// of a field.
-  @_s.JsonKey(name: 'Schema')
-  final Schema schema;
+  final Schema? schema;
 
   /// The status of the dataset. States include:
   ///
@@ -3678,8 +3670,7 @@ class DescribeDatasetResponse {
   /// The <code>Status</code> of the dataset must be <code>ACTIVE</code> before
   /// you can import training data.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribeDatasetResponse({
     this.creationTime,
@@ -3693,46 +3684,49 @@ class DescribeDatasetResponse {
     this.schema,
     this.status,
   });
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetResponseFromJson(json);
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataFrequency: json['DataFrequency'] as String?,
+      datasetArn: json['DatasetArn'] as String?,
+      datasetName: json['DatasetName'] as String?,
+      datasetType: (json['DatasetType'] as String?)?.toDatasetType(),
+      domain: (json['Domain'] as String?)?.toDomain(),
+      encryptionConfig: json['EncryptionConfig'] != null
+          ? EncryptionConfig.fromJson(
+              json['EncryptionConfig'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      schema: json['Schema'] != null
+          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeForecastExportJobResponse {
   /// When the forecast export job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
   /// forecast is exported.
-  @_s.JsonKey(name: 'Destination')
-  final DataDestination destination;
+  final DataDestination? destination;
 
   /// The Amazon Resource Name (ARN) of the exported forecast.
-  @_s.JsonKey(name: 'ForecastArn')
-  final String forecastArn;
+  final String? forecastArn;
 
   /// The ARN of the forecast export job.
-  @_s.JsonKey(name: 'ForecastExportJobArn')
-  final String forecastExportJobArn;
+  final String? forecastExportJobArn;
 
   /// The name of the forecast export job.
-  @_s.JsonKey(name: 'ForecastExportJobName')
-  final String forecastExportJobName;
+  final String? forecastExportJobName;
 
   /// When the last successful export job finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The status of the forecast export job. States include:
   ///
@@ -3752,8 +3746,7 @@ class DescribeForecastExportJobResponse {
   /// The <code>Status</code> of the forecast export job must be
   /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribeForecastExportJobResponse({
     this.creationTime,
@@ -3766,54 +3759,52 @@ class DescribeForecastExportJobResponse {
     this.status,
   });
   factory DescribeForecastExportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeForecastExportJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeForecastExportJobResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      forecastArn: json['ForecastArn'] as String?,
+      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
+      forecastExportJobName: json['ForecastExportJobName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeForecastResponse {
   /// When the forecast creation task was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The ARN of the dataset group that provided the data used to train the
   /// predictor.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The forecast ARN as specified in the request.
-  @_s.JsonKey(name: 'ForecastArn')
-  final String forecastArn;
+  final String? forecastArn;
 
   /// The name of the forecast.
-  @_s.JsonKey(name: 'ForecastName')
-  final String forecastName;
+  final String? forecastName;
 
   /// The quantiles at which probabilistic forecasts were generated.
-  @_s.JsonKey(name: 'ForecastTypes')
-  final List<String> forecastTypes;
+  final List<String>? forecastTypes;
 
   /// Initially, the same as <code>CreationTime</code> (status is
   /// <code>CREATE_PENDING</code>). Updated when inference (creating the forecast)
   /// starts (status changed to <code>CREATE_IN_PROGRESS</code>), and when
   /// inference is complete (status changed to <code>ACTIVE</code>) or fails
   /// (status changed to <code>CREATE_FAILED</code>).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The ARN of the predictor used to generate the forecast.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   /// The status of the forecast. States include:
   ///
@@ -3833,8 +3824,7 @@ class DescribeForecastResponse {
   /// The <code>Status</code> of the forecast must be <code>ACTIVE</code> before
   /// you can query or export the forecast.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribeForecastResponse({
     this.creationTime,
@@ -3847,44 +3837,44 @@ class DescribeForecastResponse {
     this.predictorArn,
     this.status,
   });
-  factory DescribeForecastResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeForecastResponseFromJson(json);
+  factory DescribeForecastResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeForecastResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      forecastArn: json['ForecastArn'] as String?,
+      forecastName: json['ForecastName'] as String?,
+      forecastTypes: (json['ForecastTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePredictorBacktestExportJobResponse {
   /// When the predictor backtest export job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
-  @_s.JsonKey(name: 'Destination')
-  final DataDestination destination;
+  final DateTime? creationTime;
+  final DataDestination? destination;
 
   /// When the last successful export job finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// Information about any errors that may have occurred during the backtest
   /// export.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The Amazon Resource Name (ARN) of the predictor.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   /// The Amazon Resource Name (ARN) of the predictor backtest export job.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
-  final String predictorBacktestExportJobArn;
+  final String? predictorBacktestExportJobArn;
 
   /// The name of the predictor backtest export job.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobName')
-  final String predictorBacktestExportJobName;
+  final String? predictorBacktestExportJobName;
 
   /// The status of the predictor backtest export job. States include:
   ///
@@ -3911,8 +3901,7 @@ class DescribePredictorBacktestExportJobResponse {
   /// <code>DELETE_FAILED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribePredictorBacktestExportJobResponse({
     this.creationTime,
@@ -3925,104 +3914,94 @@ class DescribePredictorBacktestExportJobResponse {
     this.status,
   });
   factory DescribePredictorBacktestExportJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePredictorBacktestExportJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePredictorBacktestExportJobResponse(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      predictorBacktestExportJobArn:
+          json['PredictorBacktestExportJobArn'] as String?,
+      predictorBacktestExportJobName:
+          json['PredictorBacktestExportJobName'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePredictorResponse {
   /// The Amazon Resource Name (ARN) of the algorithm used for model training.
-  @_s.JsonKey(name: 'AlgorithmArn')
-  final String algorithmArn;
+  final String? algorithmArn;
 
   /// When <code>PerformAutoML</code> is specified, the ARN of the chosen
   /// algorithm.
-  @_s.JsonKey(name: 'AutoMLAlgorithmArns')
-  final List<String> autoMLAlgorithmArns;
+  final List<String>? autoMLAlgorithmArns;
 
   /// When the model training task was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// An array of the ARNs of the dataset import jobs used to import training data
   /// for the predictor.
-  @_s.JsonKey(name: 'DatasetImportJobArns')
-  final List<String> datasetImportJobArns;
+  final List<String>? datasetImportJobArns;
 
   /// An AWS Key Management Service (KMS) key and the AWS Identity and Access
   /// Management (IAM) role that Amazon Forecast can assume to access the key.
-  @_s.JsonKey(name: 'EncryptionConfig')
-  final EncryptionConfig encryptionConfig;
+  final EncryptionConfig? encryptionConfig;
 
   /// Used to override the default evaluation parameters of the specified
   /// algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into
   /// training data and testing data. The evaluation parameters define how to
   /// perform the split and the number of iterations.
-  @_s.JsonKey(name: 'EvaluationParameters')
-  final EvaluationParameters evaluationParameters;
+  final EvaluationParameters? evaluationParameters;
 
   /// The featurization configuration.
-  @_s.JsonKey(name: 'FeaturizationConfig')
-  final FeaturizationConfig featurizationConfig;
+  final FeaturizationConfig? featurizationConfig;
 
   /// The number of time-steps of the forecast. The forecast horizon is also
   /// called the prediction length.
-  @_s.JsonKey(name: 'ForecastHorizon')
-  final int forecastHorizon;
+  final int? forecastHorizon;
 
   /// The forecast types used during predictor training. Default value is
   /// <code>["0.1","0.5","0.9"]</code>
-  @_s.JsonKey(name: 'ForecastTypes')
-  final List<String> forecastTypes;
+  final List<String>? forecastTypes;
 
   /// The hyperparameter override values for the algorithm.
-  @_s.JsonKey(name: 'HPOConfig')
-  final HyperParameterTuningJobConfig hPOConfig;
+  final HyperParameterTuningJobConfig? hPOConfig;
 
   /// Describes the dataset group that contains the data to use to train the
   /// predictor.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// Initially, the same as <code>CreationTime</code> (when the status is
   /// <code>CREATE_PENDING</code>). This value is updated when training starts
   /// (when the status changes to <code>CREATE_IN_PROGRESS</code>), and when
   /// training has completed (when the status changes to <code>ACTIVE</code>) or
   /// fails (when the status changes to <code>CREATE_FAILED</code>).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// Whether the predictor is set to perform AutoML.
-  @_s.JsonKey(name: 'PerformAutoML')
-  final bool performAutoML;
+  final bool? performAutoML;
 
   /// Whether the predictor is set to perform hyperparameter optimization (HPO).
-  @_s.JsonKey(name: 'PerformHPO')
-  final bool performHPO;
+  final bool? performHPO;
 
   /// The ARN of the predictor.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   /// Details on the the status and results of the backtests performed to evaluate
   /// the accuracy of the predictor. You specify the number of backtests to
   /// perform when you call the operation.
-  @_s.JsonKey(name: 'PredictorExecutionDetails')
-  final PredictorExecutionDetails predictorExecutionDetails;
+  final PredictorExecutionDetails? predictorExecutionDetails;
 
   /// The name of the predictor.
-  @_s.JsonKey(name: 'PredictorName')
-  final String predictorName;
+  final String? predictorName;
 
   /// The status of the predictor. States include:
   ///
@@ -4046,15 +4025,13 @@ class DescribePredictorResponse {
   /// The <code>Status</code> of the predictor must be <code>ACTIVE</code> before
   /// you can use the predictor to create a forecast.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The default training parameters or overrides selected during model training.
   /// When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized
   /// values for the chosen hyperparameters are returned. For more information,
   /// see <a>aws-forecast-choosing-recipes</a>.
-  @_s.JsonKey(name: 'TrainingParameters')
-  final Map<String, String> trainingParameters;
+  final Map<String, String>? trainingParameters;
 
   DescribePredictorResponse({
     this.algorithmArn,
@@ -4078,24 +4055,67 @@ class DescribePredictorResponse {
     this.status,
     this.trainingParameters,
   });
-  factory DescribePredictorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePredictorResponseFromJson(json);
+  factory DescribePredictorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePredictorResponse(
+      algorithmArn: json['AlgorithmArn'] as String?,
+      autoMLAlgorithmArns: (json['AutoMLAlgorithmArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetImportJobArns: (json['DatasetImportJobArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      encryptionConfig: json['EncryptionConfig'] != null
+          ? EncryptionConfig.fromJson(
+              json['EncryptionConfig'] as Map<String, dynamic>)
+          : null,
+      evaluationParameters: json['EvaluationParameters'] != null
+          ? EvaluationParameters.fromJson(
+              json['EvaluationParameters'] as Map<String, dynamic>)
+          : null,
+      featurizationConfig: json['FeaturizationConfig'] != null
+          ? FeaturizationConfig.fromJson(
+              json['FeaturizationConfig'] as Map<String, dynamic>)
+          : null,
+      forecastHorizon: json['ForecastHorizon'] as int?,
+      forecastTypes: (json['ForecastTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      hPOConfig: json['HPOConfig'] != null
+          ? HyperParameterTuningJobConfig.fromJson(
+              json['HPOConfig'] as Map<String, dynamic>)
+          : null,
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      performAutoML: json['PerformAutoML'] as bool?,
+      performHPO: json['PerformHPO'] as bool?,
+      predictorArn: json['PredictorArn'] as String?,
+      predictorExecutionDetails: json['PredictorExecutionDetails'] != null
+          ? PredictorExecutionDetails.fromJson(
+              json['PredictorExecutionDetails'] as Map<String, dynamic>)
+          : null,
+      predictorName: json['PredictorName'] as String?,
+      status: json['Status'] as String?,
+      trainingParameters: (json['TrainingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum Domain {
-  @_s.JsonValue('RETAIL')
   retail,
-  @_s.JsonValue('CUSTOM')
   custom,
-  @_s.JsonValue('INVENTORY_PLANNING')
   inventoryPlanning,
-  @_s.JsonValue('EC2_CAPACITY')
   ec2Capacity,
-  @_s.JsonValue('WORK_FORCE')
   workForce,
-  @_s.JsonValue('WEB_TRAFFIC')
   webTraffic,
-  @_s.JsonValue('METRICS')
   metrics,
 }
 
@@ -4117,7 +4137,28 @@ extension on Domain {
       case Domain.metrics:
         return 'METRICS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Domain toDomain() {
+    switch (this) {
+      case 'RETAIL':
+        return Domain.retail;
+      case 'CUSTOM':
+        return Domain.custom;
+      case 'INVENTORY_PLANNING':
+        return Domain.inventoryPlanning;
+      case 'EC2_CAPACITY':
+        return Domain.ec2Capacity;
+      case 'WORK_FORCE':
+        return Domain.workForce;
+      case 'WEB_TRAFFIC':
+        return Domain.webTraffic;
+      case 'METRICS':
+        return Domain.metrics;
+    }
+    throw Exception('$this is not known in enum Domain');
   }
 }
 
@@ -4125,14 +4166,8 @@ extension on Domain {
 /// Management (IAM) role that Amazon Forecast can assume to access the key. You
 /// can specify this optional object in the <a>CreateDataset</a> and
 /// <a>CreatePredictor</a> requests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfig {
   /// The Amazon Resource Name (ARN) of the KMS key.
-  @_s.JsonKey(name: 'KMSKeyArn')
   final String kMSKeyArn;
 
   /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS
@@ -4140,57 +4175,59 @@ class EncryptionConfig {
   ///
   /// Passing a role across AWS accounts is not allowed. If you pass a role that
   /// isn't in your account, you get an <code>InvalidInputException</code> error.
-  @_s.JsonKey(name: 'RoleArn')
   final String roleArn;
 
   EncryptionConfig({
-    @_s.required this.kMSKeyArn,
-    @_s.required this.roleArn,
+    required this.kMSKeyArn,
+    required this.roleArn,
   });
-  factory EncryptionConfig.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigFromJson(json);
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfig(
+      kMSKeyArn: json['KMSKeyArn'] as String,
+      roleArn: json['RoleArn'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final kMSKeyArn = this.kMSKeyArn;
+    final roleArn = this.roleArn;
+    return {
+      'KMSKeyArn': kMSKeyArn,
+      'RoleArn': roleArn,
+    };
+  }
 }
 
 /// Provides detailed error metrics to evaluate the performance of a predictor.
 /// This object is part of the <a>Metrics</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorMetric {
   /// The Forecast type used to compute WAPE and RMSE.
-  @_s.JsonKey(name: 'ForecastType')
-  final String forecastType;
+  final String? forecastType;
 
   /// The root-mean-square error (RMSE).
-  @_s.JsonKey(name: 'RMSE')
-  final double rmse;
+  final double? rmse;
 
   /// The weighted absolute percentage error (WAPE).
-  @_s.JsonKey(name: 'WAPE')
-  final double wape;
+  final double? wape;
 
   ErrorMetric({
     this.forecastType,
     this.rmse,
     this.wape,
   });
-  factory ErrorMetric.fromJson(Map<String, dynamic> json) =>
-      _$ErrorMetricFromJson(json);
+  factory ErrorMetric.fromJson(Map<String, dynamic> json) {
+    return ErrorMetric(
+      forecastType: json['ForecastType'] as String?,
+      rmse: json['RMSE'] as double?,
+      wape: json['WAPE'] as double?,
+    );
+  }
 }
 
 /// Parameters that define how to split a dataset into training data and testing
 /// data, and the number of iterations to perform. These parameters are
 /// specified in the predefined algorithms but you can override them in the
 /// <a>CreatePredictor</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EvaluationParameters {
   /// The point from the end of the dataset where you want to split the data for
   /// model training and testing (evaluation). Specify the value as the number of
@@ -4202,55 +4239,87 @@ class EvaluationParameters {
   ///
   /// <code>ForecastHorizon</code> &lt;= <code>BackTestWindowOffset</code> &lt;
   /// 1/2 * TARGET_TIME_SERIES dataset length
-  @_s.JsonKey(name: 'BackTestWindowOffset')
-  final int backTestWindowOffset;
+  final int? backTestWindowOffset;
 
   /// The number of times to split the input data. The default is 1. Valid values
   /// are 1 through 5.
-  @_s.JsonKey(name: 'NumberOfBacktestWindows')
-  final int numberOfBacktestWindows;
+  final int? numberOfBacktestWindows;
 
   EvaluationParameters({
     this.backTestWindowOffset,
     this.numberOfBacktestWindows,
   });
-  factory EvaluationParameters.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationParametersFromJson(json);
+  factory EvaluationParameters.fromJson(Map<String, dynamic> json) {
+    return EvaluationParameters(
+      backTestWindowOffset: json['BackTestWindowOffset'] as int?,
+      numberOfBacktestWindows: json['NumberOfBacktestWindows'] as int?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EvaluationParametersToJson(this);
+  Map<String, dynamic> toJson() {
+    final backTestWindowOffset = this.backTestWindowOffset;
+    final numberOfBacktestWindows = this.numberOfBacktestWindows;
+    return {
+      if (backTestWindowOffset != null)
+        'BackTestWindowOffset': backTestWindowOffset,
+      if (numberOfBacktestWindows != null)
+        'NumberOfBacktestWindows': numberOfBacktestWindows,
+    };
+  }
 }
 
 /// The results of evaluating an algorithm. Returned as part of the
 /// <a>GetAccuracyMetrics</a> response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluationResult {
   /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
-  @_s.JsonKey(name: 'AlgorithmArn')
-  final String algorithmArn;
+  final String? algorithmArn;
 
   /// The array of test windows used for evaluating the algorithm. The
   /// <code>NumberOfBacktestWindows</code> from the <a>EvaluationParameters</a>
   /// object determines the number of windows in the array.
-  @_s.JsonKey(name: 'TestWindows')
-  final List<WindowSummary> testWindows;
+  final List<WindowSummary>? testWindows;
 
   EvaluationResult({
     this.algorithmArn,
     this.testWindows,
   });
-  factory EvaluationResult.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationResultFromJson(json);
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      algorithmArn: json['AlgorithmArn'] as String?,
+      testWindows: (json['TestWindows'] as List?)
+          ?.whereNotNull()
+          .map((e) => WindowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum EvaluationType {
-  @_s.JsonValue('SUMMARY')
   summary,
-  @_s.JsonValue('COMPUTED')
   computed,
+}
+
+extension on EvaluationType {
+  String toValue() {
+    switch (this) {
+      case EvaluationType.summary:
+        return 'SUMMARY';
+      case EvaluationType.computed:
+        return 'COMPUTED';
+    }
+  }
+}
+
+extension on String {
+  EvaluationType toEvaluationType() {
+    switch (this) {
+      case 'SUMMARY':
+        return EvaluationType.summary;
+      case 'COMPUTED':
+        return EvaluationType.computed;
+    }
+    throw Exception('$this is not known in enum EvaluationType');
+  }
 }
 
 /// Provides featurization (transformation) information for a dataset field.
@@ -4272,11 +4341,6 @@ enum EvaluationType {
 /// <code>} ]</code>
 ///
 /// <code>}</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Featurization {
   /// The name of the schema attribute that specifies the data field to be
   /// featurized. Amazon Forecast supports the target field of the
@@ -4285,22 +4349,35 @@ class Featurization {
   /// <code>demand</code>, and for the <code>CUSTOM</code> domain, the target is
   /// <code>target_value</code>. For more information, see
   /// <a>howitworks-missing-values</a>.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// An array of one <code>FeaturizationMethod</code> object that specifies the
   /// feature transformation method.
-  @_s.JsonKey(name: 'FeaturizationPipeline')
-  final List<FeaturizationMethod> featurizationPipeline;
+  final List<FeaturizationMethod>? featurizationPipeline;
 
   Featurization({
-    @_s.required this.attributeName,
+    required this.attributeName,
     this.featurizationPipeline,
   });
-  factory Featurization.fromJson(Map<String, dynamic> json) =>
-      _$FeaturizationFromJson(json);
+  factory Featurization.fromJson(Map<String, dynamic> json) {
+    return Featurization(
+      attributeName: json['AttributeName'] as String,
+      featurizationPipeline: (json['FeaturizationPipeline'] as List?)
+          ?.whereNotNull()
+          .map((e) => FeaturizationMethod.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FeaturizationToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final featurizationPipeline = this.featurizationPipeline;
+    return {
+      'AttributeName': attributeName,
+      if (featurizationPipeline != null)
+        'FeaturizationPipeline': featurizationPipeline,
+    };
+  }
 }
 
 /// In a <a>CreatePredictor</a> operation, the specified algorithm trains a
@@ -4318,11 +4395,6 @@ class Featurization {
 /// You can create multiple featurization configurations. For example, you might
 /// call the <code>CreatePredictor</code> operation twice by specifying
 /// different featurization configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FeaturizationConfig {
   /// The frequency of predictions in a forecast.
   ///
@@ -4336,13 +4408,11 @@ class FeaturizationConfig {
   ///
   /// When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal
   /// to the RELATED_TIME_SERIES dataset frequency.
-  @_s.JsonKey(name: 'ForecastFrequency')
   final String forecastFrequency;
 
   /// An array of featurization (transformation) information for the fields of a
   /// dataset.
-  @_s.JsonKey(name: 'Featurizations')
-  final List<Featurization> featurizations;
+  final List<Featurization>? featurizations;
 
   /// An array of dimension (field) names that specify how to group the generated
   /// forecast.
@@ -4357,18 +4427,37 @@ class FeaturizationConfig {
   /// request. All forecast dimensions specified in the
   /// <code>RELATED_TIME_SERIES</code> dataset must be specified in the
   /// <code>CreatePredictor</code> request.
-  @_s.JsonKey(name: 'ForecastDimensions')
-  final List<String> forecastDimensions;
+  final List<String>? forecastDimensions;
 
   FeaturizationConfig({
-    @_s.required this.forecastFrequency,
+    required this.forecastFrequency,
     this.featurizations,
     this.forecastDimensions,
   });
-  factory FeaturizationConfig.fromJson(Map<String, dynamic> json) =>
-      _$FeaturizationConfigFromJson(json);
+  factory FeaturizationConfig.fromJson(Map<String, dynamic> json) {
+    return FeaturizationConfig(
+      forecastFrequency: json['ForecastFrequency'] as String,
+      featurizations: (json['Featurizations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Featurization.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      forecastDimensions: (json['ForecastDimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FeaturizationConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final forecastFrequency = this.forecastFrequency;
+    final featurizations = this.featurizations;
+    final forecastDimensions = this.forecastDimensions;
+    return {
+      'ForecastFrequency': forecastFrequency,
+      if (featurizations != null) 'Featurizations': featurizations,
+      if (forecastDimensions != null) 'ForecastDimensions': forecastDimensions,
+    };
+  }
 }
 
 /// Provides information about the method that featurizes (transforms) a dataset
@@ -4386,14 +4475,8 @@ class FeaturizationConfig {
 /// "zero", "backfill": "zero"}</code>
 ///
 /// <code>}</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FeaturizationMethod {
   /// The name of the method. The "filling" method is the only supported method.
-  @_s.JsonKey(name: 'FeaturizationMethodName')
   final FeaturizationMethodName featurizationMethodName;
 
   /// The method parameters (key-value pairs), which are a map of override
@@ -4444,22 +4527,54 @@ class FeaturizationMethod {
   /// <code>_value</code> parameter. For example, to set backfilling to a value of
   /// 2, include the following: <code>"backfill": "value"</code> and
   /// <code>"backfill_value":"2"</code>.
-  @_s.JsonKey(name: 'FeaturizationMethodParameters')
-  final Map<String, String> featurizationMethodParameters;
+  final Map<String, String>? featurizationMethodParameters;
 
   FeaturizationMethod({
-    @_s.required this.featurizationMethodName,
+    required this.featurizationMethodName,
     this.featurizationMethodParameters,
   });
-  factory FeaturizationMethod.fromJson(Map<String, dynamic> json) =>
-      _$FeaturizationMethodFromJson(json);
+  factory FeaturizationMethod.fromJson(Map<String, dynamic> json) {
+    return FeaturizationMethod(
+      featurizationMethodName: (json['FeaturizationMethodName'] as String)
+          .toFeaturizationMethodName(),
+      featurizationMethodParameters:
+          (json['FeaturizationMethodParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FeaturizationMethodToJson(this);
+  Map<String, dynamic> toJson() {
+    final featurizationMethodName = this.featurizationMethodName;
+    final featurizationMethodParameters = this.featurizationMethodParameters;
+    return {
+      'FeaturizationMethodName': featurizationMethodName.toValue(),
+      if (featurizationMethodParameters != null)
+        'FeaturizationMethodParameters': featurizationMethodParameters,
+    };
+  }
 }
 
 enum FeaturizationMethodName {
-  @_s.JsonValue('filling')
   filling,
+}
+
+extension on FeaturizationMethodName {
+  String toValue() {
+    switch (this) {
+      case FeaturizationMethodName.filling:
+        return 'filling';
+    }
+  }
+}
+
+extension on String {
+  FeaturizationMethodName toFeaturizationMethodName() {
+    switch (this) {
+      case 'filling':
+        return FeaturizationMethodName.filling;
+    }
+    throw Exception('$this is not known in enum FeaturizationMethodName');
+  }
 }
 
 /// Describes a filter for choosing a subset of objects. Each filter consists of
@@ -4467,77 +4582,86 @@ enum FeaturizationMethodName {
 /// or <code>IS_NOT</code>, which specifies whether to include or exclude the
 /// objects that match the statement, respectively. The match statement consists
 /// of a key and a value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The condition to apply. To include the objects that match the statement,
   /// specify <code>IS</code>. To exclude matching objects, specify
   /// <code>IS_NOT</code>.
-  @_s.JsonKey(name: 'Condition')
   final FilterConditionString condition;
 
   /// The name of the parameter to filter on.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value to match.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Filter({
-    @_s.required this.condition,
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.condition,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Condition': condition.toValue(),
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 enum FilterConditionString {
-  @_s.JsonValue('IS')
   $is,
-  @_s.JsonValue('IS_NOT')
   isNot,
+}
+
+extension on FilterConditionString {
+  String toValue() {
+    switch (this) {
+      case FilterConditionString.$is:
+        return 'IS';
+      case FilterConditionString.isNot:
+        return 'IS_NOT';
+    }
+  }
+}
+
+extension on String {
+  FilterConditionString toFilterConditionString() {
+    switch (this) {
+      case 'IS':
+        return FilterConditionString.$is;
+      case 'IS_NOT':
+        return FilterConditionString.isNot;
+    }
+    throw Exception('$this is not known in enum FilterConditionString');
+  }
 }
 
 /// Provides a summary of the forecast export job properties used in the
 /// <a>ListForecastExportJobs</a> operation. To get the complete set of
 /// properties, call the <a>DescribeForecastExportJob</a> operation, and provide
 /// the listed <code>ForecastExportJobArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ForecastExportJobSummary {
   /// When the forecast export job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
   /// forecast is exported.
-  @_s.JsonKey(name: 'Destination')
-  final DataDestination destination;
+  final DataDestination? destination;
 
   /// The Amazon Resource Name (ARN) of the forecast export job.
-  @_s.JsonKey(name: 'ForecastExportJobArn')
-  final String forecastExportJobArn;
+  final String? forecastExportJobArn;
 
   /// The name of the forecast export job.
-  @_s.JsonKey(name: 'ForecastExportJobName')
-  final String forecastExportJobName;
+  final String? forecastExportJobName;
 
   /// When the last successful export job finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The status of the forecast export job. States include:
   ///
@@ -4557,8 +4681,7 @@ class ForecastExportJobSummary {
   /// The <code>Status</code> of the forecast export job must be
   /// <code>ACTIVE</code> before you can access the forecast in your S3 bucket.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   ForecastExportJobSummary({
     this.creationTime,
@@ -4569,54 +4692,52 @@ class ForecastExportJobSummary {
     this.message,
     this.status,
   });
-  factory ForecastExportJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$ForecastExportJobSummaryFromJson(json);
+  factory ForecastExportJobSummary.fromJson(Map<String, dynamic> json) {
+    return ForecastExportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      forecastExportJobArn: json['ForecastExportJobArn'] as String?,
+      forecastExportJobName: json['ForecastExportJobName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// Provides a summary of the forecast properties used in the
 /// <a>ListForecasts</a> operation. To get the complete set of properties, call
 /// the <a>DescribeForecast</a> operation, and provide the
 /// <code>ForecastArn</code> that is listed in the summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ForecastSummary {
   /// When the forecast creation task was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that provided the data
   /// used to train the predictor.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// The ARN of the forecast.
-  @_s.JsonKey(name: 'ForecastArn')
-  final String forecastArn;
+  final String? forecastArn;
 
   /// The name of the forecast.
-  @_s.JsonKey(name: 'ForecastName')
-  final String forecastName;
+  final String? forecastName;
 
   /// Initially, the same as <code>CreationTime</code> (status is
   /// <code>CREATE_PENDING</code>). Updated when inference (creating the forecast)
   /// starts (status changed to <code>CREATE_IN_PROGRESS</code>), and when
   /// inference is complete (status changed to <code>ACTIVE</code>) or fails
   /// (status changed to <code>CREATE_FAILED</code>).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The ARN of the predictor used to generate the forecast.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   /// The status of the forecast. States include:
   ///
@@ -4636,8 +4757,7 @@ class ForecastSummary {
   /// The <code>Status</code> of the forecast must be <code>ACTIVE</code> before
   /// you can query or export the forecast.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   ForecastSummary({
     this.creationTime,
@@ -4649,25 +4769,35 @@ class ForecastSummary {
     this.predictorArn,
     this.status,
   });
-  factory ForecastSummary.fromJson(Map<String, dynamic> json) =>
-      _$ForecastSummaryFromJson(json);
+  factory ForecastSummary.fromJson(Map<String, dynamic> json) {
+    return ForecastSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      forecastArn: json['ForecastArn'] as String?,
+      forecastName: json['ForecastName'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccuracyMetricsResponse {
   /// An array of results from evaluating the predictor.
-  @_s.JsonKey(name: 'PredictorEvaluationResults')
-  final List<EvaluationResult> predictorEvaluationResults;
+  final List<EvaluationResult>? predictorEvaluationResults;
 
   GetAccuracyMetricsResponse({
     this.predictorEvaluationResults,
   });
-  factory GetAccuracyMetricsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccuracyMetricsResponseFromJson(json);
+  factory GetAccuracyMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccuracyMetricsResponse(
+      predictorEvaluationResults: (json['PredictorEvaluationResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Configuration information for a hyperparameter tuning job. You specify this
@@ -4683,71 +4813,76 @@ class GetAccuracyMetricsResponse {
 /// accomplishes this by running many training jobs over a range of
 /// hyperparameter values. The optimum set of values depends on the algorithm,
 /// the training data, and the specified metric objective.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HyperParameterTuningJobConfig {
   /// Specifies the ranges of valid values for the hyperparameters.
-  @_s.JsonKey(name: 'ParameterRanges')
-  final ParameterRanges parameterRanges;
+  final ParameterRanges? parameterRanges;
 
   HyperParameterTuningJobConfig({
     this.parameterRanges,
   });
-  factory HyperParameterTuningJobConfig.fromJson(Map<String, dynamic> json) =>
-      _$HyperParameterTuningJobConfigFromJson(json);
+  factory HyperParameterTuningJobConfig.fromJson(Map<String, dynamic> json) {
+    return HyperParameterTuningJobConfig(
+      parameterRanges: json['ParameterRanges'] != null
+          ? ParameterRanges.fromJson(
+              json['ParameterRanges'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$HyperParameterTuningJobConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final parameterRanges = this.parameterRanges;
+    return {
+      if (parameterRanges != null) 'ParameterRanges': parameterRanges,
+    };
+  }
 }
 
 /// The data used to train a predictor. The data includes a dataset group and
 /// any supplementary features. You specify this object in the
 /// <a>CreatePredictor</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDataConfig {
   /// The Amazon Resource Name (ARN) of the dataset group.
-  @_s.JsonKey(name: 'DatasetGroupArn')
   final String datasetGroupArn;
 
   /// An array of supplementary features. The only supported feature is a holiday
   /// calendar.
-  @_s.JsonKey(name: 'SupplementaryFeatures')
-  final List<SupplementaryFeature> supplementaryFeatures;
+  final List<SupplementaryFeature>? supplementaryFeatures;
 
   InputDataConfig({
-    @_s.required this.datasetGroupArn,
+    required this.datasetGroupArn,
     this.supplementaryFeatures,
   });
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$InputDataConfigFromJson(json);
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      datasetGroupArn: json['DatasetGroupArn'] as String,
+      supplementaryFeatures: (json['SupplementaryFeatures'] as List?)
+          ?.whereNotNull()
+          .map((e) => SupplementaryFeature.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final datasetGroupArn = this.datasetGroupArn;
+    final supplementaryFeatures = this.supplementaryFeatures;
+    return {
+      'DatasetGroupArn': datasetGroupArn,
+      if (supplementaryFeatures != null)
+        'SupplementaryFeatures': supplementaryFeatures,
+    };
+  }
 }
 
 /// Specifies an integer hyperparameter and it's range of tunable values. This
 /// object is part of the <a>ParameterRanges</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IntegerParameterRange {
   /// The maximum tunable value of the hyperparameter.
-  @_s.JsonKey(name: 'MaxValue')
   final int maxValue;
 
   /// The minimum tunable value of the hyperparameter.
-  @_s.JsonKey(name: 'MinValue')
   final int minValue;
 
   /// The name of the hyperparameter to tune.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The scale that hyperparameter tuning uses to search the hyperparameter
@@ -4772,231 +4907,254 @@ class IntegerParameterRange {
   /// For information about choosing a hyperparameter scale, see <a
   /// href="http://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-ranges.html#scaling-type">Hyperparameter
   /// Scaling</a>. One of the following values:
-  @_s.JsonKey(name: 'ScalingType')
-  final ScalingType scalingType;
+  final ScalingType? scalingType;
 
   IntegerParameterRange({
-    @_s.required this.maxValue,
-    @_s.required this.minValue,
-    @_s.required this.name,
+    required this.maxValue,
+    required this.minValue,
+    required this.name,
     this.scalingType,
   });
-  factory IntegerParameterRange.fromJson(Map<String, dynamic> json) =>
-      _$IntegerParameterRangeFromJson(json);
+  factory IntegerParameterRange.fromJson(Map<String, dynamic> json) {
+    return IntegerParameterRange(
+      maxValue: json['MaxValue'] as int,
+      minValue: json['MinValue'] as int,
+      name: json['Name'] as String,
+      scalingType: (json['ScalingType'] as String?)?.toScalingType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IntegerParameterRangeToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    final scalingType = this.scalingType;
+    return {
+      'MaxValue': maxValue,
+      'MinValue': minValue,
+      'Name': name,
+      if (scalingType != null) 'ScalingType': scalingType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetGroupsResponse {
   /// An array of objects that summarize each dataset group's properties.
-  @_s.JsonKey(name: 'DatasetGroups')
-  final List<DatasetGroupSummary> datasetGroups;
+  final List<DatasetGroupSummary>? datasetGroups;
 
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetGroupsResponse({
     this.datasetGroups,
     this.nextToken,
   });
-  factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetGroupsResponseFromJson(json);
+  factory ListDatasetGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetGroupsResponse(
+      datasetGroups: (json['DatasetGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetImportJobsResponse {
   /// An array of objects that summarize each dataset import job's properties.
-  @_s.JsonKey(name: 'DatasetImportJobs')
-  final List<DatasetImportJobSummary> datasetImportJobs;
+  final List<DatasetImportJobSummary>? datasetImportJobs;
 
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetImportJobsResponse({
     this.datasetImportJobs,
     this.nextToken,
   });
-  factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetImportJobsResponseFromJson(json);
+  factory ListDatasetImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetImportJobsResponse(
+      datasetImportJobs: (json['DatasetImportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DatasetImportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetsResponse {
   /// An array of objects that summarize each dataset's properties.
-  @_s.JsonKey(name: 'Datasets')
-  final List<DatasetSummary> datasets;
+  final List<DatasetSummary>? datasets;
 
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetsResponse({
     this.datasets,
     this.nextToken,
   });
-  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetsResponseFromJson(json);
+  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetsResponse(
+      datasets: (json['Datasets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListForecastExportJobsResponse {
   /// An array of objects that summarize each export job's properties.
-  @_s.JsonKey(name: 'ForecastExportJobs')
-  final List<ForecastExportJobSummary> forecastExportJobs;
+  final List<ForecastExportJobSummary>? forecastExportJobs;
 
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListForecastExportJobsResponse({
     this.forecastExportJobs,
     this.nextToken,
   });
-  factory ListForecastExportJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListForecastExportJobsResponseFromJson(json);
+  factory ListForecastExportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListForecastExportJobsResponse(
+      forecastExportJobs: (json['ForecastExportJobs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ForecastExportJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListForecastsResponse {
   /// An array of objects that summarize each forecast's properties.
-  @_s.JsonKey(name: 'Forecasts')
-  final List<ForecastSummary> forecasts;
+  final List<ForecastSummary>? forecasts;
 
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListForecastsResponse({
     this.forecasts,
     this.nextToken,
   });
-  factory ListForecastsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListForecastsResponseFromJson(json);
+  factory ListForecastsResponse.fromJson(Map<String, dynamic> json) {
+    return ListForecastsResponse(
+      forecasts: (json['Forecasts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ForecastSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPredictorBacktestExportJobsResponse {
   /// Returns this token if the response is truncated. To retrieve the next set of
   /// results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that summarize the properties of each predictor backtest
   /// export job.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobs')
-  final List<PredictorBacktestExportJobSummary> predictorBacktestExportJobs;
+  final List<PredictorBacktestExportJobSummary>? predictorBacktestExportJobs;
 
   ListPredictorBacktestExportJobsResponse({
     this.nextToken,
     this.predictorBacktestExportJobs,
   });
   factory ListPredictorBacktestExportJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPredictorBacktestExportJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPredictorBacktestExportJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      predictorBacktestExportJobs:
+          (json['PredictorBacktestExportJobs'] as List?)
+              ?.whereNotNull()
+              .map((e) => PredictorBacktestExportJobSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPredictorsResponse {
   /// If the response is truncated, Amazon Forecast returns this token. To
   /// retrieve the next set of results, use the token in the next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that summarize each predictor's properties.
-  @_s.JsonKey(name: 'Predictors')
-  final List<PredictorSummary> predictors;
+  final List<PredictorSummary>? predictors;
 
   ListPredictorsResponse({
     this.nextToken,
     this.predictors,
   });
-  factory ListPredictorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPredictorsResponseFromJson(json);
+  factory ListPredictorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPredictorsResponse(
+      nextToken: json['NextToken'] as String?,
+      predictors: (json['Predictors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides metrics that are used to evaluate the performance of a predictor.
 /// This object is part of the <a>WindowSummary</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Metrics {
   /// Provides detailed error metrics on forecast type, root-mean square-error
   /// (RMSE), and weighted average percentage error (WAPE).
-  @_s.JsonKey(name: 'ErrorMetrics')
-  final List<ErrorMetric> errorMetrics;
+  final List<ErrorMetric>? errorMetrics;
 
   /// The root-mean-square error (RMSE).
-  @_s.JsonKey(name: 'RMSE')
-  final double rmse;
+  final double? rmse;
 
   /// An array of weighted quantile losses. Quantiles divide a probability
   /// distribution into regions of equal probability. The distribution in this
   /// case is the loss function.
-  @_s.JsonKey(name: 'WeightedQuantileLosses')
-  final List<WeightedQuantileLoss> weightedQuantileLosses;
+  final List<WeightedQuantileLoss>? weightedQuantileLosses;
 
   Metrics({
     this.errorMetrics,
     this.rmse,
     this.weightedQuantileLosses,
   });
-  factory Metrics.fromJson(Map<String, dynamic> json) =>
-      _$MetricsFromJson(json);
+  factory Metrics.fromJson(Map<String, dynamic> json) {
+    return Metrics(
+      errorMetrics: (json['ErrorMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rmse: json['RMSE'] as double?,
+      weightedQuantileLosses: (json['WeightedQuantileLosses'] as List?)
+          ?.whereNotNull()
+          .map((e) => WeightedQuantileLoss.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Specifies the categorical, continuous, and integer hyperparameters, and
@@ -5004,69 +5162,76 @@ class Metrics {
 /// values that a hyperparameter tuning job can choose for the specified
 /// hyperparameter. This object is part of the
 /// <a>HyperParameterTuningJobConfig</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterRanges {
   /// Specifies the tunable range for each categorical hyperparameter.
-  @_s.JsonKey(name: 'CategoricalParameterRanges')
-  final List<CategoricalParameterRange> categoricalParameterRanges;
+  final List<CategoricalParameterRange>? categoricalParameterRanges;
 
   /// Specifies the tunable range for each continuous hyperparameter.
-  @_s.JsonKey(name: 'ContinuousParameterRanges')
-  final List<ContinuousParameterRange> continuousParameterRanges;
+  final List<ContinuousParameterRange>? continuousParameterRanges;
 
   /// Specifies the tunable range for each integer hyperparameter.
-  @_s.JsonKey(name: 'IntegerParameterRanges')
-  final List<IntegerParameterRange> integerParameterRanges;
+  final List<IntegerParameterRange>? integerParameterRanges;
 
   ParameterRanges({
     this.categoricalParameterRanges,
     this.continuousParameterRanges,
     this.integerParameterRanges,
   });
-  factory ParameterRanges.fromJson(Map<String, dynamic> json) =>
-      _$ParameterRangesFromJson(json);
+  factory ParameterRanges.fromJson(Map<String, dynamic> json) {
+    return ParameterRanges(
+      categoricalParameterRanges: (json['CategoricalParameterRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CategoricalParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      continuousParameterRanges: (json['ContinuousParameterRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ContinuousParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      integerParameterRanges: (json['IntegerParameterRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => IntegerParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ParameterRangesToJson(this);
+  Map<String, dynamic> toJson() {
+    final categoricalParameterRanges = this.categoricalParameterRanges;
+    final continuousParameterRanges = this.continuousParameterRanges;
+    final integerParameterRanges = this.integerParameterRanges;
+    return {
+      if (categoricalParameterRanges != null)
+        'CategoricalParameterRanges': categoricalParameterRanges,
+      if (continuousParameterRanges != null)
+        'ContinuousParameterRanges': continuousParameterRanges,
+      if (integerParameterRanges != null)
+        'IntegerParameterRanges': integerParameterRanges,
+    };
+  }
 }
 
 /// Provides a summary of the predictor backtest export job properties used in
 /// the <a>ListPredictorBacktestExportJobs</a> operation. To get a complete set
 /// of properties, call the <a>DescribePredictorBacktestExportJob</a> operation,
 /// and provide the listed <code>PredictorBacktestExportJobArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictorBacktestExportJobSummary {
   /// When the predictor backtest export job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
-  @_s.JsonKey(name: 'Destination')
-  final DataDestination destination;
+  final DateTime? creationTime;
+  final DataDestination? destination;
 
   /// When the last successful export job finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// Information about any errors that may have occurred during the backtest
   /// export.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The Amazon Resource Name (ARN) of the predictor backtest export job.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobArn')
-  final String predictorBacktestExportJobArn;
+  final String? predictorBacktestExportJobArn;
 
   /// The name of the predictor backtest export job.
-  @_s.JsonKey(name: 'PredictorBacktestExportJobName')
-  final String predictorBacktestExportJobName;
+  final String? predictorBacktestExportJobName;
 
   /// The status of the predictor backtest export job. States include:
   ///
@@ -5093,8 +5258,7 @@ class PredictorBacktestExportJobSummary {
   /// <code>DELETE_FAILED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   PredictorBacktestExportJobSummary({
     this.creationTime,
@@ -5106,99 +5270,100 @@ class PredictorBacktestExportJobSummary {
     this.status,
   });
   factory PredictorBacktestExportJobSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$PredictorBacktestExportJobSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return PredictorBacktestExportJobSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      destination: json['Destination'] != null
+          ? DataDestination.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorBacktestExportJobArn:
+          json['PredictorBacktestExportJobArn'] as String?,
+      predictorBacktestExportJobName:
+          json['PredictorBacktestExportJobName'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// The algorithm used to perform a backtest and the status of those tests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictorExecution {
   /// The ARN of the algorithm used to test the predictor.
-  @_s.JsonKey(name: 'AlgorithmArn')
-  final String algorithmArn;
+  final String? algorithmArn;
 
   /// An array of test windows used to evaluate the algorithm. The
   /// <code>NumberOfBacktestWindows</code> from the object determines the number
   /// of windows in the array.
-  @_s.JsonKey(name: 'TestWindows')
-  final List<TestWindowSummary> testWindows;
+  final List<TestWindowSummary>? testWindows;
 
   PredictorExecution({
     this.algorithmArn,
     this.testWindows,
   });
-  factory PredictorExecution.fromJson(Map<String, dynamic> json) =>
-      _$PredictorExecutionFromJson(json);
+  factory PredictorExecution.fromJson(Map<String, dynamic> json) {
+    return PredictorExecution(
+      algorithmArn: json['AlgorithmArn'] as String?,
+      testWindows: (json['TestWindows'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestWindowSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains details on the backtests performed to evaluate the accuracy of the
 /// predictor. The tests are returned in descending order of accuracy, with the
 /// most accurate backtest appearing first. You specify the number of backtests
 /// to perform when you call the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictorExecutionDetails {
   /// An array of the backtests performed to evaluate the accuracy of the
   /// predictor against a particular algorithm. The
   /// <code>NumberOfBacktestWindows</code> from the object determines the number
   /// of windows in the array.
-  @_s.JsonKey(name: 'PredictorExecutions')
-  final List<PredictorExecution> predictorExecutions;
+  final List<PredictorExecution>? predictorExecutions;
 
   PredictorExecutionDetails({
     this.predictorExecutions,
   });
-  factory PredictorExecutionDetails.fromJson(Map<String, dynamic> json) =>
-      _$PredictorExecutionDetailsFromJson(json);
+  factory PredictorExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return PredictorExecutionDetails(
+      predictorExecutions: (json['PredictorExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PredictorExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides a summary of the predictor properties that are used in the
 /// <a>ListPredictors</a> operation. To get the complete set of properties, call
 /// the <a>DescribePredictor</a> operation, and provide the listed
 /// <code>PredictorArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PredictorSummary {
   /// When the model training task was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that contains the data
   /// used to train the predictor.
-  @_s.JsonKey(name: 'DatasetGroupArn')
-  final String datasetGroupArn;
+  final String? datasetGroupArn;
 
   /// Initially, the same as <code>CreationTime</code> (status is
   /// <code>CREATE_PENDING</code>). Updated when training starts (status changed
   /// to <code>CREATE_IN_PROGRESS</code>), and when training is complete (status
   /// changed to <code>ACTIVE</code>) or fails (status changed to
   /// <code>CREATE_FAILED</code>).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModificationTime')
-  final DateTime lastModificationTime;
+  final DateTime? lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The ARN of the predictor.
-  @_s.JsonKey(name: 'PredictorArn')
-  final String predictorArn;
+  final String? predictorArn;
 
   /// The name of the predictor.
-  @_s.JsonKey(name: 'PredictorName')
-  final String predictorName;
+  final String? predictorName;
 
   /// The status of the predictor. States include:
   ///
@@ -5222,8 +5387,7 @@ class PredictorSummary {
   /// The <code>Status</code> of the predictor must be <code>ACTIVE</code> before
   /// you can use the predictor to create a forecast.
   /// </note>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   PredictorSummary({
     this.creationTime,
@@ -5234,8 +5398,17 @@ class PredictorSummary {
     this.predictorName,
     this.status,
   });
-  factory PredictorSummary.fromJson(Map<String, dynamic> json) =>
-      _$PredictorSummaryFromJson(json);
+  factory PredictorSummary.fromJson(Map<String, dynamic> json) {
+    return PredictorSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      datasetGroupArn: json['DatasetGroupArn'] as String?,
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+      predictorName: json['PredictorName'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3)
@@ -5244,15 +5417,9 @@ class PredictorSummary {
 /// Management Service (KMS) key. This object is part of the <a>DataSource</a>
 /// object that is submitted in the <a>CreateDatasetImportJob</a> request, and
 /// part of the <a>DataDestination</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Config {
   /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s)
   /// in an Amazon S3 bucket.
-  @_s.JsonKey(name: 'Path')
   final String path;
 
   /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon
@@ -5262,122 +5429,158 @@ class S3Config {
   ///
   /// Passing a role across AWS accounts is not allowed. If you pass a role that
   /// isn't in your account, you get an <code>InvalidInputException</code> error.
-  @_s.JsonKey(name: 'RoleArn')
   final String roleArn;
 
   /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
-  @_s.JsonKey(name: 'KMSKeyArn')
-  final String kMSKeyArn;
+  final String? kMSKeyArn;
 
   S3Config({
-    @_s.required this.path,
-    @_s.required this.roleArn,
+    required this.path,
+    required this.roleArn,
     this.kMSKeyArn,
   });
-  factory S3Config.fromJson(Map<String, dynamic> json) =>
-      _$S3ConfigFromJson(json);
+  factory S3Config.fromJson(Map<String, dynamic> json) {
+    return S3Config(
+      path: json['Path'] as String,
+      roleArn: json['RoleArn'] as String,
+      kMSKeyArn: json['KMSKeyArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final roleArn = this.roleArn;
+    final kMSKeyArn = this.kMSKeyArn;
+    return {
+      'Path': path,
+      'RoleArn': roleArn,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
+    };
+  }
 }
 
 enum ScalingType {
-  @_s.JsonValue('Auto')
   auto,
-  @_s.JsonValue('Linear')
   linear,
-  @_s.JsonValue('Logarithmic')
   logarithmic,
-  @_s.JsonValue('ReverseLogarithmic')
   reverseLogarithmic,
+}
+
+extension on ScalingType {
+  String toValue() {
+    switch (this) {
+      case ScalingType.auto:
+        return 'Auto';
+      case ScalingType.linear:
+        return 'Linear';
+      case ScalingType.logarithmic:
+        return 'Logarithmic';
+      case ScalingType.reverseLogarithmic:
+        return 'ReverseLogarithmic';
+    }
+  }
+}
+
+extension on String {
+  ScalingType toScalingType() {
+    switch (this) {
+      case 'Auto':
+        return ScalingType.auto;
+      case 'Linear':
+        return ScalingType.linear;
+      case 'Logarithmic':
+        return ScalingType.logarithmic;
+      case 'ReverseLogarithmic':
+        return ScalingType.reverseLogarithmic;
+    }
+    throw Exception('$this is not known in enum ScalingType');
+  }
 }
 
 /// Defines the fields of a dataset. You specify this object in the
 /// <a>CreateDataset</a> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Schema {
   /// An array of attributes specifying the name and type of each field in a
   /// dataset.
-  @_s.JsonKey(name: 'Attributes')
-  final List<SchemaAttribute> attributes;
+  final List<SchemaAttribute>? attributes;
 
   Schema({
     this.attributes,
   });
-  factory Schema.fromJson(Map<String, dynamic> json) => _$SchemaFromJson(json);
+  factory Schema.fromJson(Map<String, dynamic> json) {
+    return Schema(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+    };
+  }
 }
 
 /// An attribute of a schema, which defines a dataset field. A schema attribute
 /// is required for every field in a dataset. The <a>Schema</a> object contains
 /// an array of <code>SchemaAttribute</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaAttribute {
   /// The name of the dataset field.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The data type of the field.
-  @_s.JsonKey(name: 'AttributeType')
-  final AttributeType attributeType;
+  final AttributeType? attributeType;
 
   SchemaAttribute({
     this.attributeName,
     this.attributeType,
   });
-  factory SchemaAttribute.fromJson(Map<String, dynamic> json) =>
-      _$SchemaAttributeFromJson(json);
+  factory SchemaAttribute.fromJson(Map<String, dynamic> json) {
+    return SchemaAttribute(
+      attributeName: json['AttributeName'] as String?,
+      attributeType: (json['AttributeType'] as String?)?.toAttributeType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SchemaAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeType = this.attributeType;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeType != null) 'AttributeType': attributeType.toValue(),
+    };
+  }
 }
 
 /// Provides statistics for each data field imported into to an Amazon Forecast
 /// dataset with the <a>CreateDatasetImportJob</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Statistics {
   /// For a numeric field, the average value in the field.
-  @_s.JsonKey(name: 'Avg')
-  final double avg;
+  final double? avg;
 
   /// The number of values in the field.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   /// The number of distinct values in the field.
-  @_s.JsonKey(name: 'CountDistinct')
-  final int countDistinct;
+  final int? countDistinct;
 
   /// The number of NAN (not a number) values in the field.
-  @_s.JsonKey(name: 'CountNan')
-  final int countNan;
+  final int? countNan;
 
   /// The number of null values in the field.
-  @_s.JsonKey(name: 'CountNull')
-  final int countNull;
+  final int? countNull;
 
   /// For a numeric field, the maximum value in the field.
-  @_s.JsonKey(name: 'Max')
-  final String max;
+  final String? max;
 
   /// For a numeric field, the minimum value in the field.
-  @_s.JsonKey(name: 'Min')
-  final String min;
+  final String? min;
 
   /// For a numeric field, the standard deviation.
-  @_s.JsonKey(name: 'Stddev')
-  final double stddev;
+  final double? stddev;
 
   Statistics({
     this.avg,
@@ -5389,8 +5592,18 @@ class Statistics {
     this.min,
     this.stddev,
   });
-  factory Statistics.fromJson(Map<String, dynamic> json) =>
-      _$StatisticsFromJson(json);
+  factory Statistics.fromJson(Map<String, dynamic> json) {
+    return Statistics(
+      avg: json['Avg'] as double?,
+      count: json['Count'] as int?,
+      countDistinct: json['CountDistinct'] as int?,
+      countNan: json['CountNan'] as int?,
+      countNull: json['CountNull'] as int?,
+      max: json['Max'] as String?,
+      min: json['Min'] as String?,
+      stddev: json['Stddev'] as double?,
+    );
+  }
 }
 
 /// Describes a supplementary feature of a dataset group. This object is part of
@@ -5417,15 +5630,9 @@ class Statistics {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/forecast/latest/dg/holidays.html">Holidays
 /// Featurization</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SupplementaryFeature {
   /// The name of the feature. Valid values: <code>"holiday"</code> and
   /// <code>"weather"</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// <b>Weather Index</b>
@@ -5637,17 +5844,27 @@ class SupplementaryFeature {
   /// "VE" - VENEZUELA
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   SupplementaryFeature({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  factory SupplementaryFeature.fromJson(Map<String, dynamic> json) =>
-      _$SupplementaryFeatureFromJson(json);
+  factory SupplementaryFeature.fromJson(Map<String, dynamic> json) {
+    return SupplementaryFeature(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SupplementaryFeatureToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 /// The optional metadata that you apply to a resource to help you categorize
@@ -5689,53 +5906,48 @@ class SupplementaryFeature {
 /// count against your tags per resource limit.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional part of a key-value pair that makes up a tag. A
   /// <code>value</code> acts as a descriptor within a tag category (key).
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// The status, start time, and end time of a backtest, as well as a failure
 /// reason if applicable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestWindowSummary {
   /// If the test failed, the reason why it failed.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The status of the test. Possible status values are:
   ///
@@ -5750,18 +5962,13 @@ class TestWindowSummary {
   /// <code>CREATE_FAILED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The time at which the test ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TestWindowEnd')
-  final DateTime testWindowEnd;
+  final DateTime? testWindowEnd;
 
   /// The time at which the test began.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TestWindowStart')
-  final DateTime testWindowStart;
+  final DateTime? testWindowStart;
 
   TestWindowSummary({
     this.message,
@@ -5769,57 +5976,52 @@ class TestWindowSummary {
     this.testWindowEnd,
     this.testWindowStart,
   });
-  factory TestWindowSummary.fromJson(Map<String, dynamic> json) =>
-      _$TestWindowSummaryFromJson(json);
+  factory TestWindowSummary.fromJson(Map<String, dynamic> json) {
+    return TestWindowSummary(
+      message: json['Message'] as String?,
+      status: json['Status'] as String?,
+      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+      testWindowStart: timeStampFromJson(json['TestWindowStart']),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDatasetGroupResponse {
   UpdateDatasetGroupResponse();
-  factory UpdateDatasetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDatasetGroupResponseFromJson(json);
+  factory UpdateDatasetGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDatasetGroupResponse();
+  }
 }
 
 /// The weighted loss value for a quantile. This object is part of the
 /// <a>Metrics</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WeightedQuantileLoss {
   /// The difference between the predicted value and the actual value over the
   /// quantile, weighted (normalized) by dividing by the sum over all quantiles.
-  @_s.JsonKey(name: 'LossValue')
-  final double lossValue;
+  final double? lossValue;
 
   /// The quantile. Quantiles divide a probability distribution into regions of
   /// equal probability. For example, if the distribution was divided into 5
   /// regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
-  @_s.JsonKey(name: 'Quantile')
-  final double quantile;
+  final double? quantile;
 
   WeightedQuantileLoss({
     this.lossValue,
     this.quantile,
   });
-  factory WeightedQuantileLoss.fromJson(Map<String, dynamic> json) =>
-      _$WeightedQuantileLossFromJson(json);
+  factory WeightedQuantileLoss.fromJson(Map<String, dynamic> json) {
+    return WeightedQuantileLoss(
+      lossValue: json['LossValue'] as double?,
+      quantile: json['Quantile'] as double?,
+    );
+  }
 }
 
 /// The metrics for a time range within the evaluation portion of a dataset.
@@ -5828,11 +6030,6 @@ class WeightedQuantileLoss {
 /// The <code>TestWindowStart</code> and <code>TestWindowEnd</code> parameters
 /// are determined by the <code>BackTestWindowOffset</code> parameter of the
 /// <a>EvaluationParameters</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WindowSummary {
   /// The type of evaluation.
   ///
@@ -5844,26 +6041,19 @@ class WindowSummary {
   /// <code>COMPUTED</code> - The metrics for the specified window.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EvaluationType')
-  final EvaluationType evaluationType;
+  final EvaluationType? evaluationType;
 
   /// The number of data points within the window.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// Provides metrics used to evaluate the performance of a predictor.
-  @_s.JsonKey(name: 'Metrics')
-  final Metrics metrics;
+  final Metrics? metrics;
 
   /// The timestamp that defines the end of the window.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TestWindowEnd')
-  final DateTime testWindowEnd;
+  final DateTime? testWindowEnd;
 
   /// The timestamp that defines the start of the window.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TestWindowStart')
-  final DateTime testWindowStart;
+  final DateTime? testWindowStart;
 
   WindowSummary({
     this.evaluationType,
@@ -5872,27 +6062,36 @@ class WindowSummary {
     this.testWindowEnd,
     this.testWindowStart,
   });
-  factory WindowSummary.fromJson(Map<String, dynamic> json) =>
-      _$WindowSummaryFromJson(json);
+  factory WindowSummary.fromJson(Map<String, dynamic> json) {
+    return WindowSummary(
+      evaluationType: (json['EvaluationType'] as String?)?.toEvaluationType(),
+      itemCount: json['ItemCount'] as int?,
+      metrics: json['Metrics'] != null
+          ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)
+          : null,
+      testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+      testWindowStart: timeStampFromJson(json['TestWindowStart']),
+    );
+  }
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -5900,12 +6099,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

@@ -10,31 +10,23 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'fsx-2018-03-01.g.dart';
 
 /// Amazon FSx is a fully managed service that makes it easy for storage and
 /// application administrators to launch and use shared file storage.
 class FSx {
   final _s.JsonProtocol _protocol;
   FSx({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -95,9 +87,9 @@ class FSx {
   /// Specifies the file system with which you want to associate one or more DNS
   /// aliases.
   Future<AssociateFileSystemAliasesResponse> associateFileSystemAliases({
-    @_s.required List<String> aliases,
-    @_s.required String fileSystemId,
-    String clientRequestToken,
+    required List<String> aliases,
+    required String fileSystemId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(aliases, 'aliases');
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
@@ -172,7 +164,7 @@ class FSx {
   /// Parameter [taskId] :
   /// Specifies the data repository task to cancel.
   Future<CancelDataRepositoryTaskResponse> cancelDataRepositoryTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -285,9 +277,9 @@ class FSx {
   /// specify one or more tags using the <code>CreateBackup</code> action, no
   /// existing file system tags are copied from the file system to the backup.
   Future<CreateBackupResponse> createBackup({
-    @_s.required String fileSystemId,
-    String clientRequestToken,
-    List<Tag> tags,
+    required String fileSystemId,
+    String? clientRequestToken,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -378,12 +370,12 @@ class FSx {
   /// want to export, then the path to provide is <code>path1</code>. If a path
   /// that you provide isn't valid, the task fails.
   Future<CreateDataRepositoryTaskResponse> createDataRepositoryTask({
-    @_s.required String fileSystemId,
-    @_s.required CompletionReport report,
-    @_s.required DataRepositoryTaskType type,
-    String clientRequestToken,
-    List<String> paths,
-    List<Tag> tags,
+    required String fileSystemId,
+    required CompletionReport report,
+    required DataRepositoryTaskType type,
+    String? clientRequestToken,
+    List<String>? paths,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -425,7 +417,7 @@ class FSx {
       payload: {
         'FileSystemId': fileSystemId,
         'Report': report,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (paths != null) 'Paths': paths,
@@ -574,16 +566,16 @@ class FSx {
   /// Parameter [windowsConfiguration] :
   /// The Microsoft Windows configuration for the file system being created.
   Future<CreateFileSystemResponse> createFileSystem({
-    @_s.required FileSystemType fileSystemType,
-    @_s.required int storageCapacity,
-    @_s.required List<String> subnetIds,
-    String clientRequestToken,
-    String kmsKeyId,
-    CreateFileSystemLustreConfiguration lustreConfiguration,
-    List<String> securityGroupIds,
-    StorageType storageType,
-    List<Tag> tags,
-    CreateFileSystemWindowsConfiguration windowsConfiguration,
+    required FileSystemType fileSystemType,
+    required int storageCapacity,
+    required List<String> subnetIds,
+    String? clientRequestToken,
+    String? kmsKeyId,
+    CreateFileSystemLustreConfiguration? lustreConfiguration,
+    List<String>? securityGroupIds,
+    StorageType? storageType,
+    List<Tag>? tags,
+    CreateFileSystemWindowsConfiguration? windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(fileSystemType, 'fileSystemType');
     ArgumentError.checkNotNull(storageCapacity, 'storageCapacity');
@@ -628,7 +620,7 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileSystemType': fileSystemType?.toValue() ?? '',
+        'FileSystemType': fileSystemType.toValue(),
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
         'ClientRequestToken':
@@ -751,14 +743,14 @@ class FSx {
   /// Parameter [windowsConfiguration] :
   /// The configuration for this Microsoft Windows file system.
   Future<CreateFileSystemFromBackupResponse> createFileSystemFromBackup({
-    @_s.required String backupId,
-    @_s.required List<String> subnetIds,
-    String clientRequestToken,
-    CreateFileSystemLustreConfiguration lustreConfiguration,
-    List<String> securityGroupIds,
-    StorageType storageType,
-    List<Tag> tags,
-    CreateFileSystemWindowsConfiguration windowsConfiguration,
+    required String backupId,
+    required List<String> subnetIds,
+    String? clientRequestToken,
+    CreateFileSystemLustreConfiguration? lustreConfiguration,
+    List<String>? securityGroupIds,
+    StorageType? storageType,
+    List<Tag>? tags,
+    CreateFileSystemWindowsConfiguration? windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
     _s.validateStringLength(
@@ -839,8 +831,8 @@ class FSx {
   /// idempotent deletion. This is automatically filled on your behalf when
   /// using the AWS CLI or SDK.
   Future<DeleteBackupResponse> deleteBackup({
-    @_s.required String backupId,
-    String clientRequestToken,
+    required String backupId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
     _s.validateStringLength(
@@ -925,10 +917,10 @@ class FSx {
   /// idempotent deletion. This is automatically filled on your behalf when
   /// using the AWS CLI or SDK.
   Future<DeleteFileSystemResponse> deleteFileSystem({
-    @_s.required String fileSystemId,
-    String clientRequestToken,
-    DeleteFileSystemLustreConfiguration lustreConfiguration,
-    DeleteFileSystemWindowsConfiguration windowsConfiguration,
+    required String fileSystemId,
+    String? clientRequestToken,
+    DeleteFileSystemLustreConfiguration? lustreConfiguration,
+    DeleteFileSystemWindowsConfiguration? windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1036,10 +1028,10 @@ class FSx {
   /// <code>DescribeBackups</code> operation (String). If a token present, the
   /// action continues the list from where the returning call left off.
   Future<DescribeBackupsResponse> describeBackups({
-    List<String> backupIds,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    List<String>? backupIds,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1108,10 +1100,10 @@ class FSx {
   /// (Optional) IDs of the tasks whose descriptions you want to retrieve
   /// (String).
   Future<DescribeDataRepositoryTasksResponse> describeDataRepositoryTasks({
-    List<DataRepositoryTaskFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<String> taskIds,
+    List<DataRepositoryTaskFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? taskIds,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1178,10 +1170,10 @@ class FSx {
   /// included in the request, the action continues the list from where the
   /// previous returning call left off.
   Future<DescribeFileSystemAliasesResponse> describeFileSystemAliases({
-    @_s.required String fileSystemId,
-    String clientRequestToken,
-    int maxResults,
-    String nextToken,
+    required String fileSystemId,
+    String? clientRequestToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1299,9 +1291,9 @@ class FSx {
   /// <code>DescribeFileSystems</code> operation (String). If a token present,
   /// the action continues the list from where the returning call left off.
   Future<DescribeFileSystemsResponse> describeFileSystems({
-    List<String> fileSystemIds,
-    int maxResults,
-    String nextToken,
+    List<String>? fileSystemIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1364,9 +1356,9 @@ class FSx {
   /// Parameter [fileSystemId] :
   /// Specifies the file system from which to disassociate the DNS aliases.
   Future<DisassociateFileSystemAliasesResponse> disassociateFileSystemAliases({
-    @_s.required List<String> aliases,
-    @_s.required String fileSystemId,
-    String clientRequestToken,
+    required List<String> aliases,
+    required String fileSystemId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(aliases, 'aliases');
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
@@ -1467,9 +1459,9 @@ class FSx {
   /// <code>ListTagsForResource</code> operation (String). If a token present,
   /// the action continues the list from where the returning call left off.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
-    int maxResults,
-    String nextToken,
+    required String resourceARN,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1538,8 +1530,8 @@ class FSx {
   /// A list of tags for the resource. If a tag with a given key already exists,
   /// the value is replaced by the one specified in this parameter.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1560,7 +1552,7 @@ class FSx {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1571,8 +1563,6 @@ class FSx {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// This action removes a tag from an Amazon FSx resource.
@@ -1590,8 +1580,8 @@ class FSx {
   /// A list of keys of tags on the resource to untag. In case the tag key
   /// doesn't exist, the call will still succeed to be idempotent.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1612,7 +1602,7 @@ class FSx {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1623,8 +1613,6 @@ class FSx {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Use this operation to update the configuration of an existing Amazon FSx
@@ -1734,11 +1722,11 @@ class FSx {
   /// The configuration updates for an Amazon FSx for Windows File Server file
   /// system.
   Future<UpdateFileSystemResponse> updateFileSystem({
-    @_s.required String fileSystemId,
-    String clientRequestToken,
-    UpdateFileSystemLustreConfiguration lustreConfiguration,
-    int storageCapacity,
-    UpdateFileSystemWindowsConfiguration windowsConfiguration,
+    required String fileSystemId,
+    String? clientRequestToken,
+    UpdateFileSystemLustreConfiguration? lustreConfiguration,
+    int? storageCapacity,
+    UpdateFileSystemWindowsConfiguration? windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     _s.validateStringLength(
@@ -1799,52 +1787,39 @@ class FSx {
 
 /// The Microsoft AD attributes of the Amazon FSx for Windows File Server file
 /// system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActiveDirectoryBackupAttributes {
   /// The ID of the AWS Managed Microsoft Active Directory instance to which the
   /// file system is joined.
-  @_s.JsonKey(name: 'ActiveDirectoryId')
-  final String activeDirectoryId;
+  final String? activeDirectoryId;
 
   /// The fully qualified domain name of the self-managed AD directory.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   ActiveDirectoryBackupAttributes({
     this.activeDirectoryId,
     this.domainName,
   });
-  factory ActiveDirectoryBackupAttributes.fromJson(Map<String, dynamic> json) =>
-      _$ActiveDirectoryBackupAttributesFromJson(json);
+  factory ActiveDirectoryBackupAttributes.fromJson(Map<String, dynamic> json) {
+    return ActiveDirectoryBackupAttributes(
+      activeDirectoryId: json['ActiveDirectoryId'] as String?,
+      domainName: json['DomainName'] as String?,
+    );
+  }
 }
 
 /// Describes a specific Amazon FSx administrative action for the current
 /// Windows or Lustre file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdministrativeAction {
-  @_s.JsonKey(name: 'AdministrativeActionType')
-  final AdministrativeActionType administrativeActionType;
-  @_s.JsonKey(name: 'FailureDetails')
-  final AdministrativeActionFailureDetails failureDetails;
+  final AdministrativeActionType? administrativeActionType;
+  final AdministrativeActionFailureDetails? failureDetails;
 
   /// Provides the percent complete of a <code>STORAGE_OPTIMIZATION</code>
   /// administrative action. Does not apply to any other administrative action
   /// type.
-  @_s.JsonKey(name: 'ProgressPercent')
-  final int progressPercent;
+  final int? progressPercent;
 
   /// Time that the administrative action request was received.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RequestTime')
-  final DateTime requestTime;
+  final DateTime? requestTime;
 
   /// Describes the status of the administrative action, as follows:
   ///
@@ -1878,14 +1853,12 @@ class AdministrativeAction {
   /// Guide</i>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   /// Describes the target value for the administration action, provided in the
   /// <code>UpdateFileSystem</code> operation. Returned for
   /// <code>FILE_SYSTEM_UPDATE</code> administrative actions.
-  @_s.JsonKey(name: 'TargetFileSystemValues')
-  final FileSystem targetFileSystemValues;
+  final FileSystem? targetFileSystemValues;
 
   AdministrativeAction({
     this.administrativeActionType,
@@ -1895,27 +1868,39 @@ class AdministrativeAction {
     this.status,
     this.targetFileSystemValues,
   });
-  factory AdministrativeAction.fromJson(Map<String, dynamic> json) =>
-      _$AdministrativeActionFromJson(json);
+  factory AdministrativeAction.fromJson(Map<String, dynamic> json) {
+    return AdministrativeAction(
+      administrativeActionType: (json['AdministrativeActionType'] as String?)
+          ?.toAdministrativeActionType(),
+      failureDetails: json['FailureDetails'] != null
+          ? AdministrativeActionFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      progressPercent: json['ProgressPercent'] as int?,
+      requestTime: timeStampFromJson(json['RequestTime']),
+      status: (json['Status'] as String?)?.toStatus(),
+      targetFileSystemValues: json['TargetFileSystemValues'] != null
+          ? FileSystem.fromJson(
+              json['TargetFileSystemValues'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Provides information about a failed administrative action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdministrativeActionFailureDetails {
   /// Error message providing details about the failed administrative action.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   AdministrativeActionFailureDetails({
     this.message,
   });
   factory AdministrativeActionFailureDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$AdministrativeActionFailureDetailsFromJson(json);
+      Map<String, dynamic> json) {
+    return AdministrativeActionFailureDetails(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// Describes the type of administrative action, as follows:
@@ -1963,14 +1948,41 @@ class AdministrativeActionFailureDetails {
 /// </li>
 /// </ul>
 enum AdministrativeActionType {
-  @_s.JsonValue('FILE_SYSTEM_UPDATE')
   fileSystemUpdate,
-  @_s.JsonValue('STORAGE_OPTIMIZATION')
   storageOptimization,
-  @_s.JsonValue('FILE_SYSTEM_ALIAS_ASSOCIATION')
   fileSystemAliasAssociation,
-  @_s.JsonValue('FILE_SYSTEM_ALIAS_DISASSOCIATION')
   fileSystemAliasDisassociation,
+}
+
+extension on AdministrativeActionType {
+  String toValue() {
+    switch (this) {
+      case AdministrativeActionType.fileSystemUpdate:
+        return 'FILE_SYSTEM_UPDATE';
+      case AdministrativeActionType.storageOptimization:
+        return 'STORAGE_OPTIMIZATION';
+      case AdministrativeActionType.fileSystemAliasAssociation:
+        return 'FILE_SYSTEM_ALIAS_ASSOCIATION';
+      case AdministrativeActionType.fileSystemAliasDisassociation:
+        return 'FILE_SYSTEM_ALIAS_DISASSOCIATION';
+    }
+  }
+}
+
+extension on String {
+  AdministrativeActionType toAdministrativeActionType() {
+    switch (this) {
+      case 'FILE_SYSTEM_UPDATE':
+        return AdministrativeActionType.fileSystemUpdate;
+      case 'STORAGE_OPTIMIZATION':
+        return AdministrativeActionType.storageOptimization;
+      case 'FILE_SYSTEM_ALIAS_ASSOCIATION':
+        return AdministrativeActionType.fileSystemAliasAssociation;
+      case 'FILE_SYSTEM_ALIAS_DISASSOCIATION':
+        return AdministrativeActionType.fileSystemAliasDisassociation;
+    }
+    throw Exception('$this is not known in enum AdministrativeActionType');
+  }
 }
 
 /// A DNS alias that is associated with the file system. You can use a DNS alias
@@ -1979,11 +1991,6 @@ enum AdministrativeActionType {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">DNS
 /// aliases</a> in the <i>FSx for Windows File Server User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Alias {
   /// Describes the state of the DNS alias.
   ///
@@ -2008,8 +2015,7 @@ class Alias {
   /// file system.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Lifecycle')
-  final AliasLifecycle lifecycle;
+  final AliasLifecycle? lifecycle;
 
   /// The name of the DNS alias. The alias name has to meet the following
   /// requirements:
@@ -2033,27 +2039,61 @@ class Alias {
   /// For DNS names, Amazon FSx stores alphabetic characters as lowercase letters
   /// (a-z), regardless of how you specify them: as uppercase letters, lowercase
   /// letters, or the corresponding letters in escape codes.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Alias({
     this.lifecycle,
     this.name,
   });
-  factory Alias.fromJson(Map<String, dynamic> json) => _$AliasFromJson(json);
+  factory Alias.fromJson(Map<String, dynamic> json) {
+    return Alias(
+      lifecycle: (json['Lifecycle'] as String?)?.toAliasLifecycle(),
+      name: json['Name'] as String?,
+    );
+  }
 }
 
 enum AliasLifecycle {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
+}
+
+extension on AliasLifecycle {
+  String toValue() {
+    switch (this) {
+      case AliasLifecycle.available:
+        return 'AVAILABLE';
+      case AliasLifecycle.creating:
+        return 'CREATING';
+      case AliasLifecycle.deleting:
+        return 'DELETING';
+      case AliasLifecycle.createFailed:
+        return 'CREATE_FAILED';
+      case AliasLifecycle.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  AliasLifecycle toAliasLifecycle() {
+    switch (this) {
+      case 'AVAILABLE':
+        return AliasLifecycle.available;
+      case 'CREATING':
+        return AliasLifecycle.creating;
+      case 'DELETING':
+        return AliasLifecycle.deleting;
+      case 'CREATE_FAILED':
+        return AliasLifecycle.createFailed;
+      case 'DELETE_FAILED':
+        return AliasLifecycle.deleteFailed;
+    }
+    throw Exception('$this is not known in enum AliasLifecycle');
+  }
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is
@@ -2061,32 +2101,56 @@ enum AliasLifecycle {
 /// monitor the status of the aliases Amazon FSx is associating with the file
 /// system. It can take up to 2.5 minutes for the alias status to change from
 /// <code>CREATING</code> to <code>AVAILABLE</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateFileSystemAliasesResponse {
   /// An array of the DNS aliases that Amazon FSx is associating with the file
   /// system.
-  @_s.JsonKey(name: 'Aliases')
-  final List<Alias> aliases;
+  final List<Alias>? aliases;
 
   AssociateFileSystemAliasesResponse({
     this.aliases,
   });
   factory AssociateFileSystemAliasesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateFileSystemAliasesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateFileSystemAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Alias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum AutoImportPolicyType {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('NEW')
   $new,
-  @_s.JsonValue('NEW_CHANGED')
   newChanged,
+}
+
+extension on AutoImportPolicyType {
+  String toValue() {
+    switch (this) {
+      case AutoImportPolicyType.none:
+        return 'NONE';
+      case AutoImportPolicyType.$new:
+        return 'NEW';
+      case AutoImportPolicyType.newChanged:
+        return 'NEW_CHANGED';
+    }
+  }
+}
+
+extension on String {
+  AutoImportPolicyType toAutoImportPolicyType() {
+    switch (this) {
+      case 'NONE':
+        return AutoImportPolicyType.none;
+      case 'NEW':
+        return AutoImportPolicyType.$new;
+      case 'NEW_CHANGED':
+        return AutoImportPolicyType.newChanged;
+    }
+    throw Exception('$this is not known in enum AutoImportPolicyType');
+  }
 }
 
 /// A backup of an Amazon FSx file system. For more information see:
@@ -2103,24 +2167,15 @@ enum AutoImportPolicyType {
 /// with backups for Lustre file systems</a>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Backup {
   /// The ID of the backup.
-  @_s.JsonKey(name: 'BackupId')
   final String backupId;
 
   /// The time when a particular backup was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// Metadata of the file system associated with the backup. This metadata is
   /// persisted even if the file system is deleted.
-  @_s.JsonKey(name: 'FileSystem')
   final FileSystem fileSystem;
 
   /// The lifecycle status of the backup.
@@ -2148,43 +2203,35 @@ class Backup {
   /// <code>FAILED</code> - Amazon FSx could not complete the backup.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Lifecycle')
   final BackupLifecycle lifecycle;
 
   /// The type of the file system backup.
-  @_s.JsonKey(name: 'Type')
   final BackupType type;
 
   /// The configuration of the self-managed Microsoft Active Directory (AD) to
   /// which the Windows File Server instance is joined.
-  @_s.JsonKey(name: 'DirectoryInformation')
-  final ActiveDirectoryBackupAttributes directoryInformation;
+  final ActiveDirectoryBackupAttributes? directoryInformation;
 
   /// Details explaining any failures that occur when creating a backup.
-  @_s.JsonKey(name: 'FailureDetails')
-  final BackupFailureDetails failureDetails;
+  final BackupFailureDetails? failureDetails;
 
   /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the
   /// backup of the Amazon FSx file system's data at rest.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
-  @_s.JsonKey(name: 'ProgressPercent')
-  final int progressPercent;
+  final String? kmsKeyId;
+  final int? progressPercent;
 
   /// The Amazon Resource Name (ARN) for the backup resource.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   /// Tags associated with a particular file system.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Backup({
-    @_s.required this.backupId,
-    @_s.required this.creationTime,
-    @_s.required this.fileSystem,
-    @_s.required this.lifecycle,
-    @_s.required this.type,
+    required this.backupId,
+    required this.creationTime,
+    required this.fileSystem,
+    required this.lifecycle,
+    required this.type,
     this.directoryInformation,
     this.failureDetails,
     this.kmsKeyId,
@@ -2192,26 +2239,48 @@ class Backup {
     this.resourceARN,
     this.tags,
   });
-  factory Backup.fromJson(Map<String, dynamic> json) => _$BackupFromJson(json);
+  factory Backup.fromJson(Map<String, dynamic> json) {
+    return Backup(
+      backupId: json['BackupId'] as String,
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      fileSystem:
+          FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
+      lifecycle: (json['Lifecycle'] as String).toBackupLifecycle(),
+      type: (json['Type'] as String).toBackupType(),
+      directoryInformation: json['DirectoryInformation'] != null
+          ? ActiveDirectoryBackupAttributes.fromJson(
+              json['DirectoryInformation'] as Map<String, dynamic>)
+          : null,
+      failureDetails: json['FailureDetails'] != null
+          ? BackupFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      progressPercent: json['ProgressPercent'] as int?,
+      resourceARN: json['ResourceARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// If backup creation fails, this structure contains the details of that
 /// failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupFailureDetails {
   /// A message describing the backup creation failure.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   BackupFailureDetails({
     this.message,
   });
-  factory BackupFailureDetails.fromJson(Map<String, dynamic> json) =>
-      _$BackupFailureDetailsFromJson(json);
+  factory BackupFailureDetails.fromJson(Map<String, dynamic> json) {
+    return BackupFailureDetails(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The lifecycle status of the backup.
@@ -2240,35 +2309,87 @@ class BackupFailureDetails {
 /// </li>
 /// </ul>
 enum BackupLifecycle {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('TRANSFERRING')
   transferring,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on BackupLifecycle {
+  String toValue() {
+    switch (this) {
+      case BackupLifecycle.available:
+        return 'AVAILABLE';
+      case BackupLifecycle.creating:
+        return 'CREATING';
+      case BackupLifecycle.transferring:
+        return 'TRANSFERRING';
+      case BackupLifecycle.deleted:
+        return 'DELETED';
+      case BackupLifecycle.failed:
+        return 'FAILED';
+      case BackupLifecycle.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  BackupLifecycle toBackupLifecycle() {
+    switch (this) {
+      case 'AVAILABLE':
+        return BackupLifecycle.available;
+      case 'CREATING':
+        return BackupLifecycle.creating;
+      case 'TRANSFERRING':
+        return BackupLifecycle.transferring;
+      case 'DELETED':
+        return BackupLifecycle.deleted;
+      case 'FAILED':
+        return BackupLifecycle.failed;
+      case 'PENDING':
+        return BackupLifecycle.pending;
+    }
+    throw Exception('$this is not known in enum BackupLifecycle');
+  }
 }
 
 /// The type of the backup.
 enum BackupType {
-  @_s.JsonValue('AUTOMATIC')
   automatic,
-  @_s.JsonValue('USER_INITIATED')
   userInitiated,
-  @_s.JsonValue('AWS_BACKUP')
   awsBackup,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on BackupType {
+  String toValue() {
+    switch (this) {
+      case BackupType.automatic:
+        return 'AUTOMATIC';
+      case BackupType.userInitiated:
+        return 'USER_INITIATED';
+      case BackupType.awsBackup:
+        return 'AWS_BACKUP';
+    }
+  }
+}
+
+extension on String {
+  BackupType toBackupType() {
+    switch (this) {
+      case 'AUTOMATIC':
+        return BackupType.automatic;
+      case 'USER_INITIATED':
+        return BackupType.userInitiated;
+      case 'AWS_BACKUP':
+        return BackupType.awsBackup;
+    }
+    throw Exception('$this is not known in enum BackupType');
+  }
+}
+
 class CancelDataRepositoryTaskResponse {
   /// The lifecycle status of the data repository task, as follows:
   ///
@@ -2296,20 +2417,22 @@ class CancelDataRepositoryTaskResponse {
   /// <code>CANCELING</code> - FSx is in process of canceling the task.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Lifecycle')
-  final DataRepositoryTaskLifecycle lifecycle;
+  final DataRepositoryTaskLifecycle? lifecycle;
 
   /// The ID of the task being canceled.
-  @_s.JsonKey(name: 'TaskId')
-  final String taskId;
+  final String? taskId;
 
   CancelDataRepositoryTaskResponse({
     this.lifecycle,
     this.taskId,
   });
-  factory CancelDataRepositoryTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelDataRepositoryTaskResponseFromJson(json);
+  factory CancelDataRepositoryTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CancelDataRepositoryTaskResponse(
+      lifecycle:
+          (json['Lifecycle'] as String?)?.toDataRepositoryTaskLifecycle(),
+      taskId: json['TaskId'] as String?,
+    );
+  }
 }
 
 /// Provides a report detailing the data repository task results of the files
@@ -2318,11 +2441,6 @@ class CancelDataRepositoryTaskResponse {
 /// repository in Amazon S3, using the path specified in the report
 /// <code>Path</code> parameter. You can specify whether or not a report gets
 /// generated for a task using the <code>Enabled</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CompletionReport {
   /// Set <code>Enabled</code> to <code>True</code> to generate a
   /// <code>CompletionReport</code> when the task completes. If set to
@@ -2330,7 +2448,6 @@ class CompletionReport {
   /// <code>Path</code>, and <code>Format</code>. Set <code>Enabled</code> to
   /// <code>False</code> if you do not want a <code>CompletionReport</code>
   /// generated when the task completes.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Required if <code>Enabled</code> is set to <code>true</code>. Specifies the
@@ -2339,8 +2456,7 @@ class CompletionReport {
   /// When <code>Format</code> is set to <code>REPORT_CSV_20191124</code>, the
   /// <code>CompletionReport</code> is provided in CSV format, and is delivered to
   /// <code>{path}/task-{id}/failures.csv</code>.
-  @_s.JsonKey(name: 'Format')
-  final ReportFormat format;
+  final ReportFormat? format;
 
   /// Required if <code>Enabled</code> is set to <code>true</code>. Specifies the
   /// location of the report on the file system's linked S3 data repository. An
@@ -2351,8 +2467,7 @@ class CompletionReport {
   /// following information for each file in the report: FilePath, FileStatus, and
   /// ErrorCode. To learn more about a file system's <code>ExportPath</code>, see
   /// .
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   /// Required if <code>Enabled</code> is set to <code>true</code>. Specifies the
   /// scope of the <code>CompletionReport</code>; <code>FAILED_FILES_ONLY</code>
@@ -2360,83 +2475,91 @@ class CompletionReport {
   /// <code>FAILED_FILES_ONLY</code>, the <code>CompletionReport</code> only
   /// contains information about files that the data repository task failed to
   /// process.
-  @_s.JsonKey(name: 'Scope')
-  final ReportScope scope;
+  final ReportScope? scope;
 
   CompletionReport({
-    @_s.required this.enabled,
+    required this.enabled,
     this.format,
     this.path,
     this.scope,
   });
-  factory CompletionReport.fromJson(Map<String, dynamic> json) =>
-      _$CompletionReportFromJson(json);
+  factory CompletionReport.fromJson(Map<String, dynamic> json) {
+    return CompletionReport(
+      enabled: json['Enabled'] as bool,
+      format: (json['Format'] as String?)?.toReportFormat(),
+      path: json['Path'] as String?,
+      scope: (json['Scope'] as String?)?.toReportScope(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CompletionReportToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final format = this.format;
+    final path = this.path;
+    final scope = this.scope;
+    return {
+      'Enabled': enabled,
+      if (format != null) 'Format': format.toValue(),
+      if (path != null) 'Path': path,
+      if (scope != null) 'Scope': scope.toValue(),
+    };
+  }
 }
 
 /// The response object for the <code>CreateBackup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackupResponse {
   /// A description of the backup.
-  @_s.JsonKey(name: 'Backup')
-  final Backup backup;
+  final Backup? backup;
 
   CreateBackupResponse({
     this.backup,
   });
-  factory CreateBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupResponseFromJson(json);
+  factory CreateBackupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackupResponse(
+      backup: json['Backup'] != null
+          ? Backup.fromJson(json['Backup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDataRepositoryTaskResponse {
   /// The description of the data repository task that you just created.
-  @_s.JsonKey(name: 'DataRepositoryTask')
-  final DataRepositoryTask dataRepositoryTask;
+  final DataRepositoryTask? dataRepositoryTask;
 
   CreateDataRepositoryTaskResponse({
     this.dataRepositoryTask,
   });
-  factory CreateDataRepositoryTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDataRepositoryTaskResponseFromJson(json);
+  factory CreateDataRepositoryTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataRepositoryTaskResponse(
+      dataRepositoryTask: json['DataRepositoryTask'] != null
+          ? DataRepositoryTask.fromJson(
+              json['DataRepositoryTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The response object for the <code>CreateFileSystemFromBackup</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFileSystemFromBackupResponse {
   /// A description of the file system.
-  @_s.JsonKey(name: 'FileSystem')
-  final FileSystem fileSystem;
+  final FileSystem? fileSystem;
 
   CreateFileSystemFromBackupResponse({
     this.fileSystem,
   });
   factory CreateFileSystemFromBackupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateFileSystemFromBackupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateFileSystemFromBackupResponse(
+      fileSystem: json['FileSystem'] != null
+          ? FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The Lustre configuration for the file system being created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateFileSystemLustreConfiguration {
   /// (Optional) When you create your file system, your existing S3 objects appear
   /// as file and directory listings. Use this property to choose how Amazon FSx
@@ -2466,10 +2589,8 @@ class CreateFileSystemLustreConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
   /// import updates from your S3 bucket</a>.
-  @_s.JsonKey(name: 'AutoImportPolicy')
-  final AutoImportPolicyType autoImportPolicy;
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
+  final AutoImportPolicyType? autoImportPolicy;
+  final int? automaticBackupRetentionDays;
 
   /// (Optional) Not available to use with file systems that are linked to a data
   /// repository. A boolean flag indicating whether tags for the file system
@@ -2484,10 +2605,8 @@ class CreateFileSystemLustreConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html">Working
   /// with backups</a>.
-  @_s.JsonKey(name: 'CopyTagsToBackups')
-  final bool copyTagsToBackups;
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
+  final bool? copyTagsToBackups;
+  final String? dailyAutomaticBackupStartTime;
 
   /// Choose <code>SCRATCH_1</code> and <code>SCRATCH_2</code> deployment types
   /// when you need temporary storage and shorter-term processing of data. The
@@ -2512,8 +2631,7 @@ class CreateFileSystemLustreConfiguration {
   /// supported instance types in supported AWS Regions. To learn more, <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html">Encrypting
   /// Data in Transit</a>.
-  @_s.JsonKey(name: 'DeploymentType')
-  final LustreDeploymentType deploymentType;
+  final LustreDeploymentType? deploymentType;
 
   /// The type of drive cache used by PERSISTENT_1 file systems that are
   /// provisioned with HDD storage devices. This parameter is required when
@@ -2522,8 +2640,7 @@ class CreateFileSystemLustreConfiguration {
   /// the file system to be cached.
   ///
   /// This parameter is required when <code>StorageType</code> is set to HDD.
-  @_s.JsonKey(name: 'DriveCacheType')
-  final DriveCacheType driveCacheType;
+  final DriveCacheType? driveCacheType;
 
   /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file
   /// system is exported. The path must use the same Amazon S3 bucket as specified
@@ -2542,8 +2659,7 @@ class CreateFileSystemLustreConfiguration {
   /// such as <code>s3://import-bucket/[custom-optional-prefix]</code>, Amazon FSx
   /// exports the contents of your file system to that export prefix in the Amazon
   /// S3 bucket.
-  @_s.JsonKey(name: 'ExportPath')
-  final String exportPath;
+  final String? exportPath;
 
   /// (Optional) The path to the Amazon S3 bucket (including the optional prefix)
   /// that you're using as the data repository for your Amazon FSx for Lustre file
@@ -2552,8 +2668,7 @@ class CreateFileSystemLustreConfiguration {
   /// <code>s3://import-bucket/optional-prefix</code>. If you specify a prefix
   /// after the Amazon S3 bucket name, only object keys with that prefix are
   /// loaded into the file system.
-  @_s.JsonKey(name: 'ImportPath')
-  final String importPath;
+  final String? importPath;
 
   /// (Optional) For files imported from a data repository, this value determines
   /// the stripe count and maximum amount of data per file (in MiB) stored on a
@@ -2563,8 +2678,7 @@ class CreateFileSystemLustreConfiguration {
   ///
   /// The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000
   /// MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
-  @_s.JsonKey(name: 'ImportedFileChunkSize')
-  final int importedFileChunkSize;
+  final int? importedFileChunkSize;
 
   /// Required for the <code>PERSISTENT_1</code> deployment type, describes the
   /// amount of read and write throughput for each 1 tebibyte of storage, in
@@ -2576,14 +2690,12 @@ class CreateFileSystemLustreConfiguration {
   ///
   /// Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage:
   /// 12, 40.
-  @_s.JsonKey(name: 'PerUnitStorageThroughput')
-  final int perUnitStorageThroughput;
+  final int? perUnitStorageThroughput;
 
   /// (Optional) The preferred start time to perform weekly maintenance, formatted
   /// d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through
   /// 7, beginning with Monday and ending with Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   CreateFileSystemLustreConfiguration({
     this.autoImportPolicy,
@@ -2598,46 +2710,68 @@ class CreateFileSystemLustreConfiguration {
     this.perUnitStorageThroughput,
     this.weeklyMaintenanceStartTime,
   });
-  Map<String, dynamic> toJson() =>
-      _$CreateFileSystemLustreConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoImportPolicy = this.autoImportPolicy;
+    final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
+    final copyTagsToBackups = this.copyTagsToBackups;
+    final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final deploymentType = this.deploymentType;
+    final driveCacheType = this.driveCacheType;
+    final exportPath = this.exportPath;
+    final importPath = this.importPath;
+    final importedFileChunkSize = this.importedFileChunkSize;
+    final perUnitStorageThroughput = this.perUnitStorageThroughput;
+    final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
+    return {
+      if (autoImportPolicy != null)
+        'AutoImportPolicy': autoImportPolicy.toValue(),
+      if (automaticBackupRetentionDays != null)
+        'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
+      if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
+      if (dailyAutomaticBackupStartTime != null)
+        'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (driveCacheType != null) 'DriveCacheType': driveCacheType.toValue(),
+      if (exportPath != null) 'ExportPath': exportPath,
+      if (importPath != null) 'ImportPath': importPath,
+      if (importedFileChunkSize != null)
+        'ImportedFileChunkSize': importedFileChunkSize,
+      if (perUnitStorageThroughput != null)
+        'PerUnitStorageThroughput': perUnitStorageThroughput,
+      if (weeklyMaintenanceStartTime != null)
+        'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
 }
 
 /// The response object returned after the file system is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFileSystemResponse {
   /// The configuration of the file system that was created.
-  @_s.JsonKey(name: 'FileSystem')
-  final FileSystem fileSystem;
+  final FileSystem? fileSystem;
 
   CreateFileSystemResponse({
     this.fileSystem,
   });
-  factory CreateFileSystemResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFileSystemResponseFromJson(json);
+  factory CreateFileSystemResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFileSystemResponse(
+      fileSystem: json['FileSystem'] != null
+          ? FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The configuration object for the Microsoft Windows file system used in
 /// <code>CreateFileSystem</code> and <code>CreateFileSystemFromBackup</code>
 /// operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateFileSystemWindowsConfiguration {
   /// The throughput of an Amazon FSx file system, measured in megabytes per
   /// second, in 2 to the <i>n</i>th increments, between 2^3 (8) and 2^11 (2048).
-  @_s.JsonKey(name: 'ThroughputCapacity')
   final int throughputCapacity;
 
   /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance
   /// that the file system should join when it's created.
-  @_s.JsonKey(name: 'ActiveDirectoryId')
-  final String activeDirectoryId;
+  final String? activeDirectoryId;
 
   /// An array of one or more DNS alias names that you want to associate with the
   /// Amazon FSx file system. Aliases allow you to use existing DNS names to
@@ -2676,14 +2810,12 @@ class CreateFileSystemWindowsConfiguration {
   /// For DNS alias names, Amazon FSx stores alphabetic characters as lowercase
   /// letters (a-z), regardless of how you specify them: as uppercase letters,
   /// lowercase letters, or the corresponding letters in escape codes.
-  @_s.JsonKey(name: 'Aliases')
-  final List<String> aliases;
+  final List<String>? aliases;
 
   /// The number of days to retain automatic backups. The default is to retain
   /// backups for 7 days. Setting this value to 0 disables the creation of
   /// automatic backups. The maximum retention period for backups is 90 days.
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
+  final int? automaticBackupRetentionDays;
 
   /// A boolean flag indicating whether tags for the file system should be copied
   /// to backups. This value defaults to false. If it's set to true, all tags for
@@ -2692,13 +2824,11 @@ class CreateFileSystemWindowsConfiguration {
   /// more tags, only the specified tags are copied to backups. If you specify one
   /// or more tags when creating a user-initiated backup, no tags are copied from
   /// the file system, regardless of this value.
-  @_s.JsonKey(name: 'CopyTagsToBackups')
-  final bool copyTagsToBackups;
+  final bool? copyTagsToBackups;
 
   /// The preferred time to take daily automatic backups, formatted HH:MM in the
   /// UTC time zone.
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
+  final String? dailyAutomaticBackupStartTime;
 
   /// Specifies the file system deployment type, valid values are the following:
   ///
@@ -2723,28 +2853,24 @@ class CreateFileSystemWindowsConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html">
   /// Availability and Durability: Single-AZ and Multi-AZ File Systems</a>.
-  @_s.JsonKey(name: 'DeploymentType')
-  final WindowsDeploymentType deploymentType;
+  final WindowsDeploymentType? deploymentType;
 
   /// Required when <code>DeploymentType</code> is set to <code>MULTI_AZ_1</code>.
   /// This specifies the subnet in which you want the preferred file server to be
   /// located. For in-AWS applications, we recommend that you launch your clients
   /// in the same Availability Zone (AZ) as your preferred file server to reduce
   /// cross-AZ data transfer costs and minimize latency.
-  @_s.JsonKey(name: 'PreferredSubnetId')
-  final String preferredSubnetId;
-  @_s.JsonKey(name: 'SelfManagedActiveDirectoryConfiguration')
-  final SelfManagedActiveDirectoryConfiguration
+  final String? preferredSubnetId;
+  final SelfManagedActiveDirectoryConfiguration?
       selfManagedActiveDirectoryConfiguration;
 
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
   /// the UTC time zone, where d is the weekday number, from 1 through 7,
   /// beginning with Monday and ending with Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   CreateFileSystemWindowsConfiguration({
-    @_s.required this.throughputCapacity,
+    required this.throughputCapacity,
     this.activeDirectoryId,
     this.aliases,
     this.automaticBackupRetentionDays,
@@ -2755,17 +2881,40 @@ class CreateFileSystemWindowsConfiguration {
     this.selfManagedActiveDirectoryConfiguration,
     this.weeklyMaintenanceStartTime,
   });
-  Map<String, dynamic> toJson() =>
-      _$CreateFileSystemWindowsConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final throughputCapacity = this.throughputCapacity;
+    final activeDirectoryId = this.activeDirectoryId;
+    final aliases = this.aliases;
+    final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
+    final copyTagsToBackups = this.copyTagsToBackups;
+    final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final deploymentType = this.deploymentType;
+    final preferredSubnetId = this.preferredSubnetId;
+    final selfManagedActiveDirectoryConfiguration =
+        this.selfManagedActiveDirectoryConfiguration;
+    final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
+    return {
+      'ThroughputCapacity': throughputCapacity,
+      if (activeDirectoryId != null) 'ActiveDirectoryId': activeDirectoryId,
+      if (aliases != null) 'Aliases': aliases,
+      if (automaticBackupRetentionDays != null)
+        'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
+      if (copyTagsToBackups != null) 'CopyTagsToBackups': copyTagsToBackups,
+      if (dailyAutomaticBackupStartTime != null)
+        'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (preferredSubnetId != null) 'PreferredSubnetId': preferredSubnetId,
+      if (selfManagedActiveDirectoryConfiguration != null)
+        'SelfManagedActiveDirectoryConfiguration':
+            selfManagedActiveDirectoryConfiguration,
+      if (weeklyMaintenanceStartTime != null)
+        'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
 }
 
 /// The data repository configuration object for Lustre file systems returned in
 /// the response of the <code>CreateFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataRepositoryConfiguration {
   /// Describes the file system's linked S3 data repository's
   /// <code>AutoImportPolicy</code>. The AutoImportPolicy configures how Amazon
@@ -2795,23 +2944,19 @@ class DataRepositoryConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
   /// import updates from your S3 bucket</a>.
-  @_s.JsonKey(name: 'AutoImportPolicy')
-  final AutoImportPolicyType autoImportPolicy;
+  final AutoImportPolicyType? autoImportPolicy;
 
   /// The export path to the Amazon S3 bucket (and prefix) that you are using to
   /// store new and changed Lustre file system files in S3.
-  @_s.JsonKey(name: 'ExportPath')
-  final String exportPath;
-  @_s.JsonKey(name: 'FailureDetails')
-  final DataRepositoryFailureDetails failureDetails;
+  final String? exportPath;
+  final DataRepositoryFailureDetails? failureDetails;
 
   /// The import path to the Amazon S3 bucket (and optional prefix) that you're
   /// using as the data repository for your FSx for Lustre file system, for
   /// example <code>s3://import-bucket/optional-prefix</code>. If a prefix is
   /// specified after the Amazon S3 bucket name, only object keys with that prefix
   /// are loaded into the file system.
-  @_s.JsonKey(name: 'ImportPath')
-  final String importPath;
+  final String? importPath;
 
   /// For files imported from a data repository, this value determines the stripe
   /// count and maximum amount of data per file (in MiB) stored on a single
@@ -2820,8 +2965,7 @@ class DataRepositoryConfiguration {
   ///
   /// The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000
   /// MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
-  @_s.JsonKey(name: 'ImportedFileChunkSize')
-  final int importedFileChunkSize;
+  final int? importedFileChunkSize;
 
   /// Describes the state of the file system's S3 durable data repository, if it
   /// is configured with an S3 repository. The lifecycle can have the following
@@ -2848,8 +2992,7 @@ class DataRepositoryConfiguration {
   /// initiated update and availability may be impacted.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Lifecycle')
-  final DataRepositoryLifecycle lifecycle;
+  final DataRepositoryLifecycle? lifecycle;
 
   DataRepositoryConfiguration({
     this.autoImportPolicy,
@@ -2859,54 +3002,85 @@ class DataRepositoryConfiguration {
     this.importedFileChunkSize,
     this.lifecycle,
   });
-  factory DataRepositoryConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DataRepositoryConfigurationFromJson(json);
+  factory DataRepositoryConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataRepositoryConfiguration(
+      autoImportPolicy:
+          (json['AutoImportPolicy'] as String?)?.toAutoImportPolicyType(),
+      exportPath: json['ExportPath'] as String?,
+      failureDetails: json['FailureDetails'] != null
+          ? DataRepositoryFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      importPath: json['ImportPath'] as String?,
+      importedFileChunkSize: json['ImportedFileChunkSize'] as int?,
+      lifecycle: (json['Lifecycle'] as String?)?.toDataRepositoryLifecycle(),
+    );
+  }
 }
 
 /// Provides detailed information about the data respository if its
 /// <code>Lifecycle</code> is set to <code>MISCONFIGURED</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataRepositoryFailureDetails {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DataRepositoryFailureDetails({
     this.message,
   });
-  factory DataRepositoryFailureDetails.fromJson(Map<String, dynamic> json) =>
-      _$DataRepositoryFailureDetailsFromJson(json);
+  factory DataRepositoryFailureDetails.fromJson(Map<String, dynamic> json) {
+    return DataRepositoryFailureDetails(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 enum DataRepositoryLifecycle {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('MISCONFIGURED')
   misconfigured,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on DataRepositoryLifecycle {
+  String toValue() {
+    switch (this) {
+      case DataRepositoryLifecycle.creating:
+        return 'CREATING';
+      case DataRepositoryLifecycle.available:
+        return 'AVAILABLE';
+      case DataRepositoryLifecycle.misconfigured:
+        return 'MISCONFIGURED';
+      case DataRepositoryLifecycle.updating:
+        return 'UPDATING';
+      case DataRepositoryLifecycle.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  DataRepositoryLifecycle toDataRepositoryLifecycle() {
+    switch (this) {
+      case 'CREATING':
+        return DataRepositoryLifecycle.creating;
+      case 'AVAILABLE':
+        return DataRepositoryLifecycle.available;
+      case 'MISCONFIGURED':
+        return DataRepositoryLifecycle.misconfigured;
+      case 'UPDATING':
+        return DataRepositoryLifecycle.updating;
+      case 'DELETING':
+        return DataRepositoryLifecycle.deleting;
+    }
+    throw Exception('$this is not known in enum DataRepositoryLifecycle');
+  }
 }
 
 /// A description of the data repository task. You use data repository tasks to
 /// perform bulk transfer operations between your Amazon FSx file system and its
 /// linked data repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataRepositoryTask {
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
-  @_s.JsonKey(name: 'FileSystemId')
   final String fileSystemId;
 
   /// The lifecycle status of the data repository task, as follows:
@@ -2943,28 +3117,22 @@ class DataRepositoryTask {
   /// monitor the task status. Contact the FSx team if you need to delete your
   /// file system immediately.
   /// </note>
-  @_s.JsonKey(name: 'Lifecycle')
   final DataRepositoryTaskLifecycle lifecycle;
 
   /// The system-generated, unique 17-digit ID of the data repository task.
-  @_s.JsonKey(name: 'TaskId')
   final String taskId;
 
   /// The type of data repository task; EXPORT_TO_REPOSITORY is the only type
   /// currently supported.
-  @_s.JsonKey(name: 'Type')
   final DataRepositoryTaskType type;
 
   /// The time that Amazon FSx completed processing the task, populated after the
   /// task is complete.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// Failure message describing why the task failed, it is populated only when
   /// <code>Lifecycle</code> is set to <code>FAILED</code>.
-  @_s.JsonKey(name: 'FailureDetails')
-  final DataRepositoryTaskFailureDetails failureDetails;
+  final DataRepositoryTaskFailureDetails? failureDetails;
 
   /// An array of paths on the Amazon FSx for Lustre file system that specify the
   /// data for the data repository task to process. For example, in an
@@ -2973,31 +3141,24 @@ class DataRepositoryTask {
   ///
   /// (Default) If <code>Paths</code> is not specified, Amazon FSx uses the file
   /// system root directory.
-  @_s.JsonKey(name: 'Paths')
-  final List<String> paths;
-  @_s.JsonKey(name: 'Report')
-  final CompletionReport report;
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final List<String>? paths;
+  final CompletionReport? report;
+  final String? resourceARN;
 
   /// The time that Amazon FSx began processing the task.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// Provides the status of the number of files that the task has processed
   /// successfully and failed to process.
-  @_s.JsonKey(name: 'Status')
-  final DataRepositoryTaskStatus status;
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final DataRepositoryTaskStatus? status;
+  final List<Tag>? tags;
 
   DataRepositoryTask({
-    @_s.required this.creationTime,
-    @_s.required this.fileSystemId,
-    @_s.required this.lifecycle,
-    @_s.required this.taskId,
-    @_s.required this.type,
+    required this.creationTime,
+    required this.fileSystemId,
+    required this.lifecycle,
+    required this.taskId,
+    required this.type,
     this.endTime,
     this.failureDetails,
     this.paths,
@@ -3007,27 +3168,53 @@ class DataRepositoryTask {
     this.status,
     this.tags,
   });
-  factory DataRepositoryTask.fromJson(Map<String, dynamic> json) =>
-      _$DataRepositoryTaskFromJson(json);
+  factory DataRepositoryTask.fromJson(Map<String, dynamic> json) {
+    return DataRepositoryTask(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      fileSystemId: json['FileSystemId'] as String,
+      lifecycle: (json['Lifecycle'] as String).toDataRepositoryTaskLifecycle(),
+      taskId: json['TaskId'] as String,
+      type: (json['Type'] as String).toDataRepositoryTaskType(),
+      endTime: timeStampFromJson(json['EndTime']),
+      failureDetails: json['FailureDetails'] != null
+          ? DataRepositoryTaskFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      paths: (json['Paths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      report: json['Report'] != null
+          ? CompletionReport.fromJson(json['Report'] as Map<String, dynamic>)
+          : null,
+      resourceARN: json['ResourceARN'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: json['Status'] != null
+          ? DataRepositoryTaskStatus.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Provides information about why a data repository task failed. Only populated
 /// when the task <code>Lifecycle</code> is set to <code>FAILED</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataRepositoryTaskFailureDetails {
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   DataRepositoryTaskFailureDetails({
     this.message,
   });
-  factory DataRepositoryTaskFailureDetails.fromJson(
-          Map<String, dynamic> json) =>
-      _$DataRepositoryTaskFailureDetailsFromJson(json);
+  factory DataRepositoryTaskFailureDetails.fromJson(Map<String, dynamic> json) {
+    return DataRepositoryTaskFailureDetails(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// (Optional) An array of filter objects you can use to filter the response of
@@ -3035,11 +3222,6 @@ class DataRepositoryTaskFailureDetails {
 /// tasks returned in the response by one or more file system IDs, task
 /// lifecycles, and by task type. A filter object consists of a filter
 /// <code>Name</code>, and one or more <code>Values</code> for the filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DataRepositoryTaskFilter {
   /// Name of the task property to use in filtering the tasks returned in the
   /// response.
@@ -3055,73 +3237,122 @@ class DataRepositoryTaskFilter {
   /// PENDING, and SUCCEEDED.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
-  final DataRepositoryTaskFilterName name;
+  final DataRepositoryTaskFilterName? name;
 
   /// Use Values to include the specific file system IDs and task lifecycle states
   /// for the filters you are using.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   DataRepositoryTaskFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$DataRepositoryTaskFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum DataRepositoryTaskFilterName {
-  @_s.JsonValue('file-system-id')
   fileSystemId,
-  @_s.JsonValue('task-lifecycle')
   taskLifecycle,
 }
 
+extension on DataRepositoryTaskFilterName {
+  String toValue() {
+    switch (this) {
+      case DataRepositoryTaskFilterName.fileSystemId:
+        return 'file-system-id';
+      case DataRepositoryTaskFilterName.taskLifecycle:
+        return 'task-lifecycle';
+    }
+  }
+}
+
+extension on String {
+  DataRepositoryTaskFilterName toDataRepositoryTaskFilterName() {
+    switch (this) {
+      case 'file-system-id':
+        return DataRepositoryTaskFilterName.fileSystemId;
+      case 'task-lifecycle':
+        return DataRepositoryTaskFilterName.taskLifecycle;
+    }
+    throw Exception('$this is not known in enum DataRepositoryTaskFilterName');
+  }
+}
+
 enum DataRepositoryTaskLifecycle {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('EXECUTING')
   executing,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('CANCELING')
   canceling,
+}
+
+extension on DataRepositoryTaskLifecycle {
+  String toValue() {
+    switch (this) {
+      case DataRepositoryTaskLifecycle.pending:
+        return 'PENDING';
+      case DataRepositoryTaskLifecycle.executing:
+        return 'EXECUTING';
+      case DataRepositoryTaskLifecycle.failed:
+        return 'FAILED';
+      case DataRepositoryTaskLifecycle.succeeded:
+        return 'SUCCEEDED';
+      case DataRepositoryTaskLifecycle.canceled:
+        return 'CANCELED';
+      case DataRepositoryTaskLifecycle.canceling:
+        return 'CANCELING';
+    }
+  }
+}
+
+extension on String {
+  DataRepositoryTaskLifecycle toDataRepositoryTaskLifecycle() {
+    switch (this) {
+      case 'PENDING':
+        return DataRepositoryTaskLifecycle.pending;
+      case 'EXECUTING':
+        return DataRepositoryTaskLifecycle.executing;
+      case 'FAILED':
+        return DataRepositoryTaskLifecycle.failed;
+      case 'SUCCEEDED':
+        return DataRepositoryTaskLifecycle.succeeded;
+      case 'CANCELED':
+        return DataRepositoryTaskLifecycle.canceled;
+      case 'CANCELING':
+        return DataRepositoryTaskLifecycle.canceling;
+    }
+    throw Exception('$this is not known in enum DataRepositoryTaskLifecycle');
+  }
 }
 
 /// Provides the task status showing a running total of the total number of
 /// files to be processed, the number successfully processed, and the number of
 /// files the task failed to process.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataRepositoryTaskStatus {
   /// A running total of the number of files that the task failed to process.
-  @_s.JsonKey(name: 'FailedCount')
-  final int failedCount;
+  final int? failedCount;
 
   /// The time at which the task status was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// A running total of the number of files that the task has successfully
   /// processed.
-  @_s.JsonKey(name: 'SucceededCount')
-  final int succeededCount;
+  final int? succeededCount;
 
   /// The total number of files that the task will process. While a task is
   /// executing, the sum of <code>SucceededCount</code> plus
   /// <code>FailedCount</code> may not equal <code>TotalCount</code>. When the
   /// task is complete, <code>TotalCount</code> equals the sum of
   /// <code>SucceededCount</code> plus <code>FailedCount</code>.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   DataRepositoryTaskStatus({
     this.failedCount,
@@ -3129,12 +3360,17 @@ class DataRepositoryTaskStatus {
     this.succeededCount,
     this.totalCount,
   });
-  factory DataRepositoryTaskStatus.fromJson(Map<String, dynamic> json) =>
-      _$DataRepositoryTaskStatusFromJson(json);
+  factory DataRepositoryTaskStatus.fromJson(Map<String, dynamic> json) {
+    return DataRepositoryTaskStatus(
+      failedCount: json['FailedCount'] as int?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      succeededCount: json['SucceededCount'] as int?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
 }
 
 enum DataRepositoryTaskType {
-  @_s.JsonValue('EXPORT_TO_REPOSITORY')
   exportToRepository,
 }
 
@@ -3144,107 +3380,103 @@ extension on DataRepositoryTaskType {
       case DataRepositoryTaskType.exportToRepository:
         return 'EXPORT_TO_REPOSITORY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataRepositoryTaskType toDataRepositoryTaskType() {
+    switch (this) {
+      case 'EXPORT_TO_REPOSITORY':
+        return DataRepositoryTaskType.exportToRepository;
+    }
+    throw Exception('$this is not known in enum DataRepositoryTaskType');
   }
 }
 
 /// The response object for <code>DeleteBackup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackupResponse {
   /// The ID of the backup deleted.
-  @_s.JsonKey(name: 'BackupId')
-  final String backupId;
+  final String? backupId;
 
   /// The lifecycle of the backup. Should be <code>DELETED</code>.
-  @_s.JsonKey(name: 'Lifecycle')
-  final BackupLifecycle lifecycle;
+  final BackupLifecycle? lifecycle;
 
   DeleteBackupResponse({
     this.backupId,
     this.lifecycle,
   });
-  factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackupResponseFromJson(json);
+  factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackupResponse(
+      backupId: json['BackupId'] as String?,
+      lifecycle: (json['Lifecycle'] as String?)?.toBackupLifecycle(),
+    );
+  }
 }
 
 /// The configuration object for the Amazon FSx for Lustre file system being
 /// deleted in the <code>DeleteFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteFileSystemLustreConfiguration {
   /// Use if <code>SkipFinalBackup</code> is set to <code>false</code>, and you
   /// want to apply an array of tags to the final backup. If you have set the file
   /// system property <code>CopyTagsToBackups</code> to true, and you specify one
   /// or more <code>FinalBackupTags</code> when deleting a file system, Amazon FSx
   /// will not copy any existing file system tags to the backup.
-  @_s.JsonKey(name: 'FinalBackupTags')
-  final List<Tag> finalBackupTags;
+  final List<Tag>? finalBackupTags;
 
   /// Set <code>SkipFinalBackup</code> to false if you want to take a final backup
   /// of the file system you are deleting. By default, Amazon FSx will not take a
   /// final backup on your behalf when the <code>DeleteFileSystem</code> operation
   /// is invoked. (Default = true)
-  @_s.JsonKey(name: 'SkipFinalBackup')
-  final bool skipFinalBackup;
+  final bool? skipFinalBackup;
 
   DeleteFileSystemLustreConfiguration({
     this.finalBackupTags,
     this.skipFinalBackup,
   });
-  Map<String, dynamic> toJson() =>
-      _$DeleteFileSystemLustreConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final finalBackupTags = this.finalBackupTags;
+    final skipFinalBackup = this.skipFinalBackup;
+    return {
+      if (finalBackupTags != null) 'FinalBackupTags': finalBackupTags,
+      if (skipFinalBackup != null) 'SkipFinalBackup': skipFinalBackup,
+    };
+  }
 }
 
 /// The response object for the Amazon FSx for Lustre file system being deleted
 /// in the <code>DeleteFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFileSystemLustreResponse {
   /// The ID of the final backup for this file system.
-  @_s.JsonKey(name: 'FinalBackupId')
-  final String finalBackupId;
+  final String? finalBackupId;
 
   /// The set of tags applied to the final backup.
-  @_s.JsonKey(name: 'FinalBackupTags')
-  final List<Tag> finalBackupTags;
+  final List<Tag>? finalBackupTags;
 
   DeleteFileSystemLustreResponse({
     this.finalBackupId,
     this.finalBackupTags,
   });
-  factory DeleteFileSystemLustreResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFileSystemLustreResponseFromJson(json);
+  factory DeleteFileSystemLustreResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFileSystemLustreResponse(
+      finalBackupId: json['FinalBackupId'] as String?,
+      finalBackupTags: (json['FinalBackupTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The response object for the <code>DeleteFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFileSystemResponse {
   /// The ID of the file system being deleted.
-  @_s.JsonKey(name: 'FileSystemId')
-  final String fileSystemId;
+  final String? fileSystemId;
 
   /// The file system lifecycle for the deletion request. Should be
   /// <code>DELETING</code>.
-  @_s.JsonKey(name: 'Lifecycle')
-  final FileSystemLifecycle lifecycle;
-  @_s.JsonKey(name: 'LustreResponse')
-  final DeleteFileSystemLustreResponse lustreResponse;
-  @_s.JsonKey(name: 'WindowsResponse')
-  final DeleteFileSystemWindowsResponse windowsResponse;
+  final FileSystemLifecycle? lifecycle;
+  final DeleteFileSystemLustreResponse? lustreResponse;
+  final DeleteFileSystemWindowsResponse? windowsResponse;
 
   DeleteFileSystemResponse({
     this.fileSystemId,
@@ -3252,223 +3484,243 @@ class DeleteFileSystemResponse {
     this.lustreResponse,
     this.windowsResponse,
   });
-  factory DeleteFileSystemResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFileSystemResponseFromJson(json);
+  factory DeleteFileSystemResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFileSystemResponse(
+      fileSystemId: json['FileSystemId'] as String?,
+      lifecycle: (json['Lifecycle'] as String?)?.toFileSystemLifecycle(),
+      lustreResponse: json['LustreResponse'] != null
+          ? DeleteFileSystemLustreResponse.fromJson(
+              json['LustreResponse'] as Map<String, dynamic>)
+          : null,
+      windowsResponse: json['WindowsResponse'] != null
+          ? DeleteFileSystemWindowsResponse.fromJson(
+              json['WindowsResponse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The configuration object for the Microsoft Windows file system used in the
 /// <code>DeleteFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteFileSystemWindowsConfiguration {
   /// A set of tags for your final backup.
-  @_s.JsonKey(name: 'FinalBackupTags')
-  final List<Tag> finalBackupTags;
+  final List<Tag>? finalBackupTags;
 
   /// By default, Amazon FSx for Windows takes a final backup on your behalf when
   /// the <code>DeleteFileSystem</code> operation is invoked. Doing this helps
   /// protect you from data loss, and we highly recommend taking the final backup.
   /// If you want to skip this backup, use this flag to do so.
-  @_s.JsonKey(name: 'SkipFinalBackup')
-  final bool skipFinalBackup;
+  final bool? skipFinalBackup;
 
   DeleteFileSystemWindowsConfiguration({
     this.finalBackupTags,
     this.skipFinalBackup,
   });
-  Map<String, dynamic> toJson() =>
-      _$DeleteFileSystemWindowsConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final finalBackupTags = this.finalBackupTags;
+    final skipFinalBackup = this.skipFinalBackup;
+    return {
+      if (finalBackupTags != null) 'FinalBackupTags': finalBackupTags,
+      if (skipFinalBackup != null) 'SkipFinalBackup': skipFinalBackup,
+    };
+  }
 }
 
 /// The response object for the Microsoft Windows file system used in the
 /// <code>DeleteFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFileSystemWindowsResponse {
   /// The ID of the final backup for this file system.
-  @_s.JsonKey(name: 'FinalBackupId')
-  final String finalBackupId;
+  final String? finalBackupId;
 
   /// The set of tags applied to the final backup.
-  @_s.JsonKey(name: 'FinalBackupTags')
-  final List<Tag> finalBackupTags;
+  final List<Tag>? finalBackupTags;
 
   DeleteFileSystemWindowsResponse({
     this.finalBackupId,
     this.finalBackupTags,
   });
-  factory DeleteFileSystemWindowsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFileSystemWindowsResponseFromJson(json);
+  factory DeleteFileSystemWindowsResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFileSystemWindowsResponse(
+      finalBackupId: json['FinalBackupId'] as String?,
+      finalBackupTags: (json['FinalBackupTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Response object for <code>DescribeBackups</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupsResponse {
   /// Any array of backups.
-  @_s.JsonKey(name: 'Backups')
-  final List<Backup> backups;
+  final List<Backup>? backups;
 
   /// This is present if there are more backups than returned in the response
   /// (String). You can use the <code>NextToken</code> value in the later request
   /// to fetch the backups.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBackupsResponse({
     this.backups,
     this.nextToken,
   });
-  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupsResponseFromJson(json);
+  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupsResponse(
+      backups: (json['Backups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Backup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDataRepositoryTasksResponse {
   /// The collection of data repository task descriptions returned.
-  @_s.JsonKey(name: 'DataRepositoryTasks')
-  final List<DataRepositoryTask> dataRepositoryTasks;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final List<DataRepositoryTask>? dataRepositoryTasks;
+  final String? nextToken;
 
   DescribeDataRepositoryTasksResponse({
     this.dataRepositoryTasks,
     this.nextToken,
   });
   factory DescribeDataRepositoryTasksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDataRepositoryTasksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDataRepositoryTasksResponse(
+      dataRepositoryTasks: (json['DataRepositoryTasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataRepositoryTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The response object for <code>DescribeFileSystemAliases</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFileSystemAliasesResponse {
   /// An array of one or more DNS aliases currently associated with the specified
   /// file system.
-  @_s.JsonKey(name: 'Aliases')
-  final List<Alias> aliases;
+  final List<Alias>? aliases;
 
   /// Present if there are more DNS aliases than returned in the response
   /// (String). You can use the <code>NextToken</code> value in a later request to
   /// fetch additional descriptions.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeFileSystemAliasesResponse({
     this.aliases,
     this.nextToken,
   });
   factory DescribeFileSystemAliasesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeFileSystemAliasesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeFileSystemAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Alias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The response object for <code>DescribeFileSystems</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFileSystemsResponse {
   /// An array of file system descriptions.
-  @_s.JsonKey(name: 'FileSystems')
-  final List<FileSystem> fileSystems;
+  final List<FileSystem>? fileSystems;
 
   /// Present if there are more file systems than returned in the response
   /// (String). You can use the <code>NextToken</code> value in the later request
   /// to fetch the descriptions.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeFileSystemsResponse({
     this.fileSystems,
     this.nextToken,
   });
-  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFileSystemsResponseFromJson(json);
+  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFileSystemsResponse(
+      fileSystems: (json['FileSystems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileSystem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is
 /// attempting to disassociate from the file system. Use the API operation to
 /// monitor the status of the aliases Amazon FSx is removing from the file
 /// system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateFileSystemAliasesResponse {
   /// An array of one or more DNS aliases that Amazon FSx is attempting to
   /// disassociate from the file system.
-  @_s.JsonKey(name: 'Aliases')
-  final List<Alias> aliases;
+  final List<Alias>? aliases;
 
   DisassociateFileSystemAliasesResponse({
     this.aliases,
   });
   factory DisassociateFileSystemAliasesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateFileSystemAliasesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateFileSystemAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Alias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum DriveCacheType {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('READ')
   read,
 }
 
+extension on DriveCacheType {
+  String toValue() {
+    switch (this) {
+      case DriveCacheType.none:
+        return 'NONE';
+      case DriveCacheType.read:
+        return 'READ';
+    }
+  }
+}
+
+extension on String {
+  DriveCacheType toDriveCacheType() {
+    switch (this) {
+      case 'NONE':
+        return DriveCacheType.none;
+      case 'READ':
+        return DriveCacheType.read;
+    }
+    throw Exception('$this is not known in enum DriveCacheType');
+  }
+}
+
 /// A description of a specific Amazon FSx file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSystem {
   /// A list of administrative actions for the file system that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
   /// Windows file system that you have initiated using the
   /// <code>UpdateFileSystem</code> action.
-  @_s.JsonKey(name: 'AdministrativeActions')
-  final List<AdministrativeAction> administrativeActions;
+  final List<AdministrativeAction>? administrativeActions;
 
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z), also known as Unix time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The DNS name for the file system.
-  @_s.JsonKey(name: 'DNSName')
-  final String dNSName;
-  @_s.JsonKey(name: 'FailureDetails')
-  final FileSystemFailureDetails failureDetails;
+  final String? dNSName;
+  final FileSystemFailureDetails? failureDetails;
 
   /// The system-generated, unique 17-digit ID of the file system.
-  @_s.JsonKey(name: 'FileSystemId')
-  final String fileSystemId;
+  final String? fileSystemId;
 
   /// The type of Amazon FSx file system, either <code>LUSTRE</code> or
   /// <code>WINDOWS</code>.
-  @_s.JsonKey(name: 'FileSystemType')
-  final FileSystemType fileSystemType;
+  final FileSystemType? fileSystemType;
 
   /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the
   /// file system's data for Amazon FSx for Windows File Server file systems and
@@ -3478,8 +3730,7 @@ class FileSystem {
   /// managed keys. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html">Encrypt</a>
   /// in the <i>AWS Key Management Service API Reference</i>.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The lifecycle status of the file system, following are the possible values
   /// and what they mean:
@@ -3509,10 +3760,8 @@ class FileSystem {
   /// customer initiated update.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Lifecycle')
-  final FileSystemLifecycle lifecycle;
-  @_s.JsonKey(name: 'LustreConfiguration')
-  final LustreFileSystemConfiguration lustreConfiguration;
+  final FileSystemLifecycle? lifecycle;
+  final LustreFileSystemConfiguration? lustreConfiguration;
 
   /// The IDs of the elastic network interface from which a specific file system
   /// is accessible. The elastic network interface is automatically created in the
@@ -3524,29 +3773,24 @@ class FileSystem {
   /// For an Amazon FSx for Windows File Server file system, you can have one
   /// network interface ID. For an Amazon FSx for Lustre file system, you can have
   /// more than one.
-  @_s.JsonKey(name: 'NetworkInterfaceIds')
-  final List<String> networkInterfaceIds;
+  final List<String>? networkInterfaceIds;
 
   /// The AWS account that created the file system. If the file system was created
   /// by an AWS Identity and Access Management (IAM) user, the AWS account to
   /// which the IAM user belongs is the owner.
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
+  final String? ownerId;
 
   /// The Amazon Resource Name (ARN) for the file system resource.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   /// The storage capacity of the file system in gibibytes (GiB).
-  @_s.JsonKey(name: 'StorageCapacity')
-  final int storageCapacity;
+  final int? storageCapacity;
 
   /// The storage type of the file system. Valid values are <code>SSD</code> and
   /// <code>HDD</code>. If set to <code>SSD</code>, the file system uses solid
   /// state drive storage. If set to <code>HDD</code>, the file system uses hard
   /// disk drive storage.
-  @_s.JsonKey(name: 'StorageType')
-  final StorageType storageType;
+  final StorageType? storageType;
 
   /// Specifies the IDs of the subnets that the file system is accessible from.
   /// For Windows <code>MULTI_AZ_1</code> file system deployment type, there are
@@ -3559,22 +3803,18 @@ class FileSystem {
   /// of the subnet that contains the endpoint for the file system. For
   /// <code>MULTI_AZ_1</code> Windows file systems, the endpoint for the file
   /// system is available in the <code>PreferredSubnetID</code>.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The tags to associate with the file system. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
   /// Your Amazon EC2 Resources</a> in the <i>Amazon EC2 User Guide</i>.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The ID of the primary VPC for the file system.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   /// The configuration for this Microsoft Windows file system.
-  @_s.JsonKey(name: 'WindowsConfiguration')
-  final WindowsFileSystemConfiguration windowsConfiguration;
+  final WindowsFileSystemConfiguration? windowsConfiguration;
 
   FileSystem({
     this.administrativeActions,
@@ -3596,58 +3836,149 @@ class FileSystem {
     this.vpcId,
     this.windowsConfiguration,
   });
-  factory FileSystem.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemFromJson(json);
+  factory FileSystem.fromJson(Map<String, dynamic> json) {
+    return FileSystem(
+      administrativeActions: (json['AdministrativeActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdministrativeAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dNSName: json['DNSName'] as String?,
+      failureDetails: json['FailureDetails'] != null
+          ? FileSystemFailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      fileSystemId: json['FileSystemId'] as String?,
+      fileSystemType: (json['FileSystemType'] as String?)?.toFileSystemType(),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lifecycle: (json['Lifecycle'] as String?)?.toFileSystemLifecycle(),
+      lustreConfiguration: json['LustreConfiguration'] != null
+          ? LustreFileSystemConfiguration.fromJson(
+              json['LustreConfiguration'] as Map<String, dynamic>)
+          : null,
+      networkInterfaceIds: (json['NetworkInterfaceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ownerId: json['OwnerId'] as String?,
+      resourceARN: json['ResourceARN'] as String?,
+      storageCapacity: json['StorageCapacity'] as int?,
+      storageType: (json['StorageType'] as String?)?.toStorageType(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+      windowsConfiguration: json['WindowsConfiguration'] != null
+          ? WindowsFileSystemConfiguration.fromJson(
+              json['WindowsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A structure providing details of any failures that occur when creating the
 /// file system has failed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSystemFailureDetails {
   /// A message describing any failures that occurred during file system creation.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FileSystemFailureDetails({
     this.message,
   });
-  factory FileSystemFailureDetails.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemFailureDetailsFromJson(json);
+  factory FileSystemFailureDetails.fromJson(Map<String, dynamic> json) {
+    return FileSystemFailureDetails(
+      message: json['Message'] as String?,
+    );
+  }
 }
 
 /// The lifecycle status of the file system.
 enum FileSystemLifecycle {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('MISCONFIGURED')
   misconfigured,
-  @_s.JsonValue('UPDATING')
   updating,
+}
+
+extension on FileSystemLifecycle {
+  String toValue() {
+    switch (this) {
+      case FileSystemLifecycle.available:
+        return 'AVAILABLE';
+      case FileSystemLifecycle.creating:
+        return 'CREATING';
+      case FileSystemLifecycle.failed:
+        return 'FAILED';
+      case FileSystemLifecycle.deleting:
+        return 'DELETING';
+      case FileSystemLifecycle.misconfigured:
+        return 'MISCONFIGURED';
+      case FileSystemLifecycle.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  FileSystemLifecycle toFileSystemLifecycle() {
+    switch (this) {
+      case 'AVAILABLE':
+        return FileSystemLifecycle.available;
+      case 'CREATING':
+        return FileSystemLifecycle.creating;
+      case 'FAILED':
+        return FileSystemLifecycle.failed;
+      case 'DELETING':
+        return FileSystemLifecycle.deleting;
+      case 'MISCONFIGURED':
+        return FileSystemLifecycle.misconfigured;
+      case 'UPDATING':
+        return FileSystemLifecycle.updating;
+    }
+    throw Exception('$this is not known in enum FileSystemLifecycle');
+  }
 }
 
 /// An enumeration specifying the currently ongoing maintenance operation.
 enum FileSystemMaintenanceOperation {
-  @_s.JsonValue('PATCHING')
   patching,
-  @_s.JsonValue('BACKING_UP')
   backingUp,
+}
+
+extension on FileSystemMaintenanceOperation {
+  String toValue() {
+    switch (this) {
+      case FileSystemMaintenanceOperation.patching:
+        return 'PATCHING';
+      case FileSystemMaintenanceOperation.backingUp:
+        return 'BACKING_UP';
+    }
+  }
+}
+
+extension on String {
+  FileSystemMaintenanceOperation toFileSystemMaintenanceOperation() {
+    switch (this) {
+      case 'PATCHING':
+        return FileSystemMaintenanceOperation.patching;
+      case 'BACKING_UP':
+        return FileSystemMaintenanceOperation.backingUp;
+    }
+    throw Exception(
+        '$this is not known in enum FileSystemMaintenanceOperation');
+  }
 }
 
 /// The type of file system.
 enum FileSystemType {
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('LUSTRE')
   lustre,
 }
 
@@ -3659,88 +3990,141 @@ extension on FileSystemType {
       case FileSystemType.lustre:
         return 'LUSTRE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FileSystemType toFileSystemType() {
+    switch (this) {
+      case 'WINDOWS':
+        return FileSystemType.windows;
+      case 'LUSTRE':
+        return FileSystemType.lustre;
+    }
+    throw Exception('$this is not known in enum FileSystemType');
   }
 }
 
 /// A filter used to restrict the results of describe calls. You can use
 /// multiple filters to return results that meet all applied filter
 /// requirements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name for this filter.
-  @_s.JsonKey(name: 'Name')
-  final FilterName name;
+  final FilterName? name;
 
   /// The values of the filter. These are all the values for any of the applied
   /// filters.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The name for a filter.
 enum FilterName {
-  @_s.JsonValue('file-system-id')
   fileSystemId,
-  @_s.JsonValue('backup-type')
   backupType,
-  @_s.JsonValue('file-system-type')
   fileSystemType,
 }
 
+extension on FilterName {
+  String toValue() {
+    switch (this) {
+      case FilterName.fileSystemId:
+        return 'file-system-id';
+      case FilterName.backupType:
+        return 'backup-type';
+      case FilterName.fileSystemType:
+        return 'file-system-type';
+    }
+  }
+}
+
+extension on String {
+  FilterName toFilterName() {
+    switch (this) {
+      case 'file-system-id':
+        return FilterName.fileSystemId;
+      case 'backup-type':
+        return FilterName.backupType;
+      case 'file-system-type':
+        return FilterName.fileSystemType;
+    }
+    throw Exception('$this is not known in enum FilterName');
+  }
+}
+
 /// The response object for <code>ListTagsForResource</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// This is present if there are more tags than returned in the response
   /// (String). You can use the <code>NextToken</code> value in the later request
   /// to fetch the tags.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tags on the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum LustreDeploymentType {
-  @_s.JsonValue('SCRATCH_1')
   scratch_1,
-  @_s.JsonValue('SCRATCH_2')
   scratch_2,
-  @_s.JsonValue('PERSISTENT_1')
   persistent_1,
 }
 
+extension on LustreDeploymentType {
+  String toValue() {
+    switch (this) {
+      case LustreDeploymentType.scratch_1:
+        return 'SCRATCH_1';
+      case LustreDeploymentType.scratch_2:
+        return 'SCRATCH_2';
+      case LustreDeploymentType.persistent_1:
+        return 'PERSISTENT_1';
+    }
+  }
+}
+
+extension on String {
+  LustreDeploymentType toLustreDeploymentType() {
+    switch (this) {
+      case 'SCRATCH_1':
+        return LustreDeploymentType.scratch_1;
+      case 'SCRATCH_2':
+        return LustreDeploymentType.scratch_2;
+      case 'PERSISTENT_1':
+        return LustreDeploymentType.persistent_1;
+    }
+    throw Exception('$this is not known in enum LustreDeploymentType');
+  }
+}
+
 /// The configuration for the Amazon FSx for Lustre file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LustreFileSystemConfiguration {
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
+  final int? automaticBackupRetentionDays;
 
   /// A boolean flag indicating whether tags on the file system should be copied
   /// to backups. If it's set to true, all tags on the file system are copied to
@@ -3749,12 +4133,9 @@ class LustreFileSystemConfiguration {
   /// only the specified tags are copied to backups. If you specify one or more
   /// tags when creating a user-initiated backup, no tags are copied from the file
   /// system, regardless of this value. (Default = false)
-  @_s.JsonKey(name: 'CopyTagsToBackups')
-  final bool copyTagsToBackups;
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
-  @_s.JsonKey(name: 'DataRepositoryConfiguration')
-  final DataRepositoryConfiguration dataRepositoryConfiguration;
+  final bool? copyTagsToBackups;
+  final String? dailyAutomaticBackupStartTime;
+  final DataRepositoryConfiguration? dataRepositoryConfiguration;
 
   /// The deployment type of the FSX for Lustre file system. <i>Scratch deployment
   /// type</i> is designed for temporary storage and shorter-term processing of
@@ -3771,8 +4152,7 @@ class LustreFileSystemConfiguration {
   /// deployment types, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html">
   /// FSx for Lustre Deployment Options</a>. (Default = <code>SCRATCH_1</code>)
-  @_s.JsonKey(name: 'DeploymentType')
-  final LustreDeploymentType deploymentType;
+  final LustreDeploymentType? deploymentType;
 
   /// The type of drive cache used by PERSISTENT_1 file systems that are
   /// provisioned with HDD storage devices. This parameter is required when
@@ -3781,8 +4161,7 @@ class LustreFileSystemConfiguration {
   /// the file system to be cached.
   ///
   /// This parameter is required when <code>StorageType</code> is set to HDD.
-  @_s.JsonKey(name: 'DriveCacheType')
-  final DriveCacheType driveCacheType;
+  final DriveCacheType? driveCacheType;
 
   /// You use the <code>MountName</code> value when mounting the file system.
   ///
@@ -3790,8 +4169,7 @@ class LustreFileSystemConfiguration {
   /// "<code>fsx</code>". For <code>SCRATCH_2</code> and <code>PERSISTENT_1</code>
   /// deployment types, this value is a string that is unique within an AWS
   /// Region.
-  @_s.JsonKey(name: 'MountName')
-  final String mountName;
+  final String? mountName;
 
   /// Per unit storage throughput represents the megabytes per second of read or
   /// write throughput per 1 tebibyte of storage provisioned. File system
@@ -3801,14 +4179,12 @@ class LustreFileSystemConfiguration {
   ///
   /// Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage:
   /// 12, 40.
-  @_s.JsonKey(name: 'PerUnitStorageThroughput')
-  final int perUnitStorageThroughput;
+  final int? perUnitStorageThroughput;
 
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
   /// the UTC time zone. d is the weekday number, from 1 through 7, beginning with
   /// Monday and ending with Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   LustreFileSystemConfiguration({
     this.automaticBackupRetentionDays,
@@ -3821,52 +4197,95 @@ class LustreFileSystemConfiguration {
     this.perUnitStorageThroughput,
     this.weeklyMaintenanceStartTime,
   });
-  factory LustreFileSystemConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LustreFileSystemConfigurationFromJson(json);
+  factory LustreFileSystemConfiguration.fromJson(Map<String, dynamic> json) {
+    return LustreFileSystemConfiguration(
+      automaticBackupRetentionDays:
+          json['AutomaticBackupRetentionDays'] as int?,
+      copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
+      dailyAutomaticBackupStartTime:
+          json['DailyAutomaticBackupStartTime'] as String?,
+      dataRepositoryConfiguration: json['DataRepositoryConfiguration'] != null
+          ? DataRepositoryConfiguration.fromJson(
+              json['DataRepositoryConfiguration'] as Map<String, dynamic>)
+          : null,
+      deploymentType:
+          (json['DeploymentType'] as String?)?.toLustreDeploymentType(),
+      driveCacheType: (json['DriveCacheType'] as String?)?.toDriveCacheType(),
+      mountName: json['MountName'] as String?,
+      perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int?,
+      weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
+    );
+  }
 }
 
 enum ReportFormat {
-  @_s.JsonValue('REPORT_CSV_20191124')
   reportCsv_20191124,
 }
 
+extension on ReportFormat {
+  String toValue() {
+    switch (this) {
+      case ReportFormat.reportCsv_20191124:
+        return 'REPORT_CSV_20191124';
+    }
+  }
+}
+
+extension on String {
+  ReportFormat toReportFormat() {
+    switch (this) {
+      case 'REPORT_CSV_20191124':
+        return ReportFormat.reportCsv_20191124;
+    }
+    throw Exception('$this is not known in enum ReportFormat');
+  }
+}
+
 enum ReportScope {
-  @_s.JsonValue('FAILED_FILES_ONLY')
   failedFilesOnly,
+}
+
+extension on ReportScope {
+  String toValue() {
+    switch (this) {
+      case ReportScope.failedFilesOnly:
+        return 'FAILED_FILES_ONLY';
+    }
+  }
+}
+
+extension on String {
+  ReportScope toReportScope() {
+    switch (this) {
+      case 'FAILED_FILES_ONLY':
+        return ReportScope.failedFilesOnly;
+    }
+    throw Exception('$this is not known in enum ReportScope');
+  }
 }
 
 /// The configuration of the self-managed Microsoft Active Directory (AD)
 /// directory to which the Windows File Server instance is joined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SelfManagedActiveDirectoryAttributes {
   /// A list of up to two IP addresses of DNS servers or domain controllers in the
   /// self-managed AD directory.
-  @_s.JsonKey(name: 'DnsIps')
-  final List<String> dnsIps;
+  final List<String>? dnsIps;
 
   /// The fully qualified domain name of the self-managed AD directory.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The name of the domain group whose members have administrative privileges
   /// for the FSx file system.
-  @_s.JsonKey(name: 'FileSystemAdministratorsGroup')
-  final String fileSystemAdministratorsGroup;
+  final String? fileSystemAdministratorsGroup;
 
   /// The fully qualified distinguished name of the organizational unit within the
   /// self-managed AD directory to which the Windows File Server instance is
   /// joined.
-  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedName')
-  final String organizationalUnitDistinguishedName;
+  final String? organizationalUnitDistinguishedName;
 
   /// The user name for the service account on your self-managed AD domain that
   /// FSx uses to join to your AD domain.
-  @_s.JsonKey(name: 'UserName')
-  final String userName;
+  final String? userName;
 
   SelfManagedActiveDirectoryAttributes({
     this.dnsIps,
@@ -3876,18 +4295,25 @@ class SelfManagedActiveDirectoryAttributes {
     this.userName,
   });
   factory SelfManagedActiveDirectoryAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$SelfManagedActiveDirectoryAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return SelfManagedActiveDirectoryAttributes(
+      dnsIps: (json['DnsIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      domainName: json['DomainName'] as String?,
+      fileSystemAdministratorsGroup:
+          json['FileSystemAdministratorsGroup'] as String?,
+      organizationalUnitDistinguishedName:
+          json['OrganizationalUnitDistinguishedName'] as String?,
+      userName: json['UserName'] as String?,
+    );
+  }
 }
 
 /// The configuration that Amazon FSx uses to join the Windows File Server
 /// instance to your self-managed (including on-premises) Microsoft Active
 /// Directory (AD) directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SelfManagedActiveDirectoryConfiguration {
   /// A list of up to two IP addresses of DNS servers or domain controllers in the
   /// self-managed AD directory. The IP addresses need to be either in the same
@@ -3906,17 +4332,14 @@ class SelfManagedActiveDirectoryConfiguration {
   /// 192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DnsIps')
   final List<String> dnsIps;
 
   /// The fully qualified domain name of the self-managed AD directory, such as
   /// <code>corp.example.com</code>.
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
   /// The password for the service account on your self-managed AD domain that
   /// Amazon FSx will use to join to your AD domain.
-  @_s.JsonKey(name: 'Password')
   final String password;
 
   /// The user name for the service account on your self-managed AD domain that
@@ -3924,7 +4347,6 @@ class SelfManagedActiveDirectoryConfiguration {
   /// permission to join computers to the domain in the organizational unit
   /// provided in <code>OrganizationalUnitDistinguishedName</code>, or in the
   /// default location of your AD domain.
-  @_s.JsonKey(name: 'UserName')
   final String userName;
 
   /// (Optional) The name of the domain group whose members are granted
@@ -3934,8 +4356,7 @@ class SelfManagedActiveDirectoryConfiguration {
   /// using the FSx Remote PowerShell. The group that you specify must already
   /// exist in your domain. If you don't provide one, your AD domain's Domain
   /// Admins group is used.
-  @_s.JsonKey(name: 'FileSystemAdministratorsGroup')
-  final String fileSystemAdministratorsGroup;
+  final String? fileSystemAdministratorsGroup;
 
   /// (Optional) The fully qualified distinguished name of the organizational unit
   /// within your self-managed AD directory that the Windows File Server instance
@@ -3948,73 +4369,118 @@ class SelfManagedActiveDirectoryConfiguration {
   /// Only Organizational Unit (OU) objects can be the direct parent of the file
   /// system that you're creating.
   /// </important>
-  @_s.JsonKey(name: 'OrganizationalUnitDistinguishedName')
-  final String organizationalUnitDistinguishedName;
+  final String? organizationalUnitDistinguishedName;
 
   SelfManagedActiveDirectoryConfiguration({
-    @_s.required this.dnsIps,
-    @_s.required this.domainName,
-    @_s.required this.password,
-    @_s.required this.userName,
+    required this.dnsIps,
+    required this.domainName,
+    required this.password,
+    required this.userName,
     this.fileSystemAdministratorsGroup,
     this.organizationalUnitDistinguishedName,
   });
-  Map<String, dynamic> toJson() =>
-      _$SelfManagedActiveDirectoryConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final dnsIps = this.dnsIps;
+    final domainName = this.domainName;
+    final password = this.password;
+    final userName = this.userName;
+    final fileSystemAdministratorsGroup = this.fileSystemAdministratorsGroup;
+    final organizationalUnitDistinguishedName =
+        this.organizationalUnitDistinguishedName;
+    return {
+      'DnsIps': dnsIps,
+      'DomainName': domainName,
+      'Password': password,
+      'UserName': userName,
+      if (fileSystemAdministratorsGroup != null)
+        'FileSystemAdministratorsGroup': fileSystemAdministratorsGroup,
+      if (organizationalUnitDistinguishedName != null)
+        'OrganizationalUnitDistinguishedName':
+            organizationalUnitDistinguishedName,
+    };
+  }
 }
 
 /// The configuration that Amazon FSx uses to join the Windows File Server
 /// instance to a self-managed Microsoft Active Directory (AD) directory.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SelfManagedActiveDirectoryConfigurationUpdates {
   /// A list of up to two IP addresses of DNS servers or domain controllers in the
   /// self-managed AD directory.
-  @_s.JsonKey(name: 'DnsIps')
-  final List<String> dnsIps;
+  final List<String>? dnsIps;
 
   /// The password for the service account on your self-managed AD domain that
   /// Amazon FSx will use to join to your AD domain.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The user name for the service account on your self-managed AD domain that
   /// Amazon FSx will use to join to your AD domain. This account must have the
   /// permission to join computers to the domain in the organizational unit
   /// provided in <code>OrganizationalUnitDistinguishedName</code>.
-  @_s.JsonKey(name: 'UserName')
-  final String userName;
+  final String? userName;
 
   SelfManagedActiveDirectoryConfigurationUpdates({
     this.dnsIps,
     this.password,
     this.userName,
   });
-  Map<String, dynamic> toJson() =>
-      _$SelfManagedActiveDirectoryConfigurationUpdatesToJson(this);
+  Map<String, dynamic> toJson() {
+    final dnsIps = this.dnsIps;
+    final password = this.password;
+    final userName = this.userName;
+    return {
+      if (dnsIps != null) 'DnsIps': dnsIps,
+      if (password != null) 'Password': password,
+      if (userName != null) 'UserName': userName,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('UPDATED_OPTIMIZING')
   updatedOptimizing,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.failed:
+        return 'FAILED';
+      case Status.inProgress:
+        return 'IN_PROGRESS';
+      case Status.pending:
+        return 'PENDING';
+      case Status.completed:
+        return 'COMPLETED';
+      case Status.updatedOptimizing:
+        return 'UPDATED_OPTIMIZING';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'FAILED':
+        return Status.failed;
+      case 'IN_PROGRESS':
+        return Status.inProgress;
+      case 'PENDING':
+        return Status.pending;
+      case 'COMPLETED':
+        return Status.completed;
+      case 'UPDATED_OPTIMIZING':
+        return Status.updatedOptimizing;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
 }
 
 /// The storage type for your Amazon FSx file system.
 enum StorageType {
-  @_s.JsonValue('SSD')
   ssd,
-  @_s.JsonValue('HDD')
   hdd,
 }
 
@@ -4026,69 +4492,72 @@ extension on StorageType {
       case StorageType.hdd:
         return 'HDD';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StorageType toStorageType() {
+    switch (this) {
+      case 'SSD':
+        return StorageType.ssd;
+      case 'HDD':
+        return StorageType.hdd;
+    }
+    throw Exception('$this is not known in enum StorageType');
   }
 }
 
 /// Specifies a key-value pair for a resource tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A value that specifies the <code>TagKey</code>, the name of the tag. Tag
   /// keys must be unique for the resource to which they are attached.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A value that specifies the <code>TagValue</code>, the value assigned to the
   /// corresponding tag key. Tag values can be null and don't have to be unique in
   /// a tag set. For example, you can have a key-value pair in a tag set of
   /// <code>finances : April</code> and also of <code>payroll : April</code>.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The response object for the <code>TagResource</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
 /// The response object for <code>UntagResource</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
 /// The configuration object for Amazon FSx for Lustre file systems used in the
 /// <code>UpdateFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateFileSystemLustreConfiguration {
   /// (Optional) When you create your file system, your existing S3 objects appear
   /// as file and directory listings. Use this property to choose how Amazon FSx
@@ -4118,18 +4587,14 @@ class UpdateFileSystemLustreConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
   /// import updates from your S3 bucket</a>.
-  @_s.JsonKey(name: 'AutoImportPolicy')
-  final AutoImportPolicyType autoImportPolicy;
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
+  final AutoImportPolicyType? autoImportPolicy;
+  final int? automaticBackupRetentionDays;
+  final String? dailyAutomaticBackupStartTime;
 
   /// (Optional) The preferred start time to perform weekly maintenance, formatted
   /// d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7,
   /// beginning with Monday and ending with Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   UpdateFileSystemLustreConfiguration({
     this.autoImportPolicy,
@@ -4137,56 +4602,61 @@ class UpdateFileSystemLustreConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.weeklyMaintenanceStartTime,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateFileSystemLustreConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final autoImportPolicy = this.autoImportPolicy;
+    final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
+    final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
+    return {
+      if (autoImportPolicy != null)
+        'AutoImportPolicy': autoImportPolicy.toValue(),
+      if (automaticBackupRetentionDays != null)
+        'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
+      if (dailyAutomaticBackupStartTime != null)
+        'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (weeklyMaintenanceStartTime != null)
+        'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
 }
 
 /// The response object for the <code>UpdateFileSystem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFileSystemResponse {
   /// A description of the file system that was updated.
-  @_s.JsonKey(name: 'FileSystem')
-  final FileSystem fileSystem;
+  final FileSystem? fileSystem;
 
   UpdateFileSystemResponse({
     this.fileSystem,
   });
-  factory UpdateFileSystemResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFileSystemResponseFromJson(json);
+  factory UpdateFileSystemResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFileSystemResponse(
+      fileSystem: json['FileSystem'] != null
+          ? FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Updates the configuration for an existing Amazon FSx for Windows File Server
 /// file system. Amazon FSx only overwrites existing properties with non-null
 /// values provided in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateFileSystemWindowsConfiguration {
   /// The number of days to retain automatic daily backups. Setting this to zero
   /// (0) disables automatic daily backups. You can retain automatic daily backups
   /// for a maximum of 90 days. For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups">Working
   /// with Automatic Daily Backups</a>.
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
+  final int? automaticBackupRetentionDays;
 
   /// The preferred time to start the daily automatic backup, in the UTC time
   /// zone, for example, <code>02:00</code>
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
+  final String? dailyAutomaticBackupStartTime;
 
   /// The configuration Amazon FSx uses to join the Windows File Server instance
   /// to the self-managed Microsoft AD directory. You cannot make a self-managed
   /// Microsoft AD update request if there is an existing self-managed Microsoft
   /// AD update request in progress.
-  @_s.JsonKey(name: 'SelfManagedActiveDirectoryConfiguration')
-  final SelfManagedActiveDirectoryConfigurationUpdates
+  final SelfManagedActiveDirectoryConfigurationUpdates?
       selfManagedActiveDirectoryConfiguration;
 
   /// Sets the target value for a file system's throughput capacity, in MB/s, that
@@ -4196,14 +4666,12 @@ class UpdateFileSystemWindowsConfiguration {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html">Managing
   /// Throughput Capacity</a>.
-  @_s.JsonKey(name: 'ThroughputCapacity')
-  final int throughputCapacity;
+  final int? throughputCapacity;
 
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
   /// the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 =
   /// Monday and 7 = Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   UpdateFileSystemWindowsConfiguration({
     this.automaticBackupRetentionDays,
@@ -4212,38 +4680,72 @@ class UpdateFileSystemWindowsConfiguration {
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateFileSystemWindowsConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
+    final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final selfManagedActiveDirectoryConfiguration =
+        this.selfManagedActiveDirectoryConfiguration;
+    final throughputCapacity = this.throughputCapacity;
+    final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
+    return {
+      if (automaticBackupRetentionDays != null)
+        'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
+      if (dailyAutomaticBackupStartTime != null)
+        'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (selfManagedActiveDirectoryConfiguration != null)
+        'SelfManagedActiveDirectoryConfiguration':
+            selfManagedActiveDirectoryConfiguration,
+      if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,
+      if (weeklyMaintenanceStartTime != null)
+        'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
+    };
+  }
 }
 
 enum WindowsDeploymentType {
-  @_s.JsonValue('MULTI_AZ_1')
   multiAz_1,
-  @_s.JsonValue('SINGLE_AZ_1')
   singleAz_1,
-  @_s.JsonValue('SINGLE_AZ_2')
   singleAz_2,
 }
 
+extension on WindowsDeploymentType {
+  String toValue() {
+    switch (this) {
+      case WindowsDeploymentType.multiAz_1:
+        return 'MULTI_AZ_1';
+      case WindowsDeploymentType.singleAz_1:
+        return 'SINGLE_AZ_1';
+      case WindowsDeploymentType.singleAz_2:
+        return 'SINGLE_AZ_2';
+    }
+  }
+}
+
+extension on String {
+  WindowsDeploymentType toWindowsDeploymentType() {
+    switch (this) {
+      case 'MULTI_AZ_1':
+        return WindowsDeploymentType.multiAz_1;
+      case 'SINGLE_AZ_1':
+        return WindowsDeploymentType.singleAz_1;
+      case 'SINGLE_AZ_2':
+        return WindowsDeploymentType.singleAz_2;
+    }
+    throw Exception('$this is not known in enum WindowsDeploymentType');
+  }
+}
+
 /// The configuration for this Microsoft Windows file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WindowsFileSystemConfiguration {
   /// The ID for an existing Microsoft Active Directory instance that the file
   /// system should join when it's created.
-  @_s.JsonKey(name: 'ActiveDirectoryId')
-  final String activeDirectoryId;
-  @_s.JsonKey(name: 'Aliases')
-  final List<Alias> aliases;
+  final String? activeDirectoryId;
+  final List<Alias>? aliases;
 
   /// The number of days to retain automatic backups. Setting this to 0 disables
   /// automatic backups. You can retain automatic backups for a maximum of 90
   /// days.
-  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
-  final int automaticBackupRetentionDays;
+  final int? automaticBackupRetentionDays;
 
   /// A boolean flag indicating whether tags on the file system should be copied
   /// to backups. This value defaults to false. If it's set to true, all tags on
@@ -4252,12 +4754,10 @@ class WindowsFileSystemConfiguration {
   /// you specify one or more tags, only the specified tags are copied to backups.
   /// If you specify one or more tags when creating a user-initiated backup, no
   /// tags are copied from the file system, regardless of this value.
-  @_s.JsonKey(name: 'CopyTagsToBackups')
-  final bool copyTagsToBackups;
+  final bool? copyTagsToBackups;
 
   /// The preferred time to take daily automatic backups, in the UTC time zone.
-  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
-  final String dailyAutomaticBackupStartTime;
+  final String? dailyAutomaticBackupStartTime;
 
   /// Specifies the file system deployment type, valid values are the following:
   ///
@@ -4280,12 +4780,10 @@ class WindowsFileSystemConfiguration {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html">Single-AZ
   /// and Multi-AZ File Systems</a>.
-  @_s.JsonKey(name: 'DeploymentType')
-  final WindowsDeploymentType deploymentType;
+  final WindowsDeploymentType? deploymentType;
 
   /// The list of maintenance operations in progress for this file system.
-  @_s.JsonKey(name: 'MaintenanceOperationsInProgress')
-  final List<FileSystemMaintenanceOperation> maintenanceOperationsInProgress;
+  final List<FileSystemMaintenanceOperation>? maintenanceOperationsInProgress;
 
   /// For <code>MULTI_AZ_1</code> deployment types, the IP address of the primary,
   /// or preferred, file server.
@@ -4299,8 +4797,7 @@ class WindowsFileSystemConfiguration {
   /// mounting file shares, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/accessing-file-shares.html">Accessing
   /// File Shares</a>.
-  @_s.JsonKey(name: 'PreferredFileServerIp')
-  final String preferredFileServerIp;
+  final String? preferredFileServerIp;
 
   /// For <code>MULTI_AZ_1</code> deployment types, it specifies the ID of the
   /// subnet where the preferred file server is located. Must be one of the two
@@ -4313,8 +4810,7 @@ class WindowsFileSystemConfiguration {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html#single-multi-az-resources">Availability
   /// and Durability: Single-AZ and Multi-AZ File Systems</a>
-  @_s.JsonKey(name: 'PreferredSubnetId')
-  final String preferredSubnetId;
+  final String? preferredSubnetId;
 
   /// For <code>MULTI_AZ_1</code> deployment types, use this endpoint when
   /// performing administrative tasks on the file system using Amazon FSx Remote
@@ -4325,22 +4821,18 @@ class WindowsFileSystemConfiguration {
   ///
   /// This endpoint is temporarily unavailable when the file system is undergoing
   /// maintenance.
-  @_s.JsonKey(name: 'RemoteAdministrationEndpoint')
-  final String remoteAdministrationEndpoint;
-  @_s.JsonKey(name: 'SelfManagedActiveDirectoryConfiguration')
-  final SelfManagedActiveDirectoryAttributes
+  final String? remoteAdministrationEndpoint;
+  final SelfManagedActiveDirectoryAttributes?
       selfManagedActiveDirectoryConfiguration;
 
   /// The throughput of an Amazon FSx file system, measured in megabytes per
   /// second.
-  @_s.JsonKey(name: 'ThroughputCapacity')
-  final int throughputCapacity;
+  final int? throughputCapacity;
 
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
   /// the UTC time zone. d is the weekday number, from 1 through 7, beginning with
   /// Monday and ending with Sunday.
-  @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
-  final String weeklyMaintenanceStartTime;
+  final String? weeklyMaintenanceStartTime;
 
   WindowsFileSystemConfiguration({
     this.activeDirectoryId,
@@ -4357,83 +4849,114 @@ class WindowsFileSystemConfiguration {
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
-  factory WindowsFileSystemConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$WindowsFileSystemConfigurationFromJson(json);
+  factory WindowsFileSystemConfiguration.fromJson(Map<String, dynamic> json) {
+    return WindowsFileSystemConfiguration(
+      activeDirectoryId: json['ActiveDirectoryId'] as String?,
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Alias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      automaticBackupRetentionDays:
+          json['AutomaticBackupRetentionDays'] as int?,
+      copyTagsToBackups: json['CopyTagsToBackups'] as bool?,
+      dailyAutomaticBackupStartTime:
+          json['DailyAutomaticBackupStartTime'] as String?,
+      deploymentType:
+          (json['DeploymentType'] as String?)?.toWindowsDeploymentType(),
+      maintenanceOperationsInProgress:
+          (json['MaintenanceOperationsInProgress'] as List?)
+              ?.whereNotNull()
+              .map((e) => (e as String).toFileSystemMaintenanceOperation())
+              .toList(),
+      preferredFileServerIp: json['PreferredFileServerIp'] as String?,
+      preferredSubnetId: json['PreferredSubnetId'] as String?,
+      remoteAdministrationEndpoint:
+          json['RemoteAdministrationEndpoint'] as String?,
+      selfManagedActiveDirectoryConfiguration:
+          json['SelfManagedActiveDirectoryConfiguration'] != null
+              ? SelfManagedActiveDirectoryAttributes.fromJson(
+                  json['SelfManagedActiveDirectoryConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      throughputCapacity: json['ThroughputCapacity'] as int?,
+      weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
+    );
+  }
 }
 
 class ActiveDirectoryError extends _s.GenericAwsException {
-  ActiveDirectoryError({String type, String message})
+  ActiveDirectoryError({String? type, String? message})
       : super(type: type, code: 'ActiveDirectoryError', message: message);
 }
 
 class BackupInProgress extends _s.GenericAwsException {
-  BackupInProgress({String type, String message})
+  BackupInProgress({String? type, String? message})
       : super(type: type, code: 'BackupInProgress', message: message);
 }
 
 class BackupNotFound extends _s.GenericAwsException {
-  BackupNotFound({String type, String message})
+  BackupNotFound({String? type, String? message})
       : super(type: type, code: 'BackupNotFound', message: message);
 }
 
 class BackupRestoring extends _s.GenericAwsException {
-  BackupRestoring({String type, String message})
+  BackupRestoring({String? type, String? message})
       : super(type: type, code: 'BackupRestoring', message: message);
 }
 
 class BadRequest extends _s.GenericAwsException {
-  BadRequest({String type, String message})
+  BadRequest({String? type, String? message})
       : super(type: type, code: 'BadRequest', message: message);
 }
 
 class DataRepositoryTaskEnded extends _s.GenericAwsException {
-  DataRepositoryTaskEnded({String type, String message})
+  DataRepositoryTaskEnded({String? type, String? message})
       : super(type: type, code: 'DataRepositoryTaskEnded', message: message);
 }
 
 class DataRepositoryTaskExecuting extends _s.GenericAwsException {
-  DataRepositoryTaskExecuting({String type, String message})
+  DataRepositoryTaskExecuting({String? type, String? message})
       : super(
             type: type, code: 'DataRepositoryTaskExecuting', message: message);
 }
 
 class DataRepositoryTaskNotFound extends _s.GenericAwsException {
-  DataRepositoryTaskNotFound({String type, String message})
+  DataRepositoryTaskNotFound({String? type, String? message})
       : super(type: type, code: 'DataRepositoryTaskNotFound', message: message);
 }
 
 class FileSystemNotFound extends _s.GenericAwsException {
-  FileSystemNotFound({String type, String message})
+  FileSystemNotFound({String? type, String? message})
       : super(type: type, code: 'FileSystemNotFound', message: message);
 }
 
 class IncompatibleParameterError extends _s.GenericAwsException {
-  IncompatibleParameterError({String type, String message})
+  IncompatibleParameterError({String? type, String? message})
       : super(type: type, code: 'IncompatibleParameterError', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidExportPath extends _s.GenericAwsException {
-  InvalidExportPath({String type, String message})
+  InvalidExportPath({String? type, String? message})
       : super(type: type, code: 'InvalidExportPath', message: message);
 }
 
 class InvalidImportPath extends _s.GenericAwsException {
-  InvalidImportPath({String type, String message})
+  InvalidImportPath({String? type, String? message})
       : super(type: type, code: 'InvalidImportPath', message: message);
 }
 
 class InvalidNetworkSettings extends _s.GenericAwsException {
-  InvalidNetworkSettings({String type, String message})
+  InvalidNetworkSettings({String? type, String? message})
       : super(type: type, code: 'InvalidNetworkSettings', message: message);
 }
 
 class InvalidPerUnitStorageThroughput extends _s.GenericAwsException {
-  InvalidPerUnitStorageThroughput({String type, String message})
+  InvalidPerUnitStorageThroughput({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPerUnitStorageThroughput',
@@ -4441,7 +4964,7 @@ class InvalidPerUnitStorageThroughput extends _s.GenericAwsException {
 }
 
 class MissingFileSystemConfiguration extends _s.GenericAwsException {
-  MissingFileSystemConfiguration({String type, String message})
+  MissingFileSystemConfiguration({String? type, String? message})
       : super(
             type: type,
             code: 'MissingFileSystemConfiguration',
@@ -4449,12 +4972,12 @@ class MissingFileSystemConfiguration extends _s.GenericAwsException {
 }
 
 class NotServiceResourceError extends _s.GenericAwsException {
-  NotServiceResourceError({String type, String message})
+  NotServiceResourceError({String? type, String? message})
       : super(type: type, code: 'NotServiceResourceError', message: message);
 }
 
 class ResourceDoesNotSupportTagging extends _s.GenericAwsException {
-  ResourceDoesNotSupportTagging({String type, String message})
+  ResourceDoesNotSupportTagging({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDoesNotSupportTagging',
@@ -4462,17 +4985,17 @@ class ResourceDoesNotSupportTagging extends _s.GenericAwsException {
 }
 
 class ResourceNotFound extends _s.GenericAwsException {
-  ResourceNotFound({String type, String message})
+  ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
 class ServiceLimitExceeded extends _s.GenericAwsException {
-  ServiceLimitExceeded({String type, String message})
+  ServiceLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ServiceLimitExceeded', message: message);
 }
 
 class UnsupportedOperation extends _s.GenericAwsException {
-  UnsupportedOperation({String type, String message})
+  UnsupportedOperation({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperation', message: message);
 }
 

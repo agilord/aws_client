@@ -82,13 +82,15 @@ AssetPropertyTimestamp _$AssetPropertyTimestampFromJson(
     Map<String, dynamic> json) {
   return AssetPropertyTimestamp(
     timeInSeconds: json['timeInSeconds'] as String,
-    offsetInNanos: json['offsetInNanos'] as String,
+    offsetInNanos: json['offsetInNanos'] as String?,
   );
 }
 
 Map<String, dynamic> _$AssetPropertyTimestampToJson(
     AssetPropertyTimestamp instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'timeInSeconds': instance.timeInSeconds,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -96,17 +98,14 @@ Map<String, dynamic> _$AssetPropertyTimestampToJson(
     }
   }
 
-  writeNotNull('timeInSeconds', instance.timeInSeconds);
   writeNotNull('offsetInNanos', instance.offsetInNanos);
   return val;
 }
 
 AssetPropertyValue _$AssetPropertyValueFromJson(Map<String, dynamic> json) {
   return AssetPropertyValue(
-    value: json['value'] == null
-        ? null
-        : AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
-    quality: json['quality'] as String,
+    value: AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
+    quality: json['quality'] as String?,
     timestamp: json['timestamp'] == null
         ? null
         : AssetPropertyTimestamp.fromJson(
@@ -115,7 +114,9 @@ AssetPropertyValue _$AssetPropertyValueFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AssetPropertyValueToJson(AssetPropertyValue instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'value': instance.value.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -123,7 +124,6 @@ Map<String, dynamic> _$AssetPropertyValueToJson(AssetPropertyValue instance) {
     }
   }
 
-  writeNotNull('value', instance.value?.toJson());
   writeNotNull('quality', instance.quality);
   writeNotNull('timestamp', instance.timestamp?.toJson());
   return val;
@@ -131,10 +131,10 @@ Map<String, dynamic> _$AssetPropertyValueToJson(AssetPropertyValue instance) {
 
 AssetPropertyVariant _$AssetPropertyVariantFromJson(Map<String, dynamic> json) {
   return AssetPropertyVariant(
-    booleanValue: json['booleanValue'] as String,
-    doubleValue: json['doubleValue'] as String,
-    integerValue: json['integerValue'] as String,
-    stringValue: json['stringValue'] as String,
+    booleanValue: json['booleanValue'] as String?,
+    doubleValue: json['doubleValue'] as String?,
+    integerValue: json['integerValue'] as String?,
+    stringValue: json['stringValue'] as String?,
   );
 }
 
@@ -161,18 +161,9 @@ Attribute _$AttributeFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AttributeToJson(Attribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('jsonPath', instance.jsonPath);
-  return val;
-}
+Map<String, dynamic> _$AttributeToJson(Attribute instance) => <String, dynamic>{
+      'jsonPath': instance.jsonPath,
+    };
 
 ClearTimerAction _$ClearTimerActionFromJson(Map<String, dynamic> json) {
   return ClearTimerAction(
@@ -180,18 +171,10 @@ ClearTimerAction _$ClearTimerActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ClearTimerActionToJson(ClearTimerAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('timerName', instance.timerName);
-  return val;
-}
+Map<String, dynamic> _$ClearTimerActionToJson(ClearTimerAction instance) =>
+    <String, dynamic>{
+      'timerName': instance.timerName,
+    };
 
 CreateDetectorModelResponse _$CreateDetectorModelResponseFromJson(
     Map<String, dynamic> json) {
@@ -252,12 +235,14 @@ DescribeLoggingOptionsResponse _$DescribeLoggingOptionsResponseFromJson(
 DetectorDebugOption _$DetectorDebugOptionFromJson(Map<String, dynamic> json) {
   return DetectorDebugOption(
     detectorModelName: json['detectorModelName'] as String,
-    keyValue: json['keyValue'] as String,
+    keyValue: json['keyValue'] as String?,
   );
 }
 
 Map<String, dynamic> _$DetectorDebugOptionToJson(DetectorDebugOption instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'detectorModelName': instance.detectorModelName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -265,7 +250,6 @@ Map<String, dynamic> _$DetectorDebugOptionToJson(DetectorDebugOption instance) {
     }
   }
 
-  writeNotNull('detectorModelName', instance.detectorModelName);
   writeNotNull('keyValue', instance.keyValue);
   return val;
 }
@@ -287,51 +271,56 @@ DetectorModelConfiguration _$DetectorModelConfigurationFromJson(
     Map<String, dynamic> json) {
   return DetectorModelConfiguration(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    detectorModelArn: json['detectorModelArn'] as String,
-    detectorModelDescription: json['detectorModelDescription'] as String,
-    detectorModelName: json['detectorModelName'] as String,
-    detectorModelVersion: json['detectorModelVersion'] as String,
+    detectorModelArn: json['detectorModelArn'] as String?,
+    detectorModelDescription: json['detectorModelDescription'] as String?,
+    detectorModelName: json['detectorModelName'] as String?,
+    detectorModelVersion: json['detectorModelVersion'] as String?,
     evaluationMethod: _$enumDecodeNullable(
         _$EvaluationMethodEnumMap, json['evaluationMethod']),
-    key: json['key'] as String,
+    key: json['key'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    roleArn: json['roleArn'] as String,
+    roleArn: json['roleArn'] as String?,
     status: _$enumDecodeNullable(
         _$DetectorModelVersionStatusEnumMap, json['status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$EvaluationMethodEnumMap = {
@@ -353,33 +342,24 @@ DetectorModelDefinition _$DetectorModelDefinitionFromJson(
     Map<String, dynamic> json) {
   return DetectorModelDefinition(
     initialStateName: json['initialStateName'] as String,
-    states: (json['states'] as List)
-        ?.map(
-            (e) => e == null ? null : State.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    states: (json['states'] as List<dynamic>)
+        .map((e) => State.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$DetectorModelDefinitionToJson(
-    DetectorModelDefinition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('initialStateName', instance.initialStateName);
-  writeNotNull('states', instance.states?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+        DetectorModelDefinition instance) =>
+    <String, dynamic>{
+      'initialStateName': instance.initialStateName,
+      'states': instance.states.map((e) => e.toJson()).toList(),
+    };
 
 DetectorModelSummary _$DetectorModelSummaryFromJson(Map<String, dynamic> json) {
   return DetectorModelSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    detectorModelDescription: json['detectorModelDescription'] as String,
-    detectorModelName: json['detectorModelName'] as String,
+    detectorModelDescription: json['detectorModelDescription'] as String?,
+    detectorModelName: json['detectorModelName'] as String?,
   );
 }
 
@@ -387,14 +367,14 @@ DetectorModelVersionSummary _$DetectorModelVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return DetectorModelVersionSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    detectorModelArn: json['detectorModelArn'] as String,
-    detectorModelName: json['detectorModelName'] as String,
-    detectorModelVersion: json['detectorModelVersion'] as String,
+    detectorModelArn: json['detectorModelArn'] as String?,
+    detectorModelName: json['detectorModelName'] as String?,
+    detectorModelVersion: json['detectorModelVersion'] as String?,
     evaluationMethod: _$enumDecodeNullable(
         _$EvaluationMethodEnumMap, json['evaluationMethod']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    roleArn: json['roleArn'] as String,
+    roleArn: json['roleArn'] as String?,
     status: _$enumDecodeNullable(
         _$DetectorModelVersionStatusEnumMap, json['status']),
   );
@@ -405,20 +385,24 @@ DynamoDBAction _$DynamoDBActionFromJson(Map<String, dynamic> json) {
     hashKeyField: json['hashKeyField'] as String,
     hashKeyValue: json['hashKeyValue'] as String,
     tableName: json['tableName'] as String,
-    hashKeyType: json['hashKeyType'] as String,
-    operation: json['operation'] as String,
+    hashKeyType: json['hashKeyType'] as String?,
+    operation: json['operation'] as String?,
     payload: json['payload'] == null
         ? null
         : Payload.fromJson(json['payload'] as Map<String, dynamic>),
-    payloadField: json['payloadField'] as String,
-    rangeKeyField: json['rangeKeyField'] as String,
-    rangeKeyType: json['rangeKeyType'] as String,
-    rangeKeyValue: json['rangeKeyValue'] as String,
+    payloadField: json['payloadField'] as String?,
+    rangeKeyField: json['rangeKeyField'] as String?,
+    rangeKeyType: json['rangeKeyType'] as String?,
+    rangeKeyValue: json['rangeKeyValue'] as String?,
   );
 }
 
 Map<String, dynamic> _$DynamoDBActionToJson(DynamoDBAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'hashKeyField': instance.hashKeyField,
+    'hashKeyValue': instance.hashKeyValue,
+    'tableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -426,9 +410,6 @@ Map<String, dynamic> _$DynamoDBActionToJson(DynamoDBAction instance) {
     }
   }
 
-  writeNotNull('hashKeyField', instance.hashKeyField);
-  writeNotNull('hashKeyValue', instance.hashKeyValue);
-  writeNotNull('tableName', instance.tableName);
   writeNotNull('hashKeyType', instance.hashKeyType);
   writeNotNull('operation', instance.operation);
   writeNotNull('payload', instance.payload?.toJson());
@@ -449,7 +430,9 @@ DynamoDBv2Action _$DynamoDBv2ActionFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$DynamoDBv2ActionToJson(DynamoDBv2Action instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'tableName': instance.tableName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -457,7 +440,6 @@ Map<String, dynamic> _$DynamoDBv2ActionToJson(DynamoDBv2Action instance) {
     }
   }
 
-  writeNotNull('tableName', instance.tableName);
   writeNotNull('payload', instance.payload?.toJson());
   return val;
 }
@@ -465,16 +447,17 @@ Map<String, dynamic> _$DynamoDBv2ActionToJson(DynamoDBv2Action instance) {
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     eventName: json['eventName'] as String,
-    actions: (json['actions'] as List)
-        ?.map((e) =>
-            e == null ? null : Action.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    condition: json['condition'] as String,
+    actions: (json['actions'] as List<dynamic>?)
+        ?.map((e) => Action.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    condition: json['condition'] as String?,
   );
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'eventName': instance.eventName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -482,8 +465,7 @@ Map<String, dynamic> _$EventToJson(Event instance) {
     }
   }
 
-  writeNotNull('eventName', instance.eventName);
-  writeNotNull('actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('actions', instance.actions?.map((e) => e.toJson()).toList());
   writeNotNull('condition', instance.condition);
   return val;
 }
@@ -494,12 +476,14 @@ FirehoseAction _$FirehoseActionFromJson(Map<String, dynamic> json) {
     payload: json['payload'] == null
         ? null
         : Payload.fromJson(json['payload'] as Map<String, dynamic>),
-    separator: json['separator'] as String,
+    separator: json['separator'] as String?,
   );
 }
 
 Map<String, dynamic> _$FirehoseActionToJson(FirehoseAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'deliveryStreamName': instance.deliveryStreamName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -507,7 +491,6 @@ Map<String, dynamic> _$FirehoseActionToJson(FirehoseAction instance) {
     }
   }
 
-  writeNotNull('deliveryStreamName', instance.deliveryStreamName);
   writeNotNull('payload', instance.payload?.toJson());
   writeNotNull('separator', instance.separator);
   return val;
@@ -528,13 +511,12 @@ Input _$InputFromJson(Map<String, dynamic> json) {
 
 InputConfiguration _$InputConfigurationFromJson(Map<String, dynamic> json) {
   return InputConfiguration(
-    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
+    creationTime: DateTime.parse(json['creationTime'] as String),
     inputArn: json['inputArn'] as String,
     inputName: json['inputName'] as String,
-    lastUpdateTime:
-        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
-    status: _$enumDecodeNullable(_$InputStatusEnumMap, json['status']),
-    inputDescription: json['inputDescription'] as String,
+    lastUpdateTime: DateTime.parse(json['lastUpdateTime'] as String),
+    status: _$enumDecode(_$InputStatusEnumMap, json['status']),
+    inputDescription: json['inputDescription'] as String?,
   );
 }
 
@@ -547,33 +529,23 @@ const _$InputStatusEnumMap = {
 
 InputDefinition _$InputDefinitionFromJson(Map<String, dynamic> json) {
   return InputDefinition(
-    attributes: (json['attributes'] as List)
-        ?.map((e) =>
-            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['attributes'] as List<dynamic>)
+        .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
-Map<String, dynamic> _$InputDefinitionToJson(InputDefinition instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  return val;
-}
+Map<String, dynamic> _$InputDefinitionToJson(InputDefinition instance) =>
+    <String, dynamic>{
+      'attributes': instance.attributes.map((e) => e.toJson()).toList(),
+    };
 
 InputSummary _$InputSummaryFromJson(Map<String, dynamic> json) {
   return InputSummary(
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
-    inputArn: json['inputArn'] as String,
-    inputDescription: json['inputDescription'] as String,
-    inputName: json['inputName'] as String,
+    inputArn: json['inputArn'] as String?,
+    inputDescription: json['inputDescription'] as String?,
+    inputName: json['inputName'] as String?,
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$InputStatusEnumMap, json['status']),
@@ -590,7 +562,9 @@ IotEventsAction _$IotEventsActionFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$IotEventsActionToJson(IotEventsAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'inputName': instance.inputName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -598,26 +572,25 @@ Map<String, dynamic> _$IotEventsActionToJson(IotEventsAction instance) {
     }
   }
 
-  writeNotNull('inputName', instance.inputName);
   writeNotNull('payload', instance.payload?.toJson());
   return val;
 }
 
 IotSiteWiseAction _$IotSiteWiseActionFromJson(Map<String, dynamic> json) {
   return IotSiteWiseAction(
-    propertyValue: json['propertyValue'] == null
-        ? null
-        : AssetPropertyValue.fromJson(
-            json['propertyValue'] as Map<String, dynamic>),
-    assetId: json['assetId'] as String,
-    entryId: json['entryId'] as String,
-    propertyAlias: json['propertyAlias'] as String,
-    propertyId: json['propertyId'] as String,
+    propertyValue: AssetPropertyValue.fromJson(
+        json['propertyValue'] as Map<String, dynamic>),
+    assetId: json['assetId'] as String?,
+    entryId: json['entryId'] as String?,
+    propertyAlias: json['propertyAlias'] as String?,
+    propertyId: json['propertyId'] as String?,
   );
 }
 
 Map<String, dynamic> _$IotSiteWiseActionToJson(IotSiteWiseAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'propertyValue': instance.propertyValue.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -625,7 +598,6 @@ Map<String, dynamic> _$IotSiteWiseActionToJson(IotSiteWiseAction instance) {
     }
   }
 
-  writeNotNull('propertyValue', instance.propertyValue?.toJson());
   writeNotNull('assetId', instance.assetId);
   writeNotNull('entryId', instance.entryId);
   writeNotNull('propertyAlias', instance.propertyAlias);
@@ -645,7 +617,9 @@ IotTopicPublishAction _$IotTopicPublishActionFromJson(
 
 Map<String, dynamic> _$IotTopicPublishActionToJson(
     IotTopicPublishAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'mqttTopic': instance.mqttTopic,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -653,7 +627,6 @@ Map<String, dynamic> _$IotTopicPublishActionToJson(
     }
   }
 
-  writeNotNull('mqttTopic', instance.mqttTopic);
   writeNotNull('payload', instance.payload?.toJson());
   return val;
 }
@@ -668,7 +641,9 @@ LambdaAction _$LambdaActionFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$LambdaActionToJson(LambdaAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'functionArn': instance.functionArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -676,7 +651,6 @@ Map<String, dynamic> _$LambdaActionToJson(LambdaAction instance) {
     }
   }
 
-  writeNotNull('functionArn', instance.functionArn);
   writeNotNull('payload', instance.payload?.toJson());
   return val;
 }
@@ -684,62 +658,60 @@ Map<String, dynamic> _$LambdaActionToJson(LambdaAction instance) {
 ListDetectorModelVersionsResponse _$ListDetectorModelVersionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDetectorModelVersionsResponse(
-    detectorModelVersionSummaries: (json['detectorModelVersionSummaries']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : DetectorModelVersionSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    detectorModelVersionSummaries:
+        (json['detectorModelVersionSummaries'] as List<dynamic>?)
+            ?.map((e) =>
+                DetectorModelVersionSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListDetectorModelsResponse _$ListDetectorModelsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDetectorModelsResponse(
-    detectorModelSummaries: (json['detectorModelSummaries'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DetectorModelSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    detectorModelSummaries: (json['detectorModelSummaries'] as List<dynamic>?)
+        ?.map((e) => DetectorModelSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListInputsResponse _$ListInputsResponseFromJson(Map<String, dynamic> json) {
   return ListInputsResponse(
-    inputSummaries: (json['inputSummaries'] as List)
-        ?.map((e) =>
-            e == null ? null : InputSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['nextToken'] as String,
+    inputSummaries: (json['inputSummaries'] as List<dynamic>?)
+        ?.map((e) => InputSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['nextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LoggingOptions _$LoggingOptionsFromJson(Map<String, dynamic> json) {
   return LoggingOptions(
     enabled: json['enabled'] as bool,
-    level: _$enumDecodeNullable(_$LoggingLevelEnumMap, json['level']),
+    level: _$enumDecode(_$LoggingLevelEnumMap, json['level']),
     roleArn: json['roleArn'] as String,
-    detectorDebugOptions: (json['detectorDebugOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DetectorDebugOption.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    detectorDebugOptions: (json['detectorDebugOptions'] as List<dynamic>?)
+        ?.map((e) => DetectorDebugOption.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$LoggingOptionsToJson(LoggingOptions instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'enabled': instance.enabled,
+    'level': _$LoggingLevelEnumMap[instance.level],
+    'roleArn': instance.roleArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -747,11 +719,8 @@ Map<String, dynamic> _$LoggingOptionsToJson(LoggingOptions instance) {
     }
   }
 
-  writeNotNull('enabled', instance.enabled);
-  writeNotNull('level', _$LoggingLevelEnumMap[instance.level]);
-  writeNotNull('roleArn', instance.roleArn);
   writeNotNull('detectorDebugOptions',
-      instance.detectorDebugOptions?.map((e) => e?.toJson())?.toList());
+      instance.detectorDebugOptions?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -763,10 +732,9 @@ const _$LoggingLevelEnumMap = {
 
 OnEnterLifecycle _$OnEnterLifecycleFromJson(Map<String, dynamic> json) {
   return OnEnterLifecycle(
-    events: (json['events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    events: (json['events'] as List<dynamic>?)
+        ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -779,16 +747,15 @@ Map<String, dynamic> _$OnEnterLifecycleToJson(OnEnterLifecycle instance) {
     }
   }
 
-  writeNotNull('events', instance.events?.map((e) => e?.toJson())?.toList());
+  writeNotNull('events', instance.events?.map((e) => e.toJson()).toList());
   return val;
 }
 
 OnExitLifecycle _$OnExitLifecycleFromJson(Map<String, dynamic> json) {
   return OnExitLifecycle(
-    events: (json['events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    events: (json['events'] as List<dynamic>?)
+        ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -801,21 +768,18 @@ Map<String, dynamic> _$OnExitLifecycleToJson(OnExitLifecycle instance) {
     }
   }
 
-  writeNotNull('events', instance.events?.map((e) => e?.toJson())?.toList());
+  writeNotNull('events', instance.events?.map((e) => e.toJson()).toList());
   return val;
 }
 
 OnInputLifecycle _$OnInputLifecycleFromJson(Map<String, dynamic> json) {
   return OnInputLifecycle(
-    events: (json['events'] as List)
-        ?.map(
-            (e) => e == null ? null : Event.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    transitionEvents: (json['transitionEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : TransitionEvent.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    events: (json['events'] as List<dynamic>?)
+        ?.map((e) => Event.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    transitionEvents: (json['transitionEvents'] as List<dynamic>?)
+        ?.map((e) => TransitionEvent.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -828,32 +792,23 @@ Map<String, dynamic> _$OnInputLifecycleToJson(OnInputLifecycle instance) {
     }
   }
 
-  writeNotNull('events', instance.events?.map((e) => e?.toJson())?.toList());
+  writeNotNull('events', instance.events?.map((e) => e.toJson()).toList());
   writeNotNull('transitionEvents',
-      instance.transitionEvents?.map((e) => e?.toJson())?.toList());
+      instance.transitionEvents?.map((e) => e.toJson()).toList());
   return val;
 }
 
 Payload _$PayloadFromJson(Map<String, dynamic> json) {
   return Payload(
     contentExpression: json['contentExpression'] as String,
-    type: _$enumDecodeNullable(_$PayloadTypeEnumMap, json['type']),
+    type: _$enumDecode(_$PayloadTypeEnumMap, json['type']),
   );
 }
 
-Map<String, dynamic> _$PayloadToJson(Payload instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('contentExpression', instance.contentExpression);
-  writeNotNull('type', _$PayloadTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
+      'contentExpression': instance.contentExpression,
+      'type': _$PayloadTypeEnumMap[instance.type],
+    };
 
 const _$PayloadTypeEnumMap = {
   PayloadType.string: 'STRING',
@@ -866,18 +821,10 @@ ResetTimerAction _$ResetTimerActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ResetTimerActionToJson(ResetTimerAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('timerName', instance.timerName);
-  return val;
-}
+Map<String, dynamic> _$ResetTimerActionToJson(ResetTimerAction instance) =>
+    <String, dynamic>{
+      'timerName': instance.timerName,
+    };
 
 SNSTopicPublishAction _$SNSTopicPublishActionFromJson(
     Map<String, dynamic> json) {
@@ -891,7 +838,9 @@ SNSTopicPublishAction _$SNSTopicPublishActionFromJson(
 
 Map<String, dynamic> _$SNSTopicPublishActionToJson(
     SNSTopicPublishAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'targetArn': instance.targetArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -899,7 +848,6 @@ Map<String, dynamic> _$SNSTopicPublishActionToJson(
     }
   }
 
-  writeNotNull('targetArn', instance.targetArn);
   writeNotNull('payload', instance.payload?.toJson());
   return val;
 }
@@ -907,13 +855,15 @@ Map<String, dynamic> _$SNSTopicPublishActionToJson(
 SetTimerAction _$SetTimerActionFromJson(Map<String, dynamic> json) {
   return SetTimerAction(
     timerName: json['timerName'] as String,
-    durationExpression: json['durationExpression'] as String,
-    seconds: json['seconds'] as int,
+    durationExpression: json['durationExpression'] as String?,
+    seconds: json['seconds'] as int?,
   );
 }
 
 Map<String, dynamic> _$SetTimerActionToJson(SetTimerAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'timerName': instance.timerName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -921,7 +871,6 @@ Map<String, dynamic> _$SetTimerActionToJson(SetTimerAction instance) {
     }
   }
 
-  writeNotNull('timerName', instance.timerName);
   writeNotNull('durationExpression', instance.durationExpression);
   writeNotNull('seconds', instance.seconds);
   return val;
@@ -934,19 +883,11 @@ SetVariableAction _$SetVariableActionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SetVariableActionToJson(SetVariableAction instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('value', instance.value);
-  writeNotNull('variableName', instance.variableName);
-  return val;
-}
+Map<String, dynamic> _$SetVariableActionToJson(SetVariableAction instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'variableName': instance.variableName,
+    };
 
 SqsAction _$SqsActionFromJson(Map<String, dynamic> json) {
   return SqsAction(
@@ -954,12 +895,14 @@ SqsAction _$SqsActionFromJson(Map<String, dynamic> json) {
     payload: json['payload'] == null
         ? null
         : Payload.fromJson(json['payload'] as Map<String, dynamic>),
-    useBase64: json['useBase64'] as bool,
+    useBase64: json['useBase64'] as bool?,
   );
 }
 
 Map<String, dynamic> _$SqsActionToJson(SqsAction instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'queueUrl': instance.queueUrl,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -967,7 +910,6 @@ Map<String, dynamic> _$SqsActionToJson(SqsAction instance) {
     }
   }
 
-  writeNotNull('queueUrl', instance.queueUrl);
   writeNotNull('payload', instance.payload?.toJson());
   writeNotNull('useBase64', instance.useBase64);
   return val;
@@ -989,7 +931,9 @@ State _$StateFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StateToJson(State instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'stateName': instance.stateName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -997,7 +941,6 @@ Map<String, dynamic> _$StateToJson(State instance) {
     }
   }
 
-  writeNotNull('stateName', instance.stateName);
   writeNotNull('onEnter', instance.onEnter?.toJson());
   writeNotNull('onExit', instance.onExit?.toJson());
   writeNotNull('onInput', instance.onInput?.toJson());
@@ -1011,19 +954,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('key', instance.key);
-  writeNotNull('value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -1034,15 +968,18 @@ TransitionEvent _$TransitionEventFromJson(Map<String, dynamic> json) {
     condition: json['condition'] as String,
     eventName: json['eventName'] as String,
     nextState: json['nextState'] as String,
-    actions: (json['actions'] as List)
-        ?.map((e) =>
-            e == null ? null : Action.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    actions: (json['actions'] as List<dynamic>?)
+        ?.map((e) => Action.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$TransitionEventToJson(TransitionEvent instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'condition': instance.condition,
+    'eventName': instance.eventName,
+    'nextState': instance.nextState,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1050,10 +987,7 @@ Map<String, dynamic> _$TransitionEventToJson(TransitionEvent instance) {
     }
   }
 
-  writeNotNull('condition', instance.condition);
-  writeNotNull('eventName', instance.eventName);
-  writeNotNull('nextState', instance.nextState);
-  writeNotNull('actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('actions', instance.actions?.map((e) => e.toJson()).toList());
   return val;
 }
 

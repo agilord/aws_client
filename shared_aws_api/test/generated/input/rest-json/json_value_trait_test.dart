@@ -33,10 +33,10 @@ void main() {
 
     await service.operationName0(
       body: BodyStructure(
-        bodyField: r'''{"Foo":"Bar"}''',
+        bodyField: {"Foo": "Bar"},
       ),
-      headerField: r'''{"Foo":"Bar"}''',
-      queryField: r'''{"Foo":"Bar"}''',
+      headerField: {"Foo": "Bar"},
+      queryField: {"Foo": "Bar"},
     );
 /*
 {
@@ -74,7 +74,9 @@ void main() {
 
     await service.operationName1(
       body: BodyStructure(
-        bodyListField: [r'''{"Foo":"Bar"}'''],
+        bodyListField: [
+          {"Foo": "Bar"}
+        ],
       ),
     );
 /*

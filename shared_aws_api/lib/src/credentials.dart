@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be found
 // in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import 'credentials/credentials_io.dart'
     if (dart.library.html) 'credentials/credentials_html.dart';
 
@@ -16,17 +14,14 @@ class AwsClientCredentials {
   final String secretKey;
 
   /// AWS temporary credentials session token
-  final String sessionToken;
+  final String? sessionToken;
 
   /// AWS credentials.
   AwsClientCredentials({
-    @required this.accessKey,
-    @required this.secretKey,
+    required this.accessKey,
+    required this.secretKey,
     this.sessionToken,
-  }) {
-    assert(accessKey != null);
-    assert(secretKey != null);
-  }
+  });
 
-  static AwsClientCredentials resolve() => CredentialsUtil.resolve();
+  static AwsClientCredentials? resolve() => CredentialsUtil.resolve();
 }

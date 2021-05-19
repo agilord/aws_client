@@ -9,7 +9,7 @@ part of 'kendra-2019-02-03.dart';
 AccessControlListConfiguration _$AccessControlListConfigurationFromJson(
     Map<String, dynamic> json) {
   return AccessControlListConfiguration(
-    keyPath: json['KeyPath'] as String,
+    keyPath: json['KeyPath'] as String?,
   );
 }
 
@@ -33,62 +33,46 @@ AclConfiguration _$AclConfigurationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AclConfigurationToJson(AclConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AllowedGroupsColumnName', instance.allowedGroupsColumnName);
-  return val;
-}
+Map<String, dynamic> _$AclConfigurationToJson(AclConfiguration instance) =>
+    <String, dynamic>{
+      'AllowedGroupsColumnName': instance.allowedGroupsColumnName,
+    };
 
 AdditionalResultAttribute _$AdditionalResultAttributeFromJson(
     Map<String, dynamic> json) {
   return AdditionalResultAttribute(
     key: json['Key'] as String,
-    value: json['Value'] == null
-        ? null
-        : AdditionalResultAttributeValue.fromJson(
-            json['Value'] as Map<String, dynamic>),
-    valueType: _$enumDecodeNullable(
+    value: AdditionalResultAttributeValue.fromJson(
+        json['Value'] as Map<String, dynamic>),
+    valueType: _$enumDecode(
         _$AdditionalResultAttributeValueTypeEnumMap, json['ValueType']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AdditionalResultAttributeValueTypeEnumMap = {
@@ -115,8 +99,8 @@ Map<String, dynamic> _$AttributeFilterToJson(AttributeFilter instance) {
     }
   }
 
-  writeNotNull('AndAllFilters',
-      instance.andAllFilters?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'AndAllFilters', instance.andAllFilters?.map((e) => e.toJson()).toList());
   writeNotNull('ContainsAll', instance.containsAll?.toJson());
   writeNotNull('ContainsAny', instance.containsAny?.toJson());
   writeNotNull('EqualsTo', instance.equalsTo?.toJson());
@@ -126,19 +110,17 @@ Map<String, dynamic> _$AttributeFilterToJson(AttributeFilter instance) {
   writeNotNull('LessThanOrEquals', instance.lessThanOrEquals?.toJson());
   writeNotNull('NotFilter', instance.notFilter?.toJson());
   writeNotNull(
-      'OrAllFilters', instance.orAllFilters?.map((e) => e?.toJson())?.toList());
+      'OrAllFilters', instance.orAllFilters?.map((e) => e.toJson()).toList());
   return val;
 }
 
 BatchDeleteDocumentResponse _$BatchDeleteDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDeleteDocumentResponse(
-    failedDocuments: (json['FailedDocuments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchDeleteDocumentResponseFailedDocument.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    failedDocuments: (json['FailedDocuments'] as List<dynamic>?)
+        ?.map((e) => BatchDeleteDocumentResponseFailedDocument.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -147,9 +129,20 @@ BatchDeleteDocumentResponseFailedDocument
         Map<String, dynamic> json) {
   return BatchDeleteDocumentResponseFailedDocument(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    id: json['Id'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    id: json['Id'] as String?,
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ErrorCodeEnumMap = {
@@ -160,12 +153,10 @@ const _$ErrorCodeEnumMap = {
 BatchPutDocumentResponse _$BatchPutDocumentResponseFromJson(
     Map<String, dynamic> json) {
   return BatchPutDocumentResponse(
-    failedDocuments: (json['FailedDocuments'] as List)
-        ?.map((e) => e == null
-            ? null
-            : BatchPutDocumentResponseFailedDocument.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    failedDocuments: (json['FailedDocuments'] as List<dynamic>?)
+        ?.map((e) => BatchPutDocumentResponseFailedDocument.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -174,8 +165,8 @@ BatchPutDocumentResponseFailedDocument
         Map<String, dynamic> json) {
   return BatchPutDocumentResponseFailedDocument(
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    id: json['Id'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    id: json['Id'] as String?,
   );
 }
 
@@ -188,53 +179,39 @@ CapacityUnitsConfiguration _$CapacityUnitsConfigurationFromJson(
 }
 
 Map<String, dynamic> _$CapacityUnitsConfigurationToJson(
-    CapacityUnitsConfiguration instance) {
-  final val = <String, dynamic>{};
+        CapacityUnitsConfiguration instance) =>
+    <String, dynamic>{
+      'QueryCapacityUnits': instance.queryCapacityUnits,
+      'StorageCapacityUnits': instance.storageCapacityUnits,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('QueryCapacityUnits', instance.queryCapacityUnits);
-  writeNotNull('StorageCapacityUnits', instance.storageCapacityUnits);
-  return val;
-}
-
-Map<String, dynamic> _$ClickFeedbackToJson(ClickFeedback instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'ClickTime', const UnixDateTimeConverter().toJson(instance.clickTime));
-  writeNotNull('ResultId', instance.resultId);
-  return val;
-}
+Map<String, dynamic> _$ClickFeedbackToJson(ClickFeedback instance) =>
+    <String, dynamic>{
+      'ClickTime': instance.clickTime.toIso8601String(),
+      'ResultId': instance.resultId,
+    };
 
 ColumnConfiguration _$ColumnConfigurationFromJson(Map<String, dynamic> json) {
   return ColumnConfiguration(
-    changeDetectingColumns: (json['ChangeDetectingColumns'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
+    changeDetectingColumns: (json['ChangeDetectingColumns'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
     documentDataColumnName: json['DocumentDataColumnName'] as String,
     documentIdColumnName: json['DocumentIdColumnName'] as String,
-    documentTitleColumnName: json['DocumentTitleColumnName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$ColumnConfigurationToJson(ColumnConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ChangeDetectingColumns': instance.changeDetectingColumns,
+    'DocumentDataColumnName': instance.documentDataColumnName,
+    'DocumentIdColumnName': instance.documentIdColumnName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -242,25 +219,20 @@ Map<String, dynamic> _$ColumnConfigurationToJson(ColumnConfiguration instance) {
     }
   }
 
-  writeNotNull('ChangeDetectingColumns', instance.changeDetectingColumns);
-  writeNotNull('DocumentDataColumnName', instance.documentDataColumnName);
-  writeNotNull('DocumentIdColumnName', instance.documentIdColumnName);
   writeNotNull('DocumentTitleColumnName', instance.documentTitleColumnName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
 ConfluenceAttachmentConfiguration _$ConfluenceAttachmentConfigurationFromJson(
     Map<String, dynamic> json) {
   return ConfluenceAttachmentConfiguration(
-    attachmentFieldMappings: (json['AttachmentFieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfluenceAttachmentToIndexFieldMapping.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
-    crawlAttachments: json['CrawlAttachments'] as bool,
+    attachmentFieldMappings: (json['AttachmentFieldMappings'] as List<dynamic>?)
+        ?.map((e) => ConfluenceAttachmentToIndexFieldMapping.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
+    crawlAttachments: json['CrawlAttachments'] as bool?,
   );
 }
 
@@ -275,7 +247,7 @@ Map<String, dynamic> _$ConfluenceAttachmentConfigurationToJson(
   }
 
   writeNotNull('AttachmentFieldMappings',
-      instance.attachmentFieldMappings?.map((e) => e?.toJson())?.toList());
+      instance.attachmentFieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull('CrawlAttachments', instance.crawlAttachments);
   return val;
 }
@@ -286,8 +258,8 @@ ConfluenceAttachmentToIndexFieldMapping
   return ConfluenceAttachmentToIndexFieldMapping(
     dataSourceFieldName: _$enumDecodeNullable(
         _$ConfluenceAttachmentFieldNameEnumMap, json['DataSourceFieldName']),
-    dateFieldFormat: json['DateFieldFormat'] as String,
-    indexFieldName: json['IndexFieldName'] as String,
+    dateFieldFormat: json['DateFieldFormat'] as String?,
+    indexFieldName: json['IndexFieldName'] as String?,
   );
 }
 
@@ -325,12 +297,10 @@ const _$ConfluenceAttachmentFieldNameEnumMap = {
 ConfluenceBlogConfiguration _$ConfluenceBlogConfigurationFromJson(
     Map<String, dynamic> json) {
   return ConfluenceBlogConfiguration(
-    blogFieldMappings: (json['BlogFieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfluenceBlogToIndexFieldMapping.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    blogFieldMappings: (json['BlogFieldMappings'] as List<dynamic>?)
+        ?.map((e) => ConfluenceBlogToIndexFieldMapping.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -345,7 +315,7 @@ Map<String, dynamic> _$ConfluenceBlogConfigurationToJson(
   }
 
   writeNotNull('BlogFieldMappings',
-      instance.blogFieldMappings?.map((e) => e?.toJson())?.toList());
+      instance.blogFieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -354,8 +324,8 @@ ConfluenceBlogToIndexFieldMapping _$ConfluenceBlogToIndexFieldMappingFromJson(
   return ConfluenceBlogToIndexFieldMapping(
     dataSourceFieldName: _$enumDecodeNullable(
         _$ConfluenceBlogFieldNameEnumMap, json['DataSourceFieldName']),
-    dateFieldFormat: json['DateFieldFormat'] as String,
-    indexFieldName: json['IndexFieldName'] as String,
+    dateFieldFormat: json['DateFieldFormat'] as String?,
+    indexFieldName: json['IndexFieldName'] as String?,
   );
 }
 
@@ -393,7 +363,7 @@ ConfluenceConfiguration _$ConfluenceConfigurationFromJson(
   return ConfluenceConfiguration(
     secretArn: json['SecretArn'] as String,
     serverUrl: json['ServerUrl'] as String,
-    version: _$enumDecodeNullable(_$ConfluenceVersionEnumMap, json['Version']),
+    version: _$enumDecode(_$ConfluenceVersionEnumMap, json['Version']),
     attachmentConfiguration: json['AttachmentConfiguration'] == null
         ? null
         : ConfluenceAttachmentConfiguration.fromJson(
@@ -402,10 +372,12 @@ ConfluenceConfiguration _$ConfluenceConfigurationFromJson(
         ? null
         : ConfluenceBlogConfiguration.fromJson(
             json['BlogConfiguration'] as Map<String, dynamic>),
-    exclusionPatterns:
-        (json['ExclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    inclusionPatterns:
-        (json['InclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
+    exclusionPatterns: (json['ExclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    inclusionPatterns: (json['InclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     pageConfiguration: json['PageConfiguration'] == null
         ? null
         : ConfluencePageConfiguration.fromJson(
@@ -423,7 +395,11 @@ ConfluenceConfiguration _$ConfluenceConfigurationFromJson(
 
 Map<String, dynamic> _$ConfluenceConfigurationToJson(
     ConfluenceConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SecretArn': instance.secretArn,
+    'ServerUrl': instance.serverUrl,
+    'Version': _$ConfluenceVersionEnumMap[instance.version],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -431,9 +407,6 @@ Map<String, dynamic> _$ConfluenceConfigurationToJson(
     }
   }
 
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('ServerUrl', instance.serverUrl);
-  writeNotNull('Version', _$ConfluenceVersionEnumMap[instance.version]);
   writeNotNull(
       'AttachmentConfiguration', instance.attachmentConfiguration?.toJson());
   writeNotNull('BlogConfiguration', instance.blogConfiguration?.toJson());
@@ -453,12 +426,10 @@ const _$ConfluenceVersionEnumMap = {
 ConfluencePageConfiguration _$ConfluencePageConfigurationFromJson(
     Map<String, dynamic> json) {
   return ConfluencePageConfiguration(
-    pageFieldMappings: (json['PageFieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfluencePageToIndexFieldMapping.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    pageFieldMappings: (json['PageFieldMappings'] as List<dynamic>?)
+        ?.map((e) => ConfluencePageToIndexFieldMapping.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -473,7 +444,7 @@ Map<String, dynamic> _$ConfluencePageConfigurationToJson(
   }
 
   writeNotNull('PageFieldMappings',
-      instance.pageFieldMappings?.map((e) => e?.toJson())?.toList());
+      instance.pageFieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -482,8 +453,8 @@ ConfluencePageToIndexFieldMapping _$ConfluencePageToIndexFieldMappingFromJson(
   return ConfluencePageToIndexFieldMapping(
     dataSourceFieldName: _$enumDecodeNullable(
         _$ConfluencePageFieldNameEnumMap, json['DataSourceFieldName']),
-    dateFieldFormat: json['DateFieldFormat'] as String,
-    indexFieldName: json['IndexFieldName'] as String,
+    dateFieldFormat: json['DateFieldFormat'] as String?,
+    indexFieldName: json['IndexFieldName'] as String?,
   );
 }
 
@@ -522,18 +493,18 @@ const _$ConfluencePageFieldNameEnumMap = {
 ConfluenceSpaceConfiguration _$ConfluenceSpaceConfigurationFromJson(
     Map<String, dynamic> json) {
   return ConfluenceSpaceConfiguration(
-    crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool,
-    crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool,
-    excludeSpaces:
-        (json['ExcludeSpaces'] as List)?.map((e) => e as String)?.toList(),
-    includeSpaces:
-        (json['IncludeSpaces'] as List)?.map((e) => e as String)?.toList(),
-    spaceFieldMappings: (json['SpaceFieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConfluenceSpaceToIndexFieldMapping.fromJson(
-                e as Map<String, dynamic>))
-        ?.toList(),
+    crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool?,
+    crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool?,
+    excludeSpaces: (json['ExcludeSpaces'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    includeSpaces: (json['IncludeSpaces'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    spaceFieldMappings: (json['SpaceFieldMappings'] as List<dynamic>?)
+        ?.map((e) => ConfluenceSpaceToIndexFieldMapping.fromJson(
+            e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -552,7 +523,7 @@ Map<String, dynamic> _$ConfluenceSpaceConfigurationToJson(
   writeNotNull('ExcludeSpaces', instance.excludeSpaces);
   writeNotNull('IncludeSpaces', instance.includeSpaces);
   writeNotNull('SpaceFieldMappings',
-      instance.spaceFieldMappings?.map((e) => e?.toJson())?.toList());
+      instance.spaceFieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -561,8 +532,8 @@ ConfluenceSpaceToIndexFieldMapping _$ConfluenceSpaceToIndexFieldMappingFromJson(
   return ConfluenceSpaceToIndexFieldMapping(
     dataSourceFieldName: _$enumDecodeNullable(
         _$ConfluenceSpaceFieldNameEnumMap, json['DataSourceFieldName']),
-    dateFieldFormat: json['DateFieldFormat'] as String,
-    indexFieldName: json['IndexFieldName'] as String,
+    dateFieldFormat: json['DateFieldFormat'] as String?,
+    indexFieldName: json['IndexFieldName'] as String?,
   );
 }
 
@@ -602,22 +573,14 @@ ConnectionConfiguration _$ConnectionConfigurationFromJson(
 }
 
 Map<String, dynamic> _$ConnectionConfigurationToJson(
-    ConnectionConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DatabaseHost', instance.databaseHost);
-  writeNotNull('DatabaseName', instance.databaseName);
-  writeNotNull('DatabasePort', instance.databasePort);
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('TableName', instance.tableName);
-  return val;
-}
+        ConnectionConfiguration instance) =>
+    <String, dynamic>{
+      'DatabaseHost': instance.databaseHost,
+      'DatabaseName': instance.databaseName,
+      'DatabasePort': instance.databasePort,
+      'SecretArn': instance.secretArn,
+      'TableName': instance.tableName,
+    };
 
 CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -628,20 +591,20 @@ CreateDataSourceResponse _$CreateDataSourceResponseFromJson(
 
 CreateFaqResponse _$CreateFaqResponseFromJson(Map<String, dynamic> json) {
   return CreateFaqResponse(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
   );
 }
 
 CreateIndexResponse _$CreateIndexResponseFromJson(Map<String, dynamic> json) {
   return CreateIndexResponse(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
   );
 }
 
 CreateThesaurusResponse _$CreateThesaurusResponseFromJson(
     Map<String, dynamic> json) {
   return CreateThesaurusResponse(
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
   );
 }
 
@@ -714,8 +677,8 @@ Map<String, dynamic> _$DataSourceConfigurationToJson(
 DataSourceSummary _$DataSourceSummaryFromJson(Map<String, dynamic> json) {
   return DataSourceSummary(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['Type']),
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -744,11 +707,11 @@ const _$DataSourceTypeEnumMap = {
 
 DataSourceSyncJob _$DataSourceSyncJobFromJson(Map<String, dynamic> json) {
   return DataSourceSyncJob(
-    dataSourceErrorCode: json['DataSourceErrorCode'] as String,
+    dataSourceErrorCode: json['DataSourceErrorCode'] as String?,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     errorCode: _$enumDecodeNullable(_$ErrorCodeEnumMap, json['ErrorCode']),
-    errorMessage: json['ErrorMessage'] as String,
-    executionId: json['ExecutionId'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    executionId: json['ExecutionId'] as String?,
     metrics: json['Metrics'] == null
         ? null
         : DataSourceSyncJobMetrics.fromJson(
@@ -770,28 +733,20 @@ const _$DataSourceSyncJobStatusEnumMap = {
 };
 
 Map<String, dynamic> _$DataSourceSyncJobMetricTargetToJson(
-    DataSourceSyncJobMetricTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DataSourceId', instance.dataSourceId);
-  writeNotNull('DataSourceSyncJobId', instance.dataSourceSyncJobId);
-  return val;
-}
+        DataSourceSyncJobMetricTarget instance) =>
+    <String, dynamic>{
+      'DataSourceId': instance.dataSourceId,
+      'DataSourceSyncJobId': instance.dataSourceSyncJobId,
+    };
 
 DataSourceSyncJobMetrics _$DataSourceSyncJobMetricsFromJson(
     Map<String, dynamic> json) {
   return DataSourceSyncJobMetrics(
-    documentsAdded: json['DocumentsAdded'] as String,
-    documentsDeleted: json['DocumentsDeleted'] as String,
-    documentsFailed: json['DocumentsFailed'] as String,
-    documentsModified: json['DocumentsModified'] as String,
-    documentsScanned: json['DocumentsScanned'] as String,
+    documentsAdded: json['DocumentsAdded'] as String?,
+    documentsDeleted: json['DocumentsDeleted'] as String?,
+    documentsFailed: json['DocumentsFailed'] as String?,
+    documentsModified: json['DocumentsModified'] as String?,
+    documentsScanned: json['DocumentsScanned'] as String?,
   );
 }
 
@@ -800,13 +755,16 @@ DataSourceToIndexFieldMapping _$DataSourceToIndexFieldMappingFromJson(
   return DataSourceToIndexFieldMapping(
     dataSourceFieldName: json['DataSourceFieldName'] as String,
     indexFieldName: json['IndexFieldName'] as String,
-    dateFieldFormat: json['DateFieldFormat'] as String,
+    dateFieldFormat: json['DateFieldFormat'] as String?,
   );
 }
 
 Map<String, dynamic> _$DataSourceToIndexFieldMappingToJson(
     DataSourceToIndexFieldMapping instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DataSourceFieldName': instance.dataSourceFieldName,
+    'IndexFieldName': instance.indexFieldName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -814,8 +772,6 @@ Map<String, dynamic> _$DataSourceToIndexFieldMappingToJson(
     }
   }
 
-  writeNotNull('DataSourceFieldName', instance.dataSourceFieldName);
-  writeNotNull('IndexFieldName', instance.indexFieldName);
   writeNotNull('DateFieldFormat', instance.dateFieldFormat);
   return val;
 }
@@ -823,40 +779,30 @@ Map<String, dynamic> _$DataSourceToIndexFieldMappingToJson(
 DataSourceVpcConfiguration _$DataSourceVpcConfigurationFromJson(
     Map<String, dynamic> json) {
   return DataSourceVpcConfiguration(
-    securityGroupIds:
-        (json['SecurityGroupIds'] as List)?.map((e) => e as String)?.toList(),
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    securityGroupIds: (json['SecurityGroupIds'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
 Map<String, dynamic> _$DataSourceVpcConfigurationToJson(
-    DataSourceVpcConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SecurityGroupIds', instance.securityGroupIds);
-  writeNotNull('SubnetIds', instance.subnetIds);
-  return val;
-}
+        DataSourceVpcConfiguration instance) =>
+    <String, dynamic>{
+      'SecurityGroupIds': instance.securityGroupIds,
+      'SubnetIds': instance.subnetIds,
+    };
 
 DatabaseConfiguration _$DatabaseConfigurationFromJson(
     Map<String, dynamic> json) {
   return DatabaseConfiguration(
-    columnConfiguration: json['ColumnConfiguration'] == null
-        ? null
-        : ColumnConfiguration.fromJson(
-            json['ColumnConfiguration'] as Map<String, dynamic>),
-    connectionConfiguration: json['ConnectionConfiguration'] == null
-        ? null
-        : ConnectionConfiguration.fromJson(
-            json['ConnectionConfiguration'] as Map<String, dynamic>),
-    databaseEngineType: _$enumDecodeNullable(
-        _$DatabaseEngineTypeEnumMap, json['DatabaseEngineType']),
+    columnConfiguration: ColumnConfiguration.fromJson(
+        json['ColumnConfiguration'] as Map<String, dynamic>),
+    connectionConfiguration: ConnectionConfiguration.fromJson(
+        json['ConnectionConfiguration'] as Map<String, dynamic>),
+    databaseEngineType:
+        _$enumDecode(_$DatabaseEngineTypeEnumMap, json['DatabaseEngineType']),
     aclConfiguration: json['AclConfiguration'] == null
         ? null
         : AclConfiguration.fromJson(
@@ -874,7 +820,12 @@ DatabaseConfiguration _$DatabaseConfigurationFromJson(
 
 Map<String, dynamic> _$DatabaseConfigurationToJson(
     DatabaseConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ColumnConfiguration': instance.columnConfiguration.toJson(),
+    'ConnectionConfiguration': instance.connectionConfiguration.toJson(),
+    'DatabaseEngineType':
+        _$DatabaseEngineTypeEnumMap[instance.databaseEngineType],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -882,11 +833,6 @@ Map<String, dynamic> _$DatabaseConfigurationToJson(
     }
   }
 
-  writeNotNull('ColumnConfiguration', instance.columnConfiguration?.toJson());
-  writeNotNull(
-      'ConnectionConfiguration', instance.connectionConfiguration?.toJson());
-  writeNotNull('DatabaseEngineType',
-      _$DatabaseEngineTypeEnumMap[instance.databaseEngineType]);
   writeNotNull('AclConfiguration', instance.aclConfiguration?.toJson());
   writeNotNull('SqlConfiguration', instance.sqlConfiguration?.toJson());
   writeNotNull('VpcConfiguration', instance.vpcConfiguration?.toJson());
@@ -908,13 +854,13 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
         : DataSourceConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    id: json['Id'] as String,
-    indexId: json['IndexId'] as String,
-    name: json['Name'] as String,
-    roleArn: json['RoleArn'] as String,
-    schedule: json['Schedule'] as String,
+    description: json['Description'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    id: json['Id'] as String?,
+    indexId: json['IndexId'] as String?,
+    name: json['Name'] as String?,
+    roleArn: json['RoleArn'] as String?,
+    schedule: json['Schedule'] as String?,
     status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$DataSourceTypeEnumMap, json['Type']),
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
@@ -924,14 +870,14 @@ DescribeDataSourceResponse _$DescribeDataSourceResponseFromJson(
 DescribeFaqResponse _$DescribeFaqResponseFromJson(Map<String, dynamic> json) {
   return DescribeFaqResponse(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    errorMessage: json['ErrorMessage'] as String,
+    description: json['Description'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
     fileFormat:
         _$enumDecodeNullable(_$FaqFileFormatEnumMap, json['FileFormat']),
-    id: json['Id'] as String,
-    indexId: json['IndexId'] as String,
-    name: json['Name'] as String,
-    roleArn: json['RoleArn'] as String,
+    id: json['Id'] as String?,
+    indexId: json['IndexId'] as String?,
+    name: json['Name'] as String?,
+    roleArn: json['RoleArn'] as String?,
     s3Path: json['S3Path'] == null
         ? null
         : S3Path.fromJson(json['S3Path'] as Map<String, dynamic>),
@@ -962,22 +908,21 @@ DescribeIndexResponse _$DescribeIndexResponseFromJson(
         : CapacityUnitsConfiguration.fromJson(
             json['CapacityUnits'] as Map<String, dynamic>),
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     documentMetadataConfigurations: (json['DocumentMetadataConfigurations']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentMetadataConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            as List<dynamic>?)
+        ?.map((e) =>
+            DocumentMetadataConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
     edition: _$enumDecodeNullable(_$IndexEditionEnumMap, json['Edition']),
-    errorMessage: json['ErrorMessage'] as String,
-    id: json['Id'] as String,
+    errorMessage: json['ErrorMessage'] as String?,
+    id: json['Id'] as String?,
     indexStatistics: json['IndexStatistics'] == null
         ? null
         : IndexStatistics.fromJson(
             json['IndexStatistics'] as Map<String, dynamic>),
-    name: json['Name'] as String,
-    roleArn: json['RoleArn'] as String,
+    name: json['Name'] as String?,
+    roleArn: json['RoleArn'] as String?,
     serverSideEncryptionConfiguration:
         json['ServerSideEncryptionConfiguration'] == null
             ? null
@@ -988,11 +933,9 @@ DescribeIndexResponse _$DescribeIndexResponseFromJson(
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
     userContextPolicy: _$enumDecodeNullable(
         _$UserContextPolicyEnumMap, json['UserContextPolicy']),
-    userTokenConfigurations: (json['UserTokenConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserTokenConfiguration.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    userTokenConfigurations: (json['UserTokenConfigurations'] as List<dynamic>?)
+        ?.map((e) => UserTokenConfiguration.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1019,19 +962,19 @@ DescribeThesaurusResponse _$DescribeThesaurusResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeThesaurusResponse(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    description: json['Description'] as String,
-    errorMessage: json['ErrorMessage'] as String,
-    fileSizeBytes: json['FileSizeBytes'] as int,
-    id: json['Id'] as String,
-    indexId: json['IndexId'] as String,
-    name: json['Name'] as String,
-    roleArn: json['RoleArn'] as String,
+    description: json['Description'] as String?,
+    errorMessage: json['ErrorMessage'] as String?,
+    fileSizeBytes: json['FileSizeBytes'] as int?,
+    id: json['Id'] as String?,
+    indexId: json['IndexId'] as String?,
+    name: json['Name'] as String?,
+    roleArn: json['RoleArn'] as String?,
     sourceS3Path: json['SourceS3Path'] == null
         ? null
         : S3Path.fromJson(json['SourceS3Path'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ThesaurusStatusEnumMap, json['Status']),
-    synonymRuleCount: json['SynonymRuleCount'] as int,
-    termCount: json['TermCount'] as int,
+    synonymRuleCount: json['SynonymRuleCount'] as int?,
+    termCount: json['TermCount'] as int?,
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
   );
 }
@@ -1046,7 +989,9 @@ const _$ThesaurusStatusEnumMap = {
 };
 
 Map<String, dynamic> _$DocumentToJson(Document instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Id': instance.id,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1054,12 +999,12 @@ Map<String, dynamic> _$DocumentToJson(Document instance) {
     }
   }
 
-  writeNotNull('Id', instance.id);
   writeNotNull('AccessControlList',
-      instance.accessControlList?.map((e) => e?.toJson())?.toList());
+      instance.accessControlList?.map((e) => e.toJson()).toList());
   writeNotNull(
-      'Attributes', instance.attributes?.map((e) => e?.toJson())?.toList());
-  writeNotNull('Blob', const Uint8ListConverter().toJson(instance.blob));
+      'Attributes', instance.attributes?.map((e) => e.toJson()).toList());
+  writeNotNull(
+      'Blob', const Uint8ListNullableConverter().toJson(instance.blob));
   writeNotNull('ContentType', _$ContentTypeEnumMap[instance.contentType]);
   writeNotNull('S3Path', instance.s3Path?.toJson());
   writeNotNull('Title', instance.title);
@@ -1077,35 +1022,26 @@ const _$ContentTypeEnumMap = {
 DocumentAttribute _$DocumentAttributeFromJson(Map<String, dynamic> json) {
   return DocumentAttribute(
     key: json['Key'] as String,
-    value: json['Value'] == null
-        ? null
-        : DocumentAttributeValue.fromJson(
-            json['Value'] as Map<String, dynamic>),
+    value:
+        DocumentAttributeValue.fromJson(json['Value'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$DocumentAttributeToJson(DocumentAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value?.toJson());
-  return val;
-}
+Map<String, dynamic> _$DocumentAttributeToJson(DocumentAttribute instance) =>
+    <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value.toJson(),
+    };
 
 DocumentAttributeValue _$DocumentAttributeValueFromJson(
     Map<String, dynamic> json) {
   return DocumentAttributeValue(
     dateValue: const UnixDateTimeConverter().fromJson(json['DateValue']),
-    longValue: json['LongValue'] as int,
-    stringListValue:
-        (json['StringListValue'] as List)?.map((e) => e as String)?.toList(),
-    stringValue: json['StringValue'] as String,
+    longValue: json['LongValue'] as int?,
+    stringListValue: (json['StringListValue'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    stringValue: json['StringValue'] as String?,
   );
 }
 
@@ -1130,7 +1066,7 @@ Map<String, dynamic> _$DocumentAttributeValueToJson(
 DocumentAttributeValueCountPair _$DocumentAttributeValueCountPairFromJson(
     Map<String, dynamic> json) {
   return DocumentAttributeValueCountPair(
-    count: json['Count'] as int,
+    count: json['Count'] as int?,
     documentAttributeValue: json['DocumentAttributeValue'] == null
         ? null
         : DocumentAttributeValue.fromJson(
@@ -1142,8 +1078,7 @@ DocumentMetadataConfiguration _$DocumentMetadataConfigurationFromJson(
     Map<String, dynamic> json) {
   return DocumentMetadataConfiguration(
     name: json['Name'] as String,
-    type:
-        _$enumDecodeNullable(_$DocumentAttributeValueTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$DocumentAttributeValueTypeEnumMap, json['Type']),
     relevance: json['Relevance'] == null
         ? null
         : Relevance.fromJson(json['Relevance'] as Map<String, dynamic>),
@@ -1155,7 +1090,10 @@ DocumentMetadataConfiguration _$DocumentMetadataConfigurationFromJson(
 
 Map<String, dynamic> _$DocumentMetadataConfigurationToJson(
     DocumentMetadataConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+    'Type': _$DocumentAttributeValueTypeEnumMap[instance.type],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1163,8 +1101,6 @@ Map<String, dynamic> _$DocumentMetadataConfigurationToJson(
     }
   }
 
-  writeNotNull('Name', instance.name);
-  writeNotNull('Type', _$DocumentAttributeValueTypeEnumMap[instance.type]);
   writeNotNull('Relevance', instance.relevance?.toJson());
   writeNotNull('Search', instance.search?.toJson());
   return val;
@@ -1180,7 +1116,7 @@ const _$DocumentAttributeValueTypeEnumMap = {
 DocumentsMetadataConfiguration _$DocumentsMetadataConfigurationFromJson(
     Map<String, dynamic> json) {
   return DocumentsMetadataConfiguration(
-    s3Prefix: json['S3Prefix'] as String,
+    s3Prefix: json['S3Prefix'] as String?,
   );
 }
 
@@ -1213,14 +1149,12 @@ Map<String, dynamic> _$FacetToJson(Facet instance) {
 
 FacetResult _$FacetResultFromJson(Map<String, dynamic> json) {
   return FacetResult(
-    documentAttributeKey: json['DocumentAttributeKey'] as String,
-    documentAttributeValueCountPairs:
-        (json['DocumentAttributeValueCountPairs'] as List)
-            ?.map((e) => e == null
-                ? null
-                : DocumentAttributeValueCountPair.fromJson(
-                    e as Map<String, dynamic>))
-            ?.toList(),
+    documentAttributeKey: json['DocumentAttributeKey'] as String?,
+    documentAttributeValueCountPairs: (json['DocumentAttributeValueCountPairs']
+            as List<dynamic>?)
+        ?.map((e) =>
+            DocumentAttributeValueCountPair.fromJson(e as Map<String, dynamic>))
+        .toList(),
     documentAttributeValueType: _$enumDecodeNullable(
         _$DocumentAttributeValueTypeEnumMap,
         json['DocumentAttributeValueType']),
@@ -1238,8 +1172,8 @@ FaqSummary _$FaqSummaryFromJson(Map<String, dynamic> json) {
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     fileFormat:
         _$enumDecodeNullable(_$FaqFileFormatEnumMap, json['FileFormat']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$FaqStatusEnumMap, json['Status']),
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
   );
@@ -1249,29 +1183,33 @@ GoogleDriveConfiguration _$GoogleDriveConfigurationFromJson(
     Map<String, dynamic> json) {
   return GoogleDriveConfiguration(
     secretArn: json['SecretArn'] as String,
-    excludeMimeTypes:
-        (json['ExcludeMimeTypes'] as List)?.map((e) => e as String)?.toList(),
-    excludeSharedDrives: (json['ExcludeSharedDrives'] as List)
+    excludeMimeTypes: (json['ExcludeMimeTypes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    excludeUserAccounts: (json['ExcludeUserAccounts'] as List)
+        .toList(),
+    excludeSharedDrives: (json['ExcludeSharedDrives'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
-    exclusionPatterns:
-        (json['ExclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    inclusionPatterns:
-        (json['InclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
+        .toList(),
+    excludeUserAccounts: (json['ExcludeUserAccounts'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    exclusionPatterns: (json['ExclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    inclusionPatterns: (json['InclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$GoogleDriveConfigurationToJson(
     GoogleDriveConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SecretArn': instance.secretArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1279,13 +1217,12 @@ Map<String, dynamic> _$GoogleDriveConfigurationToJson(
     }
   }
 
-  writeNotNull('SecretArn', instance.secretArn);
   writeNotNull('ExcludeMimeTypes', instance.excludeMimeTypes);
   writeNotNull('ExcludeSharedDrives', instance.excludeSharedDrives);
   writeNotNull('ExcludeUserAccounts', instance.excludeUserAccounts);
   writeNotNull('ExclusionPatterns', instance.exclusionPatterns);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull('InclusionPatterns', instance.inclusionPatterns);
   return val;
 }
@@ -1294,7 +1231,7 @@ Highlight _$HighlightFromJson(Map<String, dynamic> json) {
   return Highlight(
     beginOffset: json['BeginOffset'] as int,
     endOffset: json['EndOffset'] as int,
-    topAnswer: json['TopAnswer'] as bool,
+    topAnswer: json['TopAnswer'] as bool?,
     type: _$enumDecodeNullable(_$HighlightTypeEnumMap, json['Type']),
   );
 }
@@ -1307,24 +1244,21 @@ const _$HighlightTypeEnumMap = {
 IndexConfigurationSummary _$IndexConfigurationSummaryFromJson(
     Map<String, dynamic> json) {
   return IndexConfigurationSummary(
-    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    status: _$enumDecodeNullable(_$IndexStatusEnumMap, json['Status']),
-    updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
+    createdAt: DateTime.parse(json['CreatedAt'] as String),
+    status: _$enumDecode(_$IndexStatusEnumMap, json['Status']),
+    updatedAt: DateTime.parse(json['UpdatedAt'] as String),
     edition: _$enumDecodeNullable(_$IndexEditionEnumMap, json['Edition']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
   );
 }
 
 IndexStatistics _$IndexStatisticsFromJson(Map<String, dynamic> json) {
   return IndexStatistics(
-    faqStatistics: json['FaqStatistics'] == null
-        ? null
-        : FaqStatistics.fromJson(json['FaqStatistics'] as Map<String, dynamic>),
-    textDocumentStatistics: json['TextDocumentStatistics'] == null
-        ? null
-        : TextDocumentStatistics.fromJson(
-            json['TextDocumentStatistics'] as Map<String, dynamic>),
+    faqStatistics:
+        FaqStatistics.fromJson(json['FaqStatistics'] as Map<String, dynamic>),
+    textDocumentStatistics: TextDocumentStatistics.fromJson(
+        json['TextDocumentStatistics'] as Map<String, dynamic>),
   );
 }
 
@@ -1337,37 +1271,30 @@ JsonTokenTypeConfiguration _$JsonTokenTypeConfigurationFromJson(
 }
 
 Map<String, dynamic> _$JsonTokenTypeConfigurationToJson(
-    JsonTokenTypeConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('GroupAttributeField', instance.groupAttributeField);
-  writeNotNull('UserNameAttributeField', instance.userNameAttributeField);
-  return val;
-}
+        JsonTokenTypeConfiguration instance) =>
+    <String, dynamic>{
+      'GroupAttributeField': instance.groupAttributeField,
+      'UserNameAttributeField': instance.userNameAttributeField,
+    };
 
 JwtTokenTypeConfiguration _$JwtTokenTypeConfigurationFromJson(
     Map<String, dynamic> json) {
   return JwtTokenTypeConfiguration(
-    keyLocation:
-        _$enumDecodeNullable(_$KeyLocationEnumMap, json['KeyLocation']),
-    claimRegex: json['ClaimRegex'] as String,
-    groupAttributeField: json['GroupAttributeField'] as String,
-    issuer: json['Issuer'] as String,
-    secretManagerArn: json['SecretManagerArn'] as String,
-    url: json['URL'] as String,
-    userNameAttributeField: json['UserNameAttributeField'] as String,
+    keyLocation: _$enumDecode(_$KeyLocationEnumMap, json['KeyLocation']),
+    claimRegex: json['ClaimRegex'] as String?,
+    groupAttributeField: json['GroupAttributeField'] as String?,
+    issuer: json['Issuer'] as String?,
+    secretManagerArn: json['SecretManagerArn'] as String?,
+    url: json['URL'] as String?,
+    userNameAttributeField: json['UserNameAttributeField'] as String?,
   );
 }
 
 Map<String, dynamic> _$JwtTokenTypeConfigurationToJson(
     JwtTokenTypeConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'KeyLocation': _$KeyLocationEnumMap[instance.keyLocation],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1375,7 +1302,6 @@ Map<String, dynamic> _$JwtTokenTypeConfigurationToJson(
     }
   }
 
-  writeNotNull('KeyLocation', _$KeyLocationEnumMap[instance.keyLocation]);
   writeNotNull('ClaimRegex', instance.claimRegex);
   writeNotNull('GroupAttributeField', instance.groupAttributeField);
   writeNotNull('Issuer', instance.issuer);
@@ -1393,93 +1319,89 @@ const _$KeyLocationEnumMap = {
 ListDataSourceSyncJobsResponse _$ListDataSourceSyncJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSourceSyncJobsResponse(
-    history: (json['History'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    history: (json['History'] as List<dynamic>?)
+        ?.map((e) => DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDataSourcesResponse _$ListDataSourcesResponseFromJson(
     Map<String, dynamic> json) {
   return ListDataSourcesResponse(
-    nextToken: json['NextToken'] as String,
-    summaryItems: (json['SummaryItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    summaryItems: (json['SummaryItems'] as List<dynamic>?)
+        ?.map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListFaqsResponse _$ListFaqsResponseFromJson(Map<String, dynamic> json) {
   return ListFaqsResponse(
-    faqSummaryItems: (json['FaqSummaryItems'] as List)
-        ?.map((e) =>
-            e == null ? null : FaqSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    faqSummaryItems: (json['FaqSummaryItems'] as List<dynamic>?)
+        ?.map((e) => FaqSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIndicesResponse _$ListIndicesResponseFromJson(Map<String, dynamic> json) {
   return ListIndicesResponse(
     indexConfigurationSummaryItems:
-        (json['IndexConfigurationSummaryItems'] as List)
-            ?.map((e) => e == null
-                ? null
-                : IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
-            ?.toList(),
-    nextToken: json['NextToken'] as String,
+        (json['IndexConfigurationSummaryItems'] as List<dynamic>?)
+            ?.map((e) =>
+                IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListThesauriResponse _$ListThesauriResponseFromJson(Map<String, dynamic> json) {
   return ListThesauriResponse(
-    nextToken: json['NextToken'] as String,
-    thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ThesaurusSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List<dynamic>?)
+        ?.map((e) => ThesaurusSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 OneDriveConfiguration _$OneDriveConfigurationFromJson(
     Map<String, dynamic> json) {
   return OneDriveConfiguration(
-    oneDriveUsers: json['OneDriveUsers'] == null
-        ? null
-        : OneDriveUsers.fromJson(json['OneDriveUsers'] as Map<String, dynamic>),
+    oneDriveUsers:
+        OneDriveUsers.fromJson(json['OneDriveUsers'] as Map<String, dynamic>),
     secretArn: json['SecretArn'] as String,
     tenantDomain: json['TenantDomain'] as String,
-    disableLocalGroups: json['DisableLocalGroups'] as bool,
-    exclusionPatterns:
-        (json['ExclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    inclusionPatterns:
-        (json['InclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
+    disableLocalGroups: json['DisableLocalGroups'] as bool?,
+    exclusionPatterns: (json['ExclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    inclusionPatterns: (json['InclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$OneDriveConfigurationToJson(
     OneDriveConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'OneDriveUsers': instance.oneDriveUsers.toJson(),
+    'SecretArn': instance.secretArn,
+    'TenantDomain': instance.tenantDomain,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1487,21 +1409,19 @@ Map<String, dynamic> _$OneDriveConfigurationToJson(
     }
   }
 
-  writeNotNull('OneDriveUsers', instance.oneDriveUsers?.toJson());
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('TenantDomain', instance.tenantDomain);
   writeNotNull('DisableLocalGroups', instance.disableLocalGroups);
   writeNotNull('ExclusionPatterns', instance.exclusionPatterns);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull('InclusionPatterns', instance.inclusionPatterns);
   return val;
 }
 
 OneDriveUsers _$OneDriveUsersFromJson(Map<String, dynamic> json) {
   return OneDriveUsers(
-    oneDriveUserList:
-        (json['OneDriveUserList'] as List)?.map((e) => e as String)?.toList(),
+    oneDriveUserList: (json['OneDriveUserList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     oneDriveUserS3Path: json['OneDriveUserS3Path'] == null
         ? null
         : S3Path.fromJson(json['OneDriveUserS3Path'] as Map<String, dynamic>),
@@ -1522,20 +1442,11 @@ Map<String, dynamic> _$OneDriveUsersToJson(OneDriveUsers instance) {
   return val;
 }
 
-Map<String, dynamic> _$PrincipalToJson(Principal instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Access', _$ReadAccessTypeEnumMap[instance.access]);
-  writeNotNull('Name', instance.name);
-  writeNotNull('Type', _$PrincipalTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$PrincipalToJson(Principal instance) => <String, dynamic>{
+      'Access': _$ReadAccessTypeEnumMap[instance.access],
+      'Name': instance.name,
+      'Type': _$PrincipalTypeEnumMap[instance.type],
+    };
 
 const _$ReadAccessTypeEnumMap = {
   ReadAccessType.allow: 'ALLOW',
@@ -1549,44 +1460,38 @@ const _$PrincipalTypeEnumMap = {
 
 QueryResult _$QueryResultFromJson(Map<String, dynamic> json) {
   return QueryResult(
-    facetResults: (json['FacetResults'] as List)
-        ?.map((e) =>
-            e == null ? null : FacetResult.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    queryId: json['QueryId'] as String,
-    resultItems: (json['ResultItems'] as List)
-        ?.map((e) => e == null
-            ? null
-            : QueryResultItem.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    totalNumberOfResults: json['TotalNumberOfResults'] as int,
+    facetResults: (json['FacetResults'] as List<dynamic>?)
+        ?.map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    queryId: json['QueryId'] as String?,
+    resultItems: (json['ResultItems'] as List<dynamic>?)
+        ?.map((e) => QueryResultItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalNumberOfResults: json['TotalNumberOfResults'] as int?,
   );
 }
 
 QueryResultItem _$QueryResultItemFromJson(Map<String, dynamic> json) {
   return QueryResultItem(
-    additionalAttributes: (json['AdditionalAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    documentAttributes: (json['DocumentAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DocumentAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    additionalAttributes: (json['AdditionalAttributes'] as List<dynamic>?)
+        ?.map((e) =>
+            AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    documentAttributes: (json['DocumentAttributes'] as List<dynamic>?)
+        ?.map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
     documentExcerpt: json['DocumentExcerpt'] == null
         ? null
         : TextWithHighlights.fromJson(
             json['DocumentExcerpt'] as Map<String, dynamic>),
-    documentId: json['DocumentId'] as String,
+    documentId: json['DocumentId'] as String?,
     documentTitle: json['DocumentTitle'] == null
         ? null
         : TextWithHighlights.fromJson(
             json['DocumentTitle'] as Map<String, dynamic>),
-    documentURI: json['DocumentURI'] as String,
-    feedbackToken: json['FeedbackToken'] as String,
-    id: json['Id'] as String,
+    documentURI: json['DocumentURI'] as String?,
+    feedbackToken: json['FeedbackToken'] as String?,
+    id: json['Id'] as String?,
     scoreAttributes: json['ScoreAttributes'] == null
         ? null
         : ScoreAttributes.fromJson(
@@ -1603,12 +1508,12 @@ const _$QueryResultTypeEnumMap = {
 
 Relevance _$RelevanceFromJson(Map<String, dynamic> json) {
   return Relevance(
-    duration: json['Duration'] as String,
-    freshness: json['Freshness'] as bool,
-    importance: json['Importance'] as int,
+    duration: json['Duration'] as String?,
+    freshness: json['Freshness'] as bool?,
+    importance: json['Importance'] as int?,
     rankOrder: _$enumDecodeNullable(_$OrderEnumMap, json['RankOrder']),
     valueImportanceMap:
-        (json['ValueImportanceMap'] as Map<String, dynamic>)?.map(
+        (json['ValueImportanceMap'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as int),
     ),
   );
@@ -1636,20 +1541,11 @@ const _$OrderEnumMap = {
   Order.descending: 'DESCENDING',
 };
 
-Map<String, dynamic> _$RelevanceFeedbackToJson(RelevanceFeedback instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'RelevanceValue', _$RelevanceTypeEnumMap[instance.relevanceValue]);
-  writeNotNull('ResultId', instance.resultId);
-  return val;
-}
+Map<String, dynamic> _$RelevanceFeedbackToJson(RelevanceFeedback instance) =>
+    <String, dynamic>{
+      'RelevanceValue': _$RelevanceTypeEnumMap[instance.relevanceValue],
+      'ResultId': instance.resultId,
+    };
 
 const _$RelevanceTypeEnumMap = {
   RelevanceType.relevant: 'RELEVANT',
@@ -1670,18 +1566,23 @@ S3DataSourceConfiguration _$S3DataSourceConfigurationFromJson(
             ? null
             : DocumentsMetadataConfiguration.fromJson(
                 json['DocumentsMetadataConfiguration'] as Map<String, dynamic>),
-    exclusionPatterns:
-        (json['ExclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    inclusionPatterns:
-        (json['InclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    inclusionPrefixes:
-        (json['InclusionPrefixes'] as List)?.map((e) => e as String)?.toList(),
+    exclusionPatterns: (json['ExclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    inclusionPatterns: (json['InclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    inclusionPrefixes: (json['InclusionPrefixes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$S3DataSourceConfigurationToJson(
     S3DataSourceConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'BucketName': instance.bucketName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1689,7 +1590,6 @@ Map<String, dynamic> _$S3DataSourceConfigurationToJson(
     }
   }
 
-  writeNotNull('BucketName', instance.bucketName);
   writeNotNull('AccessControlListConfiguration',
       instance.accessControlListConfiguration?.toJson());
   writeNotNull('DocumentsMetadataConfiguration',
@@ -1707,40 +1607,32 @@ S3Path _$S3PathFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$S3PathToJson(S3Path instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Bucket', instance.bucket);
-  writeNotNull('Key', instance.key);
-  return val;
-}
+Map<String, dynamic> _$S3PathToJson(S3Path instance) => <String, dynamic>{
+      'Bucket': instance.bucket,
+      'Key': instance.key,
+    };
 
 SalesforceChatterFeedConfiguration _$SalesforceChatterFeedConfigurationFromJson(
     Map<String, dynamic> json) {
   return SalesforceChatterFeedConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    includeFilterTypes: (json['IncludeFilterTypes'] as List)
-        ?.map((e) => _$enumDecodeNullable(
-            _$SalesforceChatterFeedIncludeFilterTypeEnumMap, e))
-        ?.toList(),
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    includeFilterTypes: (json['IncludeFilterTypes'] as List<dynamic>?)
+        ?.map((e) =>
+            _$enumDecode(_$SalesforceChatterFeedIncludeFilterTypeEnumMap, e))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SalesforceChatterFeedConfigurationToJson(
     SalesforceChatterFeedConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1748,15 +1640,14 @@ Map<String, dynamic> _$SalesforceChatterFeedConfigurationToJson(
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull(
       'IncludeFilterTypes',
       instance.includeFilterTypes
           ?.map((e) => _$SalesforceChatterFeedIncludeFilterTypeEnumMap[e])
-          ?.toList());
+          .toList());
   return val;
 }
 
@@ -1774,15 +1665,15 @@ SalesforceConfiguration _$SalesforceConfigurationFromJson(
         ? null
         : SalesforceChatterFeedConfiguration.fromJson(
             json['ChatterFeedConfiguration'] as Map<String, dynamic>),
-    crawlAttachments: json['CrawlAttachments'] as bool,
+    crawlAttachments: json['CrawlAttachments'] as bool?,
     excludeAttachmentFilePatterns:
-        (json['ExcludeAttachmentFilePatterns'] as List)
+        (json['ExcludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
     includeAttachmentFilePatterns:
-        (json['IncludeAttachmentFilePatterns'] as List)
+        (json['IncludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
     knowledgeArticleConfiguration: json['KnowledgeArticleConfiguration'] == null
         ? null
         : SalesforceKnowledgeArticleConfiguration.fromJson(
@@ -1793,18 +1684,20 @@ SalesforceConfiguration _$SalesforceConfigurationFromJson(
             : SalesforceStandardObjectAttachmentConfiguration.fromJson(
                 json['StandardObjectAttachmentConfiguration']
                     as Map<String, dynamic>),
-    standardObjectConfigurations: (json['StandardObjectConfigurations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SalesforceStandardObjectConfiguration.fromJson(
+    standardObjectConfigurations:
+        (json['StandardObjectConfigurations'] as List<dynamic>?)
+            ?.map((e) => SalesforceStandardObjectConfiguration.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList(),
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$SalesforceConfigurationToJson(
     SalesforceConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SecretArn': instance.secretArn,
+    'ServerUrl': instance.serverUrl,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1812,8 +1705,6 @@ Map<String, dynamic> _$SalesforceConfigurationToJson(
     }
   }
 
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('ServerUrl', instance.serverUrl);
   writeNotNull(
       'ChatterFeedConfiguration', instance.chatterFeedConfiguration?.toJson());
   writeNotNull('CrawlAttachments', instance.crawlAttachments);
@@ -1826,7 +1717,7 @@ Map<String, dynamic> _$SalesforceConfigurationToJson(
   writeNotNull('StandardObjectAttachmentConfiguration',
       instance.standardObjectAttachmentConfiguration?.toJson());
   writeNotNull('StandardObjectConfigurations',
-      instance.standardObjectConfigurations?.map((e) => e?.toJson())?.toList());
+      instance.standardObjectConfigurations?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1836,18 +1727,20 @@ SalesforceCustomKnowledgeArticleTypeConfiguration
   return SalesforceCustomKnowledgeArticleTypeConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
     name: json['Name'] as String,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SalesforceCustomKnowledgeArticleTypeConfigurationToJson(
     SalesforceCustomKnowledgeArticleTypeConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1855,11 +1748,9 @@ Map<String, dynamic> _$SalesforceCustomKnowledgeArticleTypeConfigurationToJson(
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
-  writeNotNull('Name', instance.name);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1867,17 +1758,15 @@ SalesforceKnowledgeArticleConfiguration
     _$SalesforceKnowledgeArticleConfigurationFromJson(
         Map<String, dynamic> json) {
   return SalesforceKnowledgeArticleConfiguration(
-    includedStates: (json['IncludedStates'] as List)
-        ?.map((e) =>
-            _$enumDecodeNullable(_$SalesforceKnowledgeArticleStateEnumMap, e))
-        ?.toList(),
+    includedStates: (json['IncludedStates'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$SalesforceKnowledgeArticleStateEnumMap, e))
+        .toList(),
     customKnowledgeArticleTypeConfigurations:
-        (json['CustomKnowledgeArticleTypeConfigurations'] as List)
-            ?.map((e) => e == null
-                ? null
-                : SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
+        (json['CustomKnowledgeArticleTypeConfigurations'] as List<dynamic>?)
+            ?.map((e) =>
+                SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
                     e as Map<String, dynamic>))
-            ?.toList(),
+            .toList(),
     standardKnowledgeArticleTypeConfiguration:
         json['StandardKnowledgeArticleTypeConfiguration'] == null
             ? null
@@ -1889,7 +1778,11 @@ SalesforceKnowledgeArticleConfiguration
 
 Map<String, dynamic> _$SalesforceKnowledgeArticleConfigurationToJson(
     SalesforceKnowledgeArticleConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'IncludedStates': instance.includedStates
+        .map((e) => _$SalesforceKnowledgeArticleStateEnumMap[e])
+        .toList(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1898,15 +1791,10 @@ Map<String, dynamic> _$SalesforceKnowledgeArticleConfigurationToJson(
   }
 
   writeNotNull(
-      'IncludedStates',
-      instance.includedStates
-          ?.map((e) => _$SalesforceKnowledgeArticleStateEnumMap[e])
-          ?.toList());
-  writeNotNull(
       'CustomKnowledgeArticleTypeConfigurations',
       instance.customKnowledgeArticleTypeConfigurations
-          ?.map((e) => e?.toJson())
-          ?.toList());
+          ?.map((e) => e.toJson())
+          .toList());
   writeNotNull('StandardKnowledgeArticleTypeConfiguration',
       instance.standardKnowledgeArticleTypeConfiguration?.toJson());
   return val;
@@ -1923,19 +1811,20 @@ SalesforceStandardKnowledgeArticleTypeConfiguration
         Map<String, dynamic> json) {
   return SalesforceStandardKnowledgeArticleTypeConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic>
     _$SalesforceStandardKnowledgeArticleTypeConfigurationToJson(
         SalesforceStandardKnowledgeArticleTypeConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1943,10 +1832,9 @@ Map<String, dynamic>
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1954,12 +1842,11 @@ SalesforceStandardObjectAttachmentConfiguration
     _$SalesforceStandardObjectAttachmentConfigurationFromJson(
         Map<String, dynamic> json) {
   return SalesforceStandardObjectAttachmentConfiguration(
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -1974,8 +1861,8 @@ Map<String, dynamic> _$SalesforceStandardObjectAttachmentConfigurationToJson(
   }
 
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -1983,20 +1870,21 @@ SalesforceStandardObjectConfiguration
     _$SalesforceStandardObjectConfigurationFromJson(Map<String, dynamic> json) {
   return SalesforceStandardObjectConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
-    name: _$enumDecodeNullable(
-        _$SalesforceStandardObjectNameEnumMap, json['Name']),
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    name: _$enumDecode(_$SalesforceStandardObjectNameEnumMap, json['Name']),
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$SalesforceStandardObjectConfigurationToJson(
     SalesforceStandardObjectConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+    'Name': _$SalesforceStandardObjectNameEnumMap[instance.name],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2004,11 +1892,9 @@ Map<String, dynamic> _$SalesforceStandardObjectConfigurationToJson(
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
-  writeNotNull('Name', _$SalesforceStandardObjectNameEnumMap[instance.name]);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -2048,10 +1934,10 @@ const _$ScoreConfidenceEnumMap = {
 
 Search _$SearchFromJson(Map<String, dynamic> json) {
   return Search(
-    displayable: json['Displayable'] as bool,
-    facetable: json['Facetable'] as bool,
-    searchable: json['Searchable'] as bool,
-    sortable: json['Sortable'] as bool,
+    displayable: json['Displayable'] as bool?,
+    facetable: json['Facetable'] as bool?,
+    searchable: json['Searchable'] as bool?,
+    sortable: json['Sortable'] as bool?,
   );
 }
 
@@ -2074,7 +1960,7 @@ Map<String, dynamic> _$SearchToJson(Search instance) {
 ServerSideEncryptionConfiguration _$ServerSideEncryptionConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerSideEncryptionConfiguration(
-    kmsKeyId: json['KmsKeyId'] as String,
+    kmsKeyId: json['KmsKeyId'] as String?,
   );
 }
 
@@ -2097,7 +1983,7 @@ ServiceNowConfiguration _$ServiceNowConfigurationFromJson(
   return ServiceNowConfiguration(
     hostUrl: json['HostUrl'] as String,
     secretArn: json['SecretArn'] as String,
-    serviceNowBuildVersion: _$enumDecodeNullable(
+    serviceNowBuildVersion: _$enumDecode(
         _$ServiceNowBuildVersionTypeEnumMap, json['ServiceNowBuildVersion']),
     knowledgeArticleConfiguration: json['KnowledgeArticleConfiguration'] == null
         ? null
@@ -2112,7 +1998,12 @@ ServiceNowConfiguration _$ServiceNowConfigurationFromJson(
 
 Map<String, dynamic> _$ServiceNowConfigurationToJson(
     ServiceNowConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'HostUrl': instance.hostUrl,
+    'SecretArn': instance.secretArn,
+    'ServiceNowBuildVersion':
+        _$ServiceNowBuildVersionTypeEnumMap[instance.serviceNowBuildVersion],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2120,10 +2011,6 @@ Map<String, dynamic> _$ServiceNowConfigurationToJson(
     }
   }
 
-  writeNotNull('HostUrl', instance.hostUrl);
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('ServiceNowBuildVersion',
-      _$ServiceNowBuildVersionTypeEnumMap[instance.serviceNowBuildVersion]);
   writeNotNull('KnowledgeArticleConfiguration',
       instance.knowledgeArticleConfiguration?.toJson());
   writeNotNull('ServiceCatalogConfiguration',
@@ -2141,27 +2028,28 @@ ServiceNowKnowledgeArticleConfiguration
         Map<String, dynamic> json) {
   return ServiceNowKnowledgeArticleConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
-    crawlAttachments: json['CrawlAttachments'] as bool,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
+    crawlAttachments: json['CrawlAttachments'] as bool?,
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
     excludeAttachmentFilePatterns:
-        (json['ExcludeAttachmentFilePatterns'] as List)
+        (json['ExcludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            .toList(),
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
     includeAttachmentFilePatterns:
-        (json['IncludeAttachmentFilePatterns'] as List)
+        (json['IncludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$ServiceNowKnowledgeArticleConfigurationToJson(
     ServiceNowKnowledgeArticleConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2169,13 +2057,12 @@ Map<String, dynamic> _$ServiceNowKnowledgeArticleConfigurationToJson(
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
   writeNotNull('CrawlAttachments', instance.crawlAttachments);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
   writeNotNull(
       'ExcludeAttachmentFilePatterns', instance.excludeAttachmentFilePatterns);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull(
       'IncludeAttachmentFilePatterns', instance.includeAttachmentFilePatterns);
   return val;
@@ -2185,27 +2072,28 @@ ServiceNowServiceCatalogConfiguration
     _$ServiceNowServiceCatalogConfigurationFromJson(Map<String, dynamic> json) {
   return ServiceNowServiceCatalogConfiguration(
     documentDataFieldName: json['DocumentDataFieldName'] as String,
-    crawlAttachments: json['CrawlAttachments'] as bool,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
+    crawlAttachments: json['CrawlAttachments'] as bool?,
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
     excludeAttachmentFilePatterns:
-        (json['ExcludeAttachmentFilePatterns'] as List)
+        (json['ExcludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+            .toList(),
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
     includeAttachmentFilePatterns:
-        (json['IncludeAttachmentFilePatterns'] as List)
+        (json['IncludeAttachmentFilePatterns'] as List<dynamic>?)
             ?.map((e) => e as String)
-            ?.toList(),
+            .toList(),
   );
 }
 
 Map<String, dynamic> _$ServiceNowServiceCatalogConfigurationToJson(
     ServiceNowServiceCatalogConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'DocumentDataFieldName': instance.documentDataFieldName,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2213,13 +2101,12 @@ Map<String, dynamic> _$ServiceNowServiceCatalogConfigurationToJson(
     }
   }
 
-  writeNotNull('DocumentDataFieldName', instance.documentDataFieldName);
   writeNotNull('CrawlAttachments', instance.crawlAttachments);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
   writeNotNull(
       'ExcludeAttachmentFilePatterns', instance.excludeAttachmentFilePatterns);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull(
       'IncludeAttachmentFilePatterns', instance.includeAttachmentFilePatterns);
   return val;
@@ -2229,22 +2116,23 @@ SharePointConfiguration _$SharePointConfigurationFromJson(
     Map<String, dynamic> json) {
   return SharePointConfiguration(
     secretArn: json['SecretArn'] as String,
-    sharePointVersion: _$enumDecodeNullable(
-        _$SharePointVersionEnumMap, json['SharePointVersion']),
-    urls: (json['Urls'] as List)?.map((e) => e as String)?.toList(),
-    crawlAttachments: json['CrawlAttachments'] as bool,
-    disableLocalGroups: json['DisableLocalGroups'] as bool,
-    documentTitleFieldName: json['DocumentTitleFieldName'] as String,
-    exclusionPatterns:
-        (json['ExclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    fieldMappings: (json['FieldMappings'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    inclusionPatterns:
-        (json['InclusionPatterns'] as List)?.map((e) => e as String)?.toList(),
-    useChangeLog: json['UseChangeLog'] as bool,
+    sharePointVersion:
+        _$enumDecode(_$SharePointVersionEnumMap, json['SharePointVersion']),
+    urls: (json['Urls'] as List<dynamic>).map((e) => e as String).toList(),
+    crawlAttachments: json['CrawlAttachments'] as bool?,
+    disableLocalGroups: json['DisableLocalGroups'] as bool?,
+    documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+    exclusionPatterns: (json['ExclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    fieldMappings: (json['FieldMappings'] as List<dynamic>?)
+        ?.map((e) =>
+            DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    inclusionPatterns: (json['InclusionPatterns'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    useChangeLog: json['UseChangeLog'] as bool?,
     vpcConfiguration: json['VpcConfiguration'] == null
         ? null
         : DataSourceVpcConfiguration.fromJson(
@@ -2254,7 +2142,11 @@ SharePointConfiguration _$SharePointConfigurationFromJson(
 
 Map<String, dynamic> _$SharePointConfigurationToJson(
     SharePointConfiguration instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SecretArn': instance.secretArn,
+    'SharePointVersion': _$SharePointVersionEnumMap[instance.sharePointVersion],
+    'Urls': instance.urls,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -2262,16 +2154,12 @@ Map<String, dynamic> _$SharePointConfigurationToJson(
     }
   }
 
-  writeNotNull('SecretArn', instance.secretArn);
-  writeNotNull('SharePointVersion',
-      _$SharePointVersionEnumMap[instance.sharePointVersion]);
-  writeNotNull('Urls', instance.urls);
   writeNotNull('CrawlAttachments', instance.crawlAttachments);
   writeNotNull('DisableLocalGroups', instance.disableLocalGroups);
   writeNotNull('DocumentTitleFieldName', instance.documentTitleFieldName);
   writeNotNull('ExclusionPatterns', instance.exclusionPatterns);
-  writeNotNull('FieldMappings',
-      instance.fieldMappings?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'FieldMappings', instance.fieldMappings?.map((e) => e.toJson()).toList());
   writeNotNull('InclusionPatterns', instance.inclusionPatterns);
   writeNotNull('UseChangeLog', instance.useChangeLog);
   writeNotNull('VpcConfiguration', instance.vpcConfiguration?.toJson());
@@ -2283,19 +2171,11 @@ const _$SharePointVersionEnumMap = {
 };
 
 Map<String, dynamic> _$SortingConfigurationToJson(
-    SortingConfiguration instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('DocumentAttributeKey', instance.documentAttributeKey);
-  writeNotNull('SortOrder', _$SortOrderEnumMap[instance.sortOrder]);
-  return val;
-}
+        SortingConfiguration instance) =>
+    <String, dynamic>{
+      'DocumentAttributeKey': instance.documentAttributeKey,
+      'SortOrder': _$SortOrderEnumMap[instance.sortOrder],
+    };
 
 const _$SortOrderEnumMap = {
   SortOrder.desc: 'DESC',
@@ -2334,7 +2214,7 @@ const _$QueryIdentifiersEnclosingOptionEnumMap = {
 StartDataSourceSyncJobResponse _$StartDataSourceSyncJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartDataSourceSyncJobResponse(
-    executionId: json['ExecutionId'] as String,
+    executionId: json['ExecutionId'] as String?,
   );
 }
 
@@ -2345,19 +2225,10 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
@@ -2373,19 +2244,18 @@ TextDocumentStatistics _$TextDocumentStatisticsFromJson(
 
 TextWithHighlights _$TextWithHighlightsFromJson(Map<String, dynamic> json) {
   return TextWithHighlights(
-    highlights: (json['Highlights'] as List)
-        ?.map((e) =>
-            e == null ? null : Highlight.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    text: json['Text'] as String,
+    highlights: (json['Highlights'] as List<dynamic>?)
+        ?.map((e) => Highlight.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    text: json['Text'] as String?,
   );
 }
 
 ThesaurusSummary _$ThesaurusSummaryFromJson(Map<String, dynamic> json) {
   return ThesaurusSummary(
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+    id: json['Id'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ThesaurusStatusEnumMap, json['Status']),
     updatedAt: const UnixDateTimeConverter().fromJson(json['UpdatedAt']),
   );

@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'mediaconnect-2018-11-14.g.dart';
 
 /// API for AWS Elemental MediaConnect
 class MediaConnect {
   final _s.RestJsonProtocol _protocol;
   MediaConnect({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +54,8 @@ class MediaConnect {
   /// Parameter [outputs] :
   /// A list of outputs that you want to add.
   Future<AddFlowOutputsResponse> addFlowOutputs({
-    @_s.required String flowArn,
-    @_s.required List<AddOutputRequest> outputs,
+    required String flowArn,
+    required List<AddOutputRequest> outputs,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputs, 'outputs');
@@ -94,8 +86,8 @@ class MediaConnect {
   /// Parameter [sources] :
   /// A list of sources that you want to add.
   Future<AddFlowSourcesResponse> addFlowSources({
-    @_s.required String flowArn,
-    @_s.required List<SetSourceRequest> sources,
+    required String flowArn,
+    required List<SetSourceRequest> sources,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sources, 'sources');
@@ -126,8 +118,8 @@ class MediaConnect {
   /// Parameter [vpcInterfaces] :
   /// A list of VPC interfaces that you want to add.
   Future<AddFlowVpcInterfacesResponse> addFlowVpcInterfaces({
-    @_s.required String flowArn,
-    @_s.required List<VpcInterfaceRequest> vpcInterfaces,
+    required String flowArn,
+    required List<VpcInterfaceRequest> vpcInterfaces,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(vpcInterfaces, 'vpcInterfaces');
@@ -169,14 +161,14 @@ class MediaConnect {
   /// Parameter [vpcInterfaces] :
   /// The VPC interfaces you want on the flow.
   Future<CreateFlowResponse> createFlow({
-    @_s.required String name,
-    String availabilityZone,
-    List<GrantEntitlementRequest> entitlements,
-    List<AddOutputRequest> outputs,
-    SetSourceRequest source,
-    FailoverConfig sourceFailoverConfig,
-    List<SetSourceRequest> sources,
-    List<VpcInterfaceRequest> vpcInterfaces,
+    required String name,
+    String? availabilityZone,
+    List<GrantEntitlementRequest>? entitlements,
+    List<AddOutputRequest>? outputs,
+    SetSourceRequest? source,
+    FailoverConfig? sourceFailoverConfig,
+    List<SetSourceRequest>? sources,
+    List<VpcInterfaceRequest>? vpcInterfaces,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
@@ -211,7 +203,7 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The ARN of the flow that you want to delete.
   Future<DeleteFlowResponse> deleteFlow({
-    @_s.required String flowArn,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
@@ -237,7 +229,7 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The ARN of the flow that you want to describe.
   Future<DescribeFlowResponse> describeFlow({
-    @_s.required String flowArn,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
@@ -262,7 +254,7 @@ class MediaConnect {
   /// Parameter [offeringArn] :
   /// The Amazon Resource Name (ARN) of the offering.
   Future<DescribeOfferingResponse> describeOffering({
-    @_s.required String offeringArn,
+    required String offeringArn,
   }) async {
     ArgumentError.checkNotNull(offeringArn, 'offeringArn');
     final response = await _protocol.send(
@@ -288,7 +280,7 @@ class MediaConnect {
   /// Parameter [reservationArn] :
   /// The Amazon Resource Name (ARN) of the reservation.
   Future<DescribeReservationResponse> describeReservation({
-    @_s.required String reservationArn,
+    required String reservationArn,
   }) async {
     ArgumentError.checkNotNull(reservationArn, 'reservationArn');
     final response = await _protocol.send(
@@ -316,8 +308,8 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The flow that you want to grant entitlements on.
   Future<GrantFlowEntitlementsResponse> grantFlowEntitlements({
-    @_s.required List<GrantEntitlementRequest> entitlements,
-    @_s.required String flowArn,
+    required List<GrantEntitlementRequest> entitlements,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(entitlements, 'entitlements');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
@@ -357,8 +349,8 @@ class MediaConnect {
   /// value. To see the next batch of results, you can submit the
   /// ListEntitlements request a second time and specify the NextToken value.
   Future<ListEntitlementsResponse> listEntitlements({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -404,8 +396,8 @@ class MediaConnect {
   /// value. To see the next batch of results, you can submit the ListFlows
   /// request a second time and specify the NextToken value.
   Future<ListFlowsResponse> listFlows({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -453,8 +445,8 @@ class MediaConnect {
   /// value. To see the next batch of results, you can submit the ListOfferings
   /// request a second time and specify the NextToken value.
   Future<ListOfferingsResponse> listOfferings({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -501,8 +493,8 @@ class MediaConnect {
   /// value. To see the next batch of results, you can submit the ListOfferings
   /// request a second time and specify the NextToken value.
   Future<ListReservationsResponse> listReservations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -534,7 +526,7 @@ class MediaConnect {
   /// The Amazon Resource Name (ARN) that identifies the AWS Elemental
   /// MediaConnect resource for which to list the tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -570,9 +562,9 @@ class MediaConnect {
   /// format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For
   /// example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
   Future<PurchaseOfferingResponse> purchaseOffering({
-    @_s.required String offeringArn,
-    @_s.required String reservationName,
-    @_s.required String start,
+    required String offeringArn,
+    required String reservationName,
+    required String start,
   }) async {
     ArgumentError.checkNotNull(offeringArn, 'offeringArn');
     ArgumentError.checkNotNull(reservationName, 'reservationName');
@@ -609,8 +601,8 @@ class MediaConnect {
   /// Parameter [outputArn] :
   /// The ARN of the output that you want to remove.
   Future<RemoveFlowOutputResponse> removeFlowOutput({
-    @_s.required String flowArn,
-    @_s.required String outputArn,
+    required String flowArn,
+    required String outputArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
@@ -640,8 +632,8 @@ class MediaConnect {
   /// Parameter [sourceArn] :
   /// The ARN of the source that you want to remove.
   Future<RemoveFlowSourceResponse> removeFlowSource({
-    @_s.required String flowArn,
-    @_s.required String sourceArn,
+    required String flowArn,
+    required String sourceArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
@@ -674,8 +666,8 @@ class MediaConnect {
   /// Parameter [vpcInterfaceName] :
   /// The name of the VPC interface that you want to remove.
   Future<RemoveFlowVpcInterfaceResponse> removeFlowVpcInterface({
-    @_s.required String flowArn,
-    @_s.required String vpcInterfaceName,
+    required String flowArn,
+    required String vpcInterfaceName,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(vpcInterfaceName, 'vpcInterfaceName');
@@ -706,8 +698,8 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The flow that you want to revoke an entitlement from.
   Future<RevokeFlowEntitlementResponse> revokeFlowEntitlement({
-    @_s.required String entitlementArn,
-    @_s.required String flowArn,
+    required String entitlementArn,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
@@ -733,7 +725,7 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The ARN of the flow that you want to start.
   Future<StartFlowResponse> startFlow({
-    @_s.required String flowArn,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
@@ -757,7 +749,7 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The ARN of the flow that you want to stop.
   Future<StopFlowResponse> stopFlow({
-    @_s.required String flowArn,
+    required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
@@ -787,8 +779,8 @@ class MediaConnect {
   /// length of 128 characters, and tag values can have a maximum length of 256
   /// characters.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -816,13 +808,13 @@ class MediaConnect {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -845,8 +837,8 @@ class MediaConnect {
   /// Parameter [flowArn] :
   /// The flow that you want to update.
   Future<UpdateFlowResponse> updateFlow({
-    @_s.required String flowArn,
-    UpdateFailoverConfig sourceFailoverConfig,
+    required String flowArn,
+    UpdateFailoverConfig? sourceFailoverConfig,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
@@ -899,12 +891,12 @@ class MediaConnect {
   /// receiving accounts (subscribers) will be allowed to create their own flow
   /// using your content as the source.
   Future<UpdateFlowEntitlementResponse> updateFlowEntitlement({
-    @_s.required String entitlementArn,
-    @_s.required String flowArn,
-    String description,
-    UpdateEncryption encryption,
-    EntitlementStatus entitlementStatus,
-    List<String> subscribers,
+    required String entitlementArn,
+    required String flowArn,
+    String? description,
+    UpdateEncryption? encryption,
+    EntitlementStatus? entitlementStatus,
+    List<String>? subscribers,
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
@@ -978,19 +970,19 @@ class MediaConnect {
   /// Parameter [vpcInterfaceAttachment] :
   /// The name of the VPC interface attachment to use for this output.
   Future<UpdateFlowOutputResponse> updateFlowOutput({
-    @_s.required String flowArn,
-    @_s.required String outputArn,
-    List<String> cidrAllowList,
-    String description,
-    String destination,
-    UpdateEncryption encryption,
-    int maxLatency,
-    int port,
-    Protocol protocol,
-    String remoteId,
-    int smoothingLatency,
-    String streamId,
-    VpcInterfaceAttachment vpcInterfaceAttachment,
+    required String flowArn,
+    required String outputArn,
+    List<String>? cidrAllowList,
+    String? description,
+    String? destination,
+    UpdateEncryption? encryption,
+    int? maxLatency,
+    int? port,
+    Protocol? protocol,
+    String? remoteId,
+    int? smoothingLatency,
+    String? streamId,
+    VpcInterfaceAttachment? vpcInterfaceAttachment,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
@@ -1070,18 +1062,18 @@ class MediaConnect {
   /// your source. These IP addresses should be in the form of a Classless
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
   Future<UpdateFlowSourceResponse> updateFlowSource({
-    @_s.required String flowArn,
-    @_s.required String sourceArn,
-    UpdateEncryption decryption,
-    String description,
-    String entitlementArn,
-    int ingestPort,
-    int maxBitrate,
-    int maxLatency,
-    Protocol protocol,
-    String streamId,
-    String vpcInterfaceName,
-    String whitelistCidr,
+    required String flowArn,
+    required String sourceArn,
+    UpdateEncryption? decryption,
+    String? description,
+    String? entitlementArn,
+    int? ingestPort,
+    int? maxBitrate,
+    int? maxLatency,
+    Protocol? protocol,
+    String? streamId,
+    String? vpcInterfaceName,
+    String? whitelistCidr,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
@@ -1108,134 +1100,117 @@ class MediaConnect {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddFlowOutputsResponse {
   /// The ARN of the flow that these outputs were added to.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The details of the newly added outputs.
-  @_s.JsonKey(name: 'outputs')
-  final List<Output> outputs;
+  final List<Output>? outputs;
 
   AddFlowOutputsResponse({
     this.flowArn,
     this.outputs,
   });
-  factory AddFlowOutputsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddFlowOutputsResponseFromJson(json);
+  factory AddFlowOutputsResponse.fromJson(Map<String, dynamic> json) {
+    return AddFlowOutputsResponse(
+      flowArn: json['flowArn'] as String?,
+      outputs: (json['outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Output.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddFlowSourcesResponse {
   /// The ARN of the flow that these sources were added to.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The details of the newly added sources.
-  @_s.JsonKey(name: 'sources')
-  final List<Source> sources;
+  final List<Source>? sources;
 
   AddFlowSourcesResponse({
     this.flowArn,
     this.sources,
   });
-  factory AddFlowSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddFlowSourcesResponseFromJson(json);
+  factory AddFlowSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return AddFlowSourcesResponse(
+      flowArn: json['flowArn'] as String?,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Source.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddFlowVpcInterfacesResponse {
   /// The ARN of the flow that these VPC interfaces were added to.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The details of the newly added VPC interfaces.
-  @_s.JsonKey(name: 'vpcInterfaces')
-  final List<VpcInterface> vpcInterfaces;
+  final List<VpcInterface>? vpcInterfaces;
 
   AddFlowVpcInterfacesResponse({
     this.flowArn,
     this.vpcInterfaces,
   });
-  factory AddFlowVpcInterfacesResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddFlowVpcInterfacesResponseFromJson(json);
+  factory AddFlowVpcInterfacesResponse.fromJson(Map<String, dynamic> json) {
+    return AddFlowVpcInterfacesResponse(
+      flowArn: json['flowArn'] as String?,
+      vpcInterfaces: (json['vpcInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The output that you want to add to this flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AddOutputRequest {
   /// The protocol to use for the output.
-  @_s.JsonKey(name: 'protocol')
   final Protocol protocol;
 
   /// The range of IP addresses that should be allowed to initiate output requests
   /// to this flow. These IP addresses should be in the form of a Classless
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-  @_s.JsonKey(name: 'cidrAllowList')
-  final List<String> cidrAllowList;
+  final List<String>? cidrAllowList;
 
   /// A description of the output. This description appears only on the AWS
   /// Elemental MediaConnect console and will not be seen by the end user.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The IP address from which video will be sent to output destinations.
-  @_s.JsonKey(name: 'destination')
-  final String destination;
+  final String? destination;
 
   /// The type of key used for the encryption. If no keyType is provided, the
   /// service will use the default setting (static-key).
-  @_s.JsonKey(name: 'encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The maximum latency in milliseconds for Zixi-based streams.
-  @_s.JsonKey(name: 'maxLatency')
-  final int maxLatency;
+  final int? maxLatency;
 
   /// The name of the output. This value must be unique within the current flow.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The port to use when content is distributed to this output.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// The remote ID for the Zixi-pull output stream.
-  @_s.JsonKey(name: 'remoteId')
-  final String remoteId;
+  final String? remoteId;
 
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
-  @_s.JsonKey(name: 'smoothingLatency')
-  final int smoothingLatency;
+  final int? smoothingLatency;
 
   /// The stream ID that you want to use for this transport. This parameter
   /// applies only to Zixi-based streams.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The name of the VPC interface attachment to use for this output.
-  @_s.JsonKey(name: 'vpcInterfaceAttachment')
-  final VpcInterfaceAttachment vpcInterfaceAttachment;
+  final VpcInterfaceAttachment? vpcInterfaceAttachment;
 
   AddOutputRequest({
-    @_s.required this.protocol,
+    required this.protocol,
     this.cidrAllowList,
     this.description,
     this.destination,
@@ -1248,174 +1223,225 @@ class AddOutputRequest {
     this.streamId,
     this.vpcInterfaceAttachment,
   });
-  Map<String, dynamic> toJson() => _$AddOutputRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final protocol = this.protocol;
+    final cidrAllowList = this.cidrAllowList;
+    final description = this.description;
+    final destination = this.destination;
+    final encryption = this.encryption;
+    final maxLatency = this.maxLatency;
+    final name = this.name;
+    final port = this.port;
+    final remoteId = this.remoteId;
+    final smoothingLatency = this.smoothingLatency;
+    final streamId = this.streamId;
+    final vpcInterfaceAttachment = this.vpcInterfaceAttachment;
+    return {
+      'protocol': protocol.toValue(),
+      if (cidrAllowList != null) 'cidrAllowList': cidrAllowList,
+      if (description != null) 'description': description,
+      if (destination != null) 'destination': destination,
+      if (encryption != null) 'encryption': encryption,
+      if (maxLatency != null) 'maxLatency': maxLatency,
+      if (name != null) 'name': name,
+      if (port != null) 'port': port,
+      if (remoteId != null) 'remoteId': remoteId,
+      if (smoothingLatency != null) 'smoothingLatency': smoothingLatency,
+      if (streamId != null) 'streamId': streamId,
+      if (vpcInterfaceAttachment != null)
+        'vpcInterfaceAttachment': vpcInterfaceAttachment,
+    };
+  }
 }
 
 enum Algorithm {
-  @_s.JsonValue('aes128')
   aes128,
-  @_s.JsonValue('aes192')
   aes192,
-  @_s.JsonValue('aes256')
   aes256,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Algorithm {
+  String toValue() {
+    switch (this) {
+      case Algorithm.aes128:
+        return 'aes128';
+      case Algorithm.aes192:
+        return 'aes192';
+      case Algorithm.aes256:
+        return 'aes256';
+    }
+  }
+}
+
+extension on String {
+  Algorithm toAlgorithm() {
+    switch (this) {
+      case 'aes128':
+        return Algorithm.aes128;
+      case 'aes192':
+        return Algorithm.aes192;
+      case 'aes256':
+        return Algorithm.aes256;
+    }
+    throw Exception('$this is not known in enum Algorithm');
+  }
+}
+
 class CreateFlowResponse {
-  @_s.JsonKey(name: 'flow')
-  final Flow flow;
+  final Flow? flow;
 
   CreateFlowResponse({
     this.flow,
   });
-  factory CreateFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFlowResponseFromJson(json);
+  factory CreateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowResponse(
+      flow: json['flow'] != null
+          ? Flow.fromJson(json['flow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFlowResponse {
   /// The ARN of the flow that was deleted.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The status of the flow when the DeleteFlow process begins.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   DeleteFlowResponse({
     this.flowArn,
     this.status,
   });
-  factory DeleteFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFlowResponseFromJson(json);
+  factory DeleteFlowResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFlowResponse(
+      flowArn: json['flowArn'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFlowResponse {
-  @_s.JsonKey(name: 'flow')
-  final Flow flow;
-  @_s.JsonKey(name: 'messages')
-  final Messages messages;
+  final Flow? flow;
+  final Messages? messages;
 
   DescribeFlowResponse({
     this.flow,
     this.messages,
   });
-  factory DescribeFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFlowResponseFromJson(json);
+  factory DescribeFlowResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFlowResponse(
+      flow: json['flow'] != null
+          ? Flow.fromJson(json['flow'] as Map<String, dynamic>)
+          : null,
+      messages: json['messages'] != null
+          ? Messages.fromJson(json['messages'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOfferingResponse {
-  @_s.JsonKey(name: 'offering')
-  final Offering offering;
+  final Offering? offering;
 
   DescribeOfferingResponse({
     this.offering,
   });
-  factory DescribeOfferingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeOfferingResponseFromJson(json);
+  factory DescribeOfferingResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOfferingResponse(
+      offering: json['offering'] != null
+          ? Offering.fromJson(json['offering'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReservationResponse {
-  @_s.JsonKey(name: 'reservation')
-  final Reservation reservation;
+  final Reservation? reservation;
 
   DescribeReservationResponse({
     this.reservation,
   });
-  factory DescribeReservationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeReservationResponseFromJson(json);
+  factory DescribeReservationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReservationResponse(
+      reservation: json['reservation'] != null
+          ? Reservation.fromJson(json['reservation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum DurationUnits {
-  @_s.JsonValue('MONTHS')
   months,
 }
 
+extension on DurationUnits {
+  String toValue() {
+    switch (this) {
+      case DurationUnits.months:
+        return 'MONTHS';
+    }
+  }
+}
+
+extension on String {
+  DurationUnits toDurationUnits() {
+    switch (this) {
+      case 'MONTHS':
+        return DurationUnits.months;
+    }
+    throw Exception('$this is not known in enum DurationUnits');
+  }
+}
+
 /// Information about the encryption of the flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Encryption {
   /// The type of algorithm that is used for the encryption (such as aes128,
   /// aes192, or aes256).
-  @_s.JsonKey(name: 'algorithm')
   final Algorithm algorithm;
 
   /// The ARN of the role that you created during setup (when you set up AWS
   /// Elemental MediaConnect as a trusted entity).
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// A 128-bit, 16-byte hex value represented by a 32-character string, to be
   /// used with the key for encrypting content. This parameter is not valid for
   /// static key encryption.
-  @_s.JsonKey(name: 'constantInitializationVector')
-  final String constantInitializationVector;
+  final String? constantInitializationVector;
 
   /// The value of one of the devices that you configured with your digital rights
   /// management (DRM) platform key provider. This parameter is required for SPEKE
   /// encryption and is not valid for static key encryption.
-  @_s.JsonKey(name: 'deviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The type of key that is used for the encryption. If no keyType is provided,
   /// the service will use the default setting (static-key).
-  @_s.JsonKey(name: 'keyType')
-  final KeyType keyType;
+  final KeyType? keyType;
 
   /// The AWS Region that the API Gateway proxy endpoint was created in. This
   /// parameter is required for SPEKE encryption and is not valid for static key
   /// encryption.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// An identifier for the content. The service sends this value to the key
   /// server to identify the current endpoint. The resource ID is also known as
   /// the content ID. This parameter is required for SPEKE encryption and is not
   /// valid for static key encryption.
-  @_s.JsonKey(name: 'resourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The ARN of the secret that you created in AWS Secrets Manager to store the
   /// encryption key. This parameter is required for static key encryption and is
   /// not valid for SPEKE encryption.
-  @_s.JsonKey(name: 'secretArn')
-  final String secretArn;
+  final String? secretArn;
 
   /// The URL from the API Gateway proxy that you set up to talk to your key
   /// server. This parameter is required for SPEKE encryption and is not valid for
   /// static key encryption.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   Encryption({
-    @_s.required this.algorithm,
-    @_s.required this.roleArn,
+    required this.algorithm,
+    required this.roleArn,
     this.constantInitializationVector,
     this.deviceId,
     this.keyType,
@@ -1424,68 +1450,104 @@ class Encryption {
     this.secretArn,
     this.url,
   });
-  factory Encryption.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionFromJson(json);
+  factory Encryption.fromJson(Map<String, dynamic> json) {
+    return Encryption(
+      algorithm: (json['algorithm'] as String).toAlgorithm(),
+      roleArn: json['roleArn'] as String,
+      constantInitializationVector:
+          json['constantInitializationVector'] as String?,
+      deviceId: json['deviceId'] as String?,
+      keyType: (json['keyType'] as String?)?.toKeyType(),
+      region: json['region'] as String?,
+      resourceId: json['resourceId'] as String?,
+      secretArn: json['secretArn'] as String?,
+      url: json['url'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final roleArn = this.roleArn;
+    final constantInitializationVector = this.constantInitializationVector;
+    final deviceId = this.deviceId;
+    final keyType = this.keyType;
+    final region = this.region;
+    final resourceId = this.resourceId;
+    final secretArn = this.secretArn;
+    final url = this.url;
+    return {
+      'algorithm': algorithm.toValue(),
+      'roleArn': roleArn,
+      if (constantInitializationVector != null)
+        'constantInitializationVector': constantInitializationVector,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (keyType != null) 'keyType': keyType.toValue(),
+      if (region != null) 'region': region,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (secretArn != null) 'secretArn': secretArn,
+      if (url != null) 'url': url,
+    };
+  }
 }
 
 /// The settings for a flow entitlement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Entitlement {
   /// The ARN of the entitlement.
-  @_s.JsonKey(name: 'entitlementArn')
   final String entitlementArn;
 
   /// The name of the entitlement.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The AWS account IDs that you want to share your content with. The receiving
   /// accounts (subscribers) will be allowed to create their own flow using your
   /// content as the source.
-  @_s.JsonKey(name: 'subscribers')
   final List<String> subscribers;
 
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
-  @_s.JsonKey(name: 'dataTransferSubscriberFeePercent')
-  final int dataTransferSubscriberFeePercent;
+  final int? dataTransferSubscriberFeePercent;
 
   /// A description of the entitlement.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The type of encryption that will be used on the output that is associated
   /// with this entitlement.
-  @_s.JsonKey(name: 'encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// An indication of whether the entitlement is enabled.
-  @_s.JsonKey(name: 'entitlementStatus')
-  final EntitlementStatus entitlementStatus;
+  final EntitlementStatus? entitlementStatus;
 
   Entitlement({
-    @_s.required this.entitlementArn,
-    @_s.required this.name,
-    @_s.required this.subscribers,
+    required this.entitlementArn,
+    required this.name,
+    required this.subscribers,
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.encryption,
     this.entitlementStatus,
   });
-  factory Entitlement.fromJson(Map<String, dynamic> json) =>
-      _$EntitlementFromJson(json);
+  factory Entitlement.fromJson(Map<String, dynamic> json) {
+    return Entitlement(
+      entitlementArn: json['entitlementArn'] as String,
+      name: json['name'] as String,
+      subscribers: (json['subscribers'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dataTransferSubscriberFeePercent:
+          json['dataTransferSubscriberFeePercent'] as int?,
+      description: json['description'] as String?,
+      encryption: json['encryption'] != null
+          ? Encryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      entitlementStatus:
+          (json['entitlementStatus'] as String?)?.toEntitlementStatus(),
+    );
+  }
 }
 
 enum EntitlementStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -1497,518 +1559,549 @@ extension on EntitlementStatus {
       case EntitlementStatus.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EntitlementStatus toEntitlementStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return EntitlementStatus.enabled;
+      case 'DISABLED':
+        return EntitlementStatus.disabled;
+    }
+    throw Exception('$this is not known in enum EntitlementStatus');
   }
 }
 
 /// The settings for source failover
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FailoverConfig {
   /// Search window time to look for dash-7 packets
-  @_s.JsonKey(name: 'recoveryWindow')
-  final int recoveryWindow;
-  @_s.JsonKey(name: 'state')
-  final State state;
+  final int? recoveryWindow;
+  final State? state;
 
   FailoverConfig({
     this.recoveryWindow,
     this.state,
   });
-  factory FailoverConfig.fromJson(Map<String, dynamic> json) =>
-      _$FailoverConfigFromJson(json);
+  factory FailoverConfig.fromJson(Map<String, dynamic> json) {
+    return FailoverConfig(
+      recoveryWindow: json['recoveryWindow'] as int?,
+      state: (json['state'] as String?)?.toState(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$FailoverConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final recoveryWindow = this.recoveryWindow;
+    final state = this.state;
+    return {
+      if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
 /// The settings for a flow, including its source, outputs, and entitlements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Flow {
   /// The Availability Zone that you want to create the flow in. These options are
   /// limited to the Availability Zones within the current AWS.
-  @_s.JsonKey(name: 'availabilityZone')
   final String availabilityZone;
 
   /// The entitlements in this flow.
-  @_s.JsonKey(name: 'entitlements')
   final List<Entitlement> entitlements;
 
   /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of
   /// the flow.
-  @_s.JsonKey(name: 'flowArn')
   final String flowArn;
 
   /// The name of the flow.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The outputs in this flow.
-  @_s.JsonKey(name: 'outputs')
   final List<Output> outputs;
-  @_s.JsonKey(name: 'source')
   final Source source;
 
   /// The current status of the flow.
-  @_s.JsonKey(name: 'status')
   final Status status;
 
   /// A description of the flow. This value is not used or seen outside of the
   /// current AWS Elemental MediaConnect account.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The IP address from which video will be sent to output destinations.
-  @_s.JsonKey(name: 'egressIp')
-  final String egressIp;
-  @_s.JsonKey(name: 'sourceFailoverConfig')
-  final FailoverConfig sourceFailoverConfig;
-  @_s.JsonKey(name: 'sources')
-  final List<Source> sources;
+  final String? egressIp;
+  final FailoverConfig? sourceFailoverConfig;
+  final List<Source>? sources;
 
   /// The VPC Interfaces for this flow.
-  @_s.JsonKey(name: 'vpcInterfaces')
-  final List<VpcInterface> vpcInterfaces;
+  final List<VpcInterface>? vpcInterfaces;
 
   Flow({
-    @_s.required this.availabilityZone,
-    @_s.required this.entitlements,
-    @_s.required this.flowArn,
-    @_s.required this.name,
-    @_s.required this.outputs,
-    @_s.required this.source,
-    @_s.required this.status,
+    required this.availabilityZone,
+    required this.entitlements,
+    required this.flowArn,
+    required this.name,
+    required this.outputs,
+    required this.source,
+    required this.status,
     this.description,
     this.egressIp,
     this.sourceFailoverConfig,
     this.sources,
     this.vpcInterfaces,
   });
-  factory Flow.fromJson(Map<String, dynamic> json) => _$FlowFromJson(json);
+  factory Flow.fromJson(Map<String, dynamic> json) {
+    return Flow(
+      availabilityZone: json['availabilityZone'] as String,
+      entitlements: (json['entitlements'] as List)
+          .whereNotNull()
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      flowArn: json['flowArn'] as String,
+      name: json['name'] as String,
+      outputs: (json['outputs'] as List)
+          .whereNotNull()
+          .map((e) => Output.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      source: Source.fromJson(json['source'] as Map<String, dynamic>),
+      status: (json['status'] as String).toStatus(),
+      description: json['description'] as String?,
+      egressIp: json['egressIp'] as String?,
+      sourceFailoverConfig: json['sourceFailoverConfig'] != null
+          ? FailoverConfig.fromJson(
+              json['sourceFailoverConfig'] as Map<String, dynamic>)
+          : null,
+      sources: (json['sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Source.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcInterfaces: (json['vpcInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => VpcInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The entitlements that you want to grant on a flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GrantEntitlementRequest {
   /// The AWS account IDs that you want to share your content with. The receiving
   /// accounts (subscribers) will be allowed to create their own flows using your
   /// content as the source.
-  @_s.JsonKey(name: 'subscribers')
   final List<String> subscribers;
 
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
-  @_s.JsonKey(name: 'dataTransferSubscriberFeePercent')
-  final int dataTransferSubscriberFeePercent;
+  final int? dataTransferSubscriberFeePercent;
 
   /// A description of the entitlement. This description appears only on the AWS
   /// Elemental MediaConnect console and will not be seen by the subscriber or end
   /// user.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The type of encryption that will be used on the output that is associated
   /// with this entitlement.
-  @_s.JsonKey(name: 'encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// An indication of whether the new entitlement should be enabled or disabled
   /// as soon as it is created. If you don’t specify the entitlementStatus field
   /// in your request, MediaConnect sets it to ENABLED.
-  @_s.JsonKey(name: 'entitlementStatus')
-  final EntitlementStatus entitlementStatus;
+  final EntitlementStatus? entitlementStatus;
 
   /// The name of the entitlement. This value must be unique within the current
   /// flow.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   GrantEntitlementRequest({
-    @_s.required this.subscribers,
+    required this.subscribers,
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.encryption,
     this.entitlementStatus,
     this.name,
   });
-  Map<String, dynamic> toJson() => _$GrantEntitlementRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final subscribers = this.subscribers;
+    final dataTransferSubscriberFeePercent =
+        this.dataTransferSubscriberFeePercent;
+    final description = this.description;
+    final encryption = this.encryption;
+    final entitlementStatus = this.entitlementStatus;
+    final name = this.name;
+    return {
+      'subscribers': subscribers,
+      if (dataTransferSubscriberFeePercent != null)
+        'dataTransferSubscriberFeePercent': dataTransferSubscriberFeePercent,
+      if (description != null) 'description': description,
+      if (encryption != null) 'encryption': encryption,
+      if (entitlementStatus != null)
+        'entitlementStatus': entitlementStatus.toValue(),
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GrantFlowEntitlementsResponse {
   /// The entitlements that were just granted.
-  @_s.JsonKey(name: 'entitlements')
-  final List<Entitlement> entitlements;
+  final List<Entitlement>? entitlements;
 
   /// The ARN of the flow that these entitlements were granted to.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   GrantFlowEntitlementsResponse({
     this.entitlements,
     this.flowArn,
   });
-  factory GrantFlowEntitlementsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GrantFlowEntitlementsResponseFromJson(json);
+  factory GrantFlowEntitlementsResponse.fromJson(Map<String, dynamic> json) {
+    return GrantFlowEntitlementsResponse(
+      entitlements: (json['entitlements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      flowArn: json['flowArn'] as String?,
+    );
+  }
 }
 
 enum KeyType {
-  @_s.JsonValue('speke')
   speke,
-  @_s.JsonValue('static-key')
   staticKey,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on KeyType {
+  String toValue() {
+    switch (this) {
+      case KeyType.speke:
+        return 'speke';
+      case KeyType.staticKey:
+        return 'static-key';
+    }
+  }
+}
+
+extension on String {
+  KeyType toKeyType() {
+    switch (this) {
+      case 'speke':
+        return KeyType.speke;
+      case 'static-key':
+        return KeyType.staticKey;
+    }
+    throw Exception('$this is not known in enum KeyType');
+  }
+}
+
 class ListEntitlementsResponse {
   /// A list of entitlements that have been granted to you from other AWS
   /// accounts.
-  @_s.JsonKey(name: 'entitlements')
-  final List<ListedEntitlement> entitlements;
+  final List<ListedEntitlement>? entitlements;
 
   /// The token that identifies which batch of results that you want to see. For
   /// example, you submit a ListEntitlements request with MaxResults set at 5. The
   /// service returns the first batch of results (up to 5) and a NextToken value.
   /// To see the next batch of results, you can submit the ListEntitlements
   /// request a second time and specify the NextToken value.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEntitlementsResponse({
     this.entitlements,
     this.nextToken,
   });
-  factory ListEntitlementsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEntitlementsResponseFromJson(json);
+  factory ListEntitlementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEntitlementsResponse(
+      entitlements: (json['entitlements'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListedEntitlement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFlowsResponse {
   /// A list of flow summaries.
-  @_s.JsonKey(name: 'flows')
-  final List<ListedFlow> flows;
+  final List<ListedFlow>? flows;
 
   /// The token that identifies which batch of results that you want to see. For
   /// example, you submit a ListFlows request with MaxResults set at 5. The
   /// service returns the first batch of results (up to 5) and a NextToken value.
   /// To see the next batch of results, you can submit the ListFlows request a
   /// second time and specify the NextToken value.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFlowsResponse({
     this.flows,
     this.nextToken,
   });
-  factory ListFlowsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFlowsResponseFromJson(json);
+  factory ListFlowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFlowsResponse(
+      flows: (json['flows'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListedFlow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOfferingsResponse {
   /// The token that identifies which batch of results that you want to see. For
   /// example, you submit a ListOfferings request with MaxResults set at 5. The
   /// service returns the first batch of results (up to 5) and a NextToken value.
   /// To see the next batch of results, you can submit the ListOfferings request a
   /// second time and specify the NextToken value.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of offerings that are available to this account in the current AWS
   /// Region.
-  @_s.JsonKey(name: 'offerings')
-  final List<Offering> offerings;
+  final List<Offering>? offerings;
 
   ListOfferingsResponse({
     this.nextToken,
     this.offerings,
   });
-  factory ListOfferingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOfferingsResponseFromJson(json);
+  factory ListOfferingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOfferingsResponse(
+      nextToken: json['nextToken'] as String?,
+      offerings: (json['offerings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Offering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListReservationsResponse {
   /// The token that identifies which batch of results that you want to see. For
   /// example, you submit a ListReservations request with MaxResults set at 5. The
   /// service returns the first batch of results (up to 5) and a NextToken value.
   /// To see the next batch of results, you can submit the ListReservations
   /// request a second time and specify the NextToken value.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all reservations that have been purchased by this account in the
   /// current AWS Region.
-  @_s.JsonKey(name: 'reservations')
-  final List<Reservation> reservations;
+  final List<Reservation>? reservations;
 
   ListReservationsResponse({
     this.nextToken,
     this.reservations,
   });
-  factory ListReservationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListReservationsResponseFromJson(json);
+  factory ListReservationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReservationsResponse(
+      nextToken: json['nextToken'] as String?,
+      reservations: (json['reservations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Reservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A map from tag keys to values. Tag keys can have a maximum character length
   /// of 128 characters, and tag values can have a maximum length of 256
   /// characters.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// An entitlement that has been granted to you from other AWS accounts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListedEntitlement {
   /// The ARN of the entitlement.
-  @_s.JsonKey(name: 'entitlementArn')
   final String entitlementArn;
 
   /// The name of the entitlement.
-  @_s.JsonKey(name: 'entitlementName')
   final String entitlementName;
 
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
-  @_s.JsonKey(name: 'dataTransferSubscriberFeePercent')
-  final int dataTransferSubscriberFeePercent;
+  final int? dataTransferSubscriberFeePercent;
 
   ListedEntitlement({
-    @_s.required this.entitlementArn,
-    @_s.required this.entitlementName,
+    required this.entitlementArn,
+    required this.entitlementName,
     this.dataTransferSubscriberFeePercent,
   });
-  factory ListedEntitlement.fromJson(Map<String, dynamic> json) =>
-      _$ListedEntitlementFromJson(json);
+  factory ListedEntitlement.fromJson(Map<String, dynamic> json) {
+    return ListedEntitlement(
+      entitlementArn: json['entitlementArn'] as String,
+      entitlementName: json['entitlementName'] as String,
+      dataTransferSubscriberFeePercent:
+          json['dataTransferSubscriberFeePercent'] as int?,
+    );
+  }
 }
 
 /// Provides a summary of a flow, including its ARN, Availability Zone, and
 /// source type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListedFlow {
   /// The Availability Zone that the flow was created in.
-  @_s.JsonKey(name: 'availabilityZone')
   final String availabilityZone;
 
   /// A description of the flow.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The ARN of the flow.
-  @_s.JsonKey(name: 'flowArn')
   final String flowArn;
 
   /// The name of the flow.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The type of source. This value is either owned (originated somewhere other
   /// than an AWS Elemental MediaConnect flow owned by another AWS account) or
   /// entitled (originated at an AWS Elemental MediaConnect flow owned by another
   /// AWS account).
-  @_s.JsonKey(name: 'sourceType')
   final SourceType sourceType;
 
   /// The current status of the flow.
-  @_s.JsonKey(name: 'status')
   final Status status;
 
   ListedFlow({
-    @_s.required this.availabilityZone,
-    @_s.required this.description,
-    @_s.required this.flowArn,
-    @_s.required this.name,
-    @_s.required this.sourceType,
-    @_s.required this.status,
+    required this.availabilityZone,
+    required this.description,
+    required this.flowArn,
+    required this.name,
+    required this.sourceType,
+    required this.status,
   });
-  factory ListedFlow.fromJson(Map<String, dynamic> json) =>
-      _$ListedFlowFromJson(json);
+  factory ListedFlow.fromJson(Map<String, dynamic> json) {
+    return ListedFlow(
+      availabilityZone: json['availabilityZone'] as String,
+      description: json['description'] as String,
+      flowArn: json['flowArn'] as String,
+      name: json['name'] as String,
+      sourceType: (json['sourceType'] as String).toSourceType(),
+      status: (json['status'] as String).toStatus(),
+    );
+  }
 }
 
 /// Messages that provide the state of the flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Messages {
   /// A list of errors that might have been generated from processes on this flow.
-  @_s.JsonKey(name: 'errors')
   final List<String> errors;
 
   Messages({
-    @_s.required this.errors,
+    required this.errors,
   });
-  factory Messages.fromJson(Map<String, dynamic> json) =>
-      _$MessagesFromJson(json);
+  factory Messages.fromJson(Map<String, dynamic> json) {
+    return Messages(
+      errors: (json['errors'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// A savings plan that reserves a certain amount of outbound bandwidth usage at
 /// a discounted rate each month over a period of time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Offering {
   /// The type of currency that is used for billing. The currencyCode used for all
   /// reservations is US dollars.
-  @_s.JsonKey(name: 'currencyCode')
   final String currencyCode;
 
   /// The length of time that your reservation would be active.
-  @_s.JsonKey(name: 'duration')
   final int duration;
 
   /// The unit of measurement for the duration of the offering.
-  @_s.JsonKey(name: 'durationUnits')
   final DurationUnits durationUnits;
 
   /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
-  @_s.JsonKey(name: 'offeringArn')
   final String offeringArn;
 
   /// A description of the offering.
-  @_s.JsonKey(name: 'offeringDescription')
   final String offeringDescription;
 
   /// The cost of a single unit. This value, in combination with priceUnits, makes
   /// up the rate.
-  @_s.JsonKey(name: 'pricePerUnit')
   final String pricePerUnit;
 
   /// The unit of measurement that is used for billing. This value, in combination
   /// with pricePerUnit, makes up the rate.
-  @_s.JsonKey(name: 'priceUnits')
   final PriceUnits priceUnits;
 
   /// A definition of the amount of outbound bandwidth that you would be reserving
   /// if you purchase the offering.
-  @_s.JsonKey(name: 'resourceSpecification')
   final ResourceSpecification resourceSpecification;
 
   Offering({
-    @_s.required this.currencyCode,
-    @_s.required this.duration,
-    @_s.required this.durationUnits,
-    @_s.required this.offeringArn,
-    @_s.required this.offeringDescription,
-    @_s.required this.pricePerUnit,
-    @_s.required this.priceUnits,
-    @_s.required this.resourceSpecification,
+    required this.currencyCode,
+    required this.duration,
+    required this.durationUnits,
+    required this.offeringArn,
+    required this.offeringDescription,
+    required this.pricePerUnit,
+    required this.priceUnits,
+    required this.resourceSpecification,
   });
-  factory Offering.fromJson(Map<String, dynamic> json) =>
-      _$OfferingFromJson(json);
+  factory Offering.fromJson(Map<String, dynamic> json) {
+    return Offering(
+      currencyCode: json['currencyCode'] as String,
+      duration: json['duration'] as int,
+      durationUnits: (json['durationUnits'] as String).toDurationUnits(),
+      offeringArn: json['offeringArn'] as String,
+      offeringDescription: json['offeringDescription'] as String,
+      pricePerUnit: json['pricePerUnit'] as String,
+      priceUnits: (json['priceUnits'] as String).toPriceUnits(),
+      resourceSpecification: ResourceSpecification.fromJson(
+          json['resourceSpecification'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// The settings for an output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Output {
   /// The name of the output. This value must be unique within the current flow.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The ARN of the output.
-  @_s.JsonKey(name: 'outputArn')
   final String outputArn;
 
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
-  @_s.JsonKey(name: 'dataTransferSubscriberFeePercent')
-  final int dataTransferSubscriberFeePercent;
+  final int? dataTransferSubscriberFeePercent;
 
   /// A description of the output.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The address where you want to send the output.
-  @_s.JsonKey(name: 'destination')
-  final String destination;
+  final String? destination;
 
   /// The type of key used for the encryption. If no keyType is provided, the
   /// service will use the default setting (static-key).
-  @_s.JsonKey(name: 'encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The ARN of the entitlement on the originator''s flow. This value is relevant
   /// only on entitled flows.
-  @_s.JsonKey(name: 'entitlementArn')
-  final String entitlementArn;
+  final String? entitlementArn;
 
   /// The input ARN of the AWS Elemental MediaLive channel. This parameter is
   /// relevant only for outputs that were added by creating a MediaLive input.
-  @_s.JsonKey(name: 'mediaLiveInputArn')
-  final String mediaLiveInputArn;
+  final String? mediaLiveInputArn;
 
   /// The port to use when content is distributed to this output.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// Attributes related to the transport stream that are used in the output.
-  @_s.JsonKey(name: 'transport')
-  final Transport transport;
+  final Transport? transport;
 
   /// The name of the VPC interface attachment to use for this output.
-  @_s.JsonKey(name: 'vpcInterfaceAttachment')
-  final VpcInterfaceAttachment vpcInterfaceAttachment;
+  final VpcInterfaceAttachment? vpcInterfaceAttachment;
 
   Output({
-    @_s.required this.name,
-    @_s.required this.outputArn,
+    required this.name,
+    required this.outputArn,
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.destination,
@@ -2019,24 +2112,59 @@ class Output {
     this.transport,
     this.vpcInterfaceAttachment,
   });
-  factory Output.fromJson(Map<String, dynamic> json) => _$OutputFromJson(json);
+  factory Output.fromJson(Map<String, dynamic> json) {
+    return Output(
+      name: json['name'] as String,
+      outputArn: json['outputArn'] as String,
+      dataTransferSubscriberFeePercent:
+          json['dataTransferSubscriberFeePercent'] as int?,
+      description: json['description'] as String?,
+      destination: json['destination'] as String?,
+      encryption: json['encryption'] != null
+          ? Encryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      entitlementArn: json['entitlementArn'] as String?,
+      mediaLiveInputArn: json['mediaLiveInputArn'] as String?,
+      port: json['port'] as int?,
+      transport: json['transport'] != null
+          ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
+          : null,
+      vpcInterfaceAttachment: json['vpcInterfaceAttachment'] != null
+          ? VpcInterfaceAttachment.fromJson(
+              json['vpcInterfaceAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 enum PriceUnits {
-  @_s.JsonValue('HOURLY')
   hourly,
 }
 
+extension on PriceUnits {
+  String toValue() {
+    switch (this) {
+      case PriceUnits.hourly:
+        return 'HOURLY';
+    }
+  }
+}
+
+extension on String {
+  PriceUnits toPriceUnits() {
+    switch (this) {
+      case 'HOURLY':
+        return PriceUnits.hourly;
+    }
+    throw Exception('$this is not known in enum PriceUnits');
+  }
+}
+
 enum Protocol {
-  @_s.JsonValue('zixi-push')
   zixiPush,
-  @_s.JsonValue('rtp-fec')
   rtpFec,
-  @_s.JsonValue('rtp')
   rtp,
-  @_s.JsonValue('zixi-pull')
   zixiPull,
-  @_s.JsonValue('rist')
   rist,
 }
 
@@ -2054,96 +2182,107 @@ extension on Protocol {
       case Protocol.rist:
         return 'rist';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'zixi-push':
+        return Protocol.zixiPush;
+      case 'rtp-fec':
+        return Protocol.rtpFec;
+      case 'rtp':
+        return Protocol.rtp;
+      case 'zixi-pull':
+        return Protocol.zixiPull;
+      case 'rist':
+        return Protocol.rist;
+    }
+    throw Exception('$this is not known in enum Protocol');
+  }
+}
+
 class PurchaseOfferingResponse {
-  @_s.JsonKey(name: 'reservation')
-  final Reservation reservation;
+  final Reservation? reservation;
 
   PurchaseOfferingResponse({
     this.reservation,
   });
-  factory PurchaseOfferingResponse.fromJson(Map<String, dynamic> json) =>
-      _$PurchaseOfferingResponseFromJson(json);
+  factory PurchaseOfferingResponse.fromJson(Map<String, dynamic> json) {
+    return PurchaseOfferingResponse(
+      reservation: json['reservation'] != null
+          ? Reservation.fromJson(json['reservation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveFlowOutputResponse {
   /// The ARN of the flow that is associated with the output you removed.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The ARN of the output that was removed.
-  @_s.JsonKey(name: 'outputArn')
-  final String outputArn;
+  final String? outputArn;
 
   RemoveFlowOutputResponse({
     this.flowArn,
     this.outputArn,
   });
-  factory RemoveFlowOutputResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveFlowOutputResponseFromJson(json);
+  factory RemoveFlowOutputResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveFlowOutputResponse(
+      flowArn: json['flowArn'] as String?,
+      outputArn: json['outputArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveFlowSourceResponse {
   /// The ARN of the flow that is associated with the source you removed.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The ARN of the source that was removed.
-  @_s.JsonKey(name: 'sourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   RemoveFlowSourceResponse({
     this.flowArn,
     this.sourceArn,
   });
-  factory RemoveFlowSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveFlowSourceResponseFromJson(json);
+  factory RemoveFlowSourceResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveFlowSourceResponse(
+      flowArn: json['flowArn'] as String?,
+      sourceArn: json['sourceArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveFlowVpcInterfaceResponse {
   /// The ARN of the flow that is associated with the VPC interface you removed.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// IDs of network interfaces associated with the removed VPC interface that
   /// Media Connect was unable to remove.
-  @_s.JsonKey(name: 'nonDeletedNetworkInterfaceIds')
-  final List<String> nonDeletedNetworkInterfaceIds;
+  final List<String>? nonDeletedNetworkInterfaceIds;
 
   /// The name of the VPC interface that was removed.
-  @_s.JsonKey(name: 'vpcInterfaceName')
-  final String vpcInterfaceName;
+  final String? vpcInterfaceName;
 
   RemoveFlowVpcInterfaceResponse({
     this.flowArn,
     this.nonDeletedNetworkInterfaceIds,
     this.vpcInterfaceName,
   });
-  factory RemoveFlowVpcInterfaceResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveFlowVpcInterfaceResponseFromJson(json);
+  factory RemoveFlowVpcInterfaceResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveFlowVpcInterfaceResponse(
+      flowArn: json['flowArn'] as String?,
+      nonDeletedNetworkInterfaceIds:
+          (json['nonDeletedNetworkInterfaceIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      vpcInterfaceName: json['vpcInterfaceName'] as String?,
+    );
+  }
 }
 
 /// A pricing agreement for a discounted rate for a specific outbound bandwidth
@@ -2153,215 +2292,237 @@ class RemoveFlowVpcInterfaceResponse {
 /// bandwidth in your reservation. If you use more outbound bandwidth than the
 /// agreed upon amount in a single month, the overage is charged at the
 /// on-demand rate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Reservation {
   /// The type of currency that is used for billing. The currencyCode used for
   /// your reservation is US dollars.
-  @_s.JsonKey(name: 'currencyCode')
   final String currencyCode;
 
   /// The length of time that this reservation is active. MediaConnect defines
   /// this value in the offering.
-  @_s.JsonKey(name: 'duration')
   final int duration;
 
   /// The unit of measurement for the duration of the reservation. MediaConnect
   /// defines this value in the offering.
-  @_s.JsonKey(name: 'durationUnits')
   final DurationUnits durationUnits;
 
   /// The day and time that this reservation expires. This value is calculated
   /// based on the start date and time that you set and the offering's duration.
-  @_s.JsonKey(name: 'end')
   final String end;
 
   /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
-  @_s.JsonKey(name: 'offeringArn')
   final String offeringArn;
 
   /// A description of the offering. MediaConnect defines this value in the
   /// offering.
-  @_s.JsonKey(name: 'offeringDescription')
   final String offeringDescription;
 
   /// The cost of a single unit. This value, in combination with priceUnits, makes
   /// up the rate. MediaConnect defines this value in the offering.
-  @_s.JsonKey(name: 'pricePerUnit')
   final String pricePerUnit;
 
   /// The unit of measurement that is used for billing. This value, in combination
   /// with pricePerUnit, makes up the rate. MediaConnect defines this value in the
   /// offering.
-  @_s.JsonKey(name: 'priceUnits')
   final PriceUnits priceUnits;
 
   /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation
   /// when you purchase an offering.
-  @_s.JsonKey(name: 'reservationArn')
   final String reservationArn;
 
   /// The name that you assigned to the reservation when you purchased the
   /// offering.
-  @_s.JsonKey(name: 'reservationName')
   final String reservationName;
 
   /// The status of your reservation.
-  @_s.JsonKey(name: 'reservationState')
   final ReservationState reservationState;
 
   /// A definition of the amount of outbound bandwidth that you would be reserving
   /// if you purchase the offering. MediaConnect defines the values that make up
   /// the resourceSpecification in the offering.
-  @_s.JsonKey(name: 'resourceSpecification')
   final ResourceSpecification resourceSpecification;
 
   /// The day and time that the reservation becomes active. You set this value
   /// when you purchase the offering.
-  @_s.JsonKey(name: 'start')
   final String start;
 
   Reservation({
-    @_s.required this.currencyCode,
-    @_s.required this.duration,
-    @_s.required this.durationUnits,
-    @_s.required this.end,
-    @_s.required this.offeringArn,
-    @_s.required this.offeringDescription,
-    @_s.required this.pricePerUnit,
-    @_s.required this.priceUnits,
-    @_s.required this.reservationArn,
-    @_s.required this.reservationName,
-    @_s.required this.reservationState,
-    @_s.required this.resourceSpecification,
-    @_s.required this.start,
+    required this.currencyCode,
+    required this.duration,
+    required this.durationUnits,
+    required this.end,
+    required this.offeringArn,
+    required this.offeringDescription,
+    required this.pricePerUnit,
+    required this.priceUnits,
+    required this.reservationArn,
+    required this.reservationName,
+    required this.reservationState,
+    required this.resourceSpecification,
+    required this.start,
   });
-  factory Reservation.fromJson(Map<String, dynamic> json) =>
-      _$ReservationFromJson(json);
+  factory Reservation.fromJson(Map<String, dynamic> json) {
+    return Reservation(
+      currencyCode: json['currencyCode'] as String,
+      duration: json['duration'] as int,
+      durationUnits: (json['durationUnits'] as String).toDurationUnits(),
+      end: json['end'] as String,
+      offeringArn: json['offeringArn'] as String,
+      offeringDescription: json['offeringDescription'] as String,
+      pricePerUnit: json['pricePerUnit'] as String,
+      priceUnits: (json['priceUnits'] as String).toPriceUnits(),
+      reservationArn: json['reservationArn'] as String,
+      reservationName: json['reservationName'] as String,
+      reservationState:
+          (json['reservationState'] as String).toReservationState(),
+      resourceSpecification: ResourceSpecification.fromJson(
+          json['resourceSpecification'] as Map<String, dynamic>),
+      start: json['start'] as String,
+    );
+  }
 }
 
 enum ReservationState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('EXPIRED')
   expired,
-  @_s.JsonValue('PROCESSING')
   processing,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
+extension on ReservationState {
+  String toValue() {
+    switch (this) {
+      case ReservationState.active:
+        return 'ACTIVE';
+      case ReservationState.expired:
+        return 'EXPIRED';
+      case ReservationState.processing:
+        return 'PROCESSING';
+      case ReservationState.canceled:
+        return 'CANCELED';
+    }
+  }
+}
+
+extension on String {
+  ReservationState toReservationState() {
+    switch (this) {
+      case 'ACTIVE':
+        return ReservationState.active;
+      case 'EXPIRED':
+        return ReservationState.expired;
+      case 'PROCESSING':
+        return ReservationState.processing;
+      case 'CANCELED':
+        return ReservationState.canceled;
+    }
+    throw Exception('$this is not known in enum ReservationState');
+  }
+}
+
 /// A definition of what is being billed for, including the type and amount.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceSpecification {
   /// The type of resource and the unit that is being billed for.
-  @_s.JsonKey(name: 'resourceType')
   final ResourceType resourceType;
 
   /// The amount of outbound bandwidth that is discounted in the offering.
-  @_s.JsonKey(name: 'reservedBitrate')
-  final int reservedBitrate;
+  final int? reservedBitrate;
 
   ResourceSpecification({
-    @_s.required this.resourceType,
+    required this.resourceType,
     this.reservedBitrate,
   });
-  factory ResourceSpecification.fromJson(Map<String, dynamic> json) =>
-      _$ResourceSpecificationFromJson(json);
+  factory ResourceSpecification.fromJson(Map<String, dynamic> json) {
+    return ResourceSpecification(
+      resourceType: (json['resourceType'] as String).toResourceType(),
+      reservedBitrate: json['reservedBitrate'] as int?,
+    );
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('Mbps_Outbound_Bandwidth')
   mbpsOutboundBandwidth,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.mbpsOutboundBandwidth:
+        return 'Mbps_Outbound_Bandwidth';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'Mbps_Outbound_Bandwidth':
+        return ResourceType.mbpsOutboundBandwidth;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 class RevokeFlowEntitlementResponse {
   /// The ARN of the entitlement that was revoked.
-  @_s.JsonKey(name: 'entitlementArn')
-  final String entitlementArn;
+  final String? entitlementArn;
 
   /// The ARN of the flow that the entitlement was revoked from.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   RevokeFlowEntitlementResponse({
     this.entitlementArn,
     this.flowArn,
   });
-  factory RevokeFlowEntitlementResponse.fromJson(Map<String, dynamic> json) =>
-      _$RevokeFlowEntitlementResponseFromJson(json);
+  factory RevokeFlowEntitlementResponse.fromJson(Map<String, dynamic> json) {
+    return RevokeFlowEntitlementResponse(
+      entitlementArn: json['entitlementArn'] as String?,
+      flowArn: json['flowArn'] as String?,
+    );
+  }
 }
 
 /// The settings for the source of the flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SetSourceRequest {
   /// The type of encryption that is used on the content ingested from this
   /// source.
-  @_s.JsonKey(name: 'decryption')
-  final Encryption decryption;
+  final Encryption? decryption;
 
   /// A description for the source. This value is not used or seen outside of the
   /// current AWS Elemental MediaConnect account.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ARN of the entitlement that allows you to subscribe to this flow. The
   /// entitlement is set by the flow originator, and the ARN is generated as part
   /// of the originator's flow.
-  @_s.JsonKey(name: 'entitlementArn')
-  final String entitlementArn;
+  final String? entitlementArn;
 
   /// The port that the flow will be listening on for incoming content.
-  @_s.JsonKey(name: 'ingestPort')
-  final int ingestPort;
+  final int? ingestPort;
 
   /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
-  @_s.JsonKey(name: 'maxBitrate')
-  final int maxBitrate;
+  final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
   /// RIST-based and Zixi-based streams.
-  @_s.JsonKey(name: 'maxLatency')
-  final int maxLatency;
+  final int? maxLatency;
 
   /// The name of the source.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The protocol that is used by the source.
-  @_s.JsonKey(name: 'protocol')
-  final Protocol protocol;
+  final Protocol? protocol;
 
   /// The stream ID that you want to use for this transport. This parameter
   /// applies only to Zixi-based streams.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The name of the VPC interface to use for this source.
-  @_s.JsonKey(name: 'vpcInterfaceName')
-  final String vpcInterfaceName;
+  final String? vpcInterfaceName;
 
   /// The range of IP addresses that should be allowed to contribute content to
   /// your source. These IP addresses should be in the form of a Classless
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-  @_s.JsonKey(name: 'whitelistCidr')
-  final String whitelistCidr;
+  final String? whitelistCidr;
 
   SetSourceRequest({
     this.decryption,
@@ -2376,70 +2537,79 @@ class SetSourceRequest {
     this.vpcInterfaceName,
     this.whitelistCidr,
   });
-  Map<String, dynamic> toJson() => _$SetSourceRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final decryption = this.decryption;
+    final description = this.description;
+    final entitlementArn = this.entitlementArn;
+    final ingestPort = this.ingestPort;
+    final maxBitrate = this.maxBitrate;
+    final maxLatency = this.maxLatency;
+    final name = this.name;
+    final protocol = this.protocol;
+    final streamId = this.streamId;
+    final vpcInterfaceName = this.vpcInterfaceName;
+    final whitelistCidr = this.whitelistCidr;
+    return {
+      if (decryption != null) 'decryption': decryption,
+      if (description != null) 'description': description,
+      if (entitlementArn != null) 'entitlementArn': entitlementArn,
+      if (ingestPort != null) 'ingestPort': ingestPort,
+      if (maxBitrate != null) 'maxBitrate': maxBitrate,
+      if (maxLatency != null) 'maxLatency': maxLatency,
+      if (name != null) 'name': name,
+      if (protocol != null) 'protocol': protocol.toValue(),
+      if (streamId != null) 'streamId': streamId,
+      if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
+      if (whitelistCidr != null) 'whitelistCidr': whitelistCidr,
+    };
+  }
 }
 
 /// The settings for the source of the flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Source {
   /// The name of the source.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The ARN of the source.
-  @_s.JsonKey(name: 'sourceArn')
   final String sourceArn;
 
   /// Percentage from 0-100 of the data transfer cost to be billed to the
   /// subscriber.
-  @_s.JsonKey(name: 'dataTransferSubscriberFeePercent')
-  final int dataTransferSubscriberFeePercent;
+  final int? dataTransferSubscriberFeePercent;
 
   /// The type of encryption that is used on the content ingested from this
   /// source.
-  @_s.JsonKey(name: 'decryption')
-  final Encryption decryption;
+  final Encryption? decryption;
 
   /// A description for the source. This value is not used or seen outside of the
   /// current AWS Elemental MediaConnect account.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The ARN of the entitlement that allows you to subscribe to content that
   /// comes from another AWS account. The entitlement is set by the content
   /// originator and the ARN is generated as part of the originator's flow.
-  @_s.JsonKey(name: 'entitlementArn')
-  final String entitlementArn;
+  final String? entitlementArn;
 
   /// The IP address that the flow will be listening on for incoming content.
-  @_s.JsonKey(name: 'ingestIp')
-  final String ingestIp;
+  final String? ingestIp;
 
   /// The port that the flow will be listening on for incoming content.
-  @_s.JsonKey(name: 'ingestPort')
-  final int ingestPort;
+  final int? ingestPort;
 
   /// Attributes related to the transport stream that are used in the source.
-  @_s.JsonKey(name: 'transport')
-  final Transport transport;
+  final Transport? transport;
 
   /// The name of the VPC Interface this Source is configured with.
-  @_s.JsonKey(name: 'vpcInterfaceName')
-  final String vpcInterfaceName;
+  final String? vpcInterfaceName;
 
   /// The range of IP addresses that should be allowed to contribute content to
   /// your source. These IP addresses should be in the form of a Classless
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-  @_s.JsonKey(name: 'whitelistCidr')
-  final String whitelistCidr;
+  final String? whitelistCidr;
 
   Source({
-    @_s.required this.name,
-    @_s.required this.sourceArn,
+    required this.name,
+    required this.sourceArn,
     this.dataTransferSubscriberFeePercent,
     this.decryption,
     this.description,
@@ -2450,126 +2620,205 @@ class Source {
     this.vpcInterfaceName,
     this.whitelistCidr,
   });
-  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      name: json['name'] as String,
+      sourceArn: json['sourceArn'] as String,
+      dataTransferSubscriberFeePercent:
+          json['dataTransferSubscriberFeePercent'] as int?,
+      decryption: json['decryption'] != null
+          ? Encryption.fromJson(json['decryption'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+      entitlementArn: json['entitlementArn'] as String?,
+      ingestIp: json['ingestIp'] as String?,
+      ingestPort: json['ingestPort'] as int?,
+      transport: json['transport'] != null
+          ? Transport.fromJson(json['transport'] as Map<String, dynamic>)
+          : null,
+      vpcInterfaceName: json['vpcInterfaceName'] as String?,
+      whitelistCidr: json['whitelistCidr'] as String?,
+    );
+  }
 }
 
 enum SourceType {
-  @_s.JsonValue('OWNED')
   owned,
-  @_s.JsonValue('ENTITLED')
   entitled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.owned:
+        return 'OWNED';
+      case SourceType.entitled:
+        return 'ENTITLED';
+    }
+  }
+}
+
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'OWNED':
+        return SourceType.owned;
+      case 'ENTITLED':
+        return SourceType.entitled;
+    }
+    throw Exception('$this is not known in enum SourceType');
+  }
+}
+
 class StartFlowResponse {
   /// The ARN of the flow that you started.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The status of the flow when the StartFlow process begins.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   StartFlowResponse({
     this.flowArn,
     this.status,
   });
-  factory StartFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartFlowResponseFromJson(json);
+  factory StartFlowResponse.fromJson(Map<String, dynamic> json) {
+    return StartFlowResponse(
+      flowArn: json['flowArn'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+    );
+  }
 }
 
 enum State {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on State {
+  String toValue() {
+    switch (this) {
+      case State.enabled:
+        return 'ENABLED';
+      case State.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  State toState() {
+    switch (this) {
+      case 'ENABLED':
+        return State.enabled;
+      case 'DISABLED':
+        return State.disabled;
+    }
+    throw Exception('$this is not known in enum State');
+  }
+}
+
 enum Status {
-  @_s.JsonValue('STANDBY')
   standby,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('ERROR')
   error,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.standby:
+        return 'STANDBY';
+      case Status.active:
+        return 'ACTIVE';
+      case Status.updating:
+        return 'UPDATING';
+      case Status.deleting:
+        return 'DELETING';
+      case Status.starting:
+        return 'STARTING';
+      case Status.stopping:
+        return 'STOPPING';
+      case Status.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'STANDBY':
+        return Status.standby;
+      case 'ACTIVE':
+        return Status.active;
+      case 'UPDATING':
+        return Status.updating;
+      case 'DELETING':
+        return Status.deleting;
+      case 'STARTING':
+        return Status.starting;
+      case 'STOPPING':
+        return Status.stopping;
+      case 'ERROR':
+        return Status.error;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 class StopFlowResponse {
   /// The ARN of the flow that you stopped.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The status of the flow when the StopFlow process begins.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   StopFlowResponse({
     this.flowArn,
     this.status,
   });
-  factory StopFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopFlowResponseFromJson(json);
+  factory StopFlowResponse.fromJson(Map<String, dynamic> json) {
+    return StopFlowResponse(
+      flowArn: json['flowArn'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+    );
+  }
 }
 
 /// Attributes related to the transport stream that are used in a source or
 /// output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Transport {
   /// The protocol that is used by the source or output.
-  @_s.JsonKey(name: 'protocol')
   final Protocol protocol;
 
   /// The range of IP addresses that should be allowed to initiate output requests
   /// to this flow. These IP addresses should be in the form of a Classless
   /// Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-  @_s.JsonKey(name: 'cidrAllowList')
-  final List<String> cidrAllowList;
+  final List<String>? cidrAllowList;
 
   /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
-  @_s.JsonKey(name: 'maxBitrate')
-  final int maxBitrate;
+  final int? maxBitrate;
 
   /// The maximum latency in milliseconds. This parameter applies only to
   /// RIST-based and Zixi-based streams.
-  @_s.JsonKey(name: 'maxLatency')
-  final int maxLatency;
+  final int? maxLatency;
 
   /// The remote ID for the Zixi-pull stream.
-  @_s.JsonKey(name: 'remoteId')
-  final String remoteId;
+  final String? remoteId;
 
   /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
-  @_s.JsonKey(name: 'smoothingLatency')
-  final int smoothingLatency;
+  final int? smoothingLatency;
 
   /// The stream ID that you want to use for this transport. This parameter
   /// applies only to Zixi-based streams.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   Transport({
-    @_s.required this.protocol,
+    required this.protocol,
     this.cidrAllowList,
     this.maxBitrate,
     this.maxLatency,
@@ -2577,68 +2826,66 @@ class Transport {
     this.smoothingLatency,
     this.streamId,
   });
-  factory Transport.fromJson(Map<String, dynamic> json) =>
-      _$TransportFromJson(json);
+  factory Transport.fromJson(Map<String, dynamic> json) {
+    return Transport(
+      protocol: (json['protocol'] as String).toProtocol(),
+      cidrAllowList: (json['cidrAllowList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maxBitrate: json['maxBitrate'] as int?,
+      maxLatency: json['maxLatency'] as int?,
+      remoteId: json['remoteId'] as String?,
+      smoothingLatency: json['smoothingLatency'] as int?,
+      streamId: json['streamId'] as String?,
+    );
+  }
 }
 
 /// Information about the encryption of the flow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateEncryption {
   /// The type of algorithm that is used for the encryption (such as aes128,
   /// aes192, or aes256).
-  @_s.JsonKey(name: 'algorithm')
-  final Algorithm algorithm;
+  final Algorithm? algorithm;
 
   /// A 128-bit, 16-byte hex value represented by a 32-character string, to be
   /// used with the key for encrypting content. This parameter is not valid for
   /// static key encryption.
-  @_s.JsonKey(name: 'constantInitializationVector')
-  final String constantInitializationVector;
+  final String? constantInitializationVector;
 
   /// The value of one of the devices that you configured with your digital rights
   /// management (DRM) platform key provider. This parameter is required for SPEKE
   /// encryption and is not valid for static key encryption.
-  @_s.JsonKey(name: 'deviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The type of key that is used for the encryption. If no keyType is provided,
   /// the service will use the default setting (static-key).
-  @_s.JsonKey(name: 'keyType')
-  final KeyType keyType;
+  final KeyType? keyType;
 
   /// The AWS Region that the API Gateway proxy endpoint was created in. This
   /// parameter is required for SPEKE encryption and is not valid for static key
   /// encryption.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// An identifier for the content. The service sends this value to the key
   /// server to identify the current endpoint. The resource ID is also known as
   /// the content ID. This parameter is required for SPEKE encryption and is not
   /// valid for static key encryption.
-  @_s.JsonKey(name: 'resourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The ARN of the role that you created during setup (when you set up AWS
   /// Elemental MediaConnect as a trusted entity).
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The ARN of the secret that you created in AWS Secrets Manager to store the
   /// encryption key. This parameter is required for static key encryption and is
   /// not valid for SPEKE encryption.
-  @_s.JsonKey(name: 'secretArn')
-  final String secretArn;
+  final String? secretArn;
 
   /// The URL from the API Gateway proxy that you set up to talk to your key
   /// server. This parameter is required for SPEKE encryption and is not valid for
   /// static key encryption.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   UpdateEncryption({
     this.algorithm,
@@ -2651,224 +2898,249 @@ class UpdateEncryption {
     this.secretArn,
     this.url,
   });
-  Map<String, dynamic> toJson() => _$UpdateEncryptionToJson(this);
+  Map<String, dynamic> toJson() {
+    final algorithm = this.algorithm;
+    final constantInitializationVector = this.constantInitializationVector;
+    final deviceId = this.deviceId;
+    final keyType = this.keyType;
+    final region = this.region;
+    final resourceId = this.resourceId;
+    final roleArn = this.roleArn;
+    final secretArn = this.secretArn;
+    final url = this.url;
+    return {
+      if (algorithm != null) 'algorithm': algorithm.toValue(),
+      if (constantInitializationVector != null)
+        'constantInitializationVector': constantInitializationVector,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (keyType != null) 'keyType': keyType.toValue(),
+      if (region != null) 'region': region,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (secretArn != null) 'secretArn': secretArn,
+      if (url != null) 'url': url,
+    };
+  }
 }
 
 /// The settings for source failover
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateFailoverConfig {
   /// Recovery window time to look for dash-7 packets
-  @_s.JsonKey(name: 'recoveryWindow')
-  final int recoveryWindow;
-  @_s.JsonKey(name: 'state')
-  final State state;
+  final int? recoveryWindow;
+  final State? state;
 
   UpdateFailoverConfig({
     this.recoveryWindow,
     this.state,
   });
-  Map<String, dynamic> toJson() => _$UpdateFailoverConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final recoveryWindow = this.recoveryWindow;
+    final state = this.state;
+    return {
+      if (recoveryWindow != null) 'recoveryWindow': recoveryWindow,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFlowEntitlementResponse {
   /// The new configuration of the entitlement that you updated.
-  @_s.JsonKey(name: 'entitlement')
-  final Entitlement entitlement;
+  final Entitlement? entitlement;
 
   /// The ARN of the flow that this entitlement was granted on.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   UpdateFlowEntitlementResponse({
     this.entitlement,
     this.flowArn,
   });
-  factory UpdateFlowEntitlementResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFlowEntitlementResponseFromJson(json);
+  factory UpdateFlowEntitlementResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowEntitlementResponse(
+      entitlement: json['entitlement'] != null
+          ? Entitlement.fromJson(json['entitlement'] as Map<String, dynamic>)
+          : null,
+      flowArn: json['flowArn'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFlowOutputResponse {
   /// The ARN of the flow that is associated with the updated output.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The new settings of the output that you updated.
-  @_s.JsonKey(name: 'output')
-  final Output output;
+  final Output? output;
 
   UpdateFlowOutputResponse({
     this.flowArn,
     this.output,
   });
-  factory UpdateFlowOutputResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFlowOutputResponseFromJson(json);
+  factory UpdateFlowOutputResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowOutputResponse(
+      flowArn: json['flowArn'] as String?,
+      output: json['output'] != null
+          ? Output.fromJson(json['output'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFlowResponse {
-  @_s.JsonKey(name: 'flow')
-  final Flow flow;
+  final Flow? flow;
 
   UpdateFlowResponse({
     this.flow,
   });
-  factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFlowResponseFromJson(json);
+  factory UpdateFlowResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowResponse(
+      flow: json['flow'] != null
+          ? Flow.fromJson(json['flow'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFlowSourceResponse {
   /// The ARN of the flow that you want to update.
-  @_s.JsonKey(name: 'flowArn')
-  final String flowArn;
+  final String? flowArn;
 
   /// The settings for the source of the flow.
-  @_s.JsonKey(name: 'source')
-  final Source source;
+  final Source? source;
 
   UpdateFlowSourceResponse({
     this.flowArn,
     this.source,
   });
-  factory UpdateFlowSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFlowSourceResponseFromJson(json);
+  factory UpdateFlowSourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowSourceResponse(
+      flowArn: json['flowArn'] as String?,
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The settings for a VPC Source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcInterface {
   /// Immutable and has to be a unique against other VpcInterfaces in this Flow
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// IDs of the network interfaces created in customer's account by MediaConnect.
-  @_s.JsonKey(name: 'networkInterfaceIds')
   final List<String> networkInterfaceIds;
 
   /// Role Arn MediaConnect can assumes to create ENIs in customer's account
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Security Group IDs to be used on ENI.
-  @_s.JsonKey(name: 'securityGroupIds')
   final List<String> securityGroupIds;
 
   /// Subnet must be in the AZ of the Flow
-  @_s.JsonKey(name: 'subnetId')
   final String subnetId;
 
   VpcInterface({
-    @_s.required this.name,
-    @_s.required this.networkInterfaceIds,
-    @_s.required this.roleArn,
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetId,
+    required this.name,
+    required this.networkInterfaceIds,
+    required this.roleArn,
+    required this.securityGroupIds,
+    required this.subnetId,
   });
-  factory VpcInterface.fromJson(Map<String, dynamic> json) =>
-      _$VpcInterfaceFromJson(json);
+  factory VpcInterface.fromJson(Map<String, dynamic> json) {
+    return VpcInterface(
+      name: json['name'] as String,
+      networkInterfaceIds: (json['networkInterfaceIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleArn: json['roleArn'] as String,
+      securityGroupIds: (json['securityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetId: json['subnetId'] as String,
+    );
+  }
 }
 
 /// The settings for attaching a VPC interface to an output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VpcInterfaceAttachment {
   /// The name of the VPC interface to use for this output.
-  @_s.JsonKey(name: 'vpcInterfaceName')
-  final String vpcInterfaceName;
+  final String? vpcInterfaceName;
 
   VpcInterfaceAttachment({
     this.vpcInterfaceName,
   });
-  factory VpcInterfaceAttachment.fromJson(Map<String, dynamic> json) =>
-      _$VpcInterfaceAttachmentFromJson(json);
+  factory VpcInterfaceAttachment.fromJson(Map<String, dynamic> json) {
+    return VpcInterfaceAttachment(
+      vpcInterfaceName: json['vpcInterfaceName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$VpcInterfaceAttachmentToJson(this);
+  Map<String, dynamic> toJson() {
+    final vpcInterfaceName = this.vpcInterfaceName;
+    return {
+      if (vpcInterfaceName != null) 'vpcInterfaceName': vpcInterfaceName,
+    };
+  }
 }
 
 /// Desired VPC Interface for a Flow
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcInterfaceRequest {
   /// The name of the VPC Interface. This value must be unique within the current
   /// flow.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Role Arn MediaConnect can assumes to create ENIs in customer's account
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Security Group IDs to be used on ENI.
-  @_s.JsonKey(name: 'securityGroupIds')
   final List<String> securityGroupIds;
 
   /// Subnet must be in the AZ of the Flow
-  @_s.JsonKey(name: 'subnetId')
   final String subnetId;
 
   VpcInterfaceRequest({
-    @_s.required this.name,
-    @_s.required this.roleArn,
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetId,
+    required this.name,
+    required this.roleArn,
+    required this.securityGroupIds,
+    required this.subnetId,
   });
-  Map<String, dynamic> toJson() => _$VpcInterfaceRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetId = this.subnetId;
+    return {
+      'name': name,
+      'roleArn': roleArn,
+      'securityGroupIds': securityGroupIds,
+      'subnetId': subnetId,
+    };
+  }
 }
 
 class AddFlowOutputs420Exception extends _s.GenericAwsException {
-  AddFlowOutputs420Exception({String type, String message})
+  AddFlowOutputs420Exception({String? type, String? message})
       : super(type: type, code: 'AddFlowOutputs420Exception', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class CreateFlow420Exception extends _s.GenericAwsException {
-  CreateFlow420Exception({String type, String message})
+  CreateFlow420Exception({String? type, String? message})
       : super(type: type, code: 'CreateFlow420Exception', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class GrantFlowEntitlements420Exception extends _s.GenericAwsException {
-  GrantFlowEntitlements420Exception({String type, String message})
+  GrantFlowEntitlements420Exception({String? type, String? message})
       : super(
             type: type,
             code: 'GrantFlowEntitlements420Exception',
@@ -2876,24 +3148,24 @@ class GrantFlowEntitlements420Exception extends _s.GenericAwsException {
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

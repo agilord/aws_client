@@ -1,6 +1,6 @@
 class Descriptor {
-  final String shape;
-  final String locationName;
+  final String? shape;
+  final String? locationName;
 
   Descriptor(
     this.shape,
@@ -8,8 +8,8 @@ class Descriptor {
   );
 
   factory Descriptor.fromJson(Map<String, dynamic> json) => Descriptor(
-        json['shape'] as String,
-        json['locationName'] as String,
+        json['shape'] as String?,
+        json['locationName'] as String?,
       );
 
   Map<String, dynamic> toJson() {

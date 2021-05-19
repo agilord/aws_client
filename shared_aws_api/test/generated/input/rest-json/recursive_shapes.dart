@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'recursive_shapes.g.dart';
 
 /// Recursive shapes
 class RecursiveShapes {
   final _s.RestJsonProtocol _protocol;
   RecursiveShapes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -45,7 +37,7 @@ class RecursiveShapes {
         );
 
   Future<void> operationName0({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -59,7 +51,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName1({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -73,7 +65,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName2({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -87,7 +79,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName3({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -101,7 +93,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName4({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -115,7 +107,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName5({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $payload = <String, dynamic>{
       if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
@@ -129,20 +121,11 @@ class RecursiveShapes {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RecursiveStructType {
-  @_s.JsonKey(name: 'NoRecurse')
-  final String noRecurse;
-  @_s.JsonKey(name: 'RecursiveList')
-  final List<RecursiveStructType> recursiveList;
-  @_s.JsonKey(name: 'RecursiveMap')
-  final Map<String, RecursiveStructType> recursiveMap;
-  @_s.JsonKey(name: 'RecursiveStruct')
-  final RecursiveStructType recursiveStruct;
+  final String? noRecurse;
+  final List<RecursiveStructType>? recursiveList;
+  final Map<String, RecursiveStructType>? recursiveMap;
+  final RecursiveStructType? recursiveStruct;
 
   RecursiveStructType({
     this.noRecurse,
@@ -150,7 +133,18 @@ class RecursiveStructType {
     this.recursiveMap,
     this.recursiveStruct,
   });
-  Map<String, dynamic> toJson() => _$RecursiveStructTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final noRecurse = this.noRecurse;
+    final recursiveList = this.recursiveList;
+    final recursiveMap = this.recursiveMap;
+    final recursiveStruct = this.recursiveStruct;
+    return {
+      if (noRecurse != null) 'NoRecurse': noRecurse,
+      if (recursiveList != null) 'RecursiveList': recursiveList,
+      if (recursiveMap != null) 'RecursiveMap': recursiveMap,
+      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

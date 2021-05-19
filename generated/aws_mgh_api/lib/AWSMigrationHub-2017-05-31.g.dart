@@ -8,7 +8,7 @@ part of 'AWSMigrationHub-2017-05-31.dart';
 
 ApplicationState _$ApplicationStateFromJson(Map<String, dynamic> json) {
   return ApplicationState(
-    applicationId: json['ApplicationId'] as String,
+    applicationId: json['ApplicationId'] as String?,
     applicationStatus: _$enumDecodeNullable(
         _$ApplicationStatusEnumMap, json['ApplicationStatus']),
     lastUpdatedTime:
@@ -16,36 +16,41 @@ ApplicationState _$ApplicationStateFromJson(Map<String, dynamic> json) {
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ApplicationStatusEnumMap = {
@@ -72,12 +77,14 @@ CreateProgressUpdateStreamResult _$CreateProgressUpdateStreamResultFromJson(
 CreatedArtifact _$CreatedArtifactFromJson(Map<String, dynamic> json) {
   return CreatedArtifact(
     name: json['Name'] as String,
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
 Map<String, dynamic> _$CreatedArtifactToJson(CreatedArtifact instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -85,7 +92,6 @@ Map<String, dynamic> _$CreatedArtifactToJson(CreatedArtifact instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('Description', instance.description);
   return val;
 }
@@ -127,12 +133,14 @@ DisassociateDiscoveredResourceResult
 DiscoveredResource _$DiscoveredResourceFromJson(Map<String, dynamic> json) {
   return DiscoveredResource(
     configurationId: json['ConfigurationId'] as String,
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
   );
 }
 
 Map<String, dynamic> _$DiscoveredResourceToJson(DiscoveredResource instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ConfigurationId': instance.configurationId,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -140,7 +148,6 @@ Map<String, dynamic> _$DiscoveredResourceToJson(DiscoveredResource instance) {
     }
   }
 
-  writeNotNull('ConfigurationId', instance.configurationId);
   writeNotNull('Description', instance.description);
   return val;
 }
@@ -153,73 +160,63 @@ ImportMigrationTaskResult _$ImportMigrationTaskResultFromJson(
 ListApplicationStatesResult _$ListApplicationStatesResultFromJson(
     Map<String, dynamic> json) {
   return ListApplicationStatesResult(
-    applicationStateList: (json['ApplicationStateList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ApplicationState.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    applicationStateList: (json['ApplicationStateList'] as List<dynamic>?)
+        ?.map((e) => ApplicationState.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListCreatedArtifactsResult _$ListCreatedArtifactsResultFromJson(
     Map<String, dynamic> json) {
   return ListCreatedArtifactsResult(
-    createdArtifactList: (json['CreatedArtifactList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CreatedArtifact.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    createdArtifactList: (json['CreatedArtifactList'] as List<dynamic>?)
+        ?.map((e) => CreatedArtifact.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListDiscoveredResourcesResult _$ListDiscoveredResourcesResultFromJson(
     Map<String, dynamic> json) {
   return ListDiscoveredResourcesResult(
-    discoveredResourceList: (json['DiscoveredResourceList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DiscoveredResource.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    discoveredResourceList: (json['DiscoveredResourceList'] as List<dynamic>?)
+        ?.map((e) => DiscoveredResource.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListMigrationTasksResult _$ListMigrationTasksResultFromJson(
     Map<String, dynamic> json) {
   return ListMigrationTasksResult(
-    migrationTaskSummaryList: (json['MigrationTaskSummaryList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MigrationTaskSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    migrationTaskSummaryList: (json['MigrationTaskSummaryList']
+            as List<dynamic>?)
+        ?.map((e) => MigrationTaskSummary.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListProgressUpdateStreamsResult _$ListProgressUpdateStreamsResultFromJson(
     Map<String, dynamic> json) {
   return ListProgressUpdateStreamsResult(
-    nextToken: json['NextToken'] as String,
-    progressUpdateStreamSummaryList: (json['ProgressUpdateStreamSummaryList']
-            as List)
-        ?.map((e) => e == null
-            ? null
-            : ProgressUpdateStreamSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    progressUpdateStreamSummaryList:
+        (json['ProgressUpdateStreamSummaryList'] as List<dynamic>?)
+            ?.map((e) =>
+                ProgressUpdateStreamSummary.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 }
 
 MigrationTask _$MigrationTaskFromJson(Map<String, dynamic> json) {
   return MigrationTask(
-    migrationTaskName: json['MigrationTaskName'] as String,
-    progressUpdateStream: json['ProgressUpdateStream'] as String,
-    resourceAttributeList: (json['ResourceAttributeList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceAttribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    migrationTaskName: json['MigrationTaskName'] as String?,
+    progressUpdateStream: json['ProgressUpdateStream'] as String?,
+    resourceAttributeList: (json['ResourceAttributeList'] as List<dynamic>?)
+        ?.map((e) => ResourceAttribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
     task: json['Task'] == null
         ? null
         : Task.fromJson(json['Task'] as Map<String, dynamic>),
@@ -230,11 +227,11 @@ MigrationTask _$MigrationTaskFromJson(Map<String, dynamic> json) {
 
 MigrationTaskSummary _$MigrationTaskSummaryFromJson(Map<String, dynamic> json) {
   return MigrationTaskSummary(
-    migrationTaskName: json['MigrationTaskName'] as String,
-    progressPercent: json['ProgressPercent'] as int,
-    progressUpdateStream: json['ProgressUpdateStream'] as String,
+    migrationTaskName: json['MigrationTaskName'] as String?,
+    progressPercent: json['ProgressPercent'] as int?,
+    progressUpdateStream: json['ProgressUpdateStream'] as String?,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
-    statusDetail: json['StatusDetail'] as String,
+    statusDetail: json['StatusDetail'] as String?,
     updateDateTime:
         const UnixDateTimeConverter().fromJson(json['UpdateDateTime']),
   );
@@ -260,7 +257,7 @@ NotifyMigrationTaskStateResult _$NotifyMigrationTaskStateResultFromJson(
 ProgressUpdateStreamSummary _$ProgressUpdateStreamSummaryFromJson(
     Map<String, dynamic> json) {
   return ProgressUpdateStreamSummary(
-    progressUpdateStreamName: json['ProgressUpdateStreamName'] as String,
+    progressUpdateStreamName: json['ProgressUpdateStreamName'] as String?,
   );
 }
 
@@ -271,24 +268,16 @@ PutResourceAttributesResult _$PutResourceAttributesResultFromJson(
 
 ResourceAttribute _$ResourceAttributeFromJson(Map<String, dynamic> json) {
   return ResourceAttribute(
-    type: _$enumDecodeNullable(_$ResourceAttributeTypeEnumMap, json['Type']),
+    type: _$enumDecode(_$ResourceAttributeTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
 }
 
-Map<String, dynamic> _$ResourceAttributeToJson(ResourceAttribute instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Type', _$ResourceAttributeTypeEnumMap[instance.type]);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$ResourceAttributeToJson(ResourceAttribute instance) =>
+    <String, dynamic>{
+      'Type': _$ResourceAttributeTypeEnumMap[instance.type],
+      'Value': instance.value,
+    };
 
 const _$ResourceAttributeTypeEnumMap = {
   ResourceAttributeType.ipv4Address: 'IPV4_ADDRESS',
@@ -305,14 +294,16 @@ const _$ResourceAttributeTypeEnumMap = {
 
 Task _$TaskFromJson(Map<String, dynamic> json) {
   return Task(
-    status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
-    progressPercent: json['ProgressPercent'] as int,
-    statusDetail: json['StatusDetail'] as String,
+    status: _$enumDecode(_$StatusEnumMap, json['Status']),
+    progressPercent: json['ProgressPercent'] as int?,
+    statusDetail: json['StatusDetail'] as String?,
   );
 }
 
 Map<String, dynamic> _$TaskToJson(Task instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Status': _$StatusEnumMap[instance.status],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -320,7 +311,6 @@ Map<String, dynamic> _$TaskToJson(Task instance) {
     }
   }
 
-  writeNotNull('Status', _$StatusEnumMap[instance.status]);
   writeNotNull('ProgressPercent', instance.progressPercent);
   writeNotNull('StatusDetail', instance.statusDetail);
   return val;

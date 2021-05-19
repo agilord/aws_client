@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'macie-2017-12-19.g.dart';
 
 /// Amazon Macie Classic is a security service that uses machine learning to
 /// automatically discover, classify, and protect sensitive data in AWS. Macie
@@ -37,10 +29,10 @@ part 'macie-2017-12-19.g.dart';
 class Macie {
   final _s.JsonProtocol _protocol;
   Macie({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,7 +54,7 @@ class Macie {
   /// The ID of the AWS account that you want to associate with Amazon Macie
   /// Classic as a member account.
   Future<void> associateMemberAccount({
-    @_s.required String memberAccountId,
+    required String memberAccountId,
   }) async {
     ArgumentError.checkNotNull(memberAccountId, 'memberAccountId');
     _s.validateStringPattern(
@@ -75,7 +67,7 @@ class Macie {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.AssociateMemberAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -107,8 +99,8 @@ class Macie {
   /// The ID of the Amazon Macie Classic member account whose resources you want
   /// to associate with Macie Classic.
   Future<AssociateS3ResourcesResult> associateS3Resources({
-    @_s.required List<S3ResourceClassification> s3Resources,
-    String memberAccountId,
+    required List<S3ResourceClassification> s3Resources,
+    String? memberAccountId,
   }) async {
     ArgumentError.checkNotNull(s3Resources, 's3Resources');
     _s.validateStringPattern(
@@ -144,7 +136,7 @@ class Macie {
   /// The ID of the member account that you want to remove from Amazon Macie
   /// Classic.
   Future<void> disassociateMemberAccount({
-    @_s.required String memberAccountId,
+    required String memberAccountId,
   }) async {
     ArgumentError.checkNotNull(memberAccountId, 'memberAccountId');
     _s.validateStringPattern(
@@ -157,7 +149,7 @@ class Macie {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.DisassociateMemberAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -187,8 +179,8 @@ class Macie {
   /// The ID of the Amazon Macie Classic member account whose resources you want
   /// to remove from being monitored by Amazon Macie Classic.
   Future<DisassociateS3ResourcesResult> disassociateS3Resources({
-    @_s.required List<S3Resource> associatedS3Resources,
-    String memberAccountId,
+    required List<S3Resource> associatedS3Resources,
+    String? memberAccountId,
   }) async {
     ArgumentError.checkNotNull(associatedS3Resources, 'associatedS3Resources');
     _s.validateStringPattern(
@@ -231,8 +223,8 @@ class Macie {
   /// Subsequent calls to the action fill nextToken in the request with the
   /// value of nextToken from the previous response to continue listing data.
   Future<ListMemberAccountsResult> listMemberAccounts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -289,9 +281,9 @@ class Macie {
   /// fill nextToken in the request with the value of nextToken from the
   /// previous response to continue listing data.
   Future<ListS3ResourcesResult> listS3Resources({
-    int maxResults,
-    String memberAccountId,
-    String nextToken,
+    int? maxResults,
+    String? memberAccountId,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -348,8 +340,8 @@ class Macie {
   /// The AWS ID of the Amazon Macie Classic member account whose S3 resources'
   /// classification types you want to update.
   Future<UpdateS3ResourcesResult> updateS3Resources({
-    @_s.required List<S3ResourceClassificationUpdate> s3ResourcesUpdate,
-    String memberAccountId,
+    required List<S3ResourceClassificationUpdate> s3ResourcesUpdate,
+    String? memberAccountId,
   }) async {
     ArgumentError.checkNotNull(s3ResourcesUpdate, 's3ResourcesUpdate');
     _s.validateStringPattern(
@@ -377,336 +369,390 @@ class Macie {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateS3ResourcesResult {
   /// S3 resources that couldn't be associated with Amazon Macie Classic. An error
   /// code and an error message are provided for each failed item.
-  @_s.JsonKey(name: 'failedS3Resources')
-  final List<FailedS3Resource> failedS3Resources;
+  final List<FailedS3Resource>? failedS3Resources;
 
   AssociateS3ResourcesResult({
     this.failedS3Resources,
   });
-  factory AssociateS3ResourcesResult.fromJson(Map<String, dynamic> json) =>
-      _$AssociateS3ResourcesResultFromJson(json);
+  factory AssociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
+    return AssociateS3ResourcesResult(
+      failedS3Resources: (json['failedS3Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The classification type that Amazon Macie Classic applies to the associated
 /// S3 resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClassificationType {
   /// A continuous classification of the objects that are added to a specified S3
   /// bucket. Amazon Macie Classic begins performing continuous classification
   /// after a bucket is successfully associated with Amazon Macie Classic.
-  @_s.JsonKey(name: 'continuous')
   final S3ContinuousClassificationType continuous;
 
   /// A one-time classification of all of the existing objects in a specified S3
   /// bucket.
-  @_s.JsonKey(name: 'oneTime')
   final S3OneTimeClassificationType oneTime;
 
   ClassificationType({
-    @_s.required this.continuous,
-    @_s.required this.oneTime,
+    required this.continuous,
+    required this.oneTime,
   });
-  factory ClassificationType.fromJson(Map<String, dynamic> json) =>
-      _$ClassificationTypeFromJson(json);
+  factory ClassificationType.fromJson(Map<String, dynamic> json) {
+    return ClassificationType(
+      continuous:
+          (json['continuous'] as String).toS3ContinuousClassificationType(),
+      oneTime: (json['oneTime'] as String).toS3OneTimeClassificationType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ClassificationTypeToJson(this);
+  Map<String, dynamic> toJson() {
+    final continuous = this.continuous;
+    final oneTime = this.oneTime;
+    return {
+      'continuous': continuous.toValue(),
+      'oneTime': oneTime.toValue(),
+    };
+  }
 }
 
 /// The classification type that Amazon Macie Classic applies to the associated
 /// S3 resources. At least one of the classification types (oneTime or
 /// continuous) must be specified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClassificationTypeUpdate {
   /// A continuous classification of the objects that are added to a specified S3
   /// bucket. Amazon Macie Classic begins performing continuous classification
   /// after a bucket is successfully associated with Amazon Macie Classic.
-  @_s.JsonKey(name: 'continuous')
-  final S3ContinuousClassificationType continuous;
+  final S3ContinuousClassificationType? continuous;
 
   /// A one-time classification of all of the existing objects in a specified S3
   /// bucket.
-  @_s.JsonKey(name: 'oneTime')
-  final S3OneTimeClassificationType oneTime;
+  final S3OneTimeClassificationType? oneTime;
 
   ClassificationTypeUpdate({
     this.continuous,
     this.oneTime,
   });
-  Map<String, dynamic> toJson() => _$ClassificationTypeUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final continuous = this.continuous;
+    final oneTime = this.oneTime;
+    return {
+      if (continuous != null) 'continuous': continuous.toValue(),
+      if (oneTime != null) 'oneTime': oneTime.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateS3ResourcesResult {
   /// S3 resources that couldn't be removed from being monitored and classified by
   /// Amazon Macie Classic. An error code and an error message are provided for
   /// each failed item.
-  @_s.JsonKey(name: 'failedS3Resources')
-  final List<FailedS3Resource> failedS3Resources;
+  final List<FailedS3Resource>? failedS3Resources;
 
   DisassociateS3ResourcesResult({
     this.failedS3Resources,
   });
-  factory DisassociateS3ResourcesResult.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateS3ResourcesResultFromJson(json);
+  factory DisassociateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
+    return DisassociateS3ResourcesResult(
+      failedS3Resources: (json['failedS3Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Includes details about the failed S3 resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedS3Resource {
   /// The status code of a failed item.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message of a failed item.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The failed S3 resources.
-  @_s.JsonKey(name: 'failedItem')
-  final S3Resource failedItem;
+  final S3Resource? failedItem;
 
   FailedS3Resource({
     this.errorCode,
     this.errorMessage,
     this.failedItem,
   });
-  factory FailedS3Resource.fromJson(Map<String, dynamic> json) =>
-      _$FailedS3ResourceFromJson(json);
+  factory FailedS3Resource.fromJson(Map<String, dynamic> json) {
+    return FailedS3Resource(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      failedItem: json['failedItem'] != null
+          ? S3Resource.fromJson(json['failedItem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMemberAccountsResult {
   /// A list of the Amazon Macie Classic member accounts returned by the action.
   /// The current master account is also included in this list.
-  @_s.JsonKey(name: 'memberAccounts')
-  final List<MemberAccount> memberAccounts;
+  final List<MemberAccount>? memberAccounts;
 
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// nextToken parameter in a subsequent pagination request. If there is no more
   /// data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMemberAccountsResult({
     this.memberAccounts,
     this.nextToken,
   });
-  factory ListMemberAccountsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListMemberAccountsResultFromJson(json);
+  factory ListMemberAccountsResult.fromJson(Map<String, dynamic> json) {
+    return ListMemberAccountsResult(
+      memberAccounts: (json['memberAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListS3ResourcesResult {
   /// When a response is generated, if there is more data to be listed, this
   /// parameter is present in the response and contains the value to use for the
   /// nextToken parameter in a subsequent pagination request. If there is no more
   /// data to be listed, this parameter is set to null.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the associated S3 resources returned by the action.
-  @_s.JsonKey(name: 's3Resources')
-  final List<S3ResourceClassification> s3Resources;
+  final List<S3ResourceClassification>? s3Resources;
 
   ListS3ResourcesResult({
     this.nextToken,
     this.s3Resources,
   });
-  factory ListS3ResourcesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListS3ResourcesResultFromJson(json);
+  factory ListS3ResourcesResult.fromJson(Map<String, dynamic> json) {
+    return ListS3ResourcesResult(
+      nextToken: json['nextToken'] as String?,
+      s3Resources: (json['s3Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              S3ResourceClassification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Contains information about the Amazon Macie Classic member account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberAccount {
   /// The AWS account ID of the Amazon Macie Classic member account.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   MemberAccount({
     this.accountId,
   });
-  factory MemberAccount.fromJson(Map<String, dynamic> json) =>
-      _$MemberAccountFromJson(json);
+  factory MemberAccount.fromJson(Map<String, dynamic> json) {
+    return MemberAccount(
+      accountId: json['accountId'] as String?,
+    );
+  }
 }
 
 enum S3ContinuousClassificationType {
-  @_s.JsonValue('FULL')
   full,
 }
 
+extension on S3ContinuousClassificationType {
+  String toValue() {
+    switch (this) {
+      case S3ContinuousClassificationType.full:
+        return 'FULL';
+    }
+  }
+}
+
+extension on String {
+  S3ContinuousClassificationType toS3ContinuousClassificationType() {
+    switch (this) {
+      case 'FULL':
+        return S3ContinuousClassificationType.full;
+    }
+    throw Exception(
+        '$this is not known in enum S3ContinuousClassificationType');
+  }
+}
+
 enum S3OneTimeClassificationType {
-  @_s.JsonValue('FULL')
   full,
-  @_s.JsonValue('NONE')
   none,
+}
+
+extension on S3OneTimeClassificationType {
+  String toValue() {
+    switch (this) {
+      case S3OneTimeClassificationType.full:
+        return 'FULL';
+      case S3OneTimeClassificationType.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  S3OneTimeClassificationType toS3OneTimeClassificationType() {
+    switch (this) {
+      case 'FULL':
+        return S3OneTimeClassificationType.full;
+      case 'NONE':
+        return S3OneTimeClassificationType.none;
+    }
+    throw Exception('$this is not known in enum S3OneTimeClassificationType');
+  }
 }
 
 /// Contains information about the S3 resource. This data type is used as a
 /// request parameter in the DisassociateS3Resources action and can be used as a
 /// response parameter in the AssociateS3Resources and UpdateS3Resources
 /// actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Resource {
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The prefix of the S3 bucket.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   S3Resource({
-    @_s.required this.bucketName,
+    required this.bucketName,
     this.prefix,
   });
-  factory S3Resource.fromJson(Map<String, dynamic> json) =>
-      _$S3ResourceFromJson(json);
+  factory S3Resource.fromJson(Map<String, dynamic> json) {
+    return S3Resource(
+      bucketName: json['bucketName'] as String,
+      prefix: json['prefix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ResourceToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
 /// The S3 resources that you want to associate with Amazon Macie Classic for
 /// monitoring and data classification. This data type is used as a request
 /// parameter in the AssociateS3Resources action and a response parameter in the
 /// ListS3Resources action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3ResourceClassification {
   /// The name of the S3 bucket that you want to associate with Amazon Macie
   /// Classic.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The classification type that you want to specify for the resource associated
   /// with Amazon Macie Classic.
-  @_s.JsonKey(name: 'classificationType')
   final ClassificationType classificationType;
 
   /// The prefix of the S3 bucket that you want to associate with Amazon Macie
   /// Classic.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   S3ResourceClassification({
-    @_s.required this.bucketName,
-    @_s.required this.classificationType,
+    required this.bucketName,
+    required this.classificationType,
     this.prefix,
   });
-  factory S3ResourceClassification.fromJson(Map<String, dynamic> json) =>
-      _$S3ResourceClassificationFromJson(json);
+  factory S3ResourceClassification.fromJson(Map<String, dynamic> json) {
+    return S3ResourceClassification(
+      bucketName: json['bucketName'] as String,
+      classificationType: ClassificationType.fromJson(
+          json['classificationType'] as Map<String, dynamic>),
+      prefix: json['prefix'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$S3ResourceClassificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final classificationType = this.classificationType;
+    final prefix = this.prefix;
+    return {
+      'bucketName': bucketName,
+      'classificationType': classificationType,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
 /// The S3 resources whose classification types you want to update. This data
 /// type is used as a request parameter in the UpdateS3Resources action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3ResourceClassificationUpdate {
   /// The name of the S3 bucket whose classification types you want to update.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The classification type that you want to update for the resource associated
   /// with Amazon Macie Classic.
-  @_s.JsonKey(name: 'classificationTypeUpdate')
   final ClassificationTypeUpdate classificationTypeUpdate;
 
   /// The prefix of the S3 bucket whose classification types you want to update.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   S3ResourceClassificationUpdate({
-    @_s.required this.bucketName,
-    @_s.required this.classificationTypeUpdate,
+    required this.bucketName,
+    required this.classificationTypeUpdate,
     this.prefix,
   });
-  Map<String, dynamic> toJson() => _$S3ResourceClassificationUpdateToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final classificationTypeUpdate = this.classificationTypeUpdate;
+    final prefix = this.prefix;
+    return {
+      'bucketName': bucketName,
+      'classificationTypeUpdate': classificationTypeUpdate,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateS3ResourcesResult {
   /// The S3 resources whose classification types can't be updated. An error code
   /// and an error message are provided for each failed item.
-  @_s.JsonKey(name: 'failedS3Resources')
-  final List<FailedS3Resource> failedS3Resources;
+  final List<FailedS3Resource>? failedS3Resources;
 
   UpdateS3ResourcesResult({
     this.failedS3Resources,
   });
-  factory UpdateS3ResourcesResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateS3ResourcesResultFromJson(json);
+  factory UpdateS3ResourcesResult.fromJson(Map<String, dynamic> json) {
+    return UpdateS3ResourcesResult(
+      failedS3Resources: (json['failedS3Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedS3Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 

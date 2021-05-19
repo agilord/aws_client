@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'structure_payload.g.dart';
 
 /// Structure payload
 class StructurePayload {
   final _s.RestJsonProtocol _protocol;
   StructurePayload({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -45,7 +37,7 @@ class StructurePayload {
         );
 
   Future<void> operationName0({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       payload: foo,
@@ -56,7 +48,7 @@ class StructurePayload {
   }
 
   Future<void> operationName1({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       payload: foo,
@@ -67,19 +59,18 @@ class StructurePayload {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FooShape {
-  @_s.JsonKey(name: 'baz')
-  final String baz;
+  final String? baz;
 
   FooShape({
     this.baz,
   });
-  Map<String, dynamic> toJson() => _$FooShapeToJson(this);
+  Map<String, dynamic> toJson() {
+    final baz = this.baz;
+    return {
+      if (baz != null) 'baz': baz,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

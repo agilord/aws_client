@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'sso-2019-06-10.g.dart';
 
 /// AWS Single Sign-On Portal is a web service that makes it easy for you to
 /// assign user access to AWS SSO resources such as the user portal. Users can
@@ -49,10 +41,10 @@ part 'sso-2019-06-10.g.dart';
 class SSO {
   final _s.RestJsonProtocol _protocol;
   SSO({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -84,18 +76,19 @@ class SSO {
   /// Parameter [roleName] :
   /// The friendly name of the role that is assigned to the user.
   Future<GetRoleCredentialsResponse> getRoleCredentials({
-    @_s.required String accessToken,
-    @_s.required String accountId,
-    @_s.required String roleName,
+    required String accessToken,
+    required String accountId,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(roleName, 'roleName');
-    final headers = <String, String>{};
-    accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-sso_bearer_token': accessToken.toString(),
+    };
     final $query = <String, List<String>>{
-      if (accountId != null) 'account_id': [accountId],
-      if (roleName != null) 'role_name': [roleName],
+      'account_id': [accountId],
+      'role_name': [roleName],
     };
     final response = await _protocol.send(
       payload: null,
@@ -131,10 +124,10 @@ class SSO {
   /// The page token from the previous response output when you request
   /// subsequent pages.
   Future<ListAccountRolesResponse> listAccountRoles({
-    @_s.required String accessToken,
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
+    required String accessToken,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     ArgumentError.checkNotNull(accountId, 'accountId');
@@ -144,10 +137,11 @@ class SSO {
       1,
       100,
     );
-    final headers = <String, String>{};
-    accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-sso_bearer_token': accessToken.toString(),
+    };
     final $query = <String, List<String>>{
-      if (accountId != null) 'account_id': [accountId],
+      'account_id': [accountId],
       if (maxResults != null) 'max_result': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
     };
@@ -186,9 +180,9 @@ class SSO {
   /// (Optional) When requesting subsequent pages, this is the page token from
   /// the previous response output.
   Future<ListAccountsResponse> listAccounts({
-    @_s.required String accessToken,
-    int maxResults,
-    String nextToken,
+    required String accessToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateNumRange(
@@ -197,8 +191,9 @@ class SSO {
       1,
       100,
     );
-    final headers = <String, String>{};
-    accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-sso_bearer_token': accessToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_result': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -227,11 +222,12 @@ class SSO {
   /// href="https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html">CreateToken</a>
   /// in the <i>AWS SSO OIDC API Reference Guide</i>.
   Future<void> logout({
-    @_s.required String accessToken,
+    required String accessToken,
   }) async {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
-    final headers = <String, String>{};
-    accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-sso_bearer_token': accessToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -243,129 +239,117 @@ class SSO {
 }
 
 /// Provides information about your AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountInfo {
   /// The identifier of the AWS account that is assigned to the user.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The display name of the AWS account that is assigned to the user.
-  @_s.JsonKey(name: 'accountName')
-  final String accountName;
+  final String? accountName;
 
   /// The email address of the AWS account that is assigned to the user.
-  @_s.JsonKey(name: 'emailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   AccountInfo({
     this.accountId,
     this.accountName,
     this.emailAddress,
   });
-  factory AccountInfo.fromJson(Map<String, dynamic> json) =>
-      _$AccountInfoFromJson(json);
+  factory AccountInfo.fromJson(Map<String, dynamic> json) {
+    return AccountInfo(
+      accountId: json['accountId'] as String?,
+      accountName: json['accountName'] as String?,
+      emailAddress: json['emailAddress'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRoleCredentialsResponse {
   /// The credentials for the role that is assigned to the user.
-  @_s.JsonKey(name: 'roleCredentials')
-  final RoleCredentials roleCredentials;
+  final RoleCredentials? roleCredentials;
 
   GetRoleCredentialsResponse({
     this.roleCredentials,
   });
-  factory GetRoleCredentialsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoleCredentialsResponseFromJson(json);
+  factory GetRoleCredentialsResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoleCredentialsResponse(
+      roleCredentials: json['roleCredentials'] != null
+          ? RoleCredentials.fromJson(
+              json['roleCredentials'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountRolesResponse {
   /// The page token client that is used to retrieve the list of accounts.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A paginated response with the list of roles and the next token if more
   /// results are available.
-  @_s.JsonKey(name: 'roleList')
-  final List<RoleInfo> roleList;
+  final List<RoleInfo>? roleList;
 
   ListAccountRolesResponse({
     this.nextToken,
     this.roleList,
   });
-  factory ListAccountRolesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountRolesResponseFromJson(json);
+  factory ListAccountRolesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountRolesResponse(
+      nextToken: json['nextToken'] as String?,
+      roleList: (json['roleList'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoleInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountsResponse {
   /// A paginated response with the list of account information and the next token
   /// if more results are available.
-  @_s.JsonKey(name: 'accountList')
-  final List<AccountInfo> accountList;
+  final List<AccountInfo>? accountList;
 
   /// The page token client that is used to retrieve the list of accounts.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountsResponse({
     this.accountList,
     this.nextToken,
   });
-  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountsResponseFromJson(json);
+  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsResponse(
+      accountList: (json['accountList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
 }
 
 /// Provides information about the role credentials that are assigned to the
 /// user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoleCredentials {
   /// The identifier used for the temporary security credentials. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">Using
   /// Temporary Security Credentials to Request Access to AWS Resources</a> in the
   /// <i>AWS IAM User Guide</i>.
-  @_s.JsonKey(name: 'accessKeyId')
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// The date on which temporary security credentials expire.
-  @_s.JsonKey(name: 'expiration')
-  final int expiration;
+  final int? expiration;
 
   /// The key that is used to sign the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">Using
   /// Temporary Security Credentials to Request Access to AWS Resources</a> in the
   /// <i>AWS IAM User Guide</i>.
-  @_s.JsonKey(name: 'secretAccessKey')
-  final String secretAccessKey;
+  final String? secretAccessKey;
 
   /// The token used for temporary credentials. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">Using
   /// Temporary Security Credentials to Request Access to AWS Resources</a> in the
   /// <i>AWS IAM User Guide</i>.
-  @_s.JsonKey(name: 'sessionToken')
-  final String sessionToken;
+  final String? sessionToken;
 
   RoleCredentials({
     this.accessKeyId,
@@ -373,50 +357,53 @@ class RoleCredentials {
     this.secretAccessKey,
     this.sessionToken,
   });
-  factory RoleCredentials.fromJson(Map<String, dynamic> json) =>
-      _$RoleCredentialsFromJson(json);
+  factory RoleCredentials.fromJson(Map<String, dynamic> json) {
+    return RoleCredentials(
+      accessKeyId: json['accessKeyId'] as String?,
+      expiration: json['expiration'] as int?,
+      secretAccessKey: json['secretAccessKey'] as String?,
+      sessionToken: json['sessionToken'] as String?,
+    );
+  }
 }
 
 /// Provides information about the role that is assigned to the user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoleInfo {
   /// The identifier of the AWS account assigned to the user.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The friendly name of the role that is assigned to the user.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
+  final String? roleName;
 
   RoleInfo({
     this.accountId,
     this.roleName,
   });
-  factory RoleInfo.fromJson(Map<String, dynamic> json) =>
-      _$RoleInfoFromJson(json);
+  factory RoleInfo.fromJson(Map<String, dynamic> json) {
+    return RoleInfo(
+      accountId: json['accountId'] as String?,
+      roleName: json['roleName'] as String?,
+    );
+  }
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

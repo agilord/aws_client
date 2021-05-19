@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'transcribe-2017-10-26.g.dart';
 
 /// Operations and objects for transcribing speech to text.
 class TranscribeService {
   final _s.JsonProtocol _protocol;
   TranscribeService({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,10 +67,10 @@ class TranscribeService {
   /// Parameter [modelName] :
   /// The name you choose for your custom language model when you create it.
   Future<CreateLanguageModelResponse> createLanguageModel({
-    @_s.required BaseModelName baseModelName,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required CLMLanguageCode languageCode,
-    @_s.required String modelName,
+    required BaseModelName baseModelName,
+    required InputDataConfig inputDataConfig,
+    required CLMLanguageCode languageCode,
+    required String modelName,
   }) async {
     ArgumentError.checkNotNull(baseModelName, 'baseModelName');
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -108,9 +100,9 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BaseModelName': baseModelName?.toValue() ?? '',
+        'BaseModelName': baseModelName.toValue(),
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'ModelName': modelName,
       },
     );
@@ -161,9 +153,9 @@ class TranscribeService {
   /// name as a previous vocabulary, you get a <code>ConflictException</code>
   /// error.
   Future<CreateMedicalVocabularyResponse> createMedicalVocabulary({
-    @_s.required LanguageCode languageCode,
-    @_s.required String vocabularyFileUri,
-    @_s.required String vocabularyName,
+    required LanguageCode languageCode,
+    required String vocabularyFileUri,
+    required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyFileUri, 'vocabularyFileUri');
@@ -205,7 +197,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'VocabularyFileUri': vocabularyFileUri,
         'VocabularyName': vocabularyName,
       },
@@ -247,10 +239,10 @@ class TranscribeService {
   /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Custom
   /// Vocabularies</a>.
   Future<CreateVocabularyResponse> createVocabulary({
-    @_s.required LanguageCode languageCode,
-    @_s.required String vocabularyName,
-    List<String> phrases,
-    String vocabularyFileUri,
+    required LanguageCode languageCode,
+    required String vocabularyName,
+    List<String>? phrases,
+    String? vocabularyFileUri,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
@@ -289,7 +281,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         if (phrases != null) 'Phrases': phrases,
         if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
@@ -341,10 +333,10 @@ class TranscribeService {
   /// If you provide a list of words in the <code>Words</code> parameter, you
   /// can't use the <code>VocabularyFilterFileUri</code> parameter.
   Future<CreateVocabularyFilterResponse> createVocabularyFilter({
-    @_s.required LanguageCode languageCode,
-    @_s.required String vocabularyFilterName,
-    String vocabularyFilterFileUri,
-    List<String> words,
+    required LanguageCode languageCode,
+    required String vocabularyFilterName,
+    String? vocabularyFilterFileUri,
+    List<String>? words,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
@@ -383,7 +375,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'VocabularyFilterName': vocabularyFilterName,
         if (vocabularyFilterFileUri != null)
           'VocabularyFilterFileUri': vocabularyFilterFileUri,
@@ -403,7 +395,7 @@ class TranscribeService {
   /// Parameter [modelName] :
   /// The name of the model you're choosing to delete.
   Future<void> deleteLanguageModel({
-    @_s.required String modelName,
+    required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     _s.validateStringLength(
@@ -423,7 +415,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteLanguageModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -446,7 +438,7 @@ class TranscribeService {
   /// The name you provide to the <code>DeleteMedicalTranscriptionJob</code>
   /// object to delete a transcription job.
   Future<void> deleteMedicalTranscriptionJob({
-    @_s.required String medicalTranscriptionJobName,
+    required String medicalTranscriptionJobName,
   }) async {
     ArgumentError.checkNotNull(
         medicalTranscriptionJobName, 'medicalTranscriptionJobName');
@@ -467,7 +459,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalTranscriptionJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -489,7 +481,7 @@ class TranscribeService {
   /// Parameter [vocabularyName] :
   /// The name of the vocabulary that you want to delete.
   Future<void> deleteMedicalVocabulary({
-    @_s.required String vocabularyName,
+    required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
     _s.validateStringLength(
@@ -509,7 +501,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalVocabulary'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -531,7 +523,7 @@ class TranscribeService {
   /// Parameter [transcriptionJobName] :
   /// The name of the transcription job to be deleted.
   Future<void> deleteTranscriptionJob({
-    @_s.required String transcriptionJobName,
+    required String transcriptionJobName,
   }) async {
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
     _s.validateStringLength(
@@ -551,7 +543,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteTranscriptionJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -573,7 +565,7 @@ class TranscribeService {
   /// Parameter [vocabularyName] :
   /// The name of the vocabulary to delete.
   Future<void> deleteVocabulary({
-    @_s.required String vocabularyName,
+    required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
     _s.validateStringLength(
@@ -593,7 +585,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabulary'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -615,7 +607,7 @@ class TranscribeService {
   /// Parameter [vocabularyFilterName] :
   /// The name of the vocabulary filter to remove.
   Future<void> deleteVocabularyFilter({
-    @_s.required String vocabularyFilterName,
+    required String vocabularyFilterName,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
     _s.validateStringLength(
@@ -635,7 +627,7 @@ class TranscribeService {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabularyFilter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -663,7 +655,7 @@ class TranscribeService {
   /// Parameter [modelName] :
   /// The name of the custom language model you submit to get more information.
   Future<DescribeLanguageModelResponse> describeLanguageModel({
-    @_s.required String modelName,
+    required String modelName,
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     _s.validateStringLength(
@@ -711,7 +703,7 @@ class TranscribeService {
   /// Parameter [medicalTranscriptionJobName] :
   /// The name of the medical transcription job.
   Future<GetMedicalTranscriptionJobResponse> getMedicalTranscriptionJob({
-    @_s.required String medicalTranscriptionJobName,
+    required String medicalTranscriptionJobName,
   }) async {
     ArgumentError.checkNotNull(
         medicalTranscriptionJobName, 'medicalTranscriptionJobName');
@@ -757,7 +749,7 @@ class TranscribeService {
   /// The name of the vocabulary that you want information about. The value is
   /// case sensitive.
   Future<GetMedicalVocabularyResponse> getMedicalVocabulary({
-    @_s.required String vocabularyName,
+    required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
     _s.validateStringLength(
@@ -806,7 +798,7 @@ class TranscribeService {
   /// Parameter [transcriptionJobName] :
   /// The name of the job.
   Future<GetTranscriptionJobResponse> getTranscriptionJob({
-    @_s.required String transcriptionJobName,
+    required String transcriptionJobName,
   }) async {
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
     _s.validateStringLength(
@@ -851,7 +843,7 @@ class TranscribeService {
   /// The name of the vocabulary to return information about. The name is case
   /// sensitive.
   Future<GetVocabularyResponse> getVocabulary({
-    @_s.required String vocabularyName,
+    required String vocabularyName,
   }) async {
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
     _s.validateStringLength(
@@ -895,7 +887,7 @@ class TranscribeService {
   /// Parameter [vocabularyFilterName] :
   /// The name of the vocabulary filter for which to return information.
   Future<GetVocabularyFilterResponse> getVocabularyFilter({
-    @_s.required String vocabularyFilterName,
+    required String vocabularyFilterName,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
     _s.validateStringLength(
@@ -957,10 +949,10 @@ class TranscribeService {
   /// models first. If you don't specify a status, Amazon Transcribe returns all
   /// custom language models ordered by date.
   Future<ListLanguageModelsResponse> listLanguageModels({
-    int maxResults,
-    String nameContains,
-    String nextToken,
-    ModelStatus statusEquals,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    ModelStatus? statusEquals,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1038,10 +1030,10 @@ class TranscribeService {
   /// first. If you don't specify a status, Amazon Transcribe Medical returns
   /// all transcription jobs ordered by creation date.
   Future<ListMedicalTranscriptionJobsResponse> listMedicalTranscriptionJobs({
-    String jobNameContains,
-    int maxResults,
-    String nextToken,
-    TranscriptionJobStatus status,
+    String? jobNameContains,
+    int? maxResults,
+    String? nextToken,
+    TranscriptionJobStatus? status,
   }) async {
     _s.validateStringLength(
       'jobNameContains',
@@ -1119,10 +1111,10 @@ class TranscribeService {
   /// this field to see which vocabularies are ready for your medical
   /// transcription jobs.
   Future<ListMedicalVocabulariesResponse> listMedicalVocabularies({
-    int maxResults,
-    String nameContains,
-    String nextToken,
-    VocabularyState stateEquals,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    VocabularyState? stateEquals,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1198,10 +1190,10 @@ class TranscribeService {
   /// you don’t specify a status, Amazon Transcribe returns all transcription
   /// jobs ordered by creation date.
   Future<ListTranscriptionJobsResponse> listTranscriptionJobs({
-    String jobNameContains,
-    int maxResults,
-    String nextToken,
-    TranscriptionJobStatus status,
+    String? jobNameContains,
+    int? maxResults,
+    String? nextToken,
+    TranscriptionJobStatus? status,
   }) async {
     _s.validateStringLength(
       'jobNameContains',
@@ -1278,10 +1270,10 @@ class TranscribeService {
   /// When specified, only returns vocabularies with the
   /// <code>VocabularyState</code> field equal to the specified state.
   Future<ListVocabulariesResponse> listVocabularies({
-    int maxResults,
-    String nameContains,
-    String nextToken,
-    VocabularyState stateEquals,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
+    VocabularyState? stateEquals,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1351,9 +1343,9 @@ class TranscribeService {
   /// <code>ListVocabularyFilters</code> was truncated, include the
   /// <code>NextToken</code> to fetch the next set of collections.
   Future<ListVocabularyFiltersResponse> listVocabularyFilters({
-    int maxResults,
-    String nameContains,
-    String nextToken,
+    int? maxResults,
+    String? nameContains,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1520,17 +1512,17 @@ class TranscribeService {
   /// Parameter [settings] :
   /// Optional settings for the medical transcription job.
   Future<StartMedicalTranscriptionJobResponse> startMedicalTranscriptionJob({
-    @_s.required LanguageCode languageCode,
-    @_s.required Media media,
-    @_s.required String medicalTranscriptionJobName,
-    @_s.required String outputBucketName,
-    @_s.required Specialty specialty,
-    @_s.required Type type,
-    MediaFormat mediaFormat,
-    int mediaSampleRateHertz,
-    String outputEncryptionKMSKeyId,
-    String outputKey,
-    MedicalTranscriptionSetting settings,
+    required LanguageCode languageCode,
+    required Media media,
+    required String medicalTranscriptionJobName,
+    required String outputBucketName,
+    required Specialty specialty,
+    required Type type,
+    MediaFormat? mediaFormat,
+    int? mediaSampleRateHertz,
+    String? outputEncryptionKMSKeyId,
+    String? outputKey,
+    MedicalTranscriptionSetting? settings,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(media, 'media');
@@ -1604,12 +1596,12 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'Media': media,
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
         'OutputBucketName': outputBucketName,
-        'Specialty': specialty?.toValue() ?? '',
-        'Type': type?.toValue() ?? '',
+        'Specialty': specialty.toValue(),
+        'Type': type.toValue(),
         if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
@@ -1764,20 +1756,20 @@ class TranscribeService {
   /// A <code>Settings</code> object that provides optional settings for a
   /// transcription job.
   Future<StartTranscriptionJobResponse> startTranscriptionJob({
-    @_s.required Media media,
-    @_s.required String transcriptionJobName,
-    ContentRedaction contentRedaction,
-    bool identifyLanguage,
-    JobExecutionSettings jobExecutionSettings,
-    LanguageCode languageCode,
-    List<LanguageCode> languageOptions,
-    MediaFormat mediaFormat,
-    int mediaSampleRateHertz,
-    ModelSettings modelSettings,
-    String outputBucketName,
-    String outputEncryptionKMSKeyId,
-    String outputKey,
-    Settings settings,
+    required Media media,
+    required String transcriptionJobName,
+    ContentRedaction? contentRedaction,
+    bool? identifyLanguage,
+    JobExecutionSettings? jobExecutionSettings,
+    LanguageCode? languageCode,
+    List<LanguageCode>? languageOptions,
+    MediaFormat? mediaFormat,
+    int? mediaSampleRateHertz,
+    ModelSettings? modelSettings,
+    String? outputBucketName,
+    String? outputEncryptionKMSKeyId,
+    String? outputKey,
+    Settings? settings,
   }) async {
     ArgumentError.checkNotNull(media, 'media');
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
@@ -1852,8 +1844,7 @@ class TranscribeService {
           'JobExecutionSettings': jobExecutionSettings,
         if (languageCode != null) 'LanguageCode': languageCode.toValue(),
         if (languageOptions != null)
-          'LanguageOptions':
-              languageOptions.map((e) => e?.toValue() ?? '').toList(),
+          'LanguageOptions': languageOptions.map((e) => e.toValue()).toList(),
         if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
@@ -1912,9 +1903,9 @@ class TranscribeService {
   /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Medical
   /// Custom Vocabularies</a>.
   Future<UpdateMedicalVocabularyResponse> updateMedicalVocabulary({
-    @_s.required LanguageCode languageCode,
-    @_s.required String vocabularyName,
-    String vocabularyFileUri,
+    required LanguageCode languageCode,
+    required String vocabularyName,
+    String? vocabularyFileUri,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
@@ -1953,7 +1944,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
       },
@@ -1998,10 +1989,10 @@ class TranscribeService {
   /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Custom
   /// Vocabularies</a>.
   Future<UpdateVocabularyResponse> updateVocabulary({
-    @_s.required LanguageCode languageCode,
-    @_s.required String vocabularyName,
-    List<String> phrases,
-    String vocabularyFileUri,
+    required LanguageCode languageCode,
+    required String vocabularyName,
+    List<String>? phrases,
+    String? vocabularyFileUri,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
@@ -2040,7 +2031,7 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'VocabularyName': vocabularyName,
         if (phrases != null) 'Phrases': phrases,
         if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
@@ -2085,9 +2076,9 @@ class TranscribeService {
   /// If you provide a list of words in the <code>Words</code> parameter, you
   /// can't use the <code>VocabularyFilterFileUri</code> parameter.
   Future<UpdateVocabularyFilterResponse> updateVocabularyFilter({
-    @_s.required String vocabularyFilterName,
-    String vocabularyFilterFileUri,
-    List<String> words,
+    required String vocabularyFilterName,
+    String? vocabularyFilterFileUri,
+    List<String>? words,
   }) async {
     ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
     _s.validateStringLength(
@@ -2137,9 +2128,7 @@ class TranscribeService {
 }
 
 enum BaseModelName {
-  @_s.JsonValue('NarrowBand')
   narrowBand,
-  @_s.JsonValue('WideBand')
   wideBand,
 }
 
@@ -2151,12 +2140,22 @@ extension on BaseModelName {
       case BaseModelName.wideBand:
         return 'WideBand';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BaseModelName toBaseModelName() {
+    switch (this) {
+      case 'NarrowBand':
+        return BaseModelName.narrowBand;
+      case 'WideBand':
+        return BaseModelName.wideBand;
+    }
+    throw Exception('$this is not known in enum BaseModelName');
   }
 }
 
 enum CLMLanguageCode {
-  @_s.JsonValue('en-US')
   enUs,
 }
 
@@ -2166,16 +2165,20 @@ extension on CLMLanguageCode {
       case CLMLanguageCode.enUs:
         return 'en-US';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CLMLanguageCode toCLMLanguageCode() {
+    switch (this) {
+      case 'en-US':
+        return CLMLanguageCode.enUs;
+    }
+    throw Exception('$this is not known in enum CLMLanguageCode');
   }
 }
 
 /// Settings for content redaction within a transcription job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContentRedaction {
   /// The output transcript file stored in either the default S3 bucket or in a
   /// bucket you specify.
@@ -2185,52 +2188,51 @@ class ContentRedaction {
   ///
   /// When you choose <code>redacted_and_unredacted</code> Amazon Transcribe
   /// outputs both the redacted and unredacted transcripts.
-  @_s.JsonKey(name: 'RedactionOutput')
   final RedactionOutput redactionOutput;
 
   /// Request parameter that defines the entities to be redacted. The only
   /// accepted value is <code>PII</code>.
-  @_s.JsonKey(name: 'RedactionType')
   final RedactionType redactionType;
 
   ContentRedaction({
-    @_s.required this.redactionOutput,
-    @_s.required this.redactionType,
+    required this.redactionOutput,
+    required this.redactionType,
   });
-  factory ContentRedaction.fromJson(Map<String, dynamic> json) =>
-      _$ContentRedactionFromJson(json);
+  factory ContentRedaction.fromJson(Map<String, dynamic> json) {
+    return ContentRedaction(
+      redactionOutput: (json['RedactionOutput'] as String).toRedactionOutput(),
+      redactionType: (json['RedactionType'] as String).toRedactionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ContentRedactionToJson(this);
+  Map<String, dynamic> toJson() {
+    final redactionOutput = this.redactionOutput;
+    final redactionType = this.redactionType;
+    return {
+      'RedactionOutput': redactionOutput.toValue(),
+      'RedactionType': redactionType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLanguageModelResponse {
   /// The Amazon Transcribe standard language model, or base model you've used to
   /// create a custom language model.
-  @_s.JsonKey(name: 'BaseModelName')
-  final BaseModelName baseModelName;
+  final BaseModelName? baseModelName;
 
   /// The data access role and Amazon S3 prefixes you've chosen to create your
   /// custom language model.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The language code of the text you've used to create a custom language model.
-  @_s.JsonKey(name: 'LanguageCode')
-  final CLMLanguageCode languageCode;
+  final CLMLanguageCode? languageCode;
 
   /// The name you've chosen for your custom language model.
-  @_s.JsonKey(name: 'ModelName')
-  final String modelName;
+  final String? modelName;
 
   /// The status of the custom language model. When the status is
   /// <code>COMPLETED</code> the model is ready to use.
-  @_s.JsonKey(name: 'ModelStatus')
-  final ModelStatus modelStatus;
+  final ModelStatus? modelStatus;
 
   CreateLanguageModelResponse({
     this.baseModelName,
@@ -2239,41 +2241,40 @@ class CreateLanguageModelResponse {
     this.modelName,
     this.modelStatus,
   });
-  factory CreateLanguageModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLanguageModelResponseFromJson(json);
+  factory CreateLanguageModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLanguageModelResponse(
+      baseModelName: (json['BaseModelName'] as String?)?.toBaseModelName(),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      languageCode: (json['LanguageCode'] as String?)?.toCLMLanguageCode(),
+      modelName: json['ModelName'] as String?,
+      modelStatus: (json['ModelStatus'] as String?)?.toModelStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMedicalVocabularyResponse {
   /// If the <code>VocabularyState</code> field is <code>FAILED</code>, this field
   /// contains information about why the job failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The language code for the entries in your custom vocabulary. US English
   /// (en-US) is the only valid language code for Amazon Transcribe Medical.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that you created the vocabulary.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary. The name must be unique within an AWS account
   /// and is case sensitive.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of your custom vocabulary in Amazon Transcribe Medical.
   /// If the state is <code>READY</code>, you can use the vocabulary in a
   /// <code>StartMedicalTranscriptionJob</code> request.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   CreateMedicalVocabularyResponse({
     this.failureReason,
@@ -2282,68 +2283,61 @@ class CreateMedicalVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory CreateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMedicalVocabularyResponseFromJson(json);
+  factory CreateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMedicalVocabularyResponse(
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVocabularyFilterResponse {
   /// The language code of the words in the collection.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary filter was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary filter.
-  @_s.JsonKey(name: 'VocabularyFilterName')
-  final String vocabularyFilterName;
+  final String? vocabularyFilterName;
 
   CreateVocabularyFilterResponse({
     this.languageCode,
     this.lastModifiedTime,
     this.vocabularyFilterName,
   });
-  factory CreateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateVocabularyFilterResponseFromJson(json);
+  factory CreateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVocabularyFilterResponse(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVocabularyResponse {
   /// If the <code>VocabularyState</code> field is <code>FAILED</code>, this field
   /// contains information about why the job failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The language code of the vocabulary entries.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the vocabulary. When the
   /// <code>VocabularyState</code> field contains <code>READY</code> the
   /// vocabulary is ready to be used in a <code>StartTranscriptionJob</code>
   /// request.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   CreateVocabularyResponse({
     this.failureReason,
@@ -2352,81 +2346,77 @@ class CreateVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory CreateVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateVocabularyResponseFromJson(json);
+  factory CreateVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVocabularyResponse(
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLanguageModelResponse {
   /// The name of the custom language model you requested more information about.
-  @_s.JsonKey(name: 'LanguageModel')
-  final LanguageModel languageModel;
+  final LanguageModel? languageModel;
 
   DescribeLanguageModelResponse({
     this.languageModel,
   });
-  factory DescribeLanguageModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLanguageModelResponseFromJson(json);
+  factory DescribeLanguageModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLanguageModelResponse(
+      languageModel: json['LanguageModel'] != null
+          ? LanguageModel.fromJson(
+              json['LanguageModel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMedicalTranscriptionJobResponse {
   /// An object that contains the results of the medical transcription job.
-  @_s.JsonKey(name: 'MedicalTranscriptionJob')
-  final MedicalTranscriptionJob medicalTranscriptionJob;
+  final MedicalTranscriptionJob? medicalTranscriptionJob;
 
   GetMedicalTranscriptionJobResponse({
     this.medicalTranscriptionJob,
   });
   factory GetMedicalTranscriptionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMedicalTranscriptionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetMedicalTranscriptionJobResponse(
+      medicalTranscriptionJob: json['MedicalTranscriptionJob'] != null
+          ? MedicalTranscriptionJob.fromJson(
+              json['MedicalTranscriptionJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMedicalVocabularyResponse {
   /// The location in Amazon S3 where the vocabulary is stored. Use this URI to
   /// get the contents of the vocabulary. You can download your vocabulary from
   /// the URI for a limited time.
-  @_s.JsonKey(name: 'DownloadUri')
-  final String downloadUri;
+  final String? downloadUri;
 
   /// If the <code>VocabularyState</code> is <code>FAILED</code>, this field
   /// contains information about why the job failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The valid language code for your vocabulary entries.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was last modified with a text file
   /// different from the one that was previously used.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary returned by Amazon Transcribe Medical.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the vocabulary. If the <code>VocabularyState</code>
   /// is <code>READY</code> then you can use it in the
   /// <code>StartMedicalTranscriptionJob</code> operation.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   GetMedicalVocabularyResponse({
     this.downloadUri,
@@ -2436,50 +2426,49 @@ class GetMedicalVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory GetMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMedicalVocabularyResponseFromJson(json);
+  factory GetMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return GetMedicalVocabularyResponse(
+      downloadUri: json['DownloadUri'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTranscriptionJobResponse {
   /// An object that contains the results of the transcription job.
-  @_s.JsonKey(name: 'TranscriptionJob')
-  final TranscriptionJob transcriptionJob;
+  final TranscriptionJob? transcriptionJob;
 
   GetTranscriptionJobResponse({
     this.transcriptionJob,
   });
-  factory GetTranscriptionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTranscriptionJobResponseFromJson(json);
+  factory GetTranscriptionJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetTranscriptionJobResponse(
+      transcriptionJob: json['TranscriptionJob'] != null
+          ? TranscriptionJob.fromJson(
+              json['TranscriptionJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVocabularyFilterResponse {
   /// The URI of the list of words in the vocabulary filter. You can use this URI
   /// to get the list of words.
-  @_s.JsonKey(name: 'DownloadUri')
-  final String downloadUri;
+  final String? downloadUri;
 
   /// The language code of the words in the vocabulary filter.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the contents of the vocabulary filter were updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary filter.
-  @_s.JsonKey(name: 'VocabularyFilterName')
-  final String vocabularyFilterName;
+  final String? vocabularyFilterName;
 
   GetVocabularyFilterResponse({
     this.downloadUri,
@@ -2487,42 +2476,36 @@ class GetVocabularyFilterResponse {
     this.lastModifiedTime,
     this.vocabularyFilterName,
   });
-  factory GetVocabularyFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVocabularyFilterResponseFromJson(json);
+  factory GetVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return GetVocabularyFilterResponse(
+      downloadUri: json['DownloadUri'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVocabularyResponse {
   /// The S3 location where the vocabulary is stored. Use this URI to get the
   /// contents of the vocabulary. The URI is available for a limited time.
-  @_s.JsonKey(name: 'DownloadUri')
-  final String downloadUri;
+  final String? downloadUri;
 
   /// If the <code>VocabularyState</code> field is <code>FAILED</code>, this field
   /// contains information about why the job failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The language code of the vocabulary entries.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary to return.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the vocabulary.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   GetVocabularyResponse({
     this.downloadUri,
@@ -2532,51 +2515,61 @@ class GetVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory GetVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVocabularyResponseFromJson(json);
+  factory GetVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return GetVocabularyResponse(
+      downloadUri: json['DownloadUri'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
 /// The object that contains the Amazon S3 object location and access role
 /// required to train and tune your custom language model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDataConfig {
   /// The Amazon Resource Name (ARN) that uniquely identifies the permissions
   /// you've given Amazon Transcribe to access your Amazon S3 buckets containing
   /// your media files or text data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
   final String dataAccessRoleArn;
 
   /// The Amazon S3 prefix you specify to access the plain text files that you use
   /// to train your custom language model.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   /// The Amazon S3 prefix you specify to access the plain text files that you use
   /// to tune your custom language model.
-  @_s.JsonKey(name: 'TuningDataS3Uri')
-  final String tuningDataS3Uri;
+  final String? tuningDataS3Uri;
 
   InputDataConfig({
-    @_s.required this.dataAccessRoleArn,
-    @_s.required this.s3Uri,
+    required this.dataAccessRoleArn,
+    required this.s3Uri,
     this.tuningDataS3Uri,
   });
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$InputDataConfigFromJson(json);
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+      s3Uri: json['S3Uri'] as String,
+      tuningDataS3Uri: json['TuningDataS3Uri'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final s3Uri = this.s3Uri;
+    final tuningDataS3Uri = this.tuningDataS3Uri;
+    return {
+      'DataAccessRoleArn': dataAccessRoleArn,
+      'S3Uri': s3Uri,
+      if (tuningDataS3Uri != null) 'TuningDataS3Uri': tuningDataS3Uri,
+    };
+  }
 }
 
 /// Provides information about when a transcription job should be executed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobExecutionSettings {
   /// Indicates whether a job should be queued by Amazon Transcribe when the
   /// concurrent execution limit is exceeded. When the
@@ -2587,8 +2580,7 @@ class JobExecutionSettings {
   ///
   /// If you specify the <code>AllowDeferredExecution</code> field, you must
   /// specify the <code>DataAccessRoleArn</code> field.
-  @_s.JsonKey(name: 'AllowDeferredExecution')
-  final bool allowDeferredExecution;
+  final bool? allowDeferredExecution;
 
   /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket
   /// that contains the input files. Amazon Transcribe assumes this role to read
@@ -2598,91 +2590,66 @@ class JobExecutionSettings {
   ///
   /// If you specify the <code>AllowDeferredExecution</code> field, you must
   /// specify the <code>DataAccessRoleArn</code> field.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   JobExecutionSettings({
     this.allowDeferredExecution,
     this.dataAccessRoleArn,
   });
-  factory JobExecutionSettings.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionSettingsFromJson(json);
+  factory JobExecutionSettings.fromJson(Map<String, dynamic> json) {
+    return JobExecutionSettings(
+      allowDeferredExecution: json['AllowDeferredExecution'] as bool?,
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$JobExecutionSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final allowDeferredExecution = this.allowDeferredExecution;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    return {
+      if (allowDeferredExecution != null)
+        'AllowDeferredExecution': allowDeferredExecution,
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+    };
+  }
 }
 
 enum LanguageCode {
-  @_s.JsonValue('af-ZA')
   afZa,
-  @_s.JsonValue('ar-AE')
   arAe,
-  @_s.JsonValue('ar-SA')
   arSa,
-  @_s.JsonValue('cy-GB')
   cyGb,
-  @_s.JsonValue('da-DK')
   daDk,
-  @_s.JsonValue('de-CH')
   deCh,
-  @_s.JsonValue('de-DE')
   deDe,
-  @_s.JsonValue('en-AB')
   enAb,
-  @_s.JsonValue('en-AU')
   enAu,
-  @_s.JsonValue('en-GB')
   enGb,
-  @_s.JsonValue('en-IE')
   enIe,
-  @_s.JsonValue('en-IN')
   enIn,
-  @_s.JsonValue('en-US')
   enUs,
-  @_s.JsonValue('en-WL')
   enWl,
-  @_s.JsonValue('es-ES')
   esEs,
-  @_s.JsonValue('es-US')
   esUs,
-  @_s.JsonValue('fa-IR')
   faIr,
-  @_s.JsonValue('fr-CA')
   frCa,
-  @_s.JsonValue('fr-FR')
   frFr,
-  @_s.JsonValue('ga-IE')
   gaIe,
-  @_s.JsonValue('gd-GB')
   gdGb,
-  @_s.JsonValue('he-IL')
   heIl,
-  @_s.JsonValue('hi-IN')
   hiIn,
-  @_s.JsonValue('id-ID')
   idId,
-  @_s.JsonValue('it-IT')
   itIt,
-  @_s.JsonValue('ja-JP')
   jaJp,
-  @_s.JsonValue('ko-KR')
   koKr,
-  @_s.JsonValue('ms-MY')
   msMy,
-  @_s.JsonValue('nl-NL')
   nlNl,
-  @_s.JsonValue('pt-BR')
   ptBr,
-  @_s.JsonValue('pt-PT')
   ptPt,
-  @_s.JsonValue('ru-RU')
   ruRu,
-  @_s.JsonValue('ta-IN')
   taIn,
-  @_s.JsonValue('te-IN')
   teIn,
-  @_s.JsonValue('tr-TR')
   trTr,
-  @_s.JsonValue('zh-CN')
   zhCn,
 }
 
@@ -2762,59 +2729,122 @@ extension on LanguageCode {
       case LanguageCode.zhCn:
         return 'zh-CN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LanguageCode toLanguageCode() {
+    switch (this) {
+      case 'af-ZA':
+        return LanguageCode.afZa;
+      case 'ar-AE':
+        return LanguageCode.arAe;
+      case 'ar-SA':
+        return LanguageCode.arSa;
+      case 'cy-GB':
+        return LanguageCode.cyGb;
+      case 'da-DK':
+        return LanguageCode.daDk;
+      case 'de-CH':
+        return LanguageCode.deCh;
+      case 'de-DE':
+        return LanguageCode.deDe;
+      case 'en-AB':
+        return LanguageCode.enAb;
+      case 'en-AU':
+        return LanguageCode.enAu;
+      case 'en-GB':
+        return LanguageCode.enGb;
+      case 'en-IE':
+        return LanguageCode.enIe;
+      case 'en-IN':
+        return LanguageCode.enIn;
+      case 'en-US':
+        return LanguageCode.enUs;
+      case 'en-WL':
+        return LanguageCode.enWl;
+      case 'es-ES':
+        return LanguageCode.esEs;
+      case 'es-US':
+        return LanguageCode.esUs;
+      case 'fa-IR':
+        return LanguageCode.faIr;
+      case 'fr-CA':
+        return LanguageCode.frCa;
+      case 'fr-FR':
+        return LanguageCode.frFr;
+      case 'ga-IE':
+        return LanguageCode.gaIe;
+      case 'gd-GB':
+        return LanguageCode.gdGb;
+      case 'he-IL':
+        return LanguageCode.heIl;
+      case 'hi-IN':
+        return LanguageCode.hiIn;
+      case 'id-ID':
+        return LanguageCode.idId;
+      case 'it-IT':
+        return LanguageCode.itIt;
+      case 'ja-JP':
+        return LanguageCode.jaJp;
+      case 'ko-KR':
+        return LanguageCode.koKr;
+      case 'ms-MY':
+        return LanguageCode.msMy;
+      case 'nl-NL':
+        return LanguageCode.nlNl;
+      case 'pt-BR':
+        return LanguageCode.ptBr;
+      case 'pt-PT':
+        return LanguageCode.ptPt;
+      case 'ru-RU':
+        return LanguageCode.ruRu;
+      case 'ta-IN':
+        return LanguageCode.taIn;
+      case 'te-IN':
+        return LanguageCode.teIn;
+      case 'tr-TR':
+        return LanguageCode.trTr;
+      case 'zh-CN':
+        return LanguageCode.zhCn;
+    }
+    throw Exception('$this is not known in enum LanguageCode');
   }
 }
 
 /// The structure used to describe a custom language model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LanguageModel {
   /// The Amazon Transcribe standard language model, or base model used to create
   /// the custom language model.
-  @_s.JsonKey(name: 'BaseModelName')
-  final BaseModelName baseModelName;
+  final BaseModelName? baseModelName;
 
   /// The time the custom language model was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The reason why the custom language model couldn't be created.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The data access role and Amazon S3 prefixes for the input files used to
   /// train the custom language model.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The language code you used to create your custom language model.
-  @_s.JsonKey(name: 'LanguageCode')
-  final CLMLanguageCode languageCode;
+  final CLMLanguageCode? languageCode;
 
   /// The most recent time the custom language model was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the custom language model.
-  @_s.JsonKey(name: 'ModelName')
-  final String modelName;
+  final String? modelName;
 
   /// The creation status of a custom language model. When the status is
   /// <code>COMPLETED</code> the model is ready for use.
-  @_s.JsonKey(name: 'ModelStatus')
-  final ModelStatus modelStatus;
+  final ModelStatus? modelStatus;
 
   /// Whether the base model used for the custom language model is up to date. If
   /// this field is <code>true</code> then you are running the most up-to-date
   /// version of the base model in your custom language model.
-  @_s.JsonKey(name: 'UpgradeAvailability')
-  final bool upgradeAvailability;
+  final bool? upgradeAvailability;
 
   LanguageModel({
     this.baseModelName,
@@ -2827,45 +2857,53 @@ class LanguageModel {
     this.modelStatus,
     this.upgradeAvailability,
   });
-  factory LanguageModel.fromJson(Map<String, dynamic> json) =>
-      _$LanguageModelFromJson(json);
+  factory LanguageModel.fromJson(Map<String, dynamic> json) {
+    return LanguageModel(
+      baseModelName: (json['BaseModelName'] as String?)?.toBaseModelName(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      failureReason: json['FailureReason'] as String?,
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      languageCode: (json['LanguageCode'] as String?)?.toCLMLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      modelName: json['ModelName'] as String?,
+      modelStatus: (json['ModelStatus'] as String?)?.toModelStatus(),
+      upgradeAvailability: json['UpgradeAvailability'] as bool?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLanguageModelsResponse {
   /// A list of objects containing information about custom language models.
-  @_s.JsonKey(name: 'Models')
-  final List<LanguageModel> models;
+  final List<LanguageModel>? models;
 
   /// The operation returns a page of jobs at a time. The maximum size of the list
   /// is set by the MaxResults parameter. If there are more language models in the
   /// list than the page size, Amazon Transcribe returns the <code>NextPage</code>
   /// token. Include the token in the next request to the operation to return the
   /// next page of language models.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLanguageModelsResponse({
     this.models,
     this.nextToken,
   });
-  factory ListLanguageModelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLanguageModelsResponseFromJson(json);
+  factory ListLanguageModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLanguageModelsResponse(
+      models: (json['Models'] as List?)
+          ?.whereNotNull()
+          .map((e) => LanguageModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMedicalTranscriptionJobsResponse {
   /// A list of objects containing summary information for a transcription job.
-  @_s.JsonKey(name: 'MedicalTranscriptionJobSummaries')
-  final List<MedicalTranscriptionJobSummary> medicalTranscriptionJobSummaries;
+  final List<MedicalTranscriptionJobSummary>? medicalTranscriptionJobSummaries;
 
   /// The <code>ListMedicalTranscriptionJobs</code> operation returns a page of
   /// jobs at a time. The maximum size of the page is set by the
@@ -2874,12 +2912,10 @@ class ListMedicalTranscriptionJobsResponse {
   /// token. Include the token in the next request to the
   /// <code>ListMedicalTranscriptionJobs</code> operation to return in the next
   /// page of jobs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The requested status of the medical transcription jobs returned.
-  @_s.JsonKey(name: 'Status')
-  final TranscriptionJobStatus status;
+  final TranscriptionJobStatus? status;
 
   ListMedicalTranscriptionJobsResponse({
     this.medicalTranscriptionJobSummaries,
@@ -2887,15 +2923,20 @@ class ListMedicalTranscriptionJobsResponse {
     this.status,
   });
   factory ListMedicalTranscriptionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListMedicalTranscriptionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListMedicalTranscriptionJobsResponse(
+      medicalTranscriptionJobSummaries:
+          (json['MedicalTranscriptionJobSummaries'] as List?)
+              ?.whereNotNull()
+              .map((e) => MedicalTranscriptionJobSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+      status: (json['Status'] as String?)?.toTranscriptionJobStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMedicalVocabulariesResponse {
   /// The <code>ListMedicalVocabularies</code> operation returns a page of
   /// vocabularies at a time. You set the maximum number of vocabularies to return
@@ -2904,32 +2945,32 @@ class ListMedicalVocabulariesResponse {
   /// <code>NextPage</code> token. To return the next page of vocabularies,
   /// include the token in the next request to the
   /// <code>ListMedicalVocabularies</code> operation .
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The requested vocabulary state.
-  @_s.JsonKey(name: 'Status')
-  final VocabularyState status;
+  final VocabularyState? status;
 
   /// A list of objects that describe the vocabularies that match your search
   /// criteria.
-  @_s.JsonKey(name: 'Vocabularies')
-  final List<VocabularyInfo> vocabularies;
+  final List<VocabularyInfo>? vocabularies;
 
   ListMedicalVocabulariesResponse({
     this.nextToken,
     this.status,
     this.vocabularies,
   });
-  factory ListMedicalVocabulariesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMedicalVocabulariesResponseFromJson(json);
+  factory ListMedicalVocabulariesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMedicalVocabulariesResponse(
+      nextToken: json['NextToken'] as String?,
+      status: (json['Status'] as String?)?.toVocabularyState(),
+      vocabularies: (json['Vocabularies'] as List?)
+          ?.whereNotNull()
+          .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTranscriptionJobsResponse {
   /// The <code>ListTranscriptionJobs</code> operation returns a page of jobs at a
   /// time. The maximum size of the page is set by the <code>MaxResults</code>
@@ -2937,31 +2978,32 @@ class ListTranscriptionJobsResponse {
   /// Transcribe returns the <code>NextPage</code> token. Include the token in the
   /// next request to the <code>ListTranscriptionJobs</code> operation to return
   /// in the next page of jobs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The requested status of the jobs returned.
-  @_s.JsonKey(name: 'Status')
-  final TranscriptionJobStatus status;
+  final TranscriptionJobStatus? status;
 
   /// A list of objects containing summary information for a transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobSummaries')
-  final List<TranscriptionJobSummary> transcriptionJobSummaries;
+  final List<TranscriptionJobSummary>? transcriptionJobSummaries;
 
   ListTranscriptionJobsResponse({
     this.nextToken,
     this.status,
     this.transcriptionJobSummaries,
   });
-  factory ListTranscriptionJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTranscriptionJobsResponseFromJson(json);
+  factory ListTranscriptionJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTranscriptionJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      status: (json['Status'] as String?)?.toTranscriptionJobStatus(),
+      transcriptionJobSummaries: (json['TranscriptionJobSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TranscriptionJobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVocabulariesResponse {
   /// The <code>ListVocabularies</code> operation returns a page of vocabularies
   /// at a time. The maximum size of the page is set in the
@@ -2969,32 +3011,32 @@ class ListVocabulariesResponse {
   /// will fit on the page, Amazon Transcribe returns the <code>NextPage</code>
   /// token. To return in the next page of jobs, include the token in the next
   /// request to the <code>ListVocabularies</code> operation.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The requested vocabulary state.
-  @_s.JsonKey(name: 'Status')
-  final VocabularyState status;
+  final VocabularyState? status;
 
   /// A list of objects that describe the vocabularies that match the search
   /// criteria in the request.
-  @_s.JsonKey(name: 'Vocabularies')
-  final List<VocabularyInfo> vocabularies;
+  final List<VocabularyInfo>? vocabularies;
 
   ListVocabulariesResponse({
     this.nextToken,
     this.status,
     this.vocabularies,
   });
-  factory ListVocabulariesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListVocabulariesResponseFromJson(json);
+  factory ListVocabulariesResponse.fromJson(Map<String, dynamic> json) {
+    return ListVocabulariesResponse(
+      nextToken: json['NextToken'] as String?,
+      status: (json['Status'] as String?)?.toVocabularyState(),
+      vocabularies: (json['Vocabularies'] as List?)
+          ?.whereNotNull()
+          .map((e) => VocabularyInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVocabularyFiltersResponse {
   /// The <code>ListVocabularyFilters</code> operation returns a page of
   /// collections at a time. The maximum size of the page is set by the
@@ -3003,31 +3045,31 @@ class ListVocabularyFiltersResponse {
   /// Include the token in the next request to the
   /// <code>ListVocabularyFilters</code> operation to return in the next page of
   /// jobs.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of vocabulary filters. It contains at most <code>MaxResults</code>
   /// number of filters. If there are more filters, call the
   /// <code>ListVocabularyFilters</code> operation again with the
   /// <code>NextToken</code> parameter in the request set to the value of the
   /// <code>NextToken</code> field in the response.
-  @_s.JsonKey(name: 'VocabularyFilters')
-  final List<VocabularyFilterInfo> vocabularyFilters;
+  final List<VocabularyFilterInfo>? vocabularyFilters;
 
   ListVocabularyFiltersResponse({
     this.nextToken,
     this.vocabularyFilters,
   });
-  factory ListVocabularyFiltersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListVocabularyFiltersResponseFromJson(json);
+  factory ListVocabularyFiltersResponse.fromJson(Map<String, dynamic> json) {
+    return ListVocabularyFiltersResponse(
+      nextToken: json['NextToken'] as String?,
+      vocabularyFilters: (json['VocabularyFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => VocabularyFilterInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Describes the input media file in a transcription request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Media {
   /// The S3 object location of the input media file. The URI must be in the same
   /// region as the API endpoint that you are calling. The general form is:
@@ -3037,31 +3079,32 @@ class Media {
   /// For more information about S3 object names, see <a
   /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
   /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
-  @_s.JsonKey(name: 'MediaFileUri')
-  final String mediaFileUri;
+  final String? mediaFileUri;
 
   Media({
     this.mediaFileUri,
   });
-  factory Media.fromJson(Map<String, dynamic> json) => _$MediaFromJson(json);
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      mediaFileUri: json['MediaFileUri'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MediaToJson(this);
+  Map<String, dynamic> toJson() {
+    final mediaFileUri = this.mediaFileUri;
+    return {
+      if (mediaFileUri != null) 'MediaFileUri': mediaFileUri,
+    };
+  }
 }
 
 enum MediaFormat {
-  @_s.JsonValue('mp3')
   mp3,
-  @_s.JsonValue('mp4')
   mp4,
-  @_s.JsonValue('wav')
   wav,
-  @_s.JsonValue('flac')
   flac,
-  @_s.JsonValue('ogg')
   ogg,
-  @_s.JsonValue('amr')
   amr,
-  @_s.JsonValue('webm')
   webm,
 }
 
@@ -3083,48 +3126,57 @@ extension on MediaFormat {
       case MediaFormat.webm:
         return 'webm';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MediaFormat toMediaFormat() {
+    switch (this) {
+      case 'mp3':
+        return MediaFormat.mp3;
+      case 'mp4':
+        return MediaFormat.mp4;
+      case 'wav':
+        return MediaFormat.wav;
+      case 'flac':
+        return MediaFormat.flac;
+      case 'ogg':
+        return MediaFormat.ogg;
+      case 'amr':
+        return MediaFormat.amr;
+      case 'webm':
+        return MediaFormat.webm;
+    }
+    throw Exception('$this is not known in enum MediaFormat');
   }
 }
 
 /// Identifies the location of a medical transcript.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MedicalTranscript {
   /// The S3 object location of the medical transcript.
   ///
   /// Use this URI to access the medical transcript. This URI points to the S3
   /// bucket you created to store the medical transcript.
-  @_s.JsonKey(name: 'TranscriptFileUri')
-  final String transcriptFileUri;
+  final String? transcriptFileUri;
 
   MedicalTranscript({
     this.transcriptFileUri,
   });
-  factory MedicalTranscript.fromJson(Map<String, dynamic> json) =>
-      _$MedicalTranscriptFromJson(json);
+  factory MedicalTranscript.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscript(
+      transcriptFileUri: json['TranscriptFileUri'] as String?,
+    );
+  }
 }
 
 /// The data structure that contains the information for a medical transcription
 /// job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MedicalTranscriptionJob {
   /// A timestamp that shows when the job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionTime')
-  final DateTime completionTime;
+  final DateTime? completionTime;
 
   /// A timestamp that shows when the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>,
   /// this field contains information about why the job failed.
@@ -3172,21 +3224,17 @@ class MedicalTranscriptionJob {
   /// General Reference</i>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The language code for the language spoken in the source audio file. US
   /// English (en-US) is the only supported language for medical transcriptions.
   /// Any other value you enter for language code results in a
   /// <code>BadRequestException</code> error.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
-  @_s.JsonKey(name: 'Media')
-  final Media media;
+  final LanguageCode? languageCode;
+  final Media? media;
 
   /// The format of the input media file.
-  @_s.JsonKey(name: 'MediaFormat')
-  final MediaFormat mediaFormat;
+  final MediaFormat? mediaFormat;
 
   /// The sample rate, in Hertz, of the source audio containing medical
   /// information.
@@ -3196,16 +3244,13 @@ class MedicalTranscriptionJob {
   /// detected by Amazon Transcribe Medical. In most cases, you should leave the
   /// <code>MediaSampleHertz</code> blank and let Amazon Transcribe Medical
   /// determine the sample rate.
-  @_s.JsonKey(name: 'MediaSampleRateHertz')
-  final int mediaSampleRateHertz;
+  final int? mediaSampleRateHertz;
 
   /// The name for a given medical transcription job.
-  @_s.JsonKey(name: 'MedicalTranscriptionJobName')
-  final String medicalTranscriptionJobName;
+  final String? medicalTranscriptionJobName;
 
   /// Object that contains object.
-  @_s.JsonKey(name: 'Settings')
-  final MedicalTranscriptionSetting settings;
+  final MedicalTranscriptionSetting? settings;
 
   /// The medical specialty of any clinicians providing a dictation or having a
   /// conversation. <code>PRIMARYCARE</code> is the only available setting for
@@ -3217,29 +3262,23 @@ class MedicalTranscriptionJob {
   /// Family Medicine
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Specialty')
-  final Specialty specialty;
+  final Specialty? specialty;
 
   /// A timestamp that shows when the job started processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// An object that contains the <code>MedicalTranscript</code>. The
   /// <code>MedicalTranscript</code> contains the <code>TranscriptFileUri</code>.
-  @_s.JsonKey(name: 'Transcript')
-  final MedicalTranscript transcript;
+  final MedicalTranscript? transcript;
 
   /// The completion status of a medical transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobStatus')
-  final TranscriptionJobStatus transcriptionJobStatus;
+  final TranscriptionJobStatus? transcriptionJobStatus;
 
   /// The type of speech in the transcription job. <code>CONVERSATION</code> is
   /// generally used for patient-physician dialogues. <code>DICTATION</code> is
   /// the setting for physicians speaking their notes after seeing a patient. For
   /// more information, see <a>how-it-works-med</a>
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   MedicalTranscriptionJob({
     this.completionTime,
@@ -3257,64 +3296,72 @@ class MedicalTranscriptionJob {
     this.transcriptionJobStatus,
     this.type,
   });
-  factory MedicalTranscriptionJob.fromJson(Map<String, dynamic> json) =>
-      _$MedicalTranscriptionJobFromJson(json);
+  factory MedicalTranscriptionJob.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionJob(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
+      medicalTranscriptionJobName:
+          json['MedicalTranscriptionJobName'] as String?,
+      settings: json['Settings'] != null
+          ? MedicalTranscriptionSetting.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      specialty: (json['Specialty'] as String?)?.toSpecialty(),
+      startTime: timeStampFromJson(json['StartTime']),
+      transcript: json['Transcript'] != null
+          ? MedicalTranscript.fromJson(
+              json['Transcript'] as Map<String, dynamic>)
+          : null,
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.toTranscriptionJobStatus(),
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
 }
 
 /// Provides summary information about a transcription job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MedicalTranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionTime')
-  final DateTime completionTime;
+  final DateTime? completionTime;
 
   /// A timestamp that shows when the medical transcription job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, a
   /// description of the error.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The language of the transcript in the source audio file.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The name of a medical transcription job.
-  @_s.JsonKey(name: 'MedicalTranscriptionJobName')
-  final String medicalTranscriptionJobName;
+  final String? medicalTranscriptionJobName;
 
   /// Indicates the location of the transcription job's output.
   ///
   /// The <code>CUSTOMER_BUCKET</code> is the S3 location provided in the
   /// <code>OutputBucketName</code> field when the
-  @_s.JsonKey(name: 'OutputLocationType')
-  final OutputLocationType outputLocationType;
+  final OutputLocationType? outputLocationType;
 
   /// The medical specialty of the transcription job. <code>Primary care</code> is
   /// the only valid value.
-  @_s.JsonKey(name: 'Specialty')
-  final Specialty specialty;
+  final Specialty? specialty;
 
   /// A timestamp that shows when the job began processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the medical transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobStatus')
-  final TranscriptionJobStatus transcriptionJobStatus;
+  final TranscriptionJobStatus? transcriptionJobStatus;
 
   /// The speech of the clinician in the input audio.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   MedicalTranscriptionJobSummary({
     this.completionTime,
@@ -3328,16 +3375,26 @@ class MedicalTranscriptionJobSummary {
     this.transcriptionJobStatus,
     this.type,
   });
-  factory MedicalTranscriptionJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$MedicalTranscriptionJobSummaryFromJson(json);
+  factory MedicalTranscriptionJobSummary.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionJobSummary(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      medicalTranscriptionJobName:
+          json['MedicalTranscriptionJobName'] as String?,
+      outputLocationType:
+          (json['OutputLocationType'] as String?)?.toOutputLocationType(),
+      specialty: (json['Specialty'] as String?)?.toSpecialty(),
+      startTime: timeStampFromJson(json['StartTime']),
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.toTranscriptionJobStatus(),
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
 }
 
 /// Optional settings for the <a>StartMedicalTranscriptionJob</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MedicalTranscriptionSetting {
   /// Instructs Amazon Transcribe Medical to process each audio channel separately
   /// and then merge the transcription output of each channel into a single
@@ -3351,29 +3408,25 @@ class MedicalTranscriptionSetting {
   /// You can't set both <code>ShowSpeakerLabels</code> and
   /// <code>ChannelIdentification</code> in the same request. If you set both,
   /// your request returns a <code>BadRequestException</code>
-  @_s.JsonKey(name: 'ChannelIdentification')
-  final bool channelIdentification;
+  final bool? channelIdentification;
 
   /// The maximum number of alternatives that you tell the service to return. If
   /// you specify the <code>MaxAlternatives</code> field, you must set the
   /// <code>ShowAlternatives</code> field to true.
-  @_s.JsonKey(name: 'MaxAlternatives')
-  final int maxAlternatives;
+  final int? maxAlternatives;
 
   /// The maximum number of speakers to identify in the input audio. If there are
   /// more speakers in the audio than this number, multiple speakers are
   /// identified as a single speaker. If you specify the
   /// <code>MaxSpeakerLabels</code> field, you must set the
   /// <code>ShowSpeakerLabels</code> field to true.
-  @_s.JsonKey(name: 'MaxSpeakerLabels')
-  final int maxSpeakerLabels;
+  final int? maxSpeakerLabels;
 
   /// Determines whether alternative transcripts are generated along with the
   /// transcript that has the highest confidence. If you set
   /// <code>ShowAlternatives</code> field to true, you must also set the maximum
   /// number of alternatives to return in the <code>MaxAlternatives</code> field.
-  @_s.JsonKey(name: 'ShowAlternatives')
-  final bool showAlternatives;
+  final bool? showAlternatives;
 
   /// Determines whether the transcription job uses speaker recognition to
   /// identify different speakers in the input audio. Speaker recognition labels
@@ -3384,13 +3437,11 @@ class MedicalTranscriptionSetting {
   /// You can't set both <code>ShowSpeakerLabels</code> and
   /// <code>ChannelIdentification</code> in the same request. If you set both,
   /// your request returns a <code>BadRequestException</code>.
-  @_s.JsonKey(name: 'ShowSpeakerLabels')
-  final bool showSpeakerLabels;
+  final bool? showSpeakerLabels;
 
   /// The name of the vocabulary to use when processing a medical transcription
   /// job.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   MedicalTranscriptionSetting({
     this.channelIdentification,
@@ -3400,39 +3451,62 @@ class MedicalTranscriptionSetting {
     this.showSpeakerLabels,
     this.vocabularyName,
   });
-  factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) =>
-      _$MedicalTranscriptionSettingFromJson(json);
+  factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionSetting(
+      channelIdentification: json['ChannelIdentification'] as bool?,
+      maxAlternatives: json['MaxAlternatives'] as int?,
+      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
+      showAlternatives: json['ShowAlternatives'] as bool?,
+      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$MedicalTranscriptionSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final channelIdentification = this.channelIdentification;
+    final maxAlternatives = this.maxAlternatives;
+    final maxSpeakerLabels = this.maxSpeakerLabels;
+    final showAlternatives = this.showAlternatives;
+    final showSpeakerLabels = this.showSpeakerLabels;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (channelIdentification != null)
+        'ChannelIdentification': channelIdentification,
+      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
+      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
+      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
+      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
 }
 
 /// The object used to call your custom language model to your transcription
 /// job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelSettings {
   /// The name of your custom language model.
-  @_s.JsonKey(name: 'LanguageModelName')
-  final String languageModelName;
+  final String? languageModelName;
 
   ModelSettings({
     this.languageModelName,
   });
-  factory ModelSettings.fromJson(Map<String, dynamic> json) =>
-      _$ModelSettingsFromJson(json);
+  factory ModelSettings.fromJson(Map<String, dynamic> json) {
+    return ModelSettings(
+      languageModelName: json['LanguageModelName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ModelSettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final languageModelName = this.languageModelName;
+    return {
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+    };
+  }
 }
 
 enum ModelStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
@@ -3446,36 +3520,104 @@ extension on ModelStatus {
       case ModelStatus.completed:
         return 'COMPLETED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ModelStatus toModelStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ModelStatus.inProgress;
+      case 'FAILED':
+        return ModelStatus.failed;
+      case 'COMPLETED':
+        return ModelStatus.completed;
+    }
+    throw Exception('$this is not known in enum ModelStatus');
   }
 }
 
 enum OutputLocationType {
-  @_s.JsonValue('CUSTOMER_BUCKET')
   customerBucket,
-  @_s.JsonValue('SERVICE_BUCKET')
   serviceBucket,
 }
 
+extension on OutputLocationType {
+  String toValue() {
+    switch (this) {
+      case OutputLocationType.customerBucket:
+        return 'CUSTOMER_BUCKET';
+      case OutputLocationType.serviceBucket:
+        return 'SERVICE_BUCKET';
+    }
+  }
+}
+
+extension on String {
+  OutputLocationType toOutputLocationType() {
+    switch (this) {
+      case 'CUSTOMER_BUCKET':
+        return OutputLocationType.customerBucket;
+      case 'SERVICE_BUCKET':
+        return OutputLocationType.serviceBucket;
+    }
+    throw Exception('$this is not known in enum OutputLocationType');
+  }
+}
+
 enum RedactionOutput {
-  @_s.JsonValue('redacted')
   redacted,
-  @_s.JsonValue('redacted_and_unredacted')
   redactedAndUnredacted,
 }
 
+extension on RedactionOutput {
+  String toValue() {
+    switch (this) {
+      case RedactionOutput.redacted:
+        return 'redacted';
+      case RedactionOutput.redactedAndUnredacted:
+        return 'redacted_and_unredacted';
+    }
+  }
+}
+
+extension on String {
+  RedactionOutput toRedactionOutput() {
+    switch (this) {
+      case 'redacted':
+        return RedactionOutput.redacted;
+      case 'redacted_and_unredacted':
+        return RedactionOutput.redactedAndUnredacted;
+    }
+    throw Exception('$this is not known in enum RedactionOutput');
+  }
+}
+
 enum RedactionType {
-  @_s.JsonValue('PII')
   pii,
+}
+
+extension on RedactionType {
+  String toValue() {
+    switch (this) {
+      case RedactionType.pii:
+        return 'PII';
+    }
+  }
+}
+
+extension on String {
+  RedactionType toRedactionType() {
+    switch (this) {
+      case 'PII':
+        return RedactionType.pii;
+    }
+    throw Exception('$this is not known in enum RedactionType');
+  }
 }
 
 /// Provides optional settings for the <code>StartTranscriptionJob</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Settings {
   /// Instructs Amazon Transcribe to process each audio channel separately and
   /// then merge the transcription output of each channel into a single
@@ -3489,29 +3631,25 @@ class Settings {
   /// You can't set both <code>ShowSpeakerLabels</code> and
   /// <code>ChannelIdentification</code> in the same request. If you set both,
   /// your request returns a <code>BadRequestException</code>.
-  @_s.JsonKey(name: 'ChannelIdentification')
-  final bool channelIdentification;
+  final bool? channelIdentification;
 
   /// The number of alternative transcriptions that the service should return. If
   /// you specify the <code>MaxAlternatives</code> field, you must set the
   /// <code>ShowAlternatives</code> field to true.
-  @_s.JsonKey(name: 'MaxAlternatives')
-  final int maxAlternatives;
+  final int? maxAlternatives;
 
   /// The maximum number of speakers to identify in the input audio. If there are
   /// more speakers in the audio than this number, multiple speakers are
   /// identified as a single speaker. If you specify the
   /// <code>MaxSpeakerLabels</code> field, you must set the
   /// <code>ShowSpeakerLabels</code> field to true.
-  @_s.JsonKey(name: 'MaxSpeakerLabels')
-  final int maxSpeakerLabels;
+  final int? maxSpeakerLabels;
 
   /// Determines whether the transcription contains alternative transcriptions. If
   /// you set the <code>ShowAlternatives</code> field to true, you must also set
   /// the maximum number of alternatives to return in the
   /// <code>MaxAlternatives</code> field.
-  @_s.JsonKey(name: 'ShowAlternatives')
-  final bool showAlternatives;
+  final bool? showAlternatives;
 
   /// Determines whether the transcription job uses speaker recognition to
   /// identify different speakers in the input audio. Speaker recognition labels
@@ -3522,25 +3660,21 @@ class Settings {
   /// You can't set both <code>ShowSpeakerLabels</code> and
   /// <code>ChannelIdentification</code> in the same request. If you set both,
   /// your request returns a <code>BadRequestException</code>.
-  @_s.JsonKey(name: 'ShowSpeakerLabels')
-  final bool showSpeakerLabels;
+  final bool? showSpeakerLabels;
 
   /// Set to <code>mask</code> to remove filtered text from the transcript and
   /// replace it with three asterisks ("***") as placeholder text. Set to
   /// <code>remove</code> to remove filtered text from the transcript without
   /// using placeholder text.
-  @_s.JsonKey(name: 'VocabularyFilterMethod')
-  final VocabularyFilterMethod vocabularyFilterMethod;
+  final VocabularyFilterMethod? vocabularyFilterMethod;
 
   /// The name of the vocabulary filter to use when transcribing the audio. The
   /// filter that you specify must have the same language code as the
   /// transcription job.
-  @_s.JsonKey(name: 'VocabularyFilterName')
-  final String vocabularyFilterName;
+  final String? vocabularyFilterName;
 
   /// The name of a vocabulary to use when processing the transcription job.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   Settings({
     this.channelIdentification,
@@ -3552,14 +3686,46 @@ class Settings {
     this.vocabularyFilterName,
     this.vocabularyName,
   });
-  factory Settings.fromJson(Map<String, dynamic> json) =>
-      _$SettingsFromJson(json);
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    return Settings(
+      channelIdentification: json['ChannelIdentification'] as bool?,
+      maxAlternatives: json['MaxAlternatives'] as int?,
+      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
+      showAlternatives: json['ShowAlternatives'] as bool?,
+      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.toVocabularyFilterMethod(),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SettingsToJson(this);
+  Map<String, dynamic> toJson() {
+    final channelIdentification = this.channelIdentification;
+    final maxAlternatives = this.maxAlternatives;
+    final maxSpeakerLabels = this.maxSpeakerLabels;
+    final showAlternatives = this.showAlternatives;
+    final showSpeakerLabels = this.showSpeakerLabels;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (channelIdentification != null)
+        'ChannelIdentification': channelIdentification,
+      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
+      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
+      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
+      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.toValue(),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
 }
 
 enum Specialty {
-  @_s.JsonValue('PRIMARYCARE')
   primarycare,
 }
 
@@ -3569,51 +3735,55 @@ extension on Specialty {
       case Specialty.primarycare:
         return 'PRIMARYCARE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Specialty toSpecialty() {
+    switch (this) {
+      case 'PRIMARYCARE':
+        return Specialty.primarycare;
+    }
+    throw Exception('$this is not known in enum Specialty');
+  }
+}
+
 class StartMedicalTranscriptionJobResponse {
   /// A batch job submitted to transcribe medical speech to text.
-  @_s.JsonKey(name: 'MedicalTranscriptionJob')
-  final MedicalTranscriptionJob medicalTranscriptionJob;
+  final MedicalTranscriptionJob? medicalTranscriptionJob;
 
   StartMedicalTranscriptionJobResponse({
     this.medicalTranscriptionJob,
   });
   factory StartMedicalTranscriptionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartMedicalTranscriptionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartMedicalTranscriptionJobResponse(
+      medicalTranscriptionJob: json['MedicalTranscriptionJob'] != null
+          ? MedicalTranscriptionJob.fromJson(
+              json['MedicalTranscriptionJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTranscriptionJobResponse {
   /// An object containing details of the asynchronous transcription job.
-  @_s.JsonKey(name: 'TranscriptionJob')
-  final TranscriptionJob transcriptionJob;
+  final TranscriptionJob? transcriptionJob;
 
   StartTranscriptionJobResponse({
     this.transcriptionJob,
   });
-  factory StartTranscriptionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTranscriptionJobResponseFromJson(json);
+  factory StartTranscriptionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartTranscriptionJobResponse(
+      transcriptionJob: json['TranscriptionJob'] != null
+          ? TranscriptionJob.fromJson(
+              json['TranscriptionJob'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Identifies the location of a transcription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Transcript {
   /// The S3 object location of the redacted transcript.
   ///
@@ -3622,8 +3792,7 @@ class Transcript {
   /// this is the URI of that bucket. If you chose to store the transcript in
   /// Amazon Transcribe, this is a shareable URL that provides secure access to
   /// that location.
-  @_s.JsonKey(name: 'RedactedTranscriptFileUri')
-  final String redactedTranscriptFileUri;
+  final String? redactedTranscriptFileUri;
 
   /// The S3 object location of the transcript.
   ///
@@ -3632,39 +3801,32 @@ class Transcript {
   /// URI of that bucket. If you chose to store the transcript in Amazon
   /// Transcribe, this is a shareable URL that provides secure access to that
   /// location.
-  @_s.JsonKey(name: 'TranscriptFileUri')
-  final String transcriptFileUri;
+  final String? transcriptFileUri;
 
   Transcript({
     this.redactedTranscriptFileUri,
     this.transcriptFileUri,
   });
-  factory Transcript.fromJson(Map<String, dynamic> json) =>
-      _$TranscriptFromJson(json);
+  factory Transcript.fromJson(Map<String, dynamic> json) {
+    return Transcript(
+      redactedTranscriptFileUri: json['RedactedTranscriptFileUri'] as String?,
+      transcriptFileUri: json['TranscriptFileUri'] as String?,
+    );
+  }
 }
 
 /// Describes an asynchronous transcription job that was created with the
 /// <code>StartTranscriptionJob</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TranscriptionJob {
   /// A timestamp that shows when the job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionTime')
-  final DateTime completionTime;
+  final DateTime? completionTime;
 
   /// An object that describes content redaction settings for the transcription
   /// job.
-  @_s.JsonKey(name: 'ContentRedaction')
-  final ContentRedaction contentRedaction;
+  final ContentRedaction? contentRedaction;
 
   /// A timestamp that shows when the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>,
   /// this field contains information about why the job failed.
@@ -3712,72 +3874,56 @@ class TranscriptionJob {
   /// Transcribe Limits</a> in the <i>Amazon Web Services General Reference</i>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// A value between zero and one that Amazon Transcribe assigned to the language
   /// that it identified in the source audio. Larger values indicate that Amazon
   /// Transcribe has higher confidence in the language it identified.
-  @_s.JsonKey(name: 'IdentifiedLanguageScore')
-  final double identifiedLanguageScore;
+  final double? identifiedLanguageScore;
 
   /// A value that shows if automatic language identification was enabled for a
   /// transcription job.
-  @_s.JsonKey(name: 'IdentifyLanguage')
-  final bool identifyLanguage;
+  final bool? identifyLanguage;
 
   /// Provides information about how a transcription job is executed.
-  @_s.JsonKey(name: 'JobExecutionSettings')
-  final JobExecutionSettings jobExecutionSettings;
+  final JobExecutionSettings? jobExecutionSettings;
 
   /// The language code for the input speech.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// An object that shows the optional array of languages inputted for
   /// transcription jobs with automatic language identification enabled.
-  @_s.JsonKey(name: 'LanguageOptions')
-  final List<LanguageCode> languageOptions;
+  final List<LanguageCode>? languageOptions;
 
   /// An object that describes the input media for the transcription job.
-  @_s.JsonKey(name: 'Media')
-  final Media media;
+  final Media? media;
 
   /// The format of the input media file.
-  @_s.JsonKey(name: 'MediaFormat')
-  final MediaFormat mediaFormat;
+  final MediaFormat? mediaFormat;
 
   /// The sample rate, in Hertz, of the audio track in the input media file.
-  @_s.JsonKey(name: 'MediaSampleRateHertz')
-  final int mediaSampleRateHertz;
+  final int? mediaSampleRateHertz;
 
   /// An object containing the details of your custom language model.
-  @_s.JsonKey(name: 'ModelSettings')
-  final ModelSettings modelSettings;
+  final ModelSettings? modelSettings;
 
   /// Optional settings for the transcription job. Use these settings to turn on
   /// speaker recognition, to set the maximum number of speakers that should be
   /// identified and to specify a custom vocabulary to use when processing the
   /// transcription job.
-  @_s.JsonKey(name: 'Settings')
-  final Settings settings;
+  final Settings? settings;
 
   /// A timestamp that shows with the job was started processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// An object that describes the output of the transcription job.
-  @_s.JsonKey(name: 'Transcript')
-  final Transcript transcript;
+  final Transcript? transcript;
 
   /// The name of the transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobName')
-  final String transcriptionJobName;
+  final String? transcriptionJobName;
 
   /// The status of the transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobStatus')
-  final TranscriptionJobStatus transcriptionJobStatus;
+  final TranscriptionJobStatus? transcriptionJobStatus;
 
   TranscriptionJob({
     this.completionTime,
@@ -3799,18 +3945,53 @@ class TranscriptionJob {
     this.transcriptionJobName,
     this.transcriptionJobStatus,
   });
-  factory TranscriptionJob.fromJson(Map<String, dynamic> json) =>
-      _$TranscriptionJobFromJson(json);
+  factory TranscriptionJob.fromJson(Map<String, dynamic> json) {
+    return TranscriptionJob(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      contentRedaction: json['ContentRedaction'] != null
+          ? ContentRedaction.fromJson(
+              json['ContentRedaction'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifyLanguage: json['IdentifyLanguage'] as bool?,
+      jobExecutionSettings: json['JobExecutionSettings'] != null
+          ? JobExecutionSettings.fromJson(
+              json['JobExecutionSettings'] as Map<String, dynamic>)
+          : null,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageOptions: (json['LanguageOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLanguageCode())
+          .toList(),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      mediaFormat: (json['MediaFormat'] as String?)?.toMediaFormat(),
+      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
+      modelSettings: json['ModelSettings'] != null
+          ? ModelSettings.fromJson(
+              json['ModelSettings'] as Map<String, dynamic>)
+          : null,
+      settings: json['Settings'] != null
+          ? Settings.fromJson(json['Settings'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      transcript: json['Transcript'] != null
+          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
+          : null,
+      transcriptionJobName: json['TranscriptionJobName'] as String?,
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.toTranscriptionJobStatus(),
+    );
+  }
 }
 
 enum TranscriptionJobStatus {
-  @_s.JsonValue('QUEUED')
   queued,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
@@ -3826,52 +4007,52 @@ extension on TranscriptionJobStatus {
       case TranscriptionJobStatus.completed:
         return 'COMPLETED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TranscriptionJobStatus toTranscriptionJobStatus() {
+    switch (this) {
+      case 'QUEUED':
+        return TranscriptionJobStatus.queued;
+      case 'IN_PROGRESS':
+        return TranscriptionJobStatus.inProgress;
+      case 'FAILED':
+        return TranscriptionJobStatus.failed;
+      case 'COMPLETED':
+        return TranscriptionJobStatus.completed;
+    }
+    throw Exception('$this is not known in enum TranscriptionJobStatus');
   }
 }
 
 /// Provides a summary of information about a transcription job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletionTime')
-  final DateTime completionTime;
+  final DateTime? completionTime;
 
   /// The content redaction settings of the transcription job.
-  @_s.JsonKey(name: 'ContentRedaction')
-  final ContentRedaction contentRedaction;
+  final ContentRedaction? contentRedaction;
 
   /// A timestamp that shows when the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, a
   /// description of the error.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// A value between zero and one that Amazon Transcribe assigned to the language
   /// it identified in the source audio. A higher score indicates that Amazon
   /// Transcribe is more confident in the language it identified.
-  @_s.JsonKey(name: 'IdentifiedLanguageScore')
-  final double identifiedLanguageScore;
+  final double? identifiedLanguageScore;
 
   /// Whether automatic language identification was enabled for a transcription
   /// job.
-  @_s.JsonKey(name: 'IdentifyLanguage')
-  final bool identifyLanguage;
+  final bool? identifyLanguage;
 
   /// The language code for the input speech.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
-  @_s.JsonKey(name: 'ModelSettings')
-  final ModelSettings modelSettings;
+  final LanguageCode? languageCode;
+  final ModelSettings? modelSettings;
 
   /// Indicates the location of the output of the transcription job.
   ///
@@ -3884,23 +4065,18 @@ class TranscriptionJobSummary {
   /// Amazon Transcribe and can be retrieved using the URI in the
   /// <code>GetTranscriptionJob</code> response's <code>TranscriptFileUri</code>
   /// field.
-  @_s.JsonKey(name: 'OutputLocationType')
-  final OutputLocationType outputLocationType;
+  final OutputLocationType? outputLocationType;
 
   /// A timestamp that shows when the job started processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The name of the transcription job.
-  @_s.JsonKey(name: 'TranscriptionJobName')
-  final String transcriptionJobName;
+  final String? transcriptionJobName;
 
   /// The status of the transcription job. When the status is
   /// <code>COMPLETED</code>, use the <code>GetTranscriptionJob</code> operation
   /// to get the results of the transcription.
-  @_s.JsonKey(name: 'TranscriptionJobStatus')
-  final TranscriptionJobStatus transcriptionJobStatus;
+  final TranscriptionJobStatus? transcriptionJobStatus;
 
   TranscriptionJobSummary({
     this.completionTime,
@@ -3916,14 +4092,34 @@ class TranscriptionJobSummary {
     this.transcriptionJobName,
     this.transcriptionJobStatus,
   });
-  factory TranscriptionJobSummary.fromJson(Map<String, dynamic> json) =>
-      _$TranscriptionJobSummaryFromJson(json);
+  factory TranscriptionJobSummary.fromJson(Map<String, dynamic> json) {
+    return TranscriptionJobSummary(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      contentRedaction: json['ContentRedaction'] != null
+          ? ContentRedaction.fromJson(
+              json['ContentRedaction'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      identifyLanguage: json['IdentifyLanguage'] as bool?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      modelSettings: json['ModelSettings'] != null
+          ? ModelSettings.fromJson(
+              json['ModelSettings'] as Map<String, dynamic>)
+          : null,
+      outputLocationType:
+          (json['OutputLocationType'] as String?)?.toOutputLocationType(),
+      startTime: timeStampFromJson(json['StartTime']),
+      transcriptionJobName: json['TranscriptionJobName'] as String?,
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.toTranscriptionJobStatus(),
+    );
+  }
 }
 
 enum Type {
-  @_s.JsonValue('CONVERSATION')
   conversation,
-  @_s.JsonValue('DICTATION')
   dictation,
 }
 
@@ -3935,36 +4131,37 @@ extension on Type {
       case Type.dictation:
         return 'DICTATION';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'CONVERSATION':
+        return Type.conversation;
+      case 'DICTATION':
+        return Type.dictation;
+    }
+    throw Exception('$this is not known in enum Type');
+  }
+}
+
 class UpdateMedicalVocabularyResponse {
   /// The language code for the language of the text file used to update the
   /// custom vocabulary. US English (en-US) is the only language supported in
   /// Amazon Transcribe Medical.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the updated vocabulary.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the update to the vocabulary. When the
   /// <code>VocabularyState</code> field is <code>READY</code>, the vocabulary is
   /// ready to be used in a <code>StartMedicalTranscriptionJob</code> request.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   UpdateMedicalVocabularyResponse({
     this.languageCode,
@@ -3972,63 +4169,56 @@ class UpdateMedicalVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMedicalVocabularyResponseFromJson(json);
+  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMedicalVocabularyResponse(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVocabularyFilterResponse {
   /// The language code of the words in the vocabulary filter.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary filter was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the updated vocabulary filter.
-  @_s.JsonKey(name: 'VocabularyFilterName')
-  final String vocabularyFilterName;
+  final String? vocabularyFilterName;
 
   UpdateVocabularyFilterResponse({
     this.languageCode,
     this.lastModifiedTime,
     this.vocabularyFilterName,
   });
-  factory UpdateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVocabularyFilterResponseFromJson(json);
+  factory UpdateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVocabularyFilterResponse(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVocabularyResponse {
   /// The language code of the vocabulary entries.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary that was updated.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the vocabulary. When the
   /// <code>VocabularyState</code> field contains <code>READY</code> the
   /// vocabulary is ready to be used in a <code>StartTranscriptionJob</code>
   /// request.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   UpdateVocabularyResponse({
     this.languageCode,
@@ -4036,71 +4226,85 @@ class UpdateVocabularyResponse {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory UpdateVocabularyResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVocabularyResponseFromJson(json);
+  factory UpdateVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVocabularyResponse(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
 /// Provides information about a vocabulary filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VocabularyFilterInfo {
   /// The language code of the words in the vocabulary filter.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary filter. The name must be unique in the account
   /// that holds the filter.
-  @_s.JsonKey(name: 'VocabularyFilterName')
-  final String vocabularyFilterName;
+  final String? vocabularyFilterName;
 
   VocabularyFilterInfo({
     this.languageCode,
     this.lastModifiedTime,
     this.vocabularyFilterName,
   });
-  factory VocabularyFilterInfo.fromJson(Map<String, dynamic> json) =>
-      _$VocabularyFilterInfoFromJson(json);
+  factory VocabularyFilterInfo.fromJson(Map<String, dynamic> json) {
+    return VocabularyFilterInfo(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
 }
 
 enum VocabularyFilterMethod {
-  @_s.JsonValue('remove')
   remove,
-  @_s.JsonValue('mask')
   mask,
 }
 
+extension on VocabularyFilterMethod {
+  String toValue() {
+    switch (this) {
+      case VocabularyFilterMethod.remove:
+        return 'remove';
+      case VocabularyFilterMethod.mask:
+        return 'mask';
+    }
+  }
+}
+
+extension on String {
+  VocabularyFilterMethod toVocabularyFilterMethod() {
+    switch (this) {
+      case 'remove':
+        return VocabularyFilterMethod.remove;
+      case 'mask':
+        return VocabularyFilterMethod.mask;
+    }
+    throw Exception('$this is not known in enum VocabularyFilterMethod');
+  }
+}
+
 /// Provides information about a custom vocabulary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VocabularyInfo {
   /// The language code of the vocabulary entries.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// The date and time that the vocabulary was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The name of the vocabulary.
-  @_s.JsonKey(name: 'VocabularyName')
-  final String vocabularyName;
+  final String? vocabularyName;
 
   /// The processing state of the vocabulary. If the state is <code>READY</code>
   /// you can use the vocabulary in a <code>StartTranscriptionJob</code> request.
-  @_s.JsonKey(name: 'VocabularyState')
-  final VocabularyState vocabularyState;
+  final VocabularyState? vocabularyState;
 
   VocabularyInfo({
     this.languageCode,
@@ -4108,16 +4312,20 @@ class VocabularyInfo {
     this.vocabularyName,
     this.vocabularyState,
   });
-  factory VocabularyInfo.fromJson(Map<String, dynamic> json) =>
-      _$VocabularyInfoFromJson(json);
+  factory VocabularyInfo.fromJson(Map<String, dynamic> json) {
+    return VocabularyInfo(
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.toVocabularyState(),
+    );
+  }
 }
 
 enum VocabularyState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -4131,32 +4339,45 @@ extension on VocabularyState {
       case VocabularyState.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VocabularyState toVocabularyState() {
+    switch (this) {
+      case 'PENDING':
+        return VocabularyState.pending;
+      case 'READY':
+        return VocabularyState.ready;
+      case 'FAILED':
+        return VocabularyState.failed;
+    }
+    throw Exception('$this is not known in enum VocabularyState');
   }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 

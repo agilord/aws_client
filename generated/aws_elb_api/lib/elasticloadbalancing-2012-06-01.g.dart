@@ -7,7 +7,9 @@ part of 'elasticloadbalancing-2012-06-01.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$AccessLogToJson(AccessLog instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -15,7 +17,6 @@ Map<String, dynamic> _$AccessLogToJson(AccessLog instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('EmitInterval', instance.emitInterval);
   writeNotNull('S3BucketName', instance.s3BucketName);
   writeNotNull('S3BucketPrefix', instance.s3BucketPrefix);
@@ -37,7 +38,9 @@ Map<String, dynamic> _$AdditionalAttributeToJson(AdditionalAttribute instance) {
 }
 
 Map<String, dynamic> _$ConnectionDrainingToJson(ConnectionDraining instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Enabled': instance.enabled,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -45,54 +48,29 @@ Map<String, dynamic> _$ConnectionDrainingToJson(ConnectionDraining instance) {
     }
   }
 
-  writeNotNull('Enabled', instance.enabled);
   writeNotNull('Timeout', instance.timeout);
   return val;
 }
 
-Map<String, dynamic> _$ConnectionSettingsToJson(ConnectionSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('IdleTimeout', instance.idleTimeout);
-  return val;
-}
+Map<String, dynamic> _$ConnectionSettingsToJson(ConnectionSettings instance) =>
+    <String, dynamic>{
+      'IdleTimeout': instance.idleTimeout,
+    };
 
 Map<String, dynamic> _$CrossZoneLoadBalancingToJson(
-    CrossZoneLoadBalancing instance) {
-  final val = <String, dynamic>{};
+        CrossZoneLoadBalancing instance) =>
+    <String, dynamic>{
+      'Enabled': instance.enabled,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Enabled', instance.enabled);
-  return val;
-}
-
-Map<String, dynamic> _$HealthCheckToJson(HealthCheck instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('HealthyThreshold', instance.healthyThreshold);
-  writeNotNull('Interval', instance.interval);
-  writeNotNull('Target', instance.target);
-  writeNotNull('Timeout', instance.timeout);
-  writeNotNull('UnhealthyThreshold', instance.unhealthyThreshold);
-  return val;
-}
+Map<String, dynamic> _$HealthCheckToJson(HealthCheck instance) =>
+    <String, dynamic>{
+      'HealthyThreshold': instance.healthyThreshold,
+      'Interval': instance.interval,
+      'Target': instance.target,
+      'Timeout': instance.timeout,
+      'UnhealthyThreshold': instance.unhealthyThreshold,
+    };
 
 Map<String, dynamic> _$InstanceToJson(Instance instance) {
   final val = <String, dynamic>{};
@@ -108,7 +86,11 @@ Map<String, dynamic> _$InstanceToJson(Instance instance) {
 }
 
 Map<String, dynamic> _$ListenerToJson(Listener instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'InstancePort': instance.instancePort,
+    'LoadBalancerPort': instance.loadBalancerPort,
+    'Protocol': instance.protocol,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -116,9 +98,6 @@ Map<String, dynamic> _$ListenerToJson(Listener instance) {
     }
   }
 
-  writeNotNull('InstancePort', instance.instancePort);
-  writeNotNull('LoadBalancerPort', instance.loadBalancerPort);
-  writeNotNull('Protocol', instance.protocol);
   writeNotNull('InstanceProtocol', instance.instanceProtocol);
   writeNotNull('SSLCertificateId', instance.sSLCertificateId);
   return val;
@@ -136,7 +115,7 @@ Map<String, dynamic> _$LoadBalancerAttributesToJson(
 
   writeNotNull('AccessLog', instance.accessLog?.toJson());
   writeNotNull('AdditionalAttributes',
-      instance.additionalAttributes?.map((e) => e?.toJson())?.toList());
+      instance.additionalAttributes?.map((e) => e.toJson()).toList());
   writeNotNull('ConnectionDraining', instance.connectionDraining?.toJson());
   writeNotNull('ConnectionSettings', instance.connectionSettings?.toJson());
   writeNotNull(
@@ -159,7 +138,9 @@ Map<String, dynamic> _$PolicyAttributeToJson(PolicyAttribute instance) {
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -167,7 +148,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }

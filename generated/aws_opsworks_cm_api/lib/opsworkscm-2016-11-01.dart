@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'opsworkscm-2016-11-01.g.dart';
 
 /// AWS OpsWorks for configuration management (CM) is a service that runs and
 /// manages configuration management servers. You can use AWS OpsWorks CM to
@@ -33,10 +25,10 @@ part 'opsworkscm-2016-11-01.g.dart';
 class OpsWorksCM {
   final _s.JsonProtocol _protocol;
   OpsWorksCM({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -110,9 +102,9 @@ class OpsWorksCM {
   /// Parameter [serverName] :
   /// The name of the server with which to associate the node.
   Future<AssociateNodeResponse> associateNode({
-    @_s.required List<EngineAttribute> engineAttributes,
-    @_s.required String nodeName,
-    @_s.required String serverName,
+    required List<EngineAttribute> engineAttributes,
+    required String nodeName,
+    required String serverName,
   }) async {
     ArgumentError.checkNotNull(engineAttributes, 'engineAttributes');
     ArgumentError.checkNotNull(nodeName, 'nodeName');
@@ -218,9 +210,9 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<CreateBackupResponse> createBackup({
-    @_s.required String serverName,
-    String description,
-    List<Tag> tags,
+    required String serverName,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
@@ -551,27 +543,27 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<CreateServerResponse> createServer({
-    @_s.required String engine,
-    @_s.required String instanceProfileArn,
-    @_s.required String instanceType,
-    @_s.required String serverName,
-    @_s.required String serviceRoleArn,
-    bool associatePublicIpAddress,
-    String backupId,
-    int backupRetentionCount,
-    String customCertificate,
-    String customDomain,
-    String customPrivateKey,
-    bool disableAutomatedBackup,
-    List<EngineAttribute> engineAttributes,
-    String engineModel,
-    String engineVersion,
-    String keyPair,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
-    List<String> securityGroupIds,
-    List<String> subnetIds,
-    List<Tag> tags,
+    required String engine,
+    required String instanceProfileArn,
+    required String instanceType,
+    required String serverName,
+    required String serviceRoleArn,
+    bool? associatePublicIpAddress,
+    String? backupId,
+    int? backupRetentionCount,
+    String? customCertificate,
+    String? customDomain,
+    String? customPrivateKey,
+    bool? disableAutomatedBackup,
+    List<EngineAttribute>? engineAttributes,
+    String? engineModel,
+    String? engineVersion,
+    String? keyPair,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
+    List<String>? securityGroupIds,
+    List<String>? subnetIds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(engine, 'engine');
     _s.validateStringLength(
@@ -808,7 +800,7 @@ class OpsWorksCM {
   /// list of backup IDs. Backup IDs are in the format
   /// <code>ServerName-yyyyMMddHHmmssSSS</code>.
   Future<void> deleteBackup({
-    @_s.required String backupId,
+    required String backupId,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
     _s.validateStringLength(
@@ -828,7 +820,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DeleteBackup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -838,8 +830,6 @@ class OpsWorksCM {
         'BackupId': backupId,
       },
     );
-
-    return DeleteBackupResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the server and the underlying AWS CloudFormation stacks (including
@@ -864,7 +854,7 @@ class OpsWorksCM {
   /// Parameter [serverName] :
   /// The ID of the server to delete.
   Future<void> deleteServer({
-    @_s.required String serverName,
+    required String serverName,
   }) async {
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
@@ -884,7 +874,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.DeleteServer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -894,8 +884,6 @@ class OpsWorksCM {
         'ServerName': serverName,
       },
     );
-
-    return DeleteServerResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes your OpsWorks-CM account attributes.
@@ -945,10 +933,10 @@ class OpsWorksCM {
   /// Parameter [serverName] :
   /// Returns backups for the server with the specified ServerName.
   Future<DescribeBackupsResponse> describeBackups({
-    String backupId,
-    int maxResults,
-    String nextToken,
-    String serverName,
+    String? backupId,
+    int? maxResults,
+    String? nextToken,
+    String? serverName,
   }) async {
     _s.validateStringLength(
       'backupId',
@@ -1044,9 +1032,9 @@ class OpsWorksCM {
   /// value that was not returned in your previous results causes an
   /// <code>InvalidNextTokenException</code> to occur.
   Future<DescribeEventsResponse> describeEvents({
-    @_s.required String serverName,
-    int maxResults,
-    String nextToken,
+    required String serverName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
@@ -1117,8 +1105,8 @@ class OpsWorksCM {
   /// Parameter [serverName] :
   /// The name of the server from which to disassociate the node.
   Future<DescribeNodeAssociationStatusResponse> describeNodeAssociationStatus({
-    @_s.required String nodeAssociationStatusToken,
-    @_s.required String serverName,
+    required String nodeAssociationStatusToken,
+    required String serverName,
   }) async {
     ArgumentError.checkNotNull(
         nodeAssociationStatusToken, 'nodeAssociationStatusToken');
@@ -1193,9 +1181,9 @@ class OpsWorksCM {
   /// Parameter [serverName] :
   /// Describes the server with the specified ServerName.
   Future<DescribeServersResponse> describeServers({
-    int maxResults,
-    String nextToken,
-    String serverName,
+    int? maxResults,
+    String? nextToken,
+    String? serverName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1282,9 +1270,9 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<DisassociateNodeResponse> disassociateNode({
-    @_s.required String nodeName,
-    @_s.required String serverName,
-    List<EngineAttribute> engineAttributes,
+    required String nodeName,
+    required String serverName,
+    List<EngineAttribute>? engineAttributes,
   }) async {
     ArgumentError.checkNotNull(nodeName, 'nodeName');
     _s.validateStringLength(
@@ -1388,9 +1376,9 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<ExportServerEngineAttributeResponse> exportServerEngineAttribute({
-    @_s.required String exportAttributeName,
-    @_s.required String serverName,
-    List<EngineAttribute> inputAttributes,
+    required String exportAttributeName,
+    required String serverName,
+    List<EngineAttribute>? inputAttributes,
   }) async {
     ArgumentError.checkNotNull(exportAttributeName, 'exportAttributeName');
     _s.validateStringLength(
@@ -1470,9 +1458,9 @@ class OpsWorksCM {
   /// <code>nextToken</code> value that was not returned in your previous
   /// results causes an <code>InvalidNextTokenException</code> to occur.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -1561,10 +1549,10 @@ class OpsWorksCM {
   /// The name of the key pair to set on the new EC2 instance. This can be
   /// helpful if the administrator no longer has the SSH key.
   Future<void> restoreServer({
-    @_s.required String backupId,
-    @_s.required String serverName,
-    String instanceType,
-    String keyPair,
+    required String backupId,
+    required String serverName,
+    String? instanceType,
+    String? keyPair,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
     _s.validateStringLength(
@@ -1620,7 +1608,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.RestoreServer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1633,8 +1621,6 @@ class OpsWorksCM {
         if (keyPair != null) 'KeyPair': keyPair,
       },
     );
-
-    return RestoreServerResponse.fromJson(jsonResponse.body);
   }
 
   /// Manually starts server maintenance. This command can be useful if an
@@ -1674,8 +1660,8 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<StartMaintenanceResponse> startMaintenance({
-    @_s.required String serverName,
-    List<EngineAttribute> engineAttributes,
+    required String serverName,
+    List<EngineAttribute>? engineAttributes,
   }) async {
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
@@ -1749,8 +1735,8 @@ class OpsWorksCM {
   /// </li>
   /// </ul>
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -1764,7 +1750,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1775,8 +1761,6 @@ class OpsWorksCM {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes specified tags from an AWS OpsWorks-CM server or backup.
@@ -1793,8 +1777,8 @@ class OpsWorksCM {
   /// Parameter [tagKeys] :
   /// The keys of tags that you want to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringPattern(
@@ -1808,7 +1792,7 @@ class OpsWorksCM {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorksCM_V2016_11_01.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1819,8 +1803,6 @@ class OpsWorksCM {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates settings for a server.
@@ -1841,11 +1823,11 @@ class OpsWorksCM {
   /// Setting DisableAutomatedBackup to <code>true</code> disables automated or
   /// scheduled backups. Automated backups are enabled by default.
   Future<UpdateServerResponse> updateServer({
-    @_s.required String serverName,
-    int backupRetentionCount,
-    bool disableAutomatedBackup,
-    String preferredBackupWindow,
-    String preferredMaintenanceWindow,
+    required String serverName,
+    int? backupRetentionCount,
+    bool? disableAutomatedBackup,
+    String? preferredBackupWindow,
+    String? preferredMaintenanceWindow,
   }) async {
     ArgumentError.checkNotNull(serverName, 'serverName');
     _s.validateStringLength(
@@ -1937,9 +1919,9 @@ class OpsWorksCM {
   /// Parameter [attributeValue] :
   /// The value to set for the attribute.
   Future<UpdateServerEngineAttributesResponse> updateServerEngineAttributes({
-    @_s.required String attributeName,
-    @_s.required String serverName,
-    String attributeValue,
+    required String attributeName,
+    required String serverName,
+    String? attributeValue,
   }) async {
     ArgumentError.checkNotNull(attributeName, 'attributeName');
     _s.validateStringLength(
@@ -2002,15 +1984,9 @@ class OpsWorksCM {
 }
 
 /// Stores account attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountAttribute {
   /// The maximum allowed value.
-  @_s.JsonKey(name: 'Maximum')
-  final int maximum;
+  final int? maximum;
 
   /// The attribute name. The following are supported attribute names.
   ///
@@ -2025,160 +2001,130 @@ class AccountAttribute {
   /// backups saved.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current usage, such as the current number of servers that are associated
   /// with the account.
-  @_s.JsonKey(name: 'Used')
-  final int used;
+  final int? used;
 
   AccountAttribute({
     this.maximum,
     this.name,
     this.used,
   });
-  factory AccountAttribute.fromJson(Map<String, dynamic> json) =>
-      _$AccountAttributeFromJson(json);
+  factory AccountAttribute.fromJson(Map<String, dynamic> json) {
+    return AccountAttribute(
+      maximum: json['Maximum'] as int?,
+      name: json['Name'] as String?,
+      used: json['Used'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateNodeResponse {
   /// Contains a token which can be passed to the
   /// <code>DescribeNodeAssociationStatus</code> API call to get the status of the
   /// association request.
-  @_s.JsonKey(name: 'NodeAssociationStatusToken')
-  final String nodeAssociationStatusToken;
+  final String? nodeAssociationStatusToken;
 
   AssociateNodeResponse({
     this.nodeAssociationStatusToken,
   });
-  factory AssociateNodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateNodeResponseFromJson(json);
+  factory AssociateNodeResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateNodeResponse(
+      nodeAssociationStatusToken: json['NodeAssociationStatusToken'] as String?,
+    );
+  }
 }
 
 /// Describes a single backup.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Backup {
   /// The ARN of the backup.
-  @_s.JsonKey(name: 'BackupArn')
-  final String backupArn;
+  final String? backupArn;
 
   /// The generated ID of the backup. Example:
   /// <code>myServerName-yyyyMMddHHmmssSSS</code>
-  @_s.JsonKey(name: 'BackupId')
-  final String backupId;
+  final String? backupId;
 
   /// The backup type. Valid values are <code>automated</code> or
   /// <code>manual</code>.
-  @_s.JsonKey(name: 'BackupType')
-  final BackupType backupType;
+  final BackupType? backupType;
 
   /// The time stamp when the backup was created in the database. Example:
   /// <code>2016-07-29T13:38:47.520Z</code>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// A user-provided description for a manual backup. This field is empty for
   /// automated backups.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The engine type that is obtained from the server when the backup is created.
-  @_s.JsonKey(name: 'Engine')
-  final String engine;
+  final String? engine;
 
   /// The engine model that is obtained from the server when the backup is
   /// created.
-  @_s.JsonKey(name: 'EngineModel')
-  final String engineModel;
+  final String? engineModel;
 
   /// The engine version that is obtained from the server when the backup is
   /// created.
-  @_s.JsonKey(name: 'EngineVersion')
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The EC2 instance profile ARN that is obtained from the server when the
   /// backup is created. Because this value is stored, you are not required to
   /// provide the InstanceProfileArn again if you restore a backup.
-  @_s.JsonKey(name: 'InstanceProfileArn')
-  final String instanceProfileArn;
+  final String? instanceProfileArn;
 
   /// The instance type that is obtained from the server when the backup is
   /// created.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The key pair that is obtained from the server when the backup is created.
-  @_s.JsonKey(name: 'KeyPair')
-  final String keyPair;
+  final String? keyPair;
 
   /// The preferred backup period that is obtained from the server when the backup
   /// is created.
-  @_s.JsonKey(name: 'PreferredBackupWindow')
-  final String preferredBackupWindow;
+  final String? preferredBackupWindow;
 
   /// The preferred maintenance period that is obtained from the server when the
   /// backup is created.
-  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// This field is deprecated and is no longer used.
-  @_s.JsonKey(name: 'S3DataSize')
-  final int s3DataSize;
+  final int? s3DataSize;
 
   /// This field is deprecated and is no longer used.
-  @_s.JsonKey(name: 'S3DataUrl')
-  final String s3DataUrl;
+  final String? s3DataUrl;
 
   /// The Amazon S3 URL of the backup's log file.
-  @_s.JsonKey(name: 'S3LogUrl')
-  final String s3LogUrl;
+  final String? s3LogUrl;
 
   /// The security group IDs that are obtained from the server when the backup is
   /// created.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The name of the server from which the backup was made.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The service role ARN that is obtained from the server when the backup is
   /// created.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The status of a backup while in progress.
-  @_s.JsonKey(name: 'Status')
-  final BackupStatus status;
+  final BackupStatus? status;
 
   /// An informational message about backup status.
-  @_s.JsonKey(name: 'StatusDescription')
-  final String statusDescription;
+  final String? statusDescription;
 
   /// The subnet IDs that are obtained from the server when the backup is created.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The version of AWS OpsWorks CM-specific tools that is obtained from the
   /// server when the backup is created.
-  @_s.JsonKey(name: 'ToolsVersion')
-  final String toolsVersion;
+  final String? toolsVersion;
 
   /// The IAM user ARN of the requester for manual backups. This field is empty
   /// for automated backups.
-  @_s.JsonKey(name: 'UserArn')
-  final String userArn;
+  final String? userArn;
 
   Backup({
     this.backupArn,
@@ -2206,128 +2152,194 @@ class Backup {
     this.toolsVersion,
     this.userArn,
   });
-  factory Backup.fromJson(Map<String, dynamic> json) => _$BackupFromJson(json);
+  factory Backup.fromJson(Map<String, dynamic> json) {
+    return Backup(
+      backupArn: json['BackupArn'] as String?,
+      backupId: json['BackupId'] as String?,
+      backupType: (json['BackupType'] as String?)?.toBackupType(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      engineModel: json['EngineModel'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      keyPair: json['KeyPair'] as String?,
+      preferredBackupWindow: json['PreferredBackupWindow'] as String?,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      s3DataSize: json['S3DataSize'] as int?,
+      s3DataUrl: json['S3DataUrl'] as String?,
+      s3LogUrl: json['S3LogUrl'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      serverName: json['ServerName'] as String?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      status: (json['Status'] as String?)?.toBackupStatus(),
+      statusDescription: json['StatusDescription'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      toolsVersion: json['ToolsVersion'] as String?,
+      userArn: json['UserArn'] as String?,
+    );
+  }
 }
 
 enum BackupStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('OK')
   ok,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on BackupStatus {
+  String toValue() {
+    switch (this) {
+      case BackupStatus.inProgress:
+        return 'IN_PROGRESS';
+      case BackupStatus.ok:
+        return 'OK';
+      case BackupStatus.failed:
+        return 'FAILED';
+      case BackupStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  BackupStatus toBackupStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return BackupStatus.inProgress;
+      case 'OK':
+        return BackupStatus.ok;
+      case 'FAILED':
+        return BackupStatus.failed;
+      case 'DELETING':
+        return BackupStatus.deleting;
+    }
+    throw Exception('$this is not known in enum BackupStatus');
+  }
+}
+
 enum BackupType {
-  @_s.JsonValue('AUTOMATED')
   automated,
-  @_s.JsonValue('MANUAL')
   manual,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on BackupType {
+  String toValue() {
+    switch (this) {
+      case BackupType.automated:
+        return 'AUTOMATED';
+      case BackupType.manual:
+        return 'MANUAL';
+    }
+  }
+}
+
+extension on String {
+  BackupType toBackupType() {
+    switch (this) {
+      case 'AUTOMATED':
+        return BackupType.automated;
+      case 'MANUAL':
+        return BackupType.manual;
+    }
+    throw Exception('$this is not known in enum BackupType');
+  }
+}
+
 class CreateBackupResponse {
   /// Backup created by request.
-  @_s.JsonKey(name: 'Backup')
-  final Backup backup;
+  final Backup? backup;
 
   CreateBackupResponse({
     this.backup,
   });
-  factory CreateBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupResponseFromJson(json);
+  factory CreateBackupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackupResponse(
+      backup: json['Backup'] != null
+          ? Backup.fromJson(json['Backup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateServerResponse {
   /// The server that is created by the request.
-  @_s.JsonKey(name: 'Server')
-  final Server server;
+  final Server? server;
 
   CreateServerResponse({
     this.server,
   });
-  factory CreateServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateServerResponseFromJson(json);
+  factory CreateServerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateServerResponse(
+      server: json['Server'] != null
+          ? Server.fromJson(json['Server'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackupResponse {
   DeleteBackupResponse();
-  factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackupResponseFromJson(json);
+  factory DeleteBackupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteBackupResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteServerResponse {
   DeleteServerResponse();
-  factory DeleteServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteServerResponseFromJson(json);
+  factory DeleteServerResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteServerResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountAttributesResponse {
   /// The attributes that are currently set for the account.
-  @_s.JsonKey(name: 'Attributes')
-  final List<AccountAttribute> attributes;
+  final List<AccountAttribute>? attributes;
 
   DescribeAccountAttributesResponse({
     this.attributes,
   });
   factory DescribeAccountAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupsResponse {
   /// Contains the response to a <code>DescribeBackups</code> request.
-  @_s.JsonKey(name: 'Backups')
-  final List<Backup> backups;
+  final List<Backup>? backups;
 
   /// This is not currently implemented for <code>DescribeBackups</code> requests.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBackupsResponse({
     this.backups,
     this.nextToken,
   });
-  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupsResponseFromJson(json);
+  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupsResponse(
+      backups: (json['Backups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Backup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventsResponse {
   /// NextToken is a string that is returned in some command responses. It
   /// indicates that not all entries have been returned, and that you must run at
@@ -2338,31 +2350,30 @@ class DescribeEventsResponse {
   /// parameter value is <code>null</code>. Setting a <code>nextToken</code> value
   /// that was not returned in your previous results causes an
   /// <code>InvalidNextTokenException</code> to occur.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Contains the response to a <code>DescribeEvents</code> request.
-  @_s.JsonKey(name: 'ServerEvents')
-  final List<ServerEvent> serverEvents;
+  final List<ServerEvent>? serverEvents;
 
   DescribeEventsResponse({
     this.nextToken,
     this.serverEvents,
   });
-  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventsResponseFromJson(json);
+  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventsResponse(
+      nextToken: json['NextToken'] as String?,
+      serverEvents: (json['ServerEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServerEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNodeAssociationStatusResponse {
   /// Attributes specific to the node association. In Puppet, the attibute
   /// PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
-  @_s.JsonKey(name: 'EngineAttributes')
-  final List<EngineAttribute> engineAttributes;
+  final List<EngineAttribute>? engineAttributes;
 
   /// The status of the association or disassociation request.
   /// <p class="title"> <b>Possible values:</b>
@@ -2379,27 +2390,28 @@ class DescribeNodeAssociationStatusResponse {
   /// progress.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'NodeAssociationStatus')
-  final NodeAssociationStatus nodeAssociationStatus;
+  final NodeAssociationStatus? nodeAssociationStatus;
 
   DescribeNodeAssociationStatusResponse({
     this.engineAttributes,
     this.nodeAssociationStatus,
   });
   factory DescribeNodeAssociationStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeNodeAssociationStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeNodeAssociationStatusResponse(
+      engineAttributes: (json['EngineAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EngineAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodeAssociationStatus:
+          (json['NodeAssociationStatus'] as String?)?.toNodeAssociationStatus(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServersResponse {
   /// This is not currently implemented for <code>DescribeServers</code> requests.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Contains the response to a <code>DescribeServers</code> request.
   ///
@@ -2415,112 +2427,140 @@ class DescribeServersResponse {
   /// PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by
   /// the Puppet API over TCP port number 8140. The CA certificate is also used to
   /// sign node certificates.
-  @_s.JsonKey(name: 'Servers')
-  final List<Server> servers;
+  final List<Server>? servers;
 
   DescribeServersResponse({
     this.nextToken,
     this.servers,
   });
-  factory DescribeServersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServersResponseFromJson(json);
+  factory DescribeServersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeServersResponse(
+      nextToken: json['NextToken'] as String?,
+      servers: (json['Servers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Server.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateNodeResponse {
   /// Contains a token which can be passed to the
   /// <code>DescribeNodeAssociationStatus</code> API call to get the status of the
   /// disassociation request.
-  @_s.JsonKey(name: 'NodeAssociationStatusToken')
-  final String nodeAssociationStatusToken;
+  final String? nodeAssociationStatusToken;
 
   DisassociateNodeResponse({
     this.nodeAssociationStatusToken,
   });
-  factory DisassociateNodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateNodeResponseFromJson(json);
+  factory DisassociateNodeResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateNodeResponse(
+      nodeAssociationStatusToken: json['NodeAssociationStatusToken'] as String?,
+    );
+  }
 }
 
 /// A name and value pair that is specific to the engine of the server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EngineAttribute {
   /// The name of the engine attribute.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of the engine attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   EngineAttribute({
     this.name,
     this.value,
   });
-  factory EngineAttribute.fromJson(Map<String, dynamic> json) =>
-      _$EngineAttributeFromJson(json);
+  factory EngineAttribute.fromJson(Map<String, dynamic> json) {
+    return EngineAttribute(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$EngineAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportServerEngineAttributeResponse {
   /// The requested engine attribute pair with attribute name and value.
-  @_s.JsonKey(name: 'EngineAttribute')
-  final EngineAttribute engineAttribute;
+  final EngineAttribute? engineAttribute;
 
   /// The server name used in the request.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   ExportServerEngineAttributeResponse({
     this.engineAttribute,
     this.serverName,
   });
   factory ExportServerEngineAttributeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExportServerEngineAttributeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ExportServerEngineAttributeResponse(
+      engineAttribute: json['EngineAttribute'] != null
+          ? EngineAttribute.fromJson(
+              json['EngineAttribute'] as Map<String, dynamic>)
+          : null,
+      serverName: json['ServerName'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A token that you can use as the value of <code>NextToken</code> in
   /// subsequent calls to the API to show more results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Tags that have been applied to the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum MaintenanceStatus {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on MaintenanceStatus {
+  String toValue() {
+    switch (this) {
+      case MaintenanceStatus.success:
+        return 'SUCCESS';
+      case MaintenanceStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  MaintenanceStatus toMaintenanceStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return MaintenanceStatus.success;
+      case 'FAILED':
+        return MaintenanceStatus.failed;
+    }
+    throw Exception('$this is not known in enum MaintenanceStatus');
+  }
 }
 
 /// The status of the association or disassociation request.
@@ -2539,72 +2579,78 @@ enum MaintenanceStatus {
 /// </li>
 /// </ul>
 enum NodeAssociationStatus {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on NodeAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case NodeAssociationStatus.success:
+        return 'SUCCESS';
+      case NodeAssociationStatus.failed:
+        return 'FAILED';
+      case NodeAssociationStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  NodeAssociationStatus toNodeAssociationStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return NodeAssociationStatus.success;
+      case 'FAILED':
+        return NodeAssociationStatus.failed;
+      case 'IN_PROGRESS':
+        return NodeAssociationStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum NodeAssociationStatus');
+  }
+}
+
 class RestoreServerResponse {
   RestoreServerResponse();
-  factory RestoreServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$RestoreServerResponseFromJson(json);
+  factory RestoreServerResponse.fromJson(Map<String, dynamic> _) {
+    return RestoreServerResponse();
+  }
 }
 
 /// Describes a configuration management server.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Server {
   /// Associate a public IP address with a server that you are launching.
-  @_s.JsonKey(name: 'AssociatePublicIpAddress')
-  final bool associatePublicIpAddress;
+  final bool? associatePublicIpAddress;
 
   /// The number of automated backups to keep.
-  @_s.JsonKey(name: 'BackupRetentionCount')
-  final int backupRetentionCount;
+  final int? backupRetentionCount;
 
   /// The ARN of the CloudFormation stack that was used to create the server.
-  @_s.JsonKey(name: 'CloudFormationStackArn')
-  final String cloudFormationStackArn;
+  final String? cloudFormationStackArn;
 
   /// Time stamp of server creation. Example <code>2016-07-29T13:38:47.520Z</code>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// An optional public endpoint of a server, such as
   /// <code>https://aws.my-company.com</code>. You cannot access the server by
   /// using the <code>Endpoint</code> value if the server has a
   /// <code>CustomDomain</code> specified.
-  @_s.JsonKey(name: 'CustomDomain')
-  final String customDomain;
+  final String? customDomain;
 
   /// Disables automated backups. The number of stored backups is dependent on the
   /// value of PreferredBackupCount.
-  @_s.JsonKey(name: 'DisableAutomatedBackup')
-  final bool disableAutomatedBackup;
+  final bool? disableAutomatedBackup;
 
   /// A DNS name that can be used to access the engine. Example:
   /// <code>myserver-asdfghjkl.us-east-1.opsworks.io</code>. You cannot access the
   /// server by using the <code>Endpoint</code> value if the server has a
   /// <code>CustomDomain</code> specified.
-  @_s.JsonKey(name: 'Endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// The engine type of the server. Valid values in this release include
   /// <code>ChefAutomate</code> and <code>Puppet</code>.
-  @_s.JsonKey(name: 'Engine')
-  final String engine;
+  final String? engine;
 
   /// The response of a createServer() request returns the master credential to
   /// access the server in EngineAttributes. These credentials are not stored by
@@ -2641,79 +2687,63 @@ class Server {
   /// use to sign in to the Puppet Enterprise console after the server is online.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EngineAttributes')
-  final List<EngineAttribute> engineAttributes;
+  final List<EngineAttribute>? engineAttributes;
 
   /// The engine model of the server. Valid values in this release include
   /// <code>Monolithic</code> for Puppet and <code>Single</code> for Chef.
-  @_s.JsonKey(name: 'EngineModel')
-  final String engineModel;
+  final String? engineModel;
 
   /// The engine version of the server. For a Chef server, the valid value for
   /// EngineVersion is currently <code>2</code>. For a Puppet server, the valid
   /// value is <code>2017</code>.
-  @_s.JsonKey(name: 'EngineVersion')
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The instance profile ARN of the server.
-  @_s.JsonKey(name: 'InstanceProfileArn')
-  final String instanceProfileArn;
+  final String? instanceProfileArn;
 
   /// The instance type for the server, as specified in the CloudFormation stack.
   /// This might not be the same instance type that is shown in the EC2 console.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The key pair associated with the server.
-  @_s.JsonKey(name: 'KeyPair')
-  final String keyPair;
+  final String? keyPair;
 
   /// The status of the most recent server maintenance run. Shows
   /// <code>SUCCESS</code> or <code>FAILED</code>.
-  @_s.JsonKey(name: 'MaintenanceStatus')
-  final MaintenanceStatus maintenanceStatus;
+  final MaintenanceStatus? maintenanceStatus;
 
   /// The preferred backup period specified for the server.
-  @_s.JsonKey(name: 'PreferredBackupWindow')
-  final String preferredBackupWindow;
+  final String? preferredBackupWindow;
 
   /// The preferred maintenance period specified for the server.
-  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// The security group IDs for the server, as specified in the CloudFormation
   /// stack. These might not be the same security groups that are shown in the EC2
   /// console.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// The ARN of the server.
-  @_s.JsonKey(name: 'ServerArn')
-  final String serverArn;
+  final String? serverArn;
 
   /// The name of the server.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The service role ARN used to create the server.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The server's status. This field displays the states of actions in progress,
   /// such as creating, running, or backing up the server, as well as the server's
   /// health state.
-  @_s.JsonKey(name: 'Status')
-  final ServerStatus status;
+  final ServerStatus? status;
 
   /// Depending on the server status, this field has either a human-readable
   /// message (such as a create or backup error), or an escaped block of JSON
   /// (used for health check results).
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The subnet IDs specified in a CreateServer request.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   Server({
     this.associatePublicIpAddress,
@@ -2741,33 +2771,60 @@ class Server {
     this.statusReason,
     this.subnetIds,
   });
-  factory Server.fromJson(Map<String, dynamic> json) => _$ServerFromJson(json);
+  factory Server.fromJson(Map<String, dynamic> json) {
+    return Server(
+      associatePublicIpAddress: json['AssociatePublicIpAddress'] as bool?,
+      backupRetentionCount: json['BackupRetentionCount'] as int?,
+      cloudFormationStackArn: json['CloudFormationStackArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      customDomain: json['CustomDomain'] as String?,
+      disableAutomatedBackup: json['DisableAutomatedBackup'] as bool?,
+      endpoint: json['Endpoint'] as String?,
+      engine: json['Engine'] as String?,
+      engineAttributes: (json['EngineAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EngineAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      engineModel: json['EngineModel'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      keyPair: json['KeyPair'] as String?,
+      maintenanceStatus:
+          (json['MaintenanceStatus'] as String?)?.toMaintenanceStatus(),
+      preferredBackupWindow: json['PreferredBackupWindow'] as String?,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      serverArn: json['ServerArn'] as String?,
+      serverName: json['ServerName'] as String?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      status: (json['Status'] as String?)?.toServerStatus(),
+      statusReason: json['StatusReason'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 /// An event that is related to the server, such as the start of maintenance or
 /// backup.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServerEvent {
   /// The time when the event occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The Amazon S3 URL of the event's log file.
-  @_s.JsonKey(name: 'LogUrl')
-  final String logUrl;
+  final String? logUrl;
 
   /// A human-readable informational or status message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The name of the server on or for which the event occurred.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   ServerEvent({
     this.createdAt,
@@ -2775,164 +2832,218 @@ class ServerEvent {
     this.message,
     this.serverName,
   });
-  factory ServerEvent.fromJson(Map<String, dynamic> json) =>
-      _$ServerEventFromJson(json);
+  factory ServerEvent.fromJson(Map<String, dynamic> json) {
+    return ServerEvent(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      logUrl: json['LogUrl'] as String?,
+      message: json['Message'] as String?,
+      serverName: json['ServerName'] as String?,
+    );
+  }
 }
 
 enum ServerStatus {
-  @_s.JsonValue('BACKING_UP')
   backingUp,
-  @_s.JsonValue('CONNECTION_LOST')
   connectionLost,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('MODIFYING')
   modifying,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('HEALTHY')
   healthy,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('RESTORING')
   restoring,
-  @_s.JsonValue('SETUP')
   setup,
-  @_s.JsonValue('UNDER_MAINTENANCE')
   underMaintenance,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('TERMINATED')
   terminated,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ServerStatus {
+  String toValue() {
+    switch (this) {
+      case ServerStatus.backingUp:
+        return 'BACKING_UP';
+      case ServerStatus.connectionLost:
+        return 'CONNECTION_LOST';
+      case ServerStatus.creating:
+        return 'CREATING';
+      case ServerStatus.deleting:
+        return 'DELETING';
+      case ServerStatus.modifying:
+        return 'MODIFYING';
+      case ServerStatus.failed:
+        return 'FAILED';
+      case ServerStatus.healthy:
+        return 'HEALTHY';
+      case ServerStatus.running:
+        return 'RUNNING';
+      case ServerStatus.restoring:
+        return 'RESTORING';
+      case ServerStatus.setup:
+        return 'SETUP';
+      case ServerStatus.underMaintenance:
+        return 'UNDER_MAINTENANCE';
+      case ServerStatus.unhealthy:
+        return 'UNHEALTHY';
+      case ServerStatus.terminated:
+        return 'TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  ServerStatus toServerStatus() {
+    switch (this) {
+      case 'BACKING_UP':
+        return ServerStatus.backingUp;
+      case 'CONNECTION_LOST':
+        return ServerStatus.connectionLost;
+      case 'CREATING':
+        return ServerStatus.creating;
+      case 'DELETING':
+        return ServerStatus.deleting;
+      case 'MODIFYING':
+        return ServerStatus.modifying;
+      case 'FAILED':
+        return ServerStatus.failed;
+      case 'HEALTHY':
+        return ServerStatus.healthy;
+      case 'RUNNING':
+        return ServerStatus.running;
+      case 'RESTORING':
+        return ServerStatus.restoring;
+      case 'SETUP':
+        return ServerStatus.setup;
+      case 'UNDER_MAINTENANCE':
+        return ServerStatus.underMaintenance;
+      case 'UNHEALTHY':
+        return ServerStatus.unhealthy;
+      case 'TERMINATED':
+        return ServerStatus.terminated;
+    }
+    throw Exception('$this is not known in enum ServerStatus');
+  }
+}
+
 class StartMaintenanceResponse {
   /// Contains the response to a <code>StartMaintenance</code> request.
-  @_s.JsonKey(name: 'Server')
-  final Server server;
+  final Server? server;
 
   StartMaintenanceResponse({
     this.server,
   });
-  factory StartMaintenanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartMaintenanceResponseFromJson(json);
+  factory StartMaintenanceResponse.fromJson(Map<String, dynamic> json) {
+    return StartMaintenanceResponse(
+      server: json['Server'] != null
+          ? Server.fromJson(json['Server'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for
 /// Chef Automate or AWS OpsWorks for Puppet Enterprise server. Leading and
 /// trailing white spaces are trimmed from both the key and value. A maximum of
 /// 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A tag key, such as <code>Stage</code> or <code>Name</code>. A tag key cannot
   /// be empty. The key can be a maximum of 127 characters, and can contain only
   /// Unicode letters, numbers, or separators, or the following special
   /// characters: <code>+ - = . _ : /</code>
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// An optional tag value, such as <code>Production</code> or
   /// <code>test-owcm-server</code>. The value can be a maximum of 255 characters,
   /// and contain only Unicode letters, numbers, or separators, or the following
   /// special characters: <code>+ - = . _ : /</code>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServerEngineAttributesResponse {
   /// Contains the response to an <code>UpdateServerEngineAttributes</code>
   /// request.
-  @_s.JsonKey(name: 'Server')
-  final Server server;
+  final Server? server;
 
   UpdateServerEngineAttributesResponse({
     this.server,
   });
   factory UpdateServerEngineAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateServerEngineAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateServerEngineAttributesResponse(
+      server: json['Server'] != null
+          ? Server.fromJson(json['Server'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServerResponse {
   /// Contains the response to a <code>UpdateServer</code> request.
-  @_s.JsonKey(name: 'Server')
-  final Server server;
+  final Server? server;
 
   UpdateServerResponse({
     this.server,
   });
-  factory UpdateServerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateServerResponseFromJson(json);
+  factory UpdateServerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateServerResponse(
+      server: json['Server'] != null
+          ? Server.fromJson(json['Server'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidStateException extends _s.GenericAwsException {
-  InvalidStateException({String type, String message})
+  InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -2940,12 +3051,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

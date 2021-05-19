@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
@@ -22,42 +21,42 @@ class RestXmlProtocol {
   );
 
   factory RestXmlProtocol({
-    Client client,
-    ServiceMetadata service,
-    String region,
-    String endpointUrl,
-    AwsClientCredentials credentials,
+    Client? client,
+    ServiceMetadata? service,
+    String? region,
+    String? endpointUrl,
+    AwsClientCredentials? credentials,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return RestXmlProtocol._(client, endpoint, credentials);
+    return RestXmlProtocol._(client, endpoint, credentials!);
   }
 
   Future<StreamedResponse> sendRaw({
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, List<String>> queryParams,
-    Map<String, String> headers,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, List<String>>? queryParams,
+    Map<String, String>? headers,
     dynamic payload,
-    String resultWrapper,
+    String? resultWrapper,
   }) async {
     final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
     final rs = await _client.send(rq);
 
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
       final body = await rs.stream.bytesToString();
-      XmlDocument root;
-      if (body?.isNotEmpty == true) {
+      XmlDocument? root;
+      if (body.isNotEmpty == true) {
         root = XmlDocument.parse(body);
       }
       final elem = root?.rootElement;
 
-      if (elem?.name?.local == 'ErrorResponse') {
-        final error = elem.findElements('Error').first;
+      if (elem?.name.local == 'ErrorResponse') {
+        final error = elem!.findElements('Error').first;
         final type = error.findElements('Type').first.text;
         final code = error.findElements('Code').first.text;
         final message = error.findElements('Message').first.text;
@@ -66,8 +65,8 @@ class RestXmlProtocol {
             ? fn(type, message)
             : GenericAwsException(type: type, code: code, message: message);
         throw exception;
-      } else if (elem?.name?.local == 'Error') {
-        final code = elem.findElements('Code').first.text;
+      } else if (elem?.name.local == 'Error') {
+        final code = elem!.findElements('Code').first.text;
         final message = elem.findElements('Message').first.text;
         throw GenericAwsException(code: code, message: message);
       } else {
@@ -78,13 +77,13 @@ class RestXmlProtocol {
   }
 
   Future<RestXmlResponse> send({
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, List<String>> queryParams,
-    Map<String, String> headers,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, List<String>>? queryParams,
+    Map<String, String>? headers,
     dynamic payload,
-    String resultWrapper,
+    String? resultWrapper,
   }) async {
     final rs = await sendRaw(
         method: method,
@@ -102,9 +101,9 @@ class RestXmlProtocol {
   Request _buildRequest(
       String method,
       String requestUri,
-      Map<String, List<String>> queryParams,
+      Map<String, List<String>>? queryParams,
       dynamic payload,
-      Map<String, String> headers) {
+      Map<String, String>? headers) {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
     uri = uri.replace(queryParameters: {
       ...uri.queryParametersAll,

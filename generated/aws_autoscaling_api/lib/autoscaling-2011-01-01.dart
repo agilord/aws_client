@@ -10,22 +10,14 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'autoscaling-2011-01-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'autoscaling-2011-01-01.g.dart';
 
 /// Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2
 /// instances based on user-defined scaling policies, scheduled actions, and
@@ -36,9 +28,9 @@ class AutoScaling {
   final Map<String, _s.Shape> shapes;
 
   AutoScaling({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -76,8 +68,8 @@ class AutoScaling {
   /// Parameter [instanceIds] :
   /// The IDs of the instances. You can specify up to 20 instances.
   Future<void> attachInstances({
-    @_s.required String autoScalingGroupName,
-    List<String> instanceIds,
+    required String autoScalingGroupName,
+    List<String>? instanceIds,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -148,8 +140,8 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
   /// API operation.
   Future<void> attachLoadBalancerTargetGroups({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> targetGroupARNs,
+    required String autoScalingGroupName,
+    required List<String> targetGroupARNs,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -209,8 +201,8 @@ class AutoScaling {
   /// Parameter [loadBalancerNames] :
   /// The names of the load balancers. You can specify up to 10 load balancers.
   Future<void> attachLoadBalancers({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> loadBalancerNames,
+    required String autoScalingGroupName,
+    required List<String> loadBalancerNames,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -255,8 +247,8 @@ class AutoScaling {
   /// The names of the scheduled actions to delete. The maximum number allowed
   /// is 50.
   Future<BatchDeleteScheduledActionAnswer> batchDeleteScheduledAction({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> scheduledActionNames,
+    required String autoScalingGroupName,
+    required List<String> scheduledActionNames,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -305,9 +297,9 @@ class AutoScaling {
   /// One or more scheduled actions. The maximum number allowed is 50.
   Future<BatchPutScheduledUpdateGroupActionAnswer>
       batchPutScheduledUpdateGroupAction({
-    @_s.required String autoScalingGroupName,
-    @_s.required
-        List<ScheduledUpdateGroupActionRequest> scheduledUpdateGroupActions,
+    required String autoScalingGroupName,
+    required List<ScheduledUpdateGroupActionRequest>
+        scheduledUpdateGroupActions,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -357,7 +349,7 @@ class AutoScaling {
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
   Future<CancelInstanceRefreshAnswer> cancelInstanceRefresh({
-    @_s.required String autoScalingGroupName,
+    required String autoScalingGroupName,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -443,11 +435,11 @@ class AutoScaling {
   /// sends this token to the notification target you specified when you created
   /// the lifecycle hook.
   Future<void> completeLifecycleAction({
-    @_s.required String autoScalingGroupName,
-    @_s.required String lifecycleActionResult,
-    @_s.required String lifecycleHookName,
-    String instanceId,
-    String lifecycleActionToken,
+    required String autoScalingGroupName,
+    required String lifecycleActionResult,
+    required String lifecycleHookName,
+    String? instanceId,
+    String? lifecycleActionToken,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -752,29 +744,29 @@ class AutoScaling {
   /// Conditional: If your account supports EC2-Classic and VPC, this parameter
   /// is required to launch instances into a VPC.
   Future<void> createAutoScalingGroup({
-    @_s.required String autoScalingGroupName,
-    @_s.required int maxSize,
-    @_s.required int minSize,
-    List<String> availabilityZones,
-    bool capacityRebalance,
-    int defaultCooldown,
-    int desiredCapacity,
-    int healthCheckGracePeriod,
-    String healthCheckType,
-    String instanceId,
-    String launchConfigurationName,
-    LaunchTemplateSpecification launchTemplate,
-    List<LifecycleHookSpecification> lifecycleHookSpecificationList,
-    List<String> loadBalancerNames,
-    int maxInstanceLifetime,
-    MixedInstancesPolicy mixedInstancesPolicy,
-    bool newInstancesProtectedFromScaleIn,
-    String placementGroup,
-    String serviceLinkedRoleARN,
-    List<Tag> tags,
-    List<String> targetGroupARNs,
-    List<String> terminationPolicies,
-    String vPCZoneIdentifier,
+    required String autoScalingGroupName,
+    required int maxSize,
+    required int minSize,
+    List<String>? availabilityZones,
+    bool? capacityRebalance,
+    int? defaultCooldown,
+    int? desiredCapacity,
+    int? healthCheckGracePeriod,
+    String? healthCheckType,
+    String? instanceId,
+    String? launchConfigurationName,
+    LaunchTemplateSpecification? launchTemplate,
+    List<LifecycleHookSpecification>? lifecycleHookSpecificationList,
+    List<String>? loadBalancerNames,
+    int? maxInstanceLifetime,
+    MixedInstancesPolicy? mixedInstancesPolicy,
+    bool? newInstancesProtectedFromScaleIn,
+    String? placementGroup,
+    String? serviceLinkedRoleARN,
+    List<Tag>? tags,
+    List<String>? targetGroupARNs,
+    List<String>? terminationPolicies,
+    String? vPCZoneIdentifier,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1115,25 +1107,25 @@ class AutoScaling {
   /// metadata and user data</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   Future<void> createLaunchConfiguration({
-    @_s.required String launchConfigurationName,
-    bool associatePublicIpAddress,
-    List<BlockDeviceMapping> blockDeviceMappings,
-    String classicLinkVPCId,
-    List<String> classicLinkVPCSecurityGroups,
-    bool ebsOptimized,
-    String iamInstanceProfile,
-    String imageId,
-    String instanceId,
-    InstanceMonitoring instanceMonitoring,
-    String instanceType,
-    String kernelId,
-    String keyName,
-    InstanceMetadataOptions metadataOptions,
-    String placementTenancy,
-    String ramdiskId,
-    List<String> securityGroups,
-    String spotPrice,
-    String userData,
+    required String launchConfigurationName,
+    bool? associatePublicIpAddress,
+    List<BlockDeviceMapping>? blockDeviceMappings,
+    String? classicLinkVPCId,
+    List<String>? classicLinkVPCSecurityGroups,
+    bool? ebsOptimized,
+    String? iamInstanceProfile,
+    String? imageId,
+    String? instanceId,
+    InstanceMonitoring? instanceMonitoring,
+    String? instanceType,
+    String? kernelId,
+    String? keyName,
+    InstanceMetadataOptions? metadataOptions,
+    String? placementTenancy,
+    String? ramdiskId,
+    List<String>? securityGroups,
+    String? spotPrice,
+    String? userData,
   }) async {
     ArgumentError.checkNotNull(
         launchConfigurationName, 'launchConfigurationName');
@@ -1319,7 +1311,7 @@ class AutoScaling {
   /// Parameter [tags] :
   /// One or more tags.
   Future<void> createOrUpdateTags({
-    @_s.required List<Tag> tags,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
@@ -1367,8 +1359,8 @@ class AutoScaling {
   /// terminated. This parameter also deletes any lifecycle actions associated
   /// with the group.
   Future<void> deleteAutoScalingGroup({
-    @_s.required String autoScalingGroupName,
-    bool forceDelete,
+    required String autoScalingGroupName,
+    bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1411,7 +1403,7 @@ class AutoScaling {
   /// Parameter [launchConfigurationName] :
   /// The name of the launch configuration.
   Future<void> deleteLaunchConfiguration({
-    @_s.required String launchConfigurationName,
+    required String launchConfigurationName,
   }) async {
     ArgumentError.checkNotNull(
         launchConfigurationName, 'launchConfigurationName');
@@ -1456,8 +1448,8 @@ class AutoScaling {
   /// Parameter [lifecycleHookName] :
   /// The name of the lifecycle hook.
   Future<void> deleteLifecycleHook({
-    @_s.required String autoScalingGroupName,
-    @_s.required String lifecycleHookName,
+    required String autoScalingGroupName,
+    required String lifecycleHookName,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1514,8 +1506,8 @@ class AutoScaling {
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   /// (Amazon SNS) topic.
   Future<void> deleteNotificationConfiguration({
-    @_s.required String autoScalingGroupName,
-    @_s.required String topicARN,
+    required String autoScalingGroupName,
+    required String topicARN,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1579,8 +1571,8 @@ class AutoScaling {
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
   Future<void> deletePolicy({
-    @_s.required String policyName,
-    String autoScalingGroupName,
+    required String policyName,
+    String? autoScalingGroupName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -1632,8 +1624,8 @@ class AutoScaling {
   /// Parameter [scheduledActionName] :
   /// The name of the action to delete.
   Future<void> deleteScheduledAction({
-    @_s.required String autoScalingGroupName,
-    @_s.required String scheduledActionName,
+    required String autoScalingGroupName,
+    required String scheduledActionName,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1686,7 +1678,7 @@ class AutoScaling {
   /// Parameter [tags] :
   /// One or more tags.
   Future<void> deleteTags({
-    @_s.required List<Tag> tags,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
@@ -1781,9 +1773,9 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<AutoScalingGroupsType> describeAutoScalingGroups({
-    List<String> autoScalingGroupNames,
-    int maxRecords,
-    String nextToken,
+    List<String>? autoScalingGroupNames,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'nextToken',
@@ -1827,9 +1819,9 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<AutoScalingInstancesType> describeAutoScalingInstances({
-    List<String> instanceIds,
-    int maxRecords,
-    String nextToken,
+    List<String>? instanceIds,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'nextToken',
@@ -1924,10 +1916,10 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeInstanceRefreshesAnswer> describeInstanceRefreshes({
-    @_s.required String autoScalingGroupName,
-    List<String> instanceRefreshIds,
-    int maxRecords,
-    String nextToken,
+    required String autoScalingGroupName,
+    List<String>? instanceRefreshIds,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -1984,9 +1976,9 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<LaunchConfigurationsType> describeLaunchConfigurations({
-    List<String> launchConfigurationNames,
-    int maxRecords,
-    String nextToken,
+    List<String>? launchConfigurationNames,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'nextToken',
@@ -2052,8 +2044,8 @@ class AutoScaling {
   /// The names of one or more lifecycle hooks. If you omit this parameter, all
   /// lifecycle hooks are described.
   Future<DescribeLifecycleHooksAnswer> describeLifecycleHooks({
-    @_s.required String autoScalingGroupName,
-    List<String> lifecycleHookNames,
+    required String autoScalingGroupName,
+    List<String>? lifecycleHookNames,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2102,9 +2094,9 @@ class AutoScaling {
   /// from a previous call.)
   Future<DescribeLoadBalancerTargetGroupsResponse>
       describeLoadBalancerTargetGroups({
-    @_s.required String autoScalingGroupName,
-    int maxRecords,
-    String nextToken,
+    required String autoScalingGroupName,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2162,9 +2154,9 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeLoadBalancersResponse> describeLoadBalancers({
-    @_s.required String autoScalingGroupName,
-    int maxRecords,
-    String nextToken,
+    required String autoScalingGroupName,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2244,9 +2236,9 @@ class AutoScaling {
   /// from a previous call.)
   Future<DescribeNotificationConfigurationsAnswer>
       describeNotificationConfigurations({
-    List<String> autoScalingGroupNames,
-    int maxRecords,
-    String nextToken,
+    List<String>? autoScalingGroupNames,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'nextToken',
@@ -2299,11 +2291,11 @@ class AutoScaling {
   /// One or more policy types. The valid values are <code>SimpleScaling</code>,
   /// <code>StepScaling</code>, and <code>TargetTrackingScaling</code>.
   Future<PoliciesType> describePolicies({
-    String autoScalingGroupName,
-    int maxRecords,
-    String nextToken,
-    List<String> policyNames,
-    List<String> policyTypes,
+    String? autoScalingGroupName,
+    int? maxRecords,
+    String? nextToken,
+    List<String>? policyNames,
+    List<String>? policyTypes,
   }) async {
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -2365,10 +2357,10 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ActivitiesType> describeScalingActivities({
-    List<String> activityIds,
-    String autoScalingGroupName,
-    int maxRecords,
-    String nextToken,
+    List<String>? activityIds,
+    String? autoScalingGroupName,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -2455,12 +2447,12 @@ class AutoScaling {
   /// The earliest scheduled start time to return. If scheduled action names are
   /// provided, this parameter is ignored.
   Future<ScheduledActionsType> describeScheduledActions({
-    String autoScalingGroupName,
-    DateTime endTime,
-    int maxRecords,
-    String nextToken,
-    List<String> scheduledActionNames,
-    DateTime startTime,
+    String? autoScalingGroupName,
+    DateTime? endTime,
+    int? maxRecords,
+    String? nextToken,
+    List<String>? scheduledActionNames,
+    DateTime? startTime,
   }) async {
     _s.validateStringLength(
       'autoScalingGroupName',
@@ -2531,9 +2523,9 @@ class AutoScaling {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<TagsType> describeTags({
-    List<Filter> filters,
-    int maxRecords,
-    String nextToken,
+    List<Filter>? filters,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateStringPattern(
       'nextToken',
@@ -2612,9 +2604,9 @@ class AutoScaling {
   /// Parameter [instanceIds] :
   /// The IDs of the instances. You can specify up to 20 instances.
   Future<DetachInstancesAnswer> detachInstances({
-    @_s.required String autoScalingGroupName,
-    @_s.required bool shouldDecrementDesiredCapacity,
-    List<String> instanceIds,
+    required String autoScalingGroupName,
+    required bool shouldDecrementDesiredCapacity,
+    List<String>? instanceIds,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2661,8 +2653,8 @@ class AutoScaling {
   /// The Amazon Resource Names (ARN) of the target groups. You can specify up
   /// to 10 target groups.
   Future<void> detachLoadBalancerTargetGroups({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> targetGroupARNs,
+    required String autoScalingGroupName,
+    required List<String> targetGroupARNs,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2715,8 +2707,8 @@ class AutoScaling {
   /// Parameter [loadBalancerNames] :
   /// The names of the load balancers. You can specify up to 10 load balancers.
   Future<void> detachLoadBalancers({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> loadBalancerNames,
+    required String autoScalingGroupName,
+    required List<String> loadBalancerNames,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2802,8 +2794,8 @@ class AutoScaling {
   /// </ul>
   /// If you omit this parameter, all metrics are disabled.
   Future<void> disableMetricsCollection({
-    @_s.required String autoScalingGroupName,
-    List<String> metrics,
+    required String autoScalingGroupName,
+    List<String>? metrics,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2900,9 +2892,9 @@ class AutoScaling {
   /// </ul>
   /// If you omit this parameter, all metrics are enabled.
   Future<void> enableMetricsCollection({
-    @_s.required String autoScalingGroupName,
-    @_s.required String granularity,
-    List<String> metrics,
+    required String autoScalingGroupName,
+    required String granularity,
+    List<String>? metrics,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -2976,9 +2968,9 @@ class AutoScaling {
   /// Parameter [instanceIds] :
   /// The IDs of the instances. You can specify up to 20 instances.
   Future<EnterStandbyAnswer> enterStandby({
-    @_s.required String autoScalingGroupName,
-    @_s.required bool shouldDecrementDesiredCapacity,
-    List<String> instanceIds,
+    required String autoScalingGroupName,
+    required bool shouldDecrementDesiredCapacity,
+    List<String>? instanceIds,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3055,11 +3047,11 @@ class AutoScaling {
   /// Required if the policy type is <code>StepScaling</code> and not supported
   /// otherwise.
   Future<void> executePolicy({
-    @_s.required String policyName,
-    String autoScalingGroupName,
-    double breachThreshold,
-    bool honorCooldown,
-    double metricValue,
+    required String policyName,
+    String? autoScalingGroupName,
+    double? breachThreshold,
+    bool? honorCooldown,
+    double? metricValue,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3122,8 +3114,8 @@ class AutoScaling {
   /// Parameter [instanceIds] :
   /// The IDs of the instances. You can specify up to 20 instances.
   Future<ExitStandbyAnswer> exitStandby({
-    @_s.required String autoScalingGroupName,
-    List<String> instanceIds,
+    required String autoScalingGroupName,
+    List<String>? instanceIds,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3268,14 +3260,14 @@ class AutoScaling {
   /// Required for new lifecycle hooks, but optional when updating existing
   /// hooks.
   Future<void> putLifecycleHook({
-    @_s.required String autoScalingGroupName,
-    @_s.required String lifecycleHookName,
-    String defaultResult,
-    int heartbeatTimeout,
-    String lifecycleTransition,
-    String notificationMetadata,
-    String notificationTargetARN,
-    String roleARN,
+    required String autoScalingGroupName,
+    required String lifecycleHookName,
+    String? defaultResult,
+    int? heartbeatTimeout,
+    String? lifecycleTransition,
+    String? notificationMetadata,
+    String? notificationTargetARN,
+    String? roleARN,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3391,9 +3383,9 @@ class AutoScaling {
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   /// (Amazon SNS) topic.
   Future<void> putNotificationConfiguration({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> notificationTypes,
-    @_s.required String topicARN,
+    required String autoScalingGroupName,
+    required List<String> notificationTypes,
+    required String topicARN,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3589,19 +3581,19 @@ class AutoScaling {
   ///
   /// Required if the policy type is <code>TargetTrackingScaling</code>.
   Future<PolicyARNType> putScalingPolicy({
-    @_s.required String autoScalingGroupName,
-    @_s.required String policyName,
-    String adjustmentType,
-    int cooldown,
-    bool enabled,
-    int estimatedInstanceWarmup,
-    String metricAggregationType,
-    int minAdjustmentMagnitude,
-    int minAdjustmentStep,
-    String policyType,
-    int scalingAdjustment,
-    List<StepAdjustment> stepAdjustments,
-    TargetTrackingConfiguration targetTrackingConfiguration,
+    required String autoScalingGroupName,
+    required String policyName,
+    String? adjustmentType,
+    int? cooldown,
+    bool? enabled,
+    int? estimatedInstanceWarmup,
+    String? metricAggregationType,
+    int? minAdjustmentMagnitude,
+    int? minAdjustmentStep,
+    String? policyType,
+    int? scalingAdjustment,
+    List<StepAdjustment>? stepAdjustments,
+    TargetTrackingConfiguration? targetTrackingConfiguration,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3755,15 +3747,15 @@ class AutoScaling {
   /// Parameter [time] :
   /// This parameter is no longer used.
   Future<void> putScheduledUpdateGroupAction({
-    @_s.required String autoScalingGroupName,
-    @_s.required String scheduledActionName,
-    int desiredCapacity,
-    DateTime endTime,
-    int maxSize,
-    int minSize,
-    String recurrence,
-    DateTime startTime,
-    DateTime time,
+    required String autoScalingGroupName,
+    required String scheduledActionName,
+    int? desiredCapacity,
+    DateTime? endTime,
+    int? maxSize,
+    int? minSize,
+    String? recurrence,
+    DateTime? startTime,
+    DateTime? time,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3876,10 +3868,10 @@ class AutoScaling {
   /// notification target that you specified when you created the lifecycle
   /// hook.
   Future<void> recordLifecycleActionHeartbeat({
-    @_s.required String autoScalingGroupName,
-    @_s.required String lifecycleHookName,
-    String instanceId,
-    String lifecycleActionToken,
+    required String autoScalingGroupName,
+    required String lifecycleHookName,
+    String? instanceId,
+    String? lifecycleActionToken,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -3992,8 +3984,8 @@ class AutoScaling {
   /// </ul>
   /// If you omit this parameter, all processes are specified.
   Future<void> resumeProcesses({
-    @_s.required String autoScalingGroupName,
-    List<String> scalingProcesses,
+    required String autoScalingGroupName,
+    List<String>? scalingProcesses,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4051,9 +4043,9 @@ class AutoScaling {
   /// group to its new capacity. By default, Amazon EC2 Auto Scaling does not
   /// honor the cooldown period during manual scaling activities.
   Future<void> setDesiredCapacity({
-    @_s.required String autoScalingGroupName,
-    @_s.required int desiredCapacity,
-    bool honorCooldown,
+    required String autoScalingGroupName,
+    required int desiredCapacity,
+    bool? honorCooldown,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4114,9 +4106,9 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html">CreateAutoScalingGroup</a>
   /// in the <i>Amazon EC2 Auto Scaling API Reference</i>.
   Future<void> setInstanceHealth({
-    @_s.required String healthStatus,
-    @_s.required String instanceId,
-    bool shouldRespectGracePeriod,
+    required String healthStatus,
+    required String instanceId,
+    bool? shouldRespectGracePeriod,
   }) async {
     ArgumentError.checkNotNull(healthStatus, 'healthStatus');
     _s.validateStringLength(
@@ -4186,9 +4178,9 @@ class AutoScaling {
   /// Indicates whether the instance is protected from termination by Amazon EC2
   /// Auto Scaling when scaling in.
   Future<void> setInstanceProtection({
-    @_s.required String autoScalingGroupName,
-    @_s.required List<String> instanceIds,
-    @_s.required bool protectedFromScaleIn,
+    required String autoScalingGroupName,
+    required List<String> instanceIds,
+    required bool protectedFromScaleIn,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4268,9 +4260,9 @@ class AutoScaling {
   /// instances that were already replaced are not rolled back to their previous
   /// configuration.
   Future<StartInstanceRefreshAnswer> startInstanceRefresh({
-    @_s.required String autoScalingGroupName,
-    RefreshPreferences preferences,
-    RefreshStrategy strategy,
+    required String autoScalingGroupName,
+    RefreshPreferences? preferences,
+    RefreshStrategy? strategy,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4357,8 +4349,8 @@ class AutoScaling {
   /// </ul>
   /// If you omit this parameter, all processes are specified.
   Future<void> suspendProcesses({
-    @_s.required String autoScalingGroupName,
-    List<String> scalingProcesses,
+    required String autoScalingGroupName,
+    List<String>? scalingProcesses,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4419,8 +4411,8 @@ class AutoScaling {
   /// Indicates whether terminating the instance also decrements the size of the
   /// Auto Scaling group.
   Future<ActivityType> terminateInstanceInAutoScalingGroup({
-    @_s.required String instanceId,
-    @_s.required bool shouldDecrementDesiredCapacity,
+    required String instanceId,
+    required bool shouldDecrementDesiredCapacity,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -4630,24 +4622,24 @@ class AutoScaling {
   /// <code>AvailabilityZones</code>, the subnets that you specify for this
   /// parameter must reside in those Availability Zones.
   Future<void> updateAutoScalingGroup({
-    @_s.required String autoScalingGroupName,
-    List<String> availabilityZones,
-    bool capacityRebalance,
-    int defaultCooldown,
-    int desiredCapacity,
-    int healthCheckGracePeriod,
-    String healthCheckType,
-    String launchConfigurationName,
-    LaunchTemplateSpecification launchTemplate,
-    int maxInstanceLifetime,
-    int maxSize,
-    int minSize,
-    MixedInstancesPolicy mixedInstancesPolicy,
-    bool newInstancesProtectedFromScaleIn,
-    String placementGroup,
-    String serviceLinkedRoleARN,
-    List<String> terminationPolicies,
-    String vPCZoneIdentifier,
+    required String autoScalingGroupName,
+    List<String>? availabilityZones,
+    bool? capacityRebalance,
+    int? defaultCooldown,
+    int? desiredCapacity,
+    int? healthCheckGracePeriod,
+    String? healthCheckType,
+    String? launchConfigurationName,
+    LaunchTemplateSpecification? launchTemplate,
+    int? maxInstanceLifetime,
+    int? maxSize,
+    int? minSize,
+    MixedInstancesPolicy? mixedInstancesPolicy,
+    bool? newInstancesProtectedFromScaleIn,
+    String? placementGroup,
+    String? serviceLinkedRoleARN,
+    List<String>? terminationPolicies,
+    String? vPCZoneIdentifier,
   }) async {
     ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
     _s.validateStringLength(
@@ -4762,16 +4754,19 @@ class ActivitiesType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   ActivitiesType({
-    @_s.required this.activities,
+    required this.activities,
     this.nextToken,
   });
   factory ActivitiesType.fromXml(_s.XmlElement elem) {
     return ActivitiesType(
-      activities: _s.extractXmlChild(elem, 'Activities')?.let((elem) =>
-          elem.findElements('member').map((c) => Activity.fromXml(c)).toList()),
+      activities: _s
+          .extractXmlChild(elem, 'Activities')!
+          .findElements('member')
+          .map((c) => Activity.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -4797,26 +4792,26 @@ class Activity {
   final ScalingActivityStatusCode statusCode;
 
   /// A friendly, more verbose description of the activity.
-  final String description;
+  final String? description;
 
   /// The details about the activity.
-  final String details;
+  final String? details;
 
   /// The end time of the activity.
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// A value between 0 and 100 that indicates the progress of the activity.
-  final int progress;
+  final int? progress;
 
   /// A friendly, more verbose description of the activity status.
-  final String statusMessage;
+  final String? statusMessage;
 
   Activity({
-    @_s.required this.activityId,
-    @_s.required this.autoScalingGroupName,
-    @_s.required this.cause,
-    @_s.required this.startTime,
-    @_s.required this.statusCode,
+    required this.activityId,
+    required this.autoScalingGroupName,
+    required this.cause,
+    required this.startTime,
+    required this.statusCode,
     this.description,
     this.details,
     this.endTime,
@@ -4825,14 +4820,14 @@ class Activity {
   });
   factory Activity.fromXml(_s.XmlElement elem) {
     return Activity(
-      activityId: _s.extractXmlStringValue(elem, 'ActivityId'),
+      activityId: _s.extractXmlStringValue(elem, 'ActivityId')!,
       autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      cause: _s.extractXmlStringValue(elem, 'Cause'),
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      cause: _s.extractXmlStringValue(elem, 'Cause')!,
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
       statusCode: _s
-          .extractXmlStringValue(elem, 'StatusCode')
-          ?.toScalingActivityStatusCode(),
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .toScalingActivityStatusCode(),
       description: _s.extractXmlStringValue(elem, 'Description'),
       details: _s.extractXmlStringValue(elem, 'Details'),
       endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
@@ -4844,7 +4839,7 @@ class Activity {
 
 class ActivityType {
   /// A scaling activity.
-  final Activity activity;
+  final Activity? activity;
 
   ActivityType({
     this.activity,
@@ -4862,7 +4857,7 @@ class AdjustmentType {
   /// The policy adjustment type. The valid values are
   /// <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
   /// <code>PercentChangeInCapacity</code>.
-  final String adjustmentType;
+  final String? adjustmentType;
 
   AdjustmentType({
     this.adjustmentType,
@@ -4877,10 +4872,10 @@ class AdjustmentType {
 /// Describes an alarm.
 class Alarm {
   /// The Amazon Resource Name (ARN) of the alarm.
-  final String alarmARN;
+  final String? alarmARN;
 
   /// The name of the alarm.
-  final String alarmName;
+  final String? alarmName;
 
   Alarm({
     this.alarmARN,
@@ -4942,77 +4937,77 @@ class AutoScalingGroup {
   final int minSize;
 
   /// The Amazon Resource Name (ARN) of the Auto Scaling group.
-  final String autoScalingGroupARN;
+  final String? autoScalingGroupARN;
 
   /// Indicates whether Capacity Rebalancing is enabled.
-  final bool capacityRebalance;
+  final bool? capacityRebalance;
 
   /// The metrics enabled for the group.
-  final List<EnabledMetric> enabledMetrics;
+  final List<EnabledMetric>? enabledMetrics;
 
   /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before
   /// checking the health status of an EC2 instance that has come into service.
-  final int healthCheckGracePeriod;
+  final int? healthCheckGracePeriod;
 
   /// The EC2 instances associated with the group.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The name of the associated launch configuration.
-  final String launchConfigurationName;
+  final String? launchConfigurationName;
 
   /// The launch template for the group.
-  final LaunchTemplateSpecification launchTemplate;
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// One or more load balancers associated with the group.
-  final List<String> loadBalancerNames;
+  final List<String>? loadBalancerNames;
 
   /// The maximum amount of time, in seconds, that an instance can be in service.
   ///
   /// Valid Range: Minimum value of 0.
-  final int maxInstanceLifetime;
+  final int? maxInstanceLifetime;
 
   /// The mixed instances policy for the group.
-  final MixedInstancesPolicy mixedInstancesPolicy;
+  final MixedInstancesPolicy? mixedInstancesPolicy;
 
   /// Indicates whether newly launched instances are protected from termination by
   /// Amazon EC2 Auto Scaling when scaling in.
-  final bool newInstancesProtectedFromScaleIn;
+  final bool? newInstancesProtectedFromScaleIn;
 
   /// The name of the placement group into which to launch your instances, if any.
-  final String placementGroup;
+  final String? placementGroup;
 
   /// The Amazon Resource Name (ARN) of the service-linked role that the Auto
   /// Scaling group uses to call other AWS services on your behalf.
-  final String serviceLinkedRoleARN;
+  final String? serviceLinkedRoleARN;
 
   /// The current state of the group when the <a>DeleteAutoScalingGroup</a>
   /// operation is in progress.
-  final String status;
+  final String? status;
 
   /// The suspended processes associated with the group.
-  final List<SuspendedProcess> suspendedProcesses;
+  final List<SuspendedProcess>? suspendedProcesses;
 
   /// The tags for the group.
-  final List<TagDescription> tags;
+  final List<TagDescription>? tags;
 
   /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-  final List<String> targetGroupARNs;
+  final List<String>? targetGroupARNs;
 
   /// The termination policies for the group.
-  final List<String> terminationPolicies;
+  final List<String>? terminationPolicies;
 
   /// One or more subnet IDs, if applicable, separated by commas.
-  final String vPCZoneIdentifier;
+  final String? vPCZoneIdentifier;
 
   AutoScalingGroup({
-    @_s.required this.autoScalingGroupName,
-    @_s.required this.availabilityZones,
-    @_s.required this.createdTime,
-    @_s.required this.defaultCooldown,
-    @_s.required this.desiredCapacity,
-    @_s.required this.healthCheckType,
-    @_s.required this.maxSize,
-    @_s.required this.minSize,
+    required this.autoScalingGroupName,
+    required this.availabilityZones,
+    required this.createdTime,
+    required this.defaultCooldown,
+    required this.desiredCapacity,
+    required this.healthCheckType,
+    required this.maxSize,
+    required this.minSize,
     this.autoScalingGroupARN,
     this.capacityRebalance,
     this.enabledMetrics,
@@ -5036,16 +5031,15 @@ class AutoScalingGroup {
   factory AutoScalingGroup.fromXml(_s.XmlElement elem) {
     return AutoScalingGroup(
       autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      availabilityZones: _s
-          .extractXmlChild(elem, 'AvailabilityZones')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
-      defaultCooldown: _s.extractXmlIntValue(elem, 'DefaultCooldown'),
-      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity'),
-      healthCheckType: _s.extractXmlStringValue(elem, 'HealthCheckType'),
-      maxSize: _s.extractXmlIntValue(elem, 'MaxSize'),
-      minSize: _s.extractXmlIntValue(elem, 'MinSize'),
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      availabilityZones: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AvailabilityZones')!, 'member'),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      defaultCooldown: _s.extractXmlIntValue(elem, 'DefaultCooldown')!,
+      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity')!,
+      healthCheckType: _s.extractXmlStringValue(elem, 'HealthCheckType')!,
+      maxSize: _s.extractXmlIntValue(elem, 'MaxSize')!,
+      minSize: _s.extractXmlIntValue(elem, 'MinSize')!,
       autoScalingGroupARN:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
       capacityRebalance: _s.extractXmlBoolValue(elem, 'CapacityRebalance'),
@@ -5104,19 +5098,19 @@ class AutoScalingGroupsType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   AutoScalingGroupsType({
-    @_s.required this.autoScalingGroups,
+    required this.autoScalingGroups,
     this.nextToken,
   });
   factory AutoScalingGroupsType.fromXml(_s.XmlElement elem) {
     return AutoScalingGroupsType(
-      autoScalingGroups: _s.extractXmlChild(elem, 'AutoScalingGroups')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => AutoScalingGroup.fromXml(c))
-              .toList()),
+      autoScalingGroups: _s
+          .extractXmlChild(elem, 'AutoScalingGroups')!
+          .findElements('member')
+          .map((c) => AutoScalingGroup.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5147,28 +5141,28 @@ class AutoScalingInstanceDetails {
   final bool protectedFromScaleIn;
 
   /// The instance type of the EC2 instance.
-  final String instanceType;
+  final String? instanceType;
 
   /// The launch configuration used to launch the instance. This value is not
   /// available if you attached the instance to the Auto Scaling group.
-  final String launchConfigurationName;
+  final String? launchConfigurationName;
 
   /// The launch template for the instance.
-  final LaunchTemplateSpecification launchTemplate;
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The number of capacity units contributed by the instance based on its
   /// instance type.
   ///
   /// Valid Range: Minimum value of 1. Maximum value of 999.
-  final String weightedCapacity;
+  final String? weightedCapacity;
 
   AutoScalingInstanceDetails({
-    @_s.required this.autoScalingGroupName,
-    @_s.required this.availabilityZone,
-    @_s.required this.healthStatus,
-    @_s.required this.instanceId,
-    @_s.required this.lifecycleState,
-    @_s.required this.protectedFromScaleIn,
+    required this.autoScalingGroupName,
+    required this.availabilityZone,
+    required this.healthStatus,
+    required this.instanceId,
+    required this.lifecycleState,
+    required this.protectedFromScaleIn,
     this.instanceType,
     this.launchConfigurationName,
     this.launchTemplate,
@@ -5177,13 +5171,13 @@ class AutoScalingInstanceDetails {
   factory AutoScalingInstanceDetails.fromXml(_s.XmlElement elem) {
     return AutoScalingInstanceDetails(
       autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
-      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus'),
-      instanceId: _s.extractXmlStringValue(elem, 'InstanceId'),
-      lifecycleState: _s.extractXmlStringValue(elem, 'LifecycleState'),
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
+      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
+      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
+      lifecycleState: _s.extractXmlStringValue(elem, 'LifecycleState')!,
       protectedFromScaleIn:
-          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn'),
+          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
       launchConfigurationName:
           _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
@@ -5197,13 +5191,13 @@ class AutoScalingInstanceDetails {
 
 class AutoScalingInstancesType {
   /// The instances.
-  final List<AutoScalingInstanceDetails> autoScalingInstances;
+  final List<AutoScalingInstanceDetails>? autoScalingInstances;
 
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   AutoScalingInstancesType({
     this.autoScalingInstances,
@@ -5225,7 +5219,7 @@ class AutoScalingInstancesType {
 class BatchDeleteScheduledActionAnswer {
   /// The names of the scheduled actions that could not be deleted, including an
   /// error message.
-  final List<FailedScheduledUpdateGroupActionRequest> failedScheduledActions;
+  final List<FailedScheduledUpdateGroupActionRequest>? failedScheduledActions;
 
   BatchDeleteScheduledActionAnswer({
     this.failedScheduledActions,
@@ -5245,7 +5239,7 @@ class BatchDeleteScheduledActionAnswer {
 class BatchPutScheduledUpdateGroupActionAnswer {
   /// The names of the scheduled actions that could not be created or updated,
   /// including an error message.
-  final List<FailedScheduledUpdateGroupActionRequest>
+  final List<FailedScheduledUpdateGroupActionRequest>?
       failedScheduledUpdateGroupActions;
 
   BatchPutScheduledUpdateGroupActionAnswer({
@@ -5264,18 +5258,12 @@ class BatchPutScheduledUpdateGroupActionAnswer {
 }
 
 /// Describes a block device mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BlockDeviceMapping {
   /// The device name exposed to the EC2 instance (for example,
   /// <code>/dev/sdh</code> or <code>xvdh</code>). For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device
   /// Naming on Linux Instances</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
-  @_s.JsonKey(name: 'DeviceName')
   final String deviceName;
 
   /// Parameters used to automatically set up EBS volumes when an instance is
@@ -5283,8 +5271,7 @@ class BlockDeviceMapping {
   ///
   /// You can specify either <code>VirtualName</code> or <code>Ebs</code>, but not
   /// both.
-  @_s.JsonKey(name: 'Ebs')
-  final Ebs ebs;
+  final Ebs? ebs;
 
   /// Setting this value to <code>true</code> suppresses the specified device
   /// included in the block device mapping of the AMI.
@@ -5294,37 +5281,46 @@ class BlockDeviceMapping {
   /// launches replacement instances.
   ///
   /// If you specify <code>NoDevice</code>, you cannot specify <code>Ebs</code>.
-  @_s.JsonKey(name: 'NoDevice')
-  final bool noDevice;
+  final bool? noDevice;
 
   /// The name of the virtual device (for example, <code>ephemeral0</code>).
   ///
   /// You can specify either <code>VirtualName</code> or <code>Ebs</code>, but not
   /// both.
-  @_s.JsonKey(name: 'VirtualName')
-  final String virtualName;
+  final String? virtualName;
 
   BlockDeviceMapping({
-    @_s.required this.deviceName,
+    required this.deviceName,
     this.ebs,
     this.noDevice,
     this.virtualName,
   });
   factory BlockDeviceMapping.fromXml(_s.XmlElement elem) {
     return BlockDeviceMapping(
-      deviceName: _s.extractXmlStringValue(elem, 'DeviceName'),
+      deviceName: _s.extractXmlStringValue(elem, 'DeviceName')!,
       ebs: _s.extractXmlChild(elem, 'Ebs')?.let((e) => Ebs.fromXml(e)),
       noDevice: _s.extractXmlBoolValue(elem, 'NoDevice'),
       virtualName: _s.extractXmlStringValue(elem, 'VirtualName'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$BlockDeviceMappingToJson(this);
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final noDevice = this.noDevice;
+    final virtualName = this.virtualName;
+    return {
+      'DeviceName': deviceName,
+      if (ebs != null) 'Ebs': ebs,
+      if (noDevice != null) 'NoDevice': noDevice,
+      if (virtualName != null) 'VirtualName': virtualName,
+    };
+  }
 }
 
 class CancelInstanceRefreshAnswer {
   /// The instance refresh ID.
-  final String instanceRefreshId;
+  final String? instanceRefreshId;
 
   CancelInstanceRefreshAnswer({
     this.instanceRefreshId,
@@ -5369,48 +5365,38 @@ class CompleteLifecycleActionAnswer {
 /// For more information about CloudWatch, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CustomizedMetricSpecification {
   /// The name of the metric.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// The namespace of the metric.
-  @_s.JsonKey(name: 'Namespace')
   final String namespace;
 
   /// The statistic of the metric.
-  @_s.JsonKey(name: 'Statistic')
   final MetricStatistic statistic;
 
   /// The dimensions of the metric.
   ///
   /// Conditional: If you published your metric with dimensions, you must specify
   /// the same dimensions in your scaling policy.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<MetricDimension> dimensions;
+  final List<MetricDimension>? dimensions;
 
   /// The unit of the metric.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   CustomizedMetricSpecification({
-    @_s.required this.metricName,
-    @_s.required this.namespace,
-    @_s.required this.statistic,
+    required this.metricName,
+    required this.namespace,
+    required this.statistic,
     this.dimensions,
     this.unit,
   });
   factory CustomizedMetricSpecification.fromXml(_s.XmlElement elem) {
     return CustomizedMetricSpecification(
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
+      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
+      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
       statistic:
-          _s.extractXmlStringValue(elem, 'Statistic')?.toMetricStatistic(),
+          _s.extractXmlStringValue(elem, 'Statistic')!.toMetricStatistic(),
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
           .findElements('member')
           .map((c) => MetricDimension.fromXml(c))
@@ -5419,7 +5405,20 @@ class CustomizedMetricSpecification {
     );
   }
 
-  Map<String, dynamic> toJson() => _$CustomizedMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final dimensions = this.dimensions;
+    final unit = this.unit;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Statistic': statistic.toValue(),
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 class DeleteLifecycleHookAnswer {
@@ -5434,17 +5433,17 @@ class DeleteLifecycleHookAnswer {
 class DescribeAccountLimitsAnswer {
   /// The maximum number of groups allowed for your AWS account. The default is
   /// 200 groups per AWS Region.
-  final int maxNumberOfAutoScalingGroups;
+  final int? maxNumberOfAutoScalingGroups;
 
   /// The maximum number of launch configurations allowed for your AWS account.
   /// The default is 200 launch configurations per AWS Region.
-  final int maxNumberOfLaunchConfigurations;
+  final int? maxNumberOfLaunchConfigurations;
 
   /// The current number of groups for your AWS account.
-  final int numberOfAutoScalingGroups;
+  final int? numberOfAutoScalingGroups;
 
   /// The current number of launch configurations for your AWS account.
-  final int numberOfLaunchConfigurations;
+  final int? numberOfLaunchConfigurations;
 
   DescribeAccountLimitsAnswer({
     this.maxNumberOfAutoScalingGroups,
@@ -5468,7 +5467,7 @@ class DescribeAccountLimitsAnswer {
 
 class DescribeAdjustmentTypesAnswer {
   /// The policy adjustment types.
-  final List<AdjustmentType> adjustmentTypes;
+  final List<AdjustmentType>? adjustmentTypes;
 
   DescribeAdjustmentTypesAnswer({
     this.adjustmentTypes,
@@ -5486,7 +5485,7 @@ class DescribeAdjustmentTypesAnswer {
 
 class DescribeAutoScalingNotificationTypesAnswer {
   /// The notification types.
-  final List<String> autoScalingNotificationTypes;
+  final List<String>? autoScalingNotificationTypes;
 
   DescribeAutoScalingNotificationTypesAnswer({
     this.autoScalingNotificationTypes,
@@ -5503,13 +5502,13 @@ class DescribeAutoScalingNotificationTypesAnswer {
 
 class DescribeInstanceRefreshesAnswer {
   /// The instance refreshes for the specified group.
-  final List<InstanceRefresh> instanceRefreshes;
+  final List<InstanceRefresh>? instanceRefreshes;
 
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInstanceRefreshesAnswer({
     this.instanceRefreshes,
@@ -5529,7 +5528,7 @@ class DescribeInstanceRefreshesAnswer {
 
 class DescribeLifecycleHookTypesAnswer {
   /// The lifecycle hook types.
-  final List<String> lifecycleHookTypes;
+  final List<String>? lifecycleHookTypes;
 
   DescribeLifecycleHookTypesAnswer({
     this.lifecycleHookTypes,
@@ -5545,7 +5544,7 @@ class DescribeLifecycleHookTypesAnswer {
 
 class DescribeLifecycleHooksAnswer {
   /// The lifecycle hooks for the specified group.
-  final List<LifecycleHook> lifecycleHooks;
+  final List<LifecycleHook>? lifecycleHooks;
 
   DescribeLifecycleHooksAnswer({
     this.lifecycleHooks,
@@ -5563,13 +5562,13 @@ class DescribeLifecycleHooksAnswer {
 
 class DescribeLoadBalancerTargetGroupsResponse {
   /// Information about the target groups.
-  final List<LoadBalancerTargetGroupState> loadBalancerTargetGroups;
+  final List<LoadBalancerTargetGroupState>? loadBalancerTargetGroups;
 
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeLoadBalancerTargetGroupsResponse({
     this.loadBalancerTargetGroups,
@@ -5590,13 +5589,13 @@ class DescribeLoadBalancerTargetGroupsResponse {
 
 class DescribeLoadBalancersResponse {
   /// The load balancers.
-  final List<LoadBalancerState> loadBalancers;
+  final List<LoadBalancerState>? loadBalancers;
 
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeLoadBalancersResponse({
     this.loadBalancers,
@@ -5616,10 +5615,10 @@ class DescribeLoadBalancersResponse {
 
 class DescribeMetricCollectionTypesAnswer {
   /// The granularities for the metrics.
-  final List<MetricGranularityType> granularities;
+  final List<MetricGranularityType>? granularities;
 
   /// One or more metrics.
-  final List<MetricCollectionType> metrics;
+  final List<MetricCollectionType>? metrics;
 
   DescribeMetricCollectionTypesAnswer({
     this.granularities,
@@ -5648,20 +5647,19 @@ class DescribeNotificationConfigurationsAnswer {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeNotificationConfigurationsAnswer({
-    @_s.required this.notificationConfigurations,
+    required this.notificationConfigurations,
     this.nextToken,
   });
   factory DescribeNotificationConfigurationsAnswer.fromXml(_s.XmlElement elem) {
     return DescribeNotificationConfigurationsAnswer(
       notificationConfigurations: _s
-          .extractXmlChild(elem, 'NotificationConfigurations')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => NotificationConfiguration.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'NotificationConfigurations')!
+          .findElements('member')
+          .map((c) => NotificationConfiguration.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -5673,7 +5671,7 @@ class DescribeTerminationPolicyTypesAnswer {
   /// <code>NewestInstance</code>, <code>ClosestToNextInstanceHour</code>,
   /// <code>Default</code>, <code>OldestLaunchTemplate</code>, and
   /// <code>AllocationStrategy</code>.
-  final List<String> terminationPolicyTypes;
+  final List<String>? terminationPolicyTypes;
 
   DescribeTerminationPolicyTypesAnswer({
     this.terminationPolicyTypes,
@@ -5690,7 +5688,7 @@ class DescribeTerminationPolicyTypesAnswer {
 class DetachInstancesAnswer {
   /// The activities related to detaching the instances from the Auto Scaling
   /// group.
-  final List<Activity> activities;
+  final List<Activity>? activities;
 
   DetachInstancesAnswer({
     this.activities,
@@ -5723,16 +5721,10 @@ class DetachLoadBalancersResultType {
 
 /// Describes information used to set up an Amazon EBS volume specified in a
 /// block device mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Ebs {
   /// Indicates whether the volume is deleted on instance termination. For Amazon
   /// EC2 Auto Scaling, the default value is <code>true</code>.
-  @_s.JsonKey(name: 'DeleteOnTermination')
-  final bool deleteOnTermination;
+  final bool? deleteOnTermination;
 
   /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can
   /// only be attached to instances that support Amazon EBS encryption. For more
@@ -5764,8 +5756,7 @@ class Ebs {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/key-policy-requirements-EBS-encryption.html">Required
   /// CMK key policy for use with encrypted volumes</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
-  @_s.JsonKey(name: 'Encrypted')
-  final bool encrypted;
+  final bool? encrypted;
 
   /// The number of I/O operations per second (IOPS) to provision for the volume.
   /// The maximum ratio of IOPS to volume size (in GiB) is 50:1. For more
@@ -5777,15 +5768,13 @@ class Ebs {
   /// Required when the volume type is <code>io1</code>. (Not used with
   /// <code>standard</code>, <code>gp2</code>, <code>st1</code>, or
   /// <code>sc1</code> volumes.)
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   /// The snapshot ID of the volume to use.
   ///
   /// You must specify either a <code>VolumeSize</code> or a
   /// <code>SnapshotId</code>.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The volume size, in Gibibytes (GiB).
   ///
@@ -5801,8 +5790,7 @@ class Ebs {
   /// <code>SnapshotId</code>. If you specify both <code>SnapshotId</code> and
   /// <code>VolumeSize</code>, the volume size must be equal or greater than the
   /// size of the snapshot.
-  @_s.JsonKey(name: 'VolumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   /// The volume type, which can be <code>standard</code> for Magnetic,
   /// <code>io1</code> for Provisioned IOPS SSD, <code>gp2</code> for General
@@ -5814,8 +5802,7 @@ class Ebs {
   ///
   /// Valid Values: <code>standard</code> | <code>io1</code> | <code>gp2</code> |
   /// <code>st1</code> | <code>sc1</code>
-  @_s.JsonKey(name: 'VolumeType')
-  final String volumeType;
+  final String? volumeType;
 
   Ebs({
     this.deleteOnTermination,
@@ -5836,13 +5823,29 @@ class Ebs {
     );
   }
 
-  Map<String, dynamic> toJson() => _$EbsToJson(this);
+  Map<String, dynamic> toJson() {
+    final deleteOnTermination = this.deleteOnTermination;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final snapshotId = this.snapshotId;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (deleteOnTermination != null)
+        'DeleteOnTermination': deleteOnTermination,
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (iops != null) 'Iops': iops,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (volumeSize != null) 'VolumeSize': volumeSize,
+      if (volumeType != null) 'VolumeType': volumeType,
+    };
+  }
 }
 
 /// Describes an enabled metric.
 class EnabledMetric {
   /// The granularity of the metric. The only valid value is <code>1Minute</code>.
-  final String granularity;
+  final String? granularity;
 
   /// One of the following metrics:
   ///
@@ -5887,7 +5890,7 @@ class EnabledMetric {
   /// <code>GroupTotalCapacity</code>
   /// </li>
   /// </ul>
-  final String metric;
+  final String? metric;
 
   EnabledMetric({
     this.granularity,
@@ -5903,7 +5906,7 @@ class EnabledMetric {
 
 class EnterStandbyAnswer {
   /// The activities related to moving instances into <code>Standby</code> mode.
-  final List<Activity> activities;
+  final List<Activity>? activities;
 
   EnterStandbyAnswer({
     this.activities,
@@ -5918,7 +5921,7 @@ class EnterStandbyAnswer {
 
 class ExitStandbyAnswer {
   /// The activities related to moving instances out of <code>Standby</code> mode.
-  final List<Activity> activities;
+  final List<Activity>? activities;
 
   ExitStandbyAnswer({
     this.activities,
@@ -5937,20 +5940,20 @@ class FailedScheduledUpdateGroupActionRequest {
   final String scheduledActionName;
 
   /// The error code.
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message accompanying the error code.
-  final String errorMessage;
+  final String? errorMessage;
 
   FailedScheduledUpdateGroupActionRequest({
-    @_s.required this.scheduledActionName,
+    required this.scheduledActionName,
     this.errorCode,
     this.errorMessage,
   });
   factory FailedScheduledUpdateGroupActionRequest.fromXml(_s.XmlElement elem) {
     return FailedScheduledUpdateGroupActionRequest(
       scheduledActionName:
-          _s.extractXmlStringValue(elem, 'ScheduledActionName'),
+          _s.extractXmlStringValue(elem, 'ScheduledActionName')!,
       errorCode: _s.extractXmlStringValue(elem, 'ErrorCode'),
       errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
     );
@@ -5964,27 +5967,27 @@ class FailedScheduledUpdateGroupActionRequest {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html">Tagging
 /// Auto Scaling groups and instances</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name of the filter. The valid values are:
   /// <code>auto-scaling-group</code>, <code>key</code>, <code>value</code>, and
   /// <code>propagate-at-launch</code>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// One or more filter values. Filter values are case-sensitive.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   Filter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Describes an EC2 instance.
@@ -6010,26 +6013,26 @@ class Instance {
   final bool protectedFromScaleIn;
 
   /// The instance type of the EC2 instance.
-  final String instanceType;
+  final String? instanceType;
 
   /// The launch configuration associated with the instance.
-  final String launchConfigurationName;
+  final String? launchConfigurationName;
 
   /// The launch template for the instance.
-  final LaunchTemplateSpecification launchTemplate;
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The number of capacity units contributed by the instance based on its
   /// instance type.
   ///
   /// Valid Range: Minimum value of 1. Maximum value of 999.
-  final String weightedCapacity;
+  final String? weightedCapacity;
 
   Instance({
-    @_s.required this.availabilityZone,
-    @_s.required this.healthStatus,
-    @_s.required this.instanceId,
-    @_s.required this.lifecycleState,
-    @_s.required this.protectedFromScaleIn,
+    required this.availabilityZone,
+    required this.healthStatus,
+    required this.instanceId,
+    required this.lifecycleState,
+    required this.protectedFromScaleIn,
     this.instanceType,
     this.launchConfigurationName,
     this.launchTemplate,
@@ -6037,13 +6040,13 @@ class Instance {
   });
   factory Instance.fromXml(_s.XmlElement elem) {
     return Instance(
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
-      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus'),
-      instanceId: _s.extractXmlStringValue(elem, 'InstanceId'),
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
+      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
+      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
       lifecycleState:
-          _s.extractXmlStringValue(elem, 'LifecycleState')?.toLifecycleState(),
+          _s.extractXmlStringValue(elem, 'LifecycleState')!.toLifecycleState(),
       protectedFromScaleIn:
-          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn'),
+          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
       instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
       launchConfigurationName:
           _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
@@ -6056,10 +6059,19 @@ class Instance {
 }
 
 enum InstanceMetadataEndpointState {
-  @_s.JsonValue('disabled')
   disabled,
-  @_s.JsonValue('enabled')
   enabled,
+}
+
+extension on InstanceMetadataEndpointState {
+  String toValue() {
+    switch (this) {
+      case InstanceMetadataEndpointState.disabled:
+        return 'disabled';
+      case InstanceMetadataEndpointState.enabled:
+        return 'enabled';
+    }
+  }
 }
 
 extension on String {
@@ -6070,15 +6082,24 @@ extension on String {
       case 'enabled':
         return InstanceMetadataEndpointState.enabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InstanceMetadataEndpointState');
   }
 }
 
 enum InstanceMetadataHttpTokensState {
-  @_s.JsonValue('optional')
   optional,
-  @_s.JsonValue('required')
   required,
+}
+
+extension on InstanceMetadataHttpTokensState {
+  String toValue() {
+    switch (this) {
+      case InstanceMetadataHttpTokensState.optional:
+        return 'optional';
+      case InstanceMetadataHttpTokensState.required:
+        return 'required';
+    }
+  }
 }
 
 extension on String {
@@ -6089,7 +6110,8 @@ extension on String {
       case 'required':
         return InstanceMetadataHttpTokensState.required;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum InstanceMetadataHttpTokensState');
   }
 }
 
@@ -6097,11 +6119,6 @@ extension on String {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configuring
 /// the Instance Metadata Options</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceMetadataOptions {
   /// This parameter enables or disables the HTTP metadata endpoint on your
   /// instances. If the parameter is not specified, the default state is
@@ -6110,8 +6127,7 @@ class InstanceMetadataOptions {
   /// If you specify a value of <code>disabled</code>, you will not be able to
   /// access your instance metadata.
   /// </note>
-  @_s.JsonKey(name: 'HttpEndpoint')
-  final InstanceMetadataEndpointState httpEndpoint;
+  final InstanceMetadataEndpointState? httpEndpoint;
 
   /// The desired HTTP PUT response hop limit for instance metadata requests. The
   /// larger the number, the further instance metadata requests can travel.
@@ -6119,8 +6135,7 @@ class InstanceMetadataOptions {
   /// Default: 1
   ///
   /// Possible values: Integers from 1 to 64
-  @_s.JsonKey(name: 'HttpPutResponseHopLimit')
-  final int httpPutResponseHopLimit;
+  final int? httpPutResponseHopLimit;
 
   /// The state of token usage for your instance metadata requests. If the
   /// parameter is not specified in the request, the default state is
@@ -6136,8 +6151,7 @@ class InstanceMetadataOptions {
   /// with any instance metadata retrieval requests. In this state, retrieving the
   /// IAM role credentials always returns the version 2.0 credentials; the version
   /// 1.0 credentials are not available.
-  @_s.JsonKey(name: 'HttpTokens')
-  final InstanceMetadataHttpTokensState httpTokens;
+  final InstanceMetadataHttpTokensState? httpTokens;
 
   InstanceMetadataOptions({
     this.httpEndpoint,
@@ -6157,21 +6171,25 @@ class InstanceMetadataOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$InstanceMetadataOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final httpEndpoint = this.httpEndpoint;
+    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
+    final httpTokens = this.httpTokens;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.toValue(),
+      if (httpPutResponseHopLimit != null)
+        'HttpPutResponseHopLimit': httpPutResponseHopLimit,
+      if (httpTokens != null) 'HttpTokens': httpTokens.toValue(),
+    };
+  }
 }
 
 /// Describes whether detailed monitoring is enabled for the Auto Scaling
 /// instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceMonitoring {
   /// If <code>true</code>, detailed monitoring is enabled. Otherwise, basic
   /// monitoring is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   InstanceMonitoring({
     this.enabled,
@@ -6182,33 +6200,38 @@ class InstanceMonitoring {
     );
   }
 
-  Map<String, dynamic> toJson() => _$InstanceMonitoringToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// Describes an instance refresh for an Auto Scaling group.
 class InstanceRefresh {
   /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// The date and time at which the instance refresh ended.
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The instance refresh ID.
-  final String instanceRefreshId;
+  final String? instanceRefreshId;
 
   /// The number of instances remaining to update before the instance refresh is
   /// complete.
-  final int instancesToUpdate;
+  final int? instancesToUpdate;
 
   /// The percentage of the instance refresh that is complete. For each instance
   /// replacement, Amazon EC2 Auto Scaling tracks the instance's health status and
   /// warm-up time. When the instance's health status changes to healthy and the
   /// specified warm-up time passes, the instance is considered updated and added
   /// to the percentage complete.
-  final int percentageComplete;
+  final int? percentageComplete;
 
   /// The date and time at which the instance refresh began.
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The current status for the instance refresh operation:
   ///
@@ -6236,10 +6259,10 @@ class InstanceRefresh {
   /// <code>Cancelled</code> - The operation is cancelled.
   /// </li>
   /// </ul>
-  final InstanceRefreshStatus status;
+  final InstanceRefreshStatus? status;
 
   /// Provides more details about the current status of the instance refresh.
-  final String statusReason;
+  final String? statusReason;
 
   InstanceRefresh({
     this.autoScalingGroupName,
@@ -6268,18 +6291,31 @@ class InstanceRefresh {
 }
 
 enum InstanceRefreshStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Successful')
   successful,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelling')
   cancelling,
-  @_s.JsonValue('Cancelled')
   cancelled,
+}
+
+extension on InstanceRefreshStatus {
+  String toValue() {
+    switch (this) {
+      case InstanceRefreshStatus.pending:
+        return 'Pending';
+      case InstanceRefreshStatus.inProgress:
+        return 'InProgress';
+      case InstanceRefreshStatus.successful:
+        return 'Successful';
+      case InstanceRefreshStatus.failed:
+        return 'Failed';
+      case InstanceRefreshStatus.cancelling:
+        return 'Cancelling';
+      case InstanceRefreshStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
 }
 
 extension on String {
@@ -6298,7 +6334,7 @@ extension on String {
       case 'Cancelled':
         return InstanceRefreshStatus.cancelled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InstanceRefreshStatus');
   }
 }
 
@@ -6318,11 +6354,6 @@ extension on String {
 /// When scale out occurs, Amazon EC2 Auto Scaling launches instances based on
 /// the new settings. When scale in occurs, Amazon EC2 Auto Scaling terminates
 /// instances according to the group's termination policies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstancesDistribution {
   /// Indicates how to allocate instance types to fulfill On-Demand capacity. The
   /// only valid value is <code>prioritized</code>, which is also the default
@@ -6332,8 +6363,7 @@ class InstancesDistribution {
   /// capacity cannot be fulfilled using your highest priority instance, then the
   /// Auto Scaling groups launches the remaining capacity using the second
   /// priority instance type, and so on.
-  @_s.JsonKey(name: 'OnDemandAllocationStrategy')
-  final String onDemandAllocationStrategy;
+  final String? onDemandAllocationStrategy;
 
   /// The minimum amount of the Auto Scaling group's capacity that must be
   /// fulfilled by On-Demand Instances. This base portion is provisioned first as
@@ -6341,16 +6371,14 @@ class InstancesDistribution {
   /// for the instance types in the overrides, set the value of
   /// <code>OnDemandBaseCapacity</code> in terms of the number of capacity units,
   /// and not the number of instances.
-  @_s.JsonKey(name: 'OnDemandBaseCapacity')
-  final int onDemandBaseCapacity;
+  final int? onDemandBaseCapacity;
 
   /// Controls the percentages of On-Demand Instances and Spot Instances for your
   /// additional capacity beyond <code>OnDemandBaseCapacity</code>. Expressed as a
   /// number (for example, 20 specifies 20% On-Demand Instances, 80% Spot
   /// Instances). Defaults to 100 if not specified. If set to 100, only On-Demand
   /// Instances are provisioned.
-  @_s.JsonKey(name: 'OnDemandPercentageAboveBaseCapacity')
-  final int onDemandPercentageAboveBaseCapacity;
+  final int? onDemandPercentageAboveBaseCapacity;
 
   /// Indicates how to allocate instances across Spot Instance pools. If the
   /// allocation strategy is <code>capacity-optimized</code> (recommended), the
@@ -6360,24 +6388,21 @@ class InstancesDistribution {
   /// the Spot pools with the lowest price, and evenly allocates your instances
   /// across the number of Spot pools that you specify. Defaults to
   /// <code>lowest-price</code> if not specified.
-  @_s.JsonKey(name: 'SpotAllocationStrategy')
-  final String spotAllocationStrategy;
+  final String? spotAllocationStrategy;
 
   /// The number of Spot Instance pools across which to allocate your Spot
   /// Instances. The Spot pools are determined from the different instance types
   /// in the overrides. Valid only when the Spot allocation strategy is
   /// <code>lowest-price</code>. Value must be in the range of 1 to 20. Defaults
   /// to 2 if not specified.
-  @_s.JsonKey(name: 'SpotInstancePools')
-  final int spotInstancePools;
+  final int? spotInstancePools;
 
   /// The maximum price per unit hour that you are willing to pay for a Spot
   /// Instance. If you leave the value at its default (empty), Amazon EC2 Auto
   /// Scaling uses the On-Demand price as the maximum Spot price. To remove a
   /// value that you previously set, include the property but specify an empty
   /// string ("") for the value.
-  @_s.JsonKey(name: 'SpotMaxPrice')
-  final String spotMaxPrice;
+  final String? spotMaxPrice;
 
   InstancesDistribution({
     this.onDemandAllocationStrategy,
@@ -6401,7 +6426,28 @@ class InstancesDistribution {
     );
   }
 
-  Map<String, dynamic> toJson() => _$InstancesDistributionToJson(this);
+  Map<String, dynamic> toJson() {
+    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
+    final onDemandBaseCapacity = this.onDemandBaseCapacity;
+    final onDemandPercentageAboveBaseCapacity =
+        this.onDemandPercentageAboveBaseCapacity;
+    final spotAllocationStrategy = this.spotAllocationStrategy;
+    final spotInstancePools = this.spotInstancePools;
+    final spotMaxPrice = this.spotMaxPrice;
+    return {
+      if (onDemandAllocationStrategy != null)
+        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
+      if (onDemandBaseCapacity != null)
+        'OnDemandBaseCapacity': onDemandBaseCapacity,
+      if (onDemandPercentageAboveBaseCapacity != null)
+        'OnDemandPercentageAboveBaseCapacity':
+            onDemandPercentageAboveBaseCapacity,
+      if (spotAllocationStrategy != null)
+        'SpotAllocationStrategy': spotAllocationStrategy,
+      if (spotInstancePools != null) 'SpotInstancePools': spotInstancePools,
+      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
+    };
+  }
 }
 
 /// Describes a launch configuration.
@@ -6431,13 +6477,13 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html">Launching
   /// Auto Scaling instances in a VPC</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
-  final bool associatePublicIpAddress;
+  final bool? associatePublicIpAddress;
 
   /// A block device mapping, which specifies the block devices for the instance.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
   /// Device Mapping</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  final List<BlockDeviceMapping> blockDeviceMappings;
+  final List<BlockDeviceMapping>? blockDeviceMappings;
 
   /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to.
   /// For more information, see <a
@@ -6446,7 +6492,7 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html#as-ClassicLink">Linking
   /// EC2-Classic instances to a VPC</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
-  final String classicLinkVPCId;
+  final String? classicLinkVPCId;
 
   /// The IDs of one or more security groups for the VPC specified in
   /// <code>ClassicLinkVPCId</code>.
@@ -6457,7 +6503,7 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html#as-ClassicLink">Linking
   /// EC2-Classic instances to a VPC</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
-  final List<String> classicLinkVPCSecurityGroups;
+  final List<String>? classicLinkVPCSecurityGroups;
 
   /// Specifies whether the launch configuration is optimized for EBS I/O
   /// (<code>true</code>) or not (<code>false</code>). For more information, see
@@ -6465,7 +6511,7 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html">Amazon
   /// EBS-Optimized Instances</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
-  final bool ebsOptimized;
+  final bool? ebsOptimized;
 
   /// The name or the Amazon Resource Name (ARN) of the instance profile
   /// associated with the IAM role for the instance. The instance profile contains
@@ -6473,7 +6519,7 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html">IAM
   /// role for applications that run on Amazon EC2 instances</a> in the <i>Amazon
   /// EC2 Auto Scaling User Guide</i>.
-  final String iamInstanceProfile;
+  final String? iamInstanceProfile;
 
   /// Controls whether instances in this group are launched with detailed
   /// (<code>true</code>) or basic (<code>false</code>) monitoring.
@@ -6482,26 +6528,26 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html">Configure
   /// Monitoring for Auto Scaling Instances</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>.
-  final InstanceMonitoring instanceMonitoring;
+  final InstanceMonitoring? instanceMonitoring;
 
   /// The ID of the kernel associated with the AMI.
-  final String kernelId;
+  final String? kernelId;
 
   /// The name of the key pair.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
   /// EC2 Key Pairs</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  final String keyName;
+  final String? keyName;
 
   /// The Amazon Resource Name (ARN) of the launch configuration.
-  final String launchConfigurationARN;
+  final String? launchConfigurationARN;
 
   /// The metadata options for the instances. For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configuring
   /// the Instance Metadata Options</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
-  final InstanceMetadataOptions metadataOptions;
+  final InstanceMetadataOptions? metadataOptions;
 
   /// The tenancy of the instance, either <code>default</code> or
   /// <code>dedicated</code>. An instance with <code>dedicated</code> tenancy runs
@@ -6511,37 +6557,37 @@ class LaunchConfiguration {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-dedicated-instances.html">Configuring
   /// instance tenancy with Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
-  final String placementTenancy;
+  final String? placementTenancy;
 
   /// The ID of the RAM disk associated with the AMI.
-  final String ramdiskId;
+  final String? ramdiskId;
 
   /// A list that contains the security groups to assign to the instances in the
   /// Auto Scaling group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
   /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   /// The maximum hourly price to be paid for any Spot Instance launched to
   /// fulfill the request. Spot Instances are launched when the price you specify
   /// exceeds the current Spot price. For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-launch-spot-instances.html">Requesting
   /// Spot Instances</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-  final String spotPrice;
+  final String? spotPrice;
 
   /// The Base64-encoded user data to make available to the launched EC2
   /// instances. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
   /// metadata and user data</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
-  final String userData;
+  final String? userData;
 
   LaunchConfiguration({
-    @_s.required this.createdTime,
-    @_s.required this.imageId,
-    @_s.required this.instanceType,
-    @_s.required this.launchConfigurationName,
+    required this.createdTime,
+    required this.imageId,
+    required this.instanceType,
+    required this.launchConfigurationName,
     this.associatePublicIpAddress,
     this.blockDeviceMappings,
     this.classicLinkVPCId,
@@ -6561,11 +6607,11 @@ class LaunchConfiguration {
   });
   factory LaunchConfiguration.fromXml(_s.XmlElement elem) {
     return LaunchConfiguration(
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
-      imageId: _s.extractXmlStringValue(elem, 'ImageId'),
-      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      imageId: _s.extractXmlStringValue(elem, 'ImageId')!,
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType')!,
       launchConfigurationName:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationName')!,
       associatePublicIpAddress:
           _s.extractXmlBoolValue(elem, 'AssociatePublicIpAddress'),
       blockDeviceMappings: _s.extractXmlChild(elem, 'BlockDeviceMappings')?.let(
@@ -6608,20 +6654,19 @@ class LaunchConfigurationsType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   LaunchConfigurationsType({
-    @_s.required this.launchConfigurations,
+    required this.launchConfigurations,
     this.nextToken,
   });
   factory LaunchConfigurationsType.fromXml(_s.XmlElement elem) {
     return LaunchConfigurationsType(
       launchConfigurations: _s
-          .extractXmlChild(elem, 'LaunchConfigurations')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => LaunchConfiguration.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'LaunchConfigurations')!
+          .findElements('member')
+          .map((c) => LaunchConfiguration.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
@@ -6636,21 +6681,14 @@ class LaunchConfigurationsType {
 /// launches instances to match the new settings. When scale in occurs, Amazon
 /// EC2 Auto Scaling terminates instances according to the group's termination
 /// policies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LaunchTemplate {
   /// The launch template to use.
-  @_s.JsonKey(name: 'LaunchTemplateSpecification')
-  final LaunchTemplateSpecification launchTemplateSpecification;
+  final LaunchTemplateSpecification? launchTemplateSpecification;
 
   /// Any parameters that you specify override the same parameters in the launch
   /// template. If not provided, Amazon EC2 Auto Scaling uses the instance type
   /// specified in the launch template when it launches an instance.
-  @_s.JsonKey(name: 'Overrides')
-  final List<LaunchTemplateOverrides> overrides;
+  final List<LaunchTemplateOverrides>? overrides;
 
   LaunchTemplate({
     this.launchTemplateSpecification,
@@ -6668,7 +6706,15 @@ class LaunchTemplate {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LaunchTemplateToJson(this);
+  Map<String, dynamic> toJson() {
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final overrides = this.overrides;
+    return {
+      if (launchTemplateSpecification != null)
+        'LaunchTemplateSpecification': launchTemplateSpecification,
+      if (overrides != null) 'Overrides': overrides,
+    };
+  }
 }
 
 /// Describes an override for a launch template. The maximum number of instance
@@ -6676,19 +6722,13 @@ class LaunchTemplate {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-override-options.html">Configuring
 /// overrides</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LaunchTemplateOverrides {
   /// The instance type, such as <code>m3.xlarge</code>. You must use an instance
   /// type that is supported in your requested Region and Availability Zones. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
   /// types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// Provides the launch template to be used when launching the instance type.
   /// For example, some instance types might require a launch template with a
@@ -6698,8 +6738,7 @@ class LaunchTemplateOverrides {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-launch-template-overrides.html">Specifying
   /// a different launch template for an instance type</a> in the <i>Amazon EC2
   /// Auto Scaling User Guide</i>.
-  @_s.JsonKey(name: 'LaunchTemplateSpecification')
-  final LaunchTemplateSpecification launchTemplateSpecification;
+  final LaunchTemplateSpecification? launchTemplateSpecification;
 
   /// The number of capacity units provided by the specified instance type in
   /// terms of virtual CPUs, memory, storage, throughput, or other relative
@@ -6714,8 +6753,7 @@ class LaunchTemplateOverrides {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html">Instance
   /// weighting for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>. Value must be in the range of 1 to 999.
-  @_s.JsonKey(name: 'WeightedCapacity')
-  final String weightedCapacity;
+  final String? weightedCapacity;
 
   LaunchTemplateOverrides({
     this.instanceType,
@@ -6732,7 +6770,17 @@ class LaunchTemplateOverrides {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LaunchTemplateOverridesToJson(this);
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchTemplateSpecification != null)
+        'LaunchTemplateSpecification': launchTemplateSpecification,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
 }
 
 /// Describes the Amazon EC2 launch template and the launch template version
@@ -6743,11 +6791,6 @@ class LaunchTemplateOverrides {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html">Creating
 /// a launch template for an Auto Scaling group</a> in the <i>Amazon EC2 Auto
 /// Scaling User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LaunchTemplateSpecification {
   /// The ID of the launch template. To get the template ID, use the Amazon EC2 <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
@@ -6757,8 +6800,7 @@ class LaunchTemplateSpecification {
   ///
   /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
   /// <code>LaunchTemplateName</code>.
-  @_s.JsonKey(name: 'LaunchTemplateId')
-  final String launchTemplateId;
+  final String? launchTemplateId;
 
   /// The name of the launch template. To get the template name, use the Amazon
   /// EC2 <a
@@ -6769,8 +6811,7 @@ class LaunchTemplateSpecification {
   ///
   /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
   /// <code>LaunchTemplateName</code>.
-  @_s.JsonKey(name: 'LaunchTemplateName')
-  final String launchTemplateName;
+  final String? launchTemplateName;
 
   /// The version number, <code>$Latest</code>, or <code>$Default</code>. To get
   /// the version number, use the Amazon EC2 <a
@@ -6783,8 +6824,7 @@ class LaunchTemplateSpecification {
   /// value is <code>$Default</code>, Amazon EC2 Auto Scaling selects the default
   /// version of the launch template when launching instances. The default value
   /// is <code>$Default</code>.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   LaunchTemplateSpecification({
     this.launchTemplateId,
@@ -6799,7 +6839,16 @@ class LaunchTemplateSpecification {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LaunchTemplateSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Describes a lifecycle hook, which tells Amazon EC2 Auto Scaling that you
@@ -6807,26 +6856,26 @@ class LaunchTemplateSpecification {
 /// instances.
 class LifecycleHook {
   /// The name of the Auto Scaling group for the lifecycle hook.
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// Defines the action the Auto Scaling group should take when the lifecycle
   /// hook timeout elapses or if an unexpected failure occurs. The possible values
   /// are <code>CONTINUE</code> and <code>ABANDON</code>.
-  final String defaultResult;
+  final String? defaultResult;
 
   /// The maximum time, in seconds, that an instance can remain in a
   /// <code>Pending:Wait</code> or <code>Terminating:Wait</code> state. The
   /// maximum is 172800 seconds (48 hours) or 100 times
   /// <code>HeartbeatTimeout</code>, whichever is smaller.
-  final int globalTimeout;
+  final int? globalTimeout;
 
   /// The maximum time, in seconds, that can elapse before the lifecycle hook
   /// times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs
   /// the action that you specified in the <code>DefaultResult</code> parameter.
-  final int heartbeatTimeout;
+  final int? heartbeatTimeout;
 
   /// The name of the lifecycle hook.
-  final String lifecycleHookName;
+  final String? lifecycleHookName;
 
   /// The state of the EC2 instance to which to attach the lifecycle hook. The
   /// following are possible values:
@@ -6839,20 +6888,20 @@ class LifecycleHook {
   /// autoscaling:EC2_INSTANCE_TERMINATING
   /// </li>
   /// </ul>
-  final String lifecycleTransition;
+  final String? lifecycleTransition;
 
   /// Additional information that is included any time Amazon EC2 Auto Scaling
   /// sends a message to the notification target.
-  final String notificationMetadata;
+  final String? notificationMetadata;
 
   /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to
   /// when an instance is in the transition state for the lifecycle hook. The
   /// notification target can be either an SQS queue or an SNS topic.
-  final String notificationTargetARN;
+  final String? notificationTargetARN;
 
   /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
   /// specified notification target.
-  final String roleARN;
+  final String? roleARN;
 
   LifecycleHook({
     this.autoScalingGroupName,
@@ -6919,14 +6968,8 @@ class LifecycleHook {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
 /// EC2 Auto Scaling lifecycle hooks</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LifecycleHookSpecification {
   /// The name of the lifecycle hook.
-  @_s.JsonKey(name: 'LifecycleHookName')
   final String lifecycleHookName;
 
   /// The state of the EC2 instance to which you want to attach the lifecycle
@@ -6940,15 +6983,13 @@ class LifecycleHookSpecification {
   /// autoscaling:EC2_INSTANCE_TERMINATING
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LifecycleTransition')
   final String lifecycleTransition;
 
   /// Defines the action the Auto Scaling group should take when the lifecycle
   /// hook timeout elapses or if an unexpected failure occurs. The valid values
   /// are <code>CONTINUE</code> and <code>ABANDON</code>. The default value is
   /// <code>ABANDON</code>.
-  @_s.JsonKey(name: 'DefaultResult')
-  final String defaultResult;
+  final String? defaultResult;
 
   /// The maximum time, in seconds, that can elapse before the lifecycle hook
   /// times out.
@@ -6957,65 +6998,100 @@ class LifecycleHookSpecification {
   /// that you specified in the <code>DefaultResult</code> parameter. You can
   /// prevent the lifecycle hook from timing out by calling
   /// <a>RecordLifecycleActionHeartbeat</a>.
-  @_s.JsonKey(name: 'HeartbeatTimeout')
-  final int heartbeatTimeout;
+  final int? heartbeatTimeout;
 
   /// Additional information that you want to include any time Amazon EC2 Auto
   /// Scaling sends a message to the notification target.
-  @_s.JsonKey(name: 'NotificationMetadata')
-  final String notificationMetadata;
+  final String? notificationMetadata;
 
   /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to
   /// when an instance is in the transition state for the lifecycle hook. The
   /// notification target can be either an SQS queue or an SNS topic.
-  @_s.JsonKey(name: 'NotificationTargetARN')
-  final String notificationTargetARN;
+  final String? notificationTargetARN;
 
   /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
   /// specified notification target, for example, an Amazon SNS topic or an Amazon
   /// SQS queue.
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   LifecycleHookSpecification({
-    @_s.required this.lifecycleHookName,
-    @_s.required this.lifecycleTransition,
+    required this.lifecycleHookName,
+    required this.lifecycleTransition,
     this.defaultResult,
     this.heartbeatTimeout,
     this.notificationMetadata,
     this.notificationTargetARN,
     this.roleARN,
   });
-  Map<String, dynamic> toJson() => _$LifecycleHookSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final lifecycleHookName = this.lifecycleHookName;
+    final lifecycleTransition = this.lifecycleTransition;
+    final defaultResult = this.defaultResult;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final notificationMetadata = this.notificationMetadata;
+    final notificationTargetARN = this.notificationTargetARN;
+    final roleARN = this.roleARN;
+    return {
+      'LifecycleHookName': lifecycleHookName,
+      'LifecycleTransition': lifecycleTransition,
+      if (defaultResult != null) 'DefaultResult': defaultResult,
+      if (heartbeatTimeout != null) 'HeartbeatTimeout': heartbeatTimeout,
+      if (notificationMetadata != null)
+        'NotificationMetadata': notificationMetadata,
+      if (notificationTargetARN != null)
+        'NotificationTargetARN': notificationTargetARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 enum LifecycleState {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Pending:Wait')
   pendingWait,
-  @_s.JsonValue('Pending:Proceed')
   pendingProceed,
-  @_s.JsonValue('Quarantined')
   quarantined,
-  @_s.JsonValue('InService')
   inService,
-  @_s.JsonValue('Terminating')
   terminating,
-  @_s.JsonValue('Terminating:Wait')
   terminatingWait,
-  @_s.JsonValue('Terminating:Proceed')
   terminatingProceed,
-  @_s.JsonValue('Terminated')
   terminated,
-  @_s.JsonValue('Detaching')
   detaching,
-  @_s.JsonValue('Detached')
   detached,
-  @_s.JsonValue('EnteringStandby')
   enteringStandby,
-  @_s.JsonValue('Standby')
   standby,
+}
+
+extension on LifecycleState {
+  String toValue() {
+    switch (this) {
+      case LifecycleState.pending:
+        return 'Pending';
+      case LifecycleState.pendingWait:
+        return 'Pending:Wait';
+      case LifecycleState.pendingProceed:
+        return 'Pending:Proceed';
+      case LifecycleState.quarantined:
+        return 'Quarantined';
+      case LifecycleState.inService:
+        return 'InService';
+      case LifecycleState.terminating:
+        return 'Terminating';
+      case LifecycleState.terminatingWait:
+        return 'Terminating:Wait';
+      case LifecycleState.terminatingProceed:
+        return 'Terminating:Proceed';
+      case LifecycleState.terminated:
+        return 'Terminated';
+      case LifecycleState.detaching:
+        return 'Detaching';
+      case LifecycleState.detached:
+        return 'Detached';
+      case LifecycleState.enteringStandby:
+        return 'EnteringStandby';
+      case LifecycleState.standby:
+        return 'Standby';
+    }
+  }
 }
 
 extension on String {
@@ -7048,7 +7124,7 @@ extension on String {
       case 'Standby':
         return LifecycleState.standby;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum LifecycleState');
   }
 }
 
@@ -7066,7 +7142,7 @@ extension on String {
 /// the load balancer remains in the <code>Added</code> state.
 class LoadBalancerState {
   /// The name of the load balancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   /// One of the following load balancer states:
   ///
@@ -7094,7 +7170,7 @@ class LoadBalancerState {
   /// load balancer.
   /// </li>
   /// </ul>
-  final String state;
+  final String? state;
 
   LoadBalancerState({
     this.loadBalancerName,
@@ -7119,7 +7195,7 @@ class LoadBalancerState {
 /// remains in the <code>Added</code> state.
 class LoadBalancerTargetGroupState {
   /// The Amazon Resource Name (ARN) of the target group.
-  final String loadBalancerTargetGroupARN;
+  final String? loadBalancerTargetGroupARN;
 
   /// The state of the target group.
   ///
@@ -7147,7 +7223,7 @@ class LoadBalancerTargetGroupState {
   /// target group.
   /// </li>
   /// </ul>
-  final String state;
+  final String? state;
 
   LoadBalancerTargetGroupState({
     this.loadBalancerTargetGroupARN,
@@ -7207,7 +7283,7 @@ class MetricCollectionType {
   /// <code>GroupTotalCapacity</code>
   /// </li>
   /// </ul>
-  final String metric;
+  final String? metric;
 
   MetricCollectionType({
     this.metric,
@@ -7220,38 +7296,38 @@ class MetricCollectionType {
 }
 
 /// Describes the dimension of a metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetricDimension {
   /// The name of the dimension.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   MetricDimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
   factory MetricDimension.fromXml(_s.XmlElement elem) {
     return MetricDimension(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
   }
 
-  Map<String, dynamic> toJson() => _$MetricDimensionToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 /// Describes a granularity of a metric.
 class MetricGranularityType {
   /// The granularity. The only valid value is <code>1Minute</code>.
-  final String granularity;
+  final String? granularity;
 
   MetricGranularityType({
     this.granularity,
@@ -7264,16 +7340,28 @@ class MetricGranularityType {
 }
 
 enum MetricStatistic {
-  @_s.JsonValue('Average')
   average,
-  @_s.JsonValue('Minimum')
   minimum,
-  @_s.JsonValue('Maximum')
   maximum,
-  @_s.JsonValue('SampleCount')
   sampleCount,
-  @_s.JsonValue('Sum')
   sum,
+}
+
+extension on MetricStatistic {
+  String toValue() {
+    switch (this) {
+      case MetricStatistic.average:
+        return 'Average';
+      case MetricStatistic.minimum:
+        return 'Minimum';
+      case MetricStatistic.maximum:
+        return 'Maximum';
+      case MetricStatistic.sampleCount:
+        return 'SampleCount';
+      case MetricStatistic.sum:
+        return 'Sum';
+    }
+  }
 }
 
 extension on String {
@@ -7290,19 +7378,30 @@ extension on String {
       case 'Sum':
         return MetricStatistic.sum;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MetricStatistic');
   }
 }
 
 enum MetricType {
-  @_s.JsonValue('ASGAverageCPUUtilization')
   aSGAverageCPUUtilization,
-  @_s.JsonValue('ASGAverageNetworkIn')
   aSGAverageNetworkIn,
-  @_s.JsonValue('ASGAverageNetworkOut')
   aSGAverageNetworkOut,
-  @_s.JsonValue('ALBRequestCountPerTarget')
   aLBRequestCountPerTarget,
+}
+
+extension on MetricType {
+  String toValue() {
+    switch (this) {
+      case MetricType.aSGAverageCPUUtilization:
+        return 'ASGAverageCPUUtilization';
+      case MetricType.aSGAverageNetworkIn:
+        return 'ASGAverageNetworkIn';
+      case MetricType.aSGAverageNetworkOut:
+        return 'ASGAverageNetworkOut';
+      case MetricType.aLBRequestCountPerTarget:
+        return 'ALBRequestCountPerTarget';
+    }
+  }
 }
 
 extension on String {
@@ -7317,7 +7416,7 @@ extension on String {
       case 'ALBRequestCountPerTarget':
         return MetricType.aLBRequestCountPerTarget;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MetricType');
   }
 }
 
@@ -7333,22 +7432,15 @@ extension on String {
 /// can create it for an existing group by updating the group to specify
 /// <code>MixedInstancesPolicy</code> as the top-level parameter instead of a
 /// launch configuration or launch template.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MixedInstancesPolicy {
   /// Specifies the instances distribution. If not provided, the value for each
   /// parameter in <code>InstancesDistribution</code> uses a default value.
-  @_s.JsonKey(name: 'InstancesDistribution')
-  final InstancesDistribution instancesDistribution;
+  final InstancesDistribution? instancesDistribution;
 
   /// Specifies the launch template to use and optionally the instance types
   /// (overrides) that are used to provision EC2 instances to fulfill On-Demand
   /// and Spot capacities. Required when creating a mixed instances policy.
-  @_s.JsonKey(name: 'LaunchTemplate')
-  final LaunchTemplate launchTemplate;
+  final LaunchTemplate? launchTemplate;
 
   MixedInstancesPolicy({
     this.instancesDistribution,
@@ -7365,13 +7457,21 @@ class MixedInstancesPolicy {
     );
   }
 
-  Map<String, dynamic> toJson() => _$MixedInstancesPolicyToJson(this);
+  Map<String, dynamic> toJson() {
+    final instancesDistribution = this.instancesDistribution;
+    final launchTemplate = this.launchTemplate;
+    return {
+      if (instancesDistribution != null)
+        'InstancesDistribution': instancesDistribution,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+    };
+  }
 }
 
 /// Describes a notification.
 class NotificationConfiguration {
   /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// One of the following event notification types:
   ///
@@ -7392,11 +7492,11 @@ class NotificationConfiguration {
   /// <code>autoscaling:TEST_NOTIFICATION</code>
   /// </li>
   /// </ul>
-  final String notificationType;
+  final String? notificationType;
 
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   /// (Amazon SNS) topic.
-  final String topicARN;
+  final String? topicARN;
 
   NotificationConfiguration({
     this.autoScalingGroupName,
@@ -7418,10 +7518,10 @@ class PoliciesType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   /// The scaling policies.
-  final List<ScalingPolicy> scalingPolicies;
+  final List<ScalingPolicy>? scalingPolicies;
 
   PoliciesType({
     this.nextToken,
@@ -7442,10 +7542,10 @@ class PoliciesType {
 /// Contains the output of PutScalingPolicy.
 class PolicyARNType {
   /// The CloudWatch alarms created for the target tracking scaling policy.
-  final List<Alarm> alarms;
+  final List<Alarm>? alarms;
 
   /// The Amazon Resource Name (ARN) of the policy.
-  final String policyARN;
+  final String? policyARN;
 
   PolicyARNType({
     this.alarms,
@@ -7462,11 +7562,6 @@ class PolicyARNType {
 
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Amazon EC2 Auto Scaling.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PredefinedMetricSpecification {
   /// The metric type. The following predefined metrics are available:
   ///
@@ -7488,7 +7583,6 @@ class PredefinedMetricSpecification {
   /// target in an Application Load Balancer target group.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'PredefinedMetricType')
   final MetricType predefinedMetricType;
 
   /// Identifies the resource associated with the metric type. You can't specify a
@@ -7520,23 +7614,29 @@ class PredefinedMetricSpecification {
   /// API operation. To find the ARN for the target group, use the <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
   /// API operation.
-  @_s.JsonKey(name: 'ResourceLabel')
-  final String resourceLabel;
+  final String? resourceLabel;
 
   PredefinedMetricSpecification({
-    @_s.required this.predefinedMetricType,
+    required this.predefinedMetricType,
     this.resourceLabel,
   });
   factory PredefinedMetricSpecification.fromXml(_s.XmlElement elem) {
     return PredefinedMetricSpecification(
       predefinedMetricType: _s
-          .extractXmlStringValue(elem, 'PredefinedMetricType')
-          ?.toMetricType(),
+          .extractXmlStringValue(elem, 'PredefinedMetricType')!
+          .toMetricType(),
       resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$PredefinedMetricSpecificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedMetricType': predefinedMetricType.toValue(),
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
 }
 
 /// Describes a process type.
@@ -7579,18 +7679,18 @@ class ProcessType {
   final String processName;
 
   ProcessType({
-    @_s.required this.processName,
+    required this.processName,
   });
   factory ProcessType.fromXml(_s.XmlElement elem) {
     return ProcessType(
-      processName: _s.extractXmlStringValue(elem, 'ProcessName'),
+      processName: _s.extractXmlStringValue(elem, 'ProcessName')!,
     );
   }
 }
 
 class ProcessesType {
   /// The names of the process types.
-  final List<ProcessType> processes;
+  final List<ProcessType>? processes;
 
   ProcessesType({
     this.processes,
@@ -7624,35 +7724,35 @@ class RecordLifecycleActionHeartbeatAnswer {
 }
 
 /// Describes information used to start an instance refresh.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RefreshPreferences {
   /// The number of seconds until a newly launched instance is configured and
   /// ready to use. During this time, Amazon EC2 Auto Scaling does not immediately
   /// move on to the next replacement. The default is to use the value for the
   /// health check grace period defined for the group.
-  @_s.JsonKey(name: 'InstanceWarmup')
-  final int instanceWarmup;
+  final int? instanceWarmup;
 
   /// The amount of capacity in the Auto Scaling group that must remain healthy
   /// during an instance refresh to allow the operation to continue, as a
   /// percentage of the desired capacity of the Auto Scaling group (rounded up to
   /// the nearest integer). The default is <code>90</code>.
-  @_s.JsonKey(name: 'MinHealthyPercentage')
-  final int minHealthyPercentage;
+  final int? minHealthyPercentage;
 
   RefreshPreferences({
     this.instanceWarmup,
     this.minHealthyPercentage,
   });
-  Map<String, dynamic> toJson() => _$RefreshPreferencesToJson(this);
+  Map<String, dynamic> toJson() {
+    final instanceWarmup = this.instanceWarmup;
+    final minHealthyPercentage = this.minHealthyPercentage;
+    return {
+      if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup,
+      if (minHealthyPercentage != null)
+        'MinHealthyPercentage': minHealthyPercentage,
+    };
+  }
 }
 
 enum RefreshStrategy {
-  @_s.JsonValue('Rolling')
   rolling,
 }
 
@@ -7662,7 +7762,6 @@ extension on RefreshStrategy {
       case RefreshStrategy.rolling:
         return 'Rolling';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7672,35 +7771,54 @@ extension on String {
       case 'Rolling':
         return RefreshStrategy.rolling;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RefreshStrategy');
   }
 }
 
 enum ScalingActivityStatusCode {
-  @_s.JsonValue('PendingSpotBidPlacement')
   pendingSpotBidPlacement,
-  @_s.JsonValue('WaitingForSpotInstanceRequestId')
   waitingForSpotInstanceRequestId,
-  @_s.JsonValue('WaitingForSpotInstanceId')
   waitingForSpotInstanceId,
-  @_s.JsonValue('WaitingForInstanceId')
   waitingForInstanceId,
-  @_s.JsonValue('PreInService')
   preInService,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('WaitingForELBConnectionDraining')
   waitingForELBConnectionDraining,
-  @_s.JsonValue('MidLifecycleAction')
   midLifecycleAction,
-  @_s.JsonValue('WaitingForInstanceWarmup')
   waitingForInstanceWarmup,
-  @_s.JsonValue('Successful')
   successful,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelled')
   cancelled,
+}
+
+extension on ScalingActivityStatusCode {
+  String toValue() {
+    switch (this) {
+      case ScalingActivityStatusCode.pendingSpotBidPlacement:
+        return 'PendingSpotBidPlacement';
+      case ScalingActivityStatusCode.waitingForSpotInstanceRequestId:
+        return 'WaitingForSpotInstanceRequestId';
+      case ScalingActivityStatusCode.waitingForSpotInstanceId:
+        return 'WaitingForSpotInstanceId';
+      case ScalingActivityStatusCode.waitingForInstanceId:
+        return 'WaitingForInstanceId';
+      case ScalingActivityStatusCode.preInService:
+        return 'PreInService';
+      case ScalingActivityStatusCode.inProgress:
+        return 'InProgress';
+      case ScalingActivityStatusCode.waitingForELBConnectionDraining:
+        return 'WaitingForELBConnectionDraining';
+      case ScalingActivityStatusCode.midLifecycleAction:
+        return 'MidLifecycleAction';
+      case ScalingActivityStatusCode.waitingForInstanceWarmup:
+        return 'WaitingForInstanceWarmup';
+      case ScalingActivityStatusCode.successful:
+        return 'Successful';
+      case ScalingActivityStatusCode.failed:
+        return 'Failed';
+      case ScalingActivityStatusCode.cancelled:
+        return 'Cancelled';
+    }
+  }
 }
 
 extension on String {
@@ -7731,7 +7849,7 @@ extension on String {
       case 'Cancelled':
         return ScalingActivityStatusCode.cancelled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ScalingActivityStatusCode');
   }
 }
 
@@ -7741,42 +7859,42 @@ class ScalingPolicy {
   /// absolute number or a percentage). The valid values are
   /// <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
   /// <code>PercentChangeInCapacity</code>.
-  final String adjustmentType;
+  final String? adjustmentType;
 
   /// The CloudWatch alarms related to the policy.
-  final List<Alarm> alarms;
+  final List<Alarm>? alarms;
 
   /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// The duration of the policy's cooldown period, in seconds.
-  final int cooldown;
+  final int? cooldown;
 
   /// Indicates whether the policy is enabled (<code>true</code>) or disabled
   /// (<code>false</code>).
-  final bool enabled;
+  final bool? enabled;
 
   /// The estimated time, in seconds, until a newly launched instance can
   /// contribute to the CloudWatch metrics.
-  final int estimatedInstanceWarmup;
+  final int? estimatedInstanceWarmup;
 
   /// The aggregation type for the CloudWatch metrics. The valid values are
   /// <code>Minimum</code>, <code>Maximum</code>, and <code>Average</code>.
-  final String metricAggregationType;
+  final String? metricAggregationType;
 
   /// The minimum value to scale by when the adjustment type is
   /// <code>PercentChangeInCapacity</code>.
-  final int minAdjustmentMagnitude;
+  final int? minAdjustmentMagnitude;
 
   /// Available for backward compatibility. Use
   /// <code>MinAdjustmentMagnitude</code> instead.
-  final int minAdjustmentStep;
+  final int? minAdjustmentStep;
 
   /// The Amazon Resource Name (ARN) of the policy.
-  final String policyARN;
+  final String? policyARN;
 
   /// The name of the scaling policy.
-  final String policyName;
+  final String? policyName;
 
   /// One of the following policy types:
   ///
@@ -7797,19 +7915,19 @@ class ScalingPolicy {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html">Step
   /// and simple scaling policies</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
-  final String policyType;
+  final String? policyType;
 
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
   /// from the current capacity.
-  final int scalingAdjustment;
+  final int? scalingAdjustment;
 
   /// A set of adjustments that enable you to scale based on the size of the alarm
   /// breach.
-  final List<StepAdjustment> stepAdjustments;
+  final List<StepAdjustment>? stepAdjustments;
 
   /// A target tracking scaling policy.
-  final TargetTrackingConfiguration targetTrackingConfiguration;
+  final TargetTrackingConfiguration? targetTrackingConfiguration;
 
   ScalingPolicy({
     this.adjustmentType,
@@ -7865,10 +7983,10 @@ class ScheduledActionsType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   /// The scheduled actions.
-  final List<ScheduledUpdateGroupAction> scheduledUpdateGroupActions;
+  final List<ScheduledUpdateGroupAction>? scheduledUpdateGroupActions;
 
   ScheduledActionsType({
     this.nextToken,
@@ -7890,41 +8008,41 @@ class ScheduledActionsType {
 /// Describes a scheduled scaling action.
 class ScheduledUpdateGroupAction {
   /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
+  final String? autoScalingGroupName;
 
   /// The desired capacity is the initial capacity of the Auto Scaling group after
   /// the scheduled action runs and the capacity it attempts to maintain.
-  final int desiredCapacity;
+  final int? desiredCapacity;
 
   /// The date and time in UTC for the recurring schedule to end. For example,
   /// <code>"2019-06-01T00:00:00Z"</code>.
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The maximum size of the Auto Scaling group.
-  final int maxSize;
+  final int? maxSize;
 
   /// The minimum size of the Auto Scaling group.
-  final int minSize;
+  final int? minSize;
 
   /// The recurring schedule for the action, in Unix cron syntax format.
   ///
   /// When <code>StartTime</code> and <code>EndTime</code> are specified with
   /// <code>Recurrence</code>, they form the boundaries of when the recurring
   /// action starts and stops.
-  final String recurrence;
+  final String? recurrence;
 
   /// The Amazon Resource Name (ARN) of the scheduled action.
-  final String scheduledActionARN;
+  final String? scheduledActionARN;
 
   /// The name of the scheduled action.
-  final String scheduledActionName;
+  final String? scheduledActionName;
 
   /// The date and time in UTC for this action to start. For example,
   /// <code>"2019-06-01T00:00:00Z"</code>.
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// This parameter is no longer used.
-  final DateTime time;
+  final DateTime? time;
 
   ScheduledUpdateGroupAction({
     this.autoScalingGroupName,
@@ -7961,34 +8079,23 @@ class ScheduledUpdateGroupAction {
 ///
 /// When updating a scheduled scaling action, all optional parameters are left
 /// unchanged if not specified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduledUpdateGroupActionRequest {
   /// The name of the scaling action.
-  @_s.JsonKey(name: 'ScheduledActionName')
   final String scheduledActionName;
 
   /// The desired capacity is the initial capacity of the Auto Scaling group after
   /// the scheduled action runs and the capacity it attempts to maintain.
-  @_s.JsonKey(name: 'DesiredCapacity')
-  final int desiredCapacity;
+  final int? desiredCapacity;
 
   /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
   /// does not perform the action after this time.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The maximum size of the Auto Scaling group.
-  @_s.JsonKey(name: 'MaxSize')
-  final int maxSize;
+  final int? maxSize;
 
   /// The minimum size of the Auto Scaling group.
-  @_s.JsonKey(name: 'MinSize')
-  final int minSize;
+  final int? minSize;
 
   /// The recurring schedule for the action, in Unix cron syntax format. This
   /// format consists of five fields separated by white spaces: [Minute] [Hour]
@@ -7999,8 +8106,7 @@ class ScheduledUpdateGroupActionRequest {
   /// When <code>StartTime</code> and <code>EndTime</code> are specified with
   /// <code>Recurrence</code>, they form the boundaries of when the recurring
   /// action starts and stops.
-  @_s.JsonKey(name: 'Recurrence')
-  final String recurrence;
+  final String? recurrence;
 
   /// The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in
   /// UTC/GMT only and in quotes (for example,
@@ -8012,12 +8118,10 @@ class ScheduledUpdateGroupActionRequest {
   ///
   /// If you try to schedule the action in the past, Amazon EC2 Auto Scaling
   /// returns an error message.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   ScheduledUpdateGroupActionRequest({
-    @_s.required this.scheduledActionName,
+    required this.scheduledActionName,
     this.desiredCapacity,
     this.endTime,
     this.maxSize,
@@ -8025,8 +8129,24 @@ class ScheduledUpdateGroupActionRequest {
     this.recurrence,
     this.startTime,
   });
-  Map<String, dynamic> toJson() =>
-      _$ScheduledUpdateGroupActionRequestToJson(this);
+  Map<String, dynamic> toJson() {
+    final scheduledActionName = this.scheduledActionName;
+    final desiredCapacity = this.desiredCapacity;
+    final endTime = this.endTime;
+    final maxSize = this.maxSize;
+    final minSize = this.minSize;
+    final recurrence = this.recurrence;
+    final startTime = this.startTime;
+    return {
+      'ScheduledActionName': scheduledActionName,
+      if (desiredCapacity != null) 'DesiredCapacity': desiredCapacity,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (maxSize != null) 'MaxSize': maxSize,
+      if (minSize != null) 'MinSize': minSize,
+      if (recurrence != null) 'Recurrence': recurrence,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
 class SetInstanceProtectionAnswer {
@@ -8040,7 +8160,7 @@ class SetInstanceProtectionAnswer {
 
 class StartInstanceRefreshAnswer {
   /// A unique ID for tracking the progress of the request.
-  final String instanceRefreshId;
+  final String? instanceRefreshId;
 
   StartInstanceRefreshAnswer({
     this.instanceRefreshId,
@@ -8091,16 +8211,10 @@ class StartInstanceRefreshAnswer {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-steps">Step
 /// adjustments</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
   /// from the current capacity.
-  @_s.JsonKey(name: 'ScalingAdjustment')
   final int scalingAdjustment;
 
   /// The lower bound for the difference between the alarm threshold and the
@@ -8109,8 +8223,7 @@ class StepAdjustment {
   /// threshold plus the lower bound). Otherwise, it is exclusive (the metric must
   /// be greater than the threshold plus the lower bound). A null value indicates
   /// negative infinity.
-  @_s.JsonKey(name: 'MetricIntervalLowerBound')
-  final double metricIntervalLowerBound;
+  final double? metricIntervalLowerBound;
 
   /// The upper bound for the difference between the alarm threshold and the
   /// CloudWatch metric. If the metric value is above the breach threshold, the
@@ -8120,17 +8233,16 @@ class StepAdjustment {
   /// positive infinity.
   ///
   /// The upper bound must be greater than the lower bound.
-  @_s.JsonKey(name: 'MetricIntervalUpperBound')
-  final double metricIntervalUpperBound;
+  final double? metricIntervalUpperBound;
 
   StepAdjustment({
-    @_s.required this.scalingAdjustment,
+    required this.scalingAdjustment,
     this.metricIntervalLowerBound,
     this.metricIntervalUpperBound,
   });
   factory StepAdjustment.fromXml(_s.XmlElement elem) {
     return StepAdjustment(
-      scalingAdjustment: _s.extractXmlIntValue(elem, 'ScalingAdjustment'),
+      scalingAdjustment: _s.extractXmlIntValue(elem, 'ScalingAdjustment')!,
       metricIntervalLowerBound:
           _s.extractXmlDoubleValue(elem, 'MetricIntervalLowerBound'),
       metricIntervalUpperBound:
@@ -8138,7 +8250,18 @@ class StepAdjustment {
     );
   }
 
-  Map<String, dynamic> toJson() => _$StepAdjustmentToJson(this);
+  Map<String, dynamic> toJson() {
+    final scalingAdjustment = this.scalingAdjustment;
+    final metricIntervalLowerBound = this.metricIntervalLowerBound;
+    final metricIntervalUpperBound = this.metricIntervalUpperBound;
+    return {
+      'ScalingAdjustment': scalingAdjustment,
+      if (metricIntervalLowerBound != null)
+        'MetricIntervalLowerBound': metricIntervalLowerBound,
+      if (metricIntervalUpperBound != null)
+        'MetricIntervalUpperBound': metricIntervalUpperBound,
+    };
+  }
 }
 
 /// Describes an auto scaling process that has been suspended.
@@ -8148,10 +8271,10 @@ class StepAdjustment {
 /// processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
 class SuspendedProcess {
   /// The name of the suspended process.
-  final String processName;
+  final String? processName;
 
   /// The reason that the process was suspended.
-  final String suspensionReason;
+  final String? suspensionReason;
 
   SuspendedProcess({
     this.processName,
@@ -8166,62 +8289,65 @@ class SuspendedProcess {
 }
 
 /// Describes a tag for an Auto Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The tag key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Determines whether the tag is added to new instances as they are launched in
   /// the group.
-  @_s.JsonKey(name: 'PropagateAtLaunch')
-  final bool propagateAtLaunch;
+  final bool? propagateAtLaunch;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of resource. The only supported value is
   /// <code>auto-scaling-group</code>.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The tag value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.propagateAtLaunch,
     this.resourceId,
     this.resourceType,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final propagateAtLaunch = this.propagateAtLaunch;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (propagateAtLaunch != null) 'PropagateAtLaunch': propagateAtLaunch,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Describes a tag for an Auto Scaling group.
 class TagDescription {
   /// The tag key.
-  final String key;
+  final String? key;
 
   /// Determines whether the tag is added to new instances as they are launched in
   /// the group.
-  final bool propagateAtLaunch;
+  final bool? propagateAtLaunch;
 
   /// The name of the group.
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of resource. The only supported value is
   /// <code>auto-scaling-group</code>.
-  final String resourceType;
+  final String? resourceType;
 
   /// The tag value.
-  final String value;
+  final String? value;
 
   TagDescription({
     this.key,
@@ -8246,10 +8372,10 @@ class TagsType {
   /// returned in a single response. To receive additional items, specify this
   /// string for the <code>NextToken</code> value when requesting the next set of
   /// items. This value is null when there are no more items to return.
-  final String nextToken;
+  final String? nextToken;
 
   /// One or more tags.
-  final List<TagDescription> tags;
+  final List<TagDescription>? tags;
 
   TagsType({
     this.nextToken,
@@ -8268,43 +8394,34 @@ class TagsType {
 
 /// Represents a target tracking scaling policy configuration to use with Amazon
 /// EC2 Auto Scaling.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TargetTrackingConfiguration {
   /// The target value for the metric.
-  @_s.JsonKey(name: 'TargetValue')
   final double targetValue;
 
   /// A customized metric. You must specify either a predefined metric or a
   /// customized metric.
-  @_s.JsonKey(name: 'CustomizedMetricSpecification')
-  final CustomizedMetricSpecification customizedMetricSpecification;
+  final CustomizedMetricSpecification? customizedMetricSpecification;
 
   /// Indicates whether scaling in by the target tracking scaling policy is
   /// disabled. If scaling in is disabled, the target tracking scaling policy
   /// doesn't remove instances from the Auto Scaling group. Otherwise, the target
   /// tracking scaling policy can remove instances from the Auto Scaling group.
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'DisableScaleIn')
-  final bool disableScaleIn;
+  final bool? disableScaleIn;
 
   /// A predefined metric. You must specify either a predefined metric or a
   /// customized metric.
-  @_s.JsonKey(name: 'PredefinedMetricSpecification')
-  final PredefinedMetricSpecification predefinedMetricSpecification;
+  final PredefinedMetricSpecification? predefinedMetricSpecification;
 
   TargetTrackingConfiguration({
-    @_s.required this.targetValue,
+    required this.targetValue,
     this.customizedMetricSpecification,
     this.disableScaleIn,
     this.predefinedMetricSpecification,
   });
   factory TargetTrackingConfiguration.fromXml(_s.XmlElement elem) {
     return TargetTrackingConfiguration(
-      targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue'),
+      targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue')!,
       customizedMetricSpecification: _s
           .extractXmlChild(elem, 'CustomizedMetricSpecification')
           ?.let((e) => CustomizedMetricSpecification.fromXml(e)),
@@ -8315,11 +8432,24 @@ class TargetTrackingConfiguration {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TargetTrackingConfigurationToJson(this);
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final customizedMetricSpecification = this.customizedMetricSpecification;
+    final disableScaleIn = this.disableScaleIn;
+    final predefinedMetricSpecification = this.predefinedMetricSpecification;
+    return {
+      'TargetValue': targetValue,
+      if (customizedMetricSpecification != null)
+        'CustomizedMetricSpecification': customizedMetricSpecification,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (predefinedMetricSpecification != null)
+        'PredefinedMetricSpecification': predefinedMetricSpecification,
+    };
+  }
 }
 
 class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
-  ActiveInstanceRefreshNotFoundFault({String type, String message})
+  ActiveInstanceRefreshNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ActiveInstanceRefreshNotFoundFault',
@@ -8327,12 +8457,12 @@ class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
 }
 
 class AlreadyExistsFault extends _s.GenericAwsException {
-  AlreadyExistsFault({String type, String message})
+  AlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsFault', message: message);
 }
 
 class InstanceRefreshInProgressFault extends _s.GenericAwsException {
-  InstanceRefreshInProgressFault({String type, String message})
+  InstanceRefreshInProgressFault({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceRefreshInProgressFault',
@@ -8340,27 +8470,27 @@ class InstanceRefreshInProgressFault extends _s.GenericAwsException {
 }
 
 class InvalidNextToken extends _s.GenericAwsException {
-  InvalidNextToken({String type, String message})
+  InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
 class LimitExceededFault extends _s.GenericAwsException {
-  LimitExceededFault({String type, String message})
+  LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
 class ResourceContentionFault extends _s.GenericAwsException {
-  ResourceContentionFault({String type, String message})
+  ResourceContentionFault({String? type, String? message})
       : super(type: type, code: 'ResourceContentionFault', message: message);
 }
 
 class ResourceInUseFault extends _s.GenericAwsException {
-  ResourceInUseFault({String type, String message})
+  ResourceInUseFault({String? type, String? message})
       : super(type: type, code: 'ResourceInUseFault', message: message);
 }
 
 class ScalingActivityInProgressFault extends _s.GenericAwsException {
-  ScalingActivityInProgressFault({String type, String message})
+  ScalingActivityInProgressFault({String? type, String? message})
       : super(
             type: type,
             code: 'ScalingActivityInProgressFault',
@@ -8368,7 +8498,7 @@ class ScalingActivityInProgressFault extends _s.GenericAwsException {
 }
 
 class ServiceLinkedRoleFailure extends _s.GenericAwsException {
-  ServiceLinkedRoleFailure({String type, String message})
+  ServiceLinkedRoleFailure({String? type, String? message})
       : super(type: type, code: 'ServiceLinkedRoleFailure', message: message);
 }
 

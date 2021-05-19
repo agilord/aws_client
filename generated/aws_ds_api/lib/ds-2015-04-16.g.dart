@@ -31,8 +31,8 @@ AddTagsToResourceResult _$AddTagsToResourceResultFromJson(
 
 Attribute _$AttributeFromJson(Map<String, dynamic> json) {
   return Attribute(
-    name: json['Name'] as String,
-    value: json['Value'] as String,
+    name: json['Name'] as String?,
+    value: json['Value'] as String?,
   );
 }
 
@@ -57,52 +57,57 @@ CancelSchemaExtensionResult _$CancelSchemaExtensionResultFromJson(
 
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
-    certificateId: json['CertificateId'] as String,
+    certificateId: json['CertificateId'] as String?,
     clientCertAuthSettings: json['ClientCertAuthSettings'] == null
         ? null
         : ClientCertAuthSettings.fromJson(
             json['ClientCertAuthSettings'] as Map<String, dynamic>),
-    commonName: json['CommonName'] as String,
+    commonName: json['CommonName'] as String?,
     expiryDateTime:
         const UnixDateTimeConverter().fromJson(json['ExpiryDateTime']),
     registeredDateTime:
         const UnixDateTimeConverter().fromJson(json['RegisteredDateTime']),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
-    stateReason: json['StateReason'] as String,
+    stateReason: json['StateReason'] as String?,
     type: _$enumDecodeNullable(_$CertificateTypeEnumMap, json['Type']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$CertificateStateEnumMap = {
@@ -121,8 +126,8 @@ const _$CertificateTypeEnumMap = {
 
 CertificateInfo _$CertificateInfoFromJson(Map<String, dynamic> json) {
   return CertificateInfo(
-    certificateId: json['CertificateId'] as String,
-    commonName: json['CommonName'] as String,
+    certificateId: json['CertificateId'] as String?,
+    commonName: json['CommonName'] as String?,
     expiryDateTime:
         const UnixDateTimeConverter().fromJson(json['ExpiryDateTime']),
     state: _$enumDecodeNullable(_$CertificateStateEnumMap, json['State']),
@@ -133,7 +138,7 @@ CertificateInfo _$CertificateInfoFromJson(Map<String, dynamic> json) {
 ClientCertAuthSettings _$ClientCertAuthSettingsFromJson(
     Map<String, dynamic> json) {
   return ClientCertAuthSettings(
-    oCSPUrl: json['OCSPUrl'] as String,
+    oCSPUrl: json['OCSPUrl'] as String?,
   );
 }
 
@@ -153,19 +158,20 @@ Map<String, dynamic> _$ClientCertAuthSettingsToJson(
 
 Computer _$ComputerFromJson(Map<String, dynamic> json) {
   return Computer(
-    computerAttributes: (json['ComputerAttributes'] as List)
-        ?.map((e) =>
-            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    computerId: json['ComputerId'] as String,
-    computerName: json['ComputerName'] as String,
+    computerAttributes: (json['ComputerAttributes'] as List<dynamic>?)
+        ?.map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    computerId: json['ComputerId'] as String?,
+    computerName: json['ComputerName'] as String?,
   );
 }
 
 ConditionalForwarder _$ConditionalForwarderFromJson(Map<String, dynamic> json) {
   return ConditionalForwarder(
-    dnsIpAddrs: (json['DnsIpAddrs'] as List)?.map((e) => e as String)?.toList(),
-    remoteDomainName: json['RemoteDomainName'] as String,
+    dnsIpAddrs: (json['DnsIpAddrs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    remoteDomainName: json['RemoteDomainName'] as String?,
     replicationScope: _$enumDecodeNullable(
         _$ReplicationScopeEnumMap, json['ReplicationScope']),
   );
@@ -178,14 +184,14 @@ const _$ReplicationScopeEnumMap = {
 ConnectDirectoryResult _$ConnectDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return ConnectDirectoryResult(
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
   );
 }
 
 CreateAliasResult _$CreateAliasResultFromJson(Map<String, dynamic> json) {
   return CreateAliasResult(
-    alias: json['Alias'] as String,
-    directoryId: json['DirectoryId'] as String,
+    alias: json['Alias'] as String?,
+    directoryId: json['DirectoryId'] as String?,
   );
 }
 
@@ -205,7 +211,7 @@ CreateConditionalForwarderResult _$CreateConditionalForwarderResultFromJson(
 CreateDirectoryResult _$CreateDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return CreateDirectoryResult(
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
   );
 }
 
@@ -217,19 +223,19 @@ CreateLogSubscriptionResult _$CreateLogSubscriptionResultFromJson(
 CreateMicrosoftADResult _$CreateMicrosoftADResultFromJson(
     Map<String, dynamic> json) {
   return CreateMicrosoftADResult(
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
   );
 }
 
 CreateSnapshotResult _$CreateSnapshotResultFromJson(Map<String, dynamic> json) {
   return CreateSnapshotResult(
-    snapshotId: json['SnapshotId'] as String,
+    snapshotId: json['SnapshotId'] as String?,
   );
 }
 
 CreateTrustResult _$CreateTrustResultFromJson(Map<String, dynamic> json) {
   return CreateTrustResult(
-    trustId: json['TrustId'] as String,
+    trustId: json['TrustId'] as String?,
   );
 }
 
@@ -241,7 +247,7 @@ DeleteConditionalForwarderResult _$DeleteConditionalForwarderResultFromJson(
 DeleteDirectoryResult _$DeleteDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return DeleteDirectoryResult(
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
   );
 }
 
@@ -252,13 +258,13 @@ DeleteLogSubscriptionResult _$DeleteLogSubscriptionResultFromJson(
 
 DeleteSnapshotResult _$DeleteSnapshotResultFromJson(Map<String, dynamic> json) {
   return DeleteSnapshotResult(
-    snapshotId: json['SnapshotId'] as String,
+    snapshotId: json['SnapshotId'] as String?,
   );
 }
 
 DeleteTrustResult _$DeleteTrustResultFromJson(Map<String, dynamic> json) {
   return DeleteTrustResult(
-    trustId: json['TrustId'] as String,
+    trustId: json['TrustId'] as String?,
   );
 }
 
@@ -284,151 +290,134 @@ DescribeCertificateResult _$DescribeCertificateResultFromJson(
 DescribeConditionalForwardersResult
     _$DescribeConditionalForwardersResultFromJson(Map<String, dynamic> json) {
   return DescribeConditionalForwardersResult(
-    conditionalForwarders: (json['ConditionalForwarders'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ConditionalForwarder.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    conditionalForwarders: (json['ConditionalForwarders'] as List<dynamic>?)
+        ?.map((e) => ConditionalForwarder.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeDirectoriesResult _$DescribeDirectoriesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDirectoriesResult(
-    directoryDescriptions: (json['DirectoryDescriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DirectoryDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    directoryDescriptions: (json['DirectoryDescriptions'] as List<dynamic>?)
+        ?.map((e) => DirectoryDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeDomainControllersResult _$DescribeDomainControllersResultFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainControllersResult(
-    domainControllers: (json['DomainControllers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DomainController.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    domainControllers: (json['DomainControllers'] as List<dynamic>?)
+        ?.map((e) => DomainController.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeEventTopicsResult _$DescribeEventTopicsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeEventTopicsResult(
-    eventTopics: (json['EventTopics'] as List)
-        ?.map((e) =>
-            e == null ? null : EventTopic.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    eventTopics: (json['EventTopics'] as List<dynamic>?)
+        ?.map((e) => EventTopic.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeLDAPSSettingsResult _$DescribeLDAPSSettingsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeLDAPSSettingsResult(
-    lDAPSSettingsInfo: (json['LDAPSSettingsInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LDAPSSettingInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    lDAPSSettingsInfo: (json['LDAPSSettingsInfo'] as List<dynamic>?)
+        ?.map((e) => LDAPSSettingInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 DescribeRegionsResult _$DescribeRegionsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeRegionsResult(
-    nextToken: json['NextToken'] as String,
-    regionsDescription: (json['RegionsDescription'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RegionDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    regionsDescription: (json['RegionsDescription'] as List<dynamic>?)
+        ?.map((e) => RegionDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeSharedDirectoriesResult _$DescribeSharedDirectoriesResultFromJson(
     Map<String, dynamic> json) {
   return DescribeSharedDirectoriesResult(
-    nextToken: json['NextToken'] as String,
-    sharedDirectories: (json['SharedDirectories'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SharedDirectory.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    sharedDirectories: (json['SharedDirectories'] as List<dynamic>?)
+        ?.map((e) => SharedDirectory.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeSnapshotsResult _$DescribeSnapshotsResultFromJson(
     Map<String, dynamic> json) {
   return DescribeSnapshotsResult(
-    nextToken: json['NextToken'] as String,
-    snapshots: (json['Snapshots'] as List)
-        ?.map((e) =>
-            e == null ? null : Snapshot.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    snapshots: (json['Snapshots'] as List<dynamic>?)
+        ?.map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 DescribeTrustsResult _$DescribeTrustsResultFromJson(Map<String, dynamic> json) {
   return DescribeTrustsResult(
-    nextToken: json['NextToken'] as String,
-    trusts: (json['Trusts'] as List)
-        ?.map(
-            (e) => e == null ? null : Trust.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    trusts: (json['Trusts'] as List<dynamic>?)
+        ?.map((e) => Trust.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$DirectoryConnectSettingsToJson(
-    DirectoryConnectSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CustomerDnsIps', instance.customerDnsIps);
-  writeNotNull('CustomerUserName', instance.customerUserName);
-  writeNotNull('SubnetIds', instance.subnetIds);
-  writeNotNull('VpcId', instance.vpcId);
-  return val;
-}
+        DirectoryConnectSettings instance) =>
+    <String, dynamic>{
+      'CustomerDnsIps': instance.customerDnsIps,
+      'CustomerUserName': instance.customerUserName,
+      'SubnetIds': instance.subnetIds,
+      'VpcId': instance.vpcId,
+    };
 
 DirectoryConnectSettingsDescription
     _$DirectoryConnectSettingsDescriptionFromJson(Map<String, dynamic> json) {
   return DirectoryConnectSettingsDescription(
-    availabilityZones:
-        (json['AvailabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    connectIps: (json['ConnectIps'] as List)?.map((e) => e as String)?.toList(),
-    customerUserName: json['CustomerUserName'] as String,
-    securityGroupId: json['SecurityGroupId'] as String,
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    vpcId: json['VpcId'] as String,
+    availabilityZones: (json['AvailabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    connectIps: (json['ConnectIps'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    customerUserName: json['CustomerUserName'] as String?,
+    securityGroupId: json['SecurityGroupId'] as String?,
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    vpcId: json['VpcId'] as String?,
   );
 }
 
 DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
   return DirectoryDescription(
-    accessUrl: json['AccessUrl'] as String,
-    alias: json['Alias'] as String,
+    accessUrl: json['AccessUrl'] as String?,
+    alias: json['Alias'] as String?,
     connectSettings: json['ConnectSettings'] == null
         ? null
         : DirectoryConnectSettingsDescription.fromJson(
             json['ConnectSettings'] as Map<String, dynamic>),
-    description: json['Description'] as String,
+    description: json['Description'] as String?,
     desiredNumberOfDomainControllers:
-        json['DesiredNumberOfDomainControllers'] as int,
-    directoryId: json['DirectoryId'] as String,
-    dnsIpAddrs: (json['DnsIpAddrs'] as List)?.map((e) => e as String)?.toList(),
+        json['DesiredNumberOfDomainControllers'] as int?,
+    directoryId: json['DirectoryId'] as String?,
+    dnsIpAddrs: (json['DnsIpAddrs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     edition: _$enumDecodeNullable(_$DirectoryEditionEnumMap, json['Edition']),
     launchTime: const UnixDateTimeConverter().fromJson(json['LaunchTime']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     ownerDirectoryDescription: json['OwnerDirectoryDescription'] == null
         ? null
         : OwnerDirectoryDescription.fromJson(
@@ -444,16 +433,16 @@ DirectoryDescription _$DirectoryDescriptionFromJson(Map<String, dynamic> json) {
         : RegionsInfo.fromJson(json['RegionsInfo'] as Map<String, dynamic>),
     shareMethod:
         _$enumDecodeNullable(_$ShareMethodEnumMap, json['ShareMethod']),
-    shareNotes: json['ShareNotes'] as String,
+    shareNotes: json['ShareNotes'] as String?,
     shareStatus:
         _$enumDecodeNullable(_$ShareStatusEnumMap, json['ShareStatus']),
-    shortName: json['ShortName'] as String,
+    shortName: json['ShortName'] as String?,
     size: _$enumDecodeNullable(_$DirectorySizeEnumMap, json['Size']),
-    ssoEnabled: json['SsoEnabled'] as bool,
+    ssoEnabled: json['SsoEnabled'] as bool?,
     stage: _$enumDecodeNullable(_$DirectoryStageEnumMap, json['Stage']),
     stageLastUpdatedDateTime: const UnixDateTimeConverter()
         .fromJson(json['StageLastUpdatedDateTime']),
-    stageReason: json['StageReason'] as String,
+    stageReason: json['StageReason'] as String?,
     type: _$enumDecodeNullable(_$DirectoryTypeEnumMap, json['Type']),
     vpcSettings: json['VpcSettings'] == null
         ? null
@@ -519,53 +508,48 @@ const _$DirectoryTypeEnumMap = {
 DirectoryLimits _$DirectoryLimitsFromJson(Map<String, dynamic> json) {
   return DirectoryLimits(
     cloudOnlyDirectoriesCurrentCount:
-        json['CloudOnlyDirectoriesCurrentCount'] as int,
-    cloudOnlyDirectoriesLimit: json['CloudOnlyDirectoriesLimit'] as int,
+        json['CloudOnlyDirectoriesCurrentCount'] as int?,
+    cloudOnlyDirectoriesLimit: json['CloudOnlyDirectoriesLimit'] as int?,
     cloudOnlyDirectoriesLimitReached:
-        json['CloudOnlyDirectoriesLimitReached'] as bool,
+        json['CloudOnlyDirectoriesLimitReached'] as bool?,
     cloudOnlyMicrosoftADCurrentCount:
-        json['CloudOnlyMicrosoftADCurrentCount'] as int,
-    cloudOnlyMicrosoftADLimit: json['CloudOnlyMicrosoftADLimit'] as int,
+        json['CloudOnlyMicrosoftADCurrentCount'] as int?,
+    cloudOnlyMicrosoftADLimit: json['CloudOnlyMicrosoftADLimit'] as int?,
     cloudOnlyMicrosoftADLimitReached:
-        json['CloudOnlyMicrosoftADLimitReached'] as bool,
+        json['CloudOnlyMicrosoftADLimitReached'] as bool?,
     connectedDirectoriesCurrentCount:
-        json['ConnectedDirectoriesCurrentCount'] as int,
-    connectedDirectoriesLimit: json['ConnectedDirectoriesLimit'] as int,
+        json['ConnectedDirectoriesCurrentCount'] as int?,
+    connectedDirectoriesLimit: json['ConnectedDirectoriesLimit'] as int?,
     connectedDirectoriesLimitReached:
-        json['ConnectedDirectoriesLimitReached'] as bool,
+        json['ConnectedDirectoriesLimitReached'] as bool?,
   );
 }
 
 DirectoryVpcSettings _$DirectoryVpcSettingsFromJson(Map<String, dynamic> json) {
   return DirectoryVpcSettings(
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>).map((e) => e as String).toList(),
     vpcId: json['VpcId'] as String,
   );
 }
 
 Map<String, dynamic> _$DirectoryVpcSettingsToJson(
-    DirectoryVpcSettings instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('SubnetIds', instance.subnetIds);
-  writeNotNull('VpcId', instance.vpcId);
-  return val;
-}
+        DirectoryVpcSettings instance) =>
+    <String, dynamic>{
+      'SubnetIds': instance.subnetIds,
+      'VpcId': instance.vpcId,
+    };
 
 DirectoryVpcSettingsDescription _$DirectoryVpcSettingsDescriptionFromJson(
     Map<String, dynamic> json) {
   return DirectoryVpcSettingsDescription(
-    availabilityZones:
-        (json['AvailabilityZones'] as List)?.map((e) => e as String)?.toList(),
-    securityGroupId: json['SecurityGroupId'] as String,
-    subnetIds: (json['SubnetIds'] as List)?.map((e) => e as String)?.toList(),
-    vpcId: json['VpcId'] as String,
+    availabilityZones: (json['AvailabilityZones'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    securityGroupId: json['SecurityGroupId'] as String?,
+    subnetIds:
+        (json['SubnetIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    vpcId: json['VpcId'] as String?,
   );
 }
 
@@ -588,18 +572,18 @@ DisableSsoResult _$DisableSsoResultFromJson(Map<String, dynamic> json) {
 
 DomainController _$DomainControllerFromJson(Map<String, dynamic> json) {
   return DomainController(
-    availabilityZone: json['AvailabilityZone'] as String,
-    directoryId: json['DirectoryId'] as String,
-    dnsIpAddr: json['DnsIpAddr'] as String,
-    domainControllerId: json['DomainControllerId'] as String,
+    availabilityZone: json['AvailabilityZone'] as String?,
+    directoryId: json['DirectoryId'] as String?,
+    dnsIpAddr: json['DnsIpAddr'] as String?,
+    domainControllerId: json['DomainControllerId'] as String?,
     launchTime: const UnixDateTimeConverter().fromJson(json['LaunchTime']),
     status:
         _$enumDecodeNullable(_$DomainControllerStatusEnumMap, json['Status']),
     statusLastUpdatedDateTime: const UnixDateTimeConverter()
         .fromJson(json['StatusLastUpdatedDateTime']),
-    statusReason: json['StatusReason'] as String,
-    subnetId: json['SubnetId'] as String,
-    vpcId: json['VpcId'] as String,
+    statusReason: json['StatusReason'] as String?,
+    subnetId: json['SubnetId'] as String?,
+    vpcId: json['VpcId'] as String?,
   );
 }
 
@@ -634,10 +618,10 @@ EventTopic _$EventTopicFromJson(Map<String, dynamic> json) {
   return EventTopic(
     createdDateTime:
         const UnixDateTimeConverter().fromJson(json['CreatedDateTime']),
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
     status: _$enumDecodeNullable(_$TopicStatusEnumMap, json['Status']),
-    topicArn: json['TopicArn'] as String,
-    topicName: json['TopicName'] as String,
+    topicArn: json['TopicArn'] as String?,
+    topicName: json['TopicName'] as String?,
   );
 }
 
@@ -686,12 +670,12 @@ IpRouteInfo _$IpRouteInfoFromJson(Map<String, dynamic> json) {
   return IpRouteInfo(
     addedDateTime:
         const UnixDateTimeConverter().fromJson(json['AddedDateTime']),
-    cidrIp: json['CidrIp'] as String,
-    description: json['Description'] as String,
-    directoryId: json['DirectoryId'] as String,
+    cidrIp: json['CidrIp'] as String?,
+    description: json['Description'] as String?,
+    directoryId: json['DirectoryId'] as String?,
     ipRouteStatusMsg: _$enumDecodeNullable(
         _$IpRouteStatusMsgEnumMap, json['IpRouteStatusMsg']),
-    ipRouteStatusReason: json['IpRouteStatusReason'] as String,
+    ipRouteStatusReason: json['IpRouteStatusReason'] as String?,
   );
 }
 
@@ -708,7 +692,7 @@ LDAPSSettingInfo _$LDAPSSettingInfoFromJson(Map<String, dynamic> json) {
   return LDAPSSettingInfo(
     lDAPSStatus:
         _$enumDecodeNullable(_$LDAPSStatusEnumMap, json['LDAPSStatus']),
-    lDAPSStatusReason: json['LDAPSStatusReason'] as String,
+    lDAPSStatusReason: json['LDAPSStatusReason'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedDateTime']),
   );
@@ -724,63 +708,56 @@ const _$LDAPSStatusEnumMap = {
 ListCertificatesResult _$ListCertificatesResultFromJson(
     Map<String, dynamic> json) {
   return ListCertificatesResult(
-    certificatesInfo: (json['CertificatesInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CertificateInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    certificatesInfo: (json['CertificatesInfo'] as List<dynamic>?)
+        ?.map((e) => CertificateInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIpRoutesResult _$ListIpRoutesResultFromJson(Map<String, dynamic> json) {
   return ListIpRoutesResult(
-    ipRoutesInfo: (json['IpRoutesInfo'] as List)
-        ?.map((e) =>
-            e == null ? null : IpRouteInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    ipRoutesInfo: (json['IpRoutesInfo'] as List<dynamic>?)
+        ?.map((e) => IpRouteInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListLogSubscriptionsResult _$ListLogSubscriptionsResultFromJson(
     Map<String, dynamic> json) {
   return ListLogSubscriptionsResult(
-    logSubscriptions: (json['LogSubscriptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : LogSubscription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    logSubscriptions: (json['LogSubscriptions'] as List<dynamic>?)
+        ?.map((e) => LogSubscription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListSchemaExtensionsResult _$ListSchemaExtensionsResultFromJson(
     Map<String, dynamic> json) {
   return ListSchemaExtensionsResult(
-    nextToken: json['NextToken'] as String,
-    schemaExtensionsInfo: (json['SchemaExtensionsInfo'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SchemaExtensionInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    schemaExtensionsInfo: (json['SchemaExtensionsInfo'] as List<dynamic>?)
+        ?.map((e) => SchemaExtensionInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListTagsForResourceResult _$ListTagsForResourceResultFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResult(
-    nextToken: json['NextToken'] as String,
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 LogSubscription _$LogSubscriptionFromJson(Map<String, dynamic> json) {
   return LogSubscription(
-    directoryId: json['DirectoryId'] as String,
-    logGroupName: json['LogGroupName'] as String,
+    directoryId: json['DirectoryId'] as String?,
+    logGroupName: json['LogGroupName'] as String?,
     subscriptionCreatedDateTime: const UnixDateTimeConverter()
         .fromJson(json['SubscriptionCreatedDateTime']),
   );
@@ -789,9 +766,11 @@ LogSubscription _$LogSubscriptionFromJson(Map<String, dynamic> json) {
 OwnerDirectoryDescription _$OwnerDirectoryDescriptionFromJson(
     Map<String, dynamic> json) {
   return OwnerDirectoryDescription(
-    accountId: json['AccountId'] as String,
-    directoryId: json['DirectoryId'] as String,
-    dnsIpAddrs: (json['DnsIpAddrs'] as List)?.map((e) => e as String)?.toList(),
+    accountId: json['AccountId'] as String?,
+    directoryId: json['DirectoryId'] as String?,
+    dnsIpAddrs: (json['DnsIpAddrs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     radiusSettings: json['RadiusSettings'] == null
         ? null
         : RadiusSettings.fromJson(
@@ -809,14 +788,15 @@ RadiusSettings _$RadiusSettingsFromJson(Map<String, dynamic> json) {
   return RadiusSettings(
     authenticationProtocol: _$enumDecodeNullable(
         _$RadiusAuthenticationProtocolEnumMap, json['AuthenticationProtocol']),
-    displayLabel: json['DisplayLabel'] as String,
-    radiusPort: json['RadiusPort'] as int,
-    radiusRetries: json['RadiusRetries'] as int,
-    radiusServers:
-        (json['RadiusServers'] as List)?.map((e) => e as String)?.toList(),
-    radiusTimeout: json['RadiusTimeout'] as int,
-    sharedSecret: json['SharedSecret'] as String,
-    useSameUsername: json['UseSameUsername'] as bool,
+    displayLabel: json['DisplayLabel'] as String?,
+    radiusPort: json['RadiusPort'] as int?,
+    radiusRetries: json['RadiusRetries'] as int?,
+    radiusServers: (json['RadiusServers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    radiusTimeout: json['RadiusTimeout'] as int?,
+    sharedSecret: json['SharedSecret'] as String?,
+    useSameUsername: json['UseSameUsername'] as bool?,
   );
 }
 
@@ -851,12 +831,12 @@ const _$RadiusAuthenticationProtocolEnumMap = {
 RegionDescription _$RegionDescriptionFromJson(Map<String, dynamic> json) {
   return RegionDescription(
     desiredNumberOfDomainControllers:
-        json['DesiredNumberOfDomainControllers'] as int,
-    directoryId: json['DirectoryId'] as String,
+        json['DesiredNumberOfDomainControllers'] as int?,
+    directoryId: json['DirectoryId'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedDateTime']),
     launchTime: const UnixDateTimeConverter().fromJson(json['LaunchTime']),
-    regionName: json['RegionName'] as String,
+    regionName: json['RegionName'] as String?,
     regionType: _$enumDecodeNullable(_$RegionTypeEnumMap, json['RegionType']),
     status: _$enumDecodeNullable(_$DirectoryStageEnumMap, json['Status']),
     statusLastUpdatedDateTime: const UnixDateTimeConverter()
@@ -875,16 +855,17 @@ const _$RegionTypeEnumMap = {
 
 RegionsInfo _$RegionsInfoFromJson(Map<String, dynamic> json) {
   return RegionsInfo(
-    additionalRegions:
-        (json['AdditionalRegions'] as List)?.map((e) => e as String)?.toList(),
-    primaryRegion: json['PrimaryRegion'] as String,
+    additionalRegions: (json['AdditionalRegions'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    primaryRegion: json['PrimaryRegion'] as String?,
   );
 }
 
 RegisterCertificateResult _$RegisterCertificateResultFromJson(
     Map<String, dynamic> json) {
   return RegisterCertificateResult(
-    certificateId: json['CertificateId'] as String,
+    certificateId: json['CertificateId'] as String?,
   );
 }
 
@@ -896,7 +877,7 @@ RegisterEventTopicResult _$RegisterEventTopicResultFromJson(
 RejectSharedDirectoryResult _$RejectSharedDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return RejectSharedDirectoryResult(
-    sharedDirectoryId: json['SharedDirectoryId'] as String,
+    sharedDirectoryId: json['SharedDirectoryId'] as String?,
   );
 }
 
@@ -925,13 +906,13 @@ RestoreFromSnapshotResult _$RestoreFromSnapshotResultFromJson(
 
 SchemaExtensionInfo _$SchemaExtensionInfoFromJson(Map<String, dynamic> json) {
   return SchemaExtensionInfo(
-    description: json['Description'] as String,
-    directoryId: json['DirectoryId'] as String,
+    description: json['Description'] as String?,
+    directoryId: json['DirectoryId'] as String?,
     endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
-    schemaExtensionId: json['SchemaExtensionId'] as String,
+    schemaExtensionId: json['SchemaExtensionId'] as String?,
     schemaExtensionStatus: _$enumDecodeNullable(
         _$SchemaExtensionStatusEnumMap, json['SchemaExtensionStatus']),
-    schemaExtensionStatusReason: json['SchemaExtensionStatusReason'] as String,
+    schemaExtensionStatusReason: json['SchemaExtensionStatusReason'] as String?,
     startDateTime:
         const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
@@ -951,23 +932,15 @@ const _$SchemaExtensionStatusEnumMap = {
 
 ShareDirectoryResult _$ShareDirectoryResultFromJson(Map<String, dynamic> json) {
   return ShareDirectoryResult(
-    sharedDirectoryId: json['SharedDirectoryId'] as String,
+    sharedDirectoryId: json['SharedDirectoryId'] as String?,
   );
 }
 
-Map<String, dynamic> _$ShareTargetToJson(ShareTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', _$TargetTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$ShareTargetToJson(ShareTarget instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'Type': _$TargetTypeEnumMap[instance.type],
+    };
 
 const _$TargetTypeEnumMap = {
   TargetType.account: 'ACCOUNT',
@@ -979,23 +952,23 @@ SharedDirectory _$SharedDirectoryFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['CreatedDateTime']),
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedDateTime']),
-    ownerAccountId: json['OwnerAccountId'] as String,
-    ownerDirectoryId: json['OwnerDirectoryId'] as String,
+    ownerAccountId: json['OwnerAccountId'] as String?,
+    ownerDirectoryId: json['OwnerDirectoryId'] as String?,
     shareMethod:
         _$enumDecodeNullable(_$ShareMethodEnumMap, json['ShareMethod']),
-    shareNotes: json['ShareNotes'] as String,
+    shareNotes: json['ShareNotes'] as String?,
     shareStatus:
         _$enumDecodeNullable(_$ShareStatusEnumMap, json['ShareStatus']),
-    sharedAccountId: json['SharedAccountId'] as String,
-    sharedDirectoryId: json['SharedDirectoryId'] as String,
+    sharedAccountId: json['SharedAccountId'] as String?,
+    sharedDirectoryId: json['SharedDirectoryId'] as String?,
   );
 }
 
 Snapshot _$SnapshotFromJson(Map<String, dynamic> json) {
   return Snapshot(
-    directoryId: json['DirectoryId'] as String,
-    name: json['Name'] as String,
-    snapshotId: json['SnapshotId'] as String,
+    directoryId: json['DirectoryId'] as String?,
+    name: json['Name'] as String?,
+    snapshotId: json['SnapshotId'] as String?,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(_$SnapshotStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$SnapshotTypeEnumMap, json['Type']),
@@ -1015,16 +988,16 @@ const _$SnapshotTypeEnumMap = {
 
 SnapshotLimits _$SnapshotLimitsFromJson(Map<String, dynamic> json) {
   return SnapshotLimits(
-    manualSnapshotsCurrentCount: json['ManualSnapshotsCurrentCount'] as int,
-    manualSnapshotsLimit: json['ManualSnapshotsLimit'] as int,
-    manualSnapshotsLimitReached: json['ManualSnapshotsLimitReached'] as bool,
+    manualSnapshotsCurrentCount: json['ManualSnapshotsCurrentCount'] as int?,
+    manualSnapshotsLimit: json['ManualSnapshotsLimit'] as int?,
+    manualSnapshotsLimitReached: json['ManualSnapshotsLimitReached'] as bool?,
   );
 }
 
 StartSchemaExtensionResult _$StartSchemaExtensionResultFromJson(
     Map<String, dynamic> json) {
   return StartSchemaExtensionResult(
-    schemaExtensionId: json['SchemaExtensionId'] as String,
+    schemaExtensionId: json['SchemaExtensionId'] as String?,
   );
 }
 
@@ -1035,37 +1008,28 @@ Tag _$TagFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Key', instance.key);
-  writeNotNull('Value', instance.value);
-  return val;
-}
+Map<String, dynamic> _$TagToJson(Tag instance) => <String, dynamic>{
+      'Key': instance.key,
+      'Value': instance.value,
+    };
 
 Trust _$TrustFromJson(Map<String, dynamic> json) {
   return Trust(
     createdDateTime:
         const UnixDateTimeConverter().fromJson(json['CreatedDateTime']),
-    directoryId: json['DirectoryId'] as String,
+    directoryId: json['DirectoryId'] as String?,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['LastUpdatedDateTime']),
-    remoteDomainName: json['RemoteDomainName'] as String,
+    remoteDomainName: json['RemoteDomainName'] as String?,
     selectiveAuth:
         _$enumDecodeNullable(_$SelectiveAuthEnumMap, json['SelectiveAuth']),
     stateLastUpdatedDateTime: const UnixDateTimeConverter()
         .fromJson(json['StateLastUpdatedDateTime']),
     trustDirection:
         _$enumDecodeNullable(_$TrustDirectionEnumMap, json['TrustDirection']),
-    trustId: json['TrustId'] as String,
+    trustId: json['TrustId'] as String?,
     trustState: _$enumDecodeNullable(_$TrustStateEnumMap, json['TrustState']),
-    trustStateReason: json['TrustStateReason'] as String,
+    trustStateReason: json['TrustStateReason'] as String?,
     trustType: _$enumDecodeNullable(_$TrustTypeEnumMap, json['TrustType']),
   );
 }
@@ -1103,23 +1067,15 @@ const _$TrustTypeEnumMap = {
 UnshareDirectoryResult _$UnshareDirectoryResultFromJson(
     Map<String, dynamic> json) {
   return UnshareDirectoryResult(
-    sharedDirectoryId: json['SharedDirectoryId'] as String,
+    sharedDirectoryId: json['SharedDirectoryId'] as String?,
   );
 }
 
-Map<String, dynamic> _$UnshareTargetToJson(UnshareTarget instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', _$TargetTypeEnumMap[instance.type]);
-  return val;
-}
+Map<String, dynamic> _$UnshareTargetToJson(UnshareTarget instance) =>
+    <String, dynamic>{
+      'Id': instance.id,
+      'Type': _$TargetTypeEnumMap[instance.type],
+    };
 
 UpdateConditionalForwarderResult _$UpdateConditionalForwarderResultFromJson(
     Map<String, dynamic> json) {
@@ -1137,13 +1093,13 @@ UpdateRadiusResult _$UpdateRadiusResultFromJson(Map<String, dynamic> json) {
 
 UpdateTrustResult _$UpdateTrustResultFromJson(Map<String, dynamic> json) {
   return UpdateTrustResult(
-    requestId: json['RequestId'] as String,
-    trustId: json['TrustId'] as String,
+    requestId: json['RequestId'] as String?,
+    trustId: json['TrustId'] as String?,
   );
 }
 
 VerifyTrustResult _$VerifyTrustResultFromJson(Map<String, dynamic> json) {
   return VerifyTrustResult(
-    trustId: json['TrustId'] as String,
+    trustId: json['TrustId'] as String?,
   );
 }

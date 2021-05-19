@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'pi-2018-02-27.g.dart';
 
 /// Amazon RDS Performance Insights enables you to monitor and explore different
 /// dimensions of database load based on data captured from a running DB
@@ -33,10 +25,10 @@ part 'pi-2018-02-27.g.dart';
 class PI {
   final _s.JsonProtocol _protocol;
   PI({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -173,17 +165,17 @@ class PI {
   /// Insights chooses a value for you, with a goal of returning roughly 100-200
   /// data points in the response.
   Future<DescribeDimensionKeysResponse> describeDimensionKeys({
-    @_s.required DateTime endTime,
-    @_s.required DimensionGroup groupBy,
-    @_s.required String identifier,
-    @_s.required String metric,
-    @_s.required ServiceType serviceType,
-    @_s.required DateTime startTime,
-    Map<String, String> filter,
-    int maxResults,
-    String nextToken,
-    DimensionGroup partitionBy,
-    int periodInSeconds,
+    required DateTime endTime,
+    required DimensionGroup groupBy,
+    required String identifier,
+    required String metric,
+    required ServiceType serviceType,
+    required DateTime startTime,
+    Map<String, String>? filter,
+    int? maxResults,
+    String? nextToken,
+    DimensionGroup? partitionBy,
+    int? periodInSeconds,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(groupBy, 'groupBy');
@@ -212,7 +204,7 @@ class PI {
         'GroupBy': groupBy,
         'Identifier': identifier,
         'Metric': metric,
-        'ServiceType': serviceType?.toValue() ?? '',
+        'ServiceType': serviceType.toValue(),
         'StartTime': unixTimestampToJson(startTime),
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -307,14 +299,14 @@ class PI {
   /// Insights will choose a value for you, with a goal of returning roughly
   /// 100-200 data points in the response.
   Future<GetResourceMetricsResponse> getResourceMetrics({
-    @_s.required DateTime endTime,
-    @_s.required String identifier,
-    @_s.required List<MetricQuery> metricQueries,
-    @_s.required ServiceType serviceType,
-    @_s.required DateTime startTime,
-    int maxResults,
-    String nextToken,
-    int periodInSeconds,
+    required DateTime endTime,
+    required String identifier,
+    required List<MetricQuery> metricQueries,
+    required ServiceType serviceType,
+    required DateTime startTime,
+    int? maxResults,
+    String? nextToken,
+    int? periodInSeconds,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(identifier, 'identifier');
@@ -341,7 +333,7 @@ class PI {
         'EndTime': unixTimestampToJson(endTime),
         'Identifier': identifier,
         'MetricQueries': metricQueries,
-        'ServiceType': serviceType?.toValue() ?? '',
+        'ServiceType': serviceType.toValue(),
         'StartTime': unixTimestampToJson(startTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -355,66 +347,50 @@ class PI {
 
 /// A timestamp, and a single numerical value, which together represent a
 /// measurement at a particular point in time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataPoint {
   /// The time, in epoch format, associated with a particular <code>Value</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The actual value associated with a particular <code>Timestamp</code>.
-  @_s.JsonKey(name: 'Value')
   final double value;
 
   DataPoint({
-    @_s.required this.timestamp,
-    @_s.required this.value,
+    required this.timestamp,
+    required this.value,
   });
-  factory DataPoint.fromJson(Map<String, dynamic> json) =>
-      _$DataPointFromJson(json);
+  factory DataPoint.fromJson(Map<String, dynamic> json) {
+    return DataPoint(
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+      value: json['Value'] as double,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDimensionKeysResponse {
   /// The end time for the returned dimension keys, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AlignedEndTime')
-  final DateTime alignedEndTime;
+  final DateTime? alignedEndTime;
 
   /// The start time for the returned dimension keys, after alignment to a
   /// granular boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AlignedStartTime')
-  final DateTime alignedStartTime;
+  final DateTime? alignedStartTime;
 
   /// The dimension keys that were requested.
-  @_s.JsonKey(name: 'Keys')
-  final List<DimensionKeyDescription> keys;
+  final List<DimensionKeyDescription>? keys;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the token,
   /// up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// If <code>PartitionBy</code> was present in the request,
   /// <code>PartitionKeys</code> contains the breakdown of dimension keys by the
   /// specified partitions.
-  @_s.JsonKey(name: 'PartitionKeys')
-  final List<ResponsePartitionKey> partitionKeys;
+  final List<ResponsePartitionKey>? partitionKeys;
 
   DescribeDimensionKeysResponse({
     this.alignedEndTime,
@@ -423,8 +399,22 @@ class DescribeDimensionKeysResponse {
     this.nextToken,
     this.partitionKeys,
   });
-  factory DescribeDimensionKeysResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDimensionKeysResponseFromJson(json);
+  factory DescribeDimensionKeysResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDimensionKeysResponse(
+      alignedEndTime: timeStampFromJson(json['AlignedEndTime']),
+      alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DimensionKeyDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResponsePartitionKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// A logical grouping of Performance Insights metrics for a related subject
@@ -435,11 +425,6 @@ class DescribeDimensionKeysResponse {
 /// Each response element returns a maximum of 500 bytes. For larger elements,
 /// such as SQL statements, only the first 500 bytes are returned.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DimensionGroup {
   /// The name of the dimension group. Valid values are:
   ///
@@ -478,7 +463,6 @@ class DimensionGroup {
   /// <code>db.user</code> - The user logged in to the database (all engines)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Group')
   final String group;
 
   /// A list of specific dimensions from a dimension group. If this parameter is
@@ -555,73 +539,72 @@ class DimensionGroup {
   /// the backend is waiting (all engines)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Dimensions')
-  final List<String> dimensions;
+  final List<String>? dimensions;
 
   /// The maximum number of items to fetch for this dimension group.
-  @_s.JsonKey(name: 'Limit')
-  final int limit;
+  final int? limit;
 
   DimensionGroup({
-    @_s.required this.group,
+    required this.group,
     this.dimensions,
     this.limit,
   });
-  Map<String, dynamic> toJson() => _$DimensionGroupToJson(this);
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final dimensions = this.dimensions;
+    final limit = this.limit;
+    return {
+      'Group': group,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (limit != null) 'Limit': limit,
+    };
+  }
 }
 
 /// An array of descriptions and aggregated values for each dimension within a
 /// dimension group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DimensionKeyDescription {
   /// A map of name-value pairs for the dimensions in the group.
-  @_s.JsonKey(name: 'Dimensions')
-  final Map<String, String> dimensions;
+  final Map<String, String>? dimensions;
 
   /// If <code>PartitionBy</code> was specified, <code>PartitionKeys</code>
   /// contains the dimensions that were.
-  @_s.JsonKey(name: 'Partitions')
-  final List<double> partitions;
+  final List<double>? partitions;
 
   /// The aggregated metric value for the dimension(s), over the requested time
   /// range.
-  @_s.JsonKey(name: 'Total')
-  final double total;
+  final double? total;
 
   DimensionKeyDescription({
     this.dimensions,
     this.partitions,
     this.total,
   });
-  factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) =>
-      _$DimensionKeyDescriptionFromJson(json);
+  factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
+    return DimensionKeyDescription(
+      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      partitions: (json['Partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      total: json['Total'] as double?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceMetricsResponse {
   /// The end time for the returned metrics, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AlignedEndTime')
-  final DateTime alignedEndTime;
+  final DateTime? alignedEndTime;
 
   /// The start time for the returned metrics, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AlignedStartTime')
-  final DateTime alignedStartTime;
+  final DateTime? alignedStartTime;
 
   /// An immutable, AWS Region-unique identifier for a data source. Performance
   /// Insights gathers metrics from this data source.
@@ -629,19 +612,16 @@ class GetResourceMetricsResponse {
   /// To use a DB instance as a data source, you specify its
   /// <code>DbiResourceId</code> value - for example:
   /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
-  @_s.JsonKey(name: 'Identifier')
-  final String identifier;
+  final String? identifier;
 
   /// An array of metric results,, where each array element contains all of the
   /// data points for a particular dimension.
-  @_s.JsonKey(name: 'MetricList')
-  final List<MetricKeyDataPoints> metricList;
+  final List<MetricKeyDataPoints>? metricList;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the token,
   /// up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetResourceMetricsResponse({
     this.alignedEndTime,
@@ -650,33 +630,46 @@ class GetResourceMetricsResponse {
     this.metricList,
     this.nextToken,
   });
-  factory GetResourceMetricsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourceMetricsResponseFromJson(json);
+  factory GetResourceMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceMetricsResponse(
+      alignedEndTime: timeStampFromJson(json['AlignedEndTime']),
+      alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
+      identifier: json['Identifier'] as String?,
+      metricList: (json['MetricList'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricKeyDataPoints.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// A time-ordered series of data points, corresponding to a dimension of a
 /// Performance Insights metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricKeyDataPoints {
   /// An array of timestamp-value pairs, representing measurements over a period
   /// of time.
-  @_s.JsonKey(name: 'DataPoints')
-  final List<DataPoint> dataPoints;
+  final List<DataPoint>? dataPoints;
 
   /// The dimension(s) to which the data points apply.
-  @_s.JsonKey(name: 'Key')
-  final ResponseResourceMetricKey key;
+  final ResponseResourceMetricKey? key;
 
   MetricKeyDataPoints({
     this.dataPoints,
     this.key,
   });
-  factory MetricKeyDataPoints.fromJson(Map<String, dynamic> json) =>
-      _$MetricKeyDataPointsFromJson(json);
+  factory MetricKeyDataPoints.fromJson(Map<String, dynamic> json) {
+    return MetricKeyDataPoints(
+      dataPoints: (json['DataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      key: json['Key'] != null
+          ? ResponseResourceMetricKey.fromJson(
+              json['Key'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// A single query to be processed. You must provide the metric to query. If no
@@ -684,11 +677,6 @@ class MetricKeyDataPoints {
 /// points for that metric. You can optionally request that the data points be
 /// aggregated by dimension group ( <code>GroupBy</code>), and return only those
 /// data points that match your criteria (<code>Filter</code>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MetricQuery {
   /// The name of a Performance Insights metric to be measured.
   ///
@@ -712,7 +700,6 @@ class MetricQuery {
   /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
   /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
   /// use cases, you can query <code>db.load.avg</code> only.
-  @_s.JsonKey(name: 'Metric')
   final String metric;
 
   /// One or more filters to apply in the request. Restrictions:
@@ -726,52 +713,52 @@ class MetricQuery {
   /// A single filter for any other dimension in this dimension group.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Filter')
-  final Map<String, String> filter;
+  final Map<String, String>? filter;
 
   /// A specification for how to aggregate the data points from a query result.
   /// You must specify a valid dimension group. Performance Insights will return
   /// all of the dimensions within that group, unless you provide the names of
   /// specific dimensions within that group. You can also request that Performance
   /// Insights return a limited number of values for a dimension.
-  @_s.JsonKey(name: 'GroupBy')
-  final DimensionGroup groupBy;
+  final DimensionGroup? groupBy;
 
   MetricQuery({
-    @_s.required this.metric,
+    required this.metric,
     this.filter,
     this.groupBy,
   });
-  Map<String, dynamic> toJson() => _$MetricQueryToJson(this);
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final filter = this.filter;
+    final groupBy = this.groupBy;
+    return {
+      'Metric': metric,
+      if (filter != null) 'Filter': filter,
+      if (groupBy != null) 'GroupBy': groupBy,
+    };
+  }
 }
 
 /// If <code>PartitionBy</code> was specified in a
 /// <code>DescribeDimensionKeys</code> request, the dimensions are returned in
 /// an array. Each element in the array specifies one dimension.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResponsePartitionKey {
   /// A dimension map that contains the dimension(s) for this partition.
-  @_s.JsonKey(name: 'Dimensions')
   final Map<String, String> dimensions;
 
   ResponsePartitionKey({
-    @_s.required this.dimensions,
+    required this.dimensions,
   });
-  factory ResponsePartitionKey.fromJson(Map<String, dynamic> json) =>
-      _$ResponsePartitionKeyFromJson(json);
+  factory ResponsePartitionKey.fromJson(Map<String, dynamic> json) {
+    return ResponsePartitionKey(
+      dimensions: (json['Dimensions'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 /// An object describing a Performance Insights metric and one or more
 /// dimensions for that metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResponseResourceMetricKey {
   /// The name of a Performance Insights metric to be measured.
   ///
@@ -795,23 +782,25 @@ class ResponseResourceMetricKey {
   /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
   /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
   /// use cases, you can query <code>db.load.avg</code> only.
-  @_s.JsonKey(name: 'Metric')
   final String metric;
 
   /// The valid dimensions for the metric.
-  @_s.JsonKey(name: 'Dimensions')
-  final Map<String, String> dimensions;
+  final Map<String, String>? dimensions;
 
   ResponseResourceMetricKey({
-    @_s.required this.metric,
+    required this.metric,
     this.dimensions,
   });
-  factory ResponseResourceMetricKey.fromJson(Map<String, dynamic> json) =>
-      _$ResponseResourceMetricKeyFromJson(json);
+  factory ResponseResourceMetricKey.fromJson(Map<String, dynamic> json) {
+    return ResponseResourceMetricKey(
+      metric: json['Metric'] as String,
+      dimensions: (json['Dimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 }
 
 enum ServiceType {
-  @_s.JsonValue('RDS')
   rds,
 }
 
@@ -821,22 +810,31 @@ extension on ServiceType {
       case ServiceType.rds:
         return 'RDS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServiceType toServiceType() {
+    switch (this) {
+      case 'RDS':
+        return ServiceType.rds;
+    }
+    throw Exception('$this is not known in enum ServiceType');
   }
 }
 
 class InternalServiceError extends _s.GenericAwsException {
-  InternalServiceError({String type, String message})
+  InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 

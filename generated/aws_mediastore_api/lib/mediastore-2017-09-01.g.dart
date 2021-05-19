@@ -8,45 +8,50 @@ part of 'mediastore-2017-09-01.dart';
 
 Container _$ContainerFromJson(Map<String, dynamic> json) {
   return Container(
-    arn: json['ARN'] as String,
-    accessLoggingEnabled: json['AccessLoggingEnabled'] as bool,
+    arn: json['ARN'] as String?,
+    accessLoggingEnabled: json['AccessLoggingEnabled'] as bool?,
     creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
-    endpoint: json['Endpoint'] as String,
-    name: json['Name'] as String,
+    endpoint: json['Endpoint'] as String?,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$ContainerStatusEnumMap, json['Status']),
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ContainerStatusEnumMap = {
@@ -57,21 +62,27 @@ const _$ContainerStatusEnumMap = {
 
 CorsRule _$CorsRuleFromJson(Map<String, dynamic> json) {
   return CorsRule(
-    allowedHeaders:
-        (json['AllowedHeaders'] as List)?.map((e) => e as String)?.toList(),
-    allowedOrigins:
-        (json['AllowedOrigins'] as List)?.map((e) => e as String)?.toList(),
-    allowedMethods: (json['AllowedMethods'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$MethodNameEnumMap, e))
-        ?.toList(),
-    exposeHeaders:
-        (json['ExposeHeaders'] as List)?.map((e) => e as String)?.toList(),
-    maxAgeSeconds: json['MaxAgeSeconds'] as int,
+    allowedHeaders: (json['AllowedHeaders'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    allowedOrigins: (json['AllowedOrigins'] as List<dynamic>)
+        .map((e) => e as String)
+        .toList(),
+    allowedMethods: (json['AllowedMethods'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$MethodNameEnumMap, e))
+        .toList(),
+    exposeHeaders: (json['ExposeHeaders'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    maxAgeSeconds: json['MaxAgeSeconds'] as int?,
   );
 }
 
 Map<String, dynamic> _$CorsRuleToJson(CorsRule instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'AllowedHeaders': instance.allowedHeaders,
+    'AllowedOrigins': instance.allowedOrigins,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -79,10 +90,8 @@ Map<String, dynamic> _$CorsRuleToJson(CorsRule instance) {
     }
   }
 
-  writeNotNull('AllowedHeaders', instance.allowedHeaders);
-  writeNotNull('AllowedOrigins', instance.allowedOrigins);
   writeNotNull('AllowedMethods',
-      instance.allowedMethods?.map((e) => _$MethodNameEnumMap[e])?.toList());
+      instance.allowedMethods?.map((e) => _$MethodNameEnumMap[e]).toList());
   writeNotNull('ExposeHeaders', instance.exposeHeaders);
   writeNotNull('MaxAgeSeconds', instance.maxAgeSeconds);
   return val;
@@ -98,9 +107,7 @@ const _$MethodNameEnumMap = {
 CreateContainerOutput _$CreateContainerOutputFromJson(
     Map<String, dynamic> json) {
   return CreateContainerOutput(
-    container: json['Container'] == null
-        ? null
-        : Container.fromJson(json['Container'] as Map<String, dynamic>),
+    container: Container.fromJson(json['Container'] as Map<String, dynamic>),
   );
 }
 
@@ -147,10 +154,9 @@ GetContainerPolicyOutput _$GetContainerPolicyOutputFromJson(
 
 GetCorsPolicyOutput _$GetCorsPolicyOutputFromJson(Map<String, dynamic> json) {
   return GetCorsPolicyOutput(
-    corsPolicy: (json['CorsPolicy'] as List)
-        ?.map((e) =>
-            e == null ? null : CorsRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    corsPolicy: (json['CorsPolicy'] as List<dynamic>)
+        .map((e) => CorsRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -164,45 +170,44 @@ GetLifecyclePolicyOutput _$GetLifecyclePolicyOutputFromJson(
 GetMetricPolicyOutput _$GetMetricPolicyOutputFromJson(
     Map<String, dynamic> json) {
   return GetMetricPolicyOutput(
-    metricPolicy: json['MetricPolicy'] == null
-        ? null
-        : MetricPolicy.fromJson(json['MetricPolicy'] as Map<String, dynamic>),
+    metricPolicy:
+        MetricPolicy.fromJson(json['MetricPolicy'] as Map<String, dynamic>),
   );
 }
 
 ListContainersOutput _$ListContainersOutputFromJson(Map<String, dynamic> json) {
   return ListContainersOutput(
-    containers: (json['Containers'] as List)
-        ?.map((e) =>
-            e == null ? null : Container.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    containers: (json['Containers'] as List<dynamic>)
+        .map((e) => Container.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceOutput _$ListTagsForResourceOutputFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceOutput(
-    tags: (json['Tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tags: (json['Tags'] as List<dynamic>?)
+        ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MetricPolicy _$MetricPolicyFromJson(Map<String, dynamic> json) {
   return MetricPolicy(
-    containerLevelMetrics: _$enumDecodeNullable(
+    containerLevelMetrics: _$enumDecode(
         _$ContainerLevelMetricsEnumMap, json['ContainerLevelMetrics']),
-    metricPolicyRules: (json['MetricPolicyRules'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MetricPolicyRule.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    metricPolicyRules: (json['MetricPolicyRules'] as List<dynamic>?)
+        ?.map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$MetricPolicyToJson(MetricPolicy instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'ContainerLevelMetrics':
+        _$ContainerLevelMetricsEnumMap[instance.containerLevelMetrics],
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -210,10 +215,8 @@ Map<String, dynamic> _$MetricPolicyToJson(MetricPolicy instance) {
     }
   }
 
-  writeNotNull('ContainerLevelMetrics',
-      _$ContainerLevelMetricsEnumMap[instance.containerLevelMetrics]);
   writeNotNull('MetricPolicyRules',
-      instance.metricPolicyRules?.map((e) => e?.toJson())?.toList());
+      instance.metricPolicyRules?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -229,19 +232,11 @@ MetricPolicyRule _$MetricPolicyRuleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MetricPolicyRuleToJson(MetricPolicyRule instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ObjectGroup', instance.objectGroup);
-  writeNotNull('ObjectGroupName', instance.objectGroupName);
-  return val;
-}
+Map<String, dynamic> _$MetricPolicyRuleToJson(MetricPolicyRule instance) =>
+    <String, dynamic>{
+      'ObjectGroup': instance.objectGroup,
+      'ObjectGroupName': instance.objectGroupName,
+    };
 
 PutContainerPolicyOutput _$PutContainerPolicyOutputFromJson(
     Map<String, dynamic> json) {
@@ -275,12 +270,14 @@ StopAccessLoggingOutput _$StopAccessLoggingOutputFromJson(
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$TagToJson(Tag instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Key': instance.key,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -288,7 +285,6 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
     }
   }
 
-  writeNotNull('Key', instance.key);
   writeNotNull('Value', instance.value);
   return val;
 }

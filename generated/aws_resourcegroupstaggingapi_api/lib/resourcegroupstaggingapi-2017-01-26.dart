@@ -10,30 +10,22 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'resourcegroupstaggingapi-2017-01-26.g.dart';
 
 /// This guide describes the API operations for the resource groups tagging.
 class ResourceGroupsTaggingAPI {
   final _s.JsonProtocol _protocol;
   ResourceGroupsTaggingAPI({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -144,13 +136,13 @@ class ResourceGroupsTaggingAPI {
   /// by. If you use this parameter, the count of returned noncompliant
   /// resources includes only resources with the specified target IDs.
   Future<GetComplianceSummaryOutput> getComplianceSummary({
-    List<GroupByAttribute> groupBy,
-    int maxResults,
-    String paginationToken,
-    List<String> regionFilters,
-    List<String> resourceTypeFilters,
-    List<String> tagKeyFilters,
-    List<String> targetIdFilters,
+    List<GroupByAttribute>? groupBy,
+    int? maxResults,
+    String? paginationToken,
+    List<String>? regionFilters,
+    List<String>? resourceTypeFilters,
+    List<String>? tagKeyFilters,
+    List<String>? targetIdFilters,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -181,7 +173,7 @@ class ResourceGroupsTaggingAPI {
       headers: headers,
       payload: {
         if (groupBy != null)
-          'GroupBy': groupBy.map((e) => e?.toValue() ?? '').toList(),
+          'GroupBy': groupBy.map((e) => e.toValue()).toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (paginationToken != null) 'PaginationToken': paginationToken,
         if (regionFilters != null) 'RegionFilters': regionFilters,
@@ -360,13 +352,13 @@ class ResourceGroupsTaggingAPI {
   /// You can set <code>TagsPerPage</code> to a minimum of 100 items and the
   /// maximum of 500 items.
   Future<GetResourcesOutput> getResources({
-    bool excludeCompliantResources,
-    bool includeComplianceDetails,
-    String paginationToken,
-    List<String> resourceTypeFilters,
-    int resourcesPerPage,
-    List<TagFilter> tagFilters,
-    int tagsPerPage,
+    bool? excludeCompliantResources,
+    bool? includeComplianceDetails,
+    String? paginationToken,
+    List<String>? resourceTypeFilters,
+    int? resourcesPerPage,
+    List<TagFilter>? tagFilters,
+    int? tagsPerPage,
   }) async {
     _s.validateStringLength(
       'paginationToken',
@@ -419,7 +411,7 @@ class ResourceGroupsTaggingAPI {
   /// <code>PaginationToken</code>, use that string for this value to request an
   /// additional page of data.
   Future<GetTagKeysOutput> getTagKeys({
-    String paginationToken,
+    String? paginationToken,
   }) async {
     _s.validateStringLength(
       'paginationToken',
@@ -468,8 +460,8 @@ class ResourceGroupsTaggingAPI {
   /// <code>PaginationToken</code>, use that string for this value to request an
   /// additional page of data.
   Future<GetTagValuesOutput> getTagValues({
-    @_s.required String key,
-    String paginationToken,
+    required String key,
+    String? paginationToken,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -541,7 +533,7 @@ class ResourceGroupsTaggingAPI {
   /// For more information on S3 bucket requirements, including an example
   /// bucket policy, see the example S3 bucket policy on this page.
   Future<void> startReportCreation({
-    @_s.required String s3Bucket,
+    required String s3Bucket,
   }) async {
     ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
     _s.validateStringLength(
@@ -561,7 +553,7 @@ class ResourceGroupsTaggingAPI {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.StartReportCreation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -571,8 +563,6 @@ class ResourceGroupsTaggingAPI {
         'S3Bucket': s3Bucket,
       },
     );
-
-    return StartReportCreationOutput.fromJson(jsonResponse.body);
   }
 
   /// Applies one or more tags to the specified resources. Note the following:
@@ -622,8 +612,8 @@ class ResourceGroupsTaggingAPI {
   /// The tags that you want to add to the specified resources. A tag consists
   /// of a key and a value that you define.
   Future<TagResourcesOutput> tagResources({
-    @_s.required List<String> resourceARNList,
-    @_s.required Map<String, String> tags,
+    required List<String> resourceARNList,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARNList, 'resourceARNList');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -680,8 +670,8 @@ class ResourceGroupsTaggingAPI {
   /// A list of the tag keys that you want to remove from the specified
   /// resources.
   Future<UntagResourcesOutput> untagResources({
-    @_s.required List<String> resourceARNList,
-    @_s.required List<String> tagKeys,
+    required List<String> resourceARNList,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARNList, 'resourceARNList');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -707,48 +697,44 @@ class ResourceGroupsTaggingAPI {
 
 /// Information that shows whether a resource is compliant with the effective
 /// tag policy, including details on any noncompliant tag keys.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComplianceDetails {
   /// Whether a resource is compliant with the effective tag policy.
-  @_s.JsonKey(name: 'ComplianceStatus')
-  final bool complianceStatus;
+  final bool? complianceStatus;
 
   /// These are keys defined in the effective policy that are on the resource with
   /// either incorrect case treatment or noncompliant values.
-  @_s.JsonKey(name: 'KeysWithNoncompliantValues')
-  final List<String> keysWithNoncompliantValues;
+  final List<String>? keysWithNoncompliantValues;
 
   /// These tag keys on the resource are noncompliant with the effective tag
   /// policy.
-  @_s.JsonKey(name: 'NoncompliantKeys')
-  final List<String> noncompliantKeys;
+  final List<String>? noncompliantKeys;
 
   ComplianceDetails({
     this.complianceStatus,
     this.keysWithNoncompliantValues,
     this.noncompliantKeys,
   });
-  factory ComplianceDetails.fromJson(Map<String, dynamic> json) =>
-      _$ComplianceDetailsFromJson(json);
+  factory ComplianceDetails.fromJson(Map<String, dynamic> json) {
+    return ComplianceDetails(
+      complianceStatus: json['ComplianceStatus'] as bool?,
+      keysWithNoncompliantValues: (json['KeysWithNoncompliantValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      noncompliantKeys: (json['NoncompliantKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReportCreationOutput {
   /// Details of the common errors that all operations return.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The path to the Amazon S3 bucket where the report was stored on creation.
-  @_s.JsonKey(name: 'S3Location')
-  final String s3Location;
+  final String? s3Location;
 
   /// Reports the status of the operation.
   ///
@@ -771,23 +757,48 @@ class DescribeReportCreationOutput {
   /// <code>NO REPORT</code> - No report was generated in the last 90 days.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   DescribeReportCreationOutput({
     this.errorMessage,
     this.s3Location,
     this.status,
   });
-  factory DescribeReportCreationOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeReportCreationOutputFromJson(json);
+  factory DescribeReportCreationOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeReportCreationOutput(
+      errorMessage: json['ErrorMessage'] as String?,
+      s3Location: json['S3Location'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('InternalServiceException')
   internalServiceException,
-  @_s.JsonValue('InvalidParameterException')
   invalidParameterException,
+}
+
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.internalServiceException:
+        return 'InternalServiceException';
+      case ErrorCode.invalidParameterException:
+        return 'InvalidParameterException';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'InternalServiceException':
+        return ErrorCode.internalServiceException;
+      case 'InvalidParameterException':
+        return ErrorCode.invalidParameterException;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
 }
 
 /// Information about the errors that are returned for each failed resource.
@@ -822,138 +833,132 @@ enum ErrorCode {
 /// </ul>
 /// For more information on errors that are generated from other AWS services,
 /// see the documentation for that service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailureInfo {
   /// The code of the common error. Valid values include
   /// <code>InternalServiceException</code>,
   /// <code>InvalidParameterException</code>, and any valid error code returned by
   /// the AWS service that hosts the resource that you want to tag.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// The message of the common error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The HTTP status code of the common error.
-  @_s.JsonKey(name: 'StatusCode')
-  final int statusCode;
+  final int? statusCode;
 
   FailureInfo({
     this.errorCode,
     this.errorMessage,
     this.statusCode,
   });
-  factory FailureInfo.fromJson(Map<String, dynamic> json) =>
-      _$FailureInfoFromJson(json);
+  factory FailureInfo.fromJson(Map<String, dynamic> json) {
+    return FailureInfo(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      statusCode: json['StatusCode'] as int?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetComplianceSummaryOutput {
   /// A string that indicates that the response contains more data than can be
   /// returned in a single response. To receive additional data, specify this
   /// string for the <code>PaginationToken</code> value in a subsequent request.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// A table that shows counts of noncompliant resources.
-  @_s.JsonKey(name: 'SummaryList')
-  final List<Summary> summaryList;
+  final List<Summary>? summaryList;
 
   GetComplianceSummaryOutput({
     this.paginationToken,
     this.summaryList,
   });
-  factory GetComplianceSummaryOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetComplianceSummaryOutputFromJson(json);
+  factory GetComplianceSummaryOutput.fromJson(Map<String, dynamic> json) {
+    return GetComplianceSummaryOutput(
+      paginationToken: json['PaginationToken'] as String?,
+      summaryList: (json['SummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Summary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcesOutput {
   /// A string that indicates that the response contains more data than can be
   /// returned in a single response. To receive additional data, specify this
   /// string for the <code>PaginationToken</code> value in a subsequent request.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// A list of resource ARNs and the tags (keys and values) associated with each.
-  @_s.JsonKey(name: 'ResourceTagMappingList')
-  final List<ResourceTagMapping> resourceTagMappingList;
+  final List<ResourceTagMapping>? resourceTagMappingList;
 
   GetResourcesOutput({
     this.paginationToken,
     this.resourceTagMappingList,
   });
-  factory GetResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcesOutputFromJson(json);
+  factory GetResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return GetResourcesOutput(
+      paginationToken: json['PaginationToken'] as String?,
+      resourceTagMappingList: (json['ResourceTagMappingList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTagMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagKeysOutput {
   /// A string that indicates that the response contains more data than can be
   /// returned in a single response. To receive additional data, specify this
   /// string for the <code>PaginationToken</code> value in a subsequent request.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// A list of all tag keys in the AWS account.
-  @_s.JsonKey(name: 'TagKeys')
-  final List<String> tagKeys;
+  final List<String>? tagKeys;
 
   GetTagKeysOutput({
     this.paginationToken,
     this.tagKeys,
   });
-  factory GetTagKeysOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetTagKeysOutputFromJson(json);
+  factory GetTagKeysOutput.fromJson(Map<String, dynamic> json) {
+    return GetTagKeysOutput(
+      paginationToken: json['PaginationToken'] as String?,
+      tagKeys: (json['TagKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagValuesOutput {
   /// A string that indicates that the response contains more data than can be
   /// returned in a single response. To receive additional data, specify this
   /// string for the <code>PaginationToken</code> value in a subsequent request.
-  @_s.JsonKey(name: 'PaginationToken')
-  final String paginationToken;
+  final String? paginationToken;
 
   /// A list of all tag values for the specified key in the AWS account.
-  @_s.JsonKey(name: 'TagValues')
-  final List<String> tagValues;
+  final List<String>? tagValues;
 
   GetTagValuesOutput({
     this.paginationToken,
     this.tagValues,
   });
-  factory GetTagValuesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetTagValuesOutputFromJson(json);
+  factory GetTagValuesOutput.fromJson(Map<String, dynamic> json) {
+    return GetTagValuesOutput(
+      paginationToken: json['PaginationToken'] as String?,
+      tagValues: (json['TagValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 }
 
 enum GroupByAttribute {
-  @_s.JsonValue('TARGET_ID')
   targetId,
-  @_s.JsonValue('REGION')
   region,
-  @_s.JsonValue('RESOURCE_TYPE')
   resourceType,
 }
 
@@ -967,84 +972,85 @@ extension on GroupByAttribute {
       case GroupByAttribute.resourceType:
         return 'RESOURCE_TYPE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  GroupByAttribute toGroupByAttribute() {
+    switch (this) {
+      case 'TARGET_ID':
+        return GroupByAttribute.targetId;
+      case 'REGION':
+        return GroupByAttribute.region;
+      case 'RESOURCE_TYPE':
+        return GroupByAttribute.resourceType;
+    }
+    throw Exception('$this is not known in enum GroupByAttribute');
   }
 }
 
 /// A list of resource ARNs and the tags (keys and values) that are associated
 /// with each.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceTagMapping {
   /// Information that shows whether a resource is compliant with the effective
   /// tag policy, including details on any noncompliant tag keys.
-  @_s.JsonKey(name: 'ComplianceDetails')
-  final ComplianceDetails complianceDetails;
+  final ComplianceDetails? complianceDetails;
 
   /// The ARN of the resource.
-  @_s.JsonKey(name: 'ResourceARN')
-  final String resourceARN;
+  final String? resourceARN;
 
   /// The tags that have been applied to one or more AWS resources.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ResourceTagMapping({
     this.complianceDetails,
     this.resourceARN,
     this.tags,
   });
-  factory ResourceTagMapping.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagMappingFromJson(json);
+  factory ResourceTagMapping.fromJson(Map<String, dynamic> json) {
+    return ResourceTagMapping(
+      complianceDetails: json['ComplianceDetails'] != null
+          ? ComplianceDetails.fromJson(
+              json['ComplianceDetails'] as Map<String, dynamic>)
+          : null,
+      resourceARN: json['ResourceARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartReportCreationOutput {
   StartReportCreationOutput();
-  factory StartReportCreationOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartReportCreationOutputFromJson(json);
+  factory StartReportCreationOutput.fromJson(Map<String, dynamic> _) {
+    return StartReportCreationOutput();
+  }
 }
 
 /// A count of noncompliant resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Summary {
   /// The timestamp that shows when this summary was generated in this Region.
-  @_s.JsonKey(name: 'LastUpdated')
-  final String lastUpdated;
+  final String? lastUpdated;
 
   /// The count of noncompliant resources.
-  @_s.JsonKey(name: 'NonCompliantResources')
-  final int nonCompliantResources;
+  final int? nonCompliantResources;
 
   /// The AWS Region that the summary applies to.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The AWS resource type.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The account identifier or the root identifier of the organization. If you
   /// don't know the root ID, you can call the AWS Organizations <a
   /// href="http://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html">ListRoots</a>
   /// API.
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   /// Whether the target is an account, an OU, or the organization root.
-  @_s.JsonKey(name: 'TargetIdType')
-  final TargetIdType targetIdType;
+  final TargetIdType? targetIdType;
 
   Summary({
     this.lastUpdated,
@@ -1054,8 +1060,16 @@ class Summary {
     this.targetId,
     this.targetIdType,
   });
-  factory Summary.fromJson(Map<String, dynamic> json) =>
-      _$SummaryFromJson(json);
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      lastUpdated: json['LastUpdated'] as String?,
+      nonCompliantResources: json['NonCompliantResources'] as int?,
+      region: json['Region'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      targetId: json['TargetId'] as String?,
+      targetIdType: (json['TargetIdType'] as String?)?.toTargetIdType(),
+    );
+  }
 }
 
 /// The metadata that you apply to AWS resources to help you categorize and
@@ -1063,104 +1077,124 @@ class Summary {
 /// define. For more information, see <a
 /// href="http://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
 /// AWS Resources</a> in the <i>AWS General Reference</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// One part of a key-value pair that make up a tag. A value acts as a
   /// descriptor within a tag category (key). The value can be empty or null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
 }
 
 /// A list of tags (keys and values) that are used to specify the associated
 /// resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TagFilter {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// One part of a key-value pair that make up a tag. A value acts as a
   /// descriptor within a tag category (key). The value can be empty or null.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   TagFilter({
     this.key,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourcesOutput {
   /// A map containing a key-value pair for each failed item that couldn't be
   /// tagged. The key is the ARN of the failed resource. The value is a
   /// <code>FailureInfo</code> object that contains an error code, a status code,
   /// and an error message. If there are no errors, the
   /// <code>FailedResourcesMap</code> is empty.
-  @_s.JsonKey(name: 'FailedResourcesMap')
-  final Map<String, FailureInfo> failedResourcesMap;
+  final Map<String, FailureInfo>? failedResourcesMap;
 
   TagResourcesOutput({
     this.failedResourcesMap,
   });
-  factory TagResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourcesOutputFromJson(json);
+  factory TagResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return TagResourcesOutput(
+      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
 enum TargetIdType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('OU')
   ou,
-  @_s.JsonValue('ROOT')
   root,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TargetIdType {
+  String toValue() {
+    switch (this) {
+      case TargetIdType.account:
+        return 'ACCOUNT';
+      case TargetIdType.ou:
+        return 'OU';
+      case TargetIdType.root:
+        return 'ROOT';
+    }
+  }
+}
+
+extension on String {
+  TargetIdType toTargetIdType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return TargetIdType.account;
+      case 'OU':
+        return TargetIdType.ou;
+      case 'ROOT':
+        return TargetIdType.root;
+    }
+    throw Exception('$this is not known in enum TargetIdType');
+  }
+}
+
 class UntagResourcesOutput {
   /// Details of resources that could not be untagged. An error code, status code,
   /// and error message are returned for each failed item.
-  @_s.JsonKey(name: 'FailedResourcesMap')
-  final Map<String, FailureInfo> failedResourcesMap;
+  final Map<String, FailureInfo>? failedResourcesMap;
 
   UntagResourcesOutput({
     this.failedResourcesMap,
   });
-  factory UntagResourcesOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourcesOutputFromJson(json);
+  factory UntagResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return UntagResourcesOutput(
+      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
+    );
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -1168,23 +1202,23 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConstraintViolationException extends _s.GenericAwsException {
-  ConstraintViolationException({String type, String message})
+  ConstraintViolationException({String? type, String? message})
       : super(
             type: type, code: 'ConstraintViolationException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class PaginationTokenExpiredException extends _s.GenericAwsException {
-  PaginationTokenExpiredException({String type, String message})
+  PaginationTokenExpiredException({String? type, String? message})
       : super(
             type: type,
             code: 'PaginationTokenExpiredException',
@@ -1192,7 +1226,7 @@ class PaginationTokenExpiredException extends _s.GenericAwsException {
 }
 
 class ThrottledException extends _s.GenericAwsException {
-  ThrottledException({String type, String message})
+  ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 

@@ -10,21 +10,13 @@ import 'dart:typed_data';
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
-
-part 'budgets-2016-10-20.g.dart';
 
 /// The AWS Budgets API enables you to use AWS Budgets to plan your service
 /// usage, service costs, and instance reservations. The API reference provides
@@ -87,10 +79,10 @@ part 'budgets-2016-10-20.g.dart';
 class Budgets {
   final _s.JsonProtocol _protocol;
   Budgets({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -130,9 +122,9 @@ class Budgets {
   /// and subscribers in your <code>CreateBudget</code> call, AWS creates the
   /// notifications and subscribers for you.
   Future<void> createBudget({
-    @_s.required String accountId,
-    @_s.required Budget budget,
-    List<NotificationWithSubscribers> notificationsWithSubscribers,
+    required String accountId,
+    required Budget budget,
+    List<NotificationWithSubscribers>? notificationsWithSubscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -153,7 +145,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.CreateBudget'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -166,8 +158,6 @@ class Budgets {
           'NotificationsWithSubscribers': notificationsWithSubscribers,
       },
     );
-
-    return CreateBudgetResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a budget action.
@@ -190,15 +180,15 @@ class Budgets {
   /// The role passed for action execution and reversion. Roles and actions must
   /// be in the same account.
   Future<CreateBudgetActionResponse> createBudgetAction({
-    @_s.required String accountId,
-    @_s.required ActionThreshold actionThreshold,
-    @_s.required ActionType actionType,
-    @_s.required ApprovalModel approvalModel,
-    @_s.required String budgetName,
-    @_s.required Definition definition,
-    @_s.required String executionRoleArn,
-    @_s.required NotificationType notificationType,
-    @_s.required List<Subscriber> subscribers,
+    required String accountId,
+    required ActionThreshold actionThreshold,
+    required ActionType actionType,
+    required ApprovalModel approvalModel,
+    required String budgetName,
+    required Definition definition,
+    required String executionRoleArn,
+    required NotificationType notificationType,
+    required List<Subscriber> subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -261,12 +251,12 @@ class Budgets {
       payload: {
         'AccountId': accountId,
         'ActionThreshold': actionThreshold,
-        'ActionType': actionType?.toValue() ?? '',
-        'ApprovalModel': approvalModel?.toValue() ?? '',
+        'ActionType': actionType.toValue(),
+        'ApprovalModel': approvalModel.toValue(),
         'BudgetName': budgetName,
         'Definition': definition,
         'ExecutionRoleArn': executionRoleArn,
-        'NotificationType': notificationType?.toValue() ?? '',
+        'NotificationType': notificationType.toValue(),
         'Subscribers': subscribers,
       },
     );
@@ -300,10 +290,10 @@ class Budgets {
   /// Each notification can have one SNS subscriber and up to 10 email
   /// subscribers.
   Future<void> createNotification({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification notification,
-    @_s.required List<Subscriber> subscribers,
+    required String accountId,
+    required String budgetName,
+    required Notification notification,
+    required List<Subscriber> subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -339,7 +329,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.CreateNotification'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -352,8 +342,6 @@ class Budgets {
         'Subscribers': subscribers,
       },
     );
-
-    return CreateNotificationResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a subscriber. You must create the associated budget and
@@ -380,10 +368,10 @@ class Budgets {
   /// Parameter [subscriber] :
   /// The subscriber that you want to associate with a budget notification.
   Future<void> createSubscriber({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification notification,
-    @_s.required Subscriber subscriber,
+    required String accountId,
+    required String budgetName,
+    required Notification notification,
+    required Subscriber subscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -419,7 +407,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.CreateSubscriber'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -432,8 +420,6 @@ class Budgets {
         'Subscriber': subscriber,
       },
     );
-
-    return CreateSubscriberResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a budget. You can delete your budget at any time.
@@ -454,8 +440,8 @@ class Budgets {
   /// Parameter [budgetName] :
   /// The name of the budget that you want to delete.
   Future<void> deleteBudget({
-    @_s.required String accountId,
-    @_s.required String budgetName,
+    required String accountId,
+    required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -489,7 +475,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteBudget'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -500,8 +486,6 @@ class Budgets {
         'BudgetName': budgetName,
       },
     );
-
-    return DeleteBudgetResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a budget action.
@@ -515,9 +499,9 @@ class Budgets {
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
   Future<DeleteBudgetActionResponse> deleteBudgetAction({
-    @_s.required String accountId,
-    @_s.required String actionId,
-    @_s.required String budgetName,
+    required String accountId,
+    required String actionId,
+    required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -602,9 +586,9 @@ class Budgets {
   /// Parameter [notification] :
   /// The notification that you want to delete.
   Future<void> deleteNotification({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification notification,
+    required String accountId,
+    required String budgetName,
+    required Notification notification,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -639,7 +623,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteNotification'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -651,8 +635,6 @@ class Budgets {
         'Notification': notification,
       },
     );
-
-    return DeleteNotificationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a subscriber.
@@ -679,10 +661,10 @@ class Budgets {
   /// Parameter [subscriber] :
   /// The subscriber that you want to delete.
   Future<void> deleteSubscriber({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification notification,
-    @_s.required Subscriber subscriber,
+    required String accountId,
+    required String budgetName,
+    required Notification notification,
+    required Subscriber subscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -718,7 +700,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.DeleteSubscriber'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -731,8 +713,6 @@ class Budgets {
         'Subscriber': subscriber,
       },
     );
-
-    return DeleteSubscriberResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes a budget.
@@ -755,8 +735,8 @@ class Budgets {
   /// Parameter [budgetName] :
   /// The name of the budget that you want a description of.
   Future<DescribeBudgetResponse> describeBudget({
-    @_s.required String accountId,
-    @_s.required String budgetName,
+    required String accountId,
+    required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -815,9 +795,9 @@ class Budgets {
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
   Future<DescribeBudgetActionResponse> describeBudgetAction({
-    @_s.required String accountId,
-    @_s.required String actionId,
-    @_s.required String budgetName,
+    required String accountId,
+    required String actionId,
+    required String budgetName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -892,12 +872,12 @@ class Budgets {
   /// Parameter [actionId] :
   /// A system-generated universally unique identifier (UUID) for the action.
   Future<DescribeBudgetActionHistoriesResponse> describeBudgetActionHistories({
-    @_s.required String accountId,
-    @_s.required String actionId,
-    @_s.required String budgetName,
-    int maxResults,
-    String nextToken,
-    TimePeriod timePeriod,
+    required String accountId,
+    required String actionId,
+    required String budgetName,
+    int? maxResults,
+    String? nextToken,
+    TimePeriod? timePeriod,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -989,9 +969,9 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   Future<DescribeBudgetActionsForAccountResponse>
       describeBudgetActionsForAccount({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1053,10 +1033,10 @@ class Budgets {
   /// May throw [InvalidNextTokenException].
   Future<DescribeBudgetActionsForBudgetResponse>
       describeBudgetActionsForBudget({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    required String budgetName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1140,11 +1120,11 @@ class Budgets {
   /// the specified time period.
   Future<DescribeBudgetPerformanceHistoryResponse>
       describeBudgetPerformanceHistory({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    int maxResults,
-    String nextToken,
-    TimePeriod timePeriod,
+    required String accountId,
+    required String budgetName,
+    int? maxResults,
+    String? nextToken,
+    TimePeriod? timePeriod,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1240,9 +1220,9 @@ class Budgets {
   /// The pagination token that you include in your request to indicate the next
   /// set of results that you want to retrieve.
   Future<DescribeBudgetsResponse> describeBudgets({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1320,10 +1300,10 @@ class Budgets {
   /// set of results that you want to retrieve.
   Future<DescribeNotificationsForBudgetResponse>
       describeNotificationsForBudget({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    required String budgetName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1419,11 +1399,11 @@ class Budgets {
   /// set of results that you want to retrieve.
   Future<DescribeSubscribersForNotificationResponse>
       describeSubscribersForNotification({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification notification,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    required String budgetName,
+    required Notification notification,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1509,10 +1489,10 @@ class Budgets {
   /// Parameter [executionType] :
   /// The type of execution.
   Future<ExecuteBudgetActionResponse> executeBudgetAction({
-    @_s.required String accountId,
-    @_s.required String actionId,
-    @_s.required String budgetName,
-    @_s.required ExecutionType executionType,
+    required String accountId,
+    required String actionId,
+    required String budgetName,
+    required ExecutionType executionType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1571,7 +1551,7 @@ class Budgets {
         'AccountId': accountId,
         'ActionId': actionId,
         'BudgetName': budgetName,
-        'ExecutionType': executionType?.toValue() ?? '',
+        'ExecutionType': executionType.toValue(),
       },
     );
 
@@ -1603,8 +1583,8 @@ class Budgets {
   /// Parameter [newBudget] :
   /// The budget that you want to update your budget to.
   Future<void> updateBudget({
-    @_s.required String accountId,
-    @_s.required Budget newBudget,
+    required String accountId,
+    required Budget newBudget,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1625,7 +1605,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.UpdateBudget'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1636,8 +1616,6 @@ class Budgets {
         'NewBudget': newBudget,
       },
     );
-
-    return UpdateBudgetResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a budget action.
@@ -1658,15 +1636,15 @@ class Budgets {
   /// The role passed for action execution and reversion. Roles and actions must
   /// be in the same account.
   Future<UpdateBudgetActionResponse> updateBudgetAction({
-    @_s.required String accountId,
-    @_s.required String actionId,
-    @_s.required String budgetName,
-    ActionThreshold actionThreshold,
-    ApprovalModel approvalModel,
-    Definition definition,
-    String executionRoleArn,
-    NotificationType notificationType,
-    List<Subscriber> subscribers,
+    required String accountId,
+    required String actionId,
+    required String budgetName,
+    ActionThreshold? actionThreshold,
+    ApprovalModel? approvalModel,
+    Definition? definition,
+    String? executionRoleArn,
+    NotificationType? notificationType,
+    List<Subscriber>? subscribers,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1769,10 +1747,10 @@ class Budgets {
   /// Parameter [oldNotification] :
   /// The previous notification that is associated with a budget.
   Future<void> updateNotification({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Notification newNotification,
-    @_s.required Notification oldNotification,
+    required String accountId,
+    required String budgetName,
+    required Notification newNotification,
+    required Notification oldNotification,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1808,7 +1786,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.UpdateNotification'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1821,8 +1799,6 @@ class Budgets {
         'OldNotification': oldNotification,
       },
     );
-
-    return UpdateNotificationResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a subscriber.
@@ -1849,11 +1825,11 @@ class Budgets {
   /// Parameter [oldSubscriber] :
   /// The previous subscriber that is associated with a budget notification.
   Future<void> updateSubscriber({
-    @_s.required String accountId,
-    @_s.required String budgetName,
-    @_s.required Subscriber newSubscriber,
-    @_s.required Notification notification,
-    @_s.required Subscriber oldSubscriber,
+    required String accountId,
+    required String budgetName,
+    required Subscriber newSubscriber,
+    required Notification notification,
+    required Subscriber oldSubscriber,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1890,7 +1866,7 @@ class Budgets {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSBudgetServiceGateway.UpdateSubscriber'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1904,181 +1880,245 @@ class Budgets {
         'OldSubscriber': oldSubscriber,
       },
     );
-
-    return UpdateSubscriberResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// A budget action resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Action {
   /// A system-generated universally unique identifier (UUID) for the action.
-  @_s.JsonKey(name: 'ActionId')
   final String actionId;
 
   /// The trigger threshold of the action.
-  @_s.JsonKey(name: 'ActionThreshold')
   final ActionThreshold actionThreshold;
 
   /// The type of action. This defines the type of tasks that can be carried out
   /// by this action. This field also determines the format for definition.
-  @_s.JsonKey(name: 'ActionType')
   final ActionType actionType;
 
   /// This specifies if the action needs manual or automatic approval.
-  @_s.JsonKey(name: 'ApprovalModel')
   final ApprovalModel approvalModel;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   /// Where you specify all of the type-specific parameters.
-  @_s.JsonKey(name: 'Definition')
   final Definition definition;
 
   /// The role passed for action execution and reversion. Roles and actions must
   /// be in the same account.
-  @_s.JsonKey(name: 'ExecutionRoleArn')
   final String executionRoleArn;
-  @_s.JsonKey(name: 'NotificationType')
   final NotificationType notificationType;
 
   /// The status of action.
-  @_s.JsonKey(name: 'Status')
   final ActionStatus status;
-  @_s.JsonKey(name: 'Subscribers')
   final List<Subscriber> subscribers;
 
   Action({
-    @_s.required this.actionId,
-    @_s.required this.actionThreshold,
-    @_s.required this.actionType,
-    @_s.required this.approvalModel,
-    @_s.required this.budgetName,
-    @_s.required this.definition,
-    @_s.required this.executionRoleArn,
-    @_s.required this.notificationType,
-    @_s.required this.status,
-    @_s.required this.subscribers,
+    required this.actionId,
+    required this.actionThreshold,
+    required this.actionType,
+    required this.approvalModel,
+    required this.budgetName,
+    required this.definition,
+    required this.executionRoleArn,
+    required this.notificationType,
+    required this.status,
+    required this.subscribers,
   });
-  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      actionId: json['ActionId'] as String,
+      actionThreshold: ActionThreshold.fromJson(
+          json['ActionThreshold'] as Map<String, dynamic>),
+      actionType: (json['ActionType'] as String).toActionType(),
+      approvalModel: (json['ApprovalModel'] as String).toApprovalModel(),
+      budgetName: json['BudgetName'] as String,
+      definition:
+          Definition.fromJson(json['Definition'] as Map<String, dynamic>),
+      executionRoleArn: json['ExecutionRoleArn'] as String,
+      notificationType:
+          (json['NotificationType'] as String).toNotificationType(),
+      status: (json['Status'] as String).toActionStatus(),
+      subscribers: (json['Subscribers'] as List)
+          .whereNotNull()
+          .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// The historical records for a budget action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionHistory {
   /// The description of details of the event.
-  @_s.JsonKey(name: 'ActionHistoryDetails')
   final ActionHistoryDetails actionHistoryDetails;
 
   /// This distinguishes between whether the events are triggered by the user or
   /// generated by the system.
-  @_s.JsonKey(name: 'EventType')
   final EventType eventType;
 
   /// The status of action at the time of the event.
-  @_s.JsonKey(name: 'Status')
   final ActionStatus status;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   ActionHistory({
-    @_s.required this.actionHistoryDetails,
-    @_s.required this.eventType,
-    @_s.required this.status,
-    @_s.required this.timestamp,
+    required this.actionHistoryDetails,
+    required this.eventType,
+    required this.status,
+    required this.timestamp,
   });
-  factory ActionHistory.fromJson(Map<String, dynamic> json) =>
-      _$ActionHistoryFromJson(json);
+  factory ActionHistory.fromJson(Map<String, dynamic> json) {
+    return ActionHistory(
+      actionHistoryDetails: ActionHistoryDetails.fromJson(
+          json['ActionHistoryDetails'] as Map<String, dynamic>),
+      eventType: (json['EventType'] as String).toEventType(),
+      status: (json['Status'] as String).toActionStatus(),
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] as Object),
+    );
+  }
 }
 
 /// The description of details of the event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionHistoryDetails {
   /// The budget action resource.
-  @_s.JsonKey(name: 'Action')
   final Action action;
-  @_s.JsonKey(name: 'Message')
   final String message;
 
   ActionHistoryDetails({
-    @_s.required this.action,
-    @_s.required this.message,
+    required this.action,
+    required this.message,
   });
-  factory ActionHistoryDetails.fromJson(Map<String, dynamic> json) =>
-      _$ActionHistoryDetailsFromJson(json);
+  factory ActionHistoryDetails.fromJson(Map<String, dynamic> json) {
+    return ActionHistoryDetails(
+      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
+      message: json['Message'] as String,
+    );
+  }
 }
 
 enum ActionStatus {
-  @_s.JsonValue('STANDBY')
   standby,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('EXECUTION_IN_PROGRESS')
   executionInProgress,
-  @_s.JsonValue('EXECUTION_SUCCESS')
   executionSuccess,
-  @_s.JsonValue('EXECUTION_FAILURE')
   executionFailure,
-  @_s.JsonValue('REVERSE_IN_PROGRESS')
   reverseInProgress,
-  @_s.JsonValue('REVERSE_SUCCESS')
   reverseSuccess,
-  @_s.JsonValue('REVERSE_FAILURE')
   reverseFailure,
-  @_s.JsonValue('RESET_IN_PROGRESS')
   resetInProgress,
-  @_s.JsonValue('RESET_FAILURE')
   resetFailure,
 }
 
+extension on ActionStatus {
+  String toValue() {
+    switch (this) {
+      case ActionStatus.standby:
+        return 'STANDBY';
+      case ActionStatus.pending:
+        return 'PENDING';
+      case ActionStatus.executionInProgress:
+        return 'EXECUTION_IN_PROGRESS';
+      case ActionStatus.executionSuccess:
+        return 'EXECUTION_SUCCESS';
+      case ActionStatus.executionFailure:
+        return 'EXECUTION_FAILURE';
+      case ActionStatus.reverseInProgress:
+        return 'REVERSE_IN_PROGRESS';
+      case ActionStatus.reverseSuccess:
+        return 'REVERSE_SUCCESS';
+      case ActionStatus.reverseFailure:
+        return 'REVERSE_FAILURE';
+      case ActionStatus.resetInProgress:
+        return 'RESET_IN_PROGRESS';
+      case ActionStatus.resetFailure:
+        return 'RESET_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  ActionStatus toActionStatus() {
+    switch (this) {
+      case 'STANDBY':
+        return ActionStatus.standby;
+      case 'PENDING':
+        return ActionStatus.pending;
+      case 'EXECUTION_IN_PROGRESS':
+        return ActionStatus.executionInProgress;
+      case 'EXECUTION_SUCCESS':
+        return ActionStatus.executionSuccess;
+      case 'EXECUTION_FAILURE':
+        return ActionStatus.executionFailure;
+      case 'REVERSE_IN_PROGRESS':
+        return ActionStatus.reverseInProgress;
+      case 'REVERSE_SUCCESS':
+        return ActionStatus.reverseSuccess;
+      case 'REVERSE_FAILURE':
+        return ActionStatus.reverseFailure;
+      case 'RESET_IN_PROGRESS':
+        return ActionStatus.resetInProgress;
+      case 'RESET_FAILURE':
+        return ActionStatus.resetFailure;
+    }
+    throw Exception('$this is not known in enum ActionStatus');
+  }
+}
+
 enum ActionSubType {
-  @_s.JsonValue('STOP_EC2_INSTANCES')
   stopEc2Instances,
-  @_s.JsonValue('STOP_RDS_INSTANCES')
   stopRdsInstances,
 }
 
+extension on ActionSubType {
+  String toValue() {
+    switch (this) {
+      case ActionSubType.stopEc2Instances:
+        return 'STOP_EC2_INSTANCES';
+      case ActionSubType.stopRdsInstances:
+        return 'STOP_RDS_INSTANCES';
+    }
+  }
+}
+
+extension on String {
+  ActionSubType toActionSubType() {
+    switch (this) {
+      case 'STOP_EC2_INSTANCES':
+        return ActionSubType.stopEc2Instances;
+      case 'STOP_RDS_INSTANCES':
+        return ActionSubType.stopRdsInstances;
+    }
+    throw Exception('$this is not known in enum ActionSubType');
+  }
+}
+
 /// The trigger threshold of the action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionThreshold {
-  @_s.JsonKey(name: 'ActionThresholdType')
   final ThresholdType actionThresholdType;
-  @_s.JsonKey(name: 'ActionThresholdValue')
   final double actionThresholdValue;
 
   ActionThreshold({
-    @_s.required this.actionThresholdType,
-    @_s.required this.actionThresholdValue,
+    required this.actionThresholdType,
+    required this.actionThresholdValue,
   });
-  factory ActionThreshold.fromJson(Map<String, dynamic> json) =>
-      _$ActionThresholdFromJson(json);
+  factory ActionThreshold.fromJson(Map<String, dynamic> json) {
+    return ActionThreshold(
+      actionThresholdType:
+          (json['ActionThresholdType'] as String).toThresholdType(),
+      actionThresholdValue: json['ActionThresholdValue'] as double,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ActionThresholdToJson(this);
+  Map<String, dynamic> toJson() {
+    final actionThresholdType = this.actionThresholdType;
+    final actionThresholdValue = this.actionThresholdValue;
+    return {
+      'ActionThresholdType': actionThresholdType.toValue(),
+      'ActionThresholdValue': actionThresholdValue,
+    };
+  }
 }
 
 enum ActionType {
-  @_s.JsonValue('APPLY_IAM_POLICY')
   applyIamPolicy,
-  @_s.JsonValue('APPLY_SCP_POLICY')
   applyScpPolicy,
-  @_s.JsonValue('RUN_SSM_DOCUMENTS')
   runSsmDocuments,
 }
 
@@ -2092,14 +2132,25 @@ extension on ActionType {
       case ActionType.runSsmDocuments:
         return 'RUN_SSM_DOCUMENTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ActionType toActionType() {
+    switch (this) {
+      case 'APPLY_IAM_POLICY':
+        return ActionType.applyIamPolicy;
+      case 'APPLY_SCP_POLICY':
+        return ActionType.applyScpPolicy;
+      case 'RUN_SSM_DOCUMENTS':
+        return ActionType.runSsmDocuments;
+    }
+    throw Exception('$this is not known in enum ActionType');
   }
 }
 
 enum ApprovalModel {
-  @_s.JsonValue('AUTOMATIC')
   automatic,
-  @_s.JsonValue('MANUAL')
   manual,
 }
 
@@ -2111,7 +2162,18 @@ extension on ApprovalModel {
       case ApprovalModel.manual:
         return 'MANUAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ApprovalModel toApprovalModel() {
+    switch (this) {
+      case 'AUTOMATIC':
+        return ApprovalModel.automatic;
+      case 'MANUAL':
+        return ApprovalModel.manual;
+    }
+    throw Exception('$this is not known in enum ApprovalModel');
   }
 }
 
@@ -2122,25 +2184,17 @@ extension on ApprovalModel {
 /// This is the ARN pattern for a budget:
 ///
 /// <code>arn:aws:budgets::AccountId:budget/budgetName</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Budget {
   /// The name of a budget. The name must be unique within an account. The
   /// <code>:</code> and <code>\</code> characters aren't allowed in
   /// <code>BudgetName</code>.
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   /// Whether this budget tracks costs, usage, RI utilization, RI coverage,
   /// Savings Plans utilization, or Savings Plans coverage.
-  @_s.JsonKey(name: 'BudgetType')
   final BudgetType budgetType;
 
   /// The length of time until a budget resets the actual and forecasted spend.
-  @_s.JsonKey(name: 'TimeUnit')
   final TimeUnit timeUnit;
 
   /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans
@@ -2154,12 +2208,10 @@ class Budget {
   /// budgets. You can't use <code>BudgetLimit</code> with
   /// <code>PlannedBudgetLimits</code> for <code>CreateBudget</code> and
   /// <code>UpdateBudget</code> actions.
-  @_s.JsonKey(name: 'BudgetLimit')
-  final Spend budgetLimit;
+  final Spend? budgetLimit;
 
   /// The actual and forecasted cost or usage that the budget tracks.
-  @_s.JsonKey(name: 'CalculatedSpend')
-  final CalculatedSpend calculatedSpend;
+  final CalculatedSpend? calculatedSpend;
 
   /// The cost filters, such as service or tag, that are applied to a budget.
   ///
@@ -2182,8 +2234,7 @@ class Budget {
   /// Amazon Elasticsearch Service
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'CostFilters')
-  final Map<String, List<String>> costFilters;
+  final Map<String, List<String>>? costFilters;
 
   /// The types of costs that are included in this <code>COST</code> budget.
   ///
@@ -2191,13 +2242,10 @@ class Budget {
   /// <code>SAVINGS_PLANS_UTILIZATION</code>, and
   /// <code>SAVINGS_PLANS_COVERAGE</code> budgets do not have
   /// <code>CostTypes</code>.
-  @_s.JsonKey(name: 'CostTypes')
-  final CostTypes costTypes;
+  final CostTypes? costTypes;
 
   /// The last time that you updated this budget.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// A map containing multiple <code>BudgetLimit</code>, including current or
   /// future limits.
@@ -2235,8 +2283,7 @@ class Budget {
   /// created with <code>PlannedBudgetLimits</code>. Budgets created without
   /// <code>PlannedBudgetLimits</code> will only contain <code>BudgetLimit</code>,
   /// and no <code>PlannedBudgetLimits</code>.
-  @_s.JsonKey(name: 'PlannedBudgetLimits')
-  final Map<String, Spend> plannedBudgetLimits;
+  final Map<String, Spend>? plannedBudgetLimits;
 
   /// The period of time that is covered by a budget. The period has a start date
   /// and an end date. The start date must come before the end date. The end date
@@ -2256,13 +2303,12 @@ class Budget {
   ///
   /// After the end date, AWS deletes the budget and all associated notifications
   /// and subscribers.
-  @_s.JsonKey(name: 'TimePeriod')
-  final TimePeriod timePeriod;
+  final TimePeriod? timePeriod;
 
   Budget({
-    @_s.required this.budgetName,
-    @_s.required this.budgetType,
-    @_s.required this.timeUnit,
+    required this.budgetName,
+    required this.budgetType,
+    required this.timeUnit,
     this.budgetLimit,
     this.calculatedSpend,
     this.costFilters,
@@ -2271,39 +2317,79 @@ class Budget {
     this.plannedBudgetLimits,
     this.timePeriod,
   });
-  factory Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
+  factory Budget.fromJson(Map<String, dynamic> json) {
+    return Budget(
+      budgetName: json['BudgetName'] as String,
+      budgetType: (json['BudgetType'] as String).toBudgetType(),
+      timeUnit: (json['TimeUnit'] as String).toTimeUnit(),
+      budgetLimit: json['BudgetLimit'] != null
+          ? Spend.fromJson(json['BudgetLimit'] as Map<String, dynamic>)
+          : null,
+      calculatedSpend: json['CalculatedSpend'] != null
+          ? CalculatedSpend.fromJson(
+              json['CalculatedSpend'] as Map<String, dynamic>)
+          : null,
+      costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      costTypes: json['CostTypes'] != null
+          ? CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      plannedBudgetLimits:
+          (json['PlannedBudgetLimits'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k, Spend.fromJson(e as Map<String, dynamic>))),
+      timePeriod: json['TimePeriod'] != null
+          ? TimePeriod.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$BudgetToJson(this);
+  Map<String, dynamic> toJson() {
+    final budgetName = this.budgetName;
+    final budgetType = this.budgetType;
+    final timeUnit = this.timeUnit;
+    final budgetLimit = this.budgetLimit;
+    final calculatedSpend = this.calculatedSpend;
+    final costFilters = this.costFilters;
+    final costTypes = this.costTypes;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final plannedBudgetLimits = this.plannedBudgetLimits;
+    final timePeriod = this.timePeriod;
+    return {
+      'BudgetName': budgetName,
+      'BudgetType': budgetType.toValue(),
+      'TimeUnit': timeUnit.toValue(),
+      if (budgetLimit != null) 'BudgetLimit': budgetLimit,
+      if (calculatedSpend != null) 'CalculatedSpend': calculatedSpend,
+      if (costFilters != null) 'CostFilters': costFilters,
+      if (costTypes != null) 'CostTypes': costTypes,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (plannedBudgetLimits != null)
+        'PlannedBudgetLimits': plannedBudgetLimits,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+    };
+  }
 }
 
 /// A history of the state of a budget at the end of the budget's specified time
 /// period.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BudgetPerformanceHistory {
-  @_s.JsonKey(name: 'BudgetName')
-  final String budgetName;
-  @_s.JsonKey(name: 'BudgetType')
-  final BudgetType budgetType;
+  final String? budgetName;
+  final BudgetType? budgetType;
 
   /// A list of amounts of cost or usage that you created budgets for, compared to
   /// your actual costs or usage.
-  @_s.JsonKey(name: 'BudgetedAndActualAmountsList')
-  final List<BudgetedAndActualAmounts> budgetedAndActualAmountsList;
+  final List<BudgetedAndActualAmounts>? budgetedAndActualAmountsList;
 
   /// The history of the cost filters for a budget during the specified time
   /// period.
-  @_s.JsonKey(name: 'CostFilters')
-  final Map<String, List<String>> costFilters;
+  final Map<String, List<String>>? costFilters;
 
   /// The history of the cost types for a budget during the specified time period.
-  @_s.JsonKey(name: 'CostTypes')
-  final CostTypes costTypes;
-  @_s.JsonKey(name: 'TimeUnit')
-  final TimeUnit timeUnit;
+  final CostTypes? costTypes;
+  final TimeUnit? timeUnit;
 
   BudgetPerformanceHistory({
     this.budgetName,
@@ -2313,8 +2399,25 @@ class BudgetPerformanceHistory {
     this.costTypes,
     this.timeUnit,
   });
-  factory BudgetPerformanceHistory.fromJson(Map<String, dynamic> json) =>
-      _$BudgetPerformanceHistoryFromJson(json);
+  factory BudgetPerformanceHistory.fromJson(Map<String, dynamic> json) {
+    return BudgetPerformanceHistory(
+      budgetName: json['BudgetName'] as String?,
+      budgetType: (json['BudgetType'] as String?)?.toBudgetType(),
+      budgetedAndActualAmountsList:
+          (json['BudgetedAndActualAmountsList'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  BudgetedAndActualAmounts.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      costFilters: (json['CostFilters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      costTypes: json['CostTypes'] != null
+          ? CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>)
+          : null,
+      timeUnit: (json['TimeUnit'] as String?)?.toTimeUnit(),
+    );
+  }
 }
 
 /// The type of a budget. It must be one of the following types:
@@ -2323,47 +2426,83 @@ class BudgetPerformanceHistory {
 /// <code>RI_COVERAGE</code>, <code>SAVINGS_PLANS_UTILIZATION</code>, or
 /// <code>SAVINGS_PLANS_COVERAGE</code>.
 enum BudgetType {
-  @_s.JsonValue('USAGE')
   usage,
-  @_s.JsonValue('COST')
   cost,
-  @_s.JsonValue('RI_UTILIZATION')
   riUtilization,
-  @_s.JsonValue('RI_COVERAGE')
   riCoverage,
-  @_s.JsonValue('SAVINGS_PLANS_UTILIZATION')
   savingsPlansUtilization,
-  @_s.JsonValue('SAVINGS_PLANS_COVERAGE')
   savingsPlansCoverage,
+}
+
+extension on BudgetType {
+  String toValue() {
+    switch (this) {
+      case BudgetType.usage:
+        return 'USAGE';
+      case BudgetType.cost:
+        return 'COST';
+      case BudgetType.riUtilization:
+        return 'RI_UTILIZATION';
+      case BudgetType.riCoverage:
+        return 'RI_COVERAGE';
+      case BudgetType.savingsPlansUtilization:
+        return 'SAVINGS_PLANS_UTILIZATION';
+      case BudgetType.savingsPlansCoverage:
+        return 'SAVINGS_PLANS_COVERAGE';
+    }
+  }
+}
+
+extension on String {
+  BudgetType toBudgetType() {
+    switch (this) {
+      case 'USAGE':
+        return BudgetType.usage;
+      case 'COST':
+        return BudgetType.cost;
+      case 'RI_UTILIZATION':
+        return BudgetType.riUtilization;
+      case 'RI_COVERAGE':
+        return BudgetType.riCoverage;
+      case 'SAVINGS_PLANS_UTILIZATION':
+        return BudgetType.savingsPlansUtilization;
+      case 'SAVINGS_PLANS_COVERAGE':
+        return BudgetType.savingsPlansCoverage;
+    }
+    throw Exception('$this is not known in enum BudgetType');
+  }
 }
 
 /// The amount of cost or usage that you created the budget for, compared to
 /// your actual costs or usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BudgetedAndActualAmounts {
   /// Your actual costs or usage for a budget period.
-  @_s.JsonKey(name: 'ActualAmount')
-  final Spend actualAmount;
+  final Spend? actualAmount;
 
   /// The amount of cost or usage that you created the budget for.
-  @_s.JsonKey(name: 'BudgetedAmount')
-  final Spend budgetedAmount;
+  final Spend? budgetedAmount;
 
   /// The time period covered by this budget comparison.
-  @_s.JsonKey(name: 'TimePeriod')
-  final TimePeriod timePeriod;
+  final TimePeriod? timePeriod;
 
   BudgetedAndActualAmounts({
     this.actualAmount,
     this.budgetedAmount,
     this.timePeriod,
   });
-  factory BudgetedAndActualAmounts.fromJson(Map<String, dynamic> json) =>
-      _$BudgetedAndActualAmountsFromJson(json);
+  factory BudgetedAndActualAmounts.fromJson(Map<String, dynamic> json) {
+    return BudgetedAndActualAmounts(
+      actualAmount: json['ActualAmount'] != null
+          ? Spend.fromJson(json['ActualAmount'] as Map<String, dynamic>)
+          : null,
+      budgetedAmount: json['BudgetedAmount'] != null
+          ? Spend.fromJson(json['BudgetedAmount'] as Map<String, dynamic>)
+          : null,
+      timePeriod: json['TimePeriod'] != null
+          ? TimePeriod.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// The spend objects that are associated with this budget. The
@@ -2375,30 +2514,36 @@ class BudgetedAndActualAmounts {
 /// <code>50</code> dollars on Amazon EC2, your <code>actualSpend</code> is
 /// <code>50 USD</code>, and your <code>forecastedSpend</code> is <code>75
 /// USD</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CalculatedSpend {
   /// The amount of cost, usage, RI units, or Savings Plans units that you have
   /// used.
-  @_s.JsonKey(name: 'ActualSpend')
   final Spend actualSpend;
 
   /// The amount of cost, usage, RI units, or Savings Plans units that you are
   /// forecasted to use.
-  @_s.JsonKey(name: 'ForecastedSpend')
-  final Spend forecastedSpend;
+  final Spend? forecastedSpend;
 
   CalculatedSpend({
-    @_s.required this.actualSpend,
+    required this.actualSpend,
     this.forecastedSpend,
   });
-  factory CalculatedSpend.fromJson(Map<String, dynamic> json) =>
-      _$CalculatedSpendFromJson(json);
+  factory CalculatedSpend.fromJson(Map<String, dynamic> json) {
+    return CalculatedSpend(
+      actualSpend: Spend.fromJson(json['ActualSpend'] as Map<String, dynamic>),
+      forecastedSpend: json['ForecastedSpend'] != null
+          ? Spend.fromJson(json['ForecastedSpend'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CalculatedSpendToJson(this);
+  Map<String, dynamic> toJson() {
+    final actualSpend = this.actualSpend;
+    final forecastedSpend = this.forecastedSpend;
+    return {
+      'ActualSpend': actualSpend,
+      if (forecastedSpend != null) 'ForecastedSpend': forecastedSpend,
+    };
+  }
 }
 
 /// The comparison operator of a notification. Currently the service supports
@@ -2406,12 +2551,36 @@ class CalculatedSpend {
 ///
 /// <code>GREATER_THAN</code>, <code>LESS_THAN</code>, <code>EQUAL_TO</code>
 enum ComparisonOperator {
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('EQUAL_TO')
   equalTo,
+}
+
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.greaterThan:
+        return 'GREATER_THAN';
+      case ComparisonOperator.lessThan:
+        return 'LESS_THAN';
+      case ComparisonOperator.equalTo:
+        return 'EQUAL_TO';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'GREATER_THAN':
+        return ComparisonOperator.greaterThan;
+      case 'LESS_THAN':
+        return ComparisonOperator.lessThan;
+      case 'EQUAL_TO':
+        return ComparisonOperator.equalTo;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
 }
 
 /// The types of cost that are included in a <code>COST</code> budget, such as
@@ -2421,77 +2590,61 @@ enum ComparisonOperator {
 /// <code>SAVINGS_PLANS_UTILIZATION</code>, and
 /// <code>SAVINGS_PLANS_COVERAGE</code> budgets do not have
 /// <code>CostTypes</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CostTypes {
   /// Specifies whether a budget includes credits.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeCredit')
-  final bool includeCredit;
+  final bool? includeCredit;
 
   /// Specifies whether a budget includes discounts.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeDiscount')
-  final bool includeDiscount;
+  final bool? includeDiscount;
 
   /// Specifies whether a budget includes non-RI subscription costs.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeOtherSubscription')
-  final bool includeOtherSubscription;
+  final bool? includeOtherSubscription;
 
   /// Specifies whether a budget includes recurring fees such as monthly RI fees.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeRecurring')
-  final bool includeRecurring;
+  final bool? includeRecurring;
 
   /// Specifies whether a budget includes refunds.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeRefund')
-  final bool includeRefund;
+  final bool? includeRefund;
 
   /// Specifies whether a budget includes subscriptions.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeSubscription')
-  final bool includeSubscription;
+  final bool? includeSubscription;
 
   /// Specifies whether a budget includes support subscription fees.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeSupport')
-  final bool includeSupport;
+  final bool? includeSupport;
 
   /// Specifies whether a budget includes taxes.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeTax')
-  final bool includeTax;
+  final bool? includeTax;
 
   /// Specifies whether a budget includes upfront RI costs.
   ///
   /// The default value is <code>true</code>.
-  @_s.JsonKey(name: 'IncludeUpfront')
-  final bool includeUpfront;
+  final bool? includeUpfront;
 
   /// Specifies whether a budget uses the amortized rate.
   ///
   /// The default value is <code>false</code>.
-  @_s.JsonKey(name: 'UseAmortized')
-  final bool useAmortized;
+  final bool? useAmortized;
 
   /// Specifies whether a budget uses a blended rate.
   ///
   /// The default value is <code>false</code>.
-  @_s.JsonKey(name: 'UseBlended')
-  final bool useBlended;
+  final bool? useBlended;
 
   CostTypes({
     this.includeCredit,
@@ -2506,252 +2659,272 @@ class CostTypes {
     this.useAmortized,
     this.useBlended,
   });
-  factory CostTypes.fromJson(Map<String, dynamic> json) =>
-      _$CostTypesFromJson(json);
+  factory CostTypes.fromJson(Map<String, dynamic> json) {
+    return CostTypes(
+      includeCredit: json['IncludeCredit'] as bool?,
+      includeDiscount: json['IncludeDiscount'] as bool?,
+      includeOtherSubscription: json['IncludeOtherSubscription'] as bool?,
+      includeRecurring: json['IncludeRecurring'] as bool?,
+      includeRefund: json['IncludeRefund'] as bool?,
+      includeSubscription: json['IncludeSubscription'] as bool?,
+      includeSupport: json['IncludeSupport'] as bool?,
+      includeTax: json['IncludeTax'] as bool?,
+      includeUpfront: json['IncludeUpfront'] as bool?,
+      useAmortized: json['UseAmortized'] as bool?,
+      useBlended: json['UseBlended'] as bool?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CostTypesToJson(this);
+  Map<String, dynamic> toJson() {
+    final includeCredit = this.includeCredit;
+    final includeDiscount = this.includeDiscount;
+    final includeOtherSubscription = this.includeOtherSubscription;
+    final includeRecurring = this.includeRecurring;
+    final includeRefund = this.includeRefund;
+    final includeSubscription = this.includeSubscription;
+    final includeSupport = this.includeSupport;
+    final includeTax = this.includeTax;
+    final includeUpfront = this.includeUpfront;
+    final useAmortized = this.useAmortized;
+    final useBlended = this.useBlended;
+    return {
+      if (includeCredit != null) 'IncludeCredit': includeCredit,
+      if (includeDiscount != null) 'IncludeDiscount': includeDiscount,
+      if (includeOtherSubscription != null)
+        'IncludeOtherSubscription': includeOtherSubscription,
+      if (includeRecurring != null) 'IncludeRecurring': includeRecurring,
+      if (includeRefund != null) 'IncludeRefund': includeRefund,
+      if (includeSubscription != null)
+        'IncludeSubscription': includeSubscription,
+      if (includeSupport != null) 'IncludeSupport': includeSupport,
+      if (includeTax != null) 'IncludeTax': includeTax,
+      if (includeUpfront != null) 'IncludeUpfront': includeUpfront,
+      if (useAmortized != null) 'UseAmortized': useAmortized,
+      if (useBlended != null) 'UseBlended': useBlended,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBudgetActionResponse {
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
   /// A system-generated universally unique identifier (UUID) for the action.
-  @_s.JsonKey(name: 'ActionId')
   final String actionId;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   CreateBudgetActionResponse({
-    @_s.required this.accountId,
-    @_s.required this.actionId,
-    @_s.required this.budgetName,
+    required this.accountId,
+    required this.actionId,
+    required this.budgetName,
   });
-  factory CreateBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBudgetActionResponseFromJson(json);
+  factory CreateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBudgetActionResponse(
+      accountId: json['AccountId'] as String,
+      actionId: json['ActionId'] as String,
+      budgetName: json['BudgetName'] as String,
+    );
+  }
 }
 
 /// Response of CreateBudget
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBudgetResponse {
   CreateBudgetResponse();
-  factory CreateBudgetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBudgetResponseFromJson(json);
+  factory CreateBudgetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateBudgetResponse();
+  }
 }
 
 /// Response of CreateNotification
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNotificationResponse {
   CreateNotificationResponse();
-  factory CreateNotificationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateNotificationResponseFromJson(json);
+  factory CreateNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return CreateNotificationResponse();
+  }
 }
 
 /// Response of CreateSubscriber
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSubscriberResponse {
   CreateSubscriberResponse();
-  factory CreateSubscriberResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSubscriberResponseFromJson(json);
+  factory CreateSubscriberResponse.fromJson(Map<String, dynamic> _) {
+    return CreateSubscriberResponse();
+  }
 }
 
 /// Specifies all of the type-specific parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Definition {
   /// The AWS Identity and Access Management (IAM) action definition details.
-  @_s.JsonKey(name: 'IamActionDefinition')
-  final IamActionDefinition iamActionDefinition;
+  final IamActionDefinition? iamActionDefinition;
 
   /// The service control policies (SCPs) action definition details.
-  @_s.JsonKey(name: 'ScpActionDefinition')
-  final ScpActionDefinition scpActionDefinition;
+  final ScpActionDefinition? scpActionDefinition;
 
   /// The AWS Systems Manager (SSM) action definition details.
-  @_s.JsonKey(name: 'SsmActionDefinition')
-  final SsmActionDefinition ssmActionDefinition;
+  final SsmActionDefinition? ssmActionDefinition;
 
   Definition({
     this.iamActionDefinition,
     this.scpActionDefinition,
     this.ssmActionDefinition,
   });
-  factory Definition.fromJson(Map<String, dynamic> json) =>
-      _$DefinitionFromJson(json);
+  factory Definition.fromJson(Map<String, dynamic> json) {
+    return Definition(
+      iamActionDefinition: json['IamActionDefinition'] != null
+          ? IamActionDefinition.fromJson(
+              json['IamActionDefinition'] as Map<String, dynamic>)
+          : null,
+      scpActionDefinition: json['ScpActionDefinition'] != null
+          ? ScpActionDefinition.fromJson(
+              json['ScpActionDefinition'] as Map<String, dynamic>)
+          : null,
+      ssmActionDefinition: json['SsmActionDefinition'] != null
+          ? SsmActionDefinition.fromJson(
+              json['SsmActionDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$DefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final iamActionDefinition = this.iamActionDefinition;
+    final scpActionDefinition = this.scpActionDefinition;
+    final ssmActionDefinition = this.ssmActionDefinition;
+    return {
+      if (iamActionDefinition != null)
+        'IamActionDefinition': iamActionDefinition,
+      if (scpActionDefinition != null)
+        'ScpActionDefinition': scpActionDefinition,
+      if (ssmActionDefinition != null)
+        'SsmActionDefinition': ssmActionDefinition,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBudgetActionResponse {
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
-  @_s.JsonKey(name: 'Action')
   final Action action;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   DeleteBudgetActionResponse({
-    @_s.required this.accountId,
-    @_s.required this.action,
-    @_s.required this.budgetName,
+    required this.accountId,
+    required this.action,
+    required this.budgetName,
   });
-  factory DeleteBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBudgetActionResponseFromJson(json);
+  factory DeleteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBudgetActionResponse(
+      accountId: json['AccountId'] as String,
+      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
+      budgetName: json['BudgetName'] as String,
+    );
+  }
 }
 
 /// Response of DeleteBudget
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBudgetResponse {
   DeleteBudgetResponse();
-  factory DeleteBudgetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBudgetResponseFromJson(json);
+  factory DeleteBudgetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteBudgetResponse();
+  }
 }
 
 /// Response of DeleteNotification
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNotificationResponse {
   DeleteNotificationResponse();
-  factory DeleteNotificationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNotificationResponseFromJson(json);
+  factory DeleteNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteNotificationResponse();
+  }
 }
 
 /// Response of DeleteSubscriber
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
-  factory DeleteSubscriberResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSubscriberResponseFromJson(json);
+  factory DeleteSubscriberResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSubscriberResponse();
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetActionHistoriesResponse {
   /// The historical record of the budget action resource.
-  @_s.JsonKey(name: 'ActionHistories')
   final List<ActionHistory> actionHistories;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBudgetActionHistoriesResponse({
-    @_s.required this.actionHistories,
+    required this.actionHistories,
     this.nextToken,
   });
   factory DescribeBudgetActionHistoriesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBudgetActionHistoriesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBudgetActionHistoriesResponse(
+      actionHistories: (json['ActionHistories'] as List)
+          .whereNotNull()
+          .map((e) => ActionHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetActionResponse {
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
   /// A budget action resource.
-  @_s.JsonKey(name: 'Action')
   final Action action;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   DescribeBudgetActionResponse({
-    @_s.required this.accountId,
-    @_s.required this.action,
-    @_s.required this.budgetName,
+    required this.accountId,
+    required this.action,
+    required this.budgetName,
   });
-  factory DescribeBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBudgetActionResponseFromJson(json);
+  factory DescribeBudgetActionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBudgetActionResponse(
+      accountId: json['AccountId'] as String,
+      action: Action.fromJson(json['Action'] as Map<String, dynamic>),
+      budgetName: json['BudgetName'] as String,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetActionsForAccountResponse {
   /// A list of the budget action resources information.
-  @_s.JsonKey(name: 'Actions')
   final List<Action> actions;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBudgetActionsForAccountResponse({
-    @_s.required this.actions,
+    required this.actions,
     this.nextToken,
   });
   factory DescribeBudgetActionsForAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBudgetActionsForAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBudgetActionsForAccountResponse(
+      actions: (json['Actions'] as List)
+          .whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetActionsForBudgetResponse {
   /// A list of the budget action resources information.
-  @_s.JsonKey(name: 'Actions')
   final List<Action> actions;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBudgetActionsForBudgetResponse({
-    @_s.required this.actions,
+    required this.actions,
     this.nextToken,
   });
   factory DescribeBudgetActionsForBudgetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBudgetActionsForBudgetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBudgetActionsForBudgetResponse(
+      actions: (json['Actions'] as List)
+          .whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetPerformanceHistoryResponse {
   /// The history of how often the budget has gone into an <code>ALARM</code>
   /// state.
@@ -2761,162 +2934,189 @@ class DescribeBudgetPerformanceHistoryResponse {
   /// the state of the budget for the current month plus the last 12 months. For
   /// <code>QUARTERLY</code> budgets, the history saves the state of the budget
   /// for the last four quarters.
-  @_s.JsonKey(name: 'BudgetPerformanceHistory')
-  final BudgetPerformanceHistory budgetPerformanceHistory;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final BudgetPerformanceHistory? budgetPerformanceHistory;
+  final String? nextToken;
 
   DescribeBudgetPerformanceHistoryResponse({
     this.budgetPerformanceHistory,
     this.nextToken,
   });
   factory DescribeBudgetPerformanceHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBudgetPerformanceHistoryResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBudgetPerformanceHistoryResponse(
+      budgetPerformanceHistory: json['BudgetPerformanceHistory'] != null
+          ? BudgetPerformanceHistory.fromJson(
+              json['BudgetPerformanceHistory'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Response of DescribeBudget
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetResponse {
   /// The description of the budget.
-  @_s.JsonKey(name: 'Budget')
-  final Budget budget;
+  final Budget? budget;
 
   DescribeBudgetResponse({
     this.budget,
   });
-  factory DescribeBudgetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBudgetResponseFromJson(json);
+  factory DescribeBudgetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBudgetResponse(
+      budget: json['Budget'] != null
+          ? Budget.fromJson(json['Budget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 }
 
 /// Response of DescribeBudgets
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBudgetsResponse {
   /// A list of budgets.
-  @_s.JsonKey(name: 'Budgets')
-  final List<Budget> budgets;
+  final List<Budget>? budgets;
 
   /// The pagination token in the service response that indicates the next set of
   /// results that you can retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBudgetsResponse({
     this.budgets,
     this.nextToken,
   });
-  factory DescribeBudgetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBudgetsResponseFromJson(json);
+  factory DescribeBudgetsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBudgetsResponse(
+      budgets: (json['Budgets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Budget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 }
 
 /// Response of GetNotificationsForBudget
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNotificationsForBudgetResponse {
   /// The pagination token in the service response that indicates the next set of
   /// results that you can retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of notifications that are associated with a budget.
-  @_s.JsonKey(name: 'Notifications')
-  final List<Notification> notifications;
+  final List<Notification>? notifications;
 
   DescribeNotificationsForBudgetResponse({
     this.nextToken,
     this.notifications,
   });
   factory DescribeNotificationsForBudgetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeNotificationsForBudgetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeNotificationsForBudgetResponse(
+      nextToken: json['NextToken'] as String?,
+      notifications: (json['Notifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Notification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 /// Response of DescribeSubscribersForNotification
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSubscribersForNotificationResponse {
   /// The pagination token in the service response that indicates the next set of
   /// results that you can retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of subscribers that are associated with a notification.
-  @_s.JsonKey(name: 'Subscribers')
-  final List<Subscriber> subscribers;
+  final List<Subscriber>? subscribers;
 
   DescribeSubscribersForNotificationResponse({
     this.nextToken,
     this.subscribers,
   });
   factory DescribeSubscribersForNotificationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSubscribersForNotificationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSubscribersForNotificationResponse(
+      nextToken: json['NextToken'] as String?,
+      subscribers: (json['Subscribers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('SYSTEM')
   system,
-  @_s.JsonValue('CREATE_ACTION')
   createAction,
-  @_s.JsonValue('DELETE_ACTION')
   deleteAction,
-  @_s.JsonValue('UPDATE_ACTION')
   updateAction,
-  @_s.JsonValue('EXECUTE_ACTION')
   executeAction,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.system:
+        return 'SYSTEM';
+      case EventType.createAction:
+        return 'CREATE_ACTION';
+      case EventType.deleteAction:
+        return 'DELETE_ACTION';
+      case EventType.updateAction:
+        return 'UPDATE_ACTION';
+      case EventType.executeAction:
+        return 'EXECUTE_ACTION';
+    }
+  }
+}
+
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'SYSTEM':
+        return EventType.system;
+      case 'CREATE_ACTION':
+        return EventType.createAction;
+      case 'DELETE_ACTION':
+        return EventType.deleteAction;
+      case 'UPDATE_ACTION':
+        return EventType.updateAction;
+      case 'EXECUTE_ACTION':
+        return EventType.executeAction;
+    }
+    throw Exception('$this is not known in enum EventType');
+  }
+}
+
 class ExecuteBudgetActionResponse {
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
   /// A system-generated universally unique identifier (UUID) for the action.
-  @_s.JsonKey(name: 'ActionId')
   final String actionId;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   /// The type of execution.
-  @_s.JsonKey(name: 'ExecutionType')
   final ExecutionType executionType;
 
   ExecuteBudgetActionResponse({
-    @_s.required this.accountId,
-    @_s.required this.actionId,
-    @_s.required this.budgetName,
-    @_s.required this.executionType,
+    required this.accountId,
+    required this.actionId,
+    required this.budgetName,
+    required this.executionType,
   });
-  factory ExecuteBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteBudgetActionResponseFromJson(json);
+  factory ExecuteBudgetActionResponse.fromJson(Map<String, dynamic> json) {
+    return ExecuteBudgetActionResponse(
+      accountId: json['AccountId'] as String,
+      actionId: json['ActionId'] as String,
+      budgetName: json['BudgetName'] as String,
+      executionType: (json['ExecutionType'] as String).toExecutionType(),
+    );
+  }
 }
 
 enum ExecutionType {
-  @_s.JsonValue('APPROVE_BUDGET_ACTION')
   approveBudgetAction,
-  @_s.JsonValue('RETRY_BUDGET_ACTION')
   retryBudgetAction,
-  @_s.JsonValue('REVERSE_BUDGET_ACTION')
   reverseBudgetAction,
-  @_s.JsonValue('RESET_BUDGET_ACTION')
   resetBudgetAction,
 }
 
@@ -2932,43 +3132,75 @@ extension on ExecutionType {
       case ExecutionType.resetBudgetAction:
         return 'RESET_BUDGET_ACTION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExecutionType toExecutionType() {
+    switch (this) {
+      case 'APPROVE_BUDGET_ACTION':
+        return ExecutionType.approveBudgetAction;
+      case 'RETRY_BUDGET_ACTION':
+        return ExecutionType.retryBudgetAction;
+      case 'REVERSE_BUDGET_ACTION':
+        return ExecutionType.reverseBudgetAction;
+      case 'RESET_BUDGET_ACTION':
+        return ExecutionType.resetBudgetAction;
+    }
+    throw Exception('$this is not known in enum ExecutionType');
   }
 }
 
 /// The AWS Identity and Access Management (IAM) action definition details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IamActionDefinition {
   /// The Amazon Resource Name (ARN) of the policy to be attached.
-  @_s.JsonKey(name: 'PolicyArn')
   final String policyArn;
 
   /// A list of groups to be attached. There must be at least one group.
-  @_s.JsonKey(name: 'Groups')
-  final List<String> groups;
+  final List<String>? groups;
 
   /// A list of roles to be attached. There must be at least one role.
-  @_s.JsonKey(name: 'Roles')
-  final List<String> roles;
+  final List<String>? roles;
 
   /// A list of users to be attached. There must be at least one user.
-  @_s.JsonKey(name: 'Users')
-  final List<String> users;
+  final List<String>? users;
 
   IamActionDefinition({
-    @_s.required this.policyArn,
+    required this.policyArn,
     this.groups,
     this.roles,
     this.users,
   });
-  factory IamActionDefinition.fromJson(Map<String, dynamic> json) =>
-      _$IamActionDefinitionFromJson(json);
+  factory IamActionDefinition.fromJson(Map<String, dynamic> json) {
+    return IamActionDefinition(
+      policyArn: json['PolicyArn'] as String,
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roles: (json['Roles'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$IamActionDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final groups = this.groups;
+    final roles = this.roles;
+    final users = this.users;
+    return {
+      'PolicyArn': policyArn,
+      if (groups != null) 'Groups': groups,
+      if (roles != null) 'Roles': roles,
+      if (users != null) 'Users': users,
+    };
+  }
 }
 
 /// A notification that is associated with a budget. A budget can have up to ten
@@ -2996,33 +3228,24 @@ class IamActionDefinition {
 /// A notification <code>threshold</code> of <code>80</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Notification {
   /// The comparison that is used for this notification.
-  @_s.JsonKey(name: 'ComparisonOperator')
   final ComparisonOperator comparisonOperator;
 
   /// Whether the notification is for how much you have spent
   /// (<code>ACTUAL</code>) or for how much you're forecasted to spend
   /// (<code>FORECASTED</code>).
-  @_s.JsonKey(name: 'NotificationType')
   final NotificationType notificationType;
 
   /// The threshold that is associated with a notification. Thresholds are always
   /// a percentage, and many customers find value being alerted between 50% - 200%
   /// of the budgeted amount. The maximum limit for your threshold is 1,000,000%
   /// above the budgeted amount.
-  @_s.JsonKey(name: 'Threshold')
   final double threshold;
 
   /// Whether this notification is in alarm. If a budget notification is in the
   /// <code>ALARM</code> state, you have passed the set threshold for the budget.
-  @_s.JsonKey(name: 'NotificationState')
-  final NotificationState notificationState;
+  final NotificationState? notificationState;
 
   /// The type of threshold for a notification. For <code>ABSOLUTE_VALUE</code>
   /// thresholds, AWS notifies you when you go over or are forecasted to go over
@@ -3031,34 +3254,76 @@ class Notification {
   /// percentage of your forecasted spend. For example, if you have a budget for
   /// 200 dollars and you have a <code>PERCENTAGE</code> threshold of 80%, AWS
   /// notifies you when you go over 160 dollars.
-  @_s.JsonKey(name: 'ThresholdType')
-  final ThresholdType thresholdType;
+  final ThresholdType? thresholdType;
 
   Notification({
-    @_s.required this.comparisonOperator,
-    @_s.required this.notificationType,
-    @_s.required this.threshold,
+    required this.comparisonOperator,
+    required this.notificationType,
+    required this.threshold,
     this.notificationState,
     this.thresholdType,
   });
-  factory Notification.fromJson(Map<String, dynamic> json) =>
-      _$NotificationFromJson(json);
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      notificationType:
+          (json['NotificationType'] as String).toNotificationType(),
+      threshold: json['Threshold'] as double,
+      notificationState:
+          (json['NotificationState'] as String?)?.toNotificationState(),
+      thresholdType: (json['ThresholdType'] as String?)?.toThresholdType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$NotificationToJson(this);
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final notificationType = this.notificationType;
+    final threshold = this.threshold;
+    final notificationState = this.notificationState;
+    final thresholdType = this.thresholdType;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      'NotificationType': notificationType.toValue(),
+      'Threshold': threshold,
+      if (notificationState != null)
+        'NotificationState': notificationState.toValue(),
+      if (thresholdType != null) 'ThresholdType': thresholdType.toValue(),
+    };
+  }
 }
 
 enum NotificationState {
-  @_s.JsonValue('OK')
   ok,
-  @_s.JsonValue('ALARM')
   alarm,
+}
+
+extension on NotificationState {
+  String toValue() {
+    switch (this) {
+      case NotificationState.ok:
+        return 'OK';
+      case NotificationState.alarm:
+        return 'ALARM';
+    }
+  }
+}
+
+extension on String {
+  NotificationState toNotificationState() {
+    switch (this) {
+      case 'OK':
+        return NotificationState.ok;
+      case 'ALARM':
+        return NotificationState.alarm;
+    }
+    throw Exception('$this is not known in enum NotificationState');
+  }
 }
 
 /// The type of a notification. It must be ACTUAL or FORECASTED.
 enum NotificationType {
-  @_s.JsonValue('ACTUAL')
   actual,
-  @_s.JsonValue('FORECASTED')
   forecasted,
 }
 
@@ -3070,56 +3335,74 @@ extension on NotificationType {
       case NotificationType.forecasted:
         return 'FORECASTED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NotificationType toNotificationType() {
+    switch (this) {
+      case 'ACTUAL':
+        return NotificationType.actual;
+      case 'FORECASTED':
+        return NotificationType.forecasted;
+    }
+    throw Exception('$this is not known in enum NotificationType');
   }
 }
 
 /// A notification with subscribers. A notification can have one SNS subscriber
 /// and up to 10 email subscribers, for a total of 11 subscribers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationWithSubscribers {
   /// The notification that is associated with a budget.
-  @_s.JsonKey(name: 'Notification')
   final Notification notification;
 
   /// A list of subscribers who are subscribed to this notification.
-  @_s.JsonKey(name: 'Subscribers')
   final List<Subscriber> subscribers;
 
   NotificationWithSubscribers({
-    @_s.required this.notification,
-    @_s.required this.subscribers,
+    required this.notification,
+    required this.subscribers,
   });
-  Map<String, dynamic> toJson() => _$NotificationWithSubscribersToJson(this);
+  Map<String, dynamic> toJson() {
+    final notification = this.notification;
+    final subscribers = this.subscribers;
+    return {
+      'Notification': notification,
+      'Subscribers': subscribers,
+    };
+  }
 }
 
 /// The service control policies (SCP) action definition details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScpActionDefinition {
   /// The policy ID attached.
-  @_s.JsonKey(name: 'PolicyId')
   final String policyId;
 
   /// A list of target IDs.
-  @_s.JsonKey(name: 'TargetIds')
   final List<String> targetIds;
 
   ScpActionDefinition({
-    @_s.required this.policyId,
-    @_s.required this.targetIds,
+    required this.policyId,
+    required this.targetIds,
   });
-  factory ScpActionDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ScpActionDefinitionFromJson(json);
+  factory ScpActionDefinition.fromJson(Map<String, dynamic> json) {
+    return ScpActionDefinition(
+      policyId: json['PolicyId'] as String,
+      targetIds: (json['TargetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ScpActionDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final policyId = this.policyId;
+    final targetIds = this.targetIds;
+    return {
+      'PolicyId': policyId,
+      'TargetIds': targetIds,
+    };
+  }
 }
 
 /// The amount of cost or usage that is measured for a budget.
@@ -3135,59 +3418,73 @@ class ScpActionDefinition {
 /// A <code>unit</code> of <code>GB</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Spend {
   /// The cost or usage amount that is associated with a budget forecast, actual
   /// spend, or budget threshold.
-  @_s.JsonKey(name: 'Amount')
   final String amount;
 
   /// The unit of measurement that is used for the budget forecast, actual spend,
   /// or budget threshold, such as dollars or GB.
-  @_s.JsonKey(name: 'Unit')
   final String unit;
 
   Spend({
-    @_s.required this.amount,
-    @_s.required this.unit,
+    required this.amount,
+    required this.unit,
   });
-  factory Spend.fromJson(Map<String, dynamic> json) => _$SpendFromJson(json);
+  factory Spend.fromJson(Map<String, dynamic> json) {
+    return Spend(
+      amount: json['Amount'] as String,
+      unit: json['Unit'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SpendToJson(this);
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final unit = this.unit;
+    return {
+      'Amount': amount,
+      'Unit': unit,
+    };
+  }
 }
 
 /// The AWS Systems Manager (SSM) action definition details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SsmActionDefinition {
   /// The action subType.
-  @_s.JsonKey(name: 'ActionSubType')
   final ActionSubType actionSubType;
 
   /// The EC2 and RDS instance IDs.
-  @_s.JsonKey(name: 'InstanceIds')
   final List<String> instanceIds;
 
   /// The Region to run the SSM document.
-  @_s.JsonKey(name: 'Region')
   final String region;
 
   SsmActionDefinition({
-    @_s.required this.actionSubType,
-    @_s.required this.instanceIds,
-    @_s.required this.region,
+    required this.actionSubType,
+    required this.instanceIds,
+    required this.region,
   });
-  factory SsmActionDefinition.fromJson(Map<String, dynamic> json) =>
-      _$SsmActionDefinitionFromJson(json);
+  factory SsmActionDefinition.fromJson(Map<String, dynamic> json) {
+    return SsmActionDefinition(
+      actionSubType: (json['ActionSubType'] as String).toActionSubType(),
+      instanceIds: (json['InstanceIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      region: json['Region'] as String,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SsmActionDefinitionToJson(this);
+  Map<String, dynamic> toJson() {
+    final actionSubType = this.actionSubType;
+    final instanceIds = this.instanceIds;
+    final region = this.region;
+    return {
+      'ActionSubType': actionSubType.toValue(),
+      'InstanceIds': instanceIds,
+      'Region': region,
+    };
+  }
 }
 
 /// The subscriber to a budget notification. The subscriber consists of a
@@ -3203,58 +3500,100 @@ class SsmActionDefinition {
 /// An <code>address</code> of <code>example@example.com</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Subscriber {
   /// The address that AWS sends budget notifications to, either an SNS topic or
   /// an email.
   ///
   /// When you create a subscriber, the value of <code>Address</code> can't
   /// contain line breaks.
-  @_s.JsonKey(name: 'Address')
   final String address;
 
   /// The type of notification that AWS sends to a subscriber.
-  @_s.JsonKey(name: 'SubscriptionType')
   final SubscriptionType subscriptionType;
 
   Subscriber({
-    @_s.required this.address,
-    @_s.required this.subscriptionType,
+    required this.address,
+    required this.subscriptionType,
   });
-  factory Subscriber.fromJson(Map<String, dynamic> json) =>
-      _$SubscriberFromJson(json);
+  factory Subscriber.fromJson(Map<String, dynamic> json) {
+    return Subscriber(
+      address: json['Address'] as String,
+      subscriptionType:
+          (json['SubscriptionType'] as String).toSubscriptionType(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$SubscriberToJson(this);
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final subscriptionType = this.subscriptionType;
+    return {
+      'Address': address,
+      'SubscriptionType': subscriptionType.toValue(),
+    };
+  }
 }
 
 /// The subscription type of the subscriber. It can be SMS or EMAIL.
 enum SubscriptionType {
-  @_s.JsonValue('SNS')
   sns,
-  @_s.JsonValue('EMAIL')
   email,
+}
+
+extension on SubscriptionType {
+  String toValue() {
+    switch (this) {
+      case SubscriptionType.sns:
+        return 'SNS';
+      case SubscriptionType.email:
+        return 'EMAIL';
+    }
+  }
+}
+
+extension on String {
+  SubscriptionType toSubscriptionType() {
+    switch (this) {
+      case 'SNS':
+        return SubscriptionType.sns;
+      case 'EMAIL':
+        return SubscriptionType.email;
+    }
+    throw Exception('$this is not known in enum SubscriptionType');
+  }
 }
 
 /// The type of threshold for a notification.
 enum ThresholdType {
-  @_s.JsonValue('PERCENTAGE')
   percentage,
-  @_s.JsonValue('ABSOLUTE_VALUE')
   absoluteValue,
+}
+
+extension on ThresholdType {
+  String toValue() {
+    switch (this) {
+      case ThresholdType.percentage:
+        return 'PERCENTAGE';
+      case ThresholdType.absoluteValue:
+        return 'ABSOLUTE_VALUE';
+    }
+  }
+}
+
+extension on String {
+  ThresholdType toThresholdType() {
+    switch (this) {
+      case 'PERCENTAGE':
+        return ThresholdType.percentage;
+      case 'ABSOLUTE_VALUE':
+        return ThresholdType.absoluteValue;
+    }
+    throw Exception('$this is not known in enum ThresholdType');
+  }
 }
 
 /// The period of time that is covered by a budget. The period has a start date
 /// and an end date. The start date must come before the end date. There are no
 /// restrictions on the end date.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimePeriod {
   /// The end date for a budget. If you didn't specify an end date, AWS set your
   /// end date to <code>06/15/87 00:00 UTC</code>. The defaults are the same for
@@ -3263,9 +3602,7 @@ class TimePeriod {
   /// After the end date, AWS deletes the budget and all associated notifications
   /// and subscribers. You can change your end date with the
   /// <code>UpdateBudget</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'End')
-  final DateTime end;
+  final DateTime? end;
 
   /// The start date for a budget. If you created your budget and didn't specify a
   /// start date, AWS defaults to the start of your chosen time period (DAILY,
@@ -3277,104 +3614,125 @@ class TimePeriod {
   /// Management console and the API.
   ///
   /// You can change your start date with the <code>UpdateBudget</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Start')
-  final DateTime start;
+  final DateTime? start;
 
   TimePeriod({
     this.end,
     this.start,
   });
-  factory TimePeriod.fromJson(Map<String, dynamic> json) =>
-      _$TimePeriodFromJson(json);
+  factory TimePeriod.fromJson(Map<String, dynamic> json) {
+    return TimePeriod(
+      end: timeStampFromJson(json['End']),
+      start: timeStampFromJson(json['Start']),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TimePeriodToJson(this);
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      if (end != null) 'End': unixTimestampToJson(end),
+      if (start != null) 'Start': unixTimestampToJson(start),
+    };
+  }
 }
 
 /// The time unit of the budget, such as MONTHLY or QUARTERLY.
 enum TimeUnit {
-  @_s.JsonValue('DAILY')
   daily,
-  @_s.JsonValue('MONTHLY')
   monthly,
-  @_s.JsonValue('QUARTERLY')
   quarterly,
-  @_s.JsonValue('ANNUALLY')
   annually,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TimeUnit {
+  String toValue() {
+    switch (this) {
+      case TimeUnit.daily:
+        return 'DAILY';
+      case TimeUnit.monthly:
+        return 'MONTHLY';
+      case TimeUnit.quarterly:
+        return 'QUARTERLY';
+      case TimeUnit.annually:
+        return 'ANNUALLY';
+    }
+  }
+}
+
+extension on String {
+  TimeUnit toTimeUnit() {
+    switch (this) {
+      case 'DAILY':
+        return TimeUnit.daily;
+      case 'MONTHLY':
+        return TimeUnit.monthly;
+      case 'QUARTERLY':
+        return TimeUnit.quarterly;
+      case 'ANNUALLY':
+        return TimeUnit.annually;
+    }
+    throw Exception('$this is not known in enum TimeUnit');
+  }
+}
+
 class UpdateBudgetActionResponse {
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
-  @_s.JsonKey(name: 'BudgetName')
   final String budgetName;
 
   /// The updated action resource information.
-  @_s.JsonKey(name: 'NewAction')
   final Action newAction;
 
   /// The previous action resource information.
-  @_s.JsonKey(name: 'OldAction')
   final Action oldAction;
 
   UpdateBudgetActionResponse({
-    @_s.required this.accountId,
-    @_s.required this.budgetName,
-    @_s.required this.newAction,
-    @_s.required this.oldAction,
+    required this.accountId,
+    required this.budgetName,
+    required this.newAction,
+    required this.oldAction,
   });
-  factory UpdateBudgetActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBudgetActionResponseFromJson(json);
+  factory UpdateBudgetActionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBudgetActionResponse(
+      accountId: json['AccountId'] as String,
+      budgetName: json['BudgetName'] as String,
+      newAction: Action.fromJson(json['NewAction'] as Map<String, dynamic>),
+      oldAction: Action.fromJson(json['OldAction'] as Map<String, dynamic>),
+    );
+  }
 }
 
 /// Response of UpdateBudget
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBudgetResponse {
   UpdateBudgetResponse();
-  factory UpdateBudgetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBudgetResponseFromJson(json);
+  factory UpdateBudgetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateBudgetResponse();
+  }
 }
 
 /// Response of UpdateNotification
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNotificationResponse {
   UpdateNotificationResponse();
-  factory UpdateNotificationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNotificationResponseFromJson(json);
+  factory UpdateNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateNotificationResponse();
+  }
 }
 
 /// Response of UpdateSubscriber
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSubscriberResponse {
   UpdateSubscriberResponse();
-  factory UpdateSubscriberResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSubscriberResponseFromJson(json);
+  factory UpdateSubscriberResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateSubscriberResponse();
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class CreationLimitExceededException extends _s.GenericAwsException {
-  CreationLimitExceededException({String type, String message})
+  CreationLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CreationLimitExceededException',
@@ -3382,37 +3740,37 @@ class CreationLimitExceededException extends _s.GenericAwsException {
 }
 
 class DuplicateRecordException extends _s.GenericAwsException {
-  DuplicateRecordException({String type, String message})
+  DuplicateRecordException({String? type, String? message})
       : super(type: type, code: 'DuplicateRecordException', message: message);
 }
 
 class ExpiredNextTokenException extends _s.GenericAwsException {
-  ExpiredNextTokenException({String type, String message})
+  ExpiredNextTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredNextTokenException', message: message);
 }
 
 class InternalErrorException extends _s.GenericAwsException {
-  InternalErrorException({String type, String message})
+  InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceLockedException extends _s.GenericAwsException {
-  ResourceLockedException({String type, String message})
+  ResourceLockedException({String? type, String? message})
       : super(type: type, code: 'ResourceLockedException', message: message);
 }
 

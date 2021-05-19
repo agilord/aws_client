@@ -9,11 +9,9 @@ part of 'cognito-idp-2016-04-18.dart';
 AccountRecoverySettingType _$AccountRecoverySettingTypeFromJson(
     Map<String, dynamic> json) {
   return AccountRecoverySettingType(
-    recoveryMechanisms: (json['RecoveryMechanisms'] as List)
-        ?.map((e) => e == null
-            ? null
-            : RecoveryOptionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    recoveryMechanisms: (json['RecoveryMechanisms'] as List<dynamic>?)
+        ?.map((e) => RecoveryOptionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -28,65 +26,51 @@ Map<String, dynamic> _$AccountRecoverySettingTypeToJson(
   }
 
   writeNotNull('RecoveryMechanisms',
-      instance.recoveryMechanisms?.map((e) => e?.toJson())?.toList());
+      instance.recoveryMechanisms?.map((e) => e.toJson()).toList());
   return val;
 }
 
 AccountTakeoverActionType _$AccountTakeoverActionTypeFromJson(
     Map<String, dynamic> json) {
   return AccountTakeoverActionType(
-    eventAction: _$enumDecodeNullable(
+    eventAction: _$enumDecode(
         _$AccountTakeoverEventActionTypeEnumMap, json['EventAction']),
     notify: json['Notify'] as bool,
   );
 }
 
 Map<String, dynamic> _$AccountTakeoverActionTypeToJson(
-    AccountTakeoverActionType instance) {
-  final val = <String, dynamic>{};
+        AccountTakeoverActionType instance) =>
+    <String, dynamic>{
+      'EventAction':
+          _$AccountTakeoverEventActionTypeEnumMap[instance.eventAction],
+      'Notify': instance.notify,
+    };
 
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EventAction',
-      _$AccountTakeoverEventActionTypeEnumMap[instance.eventAction]);
-  writeNotNull('Notify', instance.notify);
-  return val;
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AccountTakeoverEventActionTypeEnumMap = {
@@ -133,10 +117,8 @@ Map<String, dynamic> _$AccountTakeoverActionsTypeToJson(
 AccountTakeoverRiskConfigurationType
     _$AccountTakeoverRiskConfigurationTypeFromJson(Map<String, dynamic> json) {
   return AccountTakeoverRiskConfigurationType(
-    actions: json['Actions'] == null
-        ? null
-        : AccountTakeoverActionsType.fromJson(
-            json['Actions'] as Map<String, dynamic>),
+    actions: AccountTakeoverActionsType.fromJson(
+        json['Actions'] as Map<String, dynamic>),
     notifyConfiguration: json['NotifyConfiguration'] == null
         ? null
         : NotifyConfigurationType.fromJson(
@@ -146,7 +128,9 @@ AccountTakeoverRiskConfigurationType
 
 Map<String, dynamic> _$AccountTakeoverRiskConfigurationTypeToJson(
     AccountTakeoverRiskConfigurationType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Actions': instance.actions.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -154,7 +138,6 @@ Map<String, dynamic> _$AccountTakeoverRiskConfigurationTypeToJson(
     }
   }
 
-  writeNotNull('Actions', instance.actions?.toJson());
   writeNotNull('NotifyConfiguration', instance.notifyConfiguration?.toJson());
   return val;
 }
@@ -172,12 +155,12 @@ AdminConfirmSignUpResponse _$AdminConfirmSignUpResponseFromJson(
 AdminCreateUserConfigType _$AdminCreateUserConfigTypeFromJson(
     Map<String, dynamic> json) {
   return AdminCreateUserConfigType(
-    allowAdminCreateUserOnly: json['AllowAdminCreateUserOnly'] as bool,
+    allowAdminCreateUserOnly: json['AllowAdminCreateUserOnly'] as bool?,
     inviteMessageTemplate: json['InviteMessageTemplate'] == null
         ? null
         : MessageTemplateType.fromJson(
             json['InviteMessageTemplate'] as Map<String, dynamic>),
-    unusedAccountValidityDays: json['UnusedAccountValidityDays'] as int,
+    unusedAccountValidityDays: json['UnusedAccountValidityDays'] as int?,
   );
 }
 
@@ -230,36 +213,42 @@ AdminEnableUserResponse _$AdminEnableUserResponseFromJson(
 AdminGetDeviceResponse _$AdminGetDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return AdminGetDeviceResponse(
-    device: json['Device'] == null
-        ? null
-        : DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+    device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
   );
 }
 
 AdminGetUserResponse _$AdminGetUserResponseFromJson(Map<String, dynamic> json) {
   return AdminGetUserResponse(
     username: json['Username'] as String,
-    enabled: json['Enabled'] as bool,
-    mFAOptions: (json['MFAOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MFAOptionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    preferredMfaSetting: json['PreferredMfaSetting'] as String,
-    userAttributes: (json['UserAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    enabled: json['Enabled'] as bool?,
+    mFAOptions: (json['MFAOptions'] as List<dynamic>?)
+        ?.map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    preferredMfaSetting: json['PreferredMfaSetting'] as String?,
+    userAttributes: (json['UserAttributes'] as List<dynamic>?)
+        ?.map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
     userCreateDate:
         const UnixDateTimeConverter().fromJson(json['UserCreateDate']),
     userLastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['UserLastModifiedDate']),
-    userMFASettingList:
-        (json['UserMFASettingList'] as List)?.map((e) => e as String)?.toList(),
+    userMFASettingList: (json['UserMFASettingList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     userStatus:
         _$enumDecodeNullable(_$UserStatusTypeEnumMap, json['UserStatus']),
   );
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$UserStatusTypeEnumMap = {
@@ -282,10 +271,10 @@ AdminInitiateAuthResponse _$AdminInitiateAuthResponseFromJson(
     challengeName:
         _$enumDecodeNullable(_$ChallengeNameTypeEnumMap, json['ChallengeName']),
     challengeParameters:
-        (json['ChallengeParameters'] as Map<String, dynamic>)?.map(
+        (json['ChallengeParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    session: json['Session'] as String,
+    session: json['Session'] as String?,
   );
 }
 
@@ -310,34 +299,30 @@ AdminLinkProviderForUserResponse _$AdminLinkProviderForUserResponseFromJson(
 AdminListDevicesResponse _$AdminListDevicesResponseFromJson(
     Map<String, dynamic> json) {
   return AdminListDevicesResponse(
-    devices: (json['Devices'] as List)
-        ?.map((e) =>
-            e == null ? null : DeviceType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    paginationToken: json['PaginationToken'] as String,
+    devices: (json['Devices'] as List<dynamic>?)
+        ?.map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    paginationToken: json['PaginationToken'] as String?,
   );
 }
 
 AdminListGroupsForUserResponse _$AdminListGroupsForUserResponseFromJson(
     Map<String, dynamic> json) {
   return AdminListGroupsForUserResponse(
-    groups: (json['Groups'] as List)
-        ?.map((e) =>
-            e == null ? null : GroupType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => GroupType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 AdminListUserAuthEventsResponse _$AdminListUserAuthEventsResponseFromJson(
     Map<String, dynamic> json) {
   return AdminListUserAuthEventsResponse(
-    authEvents: (json['AuthEvents'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AuthEventType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    authEvents: (json['AuthEvents'] as List<dynamic>?)
+        ?.map((e) => AuthEventType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
@@ -356,10 +341,10 @@ AdminRespondToAuthChallengeResponse
     challengeName:
         _$enumDecodeNullable(_$ChallengeNameTypeEnumMap, json['ChallengeName']),
     challengeParameters:
-        (json['ChallengeParameters'] as Map<String, dynamic>)?.map(
+        (json['ChallengeParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    session: json['Session'] as String,
+    session: json['Session'] as String?,
   );
 }
 
@@ -401,11 +386,11 @@ AdminUserGlobalSignOutResponse _$AdminUserGlobalSignOutResponseFromJson(
 AnalyticsConfigurationType _$AnalyticsConfigurationTypeFromJson(
     Map<String, dynamic> json) {
   return AnalyticsConfigurationType(
-    applicationArn: json['ApplicationArn'] as String,
-    applicationId: json['ApplicationId'] as String,
-    externalId: json['ExternalId'] as String,
-    roleArn: json['RoleArn'] as String,
-    userDataShared: json['UserDataShared'] as bool,
+    applicationArn: json['ApplicationArn'] as String?,
+    applicationId: json['ApplicationId'] as String?,
+    externalId: json['ExternalId'] as String?,
+    roleArn: json['RoleArn'] as String?,
+    userDataShared: json['UserDataShared'] as bool?,
   );
 }
 
@@ -444,20 +429,22 @@ Map<String, dynamic> _$AnalyticsMetadataTypeToJson(
 AssociateSoftwareTokenResponse _$AssociateSoftwareTokenResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateSoftwareTokenResponse(
-    secretCode: json['SecretCode'] as String,
-    session: json['Session'] as String,
+    secretCode: json['SecretCode'] as String?,
+    session: json['Session'] as String?,
   );
 }
 
 AttributeType _$AttributeTypeFromJson(Map<String, dynamic> json) {
   return AttributeType(
     name: json['Name'] as String,
-    value: json['Value'] as String,
+    value: json['Value'] as String?,
   );
 }
 
 Map<String, dynamic> _$AttributeTypeToJson(AttributeType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Name': instance.name,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -465,18 +452,15 @@ Map<String, dynamic> _$AttributeTypeToJson(AttributeType instance) {
     }
   }
 
-  writeNotNull('Name', instance.name);
   writeNotNull('Value', instance.value);
   return val;
 }
 
 AuthEventType _$AuthEventTypeFromJson(Map<String, dynamic> json) {
   return AuthEventType(
-    challengeResponses: (json['ChallengeResponses'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ChallengeResponseType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    challengeResponses: (json['ChallengeResponses'] as List<dynamic>?)
+        ?.map((e) => ChallengeResponseType.fromJson(e as Map<String, dynamic>))
+        .toList(),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     eventContextData: json['EventContextData'] == null
         ? null
@@ -486,7 +470,7 @@ AuthEventType _$AuthEventTypeFromJson(Map<String, dynamic> json) {
         ? null
         : EventFeedbackType.fromJson(
             json['EventFeedback'] as Map<String, dynamic>),
-    eventId: json['EventId'] as String,
+    eventId: json['EventId'] as String?,
     eventResponse:
         _$enumDecodeNullable(_$EventResponseTypeEnumMap, json['EventResponse']),
     eventRisk: json['EventRisk'] == null
@@ -510,15 +494,15 @@ const _$EventTypeEnumMap = {
 AuthenticationResultType _$AuthenticationResultTypeFromJson(
     Map<String, dynamic> json) {
   return AuthenticationResultType(
-    accessToken: json['AccessToken'] as String,
-    expiresIn: json['ExpiresIn'] as int,
-    idToken: json['IdToken'] as String,
+    accessToken: json['AccessToken'] as String?,
+    expiresIn: json['ExpiresIn'] as int?,
+    idToken: json['IdToken'] as String?,
     newDeviceMetadata: json['NewDeviceMetadata'] == null
         ? null
         : NewDeviceMetadataType.fromJson(
             json['NewDeviceMetadata'] as Map<String, dynamic>),
-    refreshToken: json['RefreshToken'] as String,
-    tokenType: json['TokenType'] as String,
+    refreshToken: json['RefreshToken'] as String?,
+    tokenType: json['TokenType'] as String?,
   );
 }
 
@@ -550,10 +534,10 @@ ChangePasswordResponse _$ChangePasswordResponseFromJson(
 CodeDeliveryDetailsType _$CodeDeliveryDetailsTypeFromJson(
     Map<String, dynamic> json) {
   return CodeDeliveryDetailsType(
-    attributeName: json['AttributeName'] as String,
+    attributeName: json['AttributeName'] as String?,
     deliveryMedium: _$enumDecodeNullable(
         _$DeliveryMediumTypeEnumMap, json['DeliveryMedium']),
-    destination: json['Destination'] as String,
+    destination: json['Destination'] as String?,
   );
 }
 
@@ -565,25 +549,17 @@ const _$DeliveryMediumTypeEnumMap = {
 CompromisedCredentialsActionsType _$CompromisedCredentialsActionsTypeFromJson(
     Map<String, dynamic> json) {
   return CompromisedCredentialsActionsType(
-    eventAction: _$enumDecodeNullable(
+    eventAction: _$enumDecode(
         _$CompromisedCredentialsEventActionTypeEnumMap, json['EventAction']),
   );
 }
 
 Map<String, dynamic> _$CompromisedCredentialsActionsTypeToJson(
-    CompromisedCredentialsActionsType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('EventAction',
-      _$CompromisedCredentialsEventActionTypeEnumMap[instance.eventAction]);
-  return val;
-}
+        CompromisedCredentialsActionsType instance) =>
+    <String, dynamic>{
+      'EventAction':
+          _$CompromisedCredentialsEventActionTypeEnumMap[instance.eventAction],
+    };
 
 const _$CompromisedCredentialsEventActionTypeEnumMap = {
   CompromisedCredentialsEventActionType.block: 'BLOCK',
@@ -594,19 +570,19 @@ CompromisedCredentialsRiskConfigurationType
     _$CompromisedCredentialsRiskConfigurationTypeFromJson(
         Map<String, dynamic> json) {
   return CompromisedCredentialsRiskConfigurationType(
-    actions: json['Actions'] == null
-        ? null
-        : CompromisedCredentialsActionsType.fromJson(
-            json['Actions'] as Map<String, dynamic>),
-    eventFilter: (json['EventFilter'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$EventFilterTypeEnumMap, e))
-        ?.toList(),
+    actions: CompromisedCredentialsActionsType.fromJson(
+        json['Actions'] as Map<String, dynamic>),
+    eventFilter: (json['EventFilter'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$EventFilterTypeEnumMap, e))
+        .toList(),
   );
 }
 
 Map<String, dynamic> _$CompromisedCredentialsRiskConfigurationTypeToJson(
     CompromisedCredentialsRiskConfigurationType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Actions': instance.actions.toJson(),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -614,9 +590,8 @@ Map<String, dynamic> _$CompromisedCredentialsRiskConfigurationTypeToJson(
     }
   }
 
-  writeNotNull('Actions', instance.actions?.toJson());
   writeNotNull('EventFilter',
-      instance.eventFilter?.map((e) => _$EventFilterTypeEnumMap[e])?.toList());
+      instance.eventFilter?.map((e) => _$EventFilterTypeEnumMap[e]).toList());
   return val;
 }
 
@@ -629,7 +604,7 @@ const _$EventFilterTypeEnumMap = {
 ConfirmDeviceResponse _$ConfirmDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return ConfirmDeviceResponse(
-    userConfirmationNecessary: json['UserConfirmationNecessary'] as bool,
+    userConfirmationNecessary: json['UserConfirmationNecessary'] as bool?,
   );
 }
 
@@ -644,7 +619,12 @@ ConfirmSignUpResponse _$ConfirmSignUpResponseFromJson(
 }
 
 Map<String, dynamic> _$ContextDataTypeToJson(ContextDataType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'HttpHeaders': instance.httpHeaders.map((e) => e.toJson()).toList(),
+    'IpAddress': instance.ipAddress,
+    'ServerName': instance.serverName,
+    'ServerPath': instance.serverPath,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -652,11 +632,6 @@ Map<String, dynamic> _$ContextDataTypeToJson(ContextDataType instance) {
     }
   }
 
-  writeNotNull(
-      'HttpHeaders', instance.httpHeaders?.map((e) => e?.toJson())?.toList());
-  writeNotNull('IpAddress', instance.ipAddress);
-  writeNotNull('ServerName', instance.serverName);
-  writeNotNull('ServerPath', instance.serverPath);
   writeNotNull('EncodedData', instance.encodedData);
   return val;
 }
@@ -672,20 +647,16 @@ CreateGroupResponse _$CreateGroupResponseFromJson(Map<String, dynamic> json) {
 CreateIdentityProviderResponse _$CreateIdentityProviderResponseFromJson(
     Map<String, dynamic> json) {
   return CreateIdentityProviderResponse(
-    identityProvider: json['IdentityProvider'] == null
-        ? null
-        : IdentityProviderType.fromJson(
-            json['IdentityProvider'] as Map<String, dynamic>),
+    identityProvider: IdentityProviderType.fromJson(
+        json['IdentityProvider'] as Map<String, dynamic>),
   );
 }
 
 CreateResourceServerResponse _$CreateResourceServerResponseFromJson(
     Map<String, dynamic> json) {
   return CreateResourceServerResponse(
-    resourceServer: json['ResourceServer'] == null
-        ? null
-        : ResourceServerType.fromJson(
-            json['ResourceServer'] as Map<String, dynamic>),
+    resourceServer: ResourceServerType.fromJson(
+        json['ResourceServer'] as Map<String, dynamic>),
   );
 }
 
@@ -712,7 +683,7 @@ CreateUserPoolClientResponse _$CreateUserPoolClientResponseFromJson(
 CreateUserPoolDomainResponse _$CreateUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return CreateUserPoolDomainResponse(
-    cloudFrontDomain: json['CloudFrontDomain'] as String,
+    cloudFrontDomain: json['CloudFrontDomain'] as String?,
   );
 }
 
@@ -733,43 +704,27 @@ CustomDomainConfigType _$CustomDomainConfigTypeFromJson(
 }
 
 Map<String, dynamic> _$CustomDomainConfigTypeToJson(
-    CustomDomainConfigType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CertificateArn', instance.certificateArn);
-  return val;
-}
+        CustomDomainConfigType instance) =>
+    <String, dynamic>{
+      'CertificateArn': instance.certificateArn,
+    };
 
 CustomEmailLambdaVersionConfigType _$CustomEmailLambdaVersionConfigTypeFromJson(
     Map<String, dynamic> json) {
   return CustomEmailLambdaVersionConfigType(
     lambdaArn: json['LambdaArn'] as String,
-    lambdaVersion: _$enumDecodeNullable(
+    lambdaVersion: _$enumDecode(
         _$CustomEmailSenderLambdaVersionTypeEnumMap, json['LambdaVersion']),
   );
 }
 
 Map<String, dynamic> _$CustomEmailLambdaVersionConfigTypeToJson(
-    CustomEmailLambdaVersionConfigType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LambdaArn', instance.lambdaArn);
-  writeNotNull('LambdaVersion',
-      _$CustomEmailSenderLambdaVersionTypeEnumMap[instance.lambdaVersion]);
-  return val;
-}
+        CustomEmailLambdaVersionConfigType instance) =>
+    <String, dynamic>{
+      'LambdaArn': instance.lambdaArn,
+      'LambdaVersion':
+          _$CustomEmailSenderLambdaVersionTypeEnumMap[instance.lambdaVersion],
+    };
 
 const _$CustomEmailSenderLambdaVersionTypeEnumMap = {
   CustomEmailSenderLambdaVersionType.v1_0: 'V1_0',
@@ -779,26 +734,18 @@ CustomSMSLambdaVersionConfigType _$CustomSMSLambdaVersionConfigTypeFromJson(
     Map<String, dynamic> json) {
   return CustomSMSLambdaVersionConfigType(
     lambdaArn: json['LambdaArn'] as String,
-    lambdaVersion: _$enumDecodeNullable(
+    lambdaVersion: _$enumDecode(
         _$CustomSMSSenderLambdaVersionTypeEnumMap, json['LambdaVersion']),
   );
 }
 
 Map<String, dynamic> _$CustomSMSLambdaVersionConfigTypeToJson(
-    CustomSMSLambdaVersionConfigType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('LambdaArn', instance.lambdaArn);
-  writeNotNull('LambdaVersion',
-      _$CustomSMSSenderLambdaVersionTypeEnumMap[instance.lambdaVersion]);
-  return val;
-}
+        CustomSMSLambdaVersionConfigType instance) =>
+    <String, dynamic>{
+      'LambdaArn': instance.lambdaArn,
+      'LambdaVersion':
+          _$CustomSMSSenderLambdaVersionTypeEnumMap[instance.lambdaVersion],
+    };
 
 const _$CustomSMSSenderLambdaVersionTypeEnumMap = {
   CustomSMSSenderLambdaVersionType.v1_0: 'V1_0',
@@ -817,30 +764,24 @@ DeleteUserPoolDomainResponse _$DeleteUserPoolDomainResponseFromJson(
 DescribeIdentityProviderResponse _$DescribeIdentityProviderResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeIdentityProviderResponse(
-    identityProvider: json['IdentityProvider'] == null
-        ? null
-        : IdentityProviderType.fromJson(
-            json['IdentityProvider'] as Map<String, dynamic>),
+    identityProvider: IdentityProviderType.fromJson(
+        json['IdentityProvider'] as Map<String, dynamic>),
   );
 }
 
 DescribeResourceServerResponse _$DescribeResourceServerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeResourceServerResponse(
-    resourceServer: json['ResourceServer'] == null
-        ? null
-        : ResourceServerType.fromJson(
-            json['ResourceServer'] as Map<String, dynamic>),
+    resourceServer: ResourceServerType.fromJson(
+        json['ResourceServer'] as Map<String, dynamic>),
   );
 }
 
 DescribeRiskConfigurationResponse _$DescribeRiskConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRiskConfigurationResponse(
-    riskConfiguration: json['RiskConfiguration'] == null
-        ? null
-        : RiskConfigurationType.fromJson(
-            json['RiskConfiguration'] as Map<String, dynamic>),
+    riskConfiguration: RiskConfigurationType.fromJson(
+        json['RiskConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -886,9 +827,9 @@ DescribeUserPoolResponse _$DescribeUserPoolResponseFromJson(
 DeviceConfigurationType _$DeviceConfigurationTypeFromJson(
     Map<String, dynamic> json) {
   return DeviceConfigurationType(
-    challengeRequiredOnNewDevice: json['ChallengeRequiredOnNewDevice'] as bool,
+    challengeRequiredOnNewDevice: json['ChallengeRequiredOnNewDevice'] as bool?,
     deviceOnlyRememberedOnUserPrompt:
-        json['DeviceOnlyRememberedOnUserPrompt'] as bool,
+        json['DeviceOnlyRememberedOnUserPrompt'] as bool?,
   );
 }
 
@@ -926,14 +867,12 @@ Map<String, dynamic> _$DeviceSecretVerifierConfigTypeToJson(
 
 DeviceType _$DeviceTypeFromJson(Map<String, dynamic> json) {
   return DeviceType(
-    deviceAttributes: (json['DeviceAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    deviceAttributes: (json['DeviceAttributes'] as List<dynamic>?)
+        ?.map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
     deviceCreateDate:
         const UnixDateTimeConverter().fromJson(json['DeviceCreateDate']),
-    deviceKey: json['DeviceKey'] as String,
+    deviceKey: json['DeviceKey'] as String?,
     deviceLastAuthenticatedDate: const UnixDateTimeConverter()
         .fromJson(json['DeviceLastAuthenticatedDate']),
     deviceLastModifiedDate:
@@ -944,17 +883,17 @@ DeviceType _$DeviceTypeFromJson(Map<String, dynamic> json) {
 DomainDescriptionType _$DomainDescriptionTypeFromJson(
     Map<String, dynamic> json) {
   return DomainDescriptionType(
-    awsAccountId: json['AWSAccountId'] as String,
-    cloudFrontDistribution: json['CloudFrontDistribution'] as String,
+    awsAccountId: json['AWSAccountId'] as String?,
+    cloudFrontDistribution: json['CloudFrontDistribution'] as String?,
     customDomainConfig: json['CustomDomainConfig'] == null
         ? null
         : CustomDomainConfigType.fromJson(
             json['CustomDomainConfig'] as Map<String, dynamic>),
-    domain: json['Domain'] as String,
-    s3Bucket: json['S3Bucket'] as String,
+    domain: json['Domain'] as String?,
+    s3Bucket: json['S3Bucket'] as String?,
     status: _$enumDecodeNullable(_$DomainStatusTypeEnumMap, json['Status']),
-    userPoolId: json['UserPoolId'] as String,
-    version: json['Version'] as String,
+    userPoolId: json['UserPoolId'] as String?,
+    version: json['Version'] as String?,
   );
 }
 
@@ -969,12 +908,12 @@ const _$DomainStatusTypeEnumMap = {
 EmailConfigurationType _$EmailConfigurationTypeFromJson(
     Map<String, dynamic> json) {
   return EmailConfigurationType(
-    configurationSet: json['ConfigurationSet'] as String,
+    configurationSet: json['ConfigurationSet'] as String?,
     emailSendingAccount: _$enumDecodeNullable(
         _$EmailSendingAccountTypeEnumMap, json['EmailSendingAccount']),
-    from: json['From'] as String,
-    replyToEmailAddress: json['ReplyToEmailAddress'] as String,
-    sourceArn: json['SourceArn'] as String,
+    from: json['From'] as String?,
+    replyToEmailAddress: json['ReplyToEmailAddress'] as String?,
+    sourceArn: json['SourceArn'] as String?,
   );
 }
 
@@ -1004,18 +943,18 @@ const _$EmailSendingAccountTypeEnumMap = {
 
 EventContextDataType _$EventContextDataTypeFromJson(Map<String, dynamic> json) {
   return EventContextDataType(
-    city: json['City'] as String,
-    country: json['Country'] as String,
-    deviceName: json['DeviceName'] as String,
-    ipAddress: json['IpAddress'] as String,
-    timezone: json['Timezone'] as String,
+    city: json['City'] as String?,
+    country: json['Country'] as String?,
+    deviceName: json['DeviceName'] as String?,
+    ipAddress: json['IpAddress'] as String?,
+    timezone: json['Timezone'] as String?,
   );
 }
 
 EventFeedbackType _$EventFeedbackTypeFromJson(Map<String, dynamic> json) {
   return EventFeedbackType(
     feedbackValue:
-        _$enumDecodeNullable(_$FeedbackValueTypeEnumMap, json['FeedbackValue']),
+        _$enumDecode(_$FeedbackValueTypeEnumMap, json['FeedbackValue']),
     provider: json['Provider'] as String,
     feedbackDate: const UnixDateTimeConverter().fromJson(json['FeedbackDate']),
   );
@@ -1029,7 +968,7 @@ const _$FeedbackValueTypeEnumMap = {
 EventRiskType _$EventRiskTypeFromJson(Map<String, dynamic> json) {
   return EventRiskType(
     compromisedCredentialsDetected:
-        json['CompromisedCredentialsDetected'] as bool,
+        json['CompromisedCredentialsDetected'] as bool?,
     riskDecision:
         _$enumDecodeNullable(_$RiskDecisionTypeEnumMap, json['RiskDecision']),
     riskLevel: _$enumDecodeNullable(_$RiskLevelTypeEnumMap, json['RiskLevel']),
@@ -1060,16 +999,15 @@ ForgotPasswordResponse _$ForgotPasswordResponseFromJson(
 
 GetCSVHeaderResponse _$GetCSVHeaderResponseFromJson(Map<String, dynamic> json) {
   return GetCSVHeaderResponse(
-    cSVHeader: (json['CSVHeader'] as List)?.map((e) => e as String)?.toList(),
-    userPoolId: json['UserPoolId'] as String,
+    cSVHeader:
+        (json['CSVHeader'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
 GetDeviceResponse _$GetDeviceResponseFromJson(Map<String, dynamic> json) {
   return GetDeviceResponse(
-    device: json['Device'] == null
-        ? null
-        : DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
+    device: DeviceType.fromJson(json['Device'] as Map<String, dynamic>),
   );
 }
 
@@ -1085,27 +1023,23 @@ GetIdentityProviderByIdentifierResponse
     _$GetIdentityProviderByIdentifierResponseFromJson(
         Map<String, dynamic> json) {
   return GetIdentityProviderByIdentifierResponse(
-    identityProvider: json['IdentityProvider'] == null
-        ? null
-        : IdentityProviderType.fromJson(
-            json['IdentityProvider'] as Map<String, dynamic>),
+    identityProvider: IdentityProviderType.fromJson(
+        json['IdentityProvider'] as Map<String, dynamic>),
   );
 }
 
 GetSigningCertificateResponse _$GetSigningCertificateResponseFromJson(
     Map<String, dynamic> json) {
   return GetSigningCertificateResponse(
-    certificate: json['Certificate'] as String,
+    certificate: json['Certificate'] as String?,
   );
 }
 
 GetUICustomizationResponse _$GetUICustomizationResponseFromJson(
     Map<String, dynamic> json) {
   return GetUICustomizationResponse(
-    uICustomization: json['UICustomization'] == null
-        ? null
-        : UICustomizationType.fromJson(
-            json['UICustomization'] as Map<String, dynamic>),
+    uICustomization: UICustomizationType.fromJson(
+        json['UICustomization'] as Map<String, dynamic>),
   );
 }
 
@@ -1144,20 +1078,17 @@ const _$UserPoolMfaTypeEnumMap = {
 
 GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) {
   return GetUserResponse(
-    userAttributes: (json['UserAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    userAttributes: (json['UserAttributes'] as List<dynamic>)
+        .map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
     username: json['Username'] as String,
-    mFAOptions: (json['MFAOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MFAOptionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    preferredMfaSetting: json['PreferredMfaSetting'] as String,
-    userMFASettingList:
-        (json['UserMFASettingList'] as List)?.map((e) => e as String)?.toList(),
+    mFAOptions: (json['MFAOptions'] as List<dynamic>?)
+        ?.map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    preferredMfaSetting: json['PreferredMfaSetting'] as String?,
+    userMFASettingList: (json['UserMFASettingList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1169,13 +1100,13 @@ GlobalSignOutResponse _$GlobalSignOutResponseFromJson(
 GroupType _$GroupTypeFromJson(Map<String, dynamic> json) {
   return GroupType(
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    description: json['Description'] as String,
-    groupName: json['GroupName'] as String,
+    description: json['Description'] as String?,
+    groupName: json['GroupName'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    precedence: json['Precedence'] as int,
-    roleArn: json['RoleArn'] as String,
-    userPoolId: json['UserPoolId'] as String,
+    precedence: json['Precedence'] as int?,
+    roleArn: json['RoleArn'] as String?,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -1195,21 +1126,22 @@ Map<String, dynamic> _$HttpHeaderToJson(HttpHeader instance) {
 
 IdentityProviderType _$IdentityProviderTypeFromJson(Map<String, dynamic> json) {
   return IdentityProviderType(
-    attributeMapping: (json['AttributeMapping'] as Map<String, dynamic>)?.map(
+    attributeMapping: (json['AttributeMapping'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    idpIdentifiers:
-        (json['IdpIdentifiers'] as List)?.map((e) => e as String)?.toList(),
+    idpIdentifiers: (json['IdpIdentifiers'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    providerDetails: (json['ProviderDetails'] as Map<String, dynamic>)?.map(
+    providerDetails: (json['ProviderDetails'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    providerName: json['ProviderName'] as String,
+    providerName: json['ProviderName'] as String?,
     providerType: _$enumDecodeNullable(
         _$IdentityProviderTypeTypeEnumMap, json['ProviderType']),
-    userPoolId: json['UserPoolId'] as String,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -1231,34 +1163,34 @@ InitiateAuthResponse _$InitiateAuthResponseFromJson(Map<String, dynamic> json) {
     challengeName:
         _$enumDecodeNullable(_$ChallengeNameTypeEnumMap, json['ChallengeName']),
     challengeParameters:
-        (json['ChallengeParameters'] as Map<String, dynamic>)?.map(
+        (json['ChallengeParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    session: json['Session'] as String,
+    session: json['Session'] as String?,
   );
 }
 
 LambdaConfigType _$LambdaConfigTypeFromJson(Map<String, dynamic> json) {
   return LambdaConfigType(
-    createAuthChallenge: json['CreateAuthChallenge'] as String,
+    createAuthChallenge: json['CreateAuthChallenge'] as String?,
     customEmailSender: json['CustomEmailSender'] == null
         ? null
         : CustomEmailLambdaVersionConfigType.fromJson(
             json['CustomEmailSender'] as Map<String, dynamic>),
-    customMessage: json['CustomMessage'] as String,
+    customMessage: json['CustomMessage'] as String?,
     customSMSSender: json['CustomSMSSender'] == null
         ? null
         : CustomSMSLambdaVersionConfigType.fromJson(
             json['CustomSMSSender'] as Map<String, dynamic>),
-    defineAuthChallenge: json['DefineAuthChallenge'] as String,
-    kMSKeyID: json['KMSKeyID'] as String,
-    postAuthentication: json['PostAuthentication'] as String,
-    postConfirmation: json['PostConfirmation'] as String,
-    preAuthentication: json['PreAuthentication'] as String,
-    preSignUp: json['PreSignUp'] as String,
-    preTokenGeneration: json['PreTokenGeneration'] as String,
-    userMigration: json['UserMigration'] as String,
-    verifyAuthChallengeResponse: json['VerifyAuthChallengeResponse'] as String,
+    defineAuthChallenge: json['DefineAuthChallenge'] as String?,
+    kMSKeyID: json['KMSKeyID'] as String?,
+    postAuthentication: json['PostAuthentication'] as String?,
+    postConfirmation: json['PostConfirmation'] as String?,
+    preAuthentication: json['PreAuthentication'] as String?,
+    preSignUp: json['PreSignUp'] as String?,
+    preTokenGeneration: json['PreTokenGeneration'] as String?,
+    userMigration: json['UserMigration'] as String?,
+    verifyAuthChallengeResponse: json['VerifyAuthChallengeResponse'] as String?,
   );
 }
 
@@ -1290,52 +1222,46 @@ Map<String, dynamic> _$LambdaConfigTypeToJson(LambdaConfigType instance) {
 
 ListDevicesResponse _$ListDevicesResponseFromJson(Map<String, dynamic> json) {
   return ListDevicesResponse(
-    devices: (json['Devices'] as List)
-        ?.map((e) =>
-            e == null ? null : DeviceType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    paginationToken: json['PaginationToken'] as String,
+    devices: (json['Devices'] as List<dynamic>?)
+        ?.map((e) => DeviceType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    paginationToken: json['PaginationToken'] as String?,
   );
 }
 
 ListGroupsResponse _$ListGroupsResponseFromJson(Map<String, dynamic> json) {
   return ListGroupsResponse(
-    groups: (json['Groups'] as List)
-        ?.map((e) =>
-            e == null ? null : GroupType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    groups: (json['Groups'] as List<dynamic>?)
+        ?.map((e) => GroupType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListIdentityProvidersResponse _$ListIdentityProvidersResponseFromJson(
     Map<String, dynamic> json) {
   return ListIdentityProvidersResponse(
-    providers: (json['Providers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProviderDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    providers: (json['Providers'] as List<dynamic>)
+        .map((e) => ProviderDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListResourceServersResponse _$ListResourceServersResponseFromJson(
     Map<String, dynamic> json) {
   return ListResourceServersResponse(
-    resourceServers: (json['ResourceServers'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceServerType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    nextToken: json['NextToken'] as String,
+    resourceServers: (json['ResourceServers'] as List<dynamic>)
+        .map((e) => ResourceServerType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    nextToken: json['NextToken'] as String?,
   );
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['Tags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
   );
@@ -1344,63 +1270,57 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 ListUserImportJobsResponse _$ListUserImportJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserImportJobsResponse(
-    paginationToken: json['PaginationToken'] as String,
-    userImportJobs: (json['UserImportJobs'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserImportJobType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    paginationToken: json['PaginationToken'] as String?,
+    userImportJobs: (json['UserImportJobs'] as List<dynamic>?)
+        ?.map((e) => UserImportJobType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUserPoolClientsResponse _$ListUserPoolClientsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserPoolClientsResponse(
-    nextToken: json['NextToken'] as String,
-    userPoolClients: (json['UserPoolClients'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserPoolClientDescription.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    userPoolClients: (json['UserPoolClients'] as List<dynamic>?)
+        ?.map((e) =>
+            UserPoolClientDescription.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUserPoolsResponse _$ListUserPoolsResponseFromJson(
     Map<String, dynamic> json) {
   return ListUserPoolsResponse(
-    nextToken: json['NextToken'] as String,
-    userPools: (json['UserPools'] as List)
-        ?.map((e) => e == null
-            ? null
-            : UserPoolDescriptionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    userPools: (json['UserPools'] as List<dynamic>?)
+        ?.map(
+            (e) => UserPoolDescriptionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUsersInGroupResponse _$ListUsersInGroupResponseFromJson(
     Map<String, dynamic> json) {
   return ListUsersInGroupResponse(
-    nextToken: json['NextToken'] as String,
-    users: (json['Users'] as List)
-        ?.map((e) =>
-            e == null ? null : UserType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    nextToken: json['NextToken'] as String?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => UserType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   return ListUsersResponse(
-    paginationToken: json['PaginationToken'] as String,
-    users: (json['Users'] as List)
-        ?.map((e) =>
-            e == null ? null : UserType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    paginationToken: json['PaginationToken'] as String?,
+    users: (json['Users'] as List<dynamic>?)
+        ?.map((e) => UserType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
 MFAOptionType _$MFAOptionTypeFromJson(Map<String, dynamic> json) {
   return MFAOptionType(
-    attributeName: json['AttributeName'] as String,
+    attributeName: json['AttributeName'] as String?,
     deliveryMedium: _$enumDecodeNullable(
         _$DeliveryMediumTypeEnumMap, json['DeliveryMedium']),
   );
@@ -1423,9 +1343,9 @@ Map<String, dynamic> _$MFAOptionTypeToJson(MFAOptionType instance) {
 
 MessageTemplateType _$MessageTemplateTypeFromJson(Map<String, dynamic> json) {
   return MessageTemplateType(
-    emailMessage: json['EmailMessage'] as String,
-    emailSubject: json['EmailSubject'] as String,
-    sMSMessage: json['SMSMessage'] as String,
+    emailMessage: json['EmailMessage'] as String?,
+    emailSubject: json['EmailSubject'] as String?,
+    sMSMessage: json['SMSMessage'] as String?,
   );
 }
 
@@ -1447,8 +1367,8 @@ Map<String, dynamic> _$MessageTemplateTypeToJson(MessageTemplateType instance) {
 NewDeviceMetadataType _$NewDeviceMetadataTypeFromJson(
     Map<String, dynamic> json) {
   return NewDeviceMetadataType(
-    deviceGroupKey: json['DeviceGroupKey'] as String,
-    deviceKey: json['DeviceKey'] as String,
+    deviceGroupKey: json['DeviceGroupKey'] as String?,
+    deviceKey: json['DeviceKey'] as String?,
   );
 }
 
@@ -1459,7 +1379,7 @@ NotifyConfigurationType _$NotifyConfigurationTypeFromJson(
     blockEmail: json['BlockEmail'] == null
         ? null
         : NotifyEmailType.fromJson(json['BlockEmail'] as Map<String, dynamic>),
-    from: json['From'] as String,
+    from: json['From'] as String?,
     mfaEmail: json['MfaEmail'] == null
         ? null
         : NotifyEmailType.fromJson(json['MfaEmail'] as Map<String, dynamic>),
@@ -1467,13 +1387,15 @@ NotifyConfigurationType _$NotifyConfigurationTypeFromJson(
         ? null
         : NotifyEmailType.fromJson(
             json['NoActionEmail'] as Map<String, dynamic>),
-    replyTo: json['ReplyTo'] as String,
+    replyTo: json['ReplyTo'] as String?,
   );
 }
 
 Map<String, dynamic> _$NotifyConfigurationTypeToJson(
     NotifyConfigurationType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SourceArn': instance.sourceArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1481,7 +1403,6 @@ Map<String, dynamic> _$NotifyConfigurationTypeToJson(
     }
   }
 
-  writeNotNull('SourceArn', instance.sourceArn);
   writeNotNull('BlockEmail', instance.blockEmail?.toJson());
   writeNotNull('From', instance.from);
   writeNotNull('MfaEmail', instance.mfaEmail?.toJson());
@@ -1493,13 +1414,15 @@ Map<String, dynamic> _$NotifyConfigurationTypeToJson(
 NotifyEmailType _$NotifyEmailTypeFromJson(Map<String, dynamic> json) {
   return NotifyEmailType(
     subject: json['Subject'] as String,
-    htmlBody: json['HtmlBody'] as String,
-    textBody: json['TextBody'] as String,
+    htmlBody: json['HtmlBody'] as String?,
+    textBody: json['TextBody'] as String?,
   );
 }
 
 Map<String, dynamic> _$NotifyEmailTypeToJson(NotifyEmailType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'Subject': instance.subject,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1507,7 +1430,6 @@ Map<String, dynamic> _$NotifyEmailTypeToJson(NotifyEmailType instance) {
     }
   }
 
-  writeNotNull('Subject', instance.subject);
   writeNotNull('HtmlBody', instance.htmlBody);
   writeNotNull('TextBody', instance.textBody);
   return val;
@@ -1516,8 +1438,8 @@ Map<String, dynamic> _$NotifyEmailTypeToJson(NotifyEmailType instance) {
 NumberAttributeConstraintsType _$NumberAttributeConstraintsTypeFromJson(
     Map<String, dynamic> json) {
   return NumberAttributeConstraintsType(
-    maxValue: json['MaxValue'] as String,
-    minValue: json['MinValue'] as String,
+    maxValue: json['MaxValue'] as String?,
+    minValue: json['MinValue'] as String?,
   );
 }
 
@@ -1538,12 +1460,13 @@ Map<String, dynamic> _$NumberAttributeConstraintsTypeToJson(
 
 PasswordPolicyType _$PasswordPolicyTypeFromJson(Map<String, dynamic> json) {
   return PasswordPolicyType(
-    minimumLength: json['MinimumLength'] as int,
-    requireLowercase: json['RequireLowercase'] as bool,
-    requireNumbers: json['RequireNumbers'] as bool,
-    requireSymbols: json['RequireSymbols'] as bool,
-    requireUppercase: json['RequireUppercase'] as bool,
-    temporaryPasswordValidityDays: json['TemporaryPasswordValidityDays'] as int,
+    minimumLength: json['MinimumLength'] as int?,
+    requireLowercase: json['RequireLowercase'] as bool?,
+    requireNumbers: json['RequireNumbers'] as bool?,
+    requireSymbols: json['RequireSymbols'] as bool?,
+    requireUppercase: json['RequireUppercase'] as bool?,
+    temporaryPasswordValidityDays:
+        json['TemporaryPasswordValidityDays'] as int?,
   );
 }
 
@@ -1571,7 +1494,7 @@ ProviderDescription _$ProviderDescriptionFromJson(Map<String, dynamic> json) {
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    providerName: json['ProviderName'] as String,
+    providerName: json['ProviderName'] as String?,
     providerType: _$enumDecodeNullable(
         _$IdentityProviderTypeTypeEnumMap, json['ProviderType']),
   );
@@ -1595,24 +1518,16 @@ Map<String, dynamic> _$ProviderUserIdentifierTypeToJson(
 
 RecoveryOptionType _$RecoveryOptionTypeFromJson(Map<String, dynamic> json) {
   return RecoveryOptionType(
-    name: _$enumDecodeNullable(_$RecoveryOptionNameTypeEnumMap, json['Name']),
+    name: _$enumDecode(_$RecoveryOptionNameTypeEnumMap, json['Name']),
     priority: json['Priority'] as int,
   );
 }
 
-Map<String, dynamic> _$RecoveryOptionTypeToJson(RecoveryOptionType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Name', _$RecoveryOptionNameTypeEnumMap[instance.name]);
-  writeNotNull('Priority', instance.priority);
-  return val;
-}
+Map<String, dynamic> _$RecoveryOptionTypeToJson(RecoveryOptionType instance) =>
+    <String, dynamic>{
+      'Name': _$RecoveryOptionNameTypeEnumMap[instance.name],
+      'Priority': instance.priority,
+    };
 
 const _$RecoveryOptionNameTypeEnumMap = {
   RecoveryOptionNameType.verifiedEmail: 'verified_email',
@@ -1639,30 +1554,21 @@ ResourceServerScopeType _$ResourceServerScopeTypeFromJson(
 }
 
 Map<String, dynamic> _$ResourceServerScopeTypeToJson(
-    ResourceServerScopeType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('ScopeDescription', instance.scopeDescription);
-  writeNotNull('ScopeName', instance.scopeName);
-  return val;
-}
+        ResourceServerScopeType instance) =>
+    <String, dynamic>{
+      'ScopeDescription': instance.scopeDescription,
+      'ScopeName': instance.scopeName,
+    };
 
 ResourceServerType _$ResourceServerTypeFromJson(Map<String, dynamic> json) {
   return ResourceServerType(
-    identifier: json['Identifier'] as String,
-    name: json['Name'] as String,
-    scopes: (json['Scopes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ResourceServerScopeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    userPoolId: json['UserPoolId'] as String,
+    identifier: json['Identifier'] as String?,
+    name: json['Name'] as String?,
+    scopes: (json['Scopes'] as List<dynamic>?)
+        ?.map(
+            (e) => ResourceServerScopeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -1676,10 +1582,10 @@ RespondToAuthChallengeResponse _$RespondToAuthChallengeResponseFromJson(
     challengeName:
         _$enumDecodeNullable(_$ChallengeNameTypeEnumMap, json['ChallengeName']),
     challengeParameters:
-        (json['ChallengeParameters'] as Map<String, dynamic>)?.map(
+        (json['ChallengeParameters'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    session: json['Session'] as String,
+    session: json['Session'] as String?,
   );
 }
 
@@ -1692,7 +1598,7 @@ RiskConfigurationType _$RiskConfigurationTypeFromJson(
             : AccountTakeoverRiskConfigurationType.fromJson(
                 json['AccountTakeoverRiskConfiguration']
                     as Map<String, dynamic>),
-    clientId: json['ClientId'] as String,
+    clientId: json['ClientId'] as String?,
     compromisedCredentialsRiskConfiguration:
         json['CompromisedCredentialsRiskConfiguration'] == null
             ? null
@@ -1705,17 +1611,19 @@ RiskConfigurationType _$RiskConfigurationTypeFromJson(
         ? null
         : RiskExceptionConfigurationType.fromJson(
             json['RiskExceptionConfiguration'] as Map<String, dynamic>),
-    userPoolId: json['UserPoolId'] as String,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
 RiskExceptionConfigurationType _$RiskExceptionConfigurationTypeFromJson(
     Map<String, dynamic> json) {
   return RiskExceptionConfigurationType(
-    blockedIPRangeList:
-        (json['BlockedIPRangeList'] as List)?.map((e) => e as String)?.toList(),
-    skippedIPRangeList:
-        (json['SkippedIPRangeList'] as List)?.map((e) => e as String)?.toList(),
+    blockedIPRangeList: (json['BlockedIPRangeList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    skippedIPRangeList: (json['SkippedIPRangeList'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -1752,14 +1660,14 @@ SchemaAttributeType _$SchemaAttributeTypeFromJson(Map<String, dynamic> json) {
   return SchemaAttributeType(
     attributeDataType: _$enumDecodeNullable(
         _$AttributeDataTypeEnumMap, json['AttributeDataType']),
-    developerOnlyAttribute: json['DeveloperOnlyAttribute'] as bool,
-    mutable: json['Mutable'] as bool,
-    name: json['Name'] as String,
+    developerOnlyAttribute: json['DeveloperOnlyAttribute'] as bool?,
+    mutable: json['Mutable'] as bool?,
+    name: json['Name'] as String?,
     numberAttributeConstraints: json['NumberAttributeConstraints'] == null
         ? null
         : NumberAttributeConstraintsType.fromJson(
             json['NumberAttributeConstraints'] as Map<String, dynamic>),
-    required: json['Required'] as bool,
+    required: json['Required'] as bool?,
     stringAttributeConstraints: json['StringAttributeConstraints'] == null
         ? null
         : StringAttributeConstraintsType.fromJson(
@@ -1799,20 +1707,16 @@ const _$AttributeDataTypeEnumMap = {
 SetRiskConfigurationResponse _$SetRiskConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return SetRiskConfigurationResponse(
-    riskConfiguration: json['RiskConfiguration'] == null
-        ? null
-        : RiskConfigurationType.fromJson(
-            json['RiskConfiguration'] as Map<String, dynamic>),
+    riskConfiguration: RiskConfigurationType.fromJson(
+        json['RiskConfiguration'] as Map<String, dynamic>),
   );
 }
 
 SetUICustomizationResponse _$SetUICustomizationResponseFromJson(
     Map<String, dynamic> json) {
   return SetUICustomizationResponse(
-    uICustomization: json['UICustomization'] == null
-        ? null
-        : UICustomizationType.fromJson(
-            json['UICustomization'] as Map<String, dynamic>),
+    uICustomization: UICustomizationType.fromJson(
+        json['UICustomization'] as Map<String, dynamic>),
   );
 }
 
@@ -1856,13 +1760,15 @@ SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) {
 SmsConfigurationType _$SmsConfigurationTypeFromJson(Map<String, dynamic> json) {
   return SmsConfigurationType(
     snsCallerArn: json['SnsCallerArn'] as String,
-    externalId: json['ExternalId'] as String,
+    externalId: json['ExternalId'] as String?,
   );
 }
 
 Map<String, dynamic> _$SmsConfigurationTypeToJson(
     SmsConfigurationType instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'SnsCallerArn': instance.snsCallerArn,
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -1870,14 +1776,13 @@ Map<String, dynamic> _$SmsConfigurationTypeToJson(
     }
   }
 
-  writeNotNull('SnsCallerArn', instance.snsCallerArn);
   writeNotNull('ExternalId', instance.externalId);
   return val;
 }
 
 SmsMfaConfigType _$SmsMfaConfigTypeFromJson(Map<String, dynamic> json) {
   return SmsMfaConfigType(
-    smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String,
+    smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String?,
     smsConfiguration: json['SmsConfiguration'] == null
         ? null
         : SmsConfigurationType.fromJson(
@@ -1902,7 +1807,7 @@ Map<String, dynamic> _$SmsMfaConfigTypeToJson(SmsMfaConfigType instance) {
 SoftwareTokenMfaConfigType _$SoftwareTokenMfaConfigTypeFromJson(
     Map<String, dynamic> json) {
   return SoftwareTokenMfaConfigType(
-    enabled: json['Enabled'] as bool,
+    enabled: json['Enabled'] as bool?,
   );
 }
 
@@ -1958,8 +1863,8 @@ StopUserImportJobResponse _$StopUserImportJobResponseFromJson(
 StringAttributeConstraintsType _$StringAttributeConstraintsTypeFromJson(
     Map<String, dynamic> json) {
   return StringAttributeConstraintsType(
-    maxLength: json['MaxLength'] as String,
-    minLength: json['MinLength'] as String,
+    maxLength: json['MaxLength'] as String?,
+    minLength: json['MinLength'] as String?,
   );
 }
 
@@ -2018,14 +1923,14 @@ const _$TimeUnitsTypeEnumMap = {
 
 UICustomizationType _$UICustomizationTypeFromJson(Map<String, dynamic> json) {
   return UICustomizationType(
-    css: json['CSS'] as String,
-    cSSVersion: json['CSSVersion'] as String,
-    clientId: json['ClientId'] as String,
+    css: json['CSS'] as String?,
+    cSSVersion: json['CSSVersion'] as String?,
+    clientId: json['ClientId'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    imageUrl: json['ImageUrl'] as String,
+    imageUrl: json['ImageUrl'] as String?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    userPoolId: json['UserPoolId'] as String,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -2055,31 +1960,26 @@ UpdateGroupResponse _$UpdateGroupResponseFromJson(Map<String, dynamic> json) {
 UpdateIdentityProviderResponse _$UpdateIdentityProviderResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateIdentityProviderResponse(
-    identityProvider: json['IdentityProvider'] == null
-        ? null
-        : IdentityProviderType.fromJson(
-            json['IdentityProvider'] as Map<String, dynamic>),
+    identityProvider: IdentityProviderType.fromJson(
+        json['IdentityProvider'] as Map<String, dynamic>),
   );
 }
 
 UpdateResourceServerResponse _$UpdateResourceServerResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateResourceServerResponse(
-    resourceServer: json['ResourceServer'] == null
-        ? null
-        : ResourceServerType.fromJson(
-            json['ResourceServer'] as Map<String, dynamic>),
+    resourceServer: ResourceServerType.fromJson(
+        json['ResourceServer'] as Map<String, dynamic>),
   );
 }
 
 UpdateUserAttributesResponse _$UpdateUserAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateUserAttributesResponse(
-    codeDeliveryDetailsList: (json['CodeDeliveryDetailsList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : CodeDeliveryDetailsType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    codeDeliveryDetailsList: (json['CodeDeliveryDetailsList'] as List<dynamic>?)
+        ?.map(
+            (e) => CodeDeliveryDetailsType.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -2096,7 +1996,7 @@ UpdateUserPoolClientResponse _$UpdateUserPoolClientResponseFromJson(
 UpdateUserPoolDomainResponse _$UpdateUserPoolDomainResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateUserPoolDomainResponse(
-    cloudFrontDomain: json['CloudFrontDomain'] as String,
+    cloudFrontDomain: json['CloudFrontDomain'] as String?,
   );
 }
 
@@ -2120,21 +2020,21 @@ Map<String, dynamic> _$UserContextDataTypeToJson(UserContextDataType instance) {
 
 UserImportJobType _$UserImportJobTypeFromJson(Map<String, dynamic> json) {
   return UserImportJobType(
-    cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String,
+    cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String?,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
-    completionMessage: json['CompletionMessage'] as String,
+    completionMessage: json['CompletionMessage'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    failedUsers: json['FailedUsers'] as int,
-    importedUsers: json['ImportedUsers'] as int,
-    jobId: json['JobId'] as String,
-    jobName: json['JobName'] as String,
-    preSignedUrl: json['PreSignedUrl'] as String,
-    skippedUsers: json['SkippedUsers'] as int,
+    failedUsers: json['FailedUsers'] as int?,
+    importedUsers: json['ImportedUsers'] as int?,
+    jobId: json['JobId'] as String?,
+    jobName: json['JobName'] as String?,
+    preSignedUrl: json['PreSignedUrl'] as String?,
+    skippedUsers: json['SkippedUsers'] as int?,
     startDate: const UnixDateTimeConverter().fromJson(json['StartDate']),
     status:
         _$enumDecodeNullable(_$UserImportJobStatusTypeEnumMap, json['Status']),
-    userPoolId: json['UserPoolId'] as String,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
@@ -2151,24 +2051,16 @@ const _$UserImportJobStatusTypeEnumMap = {
 
 UserPoolAddOnsType _$UserPoolAddOnsTypeFromJson(Map<String, dynamic> json) {
   return UserPoolAddOnsType(
-    advancedSecurityMode: _$enumDecodeNullable(
+    advancedSecurityMode: _$enumDecode(
         _$AdvancedSecurityModeTypeEnumMap, json['AdvancedSecurityMode']),
   );
 }
 
-Map<String, dynamic> _$UserPoolAddOnsTypeToJson(UserPoolAddOnsType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('AdvancedSecurityMode',
-      _$AdvancedSecurityModeTypeEnumMap[instance.advancedSecurityMode]);
-  return val;
-}
+Map<String, dynamic> _$UserPoolAddOnsTypeToJson(UserPoolAddOnsType instance) =>
+    <String, dynamic>{
+      'AdvancedSecurityMode':
+          _$AdvancedSecurityModeTypeEnumMap[instance.advancedSecurityMode],
+    };
 
 const _$AdvancedSecurityModeTypeEnumMap = {
   AdvancedSecurityModeType.off: 'OFF',
@@ -2179,56 +2071,63 @@ const _$AdvancedSecurityModeTypeEnumMap = {
 UserPoolClientDescription _$UserPoolClientDescriptionFromJson(
     Map<String, dynamic> json) {
   return UserPoolClientDescription(
-    clientId: json['ClientId'] as String,
-    clientName: json['ClientName'] as String,
-    userPoolId: json['UserPoolId'] as String,
+    clientId: json['ClientId'] as String?,
+    clientName: json['ClientName'] as String?,
+    userPoolId: json['UserPoolId'] as String?,
   );
 }
 
 UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
   return UserPoolClientType(
-    accessTokenValidity: json['AccessTokenValidity'] as int,
-    allowedOAuthFlows: (json['AllowedOAuthFlows'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$OAuthFlowTypeEnumMap, e))
-        ?.toList(),
+    accessTokenValidity: json['AccessTokenValidity'] as int?,
+    allowedOAuthFlows: (json['AllowedOAuthFlows'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$OAuthFlowTypeEnumMap, e))
+        .toList(),
     allowedOAuthFlowsUserPoolClient:
-        json['AllowedOAuthFlowsUserPoolClient'] as bool,
-    allowedOAuthScopes:
-        (json['AllowedOAuthScopes'] as List)?.map((e) => e as String)?.toList(),
+        json['AllowedOAuthFlowsUserPoolClient'] as bool?,
+    allowedOAuthScopes: (json['AllowedOAuthScopes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     analyticsConfiguration: json['AnalyticsConfiguration'] == null
         ? null
         : AnalyticsConfigurationType.fromJson(
             json['AnalyticsConfiguration'] as Map<String, dynamic>),
-    callbackURLs:
-        (json['CallbackURLs'] as List)?.map((e) => e as String)?.toList(),
-    clientId: json['ClientId'] as String,
-    clientName: json['ClientName'] as String,
-    clientSecret: json['ClientSecret'] as String,
+    callbackURLs: (json['CallbackURLs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    clientId: json['ClientId'] as String?,
+    clientName: json['ClientName'] as String?,
+    clientSecret: json['ClientSecret'] as String?,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    defaultRedirectURI: json['DefaultRedirectURI'] as String,
-    explicitAuthFlows: (json['ExplicitAuthFlows'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$ExplicitAuthFlowsTypeEnumMap, e))
-        ?.toList(),
-    idTokenValidity: json['IdTokenValidity'] as int,
+    defaultRedirectURI: json['DefaultRedirectURI'] as String?,
+    explicitAuthFlows: (json['ExplicitAuthFlows'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$ExplicitAuthFlowsTypeEnumMap, e))
+        .toList(),
+    idTokenValidity: json['IdTokenValidity'] as int?,
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    logoutURLs: (json['LogoutURLs'] as List)?.map((e) => e as String)?.toList(),
+    logoutURLs: (json['LogoutURLs'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
     preventUserExistenceErrors: _$enumDecodeNullable(
         _$PreventUserExistenceErrorTypesEnumMap,
         json['PreventUserExistenceErrors']),
-    readAttributes:
-        (json['ReadAttributes'] as List)?.map((e) => e as String)?.toList(),
-    refreshTokenValidity: json['RefreshTokenValidity'] as int,
-    supportedIdentityProviders: (json['SupportedIdentityProviders'] as List)
+    readAttributes: (json['ReadAttributes'] as List<dynamic>?)
         ?.map((e) => e as String)
-        ?.toList(),
+        .toList(),
+    refreshTokenValidity: json['RefreshTokenValidity'] as int?,
+    supportedIdentityProviders:
+        (json['SupportedIdentityProviders'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
     tokenValidityUnits: json['TokenValidityUnits'] == null
         ? null
         : TokenValidityUnitsType.fromJson(
             json['TokenValidityUnits'] as Map<String, dynamic>),
-    userPoolId: json['UserPoolId'] as String,
-    writeAttributes:
-        (json['WriteAttributes'] as List)?.map((e) => e as String)?.toList(),
+    userPoolId: json['UserPoolId'] as String?,
+    writeAttributes: (json['WriteAttributes'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
   );
 }
 
@@ -2259,14 +2158,14 @@ UserPoolDescriptionType _$UserPoolDescriptionTypeFromJson(
     Map<String, dynamic> json) {
   return UserPoolDescriptionType(
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    id: json['Id'] as String,
+    id: json['Id'] as String?,
     lambdaConfig: json['LambdaConfig'] == null
         ? null
         : LambdaConfigType.fromJson(
             json['LambdaConfig'] as Map<String, dynamic>),
     lastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     status: _$enumDecodeNullable(_$StatusTypeEnumMap, json['Status']),
   );
 }
@@ -2308,29 +2207,29 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
         ? null
         : AdminCreateUserConfigType.fromJson(
             json['AdminCreateUserConfig'] as Map<String, dynamic>),
-    aliasAttributes: (json['AliasAttributes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$AliasAttributeTypeEnumMap, e))
-        ?.toList(),
-    arn: json['Arn'] as String,
-    autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$VerifiedAttributeTypeEnumMap, e))
-        ?.toList(),
+    aliasAttributes: (json['AliasAttributes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$AliasAttributeTypeEnumMap, e))
+        .toList(),
+    arn: json['Arn'] as String?,
+    autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$VerifiedAttributeTypeEnumMap, e))
+        .toList(),
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
-    customDomain: json['CustomDomain'] as String,
+    customDomain: json['CustomDomain'] as String?,
     deviceConfiguration: json['DeviceConfiguration'] == null
         ? null
         : DeviceConfigurationType.fromJson(
             json['DeviceConfiguration'] as Map<String, dynamic>),
-    domain: json['Domain'] as String,
+    domain: json['Domain'] as String?,
     emailConfiguration: json['EmailConfiguration'] == null
         ? null
         : EmailConfigurationType.fromJson(
             json['EmailConfiguration'] as Map<String, dynamic>),
-    emailConfigurationFailure: json['EmailConfigurationFailure'] as String,
-    emailVerificationMessage: json['EmailVerificationMessage'] as String,
-    emailVerificationSubject: json['EmailVerificationSubject'] as String,
-    estimatedNumberOfUsers: json['EstimatedNumberOfUsers'] as int,
-    id: json['Id'] as String,
+    emailConfigurationFailure: json['EmailConfigurationFailure'] as String?,
+    emailVerificationMessage: json['EmailVerificationMessage'] as String?,
+    emailVerificationSubject: json['EmailVerificationSubject'] as String?,
+    estimatedNumberOfUsers: json['EstimatedNumberOfUsers'] as int?,
+    id: json['Id'] as String?,
     lambdaConfig: json['LambdaConfig'] == null
         ? null
         : LambdaConfigType.fromJson(
@@ -2339,33 +2238,31 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     mfaConfiguration: _$enumDecodeNullable(
         _$UserPoolMfaTypeEnumMap, json['MfaConfiguration']),
-    name: json['Name'] as String,
+    name: json['Name'] as String?,
     policies: json['Policies'] == null
         ? null
         : UserPoolPolicyType.fromJson(json['Policies'] as Map<String, dynamic>),
-    schemaAttributes: (json['SchemaAttributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SchemaAttributeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String,
+    schemaAttributes: (json['SchemaAttributes'] as List<dynamic>?)
+        ?.map((e) => SchemaAttributeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    smsAuthenticationMessage: json['SmsAuthenticationMessage'] as String?,
     smsConfiguration: json['SmsConfiguration'] == null
         ? null
         : SmsConfigurationType.fromJson(
             json['SmsConfiguration'] as Map<String, dynamic>),
-    smsConfigurationFailure: json['SmsConfigurationFailure'] as String,
-    smsVerificationMessage: json['SmsVerificationMessage'] as String,
+    smsConfigurationFailure: json['SmsConfigurationFailure'] as String?,
+    smsVerificationMessage: json['SmsVerificationMessage'] as String?,
     status: _$enumDecodeNullable(_$StatusTypeEnumMap, json['Status']),
     userPoolAddOns: json['UserPoolAddOns'] == null
         ? null
         : UserPoolAddOnsType.fromJson(
             json['UserPoolAddOns'] as Map<String, dynamic>),
-    userPoolTags: (json['UserPoolTags'] as Map<String, dynamic>)?.map(
+    userPoolTags: (json['UserPoolTags'] as Map<String, dynamic>?)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    usernameAttributes: (json['UsernameAttributes'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$UsernameAttributeTypeEnumMap, e))
-        ?.toList(),
+    usernameAttributes: (json['UsernameAttributes'] as List<dynamic>?)
+        ?.map((e) => _$enumDecode(_$UsernameAttributeTypeEnumMap, e))
+        .toList(),
     usernameConfiguration: json['UsernameConfiguration'] == null
         ? null
         : UsernameConfigurationType.fromJson(
@@ -2395,24 +2292,20 @@ const _$UsernameAttributeTypeEnumMap = {
 
 UserType _$UserTypeFromJson(Map<String, dynamic> json) {
   return UserType(
-    attributes: (json['Attributes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : AttributeType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    enabled: json['Enabled'] as bool,
-    mFAOptions: (json['MFAOptions'] as List)
-        ?.map((e) => e == null
-            ? null
-            : MFAOptionType.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    attributes: (json['Attributes'] as List<dynamic>?)
+        ?.map((e) => AttributeType.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    enabled: json['Enabled'] as bool?,
+    mFAOptions: (json['MFAOptions'] as List<dynamic>?)
+        ?.map((e) => MFAOptionType.fromJson(e as Map<String, dynamic>))
+        .toList(),
     userCreateDate:
         const UnixDateTimeConverter().fromJson(json['UserCreateDate']),
     userLastModifiedDate:
         const UnixDateTimeConverter().fromJson(json['UserLastModifiedDate']),
     userStatus:
         _$enumDecodeNullable(_$UserStatusTypeEnumMap, json['UserStatus']),
-    username: json['Username'] as String,
+    username: json['Username'] as String?,
   );
 }
 
@@ -2424,29 +2317,21 @@ UsernameConfigurationType _$UsernameConfigurationTypeFromJson(
 }
 
 Map<String, dynamic> _$UsernameConfigurationTypeToJson(
-    UsernameConfigurationType instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('CaseSensitive', instance.caseSensitive);
-  return val;
-}
+        UsernameConfigurationType instance) =>
+    <String, dynamic>{
+      'CaseSensitive': instance.caseSensitive,
+    };
 
 VerificationMessageTemplateType _$VerificationMessageTemplateTypeFromJson(
     Map<String, dynamic> json) {
   return VerificationMessageTemplateType(
     defaultEmailOption: _$enumDecodeNullable(
         _$DefaultEmailOptionTypeEnumMap, json['DefaultEmailOption']),
-    emailMessage: json['EmailMessage'] as String,
-    emailMessageByLink: json['EmailMessageByLink'] as String,
-    emailSubject: json['EmailSubject'] as String,
-    emailSubjectByLink: json['EmailSubjectByLink'] as String,
-    smsMessage: json['SmsMessage'] as String,
+    emailMessage: json['EmailMessage'] as String?,
+    emailMessageByLink: json['EmailMessageByLink'] as String?,
+    emailSubject: json['EmailSubject'] as String?,
+    emailSubjectByLink: json['EmailSubjectByLink'] as String?,
+    smsMessage: json['SmsMessage'] as String?,
   );
 }
 
@@ -2478,7 +2363,7 @@ const _$DefaultEmailOptionTypeEnumMap = {
 VerifySoftwareTokenResponse _$VerifySoftwareTokenResponseFromJson(
     Map<String, dynamic> json) {
   return VerifySoftwareTokenResponse(
-    session: json['Session'] as String,
+    session: json['Session'] as String?,
     status: _$enumDecodeNullable(
         _$VerifySoftwareTokenResponseTypeEnumMap, json['Status']),
   );
